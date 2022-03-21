@@ -1,0 +1,17 @@
+# Requirerment
+Keras 2.3.1
+TensorFlow 1.15.0
+opencv-python 4.5.4.58
+pillow 8.3.2
+numpy 1.16.2
+hdf5 1.12.1
+h5py 2.10.0
+math
+shutil
+time
+matplotlib
+os
+moxing
+json
+glob
+argparse

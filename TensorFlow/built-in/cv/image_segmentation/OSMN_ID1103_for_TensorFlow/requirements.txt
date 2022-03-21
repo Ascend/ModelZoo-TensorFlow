@@ -1,0 +1,4 @@
+Python 2.7
+Tensorflow r1.0 or higher (pip install tensorflow-gpu) along with standard dependencies
+Densecrf by Philipp Krähenbühl and Vladlen Koltun
+Other python dependencies: PIL (Pillow version), numpy, scipy

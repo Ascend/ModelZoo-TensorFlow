@@ -1,0 +1,1 @@
+python3.7.5 accuarcy.py output/ "./UCI HAR Dataset/test/y_test.txt"

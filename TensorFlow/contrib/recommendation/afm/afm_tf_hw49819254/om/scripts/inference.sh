@@ -1,0 +1,1 @@
+.././msame --model ../model/afm.om --input ../data/train_features_afm.bin,../data/train_labels_afm.bin,../data/dropout_keep_afm.bin,../data/train_phase_afm.bin --output ../out

@@ -1,0 +1,5 @@
+tensorflow 1.15.0
+numpy==1.19.3
+scikit-image
+scipy==1.4.1
+opencv-python==4.1.0.25

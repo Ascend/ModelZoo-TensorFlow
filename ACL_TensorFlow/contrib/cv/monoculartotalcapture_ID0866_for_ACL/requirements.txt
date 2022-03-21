@@ -1,0 +1,4 @@
+numpy
+scipy
+skicit-image
+py-opencv

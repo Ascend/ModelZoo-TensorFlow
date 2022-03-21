@@ -1,0 +1,6 @@
+python3.6以上版本
+tensorflow1.13.1以上版本
+imageio 2.9.0
+numpy 1.19.2
+pyqt 5.9.2
+scipy 1.6.2

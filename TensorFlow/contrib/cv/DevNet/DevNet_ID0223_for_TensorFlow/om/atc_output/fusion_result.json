@@ -1,0 +1,16 @@
+{
+    "graphId": "0",
+    "graph_fusion": {
+        "MatMulBiasAddFusionPass": {
+            "effect_times": "4",
+            "match_times": "4"
+        }
+    },
+    "sessionId": "0",
+    "ub_fusion": {
+        "TbeFullyconnectionElemwiseDequantFusionPass": {
+            "effect_times": "3",
+            "match_times": "3"
+        }
+    }
+}

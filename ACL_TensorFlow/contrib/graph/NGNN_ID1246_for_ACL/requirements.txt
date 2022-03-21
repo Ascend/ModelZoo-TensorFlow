@@ -1,0 +1,3 @@
+Python 3.7.5
+tensorflow 1.15.0
+ascend-toolkit 5.0.4.alpha001_x86_64-linux

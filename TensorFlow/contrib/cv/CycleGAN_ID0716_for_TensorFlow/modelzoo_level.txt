@@ -1,0 +1,4 @@
+FuncStatus:OK 
+PrecisionStatus:NOK 
+AutoTune:OK 
+PerfStatus:OK

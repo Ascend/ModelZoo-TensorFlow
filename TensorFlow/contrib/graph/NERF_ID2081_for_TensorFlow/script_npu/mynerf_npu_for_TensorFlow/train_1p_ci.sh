@@ -1,0 +1,1 @@
+python run_nerf.py --config=config_fern.txt --expname=fern_test --basedir=/cache/result --datadir=./data/nerf_llff_data/fern --dataset_type=llff --factor=8 --llffhold=8 --N_rand=1024 --N_samples=64 --N_importance=64 --raw_noise_std=1e0 --data_url=/home/ma-user/modelarts/inputs/data_url_0/ --train_url=/home/ma-user/modelarts/outputs/train_url_0/

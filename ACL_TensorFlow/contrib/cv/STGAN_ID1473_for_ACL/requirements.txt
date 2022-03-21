@@ -1,0 +1,11 @@
+conda create -n stgan python=3.7
+conda activate stgan
+
+#pip
+pip install numpy==1.20.1
+pip install matplotlib==3.4.1
+pip install imageio==2.9.0
+pip install scipy==1.6.2
+
+#conda
+conda install tensorflow-gpu=1.15

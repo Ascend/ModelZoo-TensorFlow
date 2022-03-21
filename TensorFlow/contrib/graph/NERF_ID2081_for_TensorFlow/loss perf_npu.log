@@ -1,0 +1,196 @@
+[Modelarts Service Log][init] toolkit_obs_upload_job_pid = 51
+[Modelarts Service Log][init] toolkit_obs_upload_pid = 52
+[Modelarts Service Log][init] running at 2021-09-14-11:34:23
+[Modelarts Service Log][init] ip of the pod: 172.16.1.127
+[Modelarts Service Log][init] download code_url: s3://xutongpj-nerf/ascendfern/MA-new-mynerf_npu_for_TensorFlow-09-14-11-31/code/
+[Modelarts Service Log][init] modelarts_downloader_job_pid = 112
+[ModelArts Service Log]2021-09-14 11:34:23,986 - modelarts-downloader.py[line:264] - INFO: Main: modelarts-downloader starting with Namespace(dst='./', recursive=True, skip_creating_dir=False, src='s3://xutongpj-nerf/ascendfern/MA-new-mynerf_npu_for_TensorFlow-09-14-11-31/code/', trace=False, type='common', verbose=False)
+[Modelarts Service Log][init] code is now in /home/ma-user/modelarts/user-job-dir
+[Modelarts Service Log][init]engine type is: ascend-powered-engine
+[Modelarts Service Log][init]python version: 2
+[Modelarts Service Log][init] inputs_handler_job_pid = 206
+[ModelArts Service Log][INFO][2021/09/14 11:34:25]: caching the content of [data_url] inputs
+[ModelArts Service Log]2021-09-14 11:34:25,612 - modelarts-downloader.py[line:264] - INFO: Main: modelarts-downloader starting with Namespace(dst='./', recursive=True, skip_creating_dir=True, src='s3://xutongpj-nerf/fern/', trace=False, type='common', verbose=False)
+[ModelArts Service Log][INFO][2021/09/14 11:34:27]: cache the content of [data_url] inputs successfully
+[ModelArts Service Log][INFO][2021/09/14 11:34:27]: it can be accessed at local dir [/home/ma-user/modelarts/inputs/data_url_0]
+[ModelArts Service Log][INFO][2021/09/14 11:34:27,799]: mkdir for local output dir
+[ModelArts Service Log][INFO][2021/09/14 11:34:27,800]: output-handler finalized
+[Modelarts Service Log][init] exiting at 2021-09-14-11:34:27
+[Modelarts Service Log][init] upload_metrics_pid = 430
+[Modelarts Service Log][init] stop toolkit_obs_upload_pid = 52 by signal SIGTERM
+[Modelarts Service Log][sidecar] toolkit_obs_upload 52 ret_code is 0
+[Modelarts Service Log][init] exit with 0
+[Modelarts Service Log]user: uid=1102(ma-user) gid=1102(ma-group) groups=1102(ma-group),1000(HwHiAiUser)
+[Modelarts Service Log]pwd: /home/work
+[Modelarts Service Log]boot_file: /home/ma-user/modelarts/user-job-dir/code/run_nerf.py
+[Modelarts Service Log]command: /home/ma-user/modelarts/user-job-dir/code/run_nerf.py --config=config_fern.txt --expname=fern_test --basedir=/cache/result --datadir=./data/nerf_llff_data/fern --dataset_type=llff --factor=8 --llffhold=8 --N_rand=1024 --N_samples=64 --N_importance=64 --raw_noise_std=1e0 --data_url=/home/ma-user/modelarts/inputs/data_url_0/ --train_url=/home/ma-user/modelarts/outputs/train_url_0/
+[Modelarts Service Log]local_code_dir: /home/ma-user/modelarts/user-job-dir/code
+[Modelarts Service Log]training start at 2021-09-14-11:34:30
+/home/ma-user/modelarts/user-job-dir
+INFO:root:Using MoXing-v2.0.0.rc2.4b57a67b-4b57a67b
+INFO:root:Using OBS-Python-SDK-3.20.9.1
+[Modelarts Service Log][sidecar] toolkit_obs_upload_job_pid = 32
+[Modelarts Service Log][sidecar] toolkit_obs_upload_pid = 35
+[Modelarts Service Log][sidecar] running at 2021-09-14-11:34:31
+[Modelarts Service Log][sidecar] outputs_handler_job_pid = 59
+[Modelarts Service Log][sidecar] outputs_handler_pid = 60
+[Modelarts Service Log][sidecar] toolkit_obs_sync_by_channels_job_pid = 74
+[Modelarts Service Log][sidecar] toolkit_obs_sync_by_channels_pid = 76
+[Modelarts Service Log][sidecar] waiting for training complete
+time="2021-09-14T11:34:31+08:00" level=info msg="local dir = /home/ma-user/modelarts/log/" file="upload.go:38" Command=obs/upload Component=ma-training-toolkit Platform=ModelArts-Service
+time="2021-09-14T11:34:31+08:00" level=info msg="obs dir = s3://modelarts-training-log-cn-north-4/647e3291-6b6a-4dde-9f38-fc1833491e99/worker-0" file="upload.go:39" Command=obs/upload Component=ma-training-toolkit Platform=ModelArts-Service
+time="2021-09-14T11:34:31+08:00" level=info msg="start the periodic upload task, upload period = 5 seconds " file="upload.go:48" Command=obs/upload Component=ma-training-toolkit Platform=ModelArts-Service
+time="2021-09-14T11:34:31+08:00" level=info msg="local dir = /home/ma-user/modelarts/outputs/train_url_0/" file="upload.go:38" Command=obs/sync_by_channels Component=ma-training-toolkit Ctx=train_url Platform=ModelArts-Service
+time="2021-09-14T11:34:31+08:00" level=info msg="obs dir = s3://xutongpj-nerf/ascendfern/MA-new-mynerf_npu_for_TensorFlow-09-14-11-31/output/" file="upload.go:39" Command=obs/sync_by_channels Component=ma-training-toolkit Ctx=train_url Platform=ModelArts-Service
+time="2021-09-14T11:34:31+08:00" level=info msg="start the periodic upload task, upload period = 30 seconds " file="upload.go:48" Command=obs/sync_by_channels Component=ma-training-toolkit Ctx=train_url Platform=ModelArts-Service
+[Modelarts Service Log]2021-09-14 11:34:31,677 - INFO - Ascend Driver: Version=21.0.2
+[Modelarts Service Log]2021-09-14 11:34:31,677 - INFO - you are advised to use ASCEND_DEVICE_ID env instead of DEVICE_ID, as the DEVICE_ID env will be discarded in later versions
+[Modelarts Service Log]2021-09-14 11:34:31,677 - INFO - particularly, ${ASCEND_DEVICE_ID} == ${DEVICE_ID}, it's the logical device id
+[Modelarts Service Log]2021-09-14 11:34:31,677 - INFO - Davinci training command
+[Modelarts Service Log]2021-09-14 11:34:31,677 - INFO - ['/home/ma-user/anaconda/bin/python', '/home/ma-user/modelarts/user-job-dir/code/run_nerf.py', '--config=config_fern.txt', '--expname=fern_test', '--basedir=/cache/result', '--datadir=./data/nerf_llff_data/fern', '--dataset_type=llff', '--factor=8', '--llffhold=8', '--N_rand=1024', '--N_samples=64', '--N_importance=64', '--raw_noise_std=1e0', '--data_url=/home/ma-user/modelarts/inputs/data_url_0/', '--train_url=/home/ma-user/modelarts/outputs/train_url_0/']
+[Modelarts Service Log]2021-09-14 11:34:31,678 - INFO - Wait for Rank table file ready
+[Modelarts Service Log]2021-09-14 11:34:31,678 - INFO - Rank table file (K8S generated) is ready for read
+[Modelarts Service Log]2021-09-14 11:34:31,678 - INFO - 
+{
+    "status": "completed",
+    "group_count": "1",
+    "group_list": [
+        {
+            "group_name": "worker",
+            "device_count": "1",
+            "instance_count": "1",
+            "instance_list": [
+                {
+                    "pod_name": "ma-job-647e3291-6b6a-4dde-9f38-fc1833491e99-worker-0",
+                    "server_id": "192.168.0.78",
+                    "devices": [
+                        {
+                            "device_id": "3",
+                            "device_ip": "192.4.179.75"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+[Modelarts Service Log]2021-09-14 11:34:31,678 - INFO - Rank table file (C7x)
+[Modelarts Service Log]2021-09-14 11:34:31,678 - INFO - 
+{
+    "status": "completed",
+    "version": "1.0",
+    "server_count": "1",
+    "server_list": [
+        {
+            "server_id": "192.168.0.78",
+            "device": [
+                {
+                    "device_id": "3",
+                    "device_ip": "192.4.179.75",
+                    "rank_id": "0"
+                }
+            ]
+        }
+    ]
+}
+[Modelarts Service Log]2021-09-14 11:34:31,679 - INFO - Rank table file (C7x) is generated
+[Modelarts Service Log]2021-09-14 11:34:31,679 - INFO - Current server
+[Modelarts Service Log]2021-09-14 11:34:31,679 - INFO - 
+{
+    "server_id": "192.168.0.78",
+    "device": [
+        {
+            "device_id": "3",
+            "device_ip": "192.4.179.75",
+            "rank_id": "0"
+        }
+    ]
+}
+[Modelarts Service Log]2021-09-14 11:34:31,681 - INFO - bootstrap proc-rank-0-device-0
+[Modelarts Service Log]2021-09-14 11:34:31,689 - INFO - proc-rank-0-device-0 (pid: 74)
+time="2021-09-14T11:34:31+08:00" level=info msg="local dir = /home/ma-user/modelarts/log/" file="upload.go:38" Command=obs/sync_by_channels Component=ma-training-toolkit Ctx=log_url Platform=ModelArts-Service
+time="2021-09-14T11:34:31+08:00" level=info msg="obs dir = s3://xutongpj-nerf/ascendfern/MA-new-mynerf_npu_for_TensorFlow-09-14-11-31/log/" file="upload.go:39" Command=obs/sync_by_channels Component=ma-training-toolkit Ctx=log_url Platform=ModelArts-Service
+time="2021-09-14T11:34:31+08:00" level=info msg="start the periodic upload task, upload period = 30 seconds " file="upload.go:48" Command=obs/sync_by_channels Component=ma-training-toolkit Ctx=log_url Platform=ModelArts-Service
+[ModelArts Service Log][INFO][2021/09/14 11:34:32,287]: registered signal handler
+WARNING:tensorflow:From /usr/local/Ascend/tfplugin/latest/tfplugin/python/site-packages/npu_bridge/estimator/npu/npu_optimizer.py:284: The name tf.train.Optimizer is deprecated. Please use tf.compat.v1.train.Optimizer instead.
+
+2021-09-14 11:34:38.004116: W tensorflow/core/platform/profile_utils/cpu_utils.cc:98] Failed to find bogomips in /proc/cpuinfo; cannot determine CPU frequency
+2021-09-14 11:34:38.011655: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0xaaab00266be0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2021-09-14 11:34:38.011700: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+Loaded image data (378, 504, 3, 20) [378.         504.         407.56579161]
+Loaded /cache/dataset 16.985296178676084 80.00209740336334
+recentered (3, 5)
+[[ 1.0000000e+00  0.0000000e+00  0.0000000e+00  1.4901161e-09]
+ [ 0.0000000e+00  1.0000000e+00 -1.8730975e-09 -9.6857544e-09]
+ [-0.0000000e+00  1.8730975e-09  1.0000000e+00  0.0000000e+00]]
+Data:
+(20, 3, 5) (20, 378, 504, 3) (20, 2)
+HOLDOUT view is 12
+Loaded llff (20, 378, 504, 3) (120, 3, 5) [378.     504.     407.5658] /cache/dataset
+Auto LLFF holdout, 8
+DEFINING BOUNDS
+NEAR FAR 0.0 1.0
+MODEL 63 27 <class 'int'> <class 'int'> True
+(?, 90) (?, 63) (?, 27)
+MODEL 63 27 <class 'int'> <class 'int'> True
+(?, 90) (?, 63) (?, 27)
+Found ckpts []
+get rays
+done, concats
+shuffle rays
+done
+Begin
+TRAIN views are [ 1  2  3  4  5  6  7  9 10 11 12 13 14 15 17 18 19]
+TEST views are [ 0  8 16]
+VAL views are [ 0  8 16]
+WARNING:tensorflow:
+The TensorFlow contrib module will not be included in TensorFlow 2.0.
+For more information, please see:
+  * https://github.com/tensorflow/community/blob/master/rfcs/20180907-contrib-sunset.md
+  * https://github.com/tensorflow/addons
+  * https://github.com/tensorflow/io (for I/O related ops)
+If you depend on functionality not listed there, please file an issue.
+
+WARNING:tensorflow:
+The TensorFlow contrib module will not be included in TensorFlow 2.0.
+For more information, please see:
+  * https://github.com/tensorflow/community/blob/master/rfcs/20180907-contrib-sunset.md
+  * https://github.com/tensorflow/addons
+  * https://github.com/tensorflow/io (for I/O related ops)
+If you depend on functionality not listed there, please file an issue.
+
+WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/run_nerf_helpers.py:237: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/run_nerf_helpers.py:237: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/run_nerf_helpers.py:44: The name tf.log is deprecated. Please use tf.math.log instead.
+
+WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/run_nerf_helpers.py:44: The name tf.log is deprecated. Please use tf.math.log instead.
+
+saved weights at /cache/result/fern_test/model_000000.npy
+saved weights at /cache/result/fern_test/model_fine_000000.npy
+saved weights at /cache/result/fern_test/optimizer_000000.npy
+2021-09-14 11:35:25:  fern_test 0 10.417329 0.17591137 0
+iter time 38.77501 s
+2021-09-14 11:53:08:  fern_test 1 11.191606 0.14439091 1
+iter time 19.47090 s
+2021-09-14 11:53:22:  fern_test 2 11.634774 0.13277045 2
+iter time 13.10349 s
+2021-09-14 11:53:35:  fern_test 3 11.9314995 0.12684312 3
+iter time 13.86762 s
+2021-09-14 11:53:49:  fern_test 4 12.259086 0.1159779 4
+iter time 13.23242 s
+[Modelarts Service Log]2021-09-14 11:53:53,607 - INFO - Begin destroy training processes
+[Modelarts Service Log]2021-09-14 11:53:53,608 - INFO - proc-rank-0-device-0 (pid: 74) has exited
+[Modelarts Service Log]2021-09-14 11:53:53,608 - INFO - End destroy training processes
+[Modelarts Service Log]exiting...
+[Modelarts Service Log]exit with 0
+[Modelarts Service Log][sidecar] training is completed
+[Modelarts Service Log][sidecar] stop outputs_handler_pid = 60 by signal SIGTERM
+[ModelArts Service Log][INFO][2021/09/14 11:53:54,544]: output-handler finalizing due to: [training finished]
+[ModelArts Service Log][INFO][2021/09/14 11:53:54,544]: output-handler finalized
+[Modelarts Service Log][sidecar] stop toolkit_obs_sync_by_channels_pid = 76 by signal SIGTERM
+time="2021-09-14T11:53:54+08:00" level=info msg="the periodic upload task exiting..." file="upload.go:55" Command=obs/sync_by_channels Component=ma-training-toolkit Ctx=log_url Platform=ModelArts-Service
+time="2021-09-14T11:53:54+08:00" level=info msg="the periodic upload task exiting..." file="upload.go:55" Command=obs/sync_by_channels Component=ma-training-toolkit Ctx=train_url Platform=ModelArts-Service

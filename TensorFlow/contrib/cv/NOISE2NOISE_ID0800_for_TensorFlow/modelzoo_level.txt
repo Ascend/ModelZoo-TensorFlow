@@ -1,0 +1,4 @@
+GPUStatus:OK
+FuncStatus:OK
+PrecisionStatus:OK 
+PerfStatus:OK

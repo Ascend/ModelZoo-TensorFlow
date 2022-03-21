@@ -1,0 +1,6 @@
+Python 3.7
+Tensorflow-gpu ==1.15.0
+Scipy==1.1.0
+shutil
+matplotlib==3.3.4
+numpy==1.18.0

@@ -1,0 +1,2 @@
+tenorflow==2.0
+numpy

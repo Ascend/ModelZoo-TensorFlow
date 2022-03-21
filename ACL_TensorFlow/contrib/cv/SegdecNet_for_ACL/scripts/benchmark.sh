@@ -1,0 +1,1 @@
+../Benchmark/out/benchmark --om ./output/SEGDEC-NET_tf.om --dataDir ./output/images/ --modelType SEGDEC-NET --outDir ./output/bench_out/ --batchSize 1 --imgType bin --useDvpp 0

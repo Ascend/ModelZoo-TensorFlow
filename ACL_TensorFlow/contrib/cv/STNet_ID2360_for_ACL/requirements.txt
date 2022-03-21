@@ -1,0 +1,4 @@
+ConfigParser==5.2.0
+numpy==1.21.4
+Pillow==9.0.0
+tensorflow==1.15.0

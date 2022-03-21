@@ -1,0 +1,10 @@
+# Requirerment
+tensorflow==1.15.0
+python==3.7
+numpy==1.18.1
+opencv-python
+scipy
+matplotlib
+sklearn
+plyfile
+h5py

@@ -1,0 +1,8 @@
+{
+    "profiler": {
+        "switch": "off",
+        "output": "inference/results",
+        "device_id": "0",
+        "aic_metrics": "PipeUtilization"
+    }
+}

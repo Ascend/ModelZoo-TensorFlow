@@ -1,0 +1,1 @@
+请将vocab.txt以及bert_config.json文件按目录存放在当前目录

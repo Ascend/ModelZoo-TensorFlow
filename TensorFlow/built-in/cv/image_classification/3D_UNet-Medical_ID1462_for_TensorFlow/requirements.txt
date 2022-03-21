@@ -1,0 +1,8 @@
+# local package
+-e .
+
+# external requirements
+pydicom==2.1.2
+pynrrd==0.4.2
+scikit-image==0.17.2
+scikit-learn==0.23.2

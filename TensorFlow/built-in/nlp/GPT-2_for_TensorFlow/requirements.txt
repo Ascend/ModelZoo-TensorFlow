@@ -1,0 +1,5 @@
+regex
+requests
+tqdm
+numpy
+toposort

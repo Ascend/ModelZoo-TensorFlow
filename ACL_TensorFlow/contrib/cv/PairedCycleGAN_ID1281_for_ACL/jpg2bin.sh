@@ -1,0 +1,2 @@
+python3 img2bin.py -i /root/PairedCycleGAN/project/test0113_1/image/makeup/ -w 256 -h 256 -f RGB -a NHWC -t float32 -m [0,0,0] -c [1,1,1] -o /root/PairedCycleGAN/project/test0113_1/image/out/makeup
+python3 img2bin.py -i /root/PairedCycleGAN/project/test0113_1/image/non-makeup/ -w 256 -h 256 -f RGB -a NHWC -t float32 -m [0,0,0] -c [1,1,1] -o /root/PairedCycleGAN/project/test0113_1/image/out/non-makeup

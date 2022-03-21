@@ -1,0 +1,19 @@
+{
+    "black-list": {                  
+       "to-add": [
+       "AddN",
+       "Add",
+         "Pow",
+         "Log",
+         "ReduceSumD"
+       ]
+    },
+    "white-list": {                 
+       "to-remove": [                
+       ],
+       "to-add": [
+         "MatMulV2",
+         "BiasAdd"
+       ]
+    }
+  }

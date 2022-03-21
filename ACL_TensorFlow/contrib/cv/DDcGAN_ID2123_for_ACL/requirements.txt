@@ -1,0 +1,4 @@
+Python3.7.5
+tensorflow1.15.0
+CUDA10.0
+pip3 install scipy==1.2.1

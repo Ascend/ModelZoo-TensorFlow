@@ -1,0 +1,13 @@
+# Action-Agnostic Human Pose Forecasting
+WACV 2019
+
+Hsu-kuang Chiu, Ehsan Adeli, Borui Wang, De-An Huang, Juan Carlos Niebles
+
+https://arxiv.org/abs/1810.09676
+
+### Dependencies
+The code is written in the following environment:
+* tensorflow 1.5.0
+* keras 1.2.2
+* h5py 2.8.0
+

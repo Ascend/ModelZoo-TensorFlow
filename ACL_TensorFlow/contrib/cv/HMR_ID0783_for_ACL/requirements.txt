@@ -1,0 +1,8 @@
+python==3.7.5
+tensorflow-cpu==1.15.0
+deepdish
+opencv-python
+opendr==0.78
+numpy==1.16.0
+ipdb
+tqdm

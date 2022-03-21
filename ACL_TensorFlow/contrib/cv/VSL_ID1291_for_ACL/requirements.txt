@@ -1,0 +1,6 @@
+python==3.7.5
+tensorflow-gpu==1.15
+scikit-learn==0.20
+matplotlib
+mayavi==4.7.2
+vtk==8.2

@@ -1,0 +1,3 @@
+#!/bin/sh
+python3 train.py --dataset_dir='/home/test_user04/DeepMatchVo_ID2363_for_TensorFlow/kitti/genertate_wty'  --checkpoint_dir='/home/test_user04/DeepMatchVo_ID2363_for_TensorFlow/ckptt/' --img_width=416 --img_height=128 --batch_size=4 --seq_length 3 \
+    --max_steps 1000 --save_freq 200 --learning_rate 0.001 --num_scales 1 --init_ckpt_file='/home/test_user04/DeepMatchVo_ID2363_for_TensorFlow/DeepMatchVO-master_for_TensorFlow/ckpt/model-258000' --continue_train=True --match_num=100

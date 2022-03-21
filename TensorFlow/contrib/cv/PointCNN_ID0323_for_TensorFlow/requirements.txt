@@ -1,0 +1,8 @@
+matplotlib
+plyfile
+python-mnist
+requests
+scipy
+svgpathtools
+tqdm
+transforms3d

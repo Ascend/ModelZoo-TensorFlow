@@ -1,0 +1,6 @@
+python >= 3.5
+Opencv >=3.4.1
+sklearn
+tensorflow & keras
+numpy & scipy
+pathlib

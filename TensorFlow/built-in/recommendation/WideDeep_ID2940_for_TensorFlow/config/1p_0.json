@@ -1,0 +1,18 @@
+{
+  "group_count": "1",
+  "group_list":
+  [
+    {
+      "devices": [
+        {
+          "device_id": "0",
+          "device_ip": "192.1.2.8",
+          "rank_id": "0",
+        }
+        ],   
+      "server_id": "10.155.111.118"
+    }
+  ],
+  "status": "completed",
+  "version":"1.0"
+}

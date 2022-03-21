@@ -1,0 +1,59 @@
+Adding a dataset
+
+(we use UCF101)
+Adding a new dataset requires that the videos converted to tfrecords and stored in a specific format. A tfrecord is simply a method of storing a video and information about the video in a binary file that is easily imported into tensorflow graphs.
+
+Each tfrecord contains a dictionary with the following information from the original video:
+
+Label - Action class the video belongs to (type int64)
+Data - RGB or optical flow values for the entire video (type bytes)
+Frames - Total number of frames in the video (type int64)
+Height - Frame height in pixels (type int64)
+Width - Frame width in pixels (type int64)
+Channels - Number of channels (3 for RGB) (type int64)
+Name - Name of the video (type bytes)
+We provide a script that converts a dataset to tfrecords using OpenCV, as long as the dataset is being stored using the correct file structure.
+
+/dataset
+    /action_class
+        /video1.avi
+An important note is that the TFRecords for each dataset must be stored in a specific file structure, UCF101 for example:
+
+/tfrecords_UCF101
+	/Split1
+		/trainlist
+			vidName1.tfrecords
+			vidName2.tfrecords
+		/testlist
+		/vallist
+	/Split2
+	/Split3
+This means that either before or after the videos are converted, they need to be arranged into this file structure!!! A vallist is not required, just a trainlist and testlist stored inside the folder 'Split1'. Additionally, if only one split is desired, it still must be named 'Split1'
+
+You can also manually convert your dataset to tfrecords if need be. The following code snipped is an example of how to convert a single video to tfrecords given the video data in the form of a numpy array.
+
+def save_tfrecords(data, label, vidname, save_dir):
+    filename = os.path.join(save_dir, vidname+'.tfrecords')
+    writer = tf.python_io.TFRecordWriter(filename)
+
+    features = {}
+    features['Label'] = _int64(label)
+    features['Data'] = _bytes(np.array(data).tostring())
+    features['Frames'] = _int64(data.shape[0])
+    features['Height'] = _int64(data.shape[1])
+    features['Width'] = _int64(data.shape[2])
+    features['Channels'] = _int64(data.shape[3])
+    features['Name'] = _bytes(str(vidname))
+
+
+    example = tf.train.Example(features=tf.train.Features(feature=features))
+    writer.write(example.SerializeToString())
+    writer.close()
+
+def _int64(value):
+    return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+
+def _bytes(value):
+    return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+
+A prerequisite to this is that the video must be passed in as a numpy or python array of floats/ints which can be done a number of ways. For example using OpenCV, matplotlib, or any other desired method.

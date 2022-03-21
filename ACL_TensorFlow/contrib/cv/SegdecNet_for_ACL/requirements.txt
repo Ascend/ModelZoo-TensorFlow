@@ -1,0 +1,3 @@
+python2.7
+TensorFlow r1.1 or newer (tested up to r1.8)
+python libs: numpy, scipy, six, PIL, sklearn, pylab, matplotlib

@@ -1,0 +1,8 @@
+Python 3.8
+TensorFlow 2.3.0
+tensorflow_datasets 2.1.0
+tensorflow-addons 0.13.0 
+open-cv 3.3.0
+Matplotlib 3.4.2
+Numpy 1.19.5
+absl-py 0.12.0

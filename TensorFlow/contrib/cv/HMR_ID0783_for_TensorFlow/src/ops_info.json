@@ -1,0 +1,11 @@
+{
+    "black-list": {
+        "to-add": [
+            "Add",
+            "Sqrt",
+            "SquareSumV1",
+            "ReduceSumD",
+            "RealDiv"
+        ]
+    }
+}

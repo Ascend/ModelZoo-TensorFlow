@@ -1,0 +1,1 @@
+python3 dataprepare.py /root/310/datasets/cityscapes_val.tfrecords /root/310/datasets/bin 

@@ -1,0 +1,12 @@
+data/
+.vscode/
+.idea/
+__pycache__/
+*~
+*.pyc
+*.h5
+*.mp4
+*.mpeg
+*.swp
+*.tar.gz
+MA*/

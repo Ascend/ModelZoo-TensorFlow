@@ -1,0 +1,9 @@
+{
+	"Switch":{
+		"GraphFusion":{
+			"ConvToFullyConnectionFusionPass":"off"
+		},
+		"UBFusion":{
+		}
+	}
+}

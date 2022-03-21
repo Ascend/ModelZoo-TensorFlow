@@ -1,0 +1,1 @@
+python3 train_case.py config/sphere64_casia.py

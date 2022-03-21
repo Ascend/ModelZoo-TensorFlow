@@ -1,0 +1,1 @@
+python train.sh --problem cifar10 --image_size 32 --n_level 3 --depth 32 --flow_permutation 2 --seed 0 --lr 0.001 --epochs 300 --n_bits_x 8

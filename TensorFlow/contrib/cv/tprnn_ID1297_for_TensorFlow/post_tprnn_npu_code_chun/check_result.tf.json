@@ -1,0 +1,22 @@
+{
+  "op": [
+    {
+      "is_support": false,
+      "name": "learning_rate/learning_rate",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "loss/loss",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    }
+  ]
+}

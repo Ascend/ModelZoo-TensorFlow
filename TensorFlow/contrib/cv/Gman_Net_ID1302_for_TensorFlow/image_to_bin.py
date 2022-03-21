@@ -1,0 +1,53 @@
+"""
+to bin
+"""
+# coding=utf-8
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import numpy as np
+from PIL import Image as im
+import gman_flags as df
+import moxing as mx
+import os
+
+os.makedirs(df.FLAGS.clear_result_images_dir)
+os.makedirs(df.FLAGS.clear_result_images_dir + 'HazedImages/TestImages/')
+os.makedirs(df.FLAGS.clear_result_images_dir + 'CleanImages/TestImages/')
+for i in range(14000):
+    hazed_image = im.open(df.FLAGS.haze_test_images_dir + '{}.jpg'.format(i))
+    hazed_image = hazed_image.convert('RGB')
+    clear_image = im.open(df.FLAGS.clear_test_images_dir + '{}.jpg'.format(i))
+    clear_image = clear_image.convert('RGB')
+    clear_image_arr = np.array(clear_image).astype('float32') / 255.0
+    hazed_image_arr = np.array(hazed_image).astype('float32') / 255.0
+    clear_image_arr.tofile(df.FLAGS.clear_result_images_dir + 'CleanImages/TestImages/{}.bin'.format(i))
+    hazed_image_arr.tofile(df.FLAGS.clear_result_images_dir + 'HazedImages/TestImages/{}.bin'.format(i))
+mx.file.copy_parallel(df.FLAGS.clear_result_images_dir, 'obs://imagenet2012-lp/GMan_modelarts/Test_bin/')
+
+print('ok')

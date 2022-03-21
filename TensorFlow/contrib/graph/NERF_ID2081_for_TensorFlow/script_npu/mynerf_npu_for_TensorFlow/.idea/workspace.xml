@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="569b04c6-3cd1-4fcf-834d-a439226c82ba" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="1xqsb0FebDuHdTM2VBR3cfNNXJK" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="imageUrltextFieldV2" value="ascend-share/5.0.3.alpha002_tensorflow-ascend910-cp37-euleros2.8-aarch64-training:1.15.0-21.0.2_0909" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="modelArtsEngineNameFlagV2" value="Ascend-Powered-Engine" />
+    <property name="modelArtsEngineVersionFlagV2" value="tensorflow_1.15-cann_5.0.2-py_3.7-euler_2.8.3-aarch64" />
+    <property name="modelArtsJobBootFileV2" value="C:\Users\ThinkPad\Desktop\mynerf_npu_for_TensorFlow\run_nerf.py" />
+    <property name="modelArtsJobCodeDirV2" value="C:\Users\ThinkPad\Desktop\mynerf_npu_for_TensorFlow" />
+    <property name="modelArtsJobDebuggerFlagV2" value="true" />
+    <property name="modelArtsJobDescV2" value="" />
+    <property name="modelArtsJobFlagV2" value="true" />
+    <property name="modelArtsJobNameV2" value="MA-new-mynerf_npu_for_TensorFlow-09-14-11-31" />
+    <property name="modelArtsJobObsDataPathV2" value="/xutongpj-nerf/fern/" />
+    <property name="modelArtsJobObsPathV2" value="/xutongpj-nerf/ascendfern/" />
+    <property name="modelArtsJobParamsV2" value="config=config_fern.txt;expname=fern_test;basedir=/cache/result;datadir=./data/nerf_llff_data/fern;dataset_type=llff;factor=8;llffhold=8;N_rand=1024;N_samples=64;N_importance=64;raw_noise_std=1e0" />
+    <property name="modelArtsJobSpecV2" value="NPU:1*Ascend 910 CPU:24*vCPUs 96GB" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="569b04c6-3cd1-4fcf-834d-a439226c82ba" name="Changes" comment="" />
+      <created>1631094020513</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1631094020513</updated>
+      <workItem from="1631094033527" duration="2919000" />
+      <workItem from="1631097042126" duration="1313000" />
+      <workItem from="1631098460499" duration="3637000" />
+      <workItem from="1631108515027" duration="2305000" />
+      <workItem from="1631161713033" duration="8568000" />
+      <workItem from="1631409698393" duration="2052000" />
+      <workItem from="1631413656266" duration="243000" />
+      <workItem from="1631415359897" duration="1239000" />
+      <workItem from="1631416657167" duration="5781000" />
+      <workItem from="1631537485342" duration="5769000" />
+      <workItem from="1631589529262" duration="3711000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

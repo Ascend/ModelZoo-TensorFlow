@@ -1,0 +1,4 @@
+NPUMigrationStatus:OK
+FuncStatus:OK
+PerfStatus:NOK
+PrecisionStatus:OK

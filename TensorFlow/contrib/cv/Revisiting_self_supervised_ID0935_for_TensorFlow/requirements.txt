@@ -1,0 +1,5 @@
+future
+ numpy
+absl-py
+tensorflow
+tensorflow-hub

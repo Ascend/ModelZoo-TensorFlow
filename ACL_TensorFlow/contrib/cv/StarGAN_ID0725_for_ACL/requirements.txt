@@ -1,0 +1,6 @@
+# Requirerment
+tensorflow==1.15.0
+opencv-python>=4.2.0
+numpy>=1.81.0
+tqdm
+imageio

@@ -1,0 +1,8 @@
+.vscode
+*.pyc
+*checkpoint.ipynb
+__pycache__
+shakespeare.txt
+dist/
+gpt_2_simple.egg-info/
+build/

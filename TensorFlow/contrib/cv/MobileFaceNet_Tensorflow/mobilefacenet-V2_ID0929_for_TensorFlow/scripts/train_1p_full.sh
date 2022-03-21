@@ -1,0 +1,11 @@
+python3 ../train_nets.py \
+--eval_db_path=../datasets/faces_ms1m_112x112 \
+--tfrecords_file_path=../datasets/tfrecords \
+--summary_path=../output/summary \
+--ckpt_path=../output/ckpt \
+--ckpt_best_path=../output/ckpt_best \
+--log_file_path=../output/logs \
+--arch_text=../arch/txt/MobileFaceNet_Arch.txt \
+--var_text=../arch/txt/trainable_var.txt \
+--show_info_interval=100 \
+--validate_interval=2000 

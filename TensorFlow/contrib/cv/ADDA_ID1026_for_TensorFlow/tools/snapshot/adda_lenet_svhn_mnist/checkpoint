@@ -1,0 +1,2 @@
+model_checkpoint_path: "adda_lenet_svhn_mnist"
+all_model_checkpoint_paths: "adda_lenet_svhn_mnist"

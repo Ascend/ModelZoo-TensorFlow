@@ -1,0 +1,5 @@
+Tensorflow 1.15
+matplotlib
+numpy
+imageio
+configargparse

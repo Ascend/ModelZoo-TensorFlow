@@ -1,0 +1,1 @@
+python validate_bsrn.py --dataloader=basic_loader --data_input_path=/root/BSD100/LR --data_truth_path=/root/BSD100/SR --restore_path=/root/hht/temp/result/model.ckpt-100000 --model=bsrn --scales=4 --save_path=/root/hht/temp/result/result-pictures

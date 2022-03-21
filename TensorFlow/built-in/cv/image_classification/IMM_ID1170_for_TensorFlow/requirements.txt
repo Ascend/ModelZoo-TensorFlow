@@ -1,0 +1,2 @@
+python
+tensorflow 1.15

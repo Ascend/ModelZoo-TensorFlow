@@ -1,0 +1,49 @@
+# model params
+backbone_type: resnet_v2_m_50
+loss_type: arcface
+out_type: E
+
+image_size: 112
+embd_size: 512
+class_num: 85742
+
+
+# hyper params
+bn_decay: 0.9
+keep_prob: 0.4
+weight_decay: !!float 5e-4
+logits_scale: 64.0
+logits_margin: 0.5
+momentum: 0.9
+
+
+# run params
+val_bn_train: False
+augment_flag: True
+augment_margin: 16
+
+gpu_num: 1
+batch_size: 32 #作者的值：32
+epoch_num: 16    #作者的值：16
+step_per_epoch: 181958  #作者的值：181958
+#val_freq: 1000
+val_freq: 12997
+
+lr_steps: [40000, 60000, 80000]
+lr_values: [0.004, 0.002, 0.0012, 0.0004]
+
+
+# paths
+pretrained_model: ''
+
+train_data: ['MS1M.tfrecord']
+val_data: {'agedb_30': 'agedb_30.bin',
+           'lfw': 'lfw.bin',
+           'cfp_ff': 'cfp_ff.bin',
+           'cfp_fp': 'cfp_fp.bin',
+           'calfw': 'calfw.bin',
+           'cplfw': 'cplfw.bin',
+           'vgg2_fp': 'vgg2_fp.bin'}
+
+output_dir: './output'
+

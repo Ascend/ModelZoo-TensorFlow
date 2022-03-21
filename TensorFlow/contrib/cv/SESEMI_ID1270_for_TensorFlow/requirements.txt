@@ -1,0 +1,10 @@
+#### 环境设置
+Ascend: 1*Ascend 910(32GB) | ARM: 24 核 96GB
+python3.7
+Tensorflow 1.15.0
+opencv-python
+scipy1.2.0
+numpy
+ModelArts配置：
+OBS Path:/aeaemi/sesemi-master/log/
+Data Path in OBS:/aeaemi/sesemi-master/dataset/

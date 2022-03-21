@@ -1,0 +1,6 @@
+numpy==1.19.5
+opencv-python==4.2.0
+cloudpickle==1.6.0
+pickleshare==0.7.5
+tqdm==4.59.0
+mpmath==1.2.1

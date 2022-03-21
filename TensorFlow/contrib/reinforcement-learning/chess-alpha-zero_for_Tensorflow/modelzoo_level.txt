@@ -1,0 +1,8 @@
+GPUStatus:OK
+NPUMigrationStatus:OK
+ModelConvert:POK
+QuantStatus:POK
+FuncStatus:OK
+PrecisionStatus:POK
+AutoTune:POK
+PerfStatus:POK

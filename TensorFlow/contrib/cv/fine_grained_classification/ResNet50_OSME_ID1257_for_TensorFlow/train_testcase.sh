@@ -1,0 +1,1 @@
+python model_resnet50_with_OSME.py --epoch=1

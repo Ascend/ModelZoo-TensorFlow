@@ -1,0 +1,6 @@
+python3.65/3.7
+cuda10.0/cudnn7.6
+tensorflow-gpu==1.15.0
+numpy
+opencv-python
+h5py

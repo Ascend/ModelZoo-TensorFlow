@@ -1,0 +1,10 @@
+{
+  "black-list": { 
+     "to-add": [
+     "Mul",
+     "ReduceSumD",
+     "SquaredDifference"
+     ]
+  }
+}
+

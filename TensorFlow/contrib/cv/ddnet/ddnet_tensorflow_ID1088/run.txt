@@ -1,0 +1,13 @@
+! pip install -r requirements.txt
+
+! export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/Ascend/add-ons:/home/HwHiAiUser/Ascend/nnae/latest/fwkacllib/lib64:/usr/local/Ascend/driver/lib64/common/:/usr/local/Ascend/driver/lib64/driver/
+! export TBE_IMPL_PATH=$TBE_IMPL_PATH:/usr/local/Ascend/ascend-toolkit/latest/opp/op_impl/built-in/ai_core/tbe
+
+# TBE operator implementation tool path
+! export ASCEND_OPP_PATH=/home/HwHiAiUser/Ascend/ascend-toolkit/latest/opp
+
+# OPP path
+! export PATH=$PATH:/home/HwHiAiUser/Ascend/ascend-toolkit/latest/fwkacllib/ccec_compiler/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+! export PYTHONPATH=/home/HwHiAiUser/Ascend/tfplugin/latest/tfplugin/python/site-packages:/home/HwHiAiUser/Ascend/nnae/latest/fwkacllib/python/site-packages/hccl:/home/HwHiAiUser/Ascend/nnae/latest/fwkacllib/python/site-packages:/home/HwHiAiUser/Ascend/nnae/latest/fwkacllib/python/site-packages/auto_tune.egg:/home/HwHiAiUser/Ascend/nnae/latest/fwkacllib/python/site-packages/schedule_search.egg
+
+! python ddnet.py

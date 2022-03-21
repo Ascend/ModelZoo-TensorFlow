@@ -1,0 +1,13 @@
+# YAML 1.2
+---
+authors: 
+  -
+    family-names: Engstrom
+    given-names: Logan
+cff-version: "1.1.0"
+date-released: 2016-10-31
+message: "If you use this software, please cite it using these metadata."
+repository-code: "https://github.com/lengstrom/fast-style-transfer"
+title: "Fast Style Transfer"
+version: "1.0"
+...

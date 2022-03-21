@@ -1,0 +1,3 @@
+FuncStatus:OK/NOK
+PerfStatus:PERFECT/OK/POK/NOK
+PrecisionStatus:OK/POK/NOK

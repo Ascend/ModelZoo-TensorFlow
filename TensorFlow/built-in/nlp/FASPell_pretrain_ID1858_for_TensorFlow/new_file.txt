@@ -1,0 +1,1 @@
+FASPell_pretrain_ID1858_for_TensorFlow网络和FASPell_finetune_ID1903_for_TensorFlow非训练网络 仅为验证

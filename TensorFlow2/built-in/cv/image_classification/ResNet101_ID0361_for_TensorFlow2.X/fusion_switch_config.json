@@ -1,0 +1,11 @@
+{
+	"Switch":{
+		"GraphFusion": {
+			"SparseSoftMaxFusionPass": "off",
+			"SoftmaxFusionPass": "off",
+			"softmaxTransFusionPass": "off"
+		},
+		"UBFusion": {
+		}
+	}
+}

@@ -1,0 +1,4 @@
+gensim==3.4.0
+tensorflow_hub
+fasttext
+Keras==2.2.5

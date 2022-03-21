@@ -1,0 +1,2 @@
+GPUStatus:OK/NOK
+NPUMigrationStatus:OK/POK/NOK

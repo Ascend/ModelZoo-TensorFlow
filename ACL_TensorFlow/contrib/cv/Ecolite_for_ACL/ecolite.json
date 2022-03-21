@@ -1,0 +1,20 @@
+aipp_op {
+    aipp_mode: static
+    input_format: RGB888_U8
+    crop: false
+
+    mean_chn_0 : 0
+    mean_chn_1 : 0
+    mean_chn_2 : 0
+    min_chn_0 : 0
+    min_chn_1 : 0
+    min_chn_2 : 0
+    var_reci_chn_0 : 1
+    var_reci_chn_1 : 1
+    var_reci_chn_2 : 1
+
+    src_image_size_w : 224
+    src_image_size_h : 224
+    load_start_pos_h : 0
+    load_start_pos_w : 0
+}

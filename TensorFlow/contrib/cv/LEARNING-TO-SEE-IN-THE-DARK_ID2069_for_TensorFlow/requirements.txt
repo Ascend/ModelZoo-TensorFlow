@@ -1,0 +1,6 @@
+Requirements：
+python3.7.5
+
+Libraries
+Tensorflow1.15+Scipy(1.2.1) + Numpy + Rawpy + NPU
+

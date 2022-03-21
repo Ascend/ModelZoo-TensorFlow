@@ -1,0 +1,7 @@
+numpy
+opencv-python
+PyYAML
+tqdm
+Pillow
+Cython
+ipython

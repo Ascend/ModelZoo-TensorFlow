@@ -1,0 +1,4 @@
+tensorflow == 1.15
+numpy==1.19.4
+imageio==2.13.5
+Pillow==9.0.0

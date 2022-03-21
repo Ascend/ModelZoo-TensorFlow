@@ -1,0 +1,19 @@
+termcolor>=1.1
+tabulate>=0.7.7
+tqdm>4.11.1
+pyarrow>=4.0.1
+pyzmq>=16
+subprocess32; python_version < '3.0'
+functools32; python_version < '3.0'
+pycocotools==2.0.0
+numpy==1.19.5
+msgpack
+msgpack_numpy
+datetime
+setproctitle
+easydict
+Cython>=0.19.2
+scipy>=0.13.2
+opencv-python
+setproctitle
+msgpack_numpy

@@ -1,0 +1,6 @@
+Keras==2.1.2
+Tensorflow (1.15)
+Numpy
+path.py
+PIL
+h5py<3.0.0

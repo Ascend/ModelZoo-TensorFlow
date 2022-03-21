@@ -1,0 +1,1 @@
+python data_convert_bin.py --test_dir=./test --bin_path=./bin

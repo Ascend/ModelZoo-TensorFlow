@@ -1,0 +1,1 @@
+python3.7.5 boot_modelarts.py

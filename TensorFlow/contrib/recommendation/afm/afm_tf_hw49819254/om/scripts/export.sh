@@ -1,0 +1,1 @@
+atc --model=../model/afm.pb --input_shape="train_features_afm:200686,3;train_labels_afm:200686,1;dropout_keep_afm:2;train_phase_afm:1"  --framework=3 --output=../model/afm --soc_version=Ascend310 --out_nodes="out_afm:0"

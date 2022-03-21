@@ -1,0 +1,8 @@
+tensorflow-datasets==1.2.0
+tensorflow-hub==0.8.0
+tensorflow-gan==0.0.0.dev0
+gin-config==0.4.0
+tensorflow-probability==0.8.0
+pstar==0.1.9
+scipy==1.7.1
+matplotlib==3.4.3

@@ -1,0 +1,4 @@
+There should also be a path to the trained CKPT files
+such as /segdec_train/KolektorSDD-dilate=5/full-size_cross-entropy/fold_0/model.ckpt-659
+
+bash ../run_train.sh

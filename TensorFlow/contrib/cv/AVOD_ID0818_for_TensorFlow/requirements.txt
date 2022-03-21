@@ -1,0 +1,11 @@
+tensorflow-gpu==1.15.0
+matplotlib
+numpy==1.19.5
+opencv-python
+pandas
+pillow
+protobuf
+scipy
+sklearn
+cmake
+cudnn

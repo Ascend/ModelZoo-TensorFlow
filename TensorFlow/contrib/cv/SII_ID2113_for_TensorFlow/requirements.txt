@@ -1,0 +1,6 @@
+tensorflow-gpu==1.15.0
+opencv-python
+scikit-image 
+matplotlib 
+pyamg 
+scipy

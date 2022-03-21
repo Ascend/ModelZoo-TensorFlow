@@ -1,0 +1,17 @@
+Hardware and Software:
+
+Nvidia Graphics Card
+Ubuntu 16.04
+Python 2.7
+Cuda
+Cudnn
+Gflags
+
+
+Python Dependencies (All can be installed using pip):
+
+Tensorflow 1.2.1
+Numpy
+Scikit Learn
+H5py
+OpenCV (Only for dataset to tfrecords conversion, can use other video reading programs)

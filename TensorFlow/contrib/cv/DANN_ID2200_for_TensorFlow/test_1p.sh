@@ -1,0 +1,1 @@
+python3 MNIST-DANN.py

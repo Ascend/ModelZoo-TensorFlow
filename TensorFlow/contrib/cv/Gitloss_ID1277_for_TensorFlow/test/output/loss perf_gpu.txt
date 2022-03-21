@@ -1,0 +1,8 @@
+Step:	1000, Train_Loss:	1.0369, Train_Acc:	0.9453, Valid_Loss:	9.1808, Valid_Acc:	0.9614, inter_cls_dist:	5.6150, intra_cls_dist:	0.4148
+Step:	2000, Train_Loss:	0.5643, Train_Acc:	0.9844, Valid_Loss:	12.3012, Valid_Acc:	0.9856, inter_cls_dist:	6.1626, intra_cls_dist:	0.3280
+Step:	3000, Train_Loss:	0.3798, Train_Acc:	1.0000, Valid_Loss:	10.8556, Valid_Acc:	0.9904, inter_cls_dist:	6.2115, intra_cls_dist:	0.2506
+Step:	4000, Train_Loss:	0.3409, Train_Acc:	1.0000, Valid_Loss:	12.2054, Valid_Acc:	0.9906, inter_cls_dist:	6.3399, intra_cls_dist:	0.2008
+Step:	5000, Train_Loss:	0.3261, Train_Acc:	1.0000, Valid_Loss:	11.5283, Valid_Acc:	0.9908, inter_cls_dist:	6.3794, intra_cls_dist:	0.1702
+Step:	6000, Train_Loss:	0.3204, Train_Acc:	1.0000, Valid_Loss:	10.3438, Valid_Acc:	0.9910, inter_cls_dist:	6.3469, intra_cls_dist:	0.1494
+Step:	7000, Train_Loss:	0.3427, Train_Acc:	1.0000, Valid_Loss:	8.2515, Valid_Acc:	0.9894, inter_cls_dist:	6.2211, intra_cls_dist:	0.1622
+Step:	8000, Train_Loss:	0.3612, Train_Acc:	1.0000, Valid_Loss:	6.3607, Valid_Acc:	0.9916, inter_cls_dist:	6.0372, intra_cls_dist:	0.1192

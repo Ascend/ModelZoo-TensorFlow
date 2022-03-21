@@ -1,0 +1,5 @@
+Pillow==5.2.0
+typeguard==2.2.2
+nibabel==2.3.0
+scipy==1.1.0
+opencv-python==4.5.3.56

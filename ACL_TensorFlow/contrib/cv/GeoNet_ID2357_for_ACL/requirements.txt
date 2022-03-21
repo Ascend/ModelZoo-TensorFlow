@@ -1,0 +1,5 @@
+Requirements：
+python3.7.5
+
+Libraries
+Tensorflow1.15 + Imageio + Numpy + Scipy + Opencv-python + NPU

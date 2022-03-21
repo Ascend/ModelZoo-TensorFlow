@@ -1,0 +1,8 @@
+exp
+*.wav
+*.npy
+__pycache__
+~*
+-FLAGS.py
+*.txt
+tmp.py

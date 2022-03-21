@@ -1,0 +1,12 @@
+python3 ../MobileFaceNet_Tensorflow/train_nets.py \
+--eval_db_path=../MobileFaceNet_Tensorflow/datasets/faces_ms1m_112x112 \
+--tfrecords_file_path=../MobileFaceNet_Tensorflow/datasets/tfrecords \
+--summary_path=../MobileFaceNet_Tensorflow/output/summary \
+--ckpt_path=../MobileFaceNet_Tensorflow/output/ckpt \
+--ckpt_best_path=../MobileFaceNet_Tensorflow/output/ckpt_best \
+--log_file_path=../MobileFaceNet_Tensorflow/output/logs \
+--arch_text=../MobileFaceNet_Tensorflow/arch/txt/MobileFaceNet_Arch.txt \
+--var_text=../MobileFaceNet_Tensorflow/arch/txt/trainable_var.txt \
+--show_info_interval=100 \
+--validate_interval=2000 \
+--less_steps=3000

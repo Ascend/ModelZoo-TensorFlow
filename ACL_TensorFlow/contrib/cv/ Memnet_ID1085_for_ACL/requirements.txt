@@ -1,0 +1,4 @@
+# Requirerment
+python3.7
+tensorflow==1.15.0
+opencv-python

@@ -1,0 +1,15 @@
+{
+  "dataset_dir": "./data",
+  "dataset_names": ["tless"],
+  "detection_pipeline": "retinanet",
+  "path_to_detection_pipeline": "/home/ma-user/modelarts/user-job-dir/src/keras_retinanet/",
+  "detection_weight":"resnet50_tless_19_inf.h5",
+  "score_type":1,
+  "task_type":1,
+  "cand_factor":0,
+  "norm_factor_fn":"norm_factor.json",
+  "path_to_output": "/home/ma-user/modelarts/outputs/train_url_0/",
+  "outlier_th":[[0.1],[0.1],[0.1],[0.3],[0.2],[0.3],[0.3],[0.3],[0.3],[0.2],[0.3],[0.3],[0.2],[0.2],[0.2],[0.3],[0.3],[0.2],[0.3],[0.3],[0.2],[0.2],[0.3],[0.1],[0.3],[0.3],[0.3],[0.3],[0.3],[0.3]],
+  "inlier_th":0.1,
+  "test_target":"test_targets_bop18"
+}

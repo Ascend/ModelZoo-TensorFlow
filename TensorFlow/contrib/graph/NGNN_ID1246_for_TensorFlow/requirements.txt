@@ -1,0 +1,7 @@
+GPU
+Python 3.6
+tensorflow 1.13.1
+
+NPU
+Python 3.7.5
+tensorflow 1.15.0

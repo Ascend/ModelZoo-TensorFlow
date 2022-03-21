@@ -1,0 +1,1 @@
+atc --model=./lstm_har.pb --framework=3 --output=./lstm_har --soc_version=Ascend310 --input_shape="X:1,128,9" --log=info --out_nodes="output:0"

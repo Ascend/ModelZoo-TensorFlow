@@ -1,0 +1,14 @@
+tqdm
+pandas
+matplotlib
+opencv-python
+scipy
+scikit-learn
+tensorflow==1.15
+
+openpyxl
+tkintertable
+google_pasta
+xlrd==1.2.0
+
+

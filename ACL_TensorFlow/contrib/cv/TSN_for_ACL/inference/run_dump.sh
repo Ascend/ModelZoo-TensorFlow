@@ -1,0 +1,15 @@
+python3 dump.py \
+        --model tsn \
+        --dataset UCF101 \
+        --loadedDataset UCF101 \
+        --load 1 \
+        --inputDims 250 \
+        --outputDims 101 \
+        --seqLength 250 \
+        --size 224 \
+        --expName tsn_UCF101 \
+        --numVids 109 \
+        --split 1 \
+        --baseDataPath ../dataset \
+        --fName testlist \
+        --loadWeights pretrained_UCF101

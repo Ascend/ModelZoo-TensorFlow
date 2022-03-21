@@ -1,0 +1,1 @@
+python swd.py -mode adapt_swd

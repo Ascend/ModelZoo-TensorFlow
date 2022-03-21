@@ -1,0 +1,12 @@
+beautifulsoup4==4.9.1
+click==7.1.2
+numpy==1.20.2
+onnx==1.8.1
+onnx-caffe2==1.0.0
+onnx-simplifier==0.3.4
+onnxoptimizer==0.2.5
+onnxruntime==1.7.0
+protobuf==3.15.8
+six==1.15.0
+soupsieve==2.0.1
+typing-extensions==3.7.4.3

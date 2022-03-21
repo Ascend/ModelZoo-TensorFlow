@@ -1,0 +1,1 @@
+python3.7.5 ckpt_pb.py --ckpt_path model/mode.ckpt

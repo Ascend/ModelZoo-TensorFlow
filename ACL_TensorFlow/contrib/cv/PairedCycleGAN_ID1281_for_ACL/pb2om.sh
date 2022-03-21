@@ -1,0 +1,1 @@
+atc --model=/root/PairedCycleGAN/project/test0113_1/pb/frozen_model.pb --framework=3 --output=/root/PairedCycleGAN/project/test0113_1/om/PairedCycleGAN --soc_version=Ascend310 --log=info --input_shape="input_A:1,256,256,3;input_B:1,256,256,3"

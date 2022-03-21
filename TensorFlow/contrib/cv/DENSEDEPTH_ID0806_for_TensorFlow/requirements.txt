@@ -1,0 +1,10 @@
+pillow
+matplotlib
+scikit-learn
+scikit-image
+opencv-python
+pydot
+GraphViz
+PyGLM
+pyopengl
+PySide2

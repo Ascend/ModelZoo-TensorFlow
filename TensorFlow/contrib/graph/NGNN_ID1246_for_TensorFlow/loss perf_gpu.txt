@@ -1,0 +1,4855 @@
+do nothing
+[Modelarts Service Log]user: uid=1101(work) gid=1101(work) groups=1101(work)
+[Modelarts Service Log]pwd: /home/work
+[Modelarts Service Log]app_url: s3://ngnn/14notfree/code/
+[Modelarts Service Log]boot_file: code/main_multi_modal.py
+[Modelarts Service Log]log_url: /tmp/log/14notfree.log
+[Modelarts Service Log]command: code/main_multi_modal.py --data_url=s3://ngnn/dataset/ --train_url=s3://ngnn/14notfree/output/V0001/ --num_gpus=1
+[Modelarts Service Log]MODELARTS_IPOIB_DEVICE: 
+[Modelarts Service Log]dependencies_file_dir: /home/work/user-job-dir/code
+[Modelarts Service Log][modelarts_create_log] modelarts-pipe found
+[Modelarts Service Log]handle inputs of training job
+INFO:root:Using MoXing-v2.0.0.rc2.b4eeb646-b4eeb646
+INFO:root:Using OBS-Python-SDK-3.20.9.1
+[ModelArts Service Log][INFO][2021/08/28 13:19:58]: env MA_INPUTS is not found, skip the inputs handler
+INFO:root:Using MoXing-v2.0.0.rc2.b4eeb646-b4eeb646
+INFO:root:Using OBS-Python-SDK-3.20.9.1
+[ModelArts Service Log]2021-08-28 13:19:58,972 - modelarts-downloader.py[line:623] - INFO: Main: modelarts-downloader starting with Namespace(dst='./', recursive=True, skip_creating_dir=False, src='s3://ngnn/14notfree/code/', trace=False, type='common', verbose=False)
+/home/work/user-job-dir
+[Modelarts Service Log][modelarts_logger] modelarts-pipe found
+INFO:root:Using MoXing-v2.0.0.rc2.b4eeb646-b4eeb646
+INFO:root:Using OBS-Python-SDK-3.20.9.1
+satrt copy data ===>>> modelarts
+config.data_url s3://ngnn/dataset/
+config.train_url s3://ngnn/14notfree/output/V0001/
+===>>>1 File number: []
+===>>>2 Files number: ['train_no_dup_new_100.json', 'cid2rcid_100.json', 'polyvore_text_onehot_vectors.zip', 'polyvore_image_vectors.zip', 'category_summarize_100.json', 'test_no_dup_new_100.json']
+over copy data ===>>> modelarts
+polyvore_text_onehot_vectors.zip解压成功
+[ModelArts Service Log]modelarts-pipe: will create log file /tmp/log/14notfree.log
+[ModelArts Service Log]modelarts-pipe: will create log file /tmp/log/14notfree.log
+[ModelArts Service Log]modelarts-pipe: will write log file /tmp/log/14notfree.log
+[ModelArts Service Log]modelarts-pipe: param for max log length: 1073741824
+[ModelArts Service Log]modelarts-pipe: param for whether exit on overflow: 0
+polyvore_image_vectors.zip解压成功
+创建 cache/result 文件夹
+more than 100 category: 120
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From /cache/user-job-dir/code/model_multimodal.py:139: GRUCell.__init__ (from tensorflow.python.ops.rnn_cell_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+This class is equivalent as tf.keras.layers.GRUCell, and will be replaced by that in Tensorflow 2.0.
+WARNING:tensorflow:From /cache/user-job-dir/code/model_multimodal.py:139: GRUCell.__init__ (from tensorflow.python.ops.rnn_cell_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+This class is equivalent as tf.keras.layers.GRUCell, and will be replaced by that in Tensorflow 2.0.
+<tf.Variable 'cm_ggnn/gnn/w/conf_image:0' shape=(12, 1) dtype=float32_ref>
+<tf.Variable 'cm_ggnn/gnn/w/score_image:0' shape=(12, 1) dtype=float32_ref>
+<tf.Variable 'cm_ggnn/gnn/w/conf_text:0' shape=(12, 1) dtype=float32_ref>
+<tf.Variable 'cm_ggnn/gnn/w/score_text:0' shape=(12, 1) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_0:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_1:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_2:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_3:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_4:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_5:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_6:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_7:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_8:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_9:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_10:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_11:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_12:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_13:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_14:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_15:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_16:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_17:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_18:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_19:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_20:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_21:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_22:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_23:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_24:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_25:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_26:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_27:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_28:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_29:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_30:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_31:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_32:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_33:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_34:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_35:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_36:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_37:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_38:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_39:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_40:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_41:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_42:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_43:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_44:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_45:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_46:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_47:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_48:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_49:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_50:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_51:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_52:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_53:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_54:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_55:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_56:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_57:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_58:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_59:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_60:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_61:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_62:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_63:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_64:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_65:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_66:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_67:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_68:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_69:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_70:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_71:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_72:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_73:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_74:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_75:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_76:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_77:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_78:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_79:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_80:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_81:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_82:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_83:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_84:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_85:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_86:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_87:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_88:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_89:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_90:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_91:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_92:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_93:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_94:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_95:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_96:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_97:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_98:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_99:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_100:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_101:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_102:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_103:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_104:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_105:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_106:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_107:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_108:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_109:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_110:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_111:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_112:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_113:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_114:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_115:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_116:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_117:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_118:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/w/in_image_119:0' shape=(2048, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out0:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out1:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out2:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out3:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out4:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out5:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out6:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out7:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out8:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out9:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out10:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out11:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out12:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out13:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out14:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out15:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out16:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out17:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out18:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out19:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out20:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out21:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out22:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out23:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out24:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out25:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out26:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out27:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out28:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out29:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out30:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out31:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out32:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out33:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out34:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out35:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out36:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out37:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out38:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out39:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out40:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out41:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out42:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out43:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out44:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out45:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out46:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out47:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out48:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out49:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out50:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out51:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out52:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out53:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out54:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out55:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out56:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out57:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out58:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out59:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out60:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out61:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out62:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out63:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out64:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out65:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out66:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out67:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out68:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out69:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out70:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out71:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out72:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out73:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out74:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out75:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out76:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out77:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out78:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out79:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out80:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out81:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out82:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out83:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out84:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out85:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out86:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out87:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out88:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out89:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out90:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out91:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out92:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out93:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out94:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out95:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out96:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out97:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out98:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out99:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out100:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out101:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out102:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out103:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out104:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out105:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out106:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out107:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out108:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out109:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out110:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out111:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out112:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out113:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out114:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out115:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out116:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out117:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out118:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_out119:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_0:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_1:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_2:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_3:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_4:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_5:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_6:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_7:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_8:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_9:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_10:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_11:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_12:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_13:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_14:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_15:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_16:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_17:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_18:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_19:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_20:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_21:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_22:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_23:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_24:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_25:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_26:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_27:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_28:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_29:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_30:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_31:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_32:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_33:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_34:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_35:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_36:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_37:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_38:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_39:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_40:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_41:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_42:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_43:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_44:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_45:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_46:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_47:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_48:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_49:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_50:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_51:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_52:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_53:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_54:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_55:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_56:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_57:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_58:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_59:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_60:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_61:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_62:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_63:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_64:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_65:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_66:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_67:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_68:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_69:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_70:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_71:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_72:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_73:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_74:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_75:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_76:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_77:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_78:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_79:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_80:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_81:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_82:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_83:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_84:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_85:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_86:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_87:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_88:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_89:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_90:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_91:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_92:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_93:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_94:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_95:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_96:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_97:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_98:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_99:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_100:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_101:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_102:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_103:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_104:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_105:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_106:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_107:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_108:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_109:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_110:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_111:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_112:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_113:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_114:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_115:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_116:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_117:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_118:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/w/image_hidden_state_in_119:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/gru_cell/gates/kernel:0' shape=(24, 24) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/gru_cell/gates/bias:0' shape=(24,) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/gru_cell/candidate/kernel:0' shape=(24, 12) dtype=float32_ref>
+<tf.Variable 'gnn_image/gnn/gru_cell/candidate/bias:0' shape=(12,) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_0:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_1:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_2:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_3:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_4:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_5:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_6:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_7:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_8:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_9:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_10:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_11:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_12:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_13:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_14:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_15:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_16:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_17:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_18:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_19:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_20:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_21:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_22:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_23:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_24:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_25:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_26:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_27:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_28:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_29:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_30:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_31:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_32:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_33:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_34:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_35:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_36:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_37:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_38:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_39:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_40:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_41:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_42:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_43:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_44:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_45:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_46:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_47:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_48:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_49:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_50:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_51:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_52:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_53:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_54:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_55:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_56:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_57:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_58:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_59:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_60:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_61:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_62:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_63:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_64:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_65:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_66:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_67:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_68:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_69:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_70:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_71:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_72:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_73:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_74:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_75:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_76:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_77:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_78:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_79:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_80:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_81:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_82:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_83:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_84:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_85:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_86:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_87:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_88:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_89:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_90:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_91:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_92:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_93:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_94:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_95:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_96:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_97:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_98:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_99:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_100:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_101:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_102:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_103:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_104:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_105:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_106:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_107:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_108:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_109:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_110:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_111:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_112:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_113:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_114:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_115:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_116:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_117:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_118:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/w/in_text_119:0' shape=(2757, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out0:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out1:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out2:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out3:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out4:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out5:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out6:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out7:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out8:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out9:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out10:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out11:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out12:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out13:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out14:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out15:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out16:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out17:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out18:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out19:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out20:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out21:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out22:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out23:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out24:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out25:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out26:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out27:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out28:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out29:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out30:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out31:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out32:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out33:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out34:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out35:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out36:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out37:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out38:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out39:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out40:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out41:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out42:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out43:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out44:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out45:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out46:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out47:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out48:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out49:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out50:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out51:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out52:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out53:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out54:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out55:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out56:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out57:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out58:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out59:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out60:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out61:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out62:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out63:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out64:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out65:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out66:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out67:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out68:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out69:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out70:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out71:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out72:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out73:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out74:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out75:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out76:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out77:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out78:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out79:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out80:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out81:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out82:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out83:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out84:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out85:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out86:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out87:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out88:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out89:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out90:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out91:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out92:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out93:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out94:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out95:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out96:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out97:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out98:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out99:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out100:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out101:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out102:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out103:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out104:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out105:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out106:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out107:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out108:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out109:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out110:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out111:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out112:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out113:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out114:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out115:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out116:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out117:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out118:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_out119:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_0:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_1:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_2:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_3:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_4:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_5:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_6:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_7:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_8:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_9:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_10:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_11:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_12:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_13:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_14:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_15:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_16:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_17:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_18:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_19:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_20:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_21:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_22:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_23:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_24:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_25:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_26:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_27:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_28:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_29:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_30:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_31:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_32:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_33:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_34:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_35:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_36:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_37:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_38:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_39:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_40:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_41:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_42:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_43:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_44:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_45:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_46:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_47:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_48:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_49:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_50:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_51:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_52:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_53:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_54:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_55:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_56:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_57:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_58:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_59:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_60:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_61:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_62:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_63:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_64:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_65:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_66:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_67:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_68:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_69:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_70:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_71:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_72:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_73:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_74:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_75:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_76:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_77:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_78:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_79:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_80:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_81:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_82:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_83:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_84:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_85:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_86:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_87:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_88:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_89:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_90:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_91:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_92:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_93:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_94:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_95:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_96:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_97:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_98:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_99:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_100:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_101:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_102:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_103:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_104:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_105:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_106:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_107:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_108:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_109:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_110:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_111:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_112:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_113:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_114:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_115:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_116:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_117:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_118:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/w/text_hidden_state_in_119:0' shape=(12, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/gru_cell/gates/kernel:0' shape=(24, 24) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/gru_cell/gates/bias:0' shape=(24,) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/gru_cell/candidate/kernel:0' shape=(24, 12) dtype=float32_ref>
+<tf.Variable 'gnn_text/gnn/gru_cell/candidate/bias:0' shape=(12,) dtype=float32_ref>
+2021-08-28 13:24:39.055986: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2021-08-28 13:24:39.239683: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x5640589a9520 executing computations on platform CUDA. Devices:
+2021-08-28 13:24:39.239723: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): Tesla V100-PCIE-32GB, Compute Capability 7.0
+2021-08-28 13:24:39.266559: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2021-08-28 13:24:39.267121: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x564058ac4de0 executing computations on platform Host. Devices:
+2021-08-28 13:24:39.267158: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+2021-08-28 13:24:39.267337: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Tesla V100-PCIE-32GB major: 7 minor: 0 memoryClockRate(GHz): 1.38
+pciBusID: 0000:21:01.0
+totalMemory: 31.75GiB freeMemory: 31.44GiB
+2021-08-28 13:24:39.267372: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 0
+2021-08-28 13:24:39.270367: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2021-08-28 13:24:39.270404: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0 
+2021-08-28 13:24:39.270412: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N 
+2021-08-28 13:24:39.270532: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 30583 MB memory) -> physical GPU (device: 0, name: Tesla V100-PCIE-32GB, pci bus id: 0000:21:01.0, compute capability: 7.0)
+train_size is 135864
+train_batch is 8491
+2021-08-28 13:26:07.611648: I tensorflow/stream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[0.34520516]
+ [0.03662168]
+ [0.09852172]
+ [0.02110637]
+ [1.6107436 ]
+ [1.4078417 ]
+ [1.3193657 ]
+ [1.6544414 ]
+ [0.5780902 ]
+ [0.49495465]
+ [0.50430024]
+ [0.6216062 ]
+ [0.0517432 ]
+ [0.22244686]
+ [0.04418966]
+ [0.10270338]]
+[[0.06635371]
+ [0.22606626]
+ [1.3071886 ]
+ [1.2279668 ]
+ [0.04618261]
+ [0.6904712 ]
+ [1.7478353 ]
+ [0.4000189 ]
+ [0.34520516]
+ [0.9567923 ]
+ [1.6107436 ]
+ [0.35811546]
+ [0.5780902 ]
+ [0.18147643]
+ [0.0517432 ]
+ [0.52443284]]
+now():2021-08-28 13:28:43.882699
+Train Epoch: 0 Batch: 0 total cost: -0.074123234 pred score distance: 0.472639918 vt cost: 0.079703338 postive score: 0.294933736 negative score: 0.406050771 accurancy: .0.236929922 auc: .0.450500556
+Epoch: 0 finished Best accurancy: 0.236930 Best auc: 0.450501 Best epoch: 0
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[21.851316 ]
+ [20.986927 ]
+ [16.76524  ]
+ [12.617366 ]
+ [24.671284 ]
+ [ 9.034493 ]
+ [ 8.373167 ]
+ [17.405844 ]
+ [27.373047 ]
+ [ 9.597037 ]
+ [ 6.6116166]
+ [13.103467 ]
+ [30.952353 ]
+ [15.103545 ]
+ [21.662136 ]
+ [16.014084 ]]
+[[ 2.1832958e+01]
+ [ 1.2162265e-01]
+ [ 1.6687807e+01]
+ [ 5.9358373e+00]
+ [ 2.5225435e+01]
+ [-9.0675363e-03]
+ [ 1.4897549e+01]
+ [ 9.2869186e-01]
+ [ 2.1851316e+01]
+ [ 6.0377020e-01]
+ [ 2.4671284e+01]
+ [ 4.9882488e+00]
+ [ 2.7373047e+01]
+ [ 1.6804378e+00]
+ [ 3.0952353e+01]
+ [ 3.0212228e+00]]
+now():2021-08-28 13:47:21.284460
+Train Epoch: 0 Batch: 2000 total cost: 0.257394601 pred score distance: 0.670386824 vt cost: 0.185556285 postive score: 9.641549062 negative score: 7.005290187 accurancy: .0.566184650 auc: .0.884686689
+Epoch: 0 finished Best accurancy: 0.566185 Best auc: 0.884687 Best epoch: 0
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[33.496677]
+ [14.324378]
+ [14.149655]
+ [29.259747]
+ [37.906193]
+ [18.883644]
+ [ 6.70639 ]
+ [37.35602 ]
+ [35.49068 ]
+ [16.622387]
+ [ 7.763818]
+ [11.248057]
+ [33.446423]
+ [31.07839 ]
+ [40.762897]
+ [31.173515]]
+[[23.087093  ]
+ [ 1.1043948 ]
+ [31.075401  ]
+ [ 1.2361853 ]
+ [39.006958  ]
+ [ 0.92085165]
+ [25.73271   ]
+ [ 0.41036865]
+ [33.496677  ]
+ [ 2.365301  ]
+ [37.906193  ]
+ [ 7.4262934 ]
+ [35.49068   ]
+ [ 2.2641127 ]
+ [33.446423  ]
+ [ 2.7399306 ]]
+now():2021-08-28 14:06:04.892523
+Train Epoch: 0 Batch: 4000 total cost: 0.192658821 pred score distance: 0.727634039 vt cost: 0.184058572 postive score: 15.881152566 negative score: 11.099974583 accurancy: .0.636262514 auc: .0.905821283
+Epoch: 0 finished Best accurancy: 0.636263 Best auc: 0.905821 Best epoch: 0
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[40.53045  ]
+ [27.460985 ]
+ [ 8.120787 ]
+ [23.231554 ]
+ [46.901886 ]
+ [21.811752 ]
+ [43.402122 ]
+ [26.969084 ]
+ [37.044933 ]
+ [ 8.529857 ]
+ [29.418417 ]
+ [15.73563  ]
+ [34.557503 ]
+ [ 7.5757985]
+ [12.007026 ]
+ [ 9.26377  ]]
+[[27.081934 ]
+ [ 8.596308 ]
+ [30.567326 ]
+ [ 7.386583 ]
+ [33.75257  ]
+ [ 2.6586533]
+ [30.221645 ]
+ [ 4.1651144]
+ [40.53045  ]
+ [ 8.470926 ]
+ [46.901886 ]
+ [ 5.000656 ]
+ [37.044933 ]
+ [ 3.7674787]
+ [34.557503 ]
+ [ 3.4054236]]
+now():2021-08-28 14:24:45.891313
+Train Epoch: 0 Batch: 6000 total cost: 0.155230987 pred score distance: 0.755506531 vt cost: 0.182147504 postive score: 21.158641653 negative score: 14.811482229 accurancy: .0.649610679 auc: .0.919911012
+Epoch: 0 finished Best accurancy: 0.649611 Best auc: 0.919911 Best epoch: 0
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[47.439182]
+ [36.330624]
+ [21.279764]
+ [33.00143 ]
+ [46.410736]
+ [13.245658]
+ [12.459199]
+ [31.485579]
+ [46.795067]
+ [26.713095]
+ [22.280348]
+ [24.097284]
+ [46.53344 ]
+ [18.469444]
+ [28.03488 ]
+ [28.98969 ]]
+[[37.185722  ]
+ [ 9.404848  ]
+ [41.925983  ]
+ [ 3.3454034 ]
+ [47.976048  ]
+ [ 8.907805  ]
+ [38.39615   ]
+ [ 1.9759904 ]
+ [47.439182  ]
+ [ 0.91198236]
+ [46.410736  ]
+ [ 6.237283  ]
+ [46.795067  ]
+ [ 1.7086583 ]
+ [46.53344   ]
+ [ 3.1010442 ]]
+now():2021-08-28 14:43:26.810804
+Train Epoch: 0 Batch: 8000 total cost: 0.130012358 pred score distance: 0.775205369 vt cost: 0.181043546 postive score: 24.806415084 negative score: 17.188364162 accurancy: .0.675565443 auc: .0.930292918
+Epoch: 0 finished Best accurancy: 0.675565 Best auc: 0.930293 Best epoch: 0
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 0 finished total cost: 0.125382915 pred score distance: 0.778796034 vt cost: 0.180835790 postive score: 25.685781806 negative score: 17.779336362
+Epoch: 0 finished Best accurancy: 0.675565 Best auc: 0.930293 Best epoch: 0
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[48.078808]
+ [42.304768]
+ [22.814455]
+ [28.22474 ]
+ [50.14172 ]
+ [32.016655]
+ [28.88406 ]
+ [30.552822]
+ [52.153084]
+ [22.350658]
+ [39.041286]
+ [17.61799 ]
+ [46.960762]
+ [39.46156 ]
+ [43.5826  ]
+ [34.575375]]
+[[34.510925  ]
+ [ 2.5791152 ]
+ [45.496704  ]
+ [ 0.4794691 ]
+ [50.54584   ]
+ [ 0.13377638]
+ [39.558342  ]
+ [ 3.6531644 ]
+ [48.078808  ]
+ [ 2.509761  ]
+ [50.14172   ]
+ [ 6.190772  ]
+ [52.153084  ]
+ [ 0.8301937 ]
+ [46.960762  ]
+ [ 1.0803567 ]]
+Test Epoch: 0 accuracy: 0.686318131 auc: 0.931405265
+now():2021-08-28 14:50:23.456042
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 0 finished Best accurancy: 0.686318 Best auc: 0.931405 Best epoch: 0
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[48.101086]
+ [43.547455]
+ [29.286526]
+ [23.40769 ]
+ [50.1904  ]
+ [34.13581 ]
+ [39.09097 ]
+ [48.44365 ]
+ [52.04332 ]
+ [55.85768 ]
+ [42.519444]
+ [37.06584 ]
+ [47.044163]
+ [48.120564]
+ [31.716484]
+ [43.209053]]
+[[34.5249   ]
+ [18.765757 ]
+ [45.483295 ]
+ [12.586099 ]
+ [50.54632  ]
+ [ 7.125272 ]
+ [39.474472 ]
+ [ 3.8956337]
+ [48.101086 ]
+ [ 5.359273 ]
+ [50.1904   ]
+ [ 2.0466788]
+ [52.04332  ]
+ [ 2.4561048]
+ [47.044163 ]
+ [ 5.8555837]]
+now():2021-08-28 14:52:50.144154
+Train Epoch: 1 Batch: 0 total cost: -0.333275437 pred score distance: 0.904534101 vt cost: 0.114251733 postive score: 49.342369080 negative score: 32.563636780 accurancy: .0.693362996 auc: .0.925101965
+Epoch: 1 finished Best accurancy: 0.693363 Best auc: 0.931405 Best epoch: 1
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[51.922596]
+ [33.387836]
+ [23.157972]
+ [34.164497]
+ [53.768238]
+ [16.606625]
+ [19.395937]
+ [29.879005]
+ [64.397575]
+ [35.09049 ]
+ [39.380512]
+ [40.453827]
+ [52.93165 ]
+ [54.373962]
+ [26.630869]
+ [14.922495]]
+[[ 3.5950428e+01]
+ [-2.7711391e-02]
+ [ 5.6364574e+01]
+ [ 1.3706242e+00]
+ [ 5.2752296e+01]
+ [ 1.1858550e+00]
+ [ 4.0144814e+01]
+ [ 1.1049769e+00]
+ [ 5.1922596e+01]
+ [ 3.7307239e+00]
+ [ 5.3768238e+01]
+ [-3.4615342e-02]
+ [ 6.4397575e+01]
+ [-4.7408890e-02]
+ [ 5.2931648e+01]
+ [ 6.4453459e+00]]
+now():2021-08-28 15:11:14.598623
+Train Epoch: 1 Batch: 2000 total cost: 0.042533992 pred score distance: 0.853627136 vt cost: 0.179232225 postive score: 42.649750377 negative score: 28.849347750 accurancy: .0.694104561 auc: .0.936967000
+Epoch: 1 finished Best accurancy: 0.694105 Best auc: 0.936967 Best epoch: 1
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[57.55444 ]
+ [40.024773]
+ [30.633726]
+ [29.74672 ]
+ [52.705223]
+ [50.133114]
+ [37.23195 ]
+ [37.40353 ]
+ [68.13442 ]
+ [46.827625]
+ [37.576694]
+ [45.75326 ]
+ [62.882187]
+ [54.346592]
+ [45.02884 ]
+ [45.8442  ]]
+[[ 3.9248116e+01]
+ [ 6.2318110e+00]
+ [ 5.5042423e+01]
+ [ 4.4420691e+00]
+ [ 5.4384693e+01]
+ [ 1.6785598e-01]
+ [ 5.1547276e+01]
+ [ 1.2603874e+00]
+ [ 5.7554440e+01]
+ [ 4.1420779e+00]
+ [ 5.2705223e+01]
+ [ 1.7918003e+00]
+ [ 6.8134422e+01]
+ [-4.3412007e-02]
+ [ 6.2882187e+01]
+ [-8.3882540e-02]]
+now():2021-08-28 15:29:48.363627
+Train Epoch: 1 Batch: 4000 total cost: 0.034788138 pred score distance: 0.859176480 vt cost: 0.178792923 postive score: 44.199555284 negative score: 29.751785278 accurancy: .0.722284019 auc: .0.943641083
+Epoch: 1 finished Best accurancy: 0.722284 Best auc: 0.943641 Best epoch: 1
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[54.537758]
+ [38.48664 ]
+ [28.098253]
+ [24.698452]
+ [58.433495]
+ [41.171127]
+ [41.68208 ]
+ [67.86081 ]
+ [64.66081 ]
+ [21.21798 ]
+ [39.126152]
+ [45.121338]
+ [59.6447  ]
+ [51.09581 ]
+ [70.40937 ]
+ [18.141193]]
+[[ 3.8775806e+01]
+ [ 2.0243874e+00]
+ [ 5.5582275e+01]
+ [-6.4107478e-02]
+ [ 6.4437691e+01]
+ [ 2.3372653e+00]
+ [ 4.1061623e+01]
+ [ 1.5943328e+00]
+ [ 5.4537758e+01]
+ [ 1.9538631e+00]
+ [ 5.8433495e+01]
+ [ 6.1924178e-02]
+ [ 6.4660812e+01]
+ [ 2.1918569e+00]
+ [ 5.9644699e+01]
+ [-4.6794172e-02]]
+now():2021-08-28 15:48:13.135654
+Train Epoch: 1 Batch: 6000 total cost: 0.029445937 pred score distance: 0.863594003 vt cost: 0.178607988 postive score: 46.074042203 negative score: 30.998276613 accurancy: .0.718576196 auc: .0.947719689
+Epoch: 1 finished Best accurancy: 0.722284 Best auc: 0.947720 Best epoch: 1
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[57.525944]
+ [29.570024]
+ [20.68999 ]
+ [24.08914 ]
+ [60.65656 ]
+ [46.60432 ]
+ [73.940056]
+ [72.199394]
+ [67.96561 ]
+ [32.532864]
+ [34.66956 ]
+ [18.304125]
+ [69.96819 ]
+ [42.829372]
+ [51.941975]
+ [53.54956 ]]
+[[ 4.0726913e+01]
+ [ 6.3182516e+00]
+ [ 5.8648048e+01]
+ [ 8.1319847e+00]
+ [ 6.6207764e+01]
+ [-5.2517127e-02]
+ [ 6.0080311e+01]
+ [ 6.2342221e-01]
+ [ 5.7525944e+01]
+ [ 4.5974474e+00]
+ [ 6.0656559e+01]
+ [ 3.6619630e+00]
+ [ 6.7965607e+01]
+ [ 1.1967338e+00]
+ [ 6.9968193e+01]
+ [ 1.6951029e+00]]
+now():2021-08-28 16:06:47.666447
+Train Epoch: 1 Batch: 8000 total cost: 0.022693237 pred score distance: 0.868464716 vt cost: 0.178231591 postive score: 47.262661584 negative score: 31.719096086 accurancy: .0.736002966 auc: .0.949202818
+Epoch: 1 finished Best accurancy: 0.736003 Best auc: 0.949203 Best epoch: 1
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 1 finished total cost: 0.022427741 pred score distance: 0.869119544 vt cost: 0.178309457 postive score: 47.535912467 negative score: 31.863080401
+Epoch: 1 finished Best accurancy: 0.736003 Best auc: 0.949203 Best epoch: 1
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[57.20951 ]
+ [46.281998]
+ [36.511013]
+ [38.07817 ]
+ [64.44906 ]
+ [56.80014 ]
+ [70.72756 ]
+ [36.362762]
+ [66.36516 ]
+ [40.507637]
+ [31.553583]
+ [37.84703 ]
+ [74.35467 ]
+ [61.631382]
+ [34.49096 ]
+ [35.556416]]
+[[43.981567  ]
+ [ 2.387795  ]
+ [62.200787  ]
+ [ 3.028275  ]
+ [60.582302  ]
+ [ 1.442433  ]
+ [54.839714  ]
+ [ 9.423048  ]
+ [57.20951   ]
+ [ 0.12176714]
+ [64.44906   ]
+ [ 5.7934647 ]
+ [66.36516   ]
+ [11.979571  ]
+ [74.35467   ]
+ [ 0.15937255]]
+Test Epoch: 1 accuracy: 0.728958102 auc: 0.949202818
+now():2021-08-28 16:13:07.533426
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 1 finished Best accurancy: 0.736003 Best auc: 0.949203 Best epoch: 1
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[57.211636]
+ [15.182787]
+ [37.999496]
+ [45.224667]
+ [64.54385 ]
+ [59.635246]
+ [38.793736]
+ [45.892822]
+ [66.36256 ]
+ [34.864506]
+ [25.437685]
+ [44.70224 ]
+ [74.250175]
+ [63.875687]
+ [48.564884]
+ [46.01961 ]]
+[[ 4.3906860e+01]
+ [ 4.9651098e+00]
+ [ 6.2108994e+01]
+ [ 4.5757005e-01]
+ [ 6.0596165e+01]
+ [ 2.4169113e+01]
+ [ 5.4792694e+01]
+ [ 2.5658779e+00]
+ [ 5.7211636e+01]
+ [-2.1286372e-02]
+ [ 6.4543854e+01]
+ [ 1.3209512e+01]
+ [ 6.6362556e+01]
+ [ 4.2329102e+00]
+ [ 7.4250175e+01]
+ [ 1.0877218e+01]]
+now():2021-08-28 16:15:33.009712
+Train Epoch: 2 Batch: 0 total cost: -0.254429579 pred score distance: 0.998748660 vt cost: 0.148863822 postive score: 57.439868927 negative score: 32.576713562 accurancy: .0.727104190 auc: .0.953281424
+Epoch: 2 finished Best accurancy: 0.736003 Best auc: 0.953281 Best epoch: 1
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[63.630722]
+ [38.41326 ]
+ [35.20917 ]
+ [26.262833]
+ [67.4941  ]
+ [64.052025]
+ [23.572742]
+ [69.793564]
+ [76.88438 ]
+ [38.626278]
+ [50.865875]
+ [17.68217 ]
+ [73.33023 ]
+ [39.336742]
+ [29.880592]
+ [27.939865]]
+[[ 3.5172462e+01]
+ [ 1.5360360e+00]
+ [ 6.8073410e+01]
+ [-5.9700772e-02]
+ [ 5.0858887e+01]
+ [-5.0200939e-02]
+ [ 5.1560219e+01]
+ [ 8.4343367e+00]
+ [ 6.3630722e+01]
+ [ 1.3345793e+00]
+ [ 6.7494102e+01]
+ [ 2.3749204e-01]
+ [ 7.6884377e+01]
+ [ 2.2303073e+00]
+ [ 7.3330231e+01]
+ [ 3.8725951e+00]]
+now():2021-08-28 16:34:02.811387
+Train Epoch: 2 Batch: 2000 total cost: 0.016374705 pred score distance: 0.880008158 vt cost: 0.179276572 postive score: 53.543089207 negative score: 35.160996622 accurancy: .0.728958102 auc: .0.959213941
+Epoch: 2 finished Best accurancy: 0.736003 Best auc: 0.959214 Best epoch: 1
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[59.59928 ]
+ [25.890045]
+ [25.155952]
+ [27.375164]
+ [71.71183 ]
+ [41.593235]
+ [49.069122]
+ [40.47653 ]
+ [80.82277 ]
+ [39.68378 ]
+ [44.512707]
+ [31.040604]
+ [73.12977 ]
+ [43.11255 ]
+ [43.105495]
+ [34.16187 ]]
+[[ 3.6481476e+01]
+ [ 6.6510671e-01]
+ [ 7.3122986e+01]
+ [-1.1739395e-01]
+ [ 5.8197994e+01]
+ [ 5.5053353e+00]
+ [ 5.1061291e+01]
+ [ 2.1554053e+00]
+ [ 5.9599281e+01]
+ [ 6.5225658e+00]
+ [ 7.1711830e+01]
+ [ 8.7291193e+00]
+ [ 8.0822769e+01]
+ [ 1.5291561e+00]
+ [ 7.3129768e+01]
+ [-1.6177230e-02]]
+now():2021-08-28 16:52:31.131746
+Train Epoch: 2 Batch: 4000 total cost: 0.011947363 pred score distance: 0.884142595 vt cost: 0.179217991 postive score: 54.794684279 negative score: 35.972722753 accurancy: .0.741564702 auc: .0.955506118
+Epoch: 2 finished Best accurancy: 0.741565 Best auc: 0.959214 Best epoch: 2
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 62.85705 ]
+ [ 39.01453 ]
+ [ 25.03852 ]
+ [ 40.50177 ]
+ [ 89.32017 ]
+ [ 71.92237 ]
+ [102.66139 ]
+ [ 86.22988 ]
+ [ 80.09417 ]
+ [ 32.205517]
+ [ 61.402107]
+ [ 52.65089 ]
+ [ 80.79789 ]
+ [ 37.772823]
+ [ 47.621117]
+ [ 62.80876 ]]
+[[ 4.0707886e+01]
+ [ 5.0216742e+00]
+ [ 6.8307037e+01]
+ [ 4.5982993e-01]
+ [ 6.4532097e+01]
+ [ 2.2149396e+00]
+ [ 6.0546333e+01]
+ [ 4.5842161e+00]
+ [ 6.2857052e+01]
+ [ 2.6954510e+00]
+ [ 8.9320168e+01]
+ [ 1.0741588e-01]
+ [ 8.0094170e+01]
+ [-5.9948161e-02]
+ [ 8.0797890e+01]
+ [ 5.1333385e+00]]
+now():2021-08-28 17:10:59.403581
+Train Epoch: 2 Batch: 6000 total cost: 0.008656950 pred score distance: 0.886587048 vt cost: 0.179048800 postive score: 55.739015964 negative score: 36.388080277 accurancy: .0.744530960 auc: .0.960326288
+Epoch: 2 finished Best accurancy: 0.744531 Best auc: 0.960326 Best epoch: 2
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[64.95654 ]
+ [29.244028]
+ [37.082863]
+ [34.108944]
+ [97.40262 ]
+ [58.061886]
+ [35.540897]
+ [49.40236 ]
+ [75.65369 ]
+ [41.487686]
+ [28.462893]
+ [16.724155]
+ [89.90434 ]
+ [46.931408]
+ [51.829437]
+ [82.229546]]
+[[ 4.5235893e+01]
+ [ 1.4180987e-01]
+ [ 6.4987900e+01]
+ [ 7.1304379e+00]
+ [ 5.9535145e+01]
+ [ 9.5208988e+00]
+ [ 6.3380440e+01]
+ [ 1.4872284e+00]
+ [ 6.4956543e+01]
+ [ 1.4240655e+00]
+ [ 9.7402618e+01]
+ [ 8.3435625e-01]
+ [ 7.5653687e+01]
+ [-3.2787003e-02]
+ [ 8.9904343e+01]
+ [ 9.9974136e+00]]
+now():2021-08-28 17:29:26.453977
+Train Epoch: 2 Batch: 8000 total cost: 0.006445956 pred score distance: 0.888299400 vt cost: 0.178949071 postive score: 56.976043396 negative score: 37.090298891 accurancy: .0.749721913 auc: .0.958472377
+Epoch: 2 finished Best accurancy: 0.749722 Best auc: 0.960326 Best epoch: 2
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 2 finished total cost: 0.006257286 pred score distance: 0.888365549 vt cost: 0.178924567 postive score: 57.148826187 negative score: 37.199283680
+Epoch: 2 finished Best accurancy: 0.749722 Best auc: 0.960326 Best epoch: 2
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[66.43588 ]
+ [52.132336]
+ [32.507187]
+ [57.37207 ]
+ [89.47267 ]
+ [49.313248]
+ [49.345196]
+ [64.11252 ]
+ [76.34994 ]
+ [48.328053]
+ [49.038147]
+ [34.288677]
+ [81.67689 ]
+ [44.899143]
+ [38.35048 ]
+ [45.071766]]
+[[ 4.3514080e+01]
+ [ 3.8658342e+00]
+ [ 6.5653030e+01]
+ [ 1.0877200e+00]
+ [ 6.9678154e+01]
+ [ 7.9731911e-01]
+ [ 5.7855206e+01]
+ [-6.0225356e-02]
+ [ 6.6435883e+01]
+ [-6.5279938e-02]
+ [ 8.9472672e+01]
+ [ 6.9045603e-01]
+ [ 7.6349937e+01]
+ [ 8.7706929e-01]
+ [ 8.1676888e+01]
+ [-1.0109830e-01]]
+Test Epoch: 2 accuracy: 0.746755654 auc: 0.960326288
+now():2021-08-28 17:35:48.569198
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 2 finished Best accurancy: 0.749722 Best auc: 0.960326 Best epoch: 2
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[66.41825 ]
+ [52.635563]
+ [41.608616]
+ [19.835585]
+ [89.592636]
+ [61.760338]
+ [64.138084]
+ [41.173904]
+ [76.35059 ]
+ [29.350191]
+ [22.584131]
+ [54.22961 ]
+ [81.683266]
+ [38.90345 ]
+ [79.23053 ]
+ [55.581264]]
+[[ 4.3513752e+01]
+ [ 4.3283325e-01]
+ [ 6.5656601e+01]
+ [ 2.1480336e-03]
+ [ 6.9655968e+01]
+ [ 2.9952796e+00]
+ [ 5.7845520e+01]
+ [-6.8433634e-03]
+ [ 6.6418251e+01]
+ [ 2.0414782e+01]
+ [ 8.9592636e+01]
+ [ 2.2944839e+00]
+ [ 7.6350594e+01]
+ [ 1.8785091e+01]
+ [ 8.1683266e+01]
+ [ 7.3451442e-01]]
+now():2021-08-28 17:38:13.644518
+Train Epoch: 3 Batch: 0 total cost: -0.117922246 pred score distance: 0.938185573 vt cost: 0.164052665 postive score: 66.820610046 negative score: 37.801673889 accurancy: .0.740823137 auc: .0.960697071
+Epoch: 3 finished Best accurancy: 0.749722 Best auc: 0.960697 Best epoch: 2
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[71.39233 ]
+ [25.618233]
+ [31.478352]
+ [25.317135]
+ [87.22669 ]
+ [73.7637  ]
+ [61.232296]
+ [68.24582 ]
+ [78.473   ]
+ [40.15454 ]
+ [35.664017]
+ [29.120218]
+ [88.18976 ]
+ [63.715897]
+ [83.18834 ]
+ [68.298996]]
+[[ 3.7503681e+01]
+ [ 2.4611912e+00]
+ [ 7.2421852e+01]
+ [-8.4576972e-02]
+ [ 6.4746529e+01]
+ [-4.7877021e-02]
+ [ 6.8369308e+01]
+ [ 4.7206783e-01]
+ [ 7.1392326e+01]
+ [ 4.5347515e-01]
+ [ 8.7226692e+01]
+ [ 3.9255116e+00]
+ [ 7.8473000e+01]
+ [-8.1788458e-02]
+ [ 8.8189758e+01]
+ [-4.8196815e-02]]
+now():2021-08-28 17:56:38.162281
+Train Epoch: 3 Batch: 2000 total cost: 0.003800045 pred score distance: 0.892607933 vt cost: 0.179281596 postive score: 58.497792458 negative score: 37.230856698 accurancy: .0.736744531 auc: .0.962180200
+Epoch: 3 finished Best accurancy: 0.749722 Best auc: 0.962180 Best epoch: 2
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[78.83493 ]
+ [39.91454 ]
+ [71.88719 ]
+ [74.55031 ]
+ [86.36206 ]
+ [50.97442 ]
+ [43.405426]
+ [47.14721 ]
+ [81.09054 ]
+ [48.972126]
+ [63.38083 ]
+ [80.98968 ]
+ [83.47435 ]
+ [61.59541 ]
+ [74.72238 ]
+ [78.65904 ]]
+[[ 4.8183472e+01]
+ [-4.1934188e-02]
+ [ 7.9675003e+01]
+ [-8.9562371e-02]
+ [ 6.5479691e+01]
+ [ 1.5897436e+00]
+ [ 5.1443295e+01]
+ [-6.7269839e-02]
+ [ 7.8834930e+01]
+ [ 2.1662577e+01]
+ [ 8.6362061e+01]
+ [ 3.9200652e-01]
+ [ 8.1090538e+01]
+ [-6.4832211e-02]
+ [ 8.3474350e+01]
+ [ 3.2464167e-01]]
+now():2021-08-28 18:15:06.407404
+Train Epoch: 3 Batch: 4000 total cost: 0.000323541 pred score distance: 0.894878697 vt cost: 0.179040447 postive score: 61.128994119 negative score: 38.880184206 accurancy: .0.756766778 auc: .0.961438636
+Epoch: 3 finished Best accurancy: 0.756767 Best auc: 0.962180 Best epoch: 3
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[74.18017 ]
+ [38.01534 ]
+ [51.239944]
+ [33.233307]
+ [80.43336 ]
+ [48.052265]
+ [43.258278]
+ [35.094154]
+ [73.41048 ]
+ [36.43193 ]
+ [62.876186]
+ [61.174286]
+ [86.912224]
+ [21.456898]
+ [36.75901 ]
+ [50.020836]]
+[[ 5.6527111e+01]
+ [ 3.6817393e+00]
+ [ 7.5137993e+01]
+ [ 1.0612744e-01]
+ [ 7.7400230e+01]
+ [ 2.5186110e+00]
+ [ 6.3642784e+01]
+ [ 1.5943463e+00]
+ [ 7.4180168e+01]
+ [ 6.7770535e-01]
+ [ 8.0433357e+01]
+ [ 1.2393168e+00]
+ [ 7.3410477e+01]
+ [ 3.8278670e+00]
+ [ 8.6912224e+01]
+ [-7.6084152e-02]]
+now():2021-08-28 18:33:33.379491
+Train Epoch: 3 Batch: 6000 total cost: -0.001482066 pred score distance: 0.896645626 vt cost: 0.179032712 postive score: 62.342361272 negative score: 39.694485014 accurancy: .0.745643307 auc: .0.962180200
+Epoch: 3 finished Best accurancy: 0.756767 Best auc: 0.962180 Best epoch: 3
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[68.71832 ]
+ [34.929855]
+ [38.11729 ]
+ [44.463898]
+ [83.125404]
+ [89.40869 ]
+ [93.45474 ]
+ [92.78923 ]
+ [68.08802 ]
+ [50.61875 ]
+ [30.095371]
+ [47.23821 ]
+ [87.90983 ]
+ [37.42428 ]
+ [22.93712 ]
+ [43.41553 ]]
+[[ 4.4246941e+01]
+ [ 7.2559419e+00]
+ [ 7.3415550e+01]
+ [ 4.3512163e+00]
+ [ 7.1490746e+01]
+ [ 7.7621859e-01]
+ [ 6.7852654e+01]
+ [ 2.2519527e+01]
+ [ 6.8718323e+01]
+ [ 4.0161507e+01]
+ [ 8.3125404e+01]
+ [-6.8939313e-02]
+ [ 6.8088020e+01]
+ [ 6.3976102e+00]
+ [ 8.7909828e+01]
+ [ 1.1767422e+01]]
+now():2021-08-28 18:52:02.329005
+Train Epoch: 3 Batch: 8000 total cost: -0.002682170 pred score distance: 0.897210353 vt cost: 0.178905637 postive score: 63.256777775 negative score: 40.205166995 accurancy: .0.751575825 auc: .0.961809418
+Epoch: 3 finished Best accurancy: 0.756767 Best auc: 0.962180 Best epoch: 3
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 3 finished total cost: -0.002476366 pred score distance: 0.897063377 vt cost: 0.178917402 postive score: 63.387468981 negative score: 40.293303925
+Epoch: 3 finished Best accurancy: 0.756767 Best auc: 0.962180 Best epoch: 3
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[72.13945 ]
+ [30.502884]
+ [32.772095]
+ [29.6138  ]
+ [84.87383 ]
+ [35.522022]
+ [43.819565]
+ [32.339054]
+ [75.022514]
+ [28.166779]
+ [38.799934]
+ [40.738747]
+ [93.18022 ]
+ [69.95275 ]
+ [44.794125]
+ [39.763084]]
+[[45.959404  ]
+ [ 2.8034122 ]
+ [81.91094   ]
+ [ 7.802985  ]
+ [77.54216   ]
+ [ 5.4836493 ]
+ [69.750244  ]
+ [ 5.1982365 ]
+ [72.13945   ]
+ [ 3.4770422 ]
+ [84.87383   ]
+ [ 2.0696943 ]
+ [75.022514  ]
+ [ 8.036231  ]
+ [93.18022   ]
+ [ 0.16227296]]
+Test Epoch: 3 accuracy: 0.747126437 auc: 0.968854283
+now():2021-08-28 18:58:22.129308
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 3 finished Best accurancy: 0.756767 Best auc: 0.968854 Best epoch: 3
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[72.17332 ]
+ [52.915867]
+ [47.239784]
+ [36.687187]
+ [84.84681 ]
+ [44.057854]
+ [34.52151 ]
+ [18.038692]
+ [75.02105 ]
+ [78.98403 ]
+ [20.0993  ]
+ [24.075226]
+ [93.19856 ]
+ [65.74938 ]
+ [40.798275]
+ [69.977486]]
+[[ 4.5968151e+01]
+ [-9.1491051e-02]
+ [ 8.1904724e+01]
+ [ 1.5549604e+01]
+ [ 7.7538475e+01]
+ [ 1.2393882e+00]
+ [ 6.9756363e+01]
+ [-1.3015658e-01]
+ [ 7.2173317e+01]
+ [ 2.7675509e+00]
+ [ 8.4846809e+01]
+ [ 3.2020980e-01]
+ [ 7.5021049e+01]
+ [ 1.0652386e+00]
+ [ 9.3198563e+01]
+ [ 3.0540965e+00]]
+now():2021-08-28 19:00:46.812637
+Train Epoch: 4 Batch: 0 total cost: -0.125751972 pred score distance: 0.812290251 vt cost: 0.137307659 postive score: 64.173995972 negative score: 41.776416779 accurancy: .0.744530960 auc: .0.963292547
+Epoch: 4 finished Best accurancy: 0.756767 Best auc: 0.968854 Best epoch: 3
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[74.73572 ]
+ [51.00832 ]
+ [43.540333]
+ [45.995384]
+ [99.4089  ]
+ [65.9498  ]
+ [69.25716 ]
+ [68.75355 ]
+ [85.84616 ]
+ [62.18002 ]
+ [82.802185]
+ [83.186745]
+ [92.26473 ]
+ [33.291935]
+ [42.710567]
+ [41.071148]]
+[[ 4.8370922e+01]
+ [ 1.2517823e+00]
+ [ 7.3100197e+01]
+ [-1.1289385e-01]
+ [ 7.4562592e+01]
+ [ 1.8711966e+01]
+ [ 6.7042923e+01]
+ [-9.0739429e-02]
+ [ 7.4735718e+01]
+ [ 4.1990342e+00]
+ [ 9.9408897e+01]
+ [ 4.7998863e-01]
+ [ 8.5846161e+01]
+ [ 1.5258883e+00]
+ [ 9.2264732e+01]
+ [ 1.6328175e+01]]
+now():2021-08-28 19:19:17.874356
+Train Epoch: 4 Batch: 2000 total cost: -0.003417030 pred score distance: 0.898741997 vt cost: 0.179064994 postive score: 68.527013250 negative score: 43.033262920 accurancy: .0.748238784 auc: .0.961438636
+Epoch: 4 finished Best accurancy: 0.756767 Best auc: 0.968854 Best epoch: 3
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[69.18453 ]
+ [64.44982 ]
+ [50.72203 ]
+ [53.950333]
+ [83.101295]
+ [35.64096 ]
+ [35.950687]
+ [24.398634]
+ [88.48711 ]
+ [53.57618 ]
+ [13.589445]
+ [26.206818]
+ [98.66186 ]
+ [70.34693 ]
+ [46.393536]
+ [42.690525]]
+[[ 5.7435551e+01]
+ [ 4.0890583e-01]
+ [ 8.0389763e+01]
+ [ 3.5881946e+00]
+ [ 7.2990349e+01]
+ [ 4.0948436e-01]
+ [ 6.1584740e+01]
+ [ 1.3226265e+01]
+ [ 6.9184532e+01]
+ [ 3.4864536e+01]
+ [ 8.3101295e+01]
+ [ 2.6829073e+00]
+ [ 8.8487106e+01]
+ [-1.6566943e-02]
+ [ 9.8661858e+01]
+ [ 2.8730943e+00]]
+now():2021-08-28 19:37:40.996691
+Train Epoch: 4 Batch: 4000 total cost: -0.005318209 pred score distance: 0.900165757 vt cost: 0.178969510 postive score: 68.971110146 negative score: 43.269719120 accurancy: .0.761586948 auc: .0.963292547
+Epoch: 4 finished Best accurancy: 0.761587 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 76.78857 ]
+ [ 77.12084 ]
+ [ 84.28174 ]
+ [ 37.842785]
+ [103.6344  ]
+ [ 75.40051 ]
+ [ 85.88091 ]
+ [ 92.74157 ]
+ [ 83.16421 ]
+ [ 35.807327]
+ [ 47.419743]
+ [ 41.49898 ]
+ [102.64372 ]
+ [ 40.608204]
+ [101.94307 ]
+ [ 47.644295]]
+[[ 58.700214  ]
+ [  1.2053883 ]
+ [ 58.522987  ]
+ [  0.36410934]
+ [ 72.04701   ]
+ [  3.4068174 ]
+ [ 56.55381   ]
+ [  4.608304  ]
+ [ 76.78857   ]
+ [  7.248666  ]
+ [103.6344    ]
+ [ -0.13387413]
+ [ 83.16421   ]
+ [  1.376564  ]
+ [102.64372   ]
+ [  4.279155  ]]
+now():2021-08-28 19:56:09.115978
+Train Epoch: 4 Batch: 6000 total cost: -0.005012732 pred score distance: 0.900612075 vt cost: 0.179119869 postive score: 69.010657668 negative score: 43.105510119 accurancy: .0.746014090 auc: .0.965517241
+Epoch: 4 finished Best accurancy: 0.761587 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 75.905876]
+ [ 49.97807 ]
+ [ 17.160517]
+ [ 34.524754]
+ [102.39725 ]
+ [ 18.232718]
+ [ 63.015823]
+ [ 18.789639]
+ [ 87.64921 ]
+ [ 40.961197]
+ [ 46.236076]
+ [ 40.876255]
+ [115.00001 ]
+ [ 83.53669 ]
+ [ 60.74442 ]
+ [ 60.086994]]
+[[ 5.8498734e+01]
+ [-6.3120581e-02]
+ [ 5.7247318e+01]
+ [ 1.6999678e+01]
+ [ 7.5432083e+01]
+ [ 7.0701998e-01]
+ [ 5.0553780e+01]
+ [ 2.8827066e+00]
+ [ 7.5905876e+01]
+ [ 1.7080519e+01]
+ [ 1.0239725e+02]
+ [ 4.2162304e+00]
+ [ 8.7649208e+01]
+ [ 4.6305257e-01]
+ [ 1.1500001e+02]
+ [ 1.0169579e+00]]
+now():2021-08-28 20:14:43.584078
+Train Epoch: 4 Batch: 8000 total cost: -0.005694092 pred score distance: 0.900932869 vt cost: 0.179047756 postive score: 69.133539190 negative score: 43.162578062 accurancy: .0.765294772 auc: .0.962550983
+Epoch: 4 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 4 finished total cost: -0.005658006 pred score distance: 0.901120597 vt cost: 0.179092518 postive score: 69.186603333 negative score: 43.160972956
+Epoch: 4 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 78.16044 ]
+ [ 57.717705]
+ [ 46.38245 ]
+ [ 71.2323  ]
+ [ 95.83277 ]
+ [ 30.02607 ]
+ [ 22.926937]
+ [ 41.16469 ]
+ [ 93.17317 ]
+ [ 47.19607 ]
+ [ 88.265816]
+ [ 22.297178]
+ [108.575836]
+ [ 72.303696]
+ [ 56.123337]
+ [ 53.12683 ]]
+[[ 5.28369904e+01]
+ [ 2.68508029e+00]
+ [ 6.08028755e+01]
+ [-1.01393551e-01]
+ [ 7.36008759e+01]
+ [-6.87784255e-02]
+ [ 5.52988968e+01]
+ [ 7.46106005e+00]
+ [ 7.81604385e+01]
+ [-4.60964106e-02]
+ [ 9.58327713e+01]
+ [-9.87747088e-02]
+ [ 9.31731720e+01]
+ [ 2.49239162e-01]
+ [ 1.08575836e+02]
+ [ 2.75835705e+00]]
+Test Epoch: 4 accuracy: 0.754171301 auc: 0.964034112
+now():2021-08-28 20:20:58.254496
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 4 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 77.71119 ]
+ [ 49.690876]
+ [ 63.54322 ]
+ [ 46.752316]
+ [ 95.71706 ]
+ [ 63.68158 ]
+ [128.62338 ]
+ [ 88.01139 ]
+ [ 93.17707 ]
+ [ 25.493242]
+ [ 46.395164]
+ [ 64.95974 ]
+ [108.59269 ]
+ [ 82.29869 ]
+ [ 82.40356 ]
+ [ 70.62542 ]]
+[[ 5.2832020e+01]
+ [-7.4999720e-02]
+ [ 6.0781441e+01]
+ [ 6.4100966e+00]
+ [ 7.3608528e+01]
+ [ 2.1594307e+00]
+ [ 5.5302570e+01]
+ [-9.4780996e-02]
+ [ 7.7711189e+01]
+ [ 1.8577338e+00]
+ [ 9.5717056e+01]
+ [ 2.8292587e+00]
+ [ 9.3177071e+01]
+ [ 5.2766089e+00]
+ [ 1.0859269e+02]
+ [ 5.4663739e+00]]
+now():2021-08-28 20:23:22.509236
+Train Epoch: 5 Batch: 0 total cost: -0.162806451 pred score distance: 0.940046310 vt cost: 0.155447975 postive score: 69.694244385 negative score: 41.938995361 accurancy: .0.748238784 auc: .0.967371153
+Epoch: 5 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 75.30846 ]
+ [ 50.31282 ]
+ [ 42.958523]
+ [ 38.30205 ]
+ [ 88.45235 ]
+ [ 63.768723]
+ [ 62.708866]
+ [ 73.80907 ]
+ [ 97.60527 ]
+ [ 46.276382]
+ [ 33.99378 ]
+ [ 45.587116]
+ [110.01651 ]
+ [ 85.73892 ]
+ [ 80.118095]
+ [ 97.83822 ]]
+[[ 5.4080898e+01]
+ [ 1.5303644e+01]
+ [ 7.0502380e+01]
+ [ 1.7043199e-01]
+ [ 7.3169258e+01]
+ [ 2.0666275e+00]
+ [ 5.7431065e+01]
+ [-7.2448954e-02]
+ [ 7.5308456e+01]
+ [-4.4233635e-02]
+ [ 8.8452347e+01]
+ [ 1.8255672e+00]
+ [ 9.7605270e+01]
+ [-6.7125432e-02]
+ [ 1.1001651e+02]
+ [ 5.7108393e+00]]
+now():2021-08-28 20:41:36.989387
+Train Epoch: 5 Batch: 2000 total cost: -0.005477498 pred score distance: 0.904643132 vt cost: 0.179833127 postive score: 71.884908414 negative score: 43.983271838 accurancy: .0.762328513 auc: .0.965888024
+Epoch: 5 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 75.472984]
+ [ 50.53678 ]
+ [ 50.553158]
+ [ 52.60758 ]
+ [ 91.190475]
+ [ 77.98643 ]
+ [ 93.198006]
+ [ 71.76074 ]
+ [ 98.01078 ]
+ [ 44.611546]
+ [ 39.518627]
+ [ 15.336726]
+ [110.24594 ]
+ [ 48.239193]
+ [ 41.105724]
+ [ 80.77032 ]]
+[[ 6.3970139e+01]
+ [ 3.5781803e+01]
+ [ 7.6359840e+01]
+ [ 2.8581291e+01]
+ [ 8.1607841e+01]
+ [ 1.5593331e+01]
+ [ 5.9277176e+01]
+ [ 2.0700150e+00]
+ [ 7.5472984e+01]
+ [-4.4349831e-02]
+ [ 9.1190475e+01]
+ [-7.3251024e-02]
+ [ 9.8010780e+01]
+ [ 5.0822220e+00]
+ [ 1.1024594e+02]
+ [ 1.3989487e+00]]
+now():2021-08-28 21:00:05.398149
+Train Epoch: 5 Batch: 4000 total cost: -0.006475108 pred score distance: 0.904231451 vt cost: 0.179551269 postive score: 74.377145662 negative score: 46.099548817 accurancy: .0.747497219 auc: .0.967371153
+Epoch: 5 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 76.293945]
+ [ 33.468216]
+ [ 62.126736]
+ [ 61.656498]
+ [ 86.97253 ]
+ [ 63.459442]
+ [ 46.011208]
+ [ 94.32229 ]
+ [ 86.66572 ]
+ [ 37.387047]
+ [ 33.029076]
+ [ 93.58313 ]
+ [106.23432 ]
+ [ 34.95778 ]
+ [ 41.181206]
+ [ 56.969498]]
+[[ 6.3748890e+01]
+ [-8.2874596e-02]
+ [ 6.6239113e+01]
+ [-5.9730045e-02]
+ [ 6.7446823e+01]
+ [-2.6633896e-02]
+ [ 5.5210003e+01]
+ [ 1.5961275e+00]
+ [ 7.6293945e+01]
+ [ 3.0656769e+00]
+ [ 8.6972527e+01]
+ [ 1.8025998e+00]
+ [ 8.6665718e+01]
+ [ 1.0639738e+01]
+ [ 1.0623432e+02]
+ [ 1.7491740e+00]]
+now():2021-08-28 21:18:27.642672
+Train Epoch: 5 Batch: 6000 total cost: -0.006356893 pred score distance: 0.904293080 vt cost: 0.179587237 postive score: 74.567226081 negative score: 46.241736094 accurancy: .0.754912866 auc: .0.959955506
+Epoch: 5 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 80.36393 ]
+ [ 35.665485]
+ [ 50.107662]
+ [ 39.3331  ]
+ [ 98.65826 ]
+ [137.19205 ]
+ [ 67.521835]
+ [110.96396 ]
+ [ 92.302505]
+ [ 55.77712 ]
+ [ 52.750145]
+ [ 37.689503]
+ [114.240616]
+ [ 52.973484]
+ [ 50.65263 ]
+ [ 51.46446 ]]
+[[ 5.69215622e+01]
+ [-4.53588776e-02]
+ [ 8.19846725e+01]
+ [ 2.12334418e+00]
+ [ 7.17908020e+01]
+ [ 2.21044016e+00]
+ [ 6.45904465e+01]
+ [ 1.88952839e+00]
+ [ 8.03639297e+01]
+ [ 5.19148588e-01]
+ [ 9.86582565e+01]
+ [-1.04392819e-01]
+ [ 9.23025055e+01]
+ [-4.90913093e-02]
+ [ 1.14240616e+02]
+ [ 3.52697134e+00]]
+now():2021-08-28 21:36:56.201179
+Train Epoch: 5 Batch: 8000 total cost: -0.007231135 pred score distance: 0.904391549 vt cost: 0.179432083 postive score: 75.177162796 negative score: 46.692659168 accurancy: .0.757879125 auc: .0.966629588
+Epoch: 5 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 5 finished total cost: -0.006843112 pred score distance: 0.904239850 vt cost: 0.179479348 postive score: 75.245608082 negative score: 46.751396129
+Epoch: 5 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 78.706406]
+ [ 30.533865]
+ [ 40.48754 ]
+ [ 44.542793]
+ [ 93.95955 ]
+ [132.98238 ]
+ [ 98.52251 ]
+ [ 90.9993  ]
+ [ 95.935616]
+ [ 68.00971 ]
+ [ 44.84854 ]
+ [ 58.266747]
+ [114.76393 ]
+ [ 28.956688]
+ [ 33.213524]
+ [ 30.074991]]
+[[ 5.3944569e+01]
+ [ 4.1824999e+00]
+ [ 9.4389000e+01]
+ [-6.8082839e-02]
+ [ 6.6382019e+01]
+ [-6.3450053e-02]
+ [ 6.8578308e+01]
+ [-8.8242695e-02]
+ [ 7.8706406e+01]
+ [ 4.4584236e-01]
+ [ 9.3959549e+01]
+ [-3.0573668e-02]
+ [ 9.5935616e+01]
+ [-8.6487472e-02]
+ [ 1.1476393e+02]
+ [ 4.1583190e+00]]
+Test Epoch: 5 accuracy: 0.758991472 auc: 0.968854283
+now():2021-08-28 21:43:13.972572
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 5 finished Best accurancy: 0.765295 Best auc: 0.968854 Best epoch: 4
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 78.70593  ]
+ [ 15.7655945]
+ [ 59.30585  ]
+ [ 32.585567 ]
+ [ 93.97068  ]
+ [113.14683  ]
+ [ 70.045746 ]
+ [ 62.9936   ]
+ [ 95.94024  ]
+ [ 81.94949  ]
+ [ 49.807247 ]
+ [ 45.507603 ]
+ [114.75663  ]
+ [ 55.224045 ]
+ [ 46.297028 ]
+ [ 80.98958  ]]
+[[ 5.3949005e+01]
+ [ 1.1266339e+00]
+ [ 9.4393150e+01]
+ [-6.2195890e-02]
+ [ 6.6387550e+01]
+ [ 2.6522934e+01]
+ [ 6.8582085e+01]
+ [ 4.5539217e+00]
+ [ 7.8705933e+01]
+ [ 2.6041017e+00]
+ [ 9.3970680e+01]
+ [-1.8359689e-02]
+ [ 9.5940239e+01]
+ [ 4.3525207e-01]
+ [ 1.1475663e+02]
+ [ 1.6266635e-01]]
+now():2021-08-28 21:45:41.231215
+Train Epoch: 6 Batch: 0 total cost: -0.266337454 pred score distance: 0.999974906 vt cost: 0.146727487 postive score: 79.064735413 negative score: 50.878204346 accurancy: .0.742306266 auc: .0.969966630
+Epoch: 6 finished Best accurancy: 0.765295 Best auc: 0.969967 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 78.96694 ]
+ [ 18.288935]
+ [ 37.72682 ]
+ [ 63.414402]
+ [100.71065 ]
+ [ 89.77955 ]
+ [ 60.91499 ]
+ [109.793915]
+ [ 88.0596  ]
+ [ 45.07562 ]
+ [ 34.41811 ]
+ [ 58.002415]
+ [112.300476]
+ [ 33.680748]
+ [ 35.87884 ]
+ [ 70.52924 ]]
+[[ 4.86704407e+01]
+ [-6.41819239e-02]
+ [ 5.52326736e+01]
+ [-3.11325341e-02]
+ [ 6.61325455e+01]
+ [ 9.99949351e-02]
+ [ 6.36768379e+01]
+ [ 1.24193382e+00]
+ [ 7.89669418e+01]
+ [-2.38535274e-02]
+ [ 1.00710648e+02]
+ [ 6.46493077e-01]
+ [ 8.80596008e+01]
+ [ 3.35416579e+00]
+ [ 1.12300476e+02]
+ [ 9.57028961e+00]]
+now():2021-08-28 22:04:03.975817
+Train Epoch: 6 Batch: 2000 total cost: -0.004585477 pred score distance: 0.906843858 vt cost: 0.180451676 postive score: 76.834063296 negative score: 47.782745839 accurancy: .0.757879125 auc: .0.968112718
+Epoch: 6 finished Best accurancy: 0.765295 Best auc: 0.969967 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 76.39198 ]
+ [ 57.4696  ]
+ [ 49.368717]
+ [ 64.73948 ]
+ [ 95.65429 ]
+ [ 60.325798]
+ [ 39.176785]
+ [ 94.86061 ]
+ [ 94.83732 ]
+ [ 53.158344]
+ [ 59.095787]
+ [ 87.43476 ]
+ [115.48019 ]
+ [ 60.518223]
+ [ 86.76175 ]
+ [ 64.31703 ]]
+[[ 4.8145454e+01]
+ [-1.0272402e-01]
+ [ 8.7024612e+01]
+ [-6.9637984e-02]
+ [ 7.2241142e+01]
+ [-3.5909016e-02]
+ [ 7.4177597e+01]
+ [ 4.3521656e+01]
+ [ 7.6391983e+01]
+ [ 6.3219202e-01]
+ [ 9.5654289e+01]
+ [ 7.6441016e+00]
+ [ 9.4837318e+01]
+ [ 2.6450222e+00]
+ [ 1.1548019e+02]
+ [ 1.1388499e+01]]
+now():2021-08-28 22:22:38.849937
+Train Epoch: 6 Batch: 4000 total cost: -0.005951081 pred score distance: 0.906757313 vt cost: 0.180161247 postive score: 76.232893968 negative score: 47.055450385 accurancy: .0.754171301 auc: .0.965146459
+Epoch: 6 finished Best accurancy: 0.765295 Best auc: 0.969967 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 84.409164]
+ [ 41.284046]
+ [ 27.929857]
+ [ 46.91943 ]
+ [118.37786 ]
+ [ 59.45424 ]
+ [ 76.45481 ]
+ [ 99.69339 ]
+ [ 94.433266]
+ [ 35.465664]
+ [ 55.530468]
+ [ 40.088894]
+ [110.3372  ]
+ [ 64.01416 ]
+ [ 59.439384]
+ [ 67.14331 ]]
+[[ 5.39858398e+01]
+ [ 1.34031105e+01]
+ [ 9.07823639e+01]
+ [ 8.18419743e+00]
+ [ 6.83047333e+01]
+ [-6.84080124e-02]
+ [ 7.44102783e+01]
+ [-6.16265945e-02]
+ [ 8.44091644e+01]
+ [ 5.37441921e+00]
+ [ 1.18377861e+02]
+ [ 5.81655931e+00]
+ [ 9.44332657e+01]
+ [ 2.98927135e+01]
+ [ 1.10337196e+02]
+ [-7.22140744e-02]]
+now():2021-08-28 22:40:58.079088
+Train Epoch: 6 Batch: 6000 total cost: -0.007137545 pred score distance: 0.906464147 vt cost: 0.179865320 postive score: 76.768560736 negative score: 47.443077804 accurancy: .0.752317390 auc: .0.963663330
+Epoch: 6 finished Best accurancy: 0.765295 Best auc: 0.969967 Best epoch: 4
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 86.92244 ]
+ [ 65.22583 ]
+ [ 62.616623]
+ [ 68.8615  ]
+ [110.263374]
+ [ 59.785954]
+ [127.80349 ]
+ [ 67.69117 ]
+ [102.656136]
+ [ 67.063095]
+ [ 54.82349 ]
+ [ 67.434044]
+ [111.0898  ]
+ [ 85.9918  ]
+ [ 79.372536]
+ [ 74.49997 ]]
+[[ 5.43772697e+01]
+ [-8.68282616e-02]
+ [ 8.92202682e+01]
+ [-1.30880624e-01]
+ [ 7.91641617e+01]
+ [ 1.54069388e+00]
+ [ 7.49545593e+01]
+ [ 4.03157663e+00]
+ [ 8.69224396e+01]
+ [ 1.06782532e+01]
+ [ 1.10263374e+02]
+ [ 1.31835496e+00]
+ [ 1.02656136e+02]
+ [ 7.78314471e-01]
+ [ 1.11089798e+02]
+ [-5.13177104e-02]]
+now():2021-08-28 22:59:27.880480
+Train Epoch: 6 Batch: 8000 total cost: -0.008282170 pred score distance: 0.907221343 vt cost: 0.179787835 postive score: 77.415284916 negative score: 47.821565017 accurancy: .0.767148684 auc: .0.965146459
+Epoch: 6 finished Best accurancy: 0.767149 Best auc: 0.969967 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 6 finished total cost: -0.008466638 pred score distance: 0.907265292 vt cost: 0.179759731 postive score: 77.598640639 negative score: 47.931252748
+Epoch: 6 finished Best accurancy: 0.767149 Best auc: 0.969967 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 89.21621 ]
+ [ 40.0675  ]
+ [ 26.462217]
+ [ 20.20125 ]
+ [111.39736 ]
+ [ 64.2859  ]
+ [ 51.137486]
+ [ 59.560383]
+ [103.01349 ]
+ [ 64.32496 ]
+ [ 50.77483 ]
+ [ 64.15221 ]
+ [109.36735 ]
+ [ 95.05826 ]
+ [ 89.13218 ]
+ [ 60.397438]]
+[[ 5.3845806e+01]
+ [-2.5678994e-02]
+ [ 9.0171471e+01]
+ [ 1.3749141e+00]
+ [ 8.1766388e+01]
+ [ 7.2578788e+00]
+ [ 8.3136978e+01]
+ [-3.3915699e-02]
+ [ 8.9216209e+01]
+ [-3.6181387e-02]
+ [ 1.1139736e+02]
+ [ 8.6589569e-01]
+ [ 1.0301349e+02]
+ [ 1.7098082e+00]
+ [ 1.0936735e+02]
+ [-6.6392414e-02]]
+Test Epoch: 6 accuracy: 0.744901743 auc: 0.968112718
+now():2021-08-28 23:05:44.684031
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 6 finished Best accurancy: 0.767149 Best auc: 0.969967 Best epoch: 6
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 89.23141 ]
+ [ 77.00289 ]
+ [ 66.615295]
+ [ 55.390182]
+ [111.295685]
+ [ 39.464592]
+ [ 57.421383]
+ [ 49.80327 ]
+ [103.02606 ]
+ [ 46.76915 ]
+ [ 34.286613]
+ [ 58.702213]
+ [109.37464 ]
+ [ 61.101933]
+ [ 54.336132]
+ [105.18185 ]]
+[[ 5.37806625e+01]
+ [-4.99300137e-02]
+ [ 9.01667633e+01]
+ [ 4.53508606e+01]
+ [ 8.18016205e+01]
+ [-6.00950755e-02]
+ [ 8.31988983e+01]
+ [-8.88090283e-02]
+ [ 8.92314072e+01]
+ [ 1.96724355e+00]
+ [ 1.11295685e+02]
+ [-1.13441478e-02]
+ [ 1.03026062e+02]
+ [-4.65561636e-02]
+ [ 1.09374641e+02]
+ [ 3.74412441e+00]]
+now():2021-08-28 23:08:09.345983
+Train Epoch: 7 Batch: 0 total cost: 0.028036535 pred score distance: 0.936908722 vt cost: 0.192989051 postive score: 88.167663574 negative score: 62.570552826 accurancy: .0.748609566 auc: .0.965517241
+Epoch: 7 finished Best accurancy: 0.767149 Best auc: 0.969967 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 90.62901 ]
+ [ 27.867079]
+ [ 24.599354]
+ [ 29.120615]
+ [102.14202 ]
+ [105.26534 ]
+ [ 90.124916]
+ [ 84.41405 ]
+ [102.53013 ]
+ [ 68.22535 ]
+ [ 39.996502]
+ [ 65.53736 ]
+ [113.61247 ]
+ [ 23.704483]
+ [ 32.80717 ]
+ [ 42.697594]]
+[[ 5.6959072e+01]
+ [ 1.2550036e+01]
+ [ 9.2926498e+01]
+ [-8.2259342e-02]
+ [ 8.6983444e+01]
+ [ 2.2731842e+01]
+ [ 9.1507645e+01]
+ [-5.3104386e-02]
+ [ 9.0629013e+01]
+ [-4.6617586e-02]
+ [ 1.0214202e+02]
+ [ 1.8987522e+00]
+ [ 1.0253013e+02]
+ [ 2.5408938e+00]
+ [ 1.1361247e+02]
+ [ 1.1884374e+01]]
+now():2021-08-28 23:26:33.402496
+Train Epoch: 7 Batch: 2000 total cost: -0.008668649 pred score distance: 0.908747296 vt cost: 0.180015729 postive score: 82.767226695 negative score: 51.707801751 accurancy: .0.755283648 auc: .0.963292547
+Epoch: 7 finished Best accurancy: 0.767149 Best auc: 0.969967 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 93.090355]
+ [ 64.87109 ]
+ [ 43.319576]
+ [ 42.727818]
+ [ 97.21757 ]
+ [ 67.84748 ]
+ [ 87.827   ]
+ [ 35.949474]
+ [ 97.35009 ]
+ [ 51.81758 ]
+ [ 42.353798]
+ [ 37.79171 ]
+ [115.83285 ]
+ [ 80.11978 ]
+ [ 92.774155]
+ [ 60.85834 ]]
+[[ 5.3757984e+01]
+ [ 3.8880581e+01]
+ [ 1.0132645e+02]
+ [ 3.2969058e+00]
+ [ 8.4488220e+01]
+ [-9.8709270e-02]
+ [ 6.8376534e+01]
+ [ 6.9082651e+00]
+ [ 9.3090355e+01]
+ [-2.7716514e-02]
+ [ 9.7217567e+01]
+ [-1.0509546e-01]
+ [ 9.7350090e+01]
+ [-7.2653949e-02]
+ [ 1.1583285e+02]
+ [ 1.2562759e+01]]
+now():2021-08-28 23:45:05.640420
+Train Epoch: 7 Batch: 4000 total cost: -0.010425500 pred score distance: 0.910315447 vt cost: 0.179977989 postive score: 82.513650911 negative score: 50.916241313 accurancy: .0.749351131 auc: .0.966629588
+Epoch: 7 finished Best accurancy: 0.767149 Best auc: 0.969967 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 91.68711 ]
+ [ 76.12634 ]
+ [ 48.38558 ]
+ [ 42.79454 ]
+ [119.28616 ]
+ [ 86.078514]
+ [ 51.867096]
+ [ 72.7792  ]
+ [ 87.87955 ]
+ [ 81.4316  ]
+ [ 35.627445]
+ [ 58.795895]
+ [110.3446  ]
+ [ 55.813023]
+ [103.49412 ]
+ [ 40.101826]]
+[[ 6.2010960e+01]
+ [-6.4142101e-02]
+ [ 9.0706871e+01]
+ [ 3.4856704e-01]
+ [ 7.7160027e+01]
+ [ 8.6659584e+00]
+ [ 7.0931435e+01]
+ [ 3.0433240e+00]
+ [ 9.1687111e+01]
+ [ 8.3613214e+00]
+ [ 1.1928616e+02]
+ [-9.4631806e-02]
+ [ 8.7879547e+01]
+ [ 1.4093677e+00]
+ [ 1.1034460e+02]
+ [-9.0904996e-02]]
+now():2021-08-29 00:03:32.914361
+Train Epoch: 7 Batch: 6000 total cost: -0.011371656 pred score distance: 0.909228430 vt cost: 0.179571355 postive score: 82.272192889 negative score: 50.536405239 accurancy: .0.766407119 auc: .0.965146459
+Epoch: 7 finished Best accurancy: 0.767149 Best auc: 0.969967 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 93.23006 ]
+ [ 55.28783 ]
+ [ 29.280718]
+ [ 35.371433]
+ [111.61883 ]
+ [ 61.977352]
+ [ 38.157852]
+ [ 77.95654 ]
+ [ 94.24928 ]
+ [ 72.99991 ]
+ [ 91.30366 ]
+ [104.94709 ]
+ [105.916115]
+ [ 77.33141 ]
+ [ 86.52628 ]
+ [ 82.78417 ]]
+[[ 5.43552895e+01]
+ [-7.28859231e-02]
+ [ 9.38781891e+01]
+ [-6.86035603e-02]
+ [ 8.26139908e+01]
+ [ 1.21247423e+00]
+ [ 5.69052048e+01]
+ [ 5.14890671e-01]
+ [ 9.32300568e+01]
+ [ 4.24486685e+00]
+ [ 1.11618828e+02]
+ [ 4.43977261e+00]
+ [ 9.42492828e+01]
+ [ 8.78509235e+00]
+ [ 1.05916115e+02]
+ [-6.46336675e-02]]
+now():2021-08-29 00:22:03.608995
+Train Epoch: 7 Batch: 8000 total cost: -0.010978512 pred score distance: 0.909007921 vt cost: 0.179605882 postive score: 81.390439329 negative score: 49.679320071 accurancy: .0.751575825 auc: .0.970337412
+Epoch: 7 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 7 finished total cost: -0.011011565 pred score distance: 0.908911286 vt cost: 0.179579944 postive score: 81.295515836 negative score: 49.613849373
+Epoch: 7 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 90.62838 ]
+ [ 36.491837]
+ [ 27.052313]
+ [ 22.70386 ]
+ [114.72085 ]
+ [ 86.69632 ]
+ [ 49.65303 ]
+ [ 34.06096 ]
+ [ 96.36907 ]
+ [ 60.250103]
+ [ 45.18006 ]
+ [ 58.580055]
+ [109.731255]
+ [ 54.493496]
+ [ 43.336163]
+ [ 44.582405]]
+[[ 5.94312744e+01]
+ [ 1.01550045e+01]
+ [ 8.93448410e+01]
+ [ 1.24819145e+01]
+ [ 7.74280014e+01]
+ [ 3.21375504e+01]
+ [ 5.87590065e+01]
+ [ 1.65871847e+00]
+ [ 9.06283798e+01]
+ [-8.12493637e-02]
+ [ 1.14720848e+02]
+ [ 6.07395697e+00]
+ [ 9.63690720e+01]
+ [ 2.10923143e-02]
+ [ 1.09731255e+02]
+ [ 9.08384860e-01]]
+Test Epoch: 7 accuracy: 0.760845384 auc: 0.965146459
+now():2021-08-29 00:28:21.717518
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 7 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 90.599174]
+ [ 86.00284 ]
+ [ 57.210224]
+ [ 33.208633]
+ [114.55755 ]
+ [ 60.120678]
+ [ 94.00949 ]
+ [ 53.443375]
+ [ 96.35782 ]
+ [ 58.45835 ]
+ [ 57.157234]
+ [ 59.28052 ]
+ [109.647354]
+ [ 71.00481 ]
+ [108.3848  ]
+ [125.42086 ]]
+[[ 5.93610229e+01]
+ [-2.19769515e-02]
+ [ 8.92907410e+01]
+ [ 1.33196974e+00]
+ [ 7.73172150e+01]
+ [ 8.61677825e-01]
+ [ 5.86764259e+01]
+ [ 1.89236259e+00]
+ [ 9.05991745e+01]
+ [ 1.54165971e+00]
+ [ 1.14557549e+02]
+ [ 1.20238829e+00]
+ [ 9.63578186e+01]
+ [ 7.28756256e+01]
+ [ 1.09647354e+02]
+ [-4.70158234e-02]]
+now():2021-08-29 00:30:46.031445
+Train Epoch: 8 Batch: 0 total cost: -0.176268220 pred score distance: 0.997390807 vt cost: 0.164224520 postive score: 90.954528809 negative score: 57.206455231 accurancy: .0.750463478 auc: .0.968483500
+Epoch: 8 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 90.618286]
+ [ 13.755322]
+ [ 37.602905]
+ [ 43.53344 ]
+ [121.896675]
+ [ 79.49491 ]
+ [ 90.911316]
+ [ 91.56213 ]
+ [ 97.0271  ]
+ [ 49.37196 ]
+ [ 39.738155]
+ [ 33.141685]
+ [ 97.31231 ]
+ [ 49.374916]
+ [ 38.541634]
+ [ 59.948647]]
+[[ 5.54970016e+01]
+ [ 2.23677492e+00]
+ [ 9.58653870e+01]
+ [-7.87179619e-02]
+ [ 8.86690674e+01]
+ [ 5.50962746e-01]
+ [ 6.55803757e+01]
+ [ 3.66848636e+00]
+ [ 9.06182861e+01]
+ [ 1.32863340e+01]
+ [ 1.21896675e+02]
+ [ 7.59071827e+00]
+ [ 9.70270996e+01]
+ [ 2.52914786e+00]
+ [ 9.73123093e+01]
+ [ 1.06204376e+01]]
+now():2021-08-29 00:49:13.441299
+Train Epoch: 8 Batch: 2000 total cost: -0.005772728 pred score distance: 0.907058657 vt cost: 0.180257186 postive score: 83.019972449 negative score: 51.027189983 accurancy: .0.757137560 auc: .0.963663330
+Epoch: 8 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 97.03887 ]
+ [ 87.41463 ]
+ [ 67.24191 ]
+ [ 64.09279 ]
+ [112.76913 ]
+ [108.10041 ]
+ [ 49.13749 ]
+ [ 16.92042 ]
+ [100.513275]
+ [ 46.840202]
+ [ 49.154552]
+ [ 77.34694 ]
+ [ 99.59765 ]
+ [ 85.581726]
+ [102.237785]
+ [ 36.103413]]
+[[ 5.96449318e+01]
+ [ 6.62841916e-01]
+ [ 1.08640572e+02]
+ [ 4.04066849e+00]
+ [ 9.15465698e+01]
+ [ 1.67551684e+00]
+ [ 6.53699875e+01]
+ [ 1.92275982e+01]
+ [ 9.70388718e+01]
+ [ 4.66087294e+00]
+ [ 1.12769127e+02]
+ [ 2.22115707e+01]
+ [ 1.00513275e+02]
+ [-7.53377602e-02]
+ [ 9.95976486e+01]
+ [ 1.44362003e-01]]
+now():2021-08-29 01:07:43.653917
+Train Epoch: 8 Batch: 4000 total cost: -0.009416843 pred score distance: 0.910461473 vt cost: 0.180208926 postive score: 84.190124117 negative score: 51.728294800 accurancy: .0.764923990 auc: .0.967741935
+Epoch: 8 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 91.68767 ]
+ [ 63.714798]
+ [ 84.70773 ]
+ [ 44.867233]
+ [112.510414]
+ [123.98536 ]
+ [ 96.253136]
+ [ 73.99799 ]
+ [ 92.54463 ]
+ [ 59.201626]
+ [ 41.98133 ]
+ [ 40.457302]
+ [100.651344]
+ [ 88.76936 ]
+ [ 50.52038 ]
+ [ 47.780342]]
+[[ 61.834496 ]
+ [ 13.752291 ]
+ [127.30219  ]
+ [  0.9987882]
+ [ 81.05639  ]
+ [  4.6935062]
+ [ 70.60524  ]
+ [ 15.959016 ]
+ [ 91.68767  ]
+ [  4.0545306]
+ [112.510414 ]
+ [ 12.041058 ]
+ [ 92.54463  ]
+ [  3.8428214]
+ [100.651344 ]
+ [  1.3002112]]
+now():2021-08-29 01:26:11.703602
+Train Epoch: 8 Batch: 6000 total cost: -0.010152178 pred score distance: 0.910538770 vt cost: 0.180077318 postive score: 85.090944733 negative score: 52.446151960 accurancy: .0.751575825 auc: .0.970337412
+Epoch: 8 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 86.849815]
+ [ 65.07672 ]
+ [ 63.598053]
+ [ 57.062523]
+ [116.70576 ]
+ [ 79.31119 ]
+ [111.525665]
+ [ 73.57891 ]
+ [ 90.169044]
+ [ 45.293495]
+ [ 49.50679 ]
+ [ 72.5834  ]
+ [106.60229 ]
+ [ 73.12181 ]
+ [ 58.47589 ]
+ [ 66.66719 ]]
+[[ 5.2967155e+01]
+ [ 9.2535610e+00]
+ [ 1.1158332e+02]
+ [ 6.9889708e+00]
+ [ 8.3465500e+01]
+ [-9.0892315e-02]
+ [ 6.2562973e+01]
+ [-9.3050152e-02]
+ [ 8.6849815e+01]
+ [ 2.8699455e+01]
+ [ 1.1670576e+02]
+ [ 1.7355908e+00]
+ [ 9.0169044e+01]
+ [ 9.3898182e+00]
+ [ 1.0660229e+02]
+ [ 4.0452251e+00]]
+now():2021-08-29 01:44:37.589564
+Train Epoch: 8 Batch: 8000 total cost: -0.011122119 pred score distance: 0.910606548 vt cost: 0.179896886 postive score: 84.804262653 negative score: 52.159337396 accurancy: .0.760103819 auc: .0.969595847
+Epoch: 8 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 8 finished total cost: -0.010561698 pred score distance: 0.910398967 vt cost: 0.179967454 postive score: 84.573538166 negative score: 51.964836110
+Epoch: 8 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 89.69429 ]
+ [ 26.829659]
+ [ 43.203247]
+ [ 23.442099]
+ [115.8736  ]
+ [ 44.14156 ]
+ [ 35.69588 ]
+ [ 40.354103]
+ [ 89.67745 ]
+ [ 50.88614 ]
+ [ 35.416138]
+ [ 50.149345]
+ [111.29833 ]
+ [ 67.8407  ]
+ [ 62.214184]
+ [125.160065]]
+[[ 5.83051033e+01]
+ [-5.65957911e-02]
+ [ 1.09172264e+02]
+ [ 5.02569564e-02]
+ [ 9.03755264e+01]
+ [-4.09185328e-02]
+ [ 6.63001785e+01]
+ [-7.80141726e-02]
+ [ 8.96942902e+01]
+ [ 3.76832867e+00]
+ [ 1.15873596e+02]
+ [ 9.47516024e-01]
+ [ 8.96774521e+01]
+ [ 2.30685115e+00]
+ [ 1.11298332e+02]
+ [ 2.07534599e+01]]
+Test Epoch: 8 accuracy: 0.767148684 auc: 0.965517241
+now():2021-08-29 01:50:55.204410
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 8 finished Best accurancy: 0.767149 Best auc: 0.970337 Best epoch: 6
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 89.69059 ]
+ [ 69.04484 ]
+ [ 58.66716 ]
+ [ 66.01663 ]
+ [115.87092 ]
+ [ 19.900608]
+ [ 31.337023]
+ [ 55.546223]
+ [ 89.67775 ]
+ [ 87.175224]
+ [ 50.888012]
+ [ 41.765892]
+ [111.283966]
+ [ 75.09878 ]
+ [ 65.53827 ]
+ [ 33.58244 ]]
+[[ 5.83051567e+01]
+ [ 8.01063955e-01]
+ [ 1.09176361e+02]
+ [-6.46409243e-02]
+ [ 9.03768768e+01]
+ [ 2.46806812e+00]
+ [ 6.62970123e+01]
+ [-1.54180050e-01]
+ [ 8.96905899e+01]
+ [-8.23466703e-02]
+ [ 1.15870918e+02]
+ [ 1.38324270e+01]
+ [ 8.96777496e+01]
+ [ 8.64350700e+00]
+ [ 1.11283966e+02]
+ [-5.72722033e-02]]
+now():2021-08-29 01:53:19.816173
+Train Epoch: 9 Batch: 0 total cost: -0.195961356 pred score distance: 0.999982655 vt cost: 0.160804257 postive score: 99.979370117 negative score: 51.448757172 accurancy: .0.771598072 auc: .0.965888024
+Epoch: 9 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 99.11394 ]
+ [ 74.48254 ]
+ [104.449005]
+ [ 80.28801 ]
+ [134.96169 ]
+ [ 53.99153 ]
+ [ 71.11966 ]
+ [ 68.3286  ]
+ [ 86.96899 ]
+ [ 79.10008 ]
+ [ 37.34162 ]
+ [ 69.0069  ]
+ [109.028175]
+ [ 39.52497 ]
+ [ 31.78167 ]
+ [ 34.812756]]
+[[ 6.16922531e+01]
+ [ 1.43165245e+01]
+ [ 1.11149536e+02]
+ [ 1.49077857e+00]
+ [ 9.19979858e+01]
+ [-9.76312906e-02]
+ [ 7.58049850e+01]
+ [ 2.35749698e+00]
+ [ 9.91139374e+01]
+ [ 8.08189809e-01]
+ [ 1.34961685e+02]
+ [ 5.19256890e-01]
+ [ 8.69689865e+01]
+ [ 1.41264267e+01]
+ [ 1.09028175e+02]
+ [-4.55193147e-02]]
+now():2021-08-29 02:11:45.767717
+Train Epoch: 9 Batch: 2000 total cost: -0.010980173 pred score distance: 0.911283151 vt cost: 0.180060596 postive score: 87.538774612 negative score: 53.850695223 accurancy: .0.761957731 auc: .0.968112718
+Epoch: 9 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 91.842155]
+ [ 54.645317]
+ [ 67.11934 ]
+ [ 74.77281 ]
+ [109.107735]
+ [ 51.230286]
+ [ 66.0499  ]
+ [ 60.634586]
+ [ 91.32479 ]
+ [ 27.359037]
+ [ 48.043873]
+ [ 13.13227 ]
+ [104.88769 ]
+ [ 56.780033]
+ [ 48.47536 ]
+ [ 97.79343 ]]
+[[ 6.26398430e+01]
+ [ 2.22321568e+01]
+ [ 7.40545349e+01]
+ [-8.10723081e-02]
+ [ 8.93344955e+01]
+ [ 4.63250458e-01]
+ [ 9.16140976e+01]
+ [ 8.79903376e-01]
+ [ 9.18421555e+01]
+ [ 7.71774724e-02]
+ [ 1.09107735e+02]
+ [ 4.27187538e+01]
+ [ 9.13247910e+01]
+ [ 3.21709180e+00]
+ [ 1.04887688e+02]
+ [ 4.28388748e+01]]
+now():2021-08-29 02:30:08.360905
+Train Epoch: 9 Batch: 4000 total cost: -0.012483652 pred score distance: 0.912753027 vt cost: 0.180053875 postive score: 87.601705362 negative score: 53.904124261 accurancy: .0.758991472 auc: .0.962180200
+Epoch: 9 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 97.331024]
+ [ 92.82842 ]
+ [ 89.94414 ]
+ [ 74.47218 ]
+ [131.48296 ]
+ [ 32.92683 ]
+ [ 78.63911 ]
+ [ 47.952774]
+ [ 89.99388 ]
+ [ 77.231575]
+ [ 44.02604 ]
+ [ 47.642807]
+ [109.36617 ]
+ [ 65.158585]
+ [ 53.729744]
+ [ 81.278946]]
+[[ 68.81267   ]
+ [  1.6446385 ]
+ [ 91.413956  ]
+ [  0.77660745]
+ [ 90.426636  ]
+ [ 12.384256  ]
+ [ 76.958565  ]
+ [ 10.363375  ]
+ [ 97.331024  ]
+ [ 36.123528  ]
+ [131.48296   ]
+ [  8.006036  ]
+ [ 89.99388   ]
+ [  3.1482577 ]
+ [109.36617   ]
+ [  2.1983519 ]]
+now():2021-08-29 02:48:40.408676
+Train Epoch: 9 Batch: 6000 total cost: -0.013648068 pred score distance: 0.912662239 vt cost: 0.179802834 postive score: 87.602449193 negative score: 53.841733710 accurancy: .0.751205043 auc: .0.964034112
+Epoch: 9 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 93.904854]
+ [ 66.089554]
+ [ 91.45943 ]
+ [ 48.60767 ]
+ [124.12387 ]
+ [ 93.5365  ]
+ [102.87508 ]
+ [ 63.164898]
+ [ 99.99908 ]
+ [ 55.316822]
+ [ 69.585686]
+ [ 52.312485]
+ [111.78655 ]
+ [ 56.096035]
+ [ 56.604603]
+ [ 35.201683]]
+[[ 6.0766266e+01]
+ [-4.2411566e-02]
+ [ 9.8997704e+01]
+ [ 4.1853981e+00]
+ [ 9.0719414e+01]
+ [ 9.3721533e+00]
+ [ 6.3600899e+01]
+ [-9.0841807e-02]
+ [ 9.3904854e+01]
+ [ 8.8421479e-02]
+ [ 1.2412387e+02]
+ [ 1.6599297e+01]
+ [ 9.9999077e+01]
+ [-5.7936262e-02]
+ [ 1.1178655e+02]
+ [-8.5796945e-02]]
+now():2021-08-29 03:07:01.909593
+Train Epoch: 9 Batch: 8000 total cost: -0.014920754 pred score distance: 0.912718613 vt cost: 0.179559572 postive score: 87.483956685 negative score: 53.561642066 accurancy: .0.763070078 auc: .0.965146459
+Epoch: 9 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 9 finished total cost: -0.014211608 pred score distance: 0.912509184 vt cost: 0.179659515 postive score: 87.262457338 negative score: 53.367674031
+Epoch: 9 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 96.21173 ]
+ [ 80.461426]
+ [ 71.55721 ]
+ [ 36.597263]
+ [128.72357 ]
+ [ 53.581394]
+ [103.72062 ]
+ [128.72195 ]
+ [ 97.85655 ]
+ [ 57.164383]
+ [ 76.905754]
+ [ 72.08617 ]
+ [111.30359 ]
+ [ 50.918293]
+ [ 56.66691 ]
+ [ 47.864616]]
+[[ 6.47520142e+01]
+ [ 4.69255924e+00]
+ [ 8.61952972e+01]
+ [-4.16437797e-02]
+ [ 9.16179810e+01]
+ [-4.87930104e-02]
+ [ 5.53235092e+01]
+ [ 1.47326505e+00]
+ [ 9.62117310e+01]
+ [ 1.07026644e-01]
+ [ 1.28723572e+02]
+ [ 8.17219079e-01]
+ [ 9.78565521e+01]
+ [-4.97632846e-02]
+ [ 1.11303589e+02]
+ [ 2.83775982e-02]]
+Test Epoch: 9 accuracy: 0.743789396 auc: 0.962921765
+now():2021-08-29 03:13:19.827470
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 9 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 96.24666 ]
+ [ 57.325195]
+ [ 41.067295]
+ [ 57.726627]
+ [128.73798 ]
+ [ 39.05005 ]
+ [ 26.013748]
+ [ 68.97515 ]
+ [ 97.54778 ]
+ [ 34.16879 ]
+ [ 33.65282 ]
+ [ 38.67548 ]
+ [111.10771 ]
+ [ 55.595844]
+ [ 32.23246 ]
+ [ 62.41251 ]]
+[[ 6.4656509e+01]
+ [-4.3079413e-02]
+ [ 8.6204544e+01]
+ [-7.9333879e-02]
+ [ 9.1576805e+01]
+ [ 1.3373591e+00]
+ [ 5.5194138e+01]
+ [-8.6833082e-02]
+ [ 9.6246658e+01]
+ [ 2.1459706e+00]
+ [ 1.2873798e+02]
+ [ 2.0108509e+01]
+ [ 9.7547783e+01]
+ [ 5.4829397e+00]
+ [ 1.1110771e+02]
+ [ 2.5881896e+00]]
+now():2021-08-29 03:15:47.524173
+Train Epoch: 10 Batch: 0 total cost: -0.316570878 pred score distance: 0.998051405 vt cost: 0.136296108 postive score: 101.839248657 negative score: 51.853820801 accurancy: .0.756025213 auc: .0.965517241
+Epoch: 10 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 95.88081 ]
+ [ 60.666462]
+ [ 60.36319 ]
+ [ 36.7566  ]
+ [114.12049 ]
+ [ 33.470215]
+ [ 39.808002]
+ [ 58.017273]
+ [115.35956 ]
+ [ 40.991573]
+ [ 52.987003]
+ [ 62.770664]
+ [107.57306 ]
+ [ 74.69635 ]
+ [ 94.78364 ]
+ [108.297264]]
+[[ 5.9797222e+01]
+ [-3.4317300e-02]
+ [ 1.0544707e+02]
+ [-1.0620880e-01]
+ [ 8.8953514e+01]
+ [ 1.3941221e+01]
+ [ 6.3071190e+01]
+ [-9.3345158e-02]
+ [ 9.5880814e+01]
+ [ 3.5099561e+00]
+ [ 1.1412049e+02]
+ [ 2.1187084e+01]
+ [ 1.1535956e+02]
+ [-8.6178422e-02]
+ [ 1.0757306e+02]
+ [ 2.6566475e+01]]
+now():2021-08-29 03:34:04.153563
+Train Epoch: 10 Batch: 2000 total cost: -0.011069903 pred score distance: 0.911891965 vt cost: 0.180164413 postive score: 85.431282450 negative score: 50.986898916 accurancy: .0.743047831 auc: .0.969595847
+Epoch: 10 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 94.17686 ]
+ [ 54.48305 ]
+ [ 42.45861 ]
+ [ 60.455486]
+ [ 96.74936 ]
+ [ 62.105698]
+ [102.81583 ]
+ [ 78.35283 ]
+ [109.1367  ]
+ [ 47.723507]
+ [ 47.822315]
+ [ 56.312847]
+ [112.74834 ]
+ [119.08445 ]
+ [ 65.178696]
+ [ 47.3993  ]]
+[[ 5.77275200e+01]
+ [-5.82695641e-02]
+ [ 9.24211044e+01]
+ [ 1.58479238e+00]
+ [ 8.75817947e+01]
+ [ 3.18850064e+00]
+ [ 5.75749435e+01]
+ [ 1.38780642e+00]
+ [ 9.41768570e+01]
+ [ 2.72584963e+00]
+ [ 9.67493591e+01]
+ [ 2.36923218e+00]
+ [ 1.09136703e+02]
+ [ 5.35896397e+00]
+ [ 1.12748337e+02]
+ [ 1.25150175e+01]]
+now():2021-08-29 03:52:24.547887
+Train Epoch: 10 Batch: 4000 total cost: -0.011683108 pred score distance: 0.912363872 vt cost: 0.180136153 postive score: 85.301496697 negative score: 50.624049705 accurancy: .0.766407119 auc: .0.967000371
+Epoch: 10 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 93.68996 ]
+ [ 87.79171 ]
+ [ 76.845   ]
+ [ 85.72018 ]
+ [ 90.90209 ]
+ [ 88.805084]
+ [ 72.58383 ]
+ [ 53.00972 ]
+ [100.30135 ]
+ [ 73.03703 ]
+ [ 82.91285 ]
+ [ 33.34621 ]
+ [122.02346 ]
+ [ 92.39427 ]
+ [104.28863 ]
+ [ 91.6929  ]]
+[[ 5.5466236e+01]
+ [ 1.5348487e+00]
+ [ 7.5649788e+01]
+ [-1.2758449e-01]
+ [ 7.6286942e+01]
+ [ 6.2254786e+00]
+ [ 5.5839607e+01]
+ [ 4.4407177e-01]
+ [ 9.3689957e+01]
+ [ 1.2425432e+00]
+ [ 9.0902092e+01]
+ [ 1.6101345e+01]
+ [ 1.0030135e+02]
+ [ 1.5506425e+01]
+ [ 1.2202346e+02]
+ [-2.7083691e-02]]
+now():2021-08-29 04:10:49.055179
+Train Epoch: 10 Batch: 6000 total cost: -0.012586269 pred score distance: 0.911824038 vt cost: 0.179847554 postive score: 85.065711119 negative score: 50.727441217 accurancy: .0.758249907 auc: .0.961809418
+Epoch: 10 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 91.82614 ]
+ [ 30.616915]
+ [ 73.337074]
+ [ 28.313103]
+ [103.10107 ]
+ [ 95.31197 ]
+ [ 57.74348 ]
+ [100.22151 ]
+ [113.95649 ]
+ [ 27.599863]
+ [ 50.28046 ]
+ [ 36.0722  ]
+ [121.12207 ]
+ [ 50.75124 ]
+ [ 58.73304 ]
+ [ 72.68126 ]]
+[[ 6.1216125e+01]
+ [-8.1050597e-02]
+ [ 8.6865005e+01]
+ [ 3.1940883e-01]
+ [ 9.8510780e+01]
+ [-6.5726191e-02]
+ [ 8.1545540e+01]
+ [ 9.2163974e-01]
+ [ 9.1826141e+01]
+ [-8.7347373e-02]
+ [ 1.0310107e+02]
+ [ 2.4724276e+00]
+ [ 1.1395649e+02]
+ [-1.2573202e-01]
+ [ 1.2112207e+02]
+ [ 1.8210510e+00]]
+now():2021-08-29 04:29:17.797291
+Train Epoch: 10 Batch: 8000 total cost: -0.014098229 pred score distance: 0.912212301 vt cost: 0.179622814 postive score: 85.189097366 negative score: 50.806724116 accurancy: .0.753429737 auc: .0.962180200
+Epoch: 10 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 10 finished total cost: -0.013534731 pred score distance: 0.912021678 vt cost: 0.179697389 postive score: 85.208087443 negative score: 50.784766084
+Epoch: 10 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 92.75933 ]
+ [104.33258 ]
+ [ 75.900314]
+ [ 75.721085]
+ [ 92.559715]
+ [ 66.30317 ]
+ [ 27.20386 ]
+ [ 43.359394]
+ [109.12086 ]
+ [ 76.46308 ]
+ [ 63.73065 ]
+ [ 59.088467]
+ [122.56906 ]
+ [124.413666]
+ [103.76478 ]
+ [ 47.488895]]
+[[ 5.6295799e+01]
+ [ 1.2547075e+00]
+ [ 8.3173386e+01]
+ [ 5.5263205e+00]
+ [ 1.0123498e+02]
+ [ 8.7093878e+00]
+ [ 8.3278992e+01]
+ [-1.2519057e-01]
+ [ 9.2759331e+01]
+ [ 6.3947945e+00]
+ [ 9.2559715e+01]
+ [ 1.0512185e+01]
+ [ 1.0912086e+02]
+ [ 3.0886252e+00]
+ [ 1.2256906e+02]
+ [-1.0729951e-01]]
+Test Epoch: 10 accuracy: 0.758249907 auc: 0.966629588
+now():2021-08-29 04:35:36.787998
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 10 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 92.75676 ]
+ [ 62.397415]
+ [ 22.287857]
+ [ 39.976273]
+ [ 92.557785]
+ [ 42.565342]
+ [ 60.308113]
+ [ 72.18612 ]
+ [109.12086 ]
+ [ 91.805504]
+ [112.46991 ]
+ [ 96.994804]
+ [122.567726]
+ [ 73.46217 ]
+ [ 74.06703 ]
+ [ 61.37898 ]]
+[[ 5.62938232e+01]
+ [-4.55864146e-02]
+ [ 8.31733856e+01]
+ [-7.83485770e-02]
+ [ 1.01233887e+02]
+ [ 3.35357704e+01]
+ [ 8.32753143e+01]
+ [-1.12062842e-01]
+ [ 9.27567596e+01]
+ [-4.05966863e-02]
+ [ 9.25577850e+01]
+ [ 5.58246183e+00]
+ [ 1.09120857e+02]
+ [-6.94881231e-02]
+ [ 1.22567726e+02]
+ [-1.01671189e-01]]
+now():2021-08-29 04:38:01.724120
+Train Epoch: 11 Batch: 0 total cost: -0.234548271 pred score distance: 0.999999940 vt cost: 0.153090328 postive score: 100.750114441 negative score: 47.902191162 accurancy: .0.749721913 auc: .0.966629588
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 1000, total batch: 8491
+less than batch size: 0
+[[ 90.596634]
+ [ 64.69852 ]
+ [ 60.996277]
+ [ 66.475945]
+ [ 84.859634]
+ [ 32.676613]
+ [ 68.52288 ]
+ [ 46.457882]
+ [105.59076 ]
+ [ 53.7818  ]
+ [ 24.38313 ]
+ [ 68.17525 ]
+ [125.496124]
+ [ 23.617489]
+ [ 32.153637]
+ [ 24.197926]]
+[[ 5.75194206e+01]
+ [ 9.39822674e+00]
+ [ 9.06499557e+01]
+ [ 1.02552509e+00]
+ [ 8.68320541e+01]
+ [-5.13820574e-02]
+ [ 7.06035309e+01]
+ [ 1.91628635e+00]
+ [ 9.05966339e+01]
+ [ 2.64274925e-02]
+ [ 8.48596344e+01]
+ [-1.26934439e-01]
+ [ 1.05590759e+02]
+ [ 8.77880287e+00]
+ [ 1.25496124e+02]
+ [-6.68193847e-02]]
+now():2021-08-29 04:48:27.774127
+Train Epoch: 11 Batch: 1000 total cost: -0.013203127 pred score distance: 0.911271850 vt cost: 0.179613744 postive score: 85.833836052 negative score: 51.126992355 accurancy: .0.750092696 auc: .0.967371153
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 94.32129 ]
+ [ 86.11783 ]
+ [ 29.287588]
+ [ 57.85273 ]
+ [102.80982 ]
+ [ 64.52777 ]
+ [ 39.22344 ]
+ [ 88.01458 ]
+ [107.90597 ]
+ [ 54.462   ]
+ [ 66.46419 ]
+ [ 46.53146 ]
+ [126.42166 ]
+ [ 60.069294]
+ [ 36.057037]
+ [ 74.76455 ]]
+[[ 5.42063942e+01]
+ [-3.08287963e-02]
+ [ 9.15175323e+01]
+ [ 1.92870748e+00]
+ [ 8.70072861e+01]
+ [ 6.48513460e+00]
+ [ 8.05275116e+01]
+ [-5.92138842e-02]
+ [ 9.43212891e+01]
+ [-4.45202552e-02]
+ [ 1.02809822e+02]
+ [ 1.47471511e+00]
+ [ 1.07905968e+02]
+ [ 1.22409336e-01]
+ [ 1.26421661e+02]
+ [ 6.77983665e+00]]
+now():2021-08-29 04:58:50.917428
+Train Epoch: 11 Batch: 2000 total cost: -0.014880093 pred score distance: 0.914266062 vt cost: 0.179877194 postive score: 85.934075040 negative score: 51.276637244 accurancy: .0.754912866 auc: .0.968483500
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 3000, total batch: 8491
+less than batch size: 0
+[[ 92.21073 ]
+ [ 30.925255]
+ [ 50.940395]
+ [ 81.93099 ]
+ [111.52552 ]
+ [ 43.748196]
+ [ 77.98865 ]
+ [ 57.702915]
+ [ 89.73081 ]
+ [ 37.745533]
+ [ 30.87976 ]
+ [ 27.80838 ]
+ [123.53659 ]
+ [ 26.781195]
+ [ 46.910988]
+ [ 28.155668]]
+[[ 5.1970985e+01]
+ [ 4.5748314e-01]
+ [ 5.6269085e+01]
+ [ 9.3503761e+00]
+ [ 8.6712051e+01]
+ [-8.3891444e-02]
+ [ 7.8015968e+01]
+ [-1.1005025e-01]
+ [ 9.2210732e+01]
+ [ 2.5164006e+00]
+ [ 1.1152552e+02]
+ [-9.9089310e-02]
+ [ 8.9730812e+01]
+ [ 7.3937569e+00]
+ [ 1.2353659e+02]
+ [ 8.7988720e+00]]
+now():2021-08-29 05:09:12.926191
+Train Epoch: 11 Batch: 3000 total cost: -0.014937870 pred score distance: 0.915521462 vt cost: 0.180116718 postive score: 86.219790407 negative score: 51.221935552 accurancy: .0.752317390 auc: .0.964775677
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 91.05337 ]
+ [ 47.452087]
+ [ 74.78531 ]
+ [ 53.63161 ]
+ [114.37882 ]
+ [ 98.94892 ]
+ [109.34985 ]
+ [107.90885 ]
+ [ 99.01023 ]
+ [ 43.58673 ]
+ [ 27.23486 ]
+ [ 49.75834 ]
+ [122.77365 ]
+ [ 29.40505 ]
+ [ 72.82005 ]
+ [ 59.26351 ]]
+[[ 5.3261105e+01]
+ [ 1.9429716e+00]
+ [ 7.4308456e+01]
+ [ 2.3880074e+00]
+ [ 9.5311188e+01]
+ [ 2.9035356e+00]
+ [ 7.2759041e+01]
+ [-8.5337564e-02]
+ [ 9.1053368e+01]
+ [ 6.0325623e-01]
+ [ 1.1437882e+02]
+ [ 2.1572034e+00]
+ [ 9.9010231e+01]
+ [-1.1516225e-01]
+ [ 1.2277365e+02]
+ [ 3.1909904e-01]]
+now():2021-08-29 05:19:36.846563
+Train Epoch: 11 Batch: 4000 total cost: -0.017418898 pred score distance: 0.915766423 vt cost: 0.179669505 postive score: 86.878906400 negative score: 51.500198220 accurancy: .0.743789396 auc: .0.962180200
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 5000, total batch: 8491
+less than batch size: 0
+[[ 88.009125]
+ [102.65702 ]
+ [ 54.806435]
+ [ 75.853905]
+ [100.52157 ]
+ [139.04128 ]
+ [103.66565 ]
+ [ 62.69655 ]
+ [ 98.77911 ]
+ [ 69.81452 ]
+ [ 74.68875 ]
+ [103.435646]
+ [121.83913 ]
+ [ 82.133835]
+ [ 47.282803]
+ [ 84.15272 ]]
+[[ 5.1535278e+01]
+ [-1.0174088e-01]
+ [ 8.3350121e+01]
+ [-1.4022164e-01]
+ [ 9.4349243e+01]
+ [ 6.6629195e-01]
+ [ 6.7492691e+01]
+ [-4.0434241e-02]
+ [ 8.8009125e+01]
+ [-8.1637144e-02]
+ [ 1.0052157e+02]
+ [ 1.5940624e+00]
+ [ 9.8779114e+01]
+ [-4.9077850e-02]
+ [ 1.2183913e+02]
+ [ 7.3434567e+00]]
+now():2021-08-29 05:29:59.709486
+Train Epoch: 11 Batch: 5000 total cost: -0.017034050 pred score distance: 0.915823995 vt cost: 0.179757989 postive score: 87.113072288 negative score: 51.600672546 accurancy: .0.759362254 auc: .0.964404894
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 95.66457 ]
+ [ 98.84416 ]
+ [104.379364]
+ [ 42.916843]
+ [115.246475]
+ [ 38.166172]
+ [ 46.479824]
+ [ 34.828915]
+ [ 99.9248  ]
+ [ 59.709564]
+ [ 36.72328 ]
+ [ 91.09316 ]
+ [117.420784]
+ [ 44.477955]
+ [ 40.433533]
+ [ 65.49048 ]]
+[[ 5.77940140e+01]
+ [-2.16601808e-02]
+ [ 6.50862045e+01]
+ [ 9.42301452e-01]
+ [ 9.05411377e+01]
+ [ 1.05498970e+00]
+ [ 5.75036430e+01]
+ [-1.04365006e-01]
+ [ 9.56645737e+01]
+ [-7.34398514e-02]
+ [ 1.15246475e+02]
+ [ 7.59037614e-01]
+ [ 9.99247971e+01]
+ [ 3.20452666e+00]
+ [ 1.17420784e+02]
+ [ 6.67090178e+00]]
+now():2021-08-29 05:40:24.790761
+Train Epoch: 11 Batch: 6000 total cost: -0.017155820 pred score distance: 0.916146805 vt cost: 0.179798197 postive score: 87.185727014 negative score: 51.624258495 accurancy: .0.747126437 auc: .0.968854283
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 7000, total batch: 8491
+less than batch size: 0
+[[ 97.808815]
+ [ 49.34152 ]
+ [ 80.75448 ]
+ [ 73.082344]
+ [115.43157 ]
+ [117.34814 ]
+ [ 41.227943]
+ [ 96.39538 ]
+ [ 92.61375 ]
+ [ 45.078453]
+ [ 38.229706]
+ [ 46.03644 ]
+ [120.4379  ]
+ [ 21.366999]
+ [ 54.353725]
+ [ 68.045204]]
+[[ 5.2282818e+01]
+ [-1.0156477e-01]
+ [ 6.4016747e+01]
+ [ 1.3422701e+00]
+ [ 8.3055138e+01]
+ [ 6.9769073e-01]
+ [ 5.1885342e+01]
+ [ 4.5651584e+00]
+ [ 9.7808815e+01]
+ [-4.6971738e-02]
+ [ 1.1543157e+02]
+ [ 8.7357062e-01]
+ [ 9.2613747e+01]
+ [-4.6103012e-02]
+ [ 1.2043790e+02]
+ [ 1.0230743e+00]]
+now():2021-08-29 05:50:47.151775
+Train Epoch: 11 Batch: 7000 total cost: -0.017269851 pred score distance: 0.916458897 vt cost: 0.179837809 postive score: 87.078817015 negative score: 51.564990309 accurancy: .0.746014090 auc: .0.964404894
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 94.11409 ]
+ [ 59.81459 ]
+ [ 13.100768]
+ [ 98.65407 ]
+ [107.93464 ]
+ [109.60565 ]
+ [ 46.760006]
+ [ 43.03341 ]
+ [106.00703 ]
+ [ 27.23391 ]
+ [ 61.475517]
+ [ 86.80794 ]
+ [117.1625  ]
+ [ 37.689545]
+ [ 59.039448]
+ [ 49.992805]]
+[[ 6.0610451e+01]
+ [-3.5236221e-02]
+ [ 7.6559616e+01]
+ [ 9.5380039e+00]
+ [ 9.2140450e+01]
+ [ 2.2524723e+01]
+ [ 6.4746376e+01]
+ [ 9.1121626e-01]
+ [ 9.4114090e+01]
+ [ 1.0491817e+01]
+ [ 1.0793464e+02]
+ [ 1.8772593e+00]
+ [ 1.0600703e+02]
+ [-3.8332067e-02]
+ [ 1.1716250e+02]
+ [-9.1538437e-02]]
+now():2021-08-29 06:01:09.432781
+Train Epoch: 11 Batch: 8000 total cost: -0.017172975 pred score distance: 0.916198576 vt cost: 0.179805120 postive score: 86.469984824 negative score: 51.120128980 accurancy: .0.748238784 auc: .0.966629588
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 11 finished total cost: -0.016539248 pred score distance: 0.916034114 vt cost: 0.179898973 postive score: 86.254078921 negative score: 50.934748538
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 96.57987 ]
+ [ 88.077415]
+ [100.27672 ]
+ [ 31.819977]
+ [118.532814]
+ [ 29.59996 ]
+ [ 54.857265]
+ [ 42.32132 ]
+ [100.774445]
+ [102.917656]
+ [ 49.358826]
+ [ 82.87893 ]
+ [121.15879 ]
+ [ 84.29164 ]
+ [ 79.37956 ]
+ [ 56.098255]]
+[[ 5.74951363e+01]
+ [ 3.11809242e-01]
+ [ 6.15957184e+01]
+ [-4.03937660e-02]
+ [ 9.26336823e+01]
+ [ 6.34728789e-01]
+ [ 6.11249084e+01]
+ [ 1.41114986e+00]
+ [ 9.65798721e+01]
+ [ 3.84575691e+01]
+ [ 1.18532814e+02]
+ [-2.77787521e-02]
+ [ 1.00774445e+02]
+ [-7.54121542e-02]
+ [ 1.21158791e+02]
+ [-2.37210020e-02]]
+Test Epoch: 11 accuracy: 0.746384872 auc: 0.967371153
+now():2021-08-29 06:07:27.335633
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 11 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 96.5055  ]
+ [ 41.822742]
+ [ 34.18383 ]
+ [ 12.405441]
+ [117.97528 ]
+ [107.11644 ]
+ [ 98.290955]
+ [124.62162 ]
+ [100.48132 ]
+ [ 30.113684]
+ [ 37.378593]
+ [ 43.343334]
+ [120.5361  ]
+ [ 76.37788 ]
+ [121.01465 ]
+ [ 89.158554]]
+[[ 5.7605785e+01]
+ [-6.1439056e-02]
+ [ 6.1562290e+01]
+ [ 6.8917403e+00]
+ [ 9.2518242e+01]
+ [-7.5316213e-02]
+ [ 6.0813309e+01]
+ [-9.1184519e-02]
+ [ 9.6505501e+01]
+ [-6.7660950e-02]
+ [ 1.1797528e+02]
+ [-8.4701449e-02]
+ [ 1.0048132e+02]
+ [ 1.9021408e+01]
+ [ 1.2053610e+02]
+ [ 1.0064075e+00]]
+now():2021-08-29 06:09:53.892788
+Train Epoch: 12 Batch: 0 total cost: -0.366833806 pred score distance: 0.970081985 vt cost: 0.120649636 postive score: 101.811203003 negative score: 48.927677155 accurancy: .0.750463478 auc: .0.963663330
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 1000, total batch: 8491
+less than batch size: 0
+[[ 84.50282 ]
+ [ 30.329159]
+ [ 33.191807]
+ [ 35.832767]
+ [ 88.01448 ]
+ [ 52.9257  ]
+ [ 77.477745]
+ [ 44.074265]
+ [103.45823 ]
+ [ 61.89596 ]
+ [ 45.782875]
+ [ 14.400862]
+ [115.435646]
+ [ 46.494087]
+ [ 40.062378]
+ [ 32.653355]]
+[[ 51.91083  ]
+ [ 10.209578 ]
+ [ 54.902756 ]
+ [  4.6395607]
+ [ 95.79039  ]
+ [  1.8245988]
+ [ 64.66664  ]
+ [  0.8225722]
+ [ 84.50282  ]
+ [  8.005948 ]
+ [ 88.01448  ]
+ [  0.8928991]
+ [103.45823  ]
+ [ 16.084513 ]
+ [115.435646 ]
+ [ 10.332772 ]]
+now():2021-08-29 06:20:14.794675
+Train Epoch: 12 Batch: 1000 total cost: -0.021636362 pred score distance: 0.914249756 vt cost: 0.178522679 postive score: 84.687790346 negative score: 49.899516687 accurancy: .0.732295143 auc: .0.961067853
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 92.03128 ]
+ [ 43.19571 ]
+ [ 67.042496]
+ [ 77.84984 ]
+ [107.15569 ]
+ [108.13192 ]
+ [ 44.9405  ]
+ [ 43.861458]
+ [104.626686]
+ [ 78.7404  ]
+ [ 50.001377]
+ [ 53.191853]
+ [126.89938 ]
+ [ 99.33463 ]
+ [ 23.325996]
+ [ 20.746822]]
+[[ 53.66583   ]
+ [  0.16930841]
+ [ 56.467365  ]
+ [  1.0059907 ]
+ [ 93.90893   ]
+ [  0.7053565 ]
+ [ 61.149273  ]
+ [  6.511427  ]
+ [ 92.03128   ]
+ [  5.4368    ]
+ [107.15569   ]
+ [  5.637523  ]
+ [104.626686  ]
+ [ 16.335922  ]
+ [126.89938   ]
+ [ -0.1277862 ]]
+now():2021-08-29 06:30:41.047639
+Train Epoch: 12 Batch: 2000 total cost: -0.020546499 pred score distance: 0.915513439 vt cost: 0.178993388 postive score: 83.903709361 negative score: 49.541090159 accurancy: .0.747868001 auc: .0.968483500
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 3000, total batch: 8491
+less than batch size: 0
+[[ 91.539635]
+ [ 26.346607]
+ [ 26.410618]
+ [ 14.847607]
+ [105.49528 ]
+ [ 46.910614]
+ [ 33.09593 ]
+ [ 50.41656 ]
+ [103.56872 ]
+ [ 67.665794]
+ [ 59.375156]
+ [ 75.35357 ]
+ [121.154366]
+ [ 62.392666]
+ [ 18.48901 ]
+ [ 64.39246 ]]
+[[ 5.17561836e+01]
+ [ 4.56188345e+00]
+ [ 5.30562706e+01]
+ [-1.37584746e-01]
+ [ 8.66968307e+01]
+ [ 3.21272850e+00]
+ [ 6.07360611e+01]
+ [ 1.58355684e+01]
+ [ 9.15396347e+01]
+ [-2.45623924e-02]
+ [ 1.05495277e+02]
+ [-8.07306543e-02]
+ [ 1.03568718e+02]
+ [-8.23598728e-02]
+ [ 1.21154366e+02]
+ [-7.26315305e-02]]
+now():2021-08-29 06:41:00.195507
+Train Epoch: 12 Batch: 3000 total cost: -0.017281494 pred score distance: 0.914753760 vt cost: 0.179494453 postive score: 84.570336283 negative score: 49.783712518 accurancy: .0.769002595 auc: .0.956989247
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 93.084526]
+ [ 62.901237]
+ [ 48.302536]
+ [ 77.49317 ]
+ [112.970825]
+ [ 66.87163 ]
+ [ 49.480057]
+ [ 43.72638 ]
+ [100.551956]
+ [ 33.456474]
+ [ 49.500305]
+ [ 60.148422]
+ [124.41973 ]
+ [ 21.2165  ]
+ [ 40.900295]
+ [ 15.357109]]
+[[ 4.44452019e+01]
+ [ 5.36568499e+00]
+ [ 5.44969177e+01]
+ [ 6.35627317e+00]
+ [ 9.31431351e+01]
+ [ 1.47647572e+01]
+ [ 6.80263062e+01]
+ [ 8.36518955e+00]
+ [ 9.30845261e+01]
+ [ 1.01120148e+01]
+ [ 1.12970825e+02]
+ [ 6.35584354e+00]
+ [ 1.00551956e+02]
+ [-6.89025149e-02]
+ [ 1.24419731e+02]
+ [ 5.31153202e-01]]
+now():2021-08-29 06:51:28.607387
+Train Epoch: 12 Batch: 4000 total cost: -0.017649260 pred score distance: 0.915763998 vt cost: 0.179622948 postive score: 85.105066764 negative score: 49.894342425 accurancy: .0.749351131 auc: .0.966629588
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 5000, total batch: 8491
+less than batch size: 0
+[[ 92.50151 ]
+ [ 45.89832 ]
+ [ 40.68968 ]
+ [ 37.05797 ]
+ [125.03457 ]
+ [ 41.431446]
+ [ 21.619537]
+ [ 49.659107]
+ [105.89199 ]
+ [ 65.84723 ]
+ [ 73.468376]
+ [ 49.692913]
+ [125.50761 ]
+ [ 66.71177 ]
+ [102.16444 ]
+ [ 56.75365 ]]
+[[ 5.4532990e+01]
+ [-5.0659250e-02]
+ [ 7.2132034e+01]
+ [ 1.6840363e+00]
+ [ 9.1089493e+01]
+ [ 1.9815229e+00]
+ [ 6.7183502e+01]
+ [ 1.8917347e+00]
+ [ 9.2501511e+01]
+ [ 1.3721861e+01]
+ [ 1.2503457e+02]
+ [ 2.8156619e+00]
+ [ 1.0589199e+02]
+ [-5.9277292e-02]
+ [ 1.2550761e+02]
+ [ 3.3042734e+00]]
+now():2021-08-29 07:01:50.508745
+Train Epoch: 12 Batch: 5000 total cost: -0.018622333 pred score distance: 0.916172583 vt cost: 0.179510050 postive score: 85.577812920 negative score: 50.216975411 accurancy: .0.754171301 auc: .0.964775677
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 94.21189 ]
+ [ 21.872143]
+ [ 26.475035]
+ [ 10.901387]
+ [127.13321 ]
+ [ 63.49186 ]
+ [ 83.96884 ]
+ [ 64.393005]
+ [103.10501 ]
+ [ 52.88549 ]
+ [ 52.885548]
+ [ 59.720806]
+ [124.88735 ]
+ [ 36.91643 ]
+ [ 41.665028]
+ [ 45.557114]]
+[[ 5.3343296e+01]
+ [ 1.8143870e+00]
+ [ 7.5320412e+01]
+ [ 2.2501259e+00]
+ [ 8.7470390e+01]
+ [ 4.6338997e+00]
+ [ 5.6684219e+01]
+ [ 5.4983055e+01]
+ [ 9.4211891e+01]
+ [ 1.8724290e-01]
+ [ 1.2713321e+02]
+ [ 1.9695778e+00]
+ [ 1.0310501e+02]
+ [ 5.3075156e+00]
+ [ 1.2488735e+02]
+ [-5.8053214e-02]]
+now():2021-08-29 07:12:19.322723
+Train Epoch: 12 Batch: 6000 total cost: -0.019181890 pred score distance: 0.916518216 vt cost: 0.179467265 postive score: 86.402663176 negative score: 50.832951826 accurancy: .0.751575825 auc: .0.961809418
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 7000, total batch: 8491
+less than batch size: 0
+[[ 90.55919  ]
+ [ 42.239063 ]
+ [ 23.559238 ]
+ [ 15.6891985]
+ [111.18171  ]
+ [ 99.63411  ]
+ [ 82.131546 ]
+ [ 68.732796 ]
+ [ 94.25016  ]
+ [ 46.266476 ]
+ [ 46.786766 ]
+ [ 44.57493  ]
+ [121.980125 ]
+ [ 51.41025  ]
+ [ 61.35198  ]
+ [ 31.215279 ]]
+[[ 5.19803429e+01]
+ [ 1.99293213e+01]
+ [ 7.22433777e+01]
+ [ 3.16666126e+01]
+ [ 8.43368073e+01]
+ [-5.37375398e-02]
+ [ 4.79538536e+01]
+ [ 9.61175188e-02]
+ [ 9.05591888e+01]
+ [ 6.98830783e-01]
+ [ 1.11181709e+02]
+ [ 1.05783453e+01]
+ [ 9.42501602e+01]
+ [-2.85184458e-02]
+ [ 1.21980125e+02]
+ [ 4.72088099e+00]]
+now():2021-08-29 07:22:39.354229
+Train Epoch: 12 Batch: 7000 total cost: -0.019732902 pred score distance: 0.916939568 vt cost: 0.179441333 postive score: 86.765534593 negative score: 51.082801207 accurancy: .0.758991472 auc: .0.964034112
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 83.3141  ]
+ [ 10.9872  ]
+ [ 13.071033]
+ [ 41.324593]
+ [104.75879 ]
+ [ 46.17579 ]
+ [ 54.89939 ]
+ [ 69.02852 ]
+ [ 83.27467 ]
+ [ 51.39198 ]
+ [ 33.64031 ]
+ [ 54.911655]
+ [117.097855]
+ [ 62.426975]
+ [ 81.178566]
+ [ 57.621696]]
+[[ 4.86534767e+01]
+ [ 1.38950360e+00]
+ [ 6.06108971e+01]
+ [ 1.24834192e+00]
+ [ 8.43818512e+01]
+ [ 2.92291594e+00]
+ [ 5.70537643e+01]
+ [ 1.46738422e+00]
+ [ 8.33141022e+01]
+ [-5.61469905e-02]
+ [ 1.04758789e+02]
+ [-4.60038669e-02]
+ [ 8.32746735e+01]
+ [ 9.43393290e-01]
+ [ 1.17097855e+02]
+ [-7.81124234e-02]]
+now():2021-08-29 07:33:05.059811
+Train Epoch: 12 Batch: 8000 total cost: -0.019235605 pred score distance: 0.916732396 vt cost: 0.179499358 postive score: 86.479018577 negative score: 50.888033539 accurancy: .0.760103819 auc: .0.958843159
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 12 finished total cost: -0.018759834 pred score distance: 0.916607859 vt cost: 0.179569605 postive score: 86.250511604 negative score: 50.722791409
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 86.97585 ]
+ [ 13.593959]
+ [  9.345601]
+ [ 10.554798]
+ [103.4651  ]
+ [ 51.0438  ]
+ [ 55.833363]
+ [ 49.117107]
+ [ 86.6583  ]
+ [ 60.857056]
+ [ 30.87662 ]
+ [ 55.347694]
+ [116.098015]
+ [ 55.066463]
+ [ 42.699413]
+ [ 32.13112 ]]
+[[ 4.95230560e+01]
+ [ 8.11987495e+00]
+ [ 5.23040504e+01]
+ [ 9.14207172e+00]
+ [ 8.55983200e+01]
+ [ 6.84709406e+00]
+ [ 5.78184776e+01]
+ [-1.79391280e-01]
+ [ 8.69758530e+01]
+ [ 7.60967731e-01]
+ [ 1.03465103e+02]
+ [-7.52184168e-02]
+ [ 8.66583023e+01]
+ [ 1.09307899e+01]
+ [ 1.16098015e+02]
+ [-2.72427462e-02]]
+Test Epoch: 12 accuracy: 0.743418613 auc: 0.967000371
+now():2021-08-29 07:39:21.263668
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 12 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 87.71722 ]
+ [ 49.53487 ]
+ [ 57.175934]
+ [ 59.424282]
+ [104.92073 ]
+ [ 22.852804]
+ [ 21.303493]
+ [ 17.299864]
+ [ 86.549706]
+ [ 29.775993]
+ [ 63.932842]
+ [ 31.989882]
+ [115.54588 ]
+ [ 86.892265]
+ [ 87.292435]
+ [ 70.03681 ]]
+[[ 4.9544144e+01]
+ [-5.0329257e-02]
+ [ 5.2073120e+01]
+ [ 2.2418501e+00]
+ [ 8.5527489e+01]
+ [ 1.5548826e+00]
+ [ 5.7796844e+01]
+ [ 2.4256563e+00]
+ [ 8.7717216e+01]
+ [ 4.0107358e-01]
+ [ 1.0492073e+02]
+ [ 1.5816081e+00]
+ [ 8.6549706e+01]
+ [ 3.1193748e+00]
+ [ 1.1554588e+02]
+ [ 1.0329592e+01]]
+now():2021-08-29 07:41:45.113723
+Train Epoch: 13 Batch: 0 total cost: -0.370308936 pred score distance: 0.985528350 vt cost: 0.123043887 postive score: 105.253219604 negative score: 53.555473328 accurancy: .0.749351131 auc: .0.967000371
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 1000, total batch: 8491
+less than batch size: 0
+[[ 92.77208 ]
+ [ 72.86913 ]
+ [ 63.237926]
+ [ 47.20326 ]
+ [114.68919 ]
+ [ 26.343718]
+ [  9.482619]
+ [ 25.52867 ]
+ [101.75772 ]
+ [104.83683 ]
+ [ 62.542343]
+ [ 44.204273]
+ [118.12075 ]
+ [ 83.60923 ]
+ [ 50.812946]
+ [ 69.5625  ]]
+[[ 4.3742966e+01]
+ [-5.9526809e-02]
+ [ 7.2096870e+01]
+ [ 1.8732887e+01]
+ [ 9.3942421e+01]
+ [ 5.6823788e+00]
+ [ 5.4614780e+01]
+ [ 1.1050423e+00]
+ [ 9.2772079e+01]
+ [ 1.2821884e-01]
+ [ 1.1468919e+02]
+ [ 4.4527146e-01]
+ [ 1.0175772e+02]
+ [-6.2703222e-02]
+ [ 1.1812075e+02]
+ [ 2.4769872e-01]]
+now():2021-08-29 07:52:10.527774
+Train Epoch: 13 Batch: 1000 total cost: -0.015572798 pred score distance: 0.917383285 vt cost: 0.180362097 postive score: 87.248454459 negative score: 50.287530819 accurancy: .0.756025213 auc: .0.965146459
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 92.86415 ]
+ [ 53.19092 ]
+ [ 77.39066 ]
+ [ 66.76148 ]
+ [115.07475 ]
+ [ 44.786537]
+ [ 58.457817]
+ [ 41.56186 ]
+ [106.70256 ]
+ [ 57.01925 ]
+ [ 43.924908]
+ [ 32.881584]
+ [122.48158 ]
+ [ 49.17206 ]
+ [ 68.871826]
+ [116.111244]]
+[[ 4.9934689e+01]
+ [ 2.7780945e+00]
+ [ 6.9373985e+01]
+ [-5.9283629e-02]
+ [ 9.2215248e+01]
+ [ 7.7884412e-01]
+ [ 5.4779369e+01]
+ [ 1.2915499e+00]
+ [ 9.2864151e+01]
+ [ 2.3820329e+00]
+ [ 1.1507475e+02]
+ [ 3.9628389e+00]
+ [ 1.0670256e+02]
+ [-6.6129953e-02]
+ [ 1.2248158e+02]
+ [ 5.1504904e-01]]
+now():2021-08-29 08:02:30.787885
+Train Epoch: 13 Batch: 2000 total cost: -0.015268762 pred score distance: 0.916625396 vt cost: 0.180271327 postive score: 86.470020275 negative score: 49.869530255 accurancy: .0.759362254 auc: .0.966258806
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 3000, total batch: 8491
+less than batch size: 0
+[[ 92.80894 ]
+ [ 88.490875]
+ [ 28.86441 ]
+ [ 39.09909 ]
+ [118.83201 ]
+ [ 68.56134 ]
+ [ 30.631548]
+ [ 29.800669]
+ [101.9026  ]
+ [ 84.49992 ]
+ [ 28.562017]
+ [ 54.885155]
+ [126.57894 ]
+ [ 41.845905]
+ [ 54.615265]
+ [ 49.806427]]
+[[ 5.8906292e+01]
+ [ 1.9927746e+01]
+ [ 8.9317856e+01]
+ [ 1.7446678e+01]
+ [ 1.0093110e+02]
+ [ 1.1392702e+00]
+ [ 6.3305046e+01]
+ [-6.6566326e-02]
+ [ 9.2808937e+01]
+ [ 2.8188028e+00]
+ [ 1.1883201e+02]
+ [-1.0973270e-01]
+ [ 1.0190260e+02]
+ [-4.1179508e-02]
+ [ 1.2657894e+02]
+ [-4.3399975e-02]]
+now():2021-08-29 08:12:54.173784
+Train Epoch: 13 Batch: 3000 total cost: -0.015369426 pred score distance: 0.916568850 vt cost: 0.180239885 postive score: 87.369578987 negative score: 50.765387961 accurancy: .0.731553578 auc: .0.963663330
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 95.670425]
+ [ 33.863758]
+ [ 49.657875]
+ [ 38.88797 ]
+ [124.86685 ]
+ [ 67.439644]
+ [ 87.54019 ]
+ [110.324394]
+ [103.63404 ]
+ [ 86.132515]
+ [ 82.14302 ]
+ [ 84.48942 ]
+ [125.13538 ]
+ [ 72.12396 ]
+ [ 44.924873]
+ [ 51.316635]]
+[[ 5.9631104e+01]
+ [-4.4753596e-02]
+ [ 8.1880096e+01]
+ [-9.7595528e-03]
+ [ 1.0541800e+02]
+ [ 6.2822652e+00]
+ [ 6.7199562e+01]
+ [ 2.4112012e+00]
+ [ 9.5670425e+01]
+ [ 1.8980182e+00]
+ [ 1.2486685e+02]
+ [-6.2460598e-02]
+ [ 1.0363404e+02]
+ [-1.0251085e-01]
+ [ 1.2513538e+02]
+ [-1.2443790e-01]]
+now():2021-08-29 08:23:15.854849
+Train Epoch: 13 Batch: 4000 total cost: -0.016745941 pred score distance: 0.916964812 vt cost: 0.180043774 postive score: 88.097202666 negative score: 51.277381274 accurancy: .0.749721913 auc: .0.969225065
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 5000, total batch: 8491
+less than batch size: 0
+[[ 90.475655]
+ [ 30.079842]
+ [ 60.8364  ]
+ [ 26.436401]
+ [106.494774]
+ [ 83.70312 ]
+ [ 48.10154 ]
+ [ 30.476423]
+ [105.76687 ]
+ [ 65.47756 ]
+ [ 52.27541 ]
+ [ 23.18158 ]
+ [120.76079 ]
+ [ 99.88817 ]
+ [105.12222 ]
+ [ 75.85412 ]]
+[[ 5.77383003e+01]
+ [-3.95290963e-02]
+ [ 9.50120392e+01]
+ [ 6.43555593e+00]
+ [ 1.03006531e+02]
+ [ 1.64477024e+01]
+ [ 7.27064209e+01]
+ [-9.90205854e-02]
+ [ 9.04756546e+01]
+ [ 5.79244159e-02]
+ [ 1.06494774e+02]
+ [-8.33551511e-02]
+ [ 1.05766869e+02]
+ [-7.68239126e-02]
+ [ 1.20760788e+02]
+ [-5.00902720e-02]]
+now():2021-08-29 08:33:41.689774
+Train Epoch: 13 Batch: 5000 total cost: -0.017186931 pred score distance: 0.917015347 vt cost: 0.179965683 postive score: 88.717137602 negative score: 51.732889419 accurancy: .0.752688172 auc: .0.963292547
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 92.62054 ]
+ [ 59.612442]
+ [ 71.53244 ]
+ [ 59.16644 ]
+ [114.349754]
+ [112.583   ]
+ [102.84783 ]
+ [ 69.43097 ]
+ [108.69949 ]
+ [ 51.537987]
+ [119.07179 ]
+ [ 61.151054]
+ [118.4491  ]
+ [ 86.40275 ]
+ [ 78.557236]
+ [ 83.816246]]
+[[ 6.50582199e+01]
+ [ 8.51287556e+00]
+ [ 1.04728958e+02]
+ [ 1.83853924e+00]
+ [ 1.02356949e+02]
+ [-6.90990239e-02]
+ [ 6.86542435e+01]
+ [ 1.32869072e+01]
+ [ 9.26205368e+01]
+ [-6.73808381e-02]
+ [ 1.14349754e+02]
+ [ 1.73339629e+00]
+ [ 1.08699493e+02]
+ [ 1.56821032e+01]
+ [ 1.18449097e+02]
+ [-6.82434961e-02]]
+now():2021-08-29 08:44:04.318404
+Train Epoch: 13 Batch: 6000 total cost: -0.017688003 pred score distance: 0.917366136 vt cost: 0.179935627 postive score: 88.880402502 negative score: 51.872115854 accurancy: .0.750834260 auc: .0.961809418
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 7000, total batch: 8491
+less than batch size: 0
+[[ 93.35249 ]
+ [ 64.71564 ]
+ [ 26.041138]
+ [ 20.300941]
+ [115.30324 ]
+ [ 98.62628 ]
+ [105.930016]
+ [ 81.04198 ]
+ [110.53028 ]
+ [ 56.28783 ]
+ [ 62.15741 ]
+ [ 51.25713 ]
+ [110.10294 ]
+ [ 75.46836 ]
+ [ 76.76305 ]
+ [ 51.652103]]
+[[ 6.7100624e+01]
+ [ 1.3913931e+00]
+ [ 7.7365211e+01]
+ [ 9.6941367e-04]
+ [ 9.2488274e+01]
+ [-4.2533062e-02]
+ [ 6.4747826e+01]
+ [ 1.7147396e-02]
+ [ 9.3352493e+01]
+ [ 1.4326997e+00]
+ [ 1.1530324e+02]
+ [ 2.1734406e+01]
+ [ 1.1053028e+02]
+ [-2.3049692e-02]
+ [ 1.1010294e+02]
+ [-3.9525758e-02]]
+now():2021-08-29 08:54:29.181108
+Train Epoch: 13 Batch: 7000 total cost: -0.018102176 pred score distance: 0.917625325 vt cost: 0.179904630 postive score: 88.957338743 negative score: 51.964621547 accurancy: .0.760103819 auc: .0.960326288
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 93.63114 ]
+ [ 74.754036]
+ [ 30.295973]
+ [ 29.590702]
+ [120.06053 ]
+ [ 90.242935]
+ [ 26.277351]
+ [ 96.554016]
+ [112.419014]
+ [ 58.153202]
+ [ 56.255573]
+ [ 56.627586]
+ [118.76923 ]
+ [ 62.694347]
+ [ 59.50372 ]
+ [ 38.304577]]
+[[ 7.05464478e+01]
+ [-5.36584742e-02]
+ [ 1.04279701e+02]
+ [-5.90258501e-02]
+ [ 1.01262436e+02]
+ [-2.95548011e-02]
+ [ 7.05949020e+01]
+ [-7.01885074e-02]
+ [ 9.36311417e+01]
+ [-6.23196885e-02]
+ [ 1.20060532e+02]
+ [-1.25003874e-01]
+ [ 1.12419014e+02]
+ [ 3.52434754e-01]
+ [ 1.18769234e+02]
+ [-8.01995620e-02]]
+now():2021-08-29 09:04:49.418423
+Train Epoch: 13 Batch: 8000 total cost: -0.017824514 pred score distance: 0.917529027 vt cost: 0.179940903 postive score: 88.739503690 negative score: 51.809536170 accurancy: .0.758991472 auc: .0.961067853
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 13 finished total cost: -0.017608690 pred score distance: 0.917431637 vt cost: 0.179964589 postive score: 88.700887354 negative score: 51.782982286
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 90.05659 ]
+ [ 20.612644]
+ [ 16.043724]
+ [ 19.062853]
+ [117.93591 ]
+ [ 64.26334 ]
+ [ 74.58084 ]
+ [ 37.87762 ]
+ [110.53455 ]
+ [ 55.550644]
+ [ 43.559673]
+ [ 48.861816]
+ [118.63455 ]
+ [ 29.829891]
+ [ 44.61337 ]
+ [ 77.47082 ]]
+[[ 6.8626572e+01]
+ [ 1.4623868e+00]
+ [ 9.6811111e+01]
+ [-7.4151263e-02]
+ [ 1.0390724e+02]
+ [-4.8105266e-02]
+ [ 7.7267250e+01]
+ [-1.4340226e-02]
+ [ 9.0056587e+01]
+ [ 1.3235062e+01]
+ [ 1.1793591e+02]
+ [ 1.2556440e-01]
+ [ 1.1053455e+02]
+ [ 1.6047979e+01]
+ [ 1.1863455e+02]
+ [ 4.3857750e-02]]
+Test Epoch: 13 accuracy: 0.747497219 auc: 0.967371153
+now():2021-08-29 09:11:06.075605
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 13 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+now batch: 0, total batch: 8491
+less than batch size: 0
+[[ 90.04993 ]
+ [ 97.46094 ]
+ [ 34.519436]
+ [ 73.281265]
+ [117.94578 ]
+ [131.12491 ]
+ [111.93498 ]
+ [148.46393 ]
+ [110.53469 ]
+ [ 65.83747 ]
+ [ 51.255062]
+ [ 65.24169 ]
+ [118.6321  ]
+ [ 86.20241 ]
+ [ 71.66143 ]
+ [107.618614]]
+[[ 6.86241379e+01]
+ [ 2.34408951e+00]
+ [ 9.68110123e+01]
+ [ 7.13104725e+00]
+ [ 1.03901367e+02]
+ [ 7.10760403e+00]
+ [ 7.72662430e+01]
+ [ 1.34747732e+00]
+ [ 9.00499268e+01]
+ [ 8.78384709e-03]
+ [ 1.17945778e+02]
+ [ 1.42933273e+01]
+ [ 1.10534691e+02]
+ [-6.10028803e-02]
+ [ 1.18632103e+02]
+ [-1.14553556e-01]]
+now():2021-08-29 09:13:32.840579
+Train Epoch: 14 Batch: 0 total cost: -0.190290391 pred score distance: 0.968719959 vt cost: 0.155685917 postive score: 107.744293213 negative score: 59.620334625 accurancy: .0.757137560 auc: .0.968112718
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 1000, total batch: 8491
+less than batch size: 0
+[[ 86.437225]
+ [ 67.69595 ]
+ [ 39.261753]
+ [ 48.544373]
+ [121.88044 ]
+ [ 39.330868]
+ [ 27.62946 ]
+ [ 47.90456 ]
+ [102.78759 ]
+ [ 36.37477 ]
+ [ 37.010323]
+ [ 68.86869 ]
+ [118.17028 ]
+ [ 48.15751 ]
+ [ 58.286125]
+ [ 56.186848]]
+[[ 6.9483345e+01]
+ [ 1.6430719e+01]
+ [ 1.1614440e+02]
+ [-6.2977746e-02]
+ [ 1.0667480e+02]
+ [ 2.6178642e+01]
+ [ 7.9405289e+01]
+ [ 3.6065502e+01]
+ [ 8.6437225e+01]
+ [ 7.1297711e-01]
+ [ 1.2188044e+02]
+ [-7.3126554e-02]
+ [ 1.0278759e+02]
+ [ 1.3894096e+01]
+ [ 1.1817028e+02]
+ [-6.4328931e-02]]
+now():2021-08-29 09:23:59.053073
+Train Epoch: 14 Batch: 1000 total cost: -0.019013801 pred score distance: 0.918051373 vt cost: 0.179807514 postive score: 90.820961957 negative score: 53.374048161 accurancy: .0.754171301 auc: .0.962550983
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 2000, total batch: 8491
+less than batch size: 0
+[[ 88.944435]
+ [ 42.64396 ]
+ [ 23.050512]
+ [ 39.876   ]
+ [111.967514]
+ [ 87.09005 ]
+ [ 82.0638  ]
+ [ 91.99893 ]
+ [108.902794]
+ [ 49.06693 ]
+ [ 73.23362 ]
+ [ 66.83922 ]
+ [105.90799 ]
+ [ 58.7237  ]
+ [ 70.542465]
+ [ 65.62035 ]]
+[[ 6.06600075e+01]
+ [-3.99970971e-02]
+ [ 1.16079674e+02]
+ [-7.20221549e-02]
+ [ 9.99655685e+01]
+ [ 8.57738876e+00]
+ [ 7.23422394e+01]
+ [-7.73832425e-02]
+ [ 8.89444351e+01]
+ [ 1.80911579e+01]
+ [ 1.11967514e+02]
+ [-5.30153811e-02]
+ [ 1.08902794e+02]
+ [ 2.63987103e+01]
+ [ 1.05907990e+02]
+ [ 3.92534113e+00]]
+now():2021-08-29 09:34:21.077090
+Train Epoch: 14 Batch: 2000 total cost: -0.016672778 pred score distance: 0.918093486 vt cost: 0.180284142 postive score: 90.309025960 negative score: 53.244072028 accurancy: .0.750463478 auc: .0.968854283
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 3000, total batch: 8491
+less than batch size: 0
+[[ 80.74683 ]
+ [ 55.121273]
+ [ 47.674515]
+ [ 43.305866]
+ [120.17436 ]
+ [ 35.296352]
+ [ 39.837444]
+ [ 31.714422]
+ [101.29592 ]
+ [ 86.59032 ]
+ [ 81.10556 ]
+ [ 88.43134 ]
+ [119.52653 ]
+ [ 63.91919 ]
+ [ 44.97963 ]
+ [ 53.63128 ]]
+[[ 6.90963211e+01]
+ [-4.17106822e-02]
+ [ 9.87490997e+01]
+ [ 3.45299274e-01]
+ [ 9.81959839e+01]
+ [ 4.77421856e+00]
+ [ 8.42819672e+01]
+ [-5.83265647e-02]
+ [ 8.07468338e+01]
+ [-6.91106170e-02]
+ [ 1.20174362e+02]
+ [ 2.25480366e+00]
+ [ 1.01295921e+02]
+ [-1.16085865e-01]
+ [ 1.19526527e+02]
+ [ 8.07094479e+00]]
+now():2021-08-29 09:44:44.489573
+Train Epoch: 14 Batch: 3000 total cost: -0.019767480 pred score distance: 0.918748638 vt cost: 0.179796232 postive score: 89.735048564 negative score: 52.846110127 accurancy: .0.738598443 auc: .0.962180200
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 4000, total batch: 8491
+less than batch size: 0
+[[ 86.902954]
+ [ 45.387177]
+ [ 64.778015]
+ [ 36.906124]
+ [104.59295 ]
+ [ 78.00154 ]
+ [111.379776]
+ [113.80889 ]
+ [105.59307 ]
+ [ 60.854187]
+ [ 63.94977 ]
+ [ 22.697136]
+ [123.05647 ]
+ [ 82.353584]
+ [ 69.06444 ]
+ [ 88.275734]]
+[[ 6.0222248e+01]
+ [-6.4496368e-02]
+ [ 1.1346641e+02]
+ [-1.1408685e-01]
+ [ 1.0387722e+02]
+ [ 2.5573177e+00]
+ [ 8.4489380e+01]
+ [-5.4316804e-02]
+ [ 8.6902954e+01]
+ [ 1.1333078e+01]
+ [ 1.0459295e+02]
+ [ 1.1217862e+01]
+ [ 1.0559307e+02]
+ [ 1.1511843e+01]
+ [ 1.2305647e+02]
+ [ 1.0911718e+01]]
+now():2021-08-29 09:55:08.584998
+Train Epoch: 14 Batch: 4000 total cost: -0.019402577 pred score distance: 0.919285167 vt cost: 0.179976518 postive score: 89.638656593 negative score: 52.812486431 accurancy: .0.754171301 auc: .0.960326288
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 5000, total batch: 8491
+less than batch size: 0
+[[ 88.5028  ]
+ [ 39.63029 ]
+ [ 63.994328]
+ [ 82.95164 ]
+ [112.46863 ]
+ [ 61.533615]
+ [ 64.7361  ]
+ [ 36.046978]
+ [103.43067 ]
+ [ 69.21087 ]
+ [ 86.729355]
+ [ 60.09405 ]
+ [124.39815 ]
+ [ 53.860218]
+ [ 94.44872 ]
+ [ 81.58641 ]]
+[[ 6.60670242e+01]
+ [ 3.31331291e+01]
+ [ 1.11107224e+02]
+ [ 6.24166965e+00]
+ [ 9.98261719e+01]
+ [ 9.06695652e+00]
+ [ 8.25382996e+01]
+ [-1.20357133e-01]
+ [ 8.85028000e+01]
+ [-6.05443716e-02]
+ [ 1.12468628e+02]
+ [ 6.83077931e-01]
+ [ 1.03430672e+02]
+ [ 5.39724636e+00]
+ [ 1.24398148e+02]
+ [-1.12820216e-01]]
+now():2021-08-29 10:05:34.311035
+Train Epoch: 14 Batch: 5000 total cost: -0.019918482 pred score distance: 0.919689486 vt cost: 0.179954201 postive score: 90.363434111 negative score: 53.388491780 accurancy: .0.754912866 auc: .0.967000371
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 6000, total batch: 8491
+less than batch size: 0
+[[ 90.50116 ]
+ [ 51.202755]
+ [ 38.582275]
+ [ 17.883083]
+ [106.94921 ]
+ [ 74.71259 ]
+ [ 54.51047 ]
+ [ 79.59348 ]
+ [ 91.599785]
+ [ 71.269554]
+ [ 74.91242 ]
+ [ 77.65778 ]
+ [126.238556]
+ [ 95.8378  ]
+ [ 57.834717]
+ [ 69.270035]]
+[[ 6.79651947e+01]
+ [ 5.26088238e+00]
+ [ 9.82850876e+01]
+ [-6.09920323e-02]
+ [ 9.49655838e+01]
+ [ 1.81407471e+01]
+ [ 6.88457642e+01]
+ [ 4.68831211e-01]
+ [ 9.05011597e+01]
+ [ 1.61157370e+00]
+ [ 1.06949211e+02]
+ [-7.50815496e-02]
+ [ 9.15997849e+01]
+ [ 1.73053727e-01]
+ [ 1.26238556e+02]
+ [ 1.20433800e-01]]
+now():2021-08-29 10:15:58.992197
+Train Epoch: 14 Batch: 6000 total cost: -0.019453405 pred score distance: 0.919645492 vt cost: 0.180038417 postive score: 90.784544943 negative score: 53.605927307 accurancy: .0.749721913 auc: .0.965146459
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 7000, total batch: 8491
+less than batch size: 0
+[[ 90.749535]
+ [ 61.53475 ]
+ [ 45.629944]
+ [ 79.06368 ]
+ [113.074615]
+ [ 92.018814]
+ [156.49539 ]
+ [ 90.988205]
+ [ 82.88022 ]
+ [ 67.611244]
+ [ 46.058537]
+ [ 54.340466]
+ [131.09271 ]
+ [ 59.065704]
+ [ 71.59707 ]
+ [ 43.04657 ]]
+[[ 5.90913658e+01]
+ [ 8.67659524e-02]
+ [ 1.12852570e+02]
+ [-1.02402560e-01]
+ [ 9.10313568e+01]
+ [-9.99583602e-02]
+ [ 5.80261803e+01]
+ [ 1.24381590e+00]
+ [ 9.07495346e+01]
+ [-9.24574211e-02]
+ [ 1.13074615e+02]
+ [-9.36472267e-02]
+ [ 8.28802185e+01]
+ [ 9.30410698e-02]
+ [ 1.31092712e+02]
+ [ 6.34702492e+00]]
+now():2021-08-29 10:26:23.246053
+Train Epoch: 14 Batch: 7000 total cost: -0.019985839 pred score distance: 0.919999007 vt cost: 0.180002633 postive score: 90.853805751 negative score: 53.580828138 accurancy: .0.760103819 auc: .0.959955506
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+now batch: 8000, total batch: 8491
+less than batch size: 0
+[[ 85.87546 ]
+ [ 74.54831 ]
+ [ 26.722118]
+ [ 28.228903]
+ [105.88152 ]
+ [ 43.854576]
+ [ 29.399855]
+ [ 52.603832]
+ [ 90.33015 ]
+ [ 97.87596 ]
+ [ 60.464485]
+ [ 70.81727 ]
+ [126.81689 ]
+ [ 63.561275]
+ [ 95.49794 ]
+ [ 75.65062 ]]
+[[ 5.74782295e+01]
+ [-4.75987978e-02]
+ [ 1.10811760e+02]
+ [-1.11207582e-01]
+ [ 1.04318954e+02]
+ [ 9.45760059e+00]
+ [ 6.02253456e+01]
+ [-1.24117978e-01]
+ [ 8.58754578e+01]
+ [ 1.78679638e+01]
+ [ 1.05881523e+02]
+ [ 3.26924400e+01]
+ [ 9.03301468e+01]
+ [ 2.47352362e+00]
+ [ 1.26816887e+02]
+ [ 5.45258462e-01]]
+now():2021-08-29 10:36:45.420720
+Train Epoch: 14 Batch: 8000 total cost: -0.019825262 pred score distance: 0.919805173 vt cost: 0.179995982 postive score: 90.759569481 negative score: 53.435661906 accurancy: .0.747497219 auc: .0.960697071
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Train Epoch: 14 finished total cost: -0.019615934 pred score distance: 0.919680732 vt cost: 0.180012959 postive score: 90.666047136 negative score: 53.364077684
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+batch_size: 16, image_hidden_size: 12, image_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+[[ 91.398834]
+ [ 62.07049 ]
+ [ 70.93348 ]
+ [ 74.08981 ]
+ [121.1317  ]
+ [ 39.502987]
+ [ 43.676235]
+ [ 40.839897]
+ [ 86.52565 ]
+ [102.43753 ]
+ [ 42.663242]
+ [ 58.294544]
+ [132.26927 ]
+ [ 74.789696]
+ [108.03421 ]
+ [ 83.36729 ]]
+[[ 6.1421177e+01]
+ [ 5.5537798e-02]
+ [ 9.8810356e+01]
+ [ 1.4417547e+01]
+ [ 1.0101950e+02]
+ [-8.6516306e-02]
+ [ 5.8429821e+01]
+ [ 1.3787052e+01]
+ [ 9.1398834e+01]
+ [ 5.4361963e+00]
+ [ 1.2113170e+02]
+ [-1.4173837e-01]
+ [ 8.6525650e+01]
+ [ 1.5323886e+01]
+ [ 1.3226927e+02]
+ [ 4.5947676e+00]]
+Test Epoch: 14 accuracy: 0.757508343 auc: 0.964034112
+now():2021-08-29 10:43:03.934078
+batch_size: 16, image_hidden_size: 12, text_hidden_size: 12, n_steps: 3, learning_rate: 0.001000
+Epoch: 14 finished Best accurancy: 0.771598 Best auc: 0.970337 Best epoch: 9
+best parameter is batch_size, image_hidden_size, text_hidden_size, n_steps, learning_rate, optimizer:16, 12 ,12 , 3, 0.001000, RMSProp
+[ModelArts Service Log]modelarts-pipe: total length: 172783
+[Modelarts Service Log]Training end with return code: 0
+[Modelarts Service Log]handle outputs of training job
+[ModelArts Service Log]modelarts-pipe: will create log file /tmp/log/14notfree.log
+[ModelArts Service Log]modelarts-pipe: will write log file /tmp/log/14notfree.log
+[ModelArts Service Log]modelarts-pipe: param for max log length: 1073741824
+[ModelArts Service Log]modelarts-pipe: param for whether exit on overflow: 0
+[Modelarts Service Log][modelarts_logger] modelarts-pipe found
+INFO:root:Using MoXing-v2.0.0.rc2.b4eeb646-b4eeb646
+INFO:root:Using OBS-Python-SDK-3.20.9.1
+[ModelArts Service Log][INFO][2021/08/29 10:43:13]: env MA_OUTPUTS is not found, skip the outputs handler
+[ModelArts Service Log]modelarts-pipe: total length: 198
+[Modelarts Service Log]Training completed.
