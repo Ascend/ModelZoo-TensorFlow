@@ -3,9 +3,12 @@
 为方便更多开发者使用Ascend ModelZoo，我们将持续增加典型网络和相关预训练模型。如果您有任何需求，请在[Gitee](https://gitee.com/ascend/modelzoo/issues)或[ModelZoo](https://bbs.huaweicloud.com/forum-726-1.html)提交issue，我们会及时处理。
 
 ## 如何贡献
-
-在开始贡献之前，请先阅读[notice](https://gitee.com/ascend/modelzoo/blob/master/contrib/CONTRIBUTING.md)。
+本仓子模块如下，可以直接克隆子仓，也可以克隆主仓，在开始贡献之前，请先阅读[notice](https://gitee.com/ascend/modelzoo/blob/master/CONTRIBUTING.md)。
 谢谢！
+
+| [TensorFlow](https://gitee.com/ascend/ModelZoo-TensorFlow) | TensorFlow贡献子仓 |
+|-------------------------------------------------------------|----------------|
+| [PyTorch](https://gitee.com/ascend/ModelZoo-PyTorch)        | PyTorch贡献子仓 |
 
 ## 目录
 - 模型
