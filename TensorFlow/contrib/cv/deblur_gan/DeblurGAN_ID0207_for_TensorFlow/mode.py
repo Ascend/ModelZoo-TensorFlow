@@ -143,9 +143,10 @@ def train(args, model, sess, saver):
 def test(args, model, sess, saver, file, step=-1, loading=False):
 
     if loading:
-        saver.restore(sess, args.pre_trained_model)
+        latest_checkpoint = tf.train.latest_checkpoint(args.pre_trained_model)
+        saver.restore(sess, latest_checkpoint)
         print("saved model is loaded for test!")
-        print("model path is %s" % args.pre_trained_model)
+        print("model path is %s" % lastest_checkpoint)
 
     blur_img_name = sorted(os.listdir(args.test_Blur_path))
     sharp_img_name = sorted(os.listdir(args.test_Sharp_path))
