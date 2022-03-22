@@ -134,7 +134,7 @@ do
     python3 main.py \
 	--train_Sharp_path=${data_path}/data/train/sharp \
 	--train_Blur_path=${data_path}/data/train/blur \
-	--max_epoch=300 \
+	--max_epoch=5 \
 	--vgg_path=${ckpt_path}/vgg19.npy \
 	--model_path=${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt \
 	--mode=train  >  ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
