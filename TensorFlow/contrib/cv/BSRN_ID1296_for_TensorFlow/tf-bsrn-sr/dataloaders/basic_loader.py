@@ -182,8 +182,9 @@ class BasicLoader(BaseLoader):
         has_cached = True
     
     if (image is None):
-      image_name_truth = image_name.split("x4")[0]+".png"  #add
-      image_path = os.path.join(FLAGS.data_truth_path, image_name_truth)  #add
+      # image_name_truth = image_name.split("x4")[0]+".png"  #add
+      # image_path = os.path.join(FLAGS.data_truth_path, image_name_truth)  #add
+      image_path = os.path.join(FLAGS.data_truth_path, image_name)
       image = self.tf_image_session.run(self.tf_image, feed_dict={self.tf_image_path:image_path})
     
     if (FLAGS.data_cached and (not has_cached)):
