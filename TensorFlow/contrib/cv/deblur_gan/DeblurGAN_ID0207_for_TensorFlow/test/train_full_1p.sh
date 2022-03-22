@@ -22,7 +22,7 @@ export ASCEND_GLOBAL_LOG_LEVEL=3
 #网络名称，同目录名称
 Network="DeblurGAN_ID0207_for_TensorFlow"
 #训练epoch
-train_epochs=10
+train_epochs=300
 #训练batch_size
 batch_size=1
 #训练step
@@ -134,7 +134,7 @@ do
     python3 main.py \
 	--train_Sharp_path=${data_path}/data/train/sharp \
 	--train_Blur_path=${data_path}/data/train/blur \
-	--max_epoch=5 \
+	--max_epoch=300 \
 	--vgg_path=${ckpt_path}/vgg19.npy \
 	--model_path=${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt \
     --save_test_result=True \
