@@ -112,6 +112,9 @@ sess = tf.Session(config=config)
 sess.run(tf.global_variables_initializer())
 saver = tf.train.Saver(max_to_keep=10)
 
+if not os.path.exists(args.result_path):
+    os.makedirs(args.result_path)
+    
 if args.mode == 'train':
     train(args, model, sess, saver)
 
