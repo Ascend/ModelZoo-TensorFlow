@@ -137,6 +137,9 @@ do
 	--max_epoch=5 \
 	--vgg_path=${ckpt_path}/vgg19.npy \
 	--model_path=${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt \
+    --save_test_result=True \
+    --in_memory=True \
+    --result_path=./result \
 	--mode=train  >  ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
 
     python3 main.py \
