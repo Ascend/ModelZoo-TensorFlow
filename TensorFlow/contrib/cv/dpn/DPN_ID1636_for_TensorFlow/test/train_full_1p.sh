@@ -51,13 +51,13 @@ if [[ $1 == --help || $1 == -h ]];then
     echo " "
     echo "parameter explain:
     --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
-    --over_dump		           if or not over detection, default is False
-    --data_dump_flag		     data dump flag, default is False
-    --data_dump_step		     data dump step, default is 10
-    --profiling		           if or not profiling for performance debug, default is False
-    --data_path		           source data of training
-    --more_path1		           source data of testing
-    -h/--help		             show help message
+    --over_dump                    if or not over detection, default is False
+    --data_dump_flag                 data dump flag, default is False
+    --data_dump_step                 data dump step, default is 10
+    --profiling                    if or not profiling for performance debug, default is False
+    --data_path                    source data of training
+    --more_path1                           source data of testing
+    -h/--help                        show help message
     "
     exit 1
 fi
@@ -120,30 +120,26 @@ do
         mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
     fi
 
-    if [ -d ${cur_path}/test/ckpt ];then
-        rm -rf ${cur_path}/test/ckpt
-        mkdir -p ${cur_path}/test/ckpt
-    else
-        mkdir -p ${cur_path}/test/ckpt
-    fi
+
 
     # 绑核，不需要的绑核的模型删除，需要的模型审视修改
     let a=RANK_ID*12
     let b=RANK_ID+1
     let c=b*12-1
-    
+
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
     python3 train_npu.py \
         --data_path=${data_path}/train.tfrecords \
         --epoch=${train_epochs} \
         --model_path=${ckpt_path}/dpn.ckpt \
-        --output_path=./model_save  |tee ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
+        --model_save=${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt >> ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
     python3 test_npu.py \
-        --model_path=${ckpt_path}/dpn.ckpt \
         --data_path=${more_path1}/val.tfrecords \
-        --output_path=./model_save  |tee ${cur_path}/test/output/${ASCEND_DEVICE_ID}/test_${ASCEND_DEVICE_ID}.log
-done 
+        --model_path=${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt/ckpt_model.ckpt \
+        --output_path=${cur_path}/model_save  >>  ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
+
+done
 wait
 
 #训练结束时间，不需要修改
@@ -153,14 +149,15 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`grep TimeHistory  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print}' |awk -F'=' '{print $4}'`
-#打印，不需要修改
-echo "Final Performance images/sec : $FPS"
+TrainingTime=`grep TimeHistory  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F '=' '{print $4}'|tail -n +3|awk '{sum+=$1} END {print"",sum/NR}'|sed s/[[:space:]]//g`
 
 #输出训练精度,需要模型审视修改
-test_acc=`grep MIoU $cur_path/test/output/${ASCEND_DEVICE_ID}/test_${ASCEND_DEVICE_ID}.log|awk -F':' '{print $2}'`
+train_acc=`grep miou $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print}' |awk -F'=' '{print $3}'|awk -F',' '{print $1}'`
+#输出测试精度,需要模型审视修改
+test_acc=`grep MIoU $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $3}'`
 #打印，不需要修改
-echo "Final Train Accuracy : ${test_acc}"
+echo "Final Train Accuracy : ${train_acc}"
+echo "Final Test Accuracy : ${test_acc}"
 echo "E2E Training Duration sec : $e2e_time"
 
 #性能看护结果汇总
@@ -171,9 +168,8 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据，不需要修改
 #吞吐量
-ActualFPS=${FPS}
-#单迭代训练时长
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${FPS}'/10}'`
+ActualFPS=`awk 'BEGIN{printf "%.2f\n", 8/'${TrainingTime}'}'`
+
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep 'loss=' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F',' '{print $3}' |cut -d '=' -f 2 >> $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
@@ -191,4 +187,5 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${Cas
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${test_acc}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "Accuracy = ${train_acc}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TestAccuracy = ${test_acc}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
