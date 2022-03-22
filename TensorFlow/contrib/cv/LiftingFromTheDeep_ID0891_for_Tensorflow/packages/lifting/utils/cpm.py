@@ -404,5 +404,3 @@ def inference_pose(image, center_map, hm_size, stage=6):
             Mconv6_stage6, 15, 1, 1, activation_fn=None,
             scope='Mconv7_stage6')
         return _process_stage(Mconv7_stage6, hm_size)
-
-
