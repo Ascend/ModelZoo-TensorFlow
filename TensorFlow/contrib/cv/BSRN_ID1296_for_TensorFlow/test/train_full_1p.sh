@@ -127,8 +127,8 @@ batch_size=64
 #        --save_freq=1000 \
 #        --scales='4'
 #else
-relative_path_LR="dataset/DIV2K/DIV2K_train_LR_bicubic"
-relative_path_HR="dataset/DIV2K/DIV2K_train_HR"
+relative_path_LR="/dataset/DIV2K/DIV2K_train_LR_bicubic"
+relative_path_HR="/dataset/DIV2K/DIV2K_train_HR"
 python3.7 ./train.py \
     --data_input_path=${data_path}${relative_path_LR}\
     --data_truth_path=${data_path}${relative_path_HR} \
@@ -141,8 +141,8 @@ python3.7 ./train.py \
     --save_freq=10 \
     --scales='4' 1>${print_log} 2>&1
 
-relative_path_LR="dataset/BSD100/LR"
-relative_path_HR="dataset/BSD100/SR"
+relative_path_LR="/dataset/BSD100/LR"
+relative_path_HR="/dataset/BSD100/SR"
 # after training, load the model to check the performance
 relative_path_checkpoint='model.ckpt-300000'
 

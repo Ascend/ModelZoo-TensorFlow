@@ -128,10 +128,10 @@ batch_size=8
 #        --save_freq=1000 \
 #        --scales='4'
 #else
-relative_path_LR="dataset/DIV2K/DIV2K_train_LR_bicubic"
-relative_path_HR="dataset/DIV2K/DIV2K_train_HR"
+relative_path_LR="/dataset/DIV2K/DIV2K_train_LR_bicubic"
+relative_path_HR="/dataset/DIV2K/DIV2K_train_HR"
 # because 300000's result seems good, so we use it as a short steps performance test
-relative_path_checkpoint='checkpoints/model.ckpt-300000'
+relative_path_checkpoint='/checkpoints/model.ckpt-300000'
 python3.7 ./train.py \
     --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} --train_path=${output_path} \
     --chip='npu' \
@@ -143,8 +143,8 @@ python3.7 ./train.py \
     --save_freq=1000 \
     --scales='4' 1>${print_log} 2>&1
 
-relative_path_LR="dataset/BSD100/LR"
-relative_path_HR="dataset/BSD100/SR"
+relative_path_LR="/dataset/BSD100/LR"
+relative_path_HR="/dataset/BSD100/SR"
 python3.7 ./validate_bsrn.py \
     --dataloader=basic_loader \
     --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} \
