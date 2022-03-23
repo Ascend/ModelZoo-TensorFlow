@@ -118,7 +118,7 @@ else
 fi
 
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_.log} | awk -F ':' '{print $5}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "sec/step :" ${print_log} | awk -F ':' '{print $5}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
