@@ -20,8 +20,8 @@ Before starting, please pay attention to the following adaptation conditions. If
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo.git
-cd modelzoo/built-in/ACL/Official/cv/MTCNN_for_ACL
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
+cd Modelzoo-TensorFlow/ACL/Official/cv/MTCNN_for_ACL
 ```
 
 

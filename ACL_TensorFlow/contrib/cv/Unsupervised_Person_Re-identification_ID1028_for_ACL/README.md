@@ -26,7 +26,7 @@ export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/atc/lib64:${LD_LI
 ```
 使用git命令方式获取img2bin脚本：
 在命令行中：$HOME/AscendProjects目录下执行以下命令下载代码。
-git clone https://gitee.com/ascend/tools.git
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 ```
 ```
 进入img2bin脚本所在目录

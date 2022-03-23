@@ -2,7 +2,7 @@
 
 # DCN Inference for Tensorflow 
 
-This repository provides a script and recipe to Inference the **Deep & Cross Network for Ad Click Predictions** model. Original train implement please follow this link: [DCN_for_Tensorflow](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/recommendation/dcn/dcn_tf_neoming)
+This repository provides a script and recipe to Inference the **Deep & Cross Network for Ad Click Predictions** model. Original train implement please follow this link: [DCN_for_Tensorflow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/recommendation/DCN_ID1986_for_TensorFlow)
 
 ## Notice
 **This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
@@ -20,8 +20,8 @@ Before starting, please pay attention to the following adaptation conditions. If
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo.git
-cd modelzoo/built-in/ACL_TensorFlow/Official/recommendation/DCN_for_ACL
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
+cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/recommendation/DCN_for_ACL
 ```
 
 ### 2. Preprocess of the dataset
@@ -97,4 +97,4 @@ Our result were obtained by running the applicable training script. To achieve t
 |  Criteo        | 80.5%             | 59.8% |
 
 ## Reference
-[1] https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/recommendation/dcn/dcn_tf_neoming
+[1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/recommendation/DCN_ID1986_for_TensorFlow

@@ -21,7 +21,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 
 ```shell
 git clone https://gitee.com/ascend/modelzoo.git
-cd modelzoo/built-in/ACL/Research/recommendation/WideDeep_for_ACL
+cd Modelzoo-TensorFlow/ACL/Research/recommendation/WideDeep_for_ACL
 ```
 
 ### 2. Download weights and test dataset

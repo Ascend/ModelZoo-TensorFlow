@@ -20,8 +20,8 @@ Before starting, please pay attention to the following adaptation conditions. If
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo.git
-cd modelzoo/built-in/ACL_TensorFlow/Official/cv/ShuffleNetv1_for_ACL
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
+cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/ShuffleNetv1_for_ACL
 ```
 
 ### 2. Download and preprocess the dataset
@@ -63,7 +63,7 @@ The jpeg pictures will be preprocessed to bin fils.
 
 - convert pb to om
 
-  Download pb model of shufflenetv1 which was trained by this repo: [Repo of train](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/shufflenetv1/ShuffleNet_ID0184_for_TensorFlow)
+  Download pb model of shufflenetv1 which was trained by this repo: [Repo of train](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/shufflenetv1/ShuffleNet_ID0184_for_TensorFlow)
   
   [Pb Download Link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/ShuffleNetv1_for_ACL.zip)
 
@@ -99,4 +99,4 @@ Our result was obtained by running the applicable inference script. To achieve t
 
 
 ## Reference
-https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/shufflenetv1/ShuffleNet_ID0184_for_TensorFlow
+https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/shufflenetv1/ShuffleNet_ID0184_for_TensorFlow

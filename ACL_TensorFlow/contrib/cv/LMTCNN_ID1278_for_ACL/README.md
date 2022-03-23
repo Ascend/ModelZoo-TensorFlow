@@ -57,7 +57,7 @@ Batch: 1, shape: 227,227,3， 推理性能 1.57ms
 
 - 生成数据
 
-参考链接LMTCNN训练项目：https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/LMTCNN_ID1278_for_TensorFlow
+参考链接LMTCNN训练项目：https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/LMTCNN_ID1278_for_TensorFlow
 
 运行multipreproc.py文件生成对应的tfrecord文件
 

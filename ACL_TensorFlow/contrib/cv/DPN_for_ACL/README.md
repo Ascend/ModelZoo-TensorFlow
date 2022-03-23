@@ -20,8 +20,8 @@ Before starting, please pay attention to the following adaptation conditions. If
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo.git
-cd modelzoo/built-in/ACL_TensorFlow/Research/cv/DPN_for_ACL
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
+cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/DPN_for_ACL
 ```
 
 ### 2. Download and preprocess the dataset
@@ -103,4 +103,4 @@ Our result were obtained by running the applicable training script. To achieve t
 | cvcdb          | 1448             | 46%             |
 
 ## Reference
-[1] https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/dpn/DPN_ID1636_for_TensorFlow
+[1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/dpn/DPN_ID1636_for_TensorFlow

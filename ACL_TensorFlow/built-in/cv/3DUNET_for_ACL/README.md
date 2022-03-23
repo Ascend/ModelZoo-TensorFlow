@@ -18,8 +18,8 @@ Before starting, please pay attention to the following adaptation conditions. If
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo.git
-cd modelzoo/built-in/ACL_TensorFlow/Research/cv/3DUNET_for_Tensorflow
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
+cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/3DUNET_for_Tensorflow
 ```
 
 ### 2. Download and preprocess the dataset

@@ -20,8 +20,8 @@ Before starting, please pay attention to the following adaptation conditions. If
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo.git
-cd modelzoo/built-in/ACL_TensorFlow/Research/cv/ECONet_for_ACL
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
+cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/ECONet_for_ACL
 ```
 
 ### 2. Download and preprocess the dataset
@@ -104,4 +104,4 @@ Our result were obtained by running the applicable training script. To achieve t
 | ucf101          | 3783             | 88.4%/98.2%             |
 
 ## Reference
-[1] https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/econet/ECONet_tf_paper99
+[1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/contrib/TensorFlow/Research/cv/econet/ECONet_tf_paper99

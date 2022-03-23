@@ -1,6 +1,6 @@
 # C3AE_ID1250_for_ACL
 
-模型详情及训练部分：https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/C3AE_ID1250_for_TensorFlow
+模型详情及训练部分：https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/contrib/TensorFlow/Research/cv/C3AE_ID1250_for_TensorFlow
 
 ## 项目路径说明
 

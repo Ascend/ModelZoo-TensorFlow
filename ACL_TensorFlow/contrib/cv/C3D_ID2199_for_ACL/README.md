@@ -41,7 +41,7 @@ C3D在npu上训练的checkpoint文件及固化pb文件地址为：链接：https
 
 ### 数据预处理，将输入数据转换为bin文件
 
-1. C3D模型的数据预处理请参考npu迁移代码：[Gitee链接](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/C3D_ID2199_for_TensorFlow)
+1. C3D模型的数据预处理请参考npu迁移代码：[Gitee链接](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/C3D_ID2199_for_TensorFlow)
 
 2. 运行data_convert2bin.py生成bin文件
 

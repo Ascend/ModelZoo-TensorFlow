@@ -5,8 +5,7 @@
 ## 原始模型
 
 参考实现 ：
-
-https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/VGG16_for_TensorFlow
+https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/built-in/TensorFlow/Official/cv/image_classification/VGG16_for_TensorFlow
 
 
 原始pb模型网络下载地址 ：https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/robot_play_chess/chess_ckpt_0804_vgg_99.pb
