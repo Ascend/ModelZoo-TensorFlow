@@ -20,7 +20,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo.git
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd modelzoo/built-in/ACL_TensorFlow/Reseach/audio/WaveNet_for_ACL
 ```
 

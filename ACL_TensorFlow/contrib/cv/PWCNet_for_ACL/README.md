@@ -20,7 +20,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo.git
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd modelzoo/built-in/ACL_TensorFlow/Research/cv/PWCNet_for_ACL
 ```
 
@@ -106,4 +106,4 @@ Our result were obtained by running the applicable training script. To achieve t
 | MPI Sintel          | 1041             | 1.25             |
 
 ## Reference
-[1] https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/pwcnet/PWCNet_tf_wosaisai
+[1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/pwcnet/PWCNet_ID0171_for_TensorFlow

@@ -2,7 +2,7 @@
 
 ## 原始模型
 
-根据[训练过程](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/StarGAN_v2_ID1188_for_TensorFlow)，得到预训练模型
+根据[训练过程](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/StarGAN_v2_ID1188_for_TensorFlow)，得到预训练模型
 
 ## 转为om模型
 

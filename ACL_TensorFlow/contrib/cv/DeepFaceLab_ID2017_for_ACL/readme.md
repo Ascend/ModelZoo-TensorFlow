@@ -1,7 +1,7 @@
 # DeepFaceLab
 
 ## 1. 模型概述
-详情请看modelzoo/contrib/Tensorflow/Research/cv/DeepFaceLab_ID2017_for_Tensorflow/
+详情请看ModelZoo-TensorFlow/contrib/Tensorflow/Research/cv/DeepFaceLab_ID2017_for_Tensorflow/
 ## 2. 准备工作  
 ### 2.1 模型转换--获取om  
 新建model文件夹，在model文件夹下新建ckpt, pb, om文件夹，用于存放相应的模型文件。  

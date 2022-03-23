@@ -4,7 +4,8 @@
 
 <img src="https://gitee.com/phoebe0507/img_gallery/raw/master/readme/prototypical-networks.png" style="zoom:67%;" />
 
-原型模型请参考[GitHub链接](https://github.com/abdulfatir/prototypical-networks-tensorflow/blob/master)，NPU迁移代码请参考[Gitee链接](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/PROTOTYPICAL-NETWORKS_ID1286_for_TensorFlow)。
+原型模型请参考[GitHub链接](https://github.com/abdulfatir/prototypical-networks-tensorflow/blob/master)，NPU迁移代码请参考[Gitee链接] (https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/PROTOTYPICAL-NETWORKS_ID1286_for_TensorFlow)
+
 
 
 

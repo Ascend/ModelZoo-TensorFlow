@@ -10,9 +10,9 @@
 
 参考模型：
 
-https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/VGG16_for_TensorFlow
+https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/built-in/TensorFlow/Official/cv/image_classification/VGG16_for_TensorFlow
 
-https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/VGG19/VGG19_%20ID0374_for_TensorFlow
+https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/contrib/TensorFlow/Research/cv/VGG19/VGG19_%20ID0374_for_TensorFlow
 
 pb文件下载地址 :
 https://e-share.obs-website.cn-north-1.myhuaweicloud.com?token=gGnnL/JlT6iUNt4JBVjGkgHvmWaqKoA6ZS6x9rFZTtWoT7J4+CdgnwskVAsXefg0Xszwvc6pDQnBlu62eCXs3OZ99F5vspJP916F4Rrml7ujQ4XI8+GkD9se/I7tSAXP6zFZLzO9p0IeZF85Xnuy01tvr3aBmwWfyFOSMBq2i1dmJqUzVXZVw61aSNysZCNLbCqJrzpXs1GnXzFzA88oqg7OMfrOwqCqqd66usiVU8bVGU46TvWGWoALDlzRasRFHJgP0xiUmmXa09gGVdgJNmms+8jK3M2z/lwU0BhgWbe8wTb9LerXUCl/4ZUrSacACuHkoJQky1JmVtz9nqBvLFnoV96aMvAMDtd2Voup9dp9owqV5mBF0/FZzjU6nRPNr8aIwUSiO7JwZDo/6SnlVQkEcxdO3MmokRHaYQ4OgjRGZ0lCIAQ0r6L9WuK6/xOQ4952bbbIR6axc5KayI1lLJyqUlfO63oSgHZmM7Gd7Rrsrkbb7LclxsrrTZBWLD39CiGK+dqRT0bQ9kMiXDHqW2wygKokl5KIjOOGegfYe8c=
