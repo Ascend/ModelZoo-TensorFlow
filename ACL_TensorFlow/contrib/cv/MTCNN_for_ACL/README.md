@@ -21,7 +21,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
-cd modelzoo/built-in/ACL/Official/cv/MTCNN_for_ACL
+cd Modelzoo-TensorFlow/ACL/Official/cv/MTCNN_for_ACL
 ```
 
 

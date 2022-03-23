@@ -21,7 +21,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
-cd modelzoo/built-in/ACL_TensorFlow/Official/cv/MobileNetv1_ID0093_for_ACL
+cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/MobileNetv1_ID0093_for_ACL
 ```
 
 ### 2. Download and preprocess the dataset
