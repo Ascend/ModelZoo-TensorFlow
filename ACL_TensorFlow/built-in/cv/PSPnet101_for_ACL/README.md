@@ -7,7 +7,7 @@ This repository provides a script and recipe to Inference the PSPNet101 model.
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo.git
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd modelzoo/built-in/ACL_TensorFlow/Official/cv/PSPNet101_for_ACL
 ```
 
