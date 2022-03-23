@@ -3,7 +3,7 @@
 * 参考论文
 https://arxiv.org/abs/1902.08009
 * 训参考训练相关
-https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/graph/NGNN_ID1246_for_TensorFlow
+https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/graph/NGNN_ID1246_for_TensorFlow
 
 # ATC命令
 `atc --model=/home/HwHiAiUser/AscendProjects/NGNN/frozen_model_acc.pb --framework=3 --output=/home/HwHiAiUser/AscendProjects/NGNN/ngnn_acc_6input --soc_version=Ascend310   --input_shape="Placeholder:16,120,2048;Placeholder_1:16,120,2048;Placeholder_2:16,120,2757;Placeholder_3:16,120,2757;Placeholder_4:16,120,120; Placeholder_5:16,120,120" --log=info --out_nodes="s_pos_output:0"` `
