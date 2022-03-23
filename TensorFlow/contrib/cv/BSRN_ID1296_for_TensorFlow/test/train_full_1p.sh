@@ -69,7 +69,7 @@ print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
 modelarts_flag=${MODELARTS_MODEL_PATH}
 if [ x"${modelarts_flag}" != x ];
 then
-    echo "running with modelarts..."
+    echo "running without etp..."
     print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
     print_log="/home/ma-user/modelarts/log/${print_log_name}"
 fi
@@ -108,9 +108,7 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-train_epochs=2
-train_steps=100
-batch_size=8
+batch_size=64
 
 #if [ x"${modelarts_flag}" != x ];
 #then
@@ -118,47 +116,48 @@ batch_size=8
 #    ls ${data_path}
 #    relative_path_LR="DIV2K/DIV2K_train_LR_bicubic"
 #    relative_path_HR="DIV2K/DIV2K_train_HR"
+#
 #    python3.7 ./train.py \
 #        --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} --train_path=${output_path} \
 #        --chip='npu' \
 #        --model='bsrn' \
 #        --dataloader='div2k_loader' \
 #        --batch_size=8 \
-#        --max_steps=${train_steps} \
+#        --max_steps=100000 \
 #        --save_freq=1000 \
 #        --scales='4'
 #else
 relative_path_LR="dataset/DIV2K/DIV2K_train_LR_bicubic"
 relative_path_HR="dataset/DIV2K/DIV2K_train_HR"
-relative_path_checkpoint='checkpoints/model.ckpt-300000'
 python3.7 ./train.py \
-    --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} --train_path=${output_path} \
+    --data_input_path=${data_path}${relative_path_LR}\
+    --data_truth_path=${data_path}${relative_path_HR} \
+    --train_path=./checkpoints \
     --chip='npu' \
     --model='bsrn' \
     --dataloader='div2k_loader' \
-    --restore_path=${data_path}${relative_path_checkpoint}  \
     --batch_size=8 \
-    --max_steps=${train_steps} \
-    --save_freq=1000 \
+    --max_steps=300000\
+    --save_freq=10 \
     --scales='4' 1>${print_log} 2>&1
 
 relative_path_LR="dataset/BSD100/LR"
 relative_path_HR="dataset/BSD100/SR"
+# after training, load the model to check the performance
+relative_path_checkpoint='model.ckpt-300000'
+
 python3.7 ./validate_bsrn.py \
     --dataloader=basic_loader \
     --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} \
-    --restore_path=${data_path}${relative_path_checkpoint}  \
+    --restore_path=./checkpoints/${relative_path_checkpoint}  \
     --model=bsrn \
     --scales=4 \
     --save_path=./result-pictures 1>>${print_log} 2>&1
 #fi
-dirname ${print_log}
 cat ${print_log}
-
 # 性能相关数据计算
 StepTime=`grep "sec/batch" ${print_log} | tail -n 20 | awk '{print $(NF-2)}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
-
 # 精度相关数据计算
 PSNR=`grep "Final PSNR" ${print_log} | awk '{print $NF}'`
 SSIM=`grep "Final SSIM" ${print_log} | awk '{print $NF}'`
@@ -221,3 +220,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
