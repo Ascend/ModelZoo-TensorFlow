@@ -104,8 +104,8 @@ cd $cur_path/post_tprnn_npu_code_chun
 python3 tprnn_train_human.py \
      --locals_dir=${data_path} \
      --model_dir=$cur_path/result \
-	 --iterations=1000 \
-	 --test_every=200 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+	 --iterations=10000 \
+	 --test_every=2000 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 wait
 
 #训练结束时间，不需要修改
@@ -132,7 +132,7 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据，不需要修改
 #吞吐量
