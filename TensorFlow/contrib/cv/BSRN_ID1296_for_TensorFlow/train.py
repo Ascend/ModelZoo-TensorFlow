@@ -82,6 +82,8 @@ if __name__ == '__main__':
   pre_parsed = pre_parser.parse_known_args()[0]
 
   if (pre_parsed.dataloader is not None):
+    print( "dataloader: ",pre_parsed.dataloader)
+    tf.logging.info("dataloader: ",pre_parsed.dataloader)
     DATALOADER_MODULE = importlib.import_module('dataloaders.' + pre_parsed.dataloader)
   if (pre_parsed.model is not None):
     MODEL_MODULE = importlib.import_module('models.' + pre_parsed.model)

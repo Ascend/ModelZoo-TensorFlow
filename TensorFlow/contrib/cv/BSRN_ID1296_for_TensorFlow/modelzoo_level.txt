@@ -1,5 +1,5 @@
 FuncStatus:OK
-PrecisionStatus:POK
-PerfStatus:POK
+PrecisionStatus:OK
+PerfStatus:OK
 GPUStatus:OK
-NPUMigrationStatus:POK
+NPUMigrationStatus:OK

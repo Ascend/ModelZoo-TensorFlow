@@ -1,173 +1,223 @@
 #!/bin/bash
 
-#当前路径,不需要修改
-cur_path=`pwd`/../
+##########################################################
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+##########################################################
+# shell脚本所在路径
+cur_path=`echo $(cd $(dirname $0);pwd)`
 
-#集合通信参数,不需要修改
+# 判断当前shell是否是performance
+perf_flag=`echo $0 | grep performance | wc -l`
+
+# 当前执行网络的名称
+Network=`echo $(cd $(dirname $0);pwd) | awk -F"/" '{print $(NF-1)}'`
 
 export RANK_SIZE=1
+export RANK_ID=0
 export JOB_ID=10087
-RANK_ID_START=0
 
-
-# 数据集路径,保持为空,不需要修改
-data_path=''
-#预训练模型地址
-ckpt_path=''
-
-#设置默认日志级别,不需要改
-#export ASCEND_GLOBAL_LOG_LEVEL=3
-#export ASCEND_DEVICE_ID=4
-
-#基础参数，需要模型审视修改
-#网络名称，同目录名称
-Network="BSRN_ID1296_for_TensorFlow"
-#训练epoch
-epochs=1
-#训练batch_size
-batch_size=8
-
-
-#TF2.X独有，需要模型审视修改
-export NPU_LOOP_SIZE=${train_steps}
-
-#维测参数，precision_mode需要模型审视修改
-precision_mode="allow_mix_precision"
-#维持参数，以下不需要修改
-over_dump=False
-data_dump_flag=False
-data_dump_step="10"
-profiling=False
+# 路径参数初始化
+data_path=""
+output_path=""
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
     echo"usage:./train_performance_1P.sh <args>"
     echo " "
     echo "parameter explain:
-    --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
-    --over_dump                    if or not over detection, default is False
-    --data_dump_flag                 data dump flag, default is False
-    --data_dump_step                 data dump step, default is 10
-    --profiling                    if or not profiling for performance debug, default is False
-    --data_path                    source data of training
-    --ckpt_path                         model
-    -h/--help                        show help message
+    --data_path              # dataset of training
+    --output_path            # output of training
+    --train_steps            # max_step for training
+	  --train_epochs           # max_epoch for training
+    --batch_size             # batch size
+    -h/--help                show help message
     "
     exit 1
 fi
 
-#参数校验，不需要修改
+# 参数校验，不需要修改
 for para in $*
 do
-    if [[ $para == --precision_mode* ]];then
-        precision_mode=`echo ${para#*=}`
-    elif [[ $para == --over_dump* ]];then
-        over_dump=`echo ${para#*=}`
-        over_dump_path=${cur_path}/test/output/overflow_dump
-        mkdir -p ${over_dump_path}
-    elif [[ $para == --data_dump_flag* ]];then
-        data_dump_flag=`echo ${para#*=}`
-        data_dump_path=${cur_path}/test/output/data_dump
-        mkdir -p ${data_dump_path}
-    elif [[ $para == --data_dump_step* ]];then
-        data_dump_step=`echo ${para#*=}`
-    elif [[ $para == --profiling* ]];then
-        profiling=`echo ${para#*=}`
-        profiling_dump_path=${cur_path}/test/output/profiling
-        mkdir -p ${profiling_dump_path}
-    elif [[ $para == --data_path* ]];then
+    if [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
-    elif [[ $para == --ckpt_path* ]];then
-        ckpt_path=`echo ${para#*=}`
-        fi
+    elif [[ $para == --output_path* ]];then
+        output_path=`echo ${para#*=}`
+    elif [[ $para == --train_steps* ]];then
+        train_steps=`echo ${para#*=}`
+	elif [[ $para == --train_epochs* ]];then
+        train_epochs=`echo ${para#*=}`
+    elif [[ $para == --batch_size* ]];then
+        batch_size=`echo ${para#*=}`
+    fi
 done
-# #校验是否传入data_path,不需要修改
-# if [[$data_path == ""]];then
-#     echo "[Error] para \"data_path\" must be confing"
-#     exit 1
-# fi
 
-#训练开始时间，不需要修改
-start_time=$(date +%s)
-
-#进入训练脚本目录，需要模型审视修改
-cd $cur_path/tf-bsrn-sr
-
-#创建DeviceID输出目录，不需要修改
-if [ -d ${cur_path}/test/output/${ASCEND_DEVICE_ID} ];then
-    rm -rf ${cur_path}/test/output/${ASCEND_DEVICE_ID}
-    mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
-else
-    mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
+# 校验是否传入data_path,不需要修改
+if [[ $data_path == "" ]];then
+    echo "[Error] para \"data_path\" must be config"
+    exit 1
 fi
 
-#执行训练脚本，以下传参不需要修改，其他需要模型审视修改
-python3 train.py \
-    --data_input_path=${data_path}/dataset/DIV2K/DIV2K_train_LR_bicubic\
-    --data_truth_path=${data_path}/dataset/DIV2K/DIV2K_train_HR \
-    --train_path='./train' \
+# 校验是否传入output_path,不需要修改
+if [[ $output_path == "" ]];then
+    output_path="./test/output/${ASCEND_DEVICE_ID}"
+fi
+
+# 设置打屏日志文件名，请保留，文件名为${print_log}
+print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
+modelarts_flag=${MODELARTS_MODEL_PATH}
+if [ x"${modelarts_flag}" != x ];
+then
+    echo "running without etp..."
+    print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
+    print_log="/home/ma-user/modelarts/log/${print_log_name}"
+fi
+echo "### get your log here : ${print_log}"
+
+CaseName=""
+function get_casename()
+{
+    if [ x"${perf_flag}" = x1 ];
+    then
+        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'perf'
+    else
+        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'acc'
+    fi
+}
+
+# 跳转到code目录
+cd ${cur_path}/../
+rm -rf ./test/output/${ASCEND_DEVICE_ID}
+mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+
+# 训练开始时间记录，不需要修改
+start_time=$(date +%s)
+##########################################################
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+##########################################################
+
+#=========================================================
+#=========================================================
+#========训练执行命令，需要根据您的网络进行修改==============
+#=========================================================
+#=========================================================
+# 基础参数，需要模型审视修改
+# 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
+# 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
+# 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
+batch_size=8
+
+#if [ x"${modelarts_flag}" != x ];
+#then
+#    echo ${data_path}
+#    ls ${data_path}
+#    relative_path_LR="DIV2K/DIV2K_train_LR_bicubic"
+#    relative_path_HR="DIV2K/DIV2K_train_HR"
+#
+#    python3.7 ./train.py \
+#        --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} --train_path=${output_path} \
+#        --chip='npu' \
+#        --model='bsrn' \
+#        --dataloader='div2k_loader' \
+#        --batch_size=8 \
+#        --max_steps=100000 \
+#        --save_freq=1000 \
+#        --scales='4'
+#else
+relative_path_LR="/dataset/DIV2K/DIV2K_train_LR_bicubic"
+relative_path_HR="/dataset/DIV2K/DIV2K_train_HR"
+python3.7 ./train.py \
+    --data_input_path=${data_path}${relative_path_LR}\
+    --data_truth_path=${data_path}${relative_path_HR} \
+    --train_path=./checkpoints \
     --chip='npu' \
     --model='bsrn' \
     --dataloader='div2k_loader' \
     --batch_size=8 \
-    --scales='4' \
-    --max_steps=100000 \
-    --save_freq=10000 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
-wait
-python3 validate_bsrn.py \
-        --dataloader=basic_loader \
-        --data_input_path=${data_path}/dataset/BSD100/LR_bicubic \
-        --data_truth_path=${data_path}/dataset/BSD100/original \
-        --restore_path=./train/model.ckpt-100000 \
-        --model=bsrn \
-        --scales=4 \
-        --save_path=./result/result-pictures \
-        --chip='npu' > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/test_${ASCEND_DEVICE_ID}.log 2>&1
-#训练结束时间，不需要修改
+    --max_steps=300000\
+    --save_freq=10 \
+    --scales='4' 1>${print_log} 2>&1
+
+relative_path_LR="/dataset/BSD100/LR"
+relative_path_HR="/dataset/BSD100/SR"
+# after training, load the model to check the performance
+relative_path_checkpoint='model.ckpt-300000'
+
+python3.7 ./validate_bsrn.py \
+    --dataloader=basic_loader \
+    --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} \
+    --restore_path=./checkpoints/${relative_path_checkpoint}  \
+    --model=bsrn \
+    --scales=4 \
+    --save_path=./result-pictures 1>>${print_log} 2>&1
+#fi
+cat ${print_log}
+# 性能相关数据计算
+StepTime=`grep "sec/batch" ${print_log} | tail -n 20 | awk '{print $(NF-2)}' | awk '{sum+=$1} END {print sum/NR}'`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+# 精度相关数据计算
+PSNR=`grep "Final PSNR" ${print_log} | awk '{print $NF}'`
+SSIM=`grep "Final SSIM" ${print_log} | awk '{print $NF}'`
+# 提取所有loss打印信息
+grep "loss" ${print_log} | awk -F ":" '{print $4}'| grep "loss" |awk -F "," '{print $3}'|awk '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+
+
+###########################################################
+#########后面的所有内容请不要修改###########################
+#########后面的所有内容请不要修改###########################
+#########后面的所有内容请不要修改###########################
+###########################################################
+
+# 判断本次执行是否正确使用Ascend NPU
+use_npu_flag=`grep "The model has been compiled on the Ascend AI processor" ${print_log} | wc -l`
+if [ x"${use_npu_flag}" == x0 ];
+then
+    echo "------------------ ERROR NOTICE START ------------------"
+    echo "ERROR, your task haven't used Ascend NPU, please check your npu Migration."
+    echo "------------------ ERROR NOTICE END------------------"
+else
+    echo "------------------ INFO NOTICE START------------------"
+    echo "INFO, your task have used Ascend NPU, please check your result."
+    echo "------------------ INFO NOTICE END------------------"
+fi
+
+# 获取最终的casename，请保留，case文件名为${CaseName}
+get_casename
+
+# 重命名loss文件
+if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
+then
+    mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
+fi
+
+# 训练端到端耗时
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
 
-#结果打印，不需要修改
 echo "------------------ Final result ------------------"
-#输出性能FPS，需要模型审视修改
-TrainingTime=`grep 'fps' $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $12}'`
-FPS=`grep 'fps' $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $14}'`
-#打印，不需要修改
-echo "Final Performance TrainingTime : $TrainingTime"
+# 输出性能FPS/单step耗时/端到端耗时
 echo "Final Performance images/sec : $FPS"
-
-#输出训练精度,需要模型审视修改
-train_accuracy=`grep -A1 RMSE: $cur_path/test/output/${ASCEND_DEVICE_ID}/test_${ASCEND_DEVICE_ID}.log|grep -v RMSE:|awk '{print $NF}'`
-
-#打印，不需要修改
-echo "Final Train Accuracy : ${train_accuracy}"
+echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
-#性能看护结果汇总
-#训练用例信息，不需要修改
-BatchSize=${batch_size}
-DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+# 输出训练精度
+echo "Final Train Accuracy : ${PSNR}"
+echo "Final SSIM : ${SSIM}"
 
-##获取性能数据，不需要修改
-#吞吐量
-ActualFPS=${FPS}
-#单迭代训练时长
-#TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${FPS}'/69}'`
+# 最后一个迭代loss值，不需要修改
+ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
 
-#从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep 'loss' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $10}' >> $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
-#最后一个迭代loss值，不需要修改
-ActualLoss=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
-
-#关键信息打印到${CaseName}.log中，不需修改
-echo "Network = ${Network}" > $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "RankSize = ${RANK_SIZE}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "BatchSize = ${BatchSize}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "DeviceType = ${DeviceType}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+#关键信息打印到${CaseName}.log中，不需要修改
+echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "BatchSize = ${batch_size}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DeviceType = `uname -m`" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log

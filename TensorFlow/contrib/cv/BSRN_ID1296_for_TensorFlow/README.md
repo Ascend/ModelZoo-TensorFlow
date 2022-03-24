@@ -48,8 +48,13 @@
 │    	├── test.sh								----推理
 │    	├── validate_gpu.sh						----gpu(v100)上验证模型精度
 │    	└── validate_npu.sh						----npu(modelarts)上验证模型精度
-│   ├── boot_modelarts.py
-│   ├── help_modelarts.py
+│   ├── test									----新模板（训练入口）
+│    	├── train_full_1p.sh					----gpu(v100)上验证模型精度
+│    	└── train_performance_1p.sh				----npu(modelarts)上验证模型精度
+│   ├── boot_modelarts.py（已过期，可用于旧版训练）
+│   ├── help_modelarts.py（已过期，可用于旧版训练）
+│   ├── modelarts_entry_acc.py					----训练启动文件
+│   ├── modelarts_entry_perf.py					----性能测试启动文件
 │   ├── test_bsrn.py							----测试模型
 │   ├── train.py								----训练模型
 │   ├── output.txt								----训练输出(gpu训练自动生成)
@@ -90,12 +95,8 @@ nohup bash scripts/run_gpu.sh > output.txt 2>&1 &
 ```
 - 训练之前需修改`boot_modelarts.py`中第77行代码为bash_header = os.path.join(code_dir, 'scripts/run_gpu.sh')
 
-### GPU离线推理<font color='red'> 【在线推理待完善】 </font>
 
-命令行切换路径到`tf-bsrn-sr/`，执行以下命令，详细的参数设置请参考脚本中的注释
-```shell
-bash scripts/test.sh
-```
+
 ### GPU评估
 
 命令行切换路径到`tf-bsrn-sr/`，执行以下命令，详细的参数设置请参考脚本中的注释
@@ -112,16 +113,18 @@ ModelArts的使用请参考[模型开发向导_昇腾CANN社区版(5.0.2.alpha00
 
 配置方式请参考：
 
+>  旧版，已废弃
+
 <img src="statics\modelarts配置.PNG" alt="modelarts配置" style="zoom: 67%;" />
+
+> 下图是使用新模板后的更新配置图：
+
+<img src="https://raw.githubusercontent.com/coelien/image-hosting/master/img/202203111454910.png" alt="image-20220311145441757" style="zoom:67%;" />
 
 （修改`boot_modelarts.py`中第77行代码bash_header = os.path.join(code_dir, 'scripts/run_npu.sh')，可以设置在NPU上跑还是在GPU上跑）
 
 ### 指标对比
 均使用相同的训练集以及测试集，训练参数都相同。
-
-NPU Checkpoints: ([百度云链接，提取码：xxxx]()) <font color='red'> 【链接待完善】 </font>
-
-GPU Checkpoints: ([百度云链接，提取码：xxxx]()) <font color='red'> 【链接待完善】 </font>
 
 作者论文中提供的各项指标值为：
 
@@ -131,8 +134,8 @@ GPU Checkpoints: ([百度云链接，提取码：xxxx]()) <font color='red'> 【
 
 **(PSNR, SSIMscores for scale x4 on BSD100 dataset.)**
 
+##### *×*4-scale BSRN model <font color='red'> </font>
 
-##### *×*4-scale BSRN model <font color='red'> 【bsrn gpu, npu指标 待完善】 </font>
 <table>
     <tr>
        <td>metrics</td>
@@ -148,13 +151,12 @@ GPU Checkpoints: ([百度云链接，提取码：xxxx]()) <font color='red'> 【
     </tr>
     <tr>
       <td>BSRN</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
+      <td>26.444</td>
+      <td>27.387</td>
+      <td>0.680</td>
+      <td>0.702</td>
     </tr>
 </table>
-
 
 
 
@@ -168,7 +170,13 @@ GPU Checkpoints: ([百度云链接，提取码：xxxx]()) <font color='red'> 【
 
  NPU性能log截图
 
+> 旧版训练截图
+
 <img src="statics\NPU性能.jpg" alt="NPU性能" style="zoom:67%;" />
+
+> 下图为使用新模板（1.15）后的训练截图
+
+<img src="https://raw.githubusercontent.com/coelien/image-hosting/master/img/202203111450411.png" alt="image-20220311144957252" style="zoom:67%;" />
 
  GPU性能log截图
 
@@ -179,27 +187,3 @@ GPU Checkpoints: ([百度云链接，提取码：xxxx]()) <font color='red'> 【
 |   NPU    |     8     |        0.739        |
 | GPU V100 |     8     |        0.828        |
 
-#### 推理性能 <font color='red'> 【待完善】 </font>
-
-NPU性能log截图
-
-GPU性能log截图
-
-
-
-|   平台   | BatchSize | 训练性能(fps) |
-| :------: | :-------: | :-----------: |
-|   NPU    |           |               |
-| GPU V100 |           |               |
-
-#### 性能调优 <font color='red'> 【待完善】 </font>
-
-##### NPU AutoTune性能
-
-训练时开启AutoTune:
-
-npu训练性能（命令行截图）
-
-| 平台 | BatchSize | 训练性能(fps) |
-| :--: | :-------: | :-----------: |
-| NPU  |           |               |

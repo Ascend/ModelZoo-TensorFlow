@@ -31,6 +31,8 @@ import os
 import time
 import numpy as np
 import tensorflow as tf
+from scipy.ndimage import gaussian_filter
+
 import dataloaders
 import models
 
@@ -59,7 +61,7 @@ if __name__ == '__main__':
   tf.flags.DEFINE_integer('shave_size', 4, 'Amount of pixels to crop the borders of the images before calculating quality metrics.')
   tf.flags.DEFINE_boolean('ensemble_only', False, 'Calculate (and save) ensembled image only.')
 
-  tf.flags.DEFINE_string("chip", "gpu", "Run on which chip, (npu or gpu or cpu)")
+  tf.flags.DEFINE_string("chip", "cpu", "Run on which chip, (npu or gpu or cpu)")
   tf.flags.DEFINE_string("platform", "linux", 'the platform this code is running on')
 
   # parse data loader and model first and import them
@@ -116,7 +118,55 @@ def _image_rmse2(output_image, truth_image):
   diff = yr_tr - yr_out
   rmse = np.sqrt(np.mean(diff ** 2))
   return rmse
+def _image_ssim(X, Y):
+  """
+     Computes the mean structural similarity between two images.
+  """
+  assert (X.shape == Y.shape), "Image-patche provided have different dimensions"
+  nch = 1 if X.ndim == 2 else X.shape[-1]
+  mssim = []
+  for ch in range(nch):
+    Xc, Yc = X[..., ch].astype(np.float64), Y[..., ch].astype(np.float64)
+    mssim.append(compute_ssim(Xc, Yc))
+  return np.mean(mssim)
 
+
+def compute_ssim(X, Y):
+  """
+     Compute the structural similarity per single channel (given two images)
+  """
+  # variables are initialized as suggested in the paper
+  K1 = 0.01
+  K2 = 0.03
+  sigma = 1.5
+  win_size = 5
+
+  # means
+  ux = gaussian_filter(X, sigma)
+  uy = gaussian_filter(Y, sigma)
+
+  # variances and covariances
+  uxx = gaussian_filter(X * X, sigma)
+  uyy = gaussian_filter(Y * Y, sigma)
+  uxy = gaussian_filter(X * Y, sigma)
+
+  # normalize by unbiased estimate of std dev
+  N = win_size ** X.ndim
+  unbiased_norm = N / (N - 1)  # eq. 4 of the paper
+  vx = (uxx - ux * ux) * unbiased_norm
+  vy = (uyy - uy * uy) * unbiased_norm
+  vxy = (uxy - ux * uy) * unbiased_norm
+
+  R = 255
+  C1 = (K1 * R) ** 2
+  C2 = (K2 * R) ** 2
+  # compute SSIM (eq. 13 of the paper)
+  sim = (2 * ux * uy + C1) * (2 * vxy + C2)
+  D = (ux ** 2 + uy ** 2 + C1) * (vx + vy + C2)
+  SSIM = sim / D
+  mssim = SSIM.mean()
+
+  return mssim
 
 def main(unused_argv):
   # initialize
@@ -240,9 +290,9 @@ def main(unused_argv):
           output_image_shaved = _shave_image(output_image, shave_size=FLAGS.shave_size)
 
           psnr = _image_psnr(output_image=output_image_shaved, truth_image=truth_image_shaved)
-          rmse = _image_rmse(output_image=output_image_shaved, truth_image=truth_image_shaved)
+          rmse = _image_ssim(output_image_shaved, truth_image_shaved)
 
-          tf.logging.info('t%d, x%d, %d/%d, psnr=%.2f, rmse=%.2f' % (num_recursions, scale, image_index+1, num_images, psnr, rmse))
+          tf.logging.info('t%d, x%d, %d/%d, psnr=%.2f, ssim=%.2f' % (num_recursions, scale, image_index+1, num_images, psnr, rmse))
 
           psnr_list[i].append(psnr)
           rmse_list[i].append(rmse)
@@ -262,9 +312,9 @@ def main(unused_argv):
       output_image_shaved = _shave_image(output_image, shave_size=FLAGS.shave_size)
 
       psnr = _image_psnr(output_image=output_image_shaved, truth_image=truth_image_shaved)
-      rmse = _image_rmse(output_image=output_image_shaved, truth_image=truth_image_shaved)
+      rmse = _image_ssim(output_image_shaved, truth_image_shaved)
 
-      tf.logging.info('ensemble, x%d, %d/%d, psnr=%.2f, rmse=%.2f' % (scale, image_index+1, num_images, psnr, rmse))
+      tf.logging.info('ensemble, x%d, %d/%d, psnr=%.2f, ssim=%.2f' % (scale, image_index+1, num_images, psnr, rmse))
 
       psnr_list[num_total_outputs].append(psnr)
       rmse_list[num_total_outputs].append(rmse)
@@ -279,10 +329,10 @@ def main(unused_argv):
   # finalize
   tf.logging.info('finished')
   for scale in scale_list:
-    print('- x%d, PSNR and RMSE:' % (scale))
-    print(' '.join([('%.3f' % x) for x in modules_average_psnr_dict[scale]]))
+    print('- x%d, PSNR and SSIM:' % (scale))
+    print("Final PSNR: ",' '.join([('%.3f' % x) for x in modules_average_psnr_dict[scale]]))
     print('')
-    print(' '.join([('%.3f' % x) for x in modules_average_rmse_dict[scale]]))
+    print("Final SSIM: ",' '.join([('%.3f' % x) for x in modules_average_rmse_dict[scale]]))
 
   if FLAGS.platform.lower() == 'modelarts':
     from help_modelarts import modelarts_result2obs
