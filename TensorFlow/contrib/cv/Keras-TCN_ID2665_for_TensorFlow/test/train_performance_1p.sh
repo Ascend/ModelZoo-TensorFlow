@@ -20,7 +20,7 @@ export ASCEND_GLOBAL_LOG_LEVEL=3
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="Keras-TCN_ID0785_for_TensorFlow"
+Network="Keras-TCN_ID2665_for_TensorFlow"
 #训练epoch
 train_epochs=3
 #训练batch_size
