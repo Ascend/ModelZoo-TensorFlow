@@ -1,203 +1,158 @@
-Copyright 2019 The TensorFlow Authors.  All rights reserved.
+#!/bin/bash
 
-                                 Apache License
-                           Version 2.0, January 2004
-                        http://www.apache.org/licenses/
+#当前路径,不需要修改
+cur_path=`pwd`/../
 
-   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+#集合通信参数,不需要修改
 
-   1. Definitions.
+export RANK_SIZE=1
+export JOB_ID=10087
+RANK_ID_START=0
 
-      "License" shall mean the terms and conditions for use, reproduction,
-      and distribution as defined by Sections 1 through 9 of this document.
 
-      "Licensor" shall mean the copyright owner or entity authorized by
-      the copyright owner that is granting the License.
+# 数据集路径,保持为空,不需要修改
+data_path=''
+#预训练模型地址
+ckpt_path=''
 
-      "Legal Entity" shall mean the union of the acting entity and all
-      other entities that control, are controlled by, or are under common
-      control with that entity. For the purposes of this definition,
-      "control" means (i) the power, direct or indirect, to cause the
-      direction or management of such entity, whether by contract or
-      otherwise, or (ii) ownership of fifty percent (50%) or more of the
-      outstanding shares, or (iii) beneficial ownership of such entity.
+#设置默认日志级别,不需要改
+#export ASCEND_GLOBAL_LOG_LEVEL=3
+#export ASCEND_DEVICE_ID=4
 
-      "You" (or "Your") shall mean an individual or Legal Entity
-      exercising permissions granted by this License.
+#基础参数，需要模型审视修改
+#网络名称，同目录名称
+Network="tprnn_ID1297_for_TensorFlow"
+#训练batch_size
+batch_size=16
 
-      "Source" form shall mean the preferred form for making modifications,
-      including but not limited to software source code, documentation
-      source, and configuration files.
 
-      "Object" form shall mean any form resulting from mechanical
-      transformation or translation of a Source form, including but
-      not limited to compiled object code, generated documentation,
-      and conversions to other media types.
+# #TF2.X独有，需要模型审视修改
+# export NPU_LOOP_SIZE=${train_steps}
 
-      "Work" shall mean the work of authorship, whether in Source or
-      Object form, made available under the License, as indicated by a
-      copyright notice that is included in or attached to the work
-      (an example is provided in the Appendix below).
+# #维测参数，precision_mode需要模型审视修改
+# precision_mode="allow_mix_precision"
+# #维持参数，以下不需要修改
+# over_dump=False
+# data_dump_flag=False
+# data_dump_step="10"
+# profiling=False
 
-      "Derivative Works" shall mean any work, whether in Source or Object
-      form, that is based on (or derived from) the Work and for which the
-      editorial revisions, annotations, elaborations, or other modifications
-      represent, as a whole, an original work of authorship. For the purposes
-      of this License, Derivative Works shall not include works that remain
-      separable from, or merely link (or bind by name) to the interfaces of,
-      the Work and Derivative Works thereof.
+# 帮助信息，不需要修改
+if [[ $1 == --help || $1 == -h ]];then
+    echo"usage:./train_performance_1P.sh <args>"
+    echo " "
+    echo "parameter explain:
+    --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
+    --over_dump                    if or not over detection, default is False
+    --data_dump_flag                 data dump flag, default is False
+    --data_dump_step                 data dump step, default is 10
+    --profiling                    if or not profiling for performance debug, default is False
+    --data_path                    source data of training
+    --ckpt_path                         model
+    -h/--help                        show help message
+    "
+    exit 1
+fi
 
-      "Contribution" shall mean any work of authorship, including
-      the original version of the Work and any modifications or additions
-      to that Work or Derivative Works thereof, that is intentionally
-      submitted to Licensor for inclusion in the Work by the copyright owner
-      or by an individual or Legal Entity authorized to submit on behalf of
-      the copyright owner. For the purposes of this definition, "submitted"
-      means any form of electronic, verbal, or written communication sent
-      to the Licensor or its representatives, including but not limited to
-      communication on electronic mailing lists, source code control systems,
-      and issue tracking systems that are managed by, or on behalf of, the
-      Licensor for the purpose of discussing and improving the Work, but
-      excluding communication that is conspicuously marked or otherwise
-      designated in writing by the copyright owner as "Not a Contribution."
+#参数校验，不需要修改
+for para in $*
+do
+    if [[ $para == --precision_mode* ]];then
+        precision_mode=`echo ${para#*=}`
+    elif [[ $para == --over_dump* ]];then
+        over_dump=`echo ${para#*=}`
+        over_dump_path=${cur_path}/test/output/overflow_dump
+        mkdir -p ${over_dump_path}
+    elif [[ $para == --data_dump_flag* ]];then
+        data_dump_flag=`echo ${para#*=}`
+        data_dump_path=${cur_path}/test/output/data_dump
+        mkdir -p ${data_dump_path}
+    elif [[ $para == --data_dump_step* ]];then
+        data_dump_step=`echo ${para#*=}`
+    elif [[ $para == --profiling* ]];then
+        profiling=`echo ${para#*=}`
+        profiling_dump_path=${cur_path}/test/output/profiling
+        mkdir -p ${profiling_dump_path}
+    elif [[ $para == --data_path* ]];then
+        data_path=`echo ${para#*=}`
+    elif [[ $para == --ckpt_path* ]];then
+        ckpt_path=`echo ${para#*=}`
+        fi
+done
+# #校验是否传入data_path,不需要修改
+# if [[$data_path == ""]];then
+#     echo "[Error] para \"data_path\" must be confing"
+#     exit 1
+# fi
 
-      "Contributor" shall mean Licensor and any individual or Legal Entity
-      on behalf of whom a Contribution has been received by Licensor and
-      subsequently incorporated within the Work.
+#训练开始时间，不需要修改
+start_time=$(date +%s)
 
-   2. Grant of Copyright License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      copyright license to reproduce, prepare Derivative Works of,
-      publicly display, publicly perform, sublicense, and distribute the
-      Work and such Derivative Works in Source or Object form.
+#进入训练脚本目录，需要模型审视修改
+cd $cur_path/
 
-   3. Grant of Patent License. Subject to the terms and conditions of
-      this License, each Contributor hereby grants to You a perpetual,
-      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-      (except as stated in this section) patent license to make, have made,
-      use, offer to sell, sell, import, and otherwise transfer the Work,
-      where such license applies only to those patent claims licensable
-      by such Contributor that are necessarily infringed by their
-      Contribution(s) alone or by combination of their Contribution(s)
-      with the Work to which such Contribution(s) was submitted. If You
-      institute patent litigation against any entity (including a
-      cross-claim or counterclaim in a lawsuit) alleging that the Work
-      or a Contribution incorporated within the Work constitutes direct
-      or contributory patent infringement, then any patent licenses
-      granted to You under this License for that Work shall terminate
-      as of the date such litigation is filed.
+#创建DeviceID输出目录，不需要修改
+if [ -d ${cur_path}/test/output/${ASCEND_DEVICE_ID} ];then
+    rm -rf ${cur_path}/test/output/${ASCEND_DEVICE_ID}
+    mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
+else
+    mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
+fi
 
-   4. Redistribution. You may reproduce and distribute copies of the
-      Work or Derivative Works thereof in any medium, with or without
-      modifications, and in Source or Object form, provided that You
-      meet the following conditions:
+#执行训练脚本，以下传参不需要修改，其他需要模型审视修改
+cd $cur_path/post_tprnn_npu_code_chun
+python3 tprnn_train_human.py \
+     --locals_dir=${data_path} \
+     --model_dir=$cur_path/result \
+	 --iterations=1000 \
+	 --test_every=200 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+wait
 
-      (a) You must give any other recipients of the Work or
-          Derivative Works a copy of this License; and
+#训练结束时间，不需要修改
+end_time=$(date +%s)
+e2e_time=$(( $end_time - $start_time ))
 
-      (b) You must cause any modified files to carry prominent notices
-          stating that You changed the files; and
+#结果打印，不需要修改
+echo "------------------ Final result ------------------"
+#输出性能FPS，需要模型审视修改
+TrainingTime=`grep 'time:' $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $6}'`
+FPS=`grep 'fps' $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $8}'`
+#打印，不需要修改
+echo "Final Performance TrainingTime : $TrainingTime"
+echo "Final Performance images/sec : $FPS"
 
-      (c) You must retain, in the Source form of any Derivative Works
-          that You distribute, all copyright, patent, trademark, and
-          attribution notices from the Source form of the Work,
-          excluding those notices that do not pertain to any part of
-          the Derivative Works; and
+#输出训练精度,需要模型审视修改
+#train_accuracy=`grep val_loss $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|grep step|grep -v ETA|awk 'END {print}'|awk '{print $11}'`
 
-      (d) If the Work includes a "NOTICE" text file as part of its
-          distribution, then any Derivative Works that You distribute must
-          include a readable copy of the attribution notices contained
-          within such NOTICE file, excluding those notices that do not
-          pertain to any part of the Derivative Works, in at least one
-          of the following places: within a NOTICE text file distributed
-          as part of the Derivative Works; within the Source form or
-          documentation, if provided along with the Derivative Works; or,
-          within a display generated by the Derivative Works, if and
-          wherever such third-party notices normally appear. The contents
-          of the NOTICE file are for informational purposes only and
-          do not modify the License. You may add Your own attribution
-          notices within Derivative Works that You distribute, alongside
-          or as an addendum to the NOTICE text from the Work, provided
-          that such additional attribution notices cannot be construed
-          as modifying the License.
+#打印，不需要修改
+#echo "Final Train Accuracy : ${train_accuracy}"
+echo "E2E Training Duration sec : $e2e_time"
 
-      You may add Your own copyright statement to Your modifications and
-      may provide additional or different license terms and conditions
-      for use, reproduction, or distribution of Your modifications, or
-      for any such Derivative Works as a whole, provided Your use,
-      reproduction, and distribution of the Work otherwise complies with
-      the conditions stated in this License.
+#性能看护结果汇总
+#训练用例信息，不需要修改
+BatchSize=${batch_size}
+DeviceType=`uname -m`
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
-   5. Submission of Contributions. Unless You explicitly state otherwise,
-      any Contribution intentionally submitted for inclusion in the Work
-      by You to the Licensor shall be under the terms and conditions of
-      this License, without any additional terms or conditions.
-      Notwithstanding the above, nothing herein shall supersede or modify
-      the terms of any separate license agreement you may have executed
-      with Licensor regarding such Contributions.
+##获取性能数据，不需要修改
+#吞吐量
+ActualFPS=${FPS}
+#单迭代训练时长
+#TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${FPS}'/69}'`
 
-   6. Trademarks. This License does not grant permission to use the trade
-      names, trademarks, service marks, or product names of the Licensor,
-      except as required for reasonable and customary use in describing the
-      origin of the Work and reproducing the content of the NOTICE file.
+#从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
+grep 'step_loss' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $4}' >> $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+#最后一个迭代loss值，不需要修改
+ActualLoss=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
-   7. Disclaimer of Warranty. Unless required by applicable law or
-      agreed to in writing, Licensor provides the Work (and each
-      Contributor provides its Contributions) on an "AS IS" BASIS,
-      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-      implied, including, without limitation, any warranties or conditions
-      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
-      PARTICULAR PURPOSE. You are solely responsible for determining the
-      appropriateness of using or redistributing the Work and assume any
-      risks associated with Your exercise of permissions under this License.
-
-   8. Limitation of Liability. In no event and under no legal theory,
-      whether in tort (including negligence), contract, or otherwise,
-      unless required by applicable law (such as deliberate and grossly
-      negligent acts) or agreed to in writing, shall any Contributor be
-      liable to You for damages, including any direct, indirect, special,
-      incidental, or consequential damages of any character arising as a
-      result of this License or out of the use or inability to use the
-      Work (including but not limited to damages for loss of goodwill,
-      work stoppage, computer failure or malfunction, or any and all
-      other commercial damages or losses), even if such Contributor
-      has been advised of the possibility of such damages.
-
-   9. Accepting Warranty or Additional Liability. While redistributing
-      the Work or Derivative Works thereof, You may choose to offer,
-      and charge a fee for, acceptance of support, warranty, indemnity,
-      or other liability obligations and/or rights consistent with this
-      License. However, in accepting such obligations, You may act only
-      on Your own behalf and on Your sole responsibility, not on behalf
-      of any other Contributor, and only if You agree to indemnify,
-      defend, and hold each Contributor harmless for any liability
-      incurred by, or claims asserted against, such Contributor by reason
-      of your accepting any such warranty or additional liability.
-
-   END OF TERMS AND CONDITIONS
-
-   APPENDIX: How to apply the Apache License to your work.
-
-      To apply the Apache License to your work, attach the following
-      boilerplate notice, with the fields enclosed by brackets "[]"
-      replaced with your own identifying information. (Don't include
-      the brackets!)  The text should be enclosed in the appropriate
-      comment syntax for the file format. We also recommend that a
-      file or class name and description of purpose be included on the
-      same "printed page" as the copyright notice for easier
-      identification within third-party archives.
-
-   Copyright [yyyy] [name of copyright owner]
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
+#关键信息打印到${CaseName}.log中，不需修改
+echo "Network = ${Network}" > $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZE}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "BatchSize = ${BatchSize}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DeviceType = ${DeviceType}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
