@@ -154,7 +154,7 @@ TrainingTime=`grep TimeHistory  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_
 #输出训练精度,需要模型审视修改
 train_acc=`grep miou $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print}' |awk -F'=' '{print $3}'|awk -F',' '{print $1}'`
 #输出测试精度,需要模型审视修改
-test_acc=`grep MIoU $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $3}'`
+test_acc=`grep MIoU $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F":" '{print $2}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_acc}"
 echo "Final Test Accuracy : ${test_acc}"
