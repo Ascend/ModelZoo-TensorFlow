@@ -152,7 +152,7 @@ def train():
             print(get_time(), npy, npy_path)
             print("int(batch_num)-------------",int(batch_num))  #142
             for step in range(1, int(batch_num)+1 - args.batch_num_less):   #原来：142
-                
+                print(get_time(), 'step', step)
                 g_d_data, g_input_img, g_lr_img, g_hr_img, batch_id = data_train.get_next(batch_id, args.batch_size, d_data, input_img, lr_img, hr_img)
                 feed_dict = {model.real_lr: g_d_data, model.input_data: g_input_img, model.lr_img: g_lr_img, model.hr_img:g_hr_img, model.training: True}
                 start = time.time()
@@ -160,7 +160,8 @@ def train():
                 _dis, d_cost = session.run([model.dis_train_op, model.discrim_cost], feed_dict)
                 perf = time.time - start
                 fps = args.batch_size / perf
-                print(get_time(), 'step', step, 'time' perf  'fps' fps)
+                print("time: {:.4f} fps: {:.4f}".format(perf,fps))
+                
                 if step % 2 == 0:
                     _down, down_mse_loss = session.run([model.down_train_op, model.down_mse_loss], feed_dict)
                 global_step += 1
