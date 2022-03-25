@@ -1,0 +1,246 @@
+2022-03-19 18:03:26,273 - tensorflow - INFO - Using config: {'_model_dir': '/root/RotationContinuity-master2/shapenet/data/pc_plane/to/model1', '_tf_random_seed': None, '_save_summary_steps': 25, '_save_checkpoints_steps': 100, '_save_checkpoints_secs': None, '_session_config': allow_soft_placement: true
+graph_options {
+  rewrite_options {
+    meta_optimizer_iterations: ONE
+  }
+}
+, '_keep_checkpoint_max': None, '_keep_checkpoint_every_n_hours': 10000, '_log_step_count_steps': 200, '_train_distribute': None, '_device_fn': None, '_protocol': None, '_eval_distribute': None, '_experimental_distribute': None, '_experimental_max_worker_delay_secs': None, '_session_creation_timeout_secs': 7200, '_service': None, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7f101e05f190>, '_task_type': 'worker', '_task_id': 0, '_global_id_in_cluster': 0, '_master': '', '_evaluation_master': '', '_is_chief': True, '_num_ps_replicas': 0, '_num_worker_replicas': 1}
+2022-03-19 18:03:26,273 - tensorflow - INFO - Not using Distribute Coordinator.
+2022-03-19 18:03:26,273 - tensorflow - INFO - Running training and evaluation locally (non-distributed).
+2022-03-19 18:03:26,274 - tensorflow - INFO - Start train and evaluate loop. The evaluate will happen after every checkpoint. Checkpoint frequency is determined based on RunConfig arguments: save_checkpoints_steps 100 or save_checkpoints_secs None.
+2022-03-19 18:03:26,277 - tensorflow - INFO - Skipping training since max_steps has already saved.
+2022-03-19 18:04:19,049 - tensorflow - INFO - Using config: {'_model_dir': '/root/RotationContinuity-master2/shapenet/data/pc_plane/to/model1', '_tf_random_seed': None, '_save_summary_steps': 25, '_save_checkpoints_steps': 100, '_save_checkpoints_secs': None, '_session_config': allow_soft_placement: true
+graph_options {
+  rewrite_options {
+    meta_optimizer_iterations: ONE
+  }
+}
+, '_keep_checkpoint_max': None, '_keep_checkpoint_every_n_hours': 10000, '_log_step_count_steps': 200, '_train_distribute': None, '_device_fn': None, '_protocol': None, '_eval_distribute': None, '_experimental_distribute': None, '_experimental_max_worker_delay_secs': None, '_session_creation_timeout_secs': 7200, '_service': None, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7f2706d99310>, '_task_type': 'worker', '_task_id': 0, '_global_id_in_cluster': 0, '_master': '', '_evaluation_master': '', '_is_chief': True, '_num_ps_replicas': 0, '_num_worker_replicas': 1}
+2022-03-19 18:04:19,050 - tensorflow - INFO - Not using Distribute Coordinator.
+2022-03-19 18:04:19,050 - tensorflow - INFO - Running training and evaluation locally (non-distributed).
+2022-03-19 18:04:19,050 - tensorflow - INFO - Start train and evaluate loop. The evaluate will happen after every checkpoint. Checkpoint frequency is determined based on RunConfig arguments: save_checkpoints_steps 100 or save_checkpoints_secs None.
+2022-03-19 18:04:19,054 - tensorflow - INFO - Skipping training since max_steps has already saved.
+2022-03-19 18:04:49,280 - tensorflow - INFO - Using config: {'_model_dir': '/root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2', '_tf_random_seed': None, '_save_summary_steps': 25, '_save_checkpoints_steps': 100, '_save_checkpoints_secs': None, '_session_config': allow_soft_placement: true
+graph_options {
+  rewrite_options {
+    meta_optimizer_iterations: ONE
+  }
+}
+, '_keep_checkpoint_max': None, '_keep_checkpoint_every_n_hours': 10000, '_log_step_count_steps': 200, '_train_distribute': None, '_device_fn': None, '_protocol': None, '_eval_distribute': None, '_experimental_distribute': None, '_experimental_max_worker_delay_secs': None, '_session_creation_timeout_secs': 7200, '_service': None, '_cluster_spec': <tensorflow.python.training.server_lib.ClusterSpec object at 0x7fb994ece110>, '_task_type': 'worker', '_task_id': 0, '_global_id_in_cluster': 0, '_master': '', '_evaluation_master': '', '_is_chief': True, '_num_ps_replicas': 0, '_num_worker_replicas': 1}
+2022-03-19 18:04:49,281 - tensorflow - INFO - Not using Distribute Coordinator.
+2022-03-19 18:04:49,281 - tensorflow - INFO - Running training and evaluation locally (non-distributed).
+2022-03-19 18:04:49,281 - tensorflow - INFO - Start train and evaluate loop. The evaluate will happen after every checkpoint. Checkpoint frequency is determined based on RunConfig arguments: save_checkpoints_steps 100 or save_checkpoints_secs None.
+2022-03-19 18:04:49,286 - tensorflow - WARNING - From /root/anaconda3/envs/tf/lib/python3.7/site-packages/tensorflow_core/python/training/training_util.py:236: Variable.initialized_value (from tensorflow.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use Variable.read_value. Variables in 2.X are initialized automatically both in eager and graph (inside tf.defun) contexts.
+2022-03-19 18:04:49,292 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:244: The name tf.gfile.Glob is deprecated. Please use tf.io.gfile.glob instead.
+
+2022-03-19 18:04:49,683 - tensorflow - WARNING - From /root/anaconda3/envs/tf/lib/python3.7/site-packages/tensorflow_core/python/autograph/converters/directives.py:119: The name tf.read_file is deprecated. Please use tf.io.read_file instead.
+
+2022-03-19 18:04:49,683 - tensorflow - WARNING - From /root/anaconda3/envs/tf/lib/python3.7/site-packages/tensorflow_core/python/autograph/converters/directives.py:119: The name tf.decode_csv is deprecated. Please use tf.io.decode_csv instead.
+
+2022-03-19 18:04:49,766 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:223: calling string_split (from tensorflow.python.ops.ragged.ragged_string_ops) with delimiter is deprecated and will be removed in a future version.
+Instructions for updating:
+delimiter is deprecated, please use sep instead.
+2022-03-19 18:04:49,932 - tensorflow - WARNING - From /root/special_orthogonalization2/utils_gpu.py:75: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, there are two
+    options available in V2.
+    - tf.py_function takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    - tf.numpy_function maintains the semantics of the deprecated tf.py_func
+    (it is not differentiable, and manipulates numpy arrays). It drops the
+    stateful argument making all functions stateful.
+    
+2022-03-19 18:04:49,938 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:252: The name tf.data.make_one_shot_iterator is deprecated. Please use tf.compat.v1.data.make_one_shot_iterator instead.
+
+2022-03-19 18:04:49,961 - tensorflow - INFO - Calling model_fn.
+2022-03-19 18:04:49,966 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:74: The name tf.variable_scope is deprecated. Please use tf.compat.v1.variable_scope instead.
+
+2022-03-19 18:04:49,966 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:74: The name tf.AUTO_REUSE is deprecated. Please use tf.compat.v1.AUTO_REUSE instead.
+
+2022-03-19 18:04:49,966 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:75: conv1d (from tensorflow.python.layers.convolutional) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.keras.layers.Conv1D` instead.
+2022-03-19 18:04:49,967 - tensorflow - WARNING - From /root/anaconda3/envs/tf/lib/python3.7/site-packages/tensorflow_core/python/layers/convolutional.py:218: Layer.apply (from tensorflow.python.keras.engine.base_layer) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `layer.__call__` method instead.
+2022-03-19 18:04:50,011 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:81: calling reduce_max_v1 (from tensorflow.python.ops.math_ops) with keep_dims is deprecated and will be removed in a future version.
+Instructions for updating:
+keep_dims is deprecated, use keepdims instead
+2022-03-19 18:04:50,033 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:99: dense (from tensorflow.python.layers.core) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.Dense instead.
+2022-03-19 18:04:50,055 - tensorflow - WARNING - From /root/special_orthogonalization2/utils_gpu.py:97: The name tf.svd is deprecated. Please use tf.linalg.svd instead.
+
+2022-03-19 18:04:50,079 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:171: The name tf.summary.scalar is deprecated. Please use tf.compat.v1.summary.scalar instead.
+
+2022-03-19 18:04:50,082 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:173: The name tf.train.get_or_create_global_step is deprecated. Please use tf.compat.v1.train.get_or_create_global_step instead.
+
+2022-03-19 18:04:50,083 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:185: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
+
+2022-03-19 18:04:50,083 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:186: The name tf.get_collection is deprecated. Please use tf.compat.v1.get_collection instead.
+
+2022-03-19 18:04:50,083 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:186: The name tf.GraphKeys is deprecated. Please use tf.compat.v1.GraphKeys instead.
+
+2022-03-19 18:04:50,323 - tensorflow - INFO - Done calling model_fn.
+2022-03-19 18:04:50,325 - tensorflow - INFO - Create CheckpointSaverHook.
+2022-03-19 18:04:50,418 - tensorflow - WARNING - From /root/anaconda3/envs/tf/lib/python3.7/site-packages/tensorflow_core/python/ops/array_ops.py:1475: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+2022-03-19 18:04:50,485 - tensorflow - INFO - Graph was finalized.
+2022-03-19 18:04:52,089 - tensorflow - INFO - Running local_init_op.
+2022-03-19 18:04:52,106 - tensorflow - INFO - Done running local_init_op.
+2022-03-19 18:04:52,544 - tensorflow - INFO - Saving checkpoints for 0 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:04:52,608 - tensorflow - INFO - model.ckpt-0 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:04:55,512 - tensorflow - INFO - loss = 32.202156, step = 0
+2022-03-19 18:04:57,008 - tensorflow - INFO - Saving checkpoints for 100 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:04:57,026 - tensorflow - INFO - model.ckpt-100 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:04:57,484 - tensorflow - INFO - Calling model_fn.
+2022-03-19 18:04:57,596 - tensorflow - WARNING - From /root/special_orthogonalization2/main_point_cloud_gpu.py:203: The name tf.metrics.mean is deprecated. Please use tf.compat.v1.metrics.mean instead.
+
+2022-03-19 18:04:57,606 - tensorflow - INFO - Done calling model_fn.
+2022-03-19 18:04:57,621 - tensorflow - INFO - Starting evaluation at 2022-03-19T18:04:57Z
+2022-03-19 18:04:57,684 - tensorflow - INFO - Graph was finalized.
+2022-03-19 18:04:57,687 - tensorflow - INFO - Restoring parameters from /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt-100
+2022-03-19 18:04:57,883 - tensorflow - INFO - Running local_init_op.
+2022-03-19 18:04:57,949 - tensorflow - INFO - Done running local_init_op.
+2022-03-19 18:04:59,509 - tensorflow - INFO - Evaluation [39/399]
+2022-03-19 18:05:00,470 - tensorflow - INFO - Evaluation [78/399]
+2022-03-19 18:05:00,986 - tensorflow - INFO - Evaluation [117/399]
+2022-03-19 18:05:01,473 - tensorflow - INFO - Evaluation [156/399]
+2022-03-19 18:05:01,813 - tensorflow - INFO - Evaluation [195/399]
+2022-03-19 18:05:02,217 - tensorflow - INFO - Evaluation [234/399]
+2022-03-19 18:05:02,537 - tensorflow - INFO - Evaluation [273/399]
+2022-03-19 18:05:02,756 - tensorflow - INFO - Evaluation [312/399]
+2022-03-19 18:05:02,876 - tensorflow - INFO - Evaluation [351/399]
+2022-03-19 18:05:03,157 - tensorflow - INFO - Evaluation [390/399]
+2022-03-19 18:05:03,209 - tensorflow - INFO - Evaluation [399/399]
+2022-03-19 18:05:03,291 - tensorflow - INFO - Finished evaluation at 2022-03-19-18:05:03
+2022-03-19 18:05:03,292 - tensorflow - INFO - Saving dict for global step 100: global_step = 100, loss = 2.0213404, mean_degree_err = 90.8583
+2022-03-19 18:05:03,399 - tensorflow - INFO - Saving 'checkpoint_path' summary for global step 100: /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt-100
+2022-03-19 18:05:04,530 - tensorflow - INFO - Saving checkpoints for 200 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:04,547 - tensorflow - INFO - model.ckpt-200 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:04,586 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:04,600 - tensorflow - INFO - global_step/sec: 22.0056
+2022-03-19 18:05:04,601 - tensorflow - INFO - loss = 18.108334, step = 200 (9.089 sec)
+2022-03-19 18:05:05,711 - tensorflow - INFO - Saving checkpoints for 300 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:05,728 - tensorflow - INFO - model.ckpt-300 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:05,765 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:06,893 - tensorflow - INFO - Saving checkpoints for 400 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:06,911 - tensorflow - INFO - model.ckpt-400 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:06,948 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:06,962 - tensorflow - INFO - global_step/sec: 84.6573
+2022-03-19 18:05:06,963 - tensorflow - INFO - loss = 19.658773, step = 400 (2.362 sec)
+2022-03-19 18:05:08,073 - tensorflow - INFO - Saving checkpoints for 500 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:08,089 - tensorflow - INFO - model.ckpt-500 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:08,126 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:09,261 - tensorflow - INFO - Saving checkpoints for 600 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:09,276 - tensorflow - INFO - model.ckpt-600 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:09,314 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:09,329 - tensorflow - INFO - global_step/sec: 84.4893
+2022-03-19 18:05:09,330 - tensorflow - INFO - loss = 15.302707, step = 600 (2.367 sec)
+2022-03-19 18:05:10,443 - tensorflow - INFO - Saving checkpoints for 700 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:10,461 - tensorflow - INFO - model.ckpt-700 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:10,498 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:11,624 - tensorflow - INFO - Saving checkpoints for 800 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:11,643 - tensorflow - INFO - model.ckpt-800 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:11,680 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:11,695 - tensorflow - INFO - global_step/sec: 84.5516
+2022-03-19 18:05:11,696 - tensorflow - INFO - loss = 18.000507, step = 800 (2.365 sec)
+2022-03-19 18:05:12,807 - tensorflow - INFO - Saving checkpoints for 900 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:12,822 - tensorflow - INFO - model.ckpt-900 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:12,860 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:13,986 - tensorflow - INFO - Saving checkpoints for 1000 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:14,002 - tensorflow - INFO - model.ckpt-1000 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:14,039 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:14,054 - tensorflow - INFO - global_step/sec: 84.7931
+2022-03-19 18:05:14,054 - tensorflow - INFO - loss = 20.527103, step = 1000 (2.359 sec)
+2022-03-19 18:05:15,176 - tensorflow - INFO - Saving checkpoints for 1100 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:15,192 - tensorflow - INFO - model.ckpt-1100 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:15,229 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:16,360 - tensorflow - INFO - Saving checkpoints for 1200 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:16,378 - tensorflow - INFO - model.ckpt-1200 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:16,415 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:16,430 - tensorflow - INFO - global_step/sec: 84.1547
+2022-03-19 18:05:16,431 - tensorflow - INFO - loss = 16.00374, step = 1200 (2.377 sec)
+2022-03-19 18:05:17,536 - tensorflow - INFO - Saving checkpoints for 1300 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:17,554 - tensorflow - INFO - model.ckpt-1300 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:17,591 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:18,715 - tensorflow - INFO - Saving checkpoints for 1400 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:18,731 - tensorflow - INFO - model.ckpt-1400 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:18,768 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:18,782 - tensorflow - INFO - global_step/sec: 85.0196
+2022-03-19 18:05:18,783 - tensorflow - INFO - loss = 8.673609, step = 1400 (2.352 sec)
+2022-03-19 18:05:19,894 - tensorflow - INFO - Saving checkpoints for 1500 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:19,909 - tensorflow - INFO - model.ckpt-1500 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:19,947 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:21,070 - tensorflow - INFO - Saving checkpoints for 1600 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:21,092 - tensorflow - INFO - model.ckpt-1600 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:21,129 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:21,144 - tensorflow - INFO - global_step/sec: 84.7018
+2022-03-19 18:05:21,144 - tensorflow - INFO - loss = 12.576811, step = 1600 (2.361 sec)
+2022-03-19 18:05:22,260 - tensorflow - INFO - Saving checkpoints for 1700 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:22,276 - tensorflow - INFO - model.ckpt-1700 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:22,313 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:23,442 - tensorflow - INFO - Saving checkpoints for 1800 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:23,458 - tensorflow - INFO - model.ckpt-1800 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:23,496 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:23,510 - tensorflow - INFO - global_step/sec: 84.5082
+2022-03-19 18:05:23,511 - tensorflow - INFO - loss = 25.950819, step = 1800 (2.367 sec)
+2022-03-19 18:05:24,627 - tensorflow - INFO - Saving checkpoints for 1900 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:24,642 - tensorflow - INFO - model.ckpt-1900 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:24,679 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:25,810 - tensorflow - INFO - Saving checkpoints for 2000 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:25,825 - tensorflow - INFO - model.ckpt-2000 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:25,863 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:25,877 - tensorflow - INFO - global_step/sec: 84.5026
+2022-03-19 18:05:25,878 - tensorflow - INFO - loss = 10.249855, step = 2000 (2.367 sec)
+2022-03-19 18:05:26,991 - tensorflow - INFO - Saving checkpoints for 2100 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:27,007 - tensorflow - INFO - model.ckpt-2100 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:27,044 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:28,175 - tensorflow - INFO - Saving checkpoints for 2200 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:28,190 - tensorflow - INFO - model.ckpt-2200 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:28,227 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:28,241 - tensorflow - INFO - global_step/sec: 84.5981
+2022-03-19 18:05:28,242 - tensorflow - INFO - loss = 10.412505, step = 2200 (2.364 sec)
+2022-03-19 18:05:29,344 - tensorflow - INFO - Saving checkpoints for 2300 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:29,360 - tensorflow - INFO - model.ckpt-2300 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:29,397 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:30,505 - tensorflow - INFO - Saving checkpoints for 2400 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:30,520 - tensorflow - INFO - model.ckpt-2400 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:30,558 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:30,572 - tensorflow - INFO - global_step/sec: 85.8075
+2022-03-19 18:05:30,573 - tensorflow - INFO - loss = 24.763023, step = 2400 (2.331 sec)
+2022-03-19 18:05:31,663 - tensorflow - INFO - Saving checkpoints for 2500 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:31,679 - tensorflow - INFO - model.ckpt-2500 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:31,716 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:32,818 - tensorflow - INFO - Saving checkpoints for 2600 into /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt.
+2022-03-19 18:05:32,834 - tensorflow - INFO - model.ckpt-2600 is not in all_model_checkpoint_paths. Manually adding it.
+2022-03-19 18:05:32,871 - tensorflow - INFO - Skip the current checkpoint eval due to throttle secs (60 secs).
+2022-03-19 18:05:33,174 - tensorflow - INFO - Calling model_fn.
+2022-03-19 18:05:33,301 - tensorflow - INFO - Done calling model_fn.
+2022-03-19 18:05:33,316 - tensorflow - INFO - Starting evaluation at 2022-03-19T18:05:33Z
+2022-03-19 18:05:33,379 - tensorflow - INFO - Graph was finalized.
+2022-03-19 18:05:33,382 - tensorflow - INFO - Restoring parameters from /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt-2600
+2022-03-19 18:05:33,562 - tensorflow - INFO - Running local_init_op.
+2022-03-19 18:05:33,627 - tensorflow - INFO - Done running local_init_op.
+2022-03-19 18:05:34,142 - tensorflow - INFO - Evaluation [39/399]
+2022-03-19 18:05:34,232 - tensorflow - INFO - Evaluation [78/399]
+2022-03-19 18:05:34,318 - tensorflow - INFO - Evaluation [117/399]
+2022-03-19 18:05:34,406 - tensorflow - INFO - Evaluation [156/399]
+2022-03-19 18:05:34,493 - tensorflow - INFO - Evaluation [195/399]
+2022-03-19 18:05:34,581 - tensorflow - INFO - Evaluation [234/399]
+2022-03-19 18:05:34,669 - tensorflow - INFO - Evaluation [273/399]
+2022-03-19 18:05:34,757 - tensorflow - INFO - Evaluation [312/399]
+2022-03-19 18:05:34,844 - tensorflow - INFO - Evaluation [351/399]
+2022-03-19 18:05:34,930 - tensorflow - INFO - Evaluation [390/399]
+2022-03-19 18:05:34,951 - tensorflow - INFO - Evaluation [399/399]
+2022-03-19 18:05:35,034 - tensorflow - INFO - Finished evaluation at 2022-03-19-18:05:35
+2022-03-19 18:05:35,035 - tensorflow - INFO - Saving dict for global step 2600: global_step = 2600, loss = 1.1534922, mean_degree_err = 59.039207
+2022-03-19 18:05:35,035 - tensorflow - INFO - Saving 'checkpoint_path' summary for global step 2600: /root/RotationContinuity-master2/shapenet/data/pc_plane/to/model2/model.ckpt-2600
+2022-03-19 18:05:35,035 - tensorflow - DEBUG - Calling exporter with the `is_the_final_export=True`.
+2022-03-19 18:05:35,053 - tensorflow - INFO - Loss for final step: 4.256054.
