@@ -148,7 +148,8 @@ def train():
             batch_num = math.floor(input_img.shape[0]/args.batch_size)
             batch_id = 0
             print(get_time(), npy, npy_path)
-            for step in range(1, int(batch_num)+5-int(batch_num)):   #原来：int(batch_num)+1
+            print("int(batch_num)-------------",int(batch_num))
+            for step in range(1, int(batch_num)+1):   #原来：int(batch_num)+1
                 print(get_time(), 'step', step)
                 g_d_data, g_input_img, g_lr_img, g_hr_img, batch_id = data_train.get_next(batch_id, args.batch_size, d_data, input_img, lr_img, hr_img)
                 feed_dict = {model.real_lr: g_d_data, model.input_data: g_input_img, model.lr_img: g_lr_img, model.hr_img:g_hr_img, model.training: True}
@@ -158,7 +159,7 @@ def train():
                     _down, down_mse_loss = session.run([model.down_train_op, model.down_mse_loss], feed_dict)
                 global_step += 1
 
-                if global_step % args.print_interval == 1:
+                if global_step % args.print_interval == 1:  #300
                     psnr = test(session, model, test_set)
                     d_cost, g_cost, down_mse_loss, rs = session.run([ model.discrim_cost, model.generator_cost, model.down_mse_loss,merged], feed_dict)
                     with open(os.path.join(args.ckpt_dir, 'log.txt'), 'a', encoding='utf-8') as f:
