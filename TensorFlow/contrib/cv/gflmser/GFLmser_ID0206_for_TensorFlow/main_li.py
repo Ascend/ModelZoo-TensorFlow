@@ -170,7 +170,7 @@ def train():
                     psnr = test(session, model, test_set)
                     d_cost, g_cost, down_mse_loss, rs = session.run([ model.discrim_cost, model.generator_cost, model.down_mse_loss,merged], feed_dict)
                     with open(os.path.join(args.ckpt_dir, 'log.txt'), 'a', encoding='utf-8') as f:
-                        s = str(get_time()) +" "+ "epo:{} npy:{} D_cost: {:.5f} G_cost:{:.5f} up_mse:{:.5f} down_mse:{:.5f} psnr:{}".format(epo, npy, d_cost, g_cost, up_mse_loss, down_mse_loss, psnr)
+                        s = str(get_time()) +" "+ "epo:{} npy:{} D_cost: {:.5f} G_cost:{:.5f} up_mse:{:.5f} down_mse:{:.5f} psnr: {}".format(epo, npy, d_cost, g_cost, up_mse_loss, down_mse_loss, psnr)
                         f.write(s + '\n')
                     
                     writer.add_summary(rs, global_step)
