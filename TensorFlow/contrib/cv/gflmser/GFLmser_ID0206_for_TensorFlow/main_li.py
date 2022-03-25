@@ -158,7 +158,7 @@ def train():
                 start = time.time()
                 _up, up_mse_loss = session.run([model.up_train_op, model.up_mse_loss], feed_dict)
                 _dis, d_cost = session.run([model.dis_train_op, model.discrim_cost], feed_dict)
-                perf = time.time - start
+                perf = time.time() - start
                 fps = args.batch_size / perf
                 print("time: {:.4f} fps: {:.4f}".format(perf,fps))
                 
