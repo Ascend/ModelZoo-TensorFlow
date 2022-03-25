@@ -138,7 +138,7 @@ python3.7 ./train.py \
     --dataloader='div2k_loader' \
     --batch_size=8 \
     --max_steps=300000\
-    --save_freq=10 \
+    --save_freq=50000 \
     --scales='4' 1>${print_log} 2>&1
 
 relative_path_LR="/dataset/BSD100/LR"
