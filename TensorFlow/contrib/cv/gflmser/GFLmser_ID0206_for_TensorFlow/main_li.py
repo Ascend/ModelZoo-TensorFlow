@@ -23,6 +23,7 @@ import math
 import numpy as np
 import cv2 as cv
 #import moxing as mox
+import time
 import GFLmser
 import data
 from npu_bridge.estimator import npu_ops
@@ -53,6 +54,7 @@ tf.flags.DEFINE_float('beta', 0.05, '')
 tf.flags.DEFINE_integer('gpu', 1, '')
 tf.flags.DEFINE_integer('is_resume', 0, '')
 tf.flags.DEFINE_integer('epochs', 300, '') #add
+tf.flags.DEFINE_integer('batch_num_less', 0, '') #add
 tf.flags.DEFINE_string('data_dir', './data', '')#add
 
 args = tf.flags.FLAGS
@@ -142,19 +144,23 @@ def train():
 
     for epo in range(start_epoch, args.epochs):
         train_npy_path = glob.glob(join(args.train_dir, 'G_*.npy'))
-        for npy, npy_path in enumerate(train_npy_path):
+        for npy, npy_path in enumerate(train_npy_path):  #11
             data_train = data.LmserData_train(npy_path, args.train_dir)
             d_data, input_img, lr_img, hr_img = data_train.get_data() #delete
             batch_num = math.floor(input_img.shape[0]/args.batch_size)
             batch_id = 0
             print(get_time(), npy, npy_path)
-            print("int(batch_num)-------------",int(batch_num))
-            for step in range(1, int(batch_num)+1):   #原来：int(batch_num)+1
-                print(get_time(), 'step', step)
+            print("int(batch_num)-------------",int(batch_num))  #142
+            for step in range(1, int(batch_num)+1 - args.batch_num_less):   #原来：142
+                
                 g_d_data, g_input_img, g_lr_img, g_hr_img, batch_id = data_train.get_next(batch_id, args.batch_size, d_data, input_img, lr_img, hr_img)
                 feed_dict = {model.real_lr: g_d_data, model.input_data: g_input_img, model.lr_img: g_lr_img, model.hr_img:g_hr_img, model.training: True}
+                start = time.time()
                 _up, up_mse_loss = session.run([model.up_train_op, model.up_mse_loss], feed_dict)
                 _dis, d_cost = session.run([model.dis_train_op, model.discrim_cost], feed_dict)
+                perf = time.time - start
+                fps = args.batch_size / perf
+                print(get_time(), 'step', step, 'time' perf  'fps' fps)
                 if step % 2 == 0:
                     _down, down_mse_loss = session.run([model.down_train_op, model.down_mse_loss], feed_dict)
                 global_step += 1
@@ -165,7 +171,7 @@ def train():
                     with open(os.path.join(args.ckpt_dir, 'log.txt'), 'a', encoding='utf-8') as f:
                         s = str(get_time()) +" "+ "epo:{} npy:{} D_cost: {:.5f} G_cost:{:.5f} up_mse:{:.5f} down_mse:{:.5f} psnr:{}".format(epo, npy, d_cost, g_cost, up_mse_loss, down_mse_loss, psnr)
                         f.write(s + '\n')
-
+                    
                     writer.add_summary(rs, global_step)
                     fake_lr_img, fake_hr_img, g_hr_img = session.run([model.fake_lr, model.train_out_hr, model.test_out_hr],feed_dict)
 
