@@ -24,7 +24,7 @@ Network="PRNET_ID0727_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=64
+batch_size=32
 #训练step
 train_steps=`expr 1281167 / ${batch_size}`
 #学习率
@@ -128,12 +128,11 @@ do
 
     python3  train.py \
 	--root_train_data_dir=${data_path}/TrainData \
-	--batch_size=64 \
-	--end_data_num=800 \
+	--batch_size=32 \
 	--epochs=10  >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 
     python3 predict_from_ckpt.py \
-    -i ${data_path}/TestData/LFPA \
+    -i=${data_path}/TestData/LFPA \
     --model_path=./checkpoint/model.ckpt >>  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 
     
