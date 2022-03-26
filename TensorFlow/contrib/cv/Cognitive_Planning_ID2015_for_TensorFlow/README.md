@@ -38,7 +38,7 @@
 
 - 参考实现：https://github.com/tensorflow/models/tree/master/research/cognitive_planning
 - 适配昇腾 AI 处理器的实现：
-  https://gitee.com/juyierchun/modelzoo/edit/master/contrib/TensorFlow/Research/cv/Cognitive_Planning_ID2015_for_TensorFlow
+  https://gitee.com/juyierchun/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/Cognitive_Planning_ID2015_for_TensorFlow
   
   
 ## 默认配置<a name="section91661242121611"></a>
