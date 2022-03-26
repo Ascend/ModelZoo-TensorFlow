@@ -118,10 +118,10 @@ pip3 install tasks
 
 if [ x"${etp_flag}" != xtrue ];
 then
-    python3.7 ./train_supervised_active_vision.py --mode='train'   --logdir=${output_path}/checkpoint   --modality_types='det'   --batch_size=8   --train_iters=200000   --lstm_cell_size=2048   --policy_fc_size=2048   --sequence_length=20   --max_eval_episode_length=100   --test_iters=194   --gin_config=envs/configs/active_vision_config.gin   --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"   --logtostderr
+    python3.7 ./train_supervised_active_vision.py --mode='train'   --logdir=${output_path}/checkpoint   --modality_types='det'   --batch_size=8   --train_iters=70000   --lstm_cell_size=2048   --policy_fc_size=2048   --sequence_length=20   --max_eval_episode_length=100   --test_iters=194   --gin_config=envs/configs/active_vision_config.gin   --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"   --logtostderr
 else
     echo -------123456-------
-    python3.7 ./train_supervised_active_vision.py --mode='train'   --logdir=${output_path}/checkpoint   --modality_types='det'   --batch_size=8   --train_iters=200000   --lstm_cell_size=2048   --policy_fc_size=2048   --sequence_length=20   --max_eval_episode_length=100   --test_iters=194   --gin_config=envs/configs/active_vision_config.gin   --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"   --logtostderr  > ${print_log}
+    python3.7 ./train_supervised_active_vision.py --mode='train'   --logdir=${output_path}/checkpoint   --modality_types='det'   --batch_size=8   --train_iters=70000   --lstm_cell_size=2048   --policy_fc_size=2048   --sequence_length=20   --max_eval_episode_length=100   --test_iters=194   --gin_config=envs/configs/active_vision_config.gin   --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"   --logtostderr  > ${print_log}
 fi
 
 # 性能相关数据计算
