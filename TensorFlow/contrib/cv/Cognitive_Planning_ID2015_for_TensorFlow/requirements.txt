@@ -1,0 +1,5 @@
+Requirements：
+python3.7.5
+
+Libraries
+TensorFlow1.15 + Numpy + gin-config + networkx + NPU
