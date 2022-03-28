@@ -196,7 +196,6 @@
 ├── osnet.py                                    //模型网络结构代码
 ├── requirements.txt                            //训练python依赖列表
 ├── train_full_1p.sh                            //训练启动脚本
-├── test_full_1p.sh                             //精度测试启动脚本
 ├── utils                                       //训练与测试流程工具代码
 │    ├──general.py                   
 │    ├──ranking.py     
