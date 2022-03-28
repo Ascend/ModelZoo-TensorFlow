@@ -119,6 +119,7 @@ do
            --do_eval=True   \
            --do_predict=True \
            --data_dir=$data_path/data   \
+           --middle_out=$data_path/middle_data    \
            --vocab_file=$data_path/cased_L-12_H-768_A-12/vocab.txt  \
            --bert_config_file=$data_path/cased_L-12_H-768_A-12/bert_config.json \
            --init_checkpoint=$data_path/cased_L-12_H-768_A-12/bert_model.ckpt   \
