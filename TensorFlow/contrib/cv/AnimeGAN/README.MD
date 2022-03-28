@@ -8,25 +8,36 @@
 
 https://github.com/TachibanaYoshino/AnimeGAN
 
-三种不同shape的pb模型下载地址 ：
+三种不同shape的pb模型及其aipp配置文件下载地址 ：
+```
 https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGAN_256_256.pb
+https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/aipp_256_256.cfg
+```
+```
 https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGAN_512_512.pb
+wget https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/aipp_512_512.cfg
+```
+```
 https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGAN_1024_1024.pb
+wget https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/aipp_1024_1024.cfg
+```
 
 ## om模型
 
 om模型下载地址：
 
-https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGANv2_256.om
-https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGANv2_512.om
-https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGANv2_1024.om
+`https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGANv2_256.om`
+
+`https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGANv2_512.om`
+
+`https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGANv2_1024.om`
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 
 ```shell
-atc --model="./AnimeGAN_256_256.pb" --output_type=FP32 --input_shape="test:1,256,256,3" --input_format=NHWC --output="AnimeGANv2_256" --soc_version=Ascend310 --framework=3 --precision_mode=allow_fp32_to_fp16
-atc --model="./AnimeGAN_512_512.pb" --output_type=FP32 --input_shape="test:1,512,512,3" --input_format=NHWC --output="AnimeGANv2_512" --soc_version=Ascend310 --framework=3 --precision_mode=allow_fp32_to_fp16
-atc --model="./AnimeGAN_1024_1024.pb" --output_type=FP32 --input_shape="test:1,1024,1024,3" --input_format=NHWC --output="AnimeGANv2_1024" --soc_version=Ascend310 --framework=3 --precision_mode=allow_fp32_to_fp16
+atc --model="./AnimeGAN_256_256.pb" --output_type=FP32 --input_shape="test:1,256,256,3" --input_format=NHWC --output="AnimeGANv2_256" --soc_version=Ascend310 --framework=3 --precision_mode=allow_fp32_to_fp16 --insert_op_conf=aipp_256_256.cfg
+atc --model="./AnimeGAN_512_512.pb" --output_type=FP32 --input_shape="test:1,512,512,3" --input_format=NHWC --output="AnimeGANv2_512" --soc_version=Ascend310 --framework=3 --precision_mode=allow_fp32_to_fp16 --insert_op_conf=aipp_512_512.cfg
+atc --model="./AnimeGAN_1024_1024.pb" --output_type=FP32 --input_shape="test:1,1024,1024,3" --input_format=NHWC --output="AnimeGANv2_1024" --soc_version=Ascend310 --framework=3 --precision_mode=allow_fp32_to_fp16 --insert_op_conf=aipp_1024_1024.cfg
 ```
 
 ## 使用msame工具推理
