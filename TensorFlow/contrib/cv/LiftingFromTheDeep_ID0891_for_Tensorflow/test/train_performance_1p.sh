@@ -6,7 +6,9 @@
 #########第3行 至 100行，请一定不要、不要、不要修改##########
 ##########################################################
 # shell脚本所在路径
-cur_path=`echo $(cd $(dirname $0);pwd)`
+run_script_file=$(readlink -f "$0")  # 执行脚本绝对路径
+run_script_dir=$(dirname $run_script_file)  # 执行脚本所在目录
+cur_path=${run_script_dir}
 
 # 判断当前shell是否是performance
 perf_flag=`echo $0 | grep performance | wc -l`
@@ -113,8 +115,10 @@ batch_size=4
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --data_path=${data_path}/dataset/MPII --output_path=${output_path} \
-        --epochs=${train_epochs} --batch_size=${batch_size}
+    python3.7 ./train.py --data_path=${data_path}/dataset/MPII \
+    --labal_path=${data_path}/dataset/MPII/mpii_human_pose_v1_u12_2/mpii_human_pose_v1_u12_1.mat \
+    --output_path=${output_path} \
+    --epochs=${train_epochs} --batch_size=${batch_size}
 else
     python3.7 ./train.py --data_path=${data_path}/dataset/MPII --output_path=${output_path} \
         --epochs=${train_epochs} --batch_size=${batch_size} 1>${print_log} 2>&1
