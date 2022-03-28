@@ -57,6 +57,7 @@ from tensorflow.contrib import slim as contrib_slim
 from deeplab.core import dense_prediction_cell
 from deeplab.core import feature_extractor
 from deeplab.core import utils
+from npu_bridge.npu_init import *
 
 slim = contrib_slim
 
