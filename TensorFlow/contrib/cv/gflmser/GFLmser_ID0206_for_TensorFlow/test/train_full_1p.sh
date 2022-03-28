@@ -126,9 +126,9 @@ do
     python3 main_li.py \
      --data_dir=${data_path}/data \
      --ckpt_dir=$cur_path/new_ckpt \
-	 --epochs=1 \
-     --batch_num_less=140 \
-     --print_interval=10 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+	 --epochs=300 \
+     --batch_num_less=0 \
+     --print_interval=300 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 done
 wait
 
