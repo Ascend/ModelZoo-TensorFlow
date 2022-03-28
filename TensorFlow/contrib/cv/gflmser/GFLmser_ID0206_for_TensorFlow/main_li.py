@@ -166,7 +166,7 @@ def train():
                     _down, down_mse_loss = session.run([model.down_train_op, model.down_mse_loss], feed_dict)
                 global_step += 1
 
-                if global_step % args.print_interval == 1:  #300
+                if global_step % args.print_interval == 0:  #300
                     psnr = test(session, model, test_set)
                     d_cost, g_cost, down_mse_loss, rs = session.run([ model.discrim_cost, model.generator_cost, model.down_mse_loss,merged], feed_dict)
                     with open(os.path.join(args.ckpt_dir, 'log.txt'), 'a', encoding='utf-8') as f:
