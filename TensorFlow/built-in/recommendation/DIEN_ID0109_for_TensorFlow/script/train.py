@@ -139,16 +139,7 @@ def train(
     custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True #在昇腾AI处理器执行训练
-    #custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes('allow_mix_precision')
-    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes('allow_fp32_to_fp16')
-#    custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("/npu/mwx927052/DIEN_ID0109_for_TensorFlow/ops_info.json")
-
-    #custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/npu/mwx927052/dien-npu/overflow")
-    #custom_op.parameter_map["enable_dump_debug"].b = True
-    #custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all")
-    #custom_op.parameter_map["profiling_mode"].b = True
-    #custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/npu/mwx927052/dien-npu/profiling","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":""}')
-    # custom_op.parameter_map["variable_memory_max_size"].s = tf.compat.as_bytes("12*1024*1024*1024")
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes('allow_mix_precision')
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  #关闭remap开关
 
     # custom_op.parameter_map["enable_dump"].b = True
@@ -203,8 +194,8 @@ def train(
             aux_loss_sum = 0.
             # for src, tgt in train_data:
             for iter, (src, tgt) in enumerate(train_data, start=start_iter):
-               # if a > 200:
-               #     break
+                if a > 500:
+                    pass
                 start_time = time.time()
                 uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, noclk_mids, noclk_cats = prepare_data(src, tgt, maxlen, return_neg=True)
                 loss, acc, aux_loss = model.train(sess, [uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, lr, noclk_mids, noclk_cats])
@@ -215,18 +206,18 @@ def train(
                 accuracy_sum += acc
                 aux_loss_sum += aux_loss
                 a += 1
-        #        sys.stdout.flush()
+                sys.stdout.flush()
                 if (iter % test_iter) == 0:
                     avg_time_per_step = (time.time() - start) / test_iter
-                    avg_examples_per_second = (test_iter * batch_size)/(time.time() - start)
-                    
+                    #avg_examples_per_second = (test_iter * batch_size)/(time.time() - start)
+                    avg_examples_per_second = batch_size/(end_time - start_time)
                     print("avg_time_per_step: ", avg_time_per_step)
                     print("avg_examples_per_second: ", avg_examples_per_second)
                     print("step_time:", end_time - start_time)
 
                     print('[epoch: %d, iter: %d] ----> train_loss: %.4f ---- train_accuracy: %.4f ---- train_aux_loss: %.4f' % \
                                           (itr, iter, loss_sum / test_iter, accuracy_sum / test_iter, aux_loss_sum / test_iter))
-                #    print('test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
+                    print('test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
                     # model.summary_op(summary_writer, summary_str, iter)
                     start = time.time()
                     loss_sum = 0.0
