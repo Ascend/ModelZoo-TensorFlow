@@ -100,14 +100,14 @@ class Infer:
         self.net = resfcn256(256, 256)
         self.logits = self.net(self.inputs, is_training=False)
         self.sess = tf.Session(config=config)
-        self.__resotre(args.model_path)
+        self.__restore(args.model_path)
 
-    def __resotre(self, ckpt_path):
+    def __restore(self, ckpt_path):
         saver = tf.train.Saver()
-        saver.resotre(self.sess, ckpt_path)
+        saver.restore(self.sess, ckpt_path)
 
     def do_infer(self, data):
-        out = self.sess.run(self.output_tensor, feed_dict={self.input_tensor: data[np.newaxis, :, :, :]})
+        out = self.sess.run(self.logits, feed_dict={self.inputs: data[np.newaxis, :, :, :]})
         out = np.squeeze(out)
         return out * 256 * 1.1
 
