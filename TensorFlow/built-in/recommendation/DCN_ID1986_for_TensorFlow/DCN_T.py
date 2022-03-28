@@ -130,7 +130,8 @@ class DCN_T:
         #
         #
         # for debug
-        x_stack = final_hl
+        # x_stack = final_hl
+        x_stack = tf.concat([xl, final_hl], 1)
 
         #
         #
@@ -174,8 +175,8 @@ class DCN_T:
         eval_xl, eval_final_hl = self.forward(eval_vx_embed, num_cross_layer, act_func, keep_prob,
                                               training=False,
                                               batch_norm=batch_norm)
-        #eval_x_stack = tf.concat([eval_xl, eval_final_hl], 1)
-        eval_x_stack = eval_final_hl
+        eval_x_stack = tf.concat([eval_xl, eval_final_hl], 1)
+        #eval_x_stack = eval_final_hl
         eval_y = self.final_forward(eval_x_stack, self.out_w, self.out_b, act_func)
         self.eval_preds = tf.sigmoid(eval_y, name="predictionNode")
 
