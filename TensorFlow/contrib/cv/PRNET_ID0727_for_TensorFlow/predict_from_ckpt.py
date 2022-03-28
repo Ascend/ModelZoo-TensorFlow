@@ -42,6 +42,7 @@ from skimage.io import imread, imsave
 from skimage.transform import estimate_transform, warp
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 import npu_bridge
+from predictor import resfcn256
 
 
 def NME(S_bbox, infer, label):
