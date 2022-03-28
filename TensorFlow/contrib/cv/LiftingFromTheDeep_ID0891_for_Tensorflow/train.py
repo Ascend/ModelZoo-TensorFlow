@@ -23,7 +23,7 @@ import argparse
 
 # set up argparse
 parser = argparse.ArgumentParser()
-parser.add_argument('--data_path', type=str, default='./dataset/MPII')     # dataset path
+parser.add_argument('--data_path', type=str, default='/dataset/MPII')     # dataset path
 parser.add_argument('--batch_size', type=int, default=4)        # batchsize
 parser.add_argument('--save_step', type=int, default=5)     # model saved interval
 parser.add_argument('--epochs', type=int, default=10)       # train epoch
