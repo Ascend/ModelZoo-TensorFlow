@@ -24,7 +24,7 @@ Network="PRNET_ID0727_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=64
+batch_size=32
 #训练step
 train_steps=`expr 1281167 / ${batch_size}`
 #学习率
@@ -128,9 +128,12 @@ do
 
     python3  train.py \
 	--root_train_data_dir=${data_path}/TrainData \
-	--batch_size=64 \
-	--end_data_num=800 \
-	--epochs=1  >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+	--batch_size=32 \
+	--epochs=10  >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+
+    python3 predict_from_ckpt.py \
+    -i=${data_path}/TestData/LFPA \
+    --model_path=./checkpoint/model.ckpt >>  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 
     
 done 
@@ -154,12 +157,12 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据，不需要修改
 #吞吐量
 ActualFPS=`awk 'BEGIN{printf "%.3f\n",  64/'${TrainingTime}'}'`
-
+train_acc=`grep "NME :"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log  |awk '{print $3}'||awk -F'%' '{print $1}'`
 
 #最后一个迭代loss值，不需要修改
 grep 'loss:' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk  '{print $7}'  |awk -F':' '{print $2}' |tail -n +2 > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
@@ -178,4 +181,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseN
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_acc}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
