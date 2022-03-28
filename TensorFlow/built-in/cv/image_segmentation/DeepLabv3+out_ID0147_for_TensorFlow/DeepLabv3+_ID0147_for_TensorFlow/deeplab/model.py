@@ -529,11 +529,12 @@ def extract_features(images,
           if model_options.aspp_with_concat_projection:
             concat_logits = slim.conv2d(
                 concat_logits, depth, 1, scope=CONCAT_PROJECTION_SCOPE)
-            concat_logits = slim.dropout(
-                concat_logits,
-                keep_prob=0.9,
-                is_training=is_training,
-                scope=CONCAT_PROJECTION_SCOPE + '_dropout')
+            if is_training：
+                concat_logits = npu_ops.dropout(
+                    concat_logits,
+                    keep_prob=0.9,
+                    name=CONCAT_PROJECTION_SCOPE + '_dropout'
+                )
           if (model_options.add_image_level_feature and
               model_options.aspp_with_squeeze_and_excitation):
             concat_logits *= image_feature
