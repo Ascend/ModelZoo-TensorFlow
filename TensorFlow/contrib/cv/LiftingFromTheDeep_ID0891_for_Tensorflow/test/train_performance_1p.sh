@@ -113,10 +113,10 @@ batch_size=4
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --data_path=${data_path}/dataset/MPII --output_path=${output_path} \
+    python3.7 ./train.py --data_path=${data_path}/dataset/MPII--output_path=${output_path} \
         --epochs=${train_epochs} --batch_size=${batch_size}
 else
-    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} \
+    python3.7 ./train.py --data_path=${data_path}/dataset/MPII --output_path=${output_path} \
         --epochs=${train_epochs} --batch_size=${batch_size} 1>${print_log} 2>&1
 fi
 
@@ -188,4 +188,4 @@ echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+#echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
