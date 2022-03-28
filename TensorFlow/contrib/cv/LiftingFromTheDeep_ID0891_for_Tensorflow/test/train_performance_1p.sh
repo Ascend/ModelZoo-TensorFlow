@@ -113,7 +113,7 @@ batch_size=4
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} \
+    python3.7 ./train.py --data_path=${data_path}/dataset/MPII --output_path=${output_path} \
         --epochs=${train_epochs} --batch_size=${batch_size}
 else
     python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} \
