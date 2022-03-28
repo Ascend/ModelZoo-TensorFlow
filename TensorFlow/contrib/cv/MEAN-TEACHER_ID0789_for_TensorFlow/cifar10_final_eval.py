@@ -78,7 +78,7 @@ def run(test_phase, n_labeled, data_seed, model_type):
     hyperparams = model_hyperparameters(model_type, n_labeled)
 
     tf.reset_default_graph()
-    model = Model(RunContext(__file__, data_seed))
+    model = Model(RunContext(__file__, data_seed, './output'))
 
     cifar = Cifar10ZCA(n_labeled=n_labeled,
                        data_seed=data_seed,

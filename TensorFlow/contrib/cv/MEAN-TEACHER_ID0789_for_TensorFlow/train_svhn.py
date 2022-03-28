@@ -44,7 +44,7 @@ def run(data_seed=0):
     n_labeled = 500
     n_extra_unlabeled = 0
 
-    model = Model(RunContext(__file__, 0))
+    model = Model(RunContext(__file__, 0, './output'))
     model['rampdown_length'] = 0
     model['rampup_length'] = 5000
     model['training_length'] = 40000

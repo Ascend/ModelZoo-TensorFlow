@@ -40,12 +40,14 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--data_path',type=str, default='data',help='The path of dataset')
 parser.add_argument('--n_labeled',type=int, default=4000,help='The num of labeled images')
 parser.add_argument('--training_length',type=int, default=40000,help='The steps o training')
+parser.add_argument('--output_path',type=str, default='output',help='The path of output')
 
 #running function
 def run(data_seed, args):
     n_labeled = args.n_labeled
     data_path = args.data_path
-    model = Model(RunContext(__file__, 0))
+    output_path = args.output_path
+    model = Model(RunContext(__file__, 0, output_path))
     model['flip_horizontally'] = True
     model['normalize_input'] = False  # Keep ZCA information
     model['rampdown_length'] = 0

@@ -40,7 +40,7 @@ mkdir -p data/images/cifar/cifar10
 
 echo
 echo "Preprocessing CIFAR-10"
-python datasets/preprocess_cifar10.py
+python3 datasets/preprocess_cifar10.py
 
 echo
 echo "All done!"
