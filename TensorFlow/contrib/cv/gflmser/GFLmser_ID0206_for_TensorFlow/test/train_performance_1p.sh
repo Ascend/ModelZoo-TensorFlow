@@ -127,8 +127,8 @@ do
      --data_dir=${data_path}/data \
      --ckpt_dir=$cur_path/new_ckpt \
 	 --epochs=1 \
-     --batch_num_less=135 \
-     --print_interval=10 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+     --batch_num_less=140 \
+     --print_interval=100 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 done
 wait
 
@@ -147,10 +147,10 @@ echo "Final Performance TrainingTime : $TrainingTime"
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep psnr: $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $NF}'|awk -F ":" '{print $2}'`
+#train_accuracy=`grep psnr: $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $NF}'|awk -F ":" '{print $2}'`
 
 #打印，不需要修改
-echo "Final Train Accuracy : ${train_accuracy}"
+#echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
 
 #性能看护结果汇总
@@ -179,4 +179,4 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${Cas
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+#echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
