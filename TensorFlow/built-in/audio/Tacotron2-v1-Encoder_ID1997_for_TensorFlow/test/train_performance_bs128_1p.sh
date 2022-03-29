@@ -22,9 +22,10 @@ train_epochs=2
 #训练step
 train_steps=100
 #训练batch_size
-batch_size=16
+batch_size=128
 #学习率
 learning_rate=1e-3
+
 
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
@@ -37,7 +38,7 @@ autotune=False
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
-    echo "usage:./train_full_1p.sh <args>"
+    echo "usage:./train_performance_1p.sh <args>"
     echo " "
     echo "parameter explain:
     --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
@@ -120,7 +121,7 @@ do
     #设置环境变量，不需要修改
     echo "Device ID: $ASCEND_DEVICE_ID"
     export RANK_ID=$RANK_ID
-
+    
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
@@ -136,6 +137,7 @@ do
 		--log_name="test" \
 		--data_paths=${data_path} \
 		--epoch=${train_epochs} \
+		--num_iterations=${train_steps} \
 		--batch_size=${batch_size} \
 		--dynamic_bs=${dynamic_bs} \
 		--precision_mode=${precision_mode} \
@@ -173,11 +175,11 @@ echo "Final Performance images/sec : $FPS"
 #echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
 
-#稳定性精度看护结果汇总
+#性能看护结果汇总
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 ##获取性能数据，不需要修改
 #吞吐量
@@ -197,6 +199,5 @@ echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseNa
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = Loss" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log

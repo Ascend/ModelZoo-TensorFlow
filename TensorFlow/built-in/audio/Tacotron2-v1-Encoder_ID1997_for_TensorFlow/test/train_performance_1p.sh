@@ -53,6 +53,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --modeldir               model dir
     --save_interval          save interval for ckpt
     --loss_scale             enable loss scale ,default is False
+    --dynamic_bs             dynamic batch size, default is False
     -h/--help                show help message
     "
     exit 1
@@ -100,6 +101,8 @@ do
         save_interval=`echo ${para#*=}`
     elif [[ $para == --loss_scale* ]];then
         loss_scale=`echo ${para#*=}`
+    elif [[ $para == --dynamic_bs* ]];then
+        dynamic_bs=`echo ${para#*=}`
     fi
 done
 
@@ -136,6 +139,7 @@ do
 		--epoch=${train_epochs} \
 		--num_iterations=${train_steps} \
 		--batch_size=${batch_size} \
+		--dynamic_bs=${dynamic_bs} \
 		--precision_mode=${precision_mode} \
 		--over_dump=${over_dump} \
 		--over_dump_path=${over_dump_path} \

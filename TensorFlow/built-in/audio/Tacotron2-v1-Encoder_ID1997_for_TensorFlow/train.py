@@ -75,7 +75,8 @@ class Graph():
             with tf.variable_scope('encoder'):
                 self.encoded = encoder(self.x, training=training)
             with tf.variable_scope('decoder'):
-                (self.mel_output, self.bef_mel_output, self.done_output, self.decoder_state, self.LTSM, self.step) = decoder(self.y1, self.encoded, training=training)
+                (self.mel_output, self.bef_mel_output, self.done_output, self.decoder_state, self.LTSM, self.step) = \
+                    decoder(self.y1, self.encoded, config.batch_size, training=training)
                 self.cell_state = self.decoder_state.cell_state
                 self.mel_output = tf.nn.sigmoid(self.mel_output)
         if (train_form == 'Both'):
@@ -121,7 +122,8 @@ class Graph():
             #                                                        incr_every_n_steps=1000,
             #                                                        decr_every_n_nan_or_inf=2,
             #                                                        decr_ratio=0.5)
-            loss_scale_manager = FixedLossScaleManager(loss_scale=1024)
+            # overflow also update for dynamic_bs
+            loss_scale_manager = FixedLossScaleManager(loss_scale=1024, enable_overflow_check=False)
             self.optimizer = NPULossScaleOptimizer(opt_tmp, loss_scale_manager)
 
             self.gvs = self.optimizer.compute_gradients(self.loss)
@@ -183,6 +185,7 @@ def main():
     parser.add_argument('--data_dump_step', type=str, default='10')
     parser.add_argument('--over_dump_path', type=str, default='/home/data')
     parser.add_argument('--profiling_dump_path', type=str, default='/home/data')
+    parser.add_argument('--dynamic_bs', default=False)
 
     config = parser.parse_args()
     config.log_dir = ((config.log_dir + '/') + config.log_name)
@@ -200,7 +203,16 @@ def main():
     custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(config.precision_mode)
-    custom_op.parameter_map["enable_data_pre_proc"].b = True
+    if config.dynamic_bs:
+        custom_op.parameter_map["dynamic_input"].b = True
+        custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("dynamic_execute")
+        custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("data:[1~200,200],[1~200,810,80],[1~200,810,1025]")
+        # add for bs=128/160
+        custom_op.parameter_map["graph_memory_max_size"].s = tf.compat.as_bytes(str(30 * 1024 * 1024 * 1024))
+        custom_op.parameter_map["variable_memory_max_size"].s = tf.compat.as_bytes(str(1 * 1024 * 1024 * 1024))
+    else:
+        custom_op.parameter_map["enable_data_pre_proc"].b = True
+
     if config.data_dump_flag == 'True':
         custom_op.parameter_map["enable_dump"].b = True
         custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes(config.data_dump_path)
@@ -259,12 +271,12 @@ def main():
     if (hp.test_only == 0):
         with tf.Session(config=npu_config) as sess:
             if config.load_path:
-                   infolog.log(('Resuming from checkpoint: %s ' % tf.train.latest_checkpoint(config.log_dir)), slack=True)
-                   tf.train.Saver().restore(sess, tf.train.latest_checkpoint(config.log_dir))
+                infolog.log(('Resuming from checkpoint: %s ' % tf.train.latest_checkpoint(config.log_dir)), slack=True)
+                tf.train.Saver().restore(sess, tf.train.latest_checkpoint(config.log_dir))
             else:
                 infolog.log('Starting new training', slack=True)
-            summary_writer = tf.summary.FileWriter(config.log_dir, sess.graph)
-            print("========After summary_writer")
+            # summary_writer = tf.summary.FileWriter(config.log_dir, sess.graph)
+            # print("========After summary_writer")
             sess.run(iterator.initializer)
             sess.run(tf.global_variables_initializer())
             for epoch in range(1, config.epoch):
@@ -277,8 +289,8 @@ def main():
                             (gs, merged, loss, loss1, loss1b, loss2, loss3, _) = sess.run(fetches=fetch)
                             loss_one = [loss, loss1, loss1b, loss2, loss3]
                         else:
-                            fetch = [g.global_step, g.merged, g.loss, g.loss1, g.loss1b, g.loss3, g.train_op]
-                            (gs, merged, loss, loss1, loss1b, loss3, _) = sess.run(fetches=fetch)
+                            fetch = [g.global_step, g.loss, g.loss1, g.loss1b, g.loss3, g.train_op]
+                            (gs, loss, loss1, loss1b, loss3, _) = sess.run(fetches=fetch)
                             loss_one = [loss, loss1, loss1b, loss3, 0]
                     elif (hp.train_form == 'Encoder'):
                         if hp.include_dones:
@@ -286,8 +298,8 @@ def main():
                             (gs, merged, loss, loss1, loss1b, loss2, _) = sess.run(fetches=fetch)
                             loss_one = [loss, loss1, loss1b, loss2, 0]
                         else:
-                            fetch = [g.global_step, g.merged, g.loss, g.loss1, g.loss1b, g.train_op]
-                            (gs, merged, loss, loss1, loss1b, _) = sess.run(fetches=fetch)
+                            fetch = [g.global_step, g.loss, g.loss1, g.loss1b, g.train_op]
+                            (gs, loss, loss1, loss1b, _) = sess.run(fetches=fetch)
                             loss_one = [loss, loss1, loss1b, 0, 0]
                     else:
                         print("========before sess.run")
@@ -315,9 +327,9 @@ def main():
                     pass
                 print('###############################################################################')
                 print("========After for num_batch")
-                if ((epoch % config.summary_interval) == 0):
+                if not config.dynamic_bs and ((epoch % config.summary_interval) == 0):
                     infolog.log('Saving summary')
-                    summary_writer.add_summary(merged, gs)
+                    # summary_writer.add_summary(merged, gs)
                     if (hp.train_form == 'Both'):
                         if hp.include_dones:
                             (origx, Kmel_out, Ky1, Kdone_out, Ky2, Kmag_out, Ky3) = sess.run([g.origx, g.mel_output, g.y1, g.done_output, g.y2, g.mag_output, g.y3])

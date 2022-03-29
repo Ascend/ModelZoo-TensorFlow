@@ -38,6 +38,7 @@ import numpy as np
 from zoneout_LSTM import ZoneoutLSTMCell
 from tensorflow.contrib.rnn import LSTMStateTuple
 from npu_bridge.estimator import npu_ops
+from npu_bridge.estimator.npu.npu_dynamic_rnn import DynamicRNN
 
 
 def embed(inputs, vocab_size, num_units, zero_pad=False, scope="embedding", reuse=None):
@@ -179,7 +180,7 @@ def fullyconnected(inputs, is_training, layer_size, activation,scope='fc',reuse=
   return output
 
 
-def bidirectional_LSTM(inputs, scope, training):
+def bidirectional_LSTM_ori(inputs, scope, training):
 
   with tf.variable_scope(scope):
     outputs, (fw_state, bw_state) = tf.nn.bidirectional_dynamic_rnn(
@@ -199,8 +200,25 @@ def bidirectional_LSTM(inputs, scope, training):
 
   return tf.concat(outputs, axis=2), final_state # Concat forward + backward outputs and final states
 
+def bidirectional_LSTM(inputs, scope, training):
 
-def unidirectional_LSTM(is_training, layers, size):
+  with tf.variable_scope(scope):
+      inputs_data = tf.transpose(inputs, perm=[1, 0, 2], name="transpose_inputdata")
+      fw_cell = DynamicRNN(hidden_size=hp.enc_units, forget_bias=1.0, dtype=tf.float32)
+      fw_y, fw_output_h, fw_output_c, i, j, f, o, tanhc = fw_cell(inputs_data)
+      bw_cell = DynamicRNN(hidden_size=hp.enc_units, forget_bias=1.0, dtype=tf.float32)
+      bw_y, bw_output_h, bw_output_c, i, j, f, o, tanhc = bw_cell(tf.reverse(inputs_data, axis=[0]))
+      output_rnn = tf.concat((fw_y, tf.reverse(bw_y, axis=[0])), axis=2)
+      output = tf.transpose(output_rnn, perm=[1, 0, 2], name="transpose_outputdata")
+
+      encoder_final_state_c = tf.concat((fw_output_c, bw_output_c), 1)
+      encoder_final_state_h = tf.concat((fw_output_h, bw_output_h), 1)
+      final_state = LSTMStateTuple(c=encoder_final_state_c, h=encoder_final_state_h)
+
+  return output, final_state  # Concat forward + backward outputs and final states
+
+
+def unidirectional_LSTM_ori(is_training, layers, size):
   
   # rnn_layers = [tf.nn.rnn_cell.LSTMCell(hp.enc_units) for i in range(layers)]
 
@@ -209,4 +227,12 @@ def unidirectional_LSTM(is_training, layers, size):
                            ext_proj=hp.n_mels) for i in range(layers)]
 
   stacked_LSTM_Cell = tf.nn.rnn_cell.MultiRNNCell(rnn_layers)
-  return stacked_LSTM_Cell        
+  return stacked_LSTM_Cell
+
+
+def unidirectional_LSTM(is_training, layers, size):
+
+    rnn_layers = [tf.nn.rnn_cell.LSTMCell(hp.enc_units) for i in range(layers)]
+
+    stacked_LSTM_Cell = tf.nn.rnn_cell.MultiRNNCell(rnn_layers)
+    return stacked_LSTM_Cell

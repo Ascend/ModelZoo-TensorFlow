@@ -385,7 +385,10 @@ def make_dataset(config, train_form):
                     num_parallel_calls=14)
         ds = ds.prefetch(buffer_size=tf.contrib.data.AUTOTUNE).map(reshape_fn_with_mags)
 
-    ds = ds.batch(config.batch_size, drop_remainder=True)
+    if config.dynamic_bs:
+        ds = ds.batch(config.batch_size)
+    else:
+        ds = ds.batch(config.batch_size, drop_remainder=True)
 
     return ds, num_batch
 
