@@ -7,23 +7,23 @@ output_path=$4
 echo "$code_dir"
 echo "$output_path"
 #############训练前输入目录文件确认#########################
-echo "[CANN-ZhongZhi] before train - list my run files[/usr/local/Ascend/ascend-toolkit]:"
+echo "[CANN-Modelzoo] before train - list my run files[/usr/local/Ascend/ascend-toolkit]:"
 ls -al /usr/local/Ascend/ascend-toolkit
 echo ""
 
-echo "[CANN-ZhongZhi] before train - list my code files[${code_dir}]:"
+echo "[CANN-Modelzoo] before train - list my code files[${code_dir}]:"
 ls -al ${code_dir}
 echo ""
 
-echo "[CANN-ZhongZhi] before train - list my work files[${work_dir}]:"
+echo "[CANN-Modelzoo] before train - list my work files[${work_dir}]:"
 ls -al ${work_dir}
 echo ""
 
-echo "[CANN-ZhongZhi] before train - list my dataset files[${dataset_path}]:"
+echo "[CANN-Modelzoo] before train - list my dataset files[${dataset_path}]:"
 ls -al ${dataset_path}
 echo ""
 
-echo "[CANN-ZhongZhi] before train - list my output files[${output_path}]:"
+echo "[CANN-Modelzoo] before train - list my output files[${output_path}]:"
 ls -al ${output_path}
 echo ""
 
@@ -51,9 +51,9 @@ python3.7 ${code_dir}/train.py \
           --model_dir=${output_path}model
 if [ $? -eq 0 ];
 then
-    echo "[CANN-ZhongZhi] train return success"
+    echo "[CANN-Modelzoo] train return success"
 else
-    echo "[CANN-ZhongZhi] train return failed"
+    echo "[CANN-Modelzoo] train return failed"
 fi
 
 ######训练后把需要备份的内容保存到output_path######
@@ -61,10 +61,10 @@ fi
 cp -r ${work_dir} ${output_path}
 
 ######训练后输出目录文件确认######
-echo "[CANN-ZhongZhi] after train - list my work files[${work_dir}]:"
+echo "[CANN-Modelzoo] after train - list my work files[${work_dir}]:"
 ls -al ${work_dir}
 echo ""
 
-echo "[CANN-ZhongZhi] after train - list my output files[${output_path}]:"
+echo "[CANN-Modelzoo] after train - list my output files[${output_path}]:"
 ls -al ${output_path}
 echo ""
