@@ -271,12 +271,12 @@ def main():
     if (hp.test_only == 0):
         with tf.Session(config=npu_config) as sess:
             if config.load_path:
-                   infolog.log(('Resuming from checkpoint: %s ' % tf.train.latest_checkpoint(config.log_dir)), slack=True)
-                   tf.train.Saver().restore(sess, tf.train.latest_checkpoint(config.log_dir))
+                infolog.log(('Resuming from checkpoint: %s ' % tf.train.latest_checkpoint(config.log_dir)), slack=True)
+                tf.train.Saver().restore(sess, tf.train.latest_checkpoint(config.log_dir))
             else:
                 infolog.log('Starting new training', slack=True)
-            summary_writer = tf.summary.FileWriter(config.log_dir, sess.graph)
-            print("========After summary_writer")
+            # summary_writer = tf.summary.FileWriter(config.log_dir, sess.graph)
+            # print("========After summary_writer")
             sess.run(iterator.initializer)
             sess.run(tf.global_variables_initializer())
             for epoch in range(1, config.epoch):
@@ -329,7 +329,7 @@ def main():
                 print("========After for num_batch")
                 if not config.dynamic_bs and ((epoch % config.summary_interval) == 0):
                     infolog.log('Saving summary')
-                    summary_writer.add_summary(merged, gs)
+                    # summary_writer.add_summary(merged, gs)
                     if (hp.train_form == 'Both'):
                         if hp.include_dones:
                             (origx, Kmel_out, Ky1, Kdone_out, Ky2, Kmag_out, Ky3) = sess.run([g.origx, g.mel_output, g.y1, g.done_output, g.y2, g.mag_output, g.y3])
