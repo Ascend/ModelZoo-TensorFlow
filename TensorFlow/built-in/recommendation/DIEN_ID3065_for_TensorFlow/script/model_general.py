@@ -143,9 +143,8 @@ class Model(object):
                 self.loss += self.aux_loss
             tf.summary.scalar('loss', self.loss)
             if fp16_and_no_seq_len_mode:
-                print("111111111111111111111111111 if")
                 # self.optimizer = tf.train.AdamOptimizer(learning_rate=self.lr, epsilon=6e-8).minimize(self.loss)
-                self.optimizer = tf.train.AdamOptimizer(learning_rate=self.lr, epsilon=1e-4)
+                self.optimizer = tf.train.AdamOptimizer(learning_rate=self.lr)
 
           #      loss_scale_manager = FixedLossScaleManager(loss_scale=1)
           #      self.optimizer = NPULossScaleOptimizer(self.optimizer, loss_scale_manager)
@@ -161,7 +160,6 @@ class Model(object):
 
                 ### for npu
             else:
-                print("222222222222222222222222222 else")
                 #self.optimizer = tf.train.AdamOptimizer(learning_rate=self.lr).minimize(self.loss)
                 ### for npu
                 self.optimizer = tf.train.AdamOptimizer(learning_rate=self.lr)
