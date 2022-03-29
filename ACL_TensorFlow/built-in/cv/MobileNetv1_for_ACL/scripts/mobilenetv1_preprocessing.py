@@ -372,6 +372,8 @@ def preprocess(src_path, save_path):
     in_files = os.listdir(src_path)
     in_files.sort()
     resize_shape = [224, 224, 3]
+    sqz_mean = np.array([127.5, 127.5, 127.5], np.float32)
+    img_std = np.array([[0.5*255, 0.5*255, 0.5*255]], np.float32)
     if os.path.isdir(save_path):
         shutil.rmtree(save_path)
         os.makedirs(save_path)
@@ -387,6 +389,9 @@ def preprocess(src_path, save_path):
                                        is_training=False,
                                        use_grayscale=False)
                 img = img.eval()
+                img = img * img_std
+                img = img + sqz_mean
+                img = img.astype(np.uint8, copy=False)
                 img.tofile(os.path.join(save_path, file.split('.')[0]+".bin"))
                 tf.reset_default_graph()
 

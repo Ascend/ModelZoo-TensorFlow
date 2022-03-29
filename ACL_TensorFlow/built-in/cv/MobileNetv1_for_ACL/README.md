@@ -20,8 +20,8 @@ Before starting, please pay attention to the following adaptation conditions. If
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
-cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/MobileNetv1_ID0093_for_ACL
+git clone https://gitee.com/ascend/modelzoo.git
+cd modelzoo/built-in/ACL_TensorFlow/Official/cv/MobileNetv1_ID0093_for_ACL
 ```
 
 ### 2. Download and preprocess the dataset
@@ -57,7 +57,7 @@ The jpegs pictures will be preprocessed to bin fils.
 - convert pb to om
 
   ```
-  atc --model=mobilenetv1_tf.pb --framework=3 --output=mobilenetv1_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info
+  atc --model=mobilenetv1_tf.pb --framework=3 --output=mobilenetv1_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=mobilenetv1_tf_aipp.cfg --enable_small_channle=1
   ```
 
 - Build the program
