@@ -24,6 +24,8 @@ batch_size=32
 train_epochs=10
 #训练步数
 train_steps=100
+#动态输入模式，不需要修改
+dynamic_input=""
 
 #维测参数，precision_mode需要模型审视修改
 #precision_mode="allow_mix_precision"
@@ -75,6 +77,8 @@ do
         cp -rf $install_path/fwkacllib/data/rl/Ascend910/custom ${autotune_dump_path}/RL/
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
+    elif [[ $para == --dynamic_input* ]];then
+        dynamic_input=`echo ${para#*=}`  	
     fi
 done
 
@@ -110,7 +114,8 @@ do
     nohup python3  naml_MIND.py \
           --data_path=$data_path \
           --epochs=$train_epochs \
-          --model_path=${cur_path}/output/${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+          --model_path=${cur_path}/output/${ASCEND_DEVICE_ID} \
+          --dynamic_input=${dynamic_input} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
 
@@ -167,3 +172,4 @@ echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseNa
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${TrainAccuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DynamicInput = ${dynamic_input}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log

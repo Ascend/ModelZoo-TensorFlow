@@ -17,6 +17,8 @@ train_epochs=
 train_steps=80000
 #学习率
 learning_rate=
+#动态输入模式，不需要修改
+dynamic_input=""
 
 #参数配置 npu param
 precision_mode="allow_fp32_to_fp16"
@@ -36,6 +38,8 @@ for para in $*
 do
    if [[ $para  == --data_path* ]];then
       data_path=`echo ${para#*=}`
+   elif [[ $para == --dynamic_input* ]];then
+      dynamic_input=`echo ${para#*=}`  	
    fi
 done
 
@@ -61,7 +65,7 @@ wait
 
 start=$(date +%s)
 #(Step3)训练
-python3 train.py --training_data_path=$data_path --steps_to_train=$train_steps --train_batch_size=$batch_size --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000001-first_generation > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+python3 train.py --training_data_path=$data_path --steps_to_train=$train_steps --train_batch_size=$batch_size --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000001-first_generation --dynamic_input=${dynamic_input}> $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 wait
 end=$(date +%s)
 e2etime=$(( $end - $start ))
@@ -97,3 +101,4 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${Cas
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2etime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DynamicInput = ${dynamic_input}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log

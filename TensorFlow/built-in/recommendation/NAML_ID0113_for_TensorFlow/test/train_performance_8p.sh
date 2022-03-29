@@ -24,6 +24,8 @@ batch_size=32
 train_epochs=1
 #训练步数
 train_steps=1000
+#动态输入模式，不需要修改
+dynamic_input=""
 
 #维测参数，precision_mode需要模型审视修改
 #precision_mode="allow_mix_precision"
@@ -78,6 +80,8 @@ do
     elif [[ $para == --bind_core* ]]; then
         bind_core=`echo ${para#*=}`
         name_bind="_bindcore"
+    elif [[ $para == --dynamic_input* ]];then
+        dynamic_input=`echo ${para#*=}`  	
     fi
 done
 
@@ -125,7 +129,8 @@ do
           --data_path=$data_path \
           --epochs=$train_epochs \
           --max_steps=$train_steps \
-          --model_path=${cur_path}/output/${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+          --model_path=${cur_path}/output/${ASCEND_DEVICE_ID} \
+          --dynamic_input=${dynamic_input} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
 
@@ -171,3 +176,4 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DynamicInput = ${dynamic_input}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log

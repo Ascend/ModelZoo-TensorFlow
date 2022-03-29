@@ -17,6 +17,8 @@ train_epochs=
 train_steps=500
 #学习率
 learning_rate=
+#动态输入模式，不需要修改
+dynamic_input=""
 
 #参数配置 npu param
 precision_mode="allow_fp32_to_fp16"
@@ -39,6 +41,8 @@ do
     elif [[ $para == --bind_core* ]]; then
         bind_core=`echo ${para#*=}`
         name_bind="_bindcore"
+    elif [[ $para == --dynamic_input* ]];then
+      dynamic_input=`echo ${para#*=}` 
    fi
 done
 
@@ -85,7 +89,14 @@ do
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-    ${bind_core} python3 train.py --training_data_path=$data_path --steps_to_train=$train_steps --train_batch_size=$batch_size --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000001-first_generation > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+    #${bind_core} python3 train.py --training_data_path=$data_path --steps_to_train=$train_steps --train_batch_size=$batch_size --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000001-first_generation > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+	${bind_core} python3 train.py \
+		--training_data_path=$data_path \
+		--steps_to_train=$train_steps \
+		--train_batch_size=$batch_size \
+		--work_dir=$cur_path/estimator_working_dir \
+		--export_path=$cur_path/outputs/models/000001-first_generation \
+		--dynamic_input=${dynamic_input} > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 done
 wait
 
@@ -123,3 +134,4 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${Cas
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2etime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DynamicInput = ${dynamic_input}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
