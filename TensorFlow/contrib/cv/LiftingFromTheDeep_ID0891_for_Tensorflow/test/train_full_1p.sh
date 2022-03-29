@@ -111,14 +111,24 @@ start_time=$(date +%s)
 train_epochs=30
 batch_size=4
 
+
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --data_path=${data_path}/dataset/MPII --output_path=${output_path} \
+    python3.7 ./train.py --data_path=${data_path}/dataset/MPII  \
+        --label_path=${data_path}/dataset/MPII/mpii_human_pose_v1_u12_2/mpii_human_pose_v1_u12_1.mat \
+        --prob_model_path=${data_path}/data/prob_model/prob_model_params.mat \
+        --init_session_path=${data_path}/data/init_session/init \
+        --output_path=${output_path} \
         --epochs=${train_epochs} --batch_size=${batch_size}
 else
-    python3.7 ./train.py --data_path=${data_path}/dataset/MPII --output_path=${output_path} \
+    python3.7 ./train.py --data_path=${data_path}/dataset/MPII \
+        --label_path=${data_path}/dataset/MPII/mpii_human_pose_v1_u12_2/mpii_human_pose_v1_u12_1.mat \
+        --prob_model_path=${data_path}/data/prob_model/prob_model_params.mat \
+        --init_session_path=${data_path}/data/init_session/init \
+        --output_path=${output_path} \
         --epochs=${train_epochs} --batch_size=${batch_size} 1>${print_log} 2>&1
 fi
+
 
 # 性能相关数据计算
 
