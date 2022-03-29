@@ -35,6 +35,7 @@ from __future__ import print_function
 from hyperparams import Hyperparams as hp
 from modules import *
 import tensorflow as tf
+from npu_bridge.estimator.npu.npu_dynamic_rnn import DynamicRNN
 from rnn_wrappers import TacotronDecoderWrapper
 from attention_wrapper import AttentionWrapper, LocationBasedAttention, BahdanauAttention
 #from helpers import TacoTrainingHelper, TacoTestHelper
@@ -64,8 +65,8 @@ def encoder(inputs, training=True, scope="encoder", reuse=None):
 
     return output
 
-def decoder(mel_targets, encoder_output, scope="decoder", training=True, reuse=None):
-    batch_size = mel_targets.shape[0]
+def decoder(mel_targets, encoder_output, batch_size, scope="decoder", training=True, reuse=None):
+    print("mel_targets shape:{}, encoder_output shape:{}".format(mel_targets ,encoder_output))
     with tf.variable_scope(scope, reuse=reuse):
       decoder_cell = TacotronDecoderWrapper(unidirectional_LSTM(training, layers=hp.dec_LSTM_layers, size=hp.dec_LSTM_size), training)
       attention_decoder = AttentionWrapper(
@@ -141,7 +142,45 @@ def decoder(mel_targets, encoder_output, scope="decoder", training=True, reuse=N
 
     return mel_logits, final_projection, done_output, final_decoder_state, concat_LSTM_att,step
 
+
 def converter(inputs, training=True, scope="converter", reuse=None):
+    with tf.variable_scope(scope, reuse=reuse):
+
+        with tf.variable_scope("converter_rnn"):
+            inputs_data = tf.transpose(inputs, perm=[1, 0, 2], name="converter_transpose_inputdata")
+            fw_cell = DynamicRNN(hidden_size=hp.n_mels, forget_bias=1.0, dtype=tf.float32)
+            # first rnn
+            output_fw, fw_output_h, fw_output_c, i, j, f, o, tanhc = fw_cell(inputs_data)
+            inputs_data = (inputs_data + output_fw) * tf.sqrt(0.5)
+            # second rnn
+            output_fw_sec, fw_output_h, fw_output_c, i, j, f, o, tanhc = fw_cell(inputs_data)
+            inputs_data = (inputs_data + output_fw_sec) * tf.sqrt(0.5)
+
+            output_rnn = tf.transpose(inputs_data, perm=[1, 0, 2], name="converter_transpose_outputdata")
+            if hp.print_shapes: print(output_rnn)
+
+        with tf.variable_scope("converter_conv"):
+            for i in range(hp.converter_layers):
+                outputs = conv_block(inputs,
+                                     size=hp.converter_filter_size,
+                                     rate=2 ** i,
+                                     padding="SAME",
+                                     training=training,
+                                     scope="converter_conv_{}".format(i))
+                inputs = (inputs + outputs) * tf.sqrt(0.5)
+            output_conv = inputs
+            if hp.print_shapes: print(output_conv)
+
+    inputs = (output_rnn + output_conv) * tf.sqrt(0.5)
+    if hp.print_shapes: print(inputs)
+
+    with tf.variable_scope("mag_logits"):
+        mag_logits = fc_block(inputs, hp.n_fft // 2 + 1, training=training)
+        if hp.print_shapes: print(mag_logits)
+
+    return mag_logits
+
+def converter_ori(inputs, training=True, scope="converter", reuse=None):
 
     with tf.variable_scope(scope, reuse=reuse):
 
