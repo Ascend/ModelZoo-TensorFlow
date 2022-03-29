@@ -111,14 +111,24 @@ start_time=$(date +%s)
 train_epochs=1
 batch_size=4
 
+
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --data_path=${data_path}/dataset/MPII--output_path=${output_path} \
+    python3.7 ./train.py --data_path=${data_path}/dataset/MPII  \
+        --label_path=${data_path}/dataset/MPII/mpii_human_pose_v1_u12_2/mpii_human_pose_v1_u12_1.mat \
+        --prob_model_path=${data_path}/data/prob_model/prob_model_params.mat \
+        --init_session_path=${data_path}/data/init_session/init \
+        --output_path=${output_path} \
         --epochs=${train_epochs} --batch_size=${batch_size}
 else
-    python3.7 ./train.py --data_path=${data_path}/dataset/MPII --output_path=${output_path} \
+    python3.7 ./train.py --data_path=${data_path}/dataset/MPII \
+        --label_path=${data_path}/dataset/MPII/mpii_human_pose_v1_u12_2/mpii_human_pose_v1_u12_1.mat \
+        --prob_model_path=${data_path}/data/prob_model/prob_model_params.mat \
+        --init_session_path=${data_path}/data/init_session/init \
+        --output_path=${output_path} \
         --epochs=${train_epochs} --batch_size=${batch_size} 1>${print_log} 2>&1
 fi
+
 
 # 性能相关数据计算
 
@@ -129,7 +139,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'*'${ITPS}'}'`
 
 
 # 精度相关数据计算
-train_accuracy=`grep "Validation PCKh@0.5:" ${print_log} | tail -n 1| awk '{print $4}' | cut -c 10- | awk '{sum+=$1} END {print sum/NR}'`
+#train_accuracy=`grep "Validation PCKh@0.5:" ${print_log} | tail -n 1| awk '{print $4}' | cut -c 10- | awk '{sum+=$1} END {print sum/NR}'`
 
 # 提取所有loss打印信息
 grep "loss=" ${print_log} | awk -F "=" '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
@@ -174,7 +184,7 @@ echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
 # 输出训练精度
-echo "Final Train Accuracy : ${train_accuracy}"
+#echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
 ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
@@ -188,4 +198,4 @@ echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
