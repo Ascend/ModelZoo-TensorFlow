@@ -132,7 +132,7 @@ do
 	--epochs=10  >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 
     python3 predict_from_ckpt.py \
-    -i=${data_path}/TestData/LFPA \
+    -i=${data_path}/TestData/AFLW2000-3D \
     --model_path=./checkpoint/model.ckpt >>  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 
     
