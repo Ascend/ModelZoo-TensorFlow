@@ -629,7 +629,7 @@ def main(_):
 
   #run_config = tf.estimator.RunConfig(
   run_config = NPURunConfig(
-      dump_config=dump_config
+      dump_config=dump_config,
       model_dir=FLAGS.output_dir,
       save_summary_steps=0,
       session_config=config,
