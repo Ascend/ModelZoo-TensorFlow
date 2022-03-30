@@ -1,0 +1,2 @@
+运行环境和依赖：ubuntu16.04+python3.7.5+tensorflow-gpu1.15.0+opencv+opencv-contrib3.4.2.17+evo1.12.0
+
