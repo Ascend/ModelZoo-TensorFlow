@@ -128,6 +128,10 @@ flags.DEFINE_bool("manual_fp16", True, "Whether to use fp32 or fp16 arithmetic o
 
 flags.DEFINE_bool("use_xla", False, "Whether to enable XLA JIT compilation.")
 
+flags.DEFINE_bool("over_dump", False, "Whether to enable overflow.")
+
+flags.DEFINE_string("over_dump_path", None, "path to save overflow dump files.")
+
 flags.DEFINE_bool("use_fp16", False, "Whether to enable AMP ops.")
 
 flags.DEFINE_bool("use_fp16_cls", True, "Whether to use fp16 in cls and pooler.")
@@ -605,6 +609,10 @@ def main(_):
       raise ValueError("AMP and Manual Mixed Precision Training are both activated! Error")
 
   is_per_host = tf.contrib.tpu.InputPipelineConfig.PER_HOST_V2
+  if FLAGS.over_dump:
+      dump_config = DumpConfig(enable_dump_debug = True, dump_path = FLAGS.over_dump_path, dump_debug_mode = "all")
+  else:
+      dump_config = DumpConfig(enable_dump_debug = False, dump_path = FLAGS.over_dump_path, dump_debug_mode = "all")
   config = tf.ConfigProto()
   if FLAGS.horovod:
     config.gpu_options.visible_device_list = str(hvd.local_rank())
@@ -621,6 +629,7 @@ def main(_):
 
   #run_config = tf.estimator.RunConfig(
   run_config = NPURunConfig(
+      dump_config=dump_config
       model_dir=FLAGS.output_dir,
       save_summary_steps=0,
       session_config=config,
