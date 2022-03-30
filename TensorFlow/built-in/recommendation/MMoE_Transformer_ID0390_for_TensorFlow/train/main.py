@@ -254,7 +254,10 @@ if __name__ == '__main__':
         custom_op.parameter_map["use_off_line"].b = True
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes('allow_mix_precision')
         custom_op.parameter_map["dynamic_input"].b = True
-        custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile") 
+        custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
+        pwdname = os.getcwd()
+        swith_file = pwdname+"/train/fusion_switch.cfg"
+        custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes(swith_file) 
         if iterations_per_loop_mode:
             custom_op.parameter_map["iterations_per_loop"].i = 10
         sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
