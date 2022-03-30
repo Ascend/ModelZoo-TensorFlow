@@ -20,7 +20,7 @@ Network="Tacotron2-v1-Encoder_ID1997_for_TensorFlow"
 #训练epoch
 train_epochs=2
 #训练step
-train_steps=100
+train_steps=50
 #训练batch_size
 batch_size=16
 #学习率
@@ -162,8 +162,8 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS_tmp=`grep "perf = " $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -1 | awk -F "=" '{print $3}' | sed -e 's/^[ ]*//g' | sed -e 's/[ ]*$//g'`
-FPS=`awk 'BEGIN {printf "%.2f\n", '${batch_size}'/'${FPS_tmp}'}'`
+t_step_time=`grep "perf = " $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | sed '1d' | awk -F "=" '{print $3}' | awk '{sum+=$1} END {print sum}'`
+FPS=`awk 'BEGIN {printf "%.2f\n", '${batch_size}'*('${train_steps}'-'1')/'${t_step_time}'}'`
 
 TrainingTime=`awk 'BEGIN {printf "%.2f\n", '1000'*'${batch_size}'/'${FPS}'}'`
 #打印，不需要修改
