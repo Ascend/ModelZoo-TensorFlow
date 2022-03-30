@@ -2,4 +2,4 @@ GPUStatus:OK
 NPUMigrationStatus:OK
 FuncStatus:OK
 PrecisionStatus:OK 
-PerfStatus:OK
+PerfStatus:NOK
