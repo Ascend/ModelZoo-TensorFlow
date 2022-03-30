@@ -190,6 +190,9 @@ flags.DEFINE_string(
     'input_layout', 'nhwc',
     help='Layout of input features: "nhwc" or "nchw"')
 
+flags.DEFINE_string(
+    'dynamic_input', '1',
+    help='--dynamic_input=1 Use fuzzy compilation. --dynamic_input=lazy_recompile Compile using lazy static graph')
 
 # TODO(seth): Verify if this is still required.
 flags.register_multi_flags_validator(
@@ -209,7 +212,13 @@ class DualNetwork():
         custom_op = global_config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
         custom_op.parameter_map["dynamic_input"].b = True
-        custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
+        print('========= DualNetwork DYNAMIC INPUT = %s =========' % FLAGS.dynamic_input)
+        if FLAGS.dynamic_input == "lazy_recompile":
+            custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
+        elif FLAGS.dynamic_input == "1":
+            custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("dynamic_execute")
+        else:
+            print("Enter correct compilation parameters.")
         global_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
         global_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
         

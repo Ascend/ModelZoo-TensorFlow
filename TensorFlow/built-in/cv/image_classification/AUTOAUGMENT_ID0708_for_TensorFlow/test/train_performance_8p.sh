@@ -24,6 +24,8 @@ train_epochs=1
 train_steps=
 #学习率
 learning_rate=
+#动态输入模式，不需要修改
+dynamic_input=""
 
 #参数配置
 data_path="/root/.keras/datasets/cifar-10-batches-py.tar.gz"
@@ -35,8 +37,10 @@ fi
 
 for para in $*
 do
-   if [[ $para == --data_path* ]];then
-      data_path=`echo ${para#*=}`
+    if [[ $para == --data_path* ]];then
+        data_path=`echo ${para#*=}`
+    elif [[ $para == --dynamic_input* ]];then
+        dynamic_input=`echo ${para#*=}` 
    fi
 done
 
@@ -70,7 +74,7 @@ do
        mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
     fi
     echo $ASCEND_DEVICE_ID
-    nohup python3 train.py  > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+    nohup python3 train.py  --dynamic_input=${dynamic_input} > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 done
 wait
 
@@ -131,3 +135,4 @@ echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DynamicInput = ${dynamic_input}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log

@@ -10,6 +10,16 @@ export JOB_ID=10018
 export RANK_SIZE=8
 export RANK_TABLE_FILE=${currentDir}/hccl_${RANK_SIZE}p.json
 
+#动态输入模式，不需要修改
+dynamic_input=""
+
+for para in $*
+do
+    if [[ $para == --dynamic_input* ]];then
+        dynamic_input=`echo ${para#*=}`  	
+    fi
+done
+
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
    export RANK_ID=$RANK_ID
@@ -24,6 +34,7 @@ do
              --model_path=${currentDir}/output/${ASCEND_DEVICE_ID} \
              --data_path=${currentDir}/data \
              --epochs=1 \
-             --max_steps=1000 > ${currentDir}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+             --max_steps=1000 \
+             --dynamic_input=${dynamic_input} > ${currentDir}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done
 

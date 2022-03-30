@@ -51,6 +51,8 @@ parser.add_argument('--train_epoch', dest='train_epoch', type=int, default=2000,
 parser.add_argument('--modeldir', dest='modeldir', default='./ckpt', help='ckpt dir')
 parser.add_argument('--learning_rate', dest='learning_rate', type=float, default=0.0001, help='learning rate')
 parser.add_argument('--batch_size', dest='batch_size', type=int, default=64, help='# images in batch')
+
+parser.add_argument("--dynamic_input", type=str, default='1', help="--dynamic_input=1 Use fuzzy compilation. --dynamic_input=lazy_recompile Compile using lazy static graph")
 args = parser.parse_args()
 
 
@@ -185,6 +187,12 @@ sess_config = tf.ConfigProto()
 custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
 custom_op.parameter_map["dynamic_input"].b = True
+if args.dynamic_input == "lazy_recompile":
+    custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
+elif args.dynamic_input == "1":
+    custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("dynamic_execute")
+else:
+    print("Enter correct compilation parameters.")
 custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
 custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)
 if args.data_dump_flag.strip() == "True":

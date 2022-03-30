@@ -82,8 +82,13 @@ def main():
         custom_op.parameter_map["hcom_parallel"].b = True
     
     custom_op.parameter_map["dynamic_input"].b = True
-    custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
-    
+    if args.dynamic_input == "lazy_recompile":
+        custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
+    elif args.dynamic_input == "1":
+        custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("dynamic_execute")
+    else:
+        print("Enter correct compilation parameters.")
+
     sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
     sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
     sess = tf.compat.v1.Session(config=sess_config)
@@ -142,6 +147,8 @@ def parse_args():
                         help="""the max train steps""")
     parser.add_argument('--MIND_type', default='small', choices=["demo", "small", "large"],
                         help = """the type of MIND data""")
+    parser.add_argument('--dynamic_input', type=str, default='1',
+                        help="--dynamic_input=1 Use fuzzy compilation. --dynamic_input=lazy_recompile Compile using lazy static graph")
 
     args, unknown_args = parser.parse_known_args()
     if len(unknown_args) > 0:

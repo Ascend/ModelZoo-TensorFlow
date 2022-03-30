@@ -24,6 +24,8 @@ train_epoch=2000
 batch_size=32
 #学习率
 learning_rate=0.0001
+#动态输入模式，不需要修改
+dynamic_input=""
 
 
 #维测参数，precision_mode需要模型审视修改
@@ -94,6 +96,8 @@ do
         batch_size=`echo ${para#*=}`
     elif [[ $para == --modeldir* ]];then
         modeldir=`echo ${para#*=}`
+    elif [[ $para == --dynamic_input* ]];then
+        dynamic_input=`echo ${para#*=}` 
     fi
 done
 
@@ -139,7 +143,8 @@ do
       --batch=${batch_size} \
       --profiling=${profiling} \
       --profiling_dump_path=${profiling_dump_path} \
-      --autotune=${autotune} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+      --autotune=${autotune} \
+      --dynamic_input=${dynamic_input} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 if [ $? -ne 0 ];then
   exit 1
 fi
@@ -206,3 +211,4 @@ echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${Ca
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DynamicInput = ${dynamic_input}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log

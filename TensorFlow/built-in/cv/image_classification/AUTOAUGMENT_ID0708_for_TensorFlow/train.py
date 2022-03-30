@@ -62,14 +62,16 @@ def parse_args():
     parser.add_argument('--batch-size', default=128, type=int)
     parser.add_argument('--cutout', default=False, type=str2bool)
     parser.add_argument('--auto-augment', default=False, type=str2bool)
-
+    parser.add_argument("--dynamic_input", type=str, default='1',
+                        help="--dynamic_input=1 Use fuzzy compilation. --dynamic_input=lazy_recompile Compile using lazy static graph")
     args = parser.parse_args()
 
     return args
 
+args = parse_args()
 
 def main():
-    args = parse_args()
+    # args = parse_args()
 
     if args.name is None:
         args.name = 'WideResNet%s-%s' %(args.depth, args.width)
@@ -132,7 +134,12 @@ if __name__ == '__main__':
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     custom_op.parameter_map["dynamic_input"].b = 1
-    custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
+    if args.dynamic_input == "lazy_recompile":
+        custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
+    elif args.dynamic_input == "1":
+        custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("dynamic_execute")
+    else:
+        print("Enter correct compilation parameters.")
     npu_keras_sess = set_keras_session_npu_config(config=global_config)
     # ***** npu modify end *****
     main()
