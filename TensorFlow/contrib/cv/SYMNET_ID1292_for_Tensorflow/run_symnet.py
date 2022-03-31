@@ -188,8 +188,6 @@ import moxing as mox
 def main():
     logger = logging.getLogger('MAIN')
 
-    # parser = make_parser()
-    # args = parser.parse_args()
     utils.duplication_check(args)
     utils.display_args(args, logger)
 

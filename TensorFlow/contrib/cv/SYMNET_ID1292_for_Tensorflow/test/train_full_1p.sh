@@ -114,9 +114,10 @@ epochs=700
 if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ./run_symnet.py --name UT_best --data UT --epoch=${epochs} --obj_pred UT_obj_lr1e-3_test_ep260.pkl --trained_weight snapshot_epoch_586.ckpt --batchnorm  --wordvec onehot  --lr 1e-4 --bz=${batch_size} --lambda_cls_attr 1 --lambda_cls_obj 0.5 --lambda_trip 0.5 --lambda_sym 0.01 --lambda_axiom 0.03 --data_url=${data_path} --train_url=${output_path}
-    python3.7 ./test_symnet.py --name UT_best --data UT --epoch 600 --obj_pred UT_lr1e-3_ep140.pkl --wordvec onehot --batchnorm
+#    python3.7 ./test_symnet.py --name UT_best --data UT --epoch=${epochs} --obj_pred UT_obj_lr1e-3_test_ep260.pkl --wordvec onehot --batchnorm --data_url=${data_path} --train_url=${output_path}
 else
     python3.7 ./run_symnet.py --name UT_best --data UT --epoch${epochs} --obj_pred UT_obj_lr1e-3_test_ep260.pkl --trained_weight snapshot_epoch_586.ckpt --batchnorm  --wordvec onehot  --lr 1e-4 --bz=${batch_size} --lambda_cls_attr 1 --lambda_cls_obj 0.5 --lambda_trip 0.5 --lambda_sym 0.01 --lambda_axiom 0.03 --data_url=${data_path} --train_url=${output_path} 1>${print_log} 2>&1
+#    python3.7 ./test_symnet.py --name UT_best --data UT --epoch=${epochs} --obj_pred UT_obj_lr1e-3_test_ep260.pkl --wordvec onehot --batchnorm --data_url=${data_path} --train_url=${output_path}
 fi
 
 # 性能相关数据计算
