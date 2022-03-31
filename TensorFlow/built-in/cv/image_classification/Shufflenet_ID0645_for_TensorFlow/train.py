@@ -218,10 +218,11 @@ def train():
 
             # main training loop
             for step in training_steps:
-
+                mystarttime = time.time()
                 _, batch_loss, batch_accuracy = sess.run([
                     ops['optimize'], ops['log_loss'], ops['accuracy']
                 ])
+                print('----------step_time',time.time()-mystarttime)
                 running_loss += batch_loss
                 running_accuracy += batch_accuracy
 
