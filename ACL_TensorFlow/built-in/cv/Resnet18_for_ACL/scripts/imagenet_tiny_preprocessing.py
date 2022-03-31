@@ -180,7 +180,8 @@ if __name__ == "__main__":
     output_dir = "./input_bins/"
     if not os.path.isdir(output_dir):
         os.mkdir(output_dir)
-
+    sqz_mean = np.array([112, 112, 112], np.float32)
+    img_std = np.array([[70, 70, 70]], np.float32)
     train_x, train_y, test_x, test_y = load_tiny()
 
     with open('./imagenet_tiny_label.txt','w') as f:
@@ -188,6 +189,9 @@ if __name__ == "__main__":
             print('start to process image: {}'.format(i))
             index = i
             image = test_x[i]
+            image = image * img_std
+            image = image + sqz_mean
+            image = image.astype(np.uint8, copy=False)
             image.tofile(os.path.join(output_dir,'val_{}.bin'.format(index)))
             label = test_y[i]
             f.write('val_{}.JPEG {}\n'.format(index, np.argmax(label)))

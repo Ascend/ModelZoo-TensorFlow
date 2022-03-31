@@ -66,7 +66,7 @@ The jpegs pictures will be preprocessed to bin fils.
   [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/resnet34_tf.pb)
 
   ```
-  atc --model=resnet34_tf.pb --framework=3 --output=resnet34_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="test_inputs:1,64,64,3" --log=info
+  atc --model=resnet34_tf.pb --framework=3 --output=resnet34_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="test_inputs:1,64,64,3" --log=info --insert_op_conf=resnet34_tf_aipp.cfg --enable_small_channel=1
   ```
 
 - Build the program
