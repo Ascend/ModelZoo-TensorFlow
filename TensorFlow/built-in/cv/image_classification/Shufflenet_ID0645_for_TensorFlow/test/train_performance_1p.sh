@@ -89,9 +89,11 @@ CaseName=${Network}_bs${BatchSize}_${RankSize}'p'_'perf'
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-steps_sec=`grep "time:"  $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END{print $10}'|awk -F, '{print $1}'`
+#steps_sec=`grep "time:"  $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END{print $10}'|awk -F, '{print $1}'`
 #打印，不需要修改
-FPS=`awk 'BEGIN{printf("%.2f\n",'${batch_size}'*'${train_steps}'/'${steps_sec}')}'`
+#FPS=`awk 'BEGIN{printf("%.2f\n",'${batch_size}'*'${train_steps}'/'${steps_sec}')}'`
+steps_sec=`grep step_time $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F'step_time ' 'END{print $2}'`
+FPS=`awk 'BEGIN{printf("%.2f\n",'${batch_size}'/'${steps_sec}')}'`
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
