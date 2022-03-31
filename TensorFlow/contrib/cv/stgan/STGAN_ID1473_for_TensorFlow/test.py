@@ -219,8 +219,8 @@ try:
                                                          '_%s'%(str(test_atts)) if multi_atts else ''))
 
         print('%06d.png done!' % (idx + 182638 if img is None else img[idx]))
-        #if idx + 182638 == 202599: break
-        if idx + 182638 == 182738: break   #CI看护test采用验证数据图片100张
+        if idx + 182638 == 202599: break
+        #if idx + 182638 == 182738: break   #CI看护test采用验证数据图片100张
 
 except:
     traceback.print_exc()
