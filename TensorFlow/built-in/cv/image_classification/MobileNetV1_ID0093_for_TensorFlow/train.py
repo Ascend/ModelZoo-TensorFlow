@@ -124,7 +124,6 @@ def main(args):
         config_proto = tf.compat.v1.ConfigProto()
         custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
-        custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
         custom_op.parameter_map["use_off_line"].b = True
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)
         config_proto.graph_options.rewrite_options.remapping = RewriterConfig.OFF
