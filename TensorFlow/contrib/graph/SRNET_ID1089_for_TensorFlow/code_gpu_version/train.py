@@ -19,10 +19,13 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("version", metavar="V", type=str)
-    parser.add_argument("lr", metavar="L", type=float)
+    parser.add_argument("lr", metavar="L", nargs='?', const=0.001, type=float)
     args = parser.parse_args()
     # gpu
     os.environ['CUDA_VISIBLE_DEVICES'] = str(cfg.gpu)
+
+    if os.path.exists(os.path.join(cfg.trainoutRoot, args.version)):
+        os.mkdir(os.path.join(cfg.trainoutRoot, args.version))
 
     #path
     tensorboard_dir = os.path.join(cfg.trainoutRoot, args.version, 'train_logs')
