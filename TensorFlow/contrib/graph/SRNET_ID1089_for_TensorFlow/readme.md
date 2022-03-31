@@ -5,8 +5,8 @@
 #### 发布者(Publisher):Huawei
 #### 应用领域（Application Domain）： Image Generator
 #### 版本（Version）：1.0
-#### 修改时间(Modified) ：2021.11.4 
-#### 大小(size):
+#### 修改时间(Modified) ：2022.3.4 
+#### 大小(size): 78.5M左右
 #### 框架(Framework)：TensorFlow 1.15.0
 #### 模型格式(Model Format): pb
 #### 处理器(Processor): 昇腾910
@@ -57,6 +57,7 @@ NPU训练依托于华为的Modelarts平台。
   * Code Directory: 仓库中npu-version对应的本地文件夹路径  
   * OBS Path: 训练时会自动将代码上传至OBS服务器，OBS Path对应OBS服务器中代码自动上传的位置  
   * Data Path in OBS: 数据集在OBS服务器之中存放的位置  
+  
 然后即可进行训练，最终的训练结果需要拷贝回OBS服务器，通过更改train.py 101之中dst_url的参数来指定拷贝的目标路径。
 #### GPU训练
 首先，在根目录下创建/srdata和/trainout文件夹，用于存放训练数据以及训练结果。  
@@ -93,7 +94,7 @@ GPU平台上每50轮训练平均耗时为
 NPU平台上每50轮训练平均耗时约59s
 #### 效果对比
 GPU和NPU上训练效果对比如下图：
-！[](Figure_1.png "效果对比")
+![训练效果](Figure_1.png) 
 不难看出，二者的训练效果相当，且均达到了[复现团队训练时的效果](https://github.com/youdao-ai/SRNet/issues/11)。
 ***
 
