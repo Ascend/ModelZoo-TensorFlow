@@ -73,7 +73,7 @@
     </table>
 
 ## 安装依赖
-参照：requirements.txt
+pip3 install requirements.txt
 
 ## 快速上手
 
