@@ -1,0 +1,1 @@
+atc --model=/usr/hy.pb --framework=3 --output=/usr/l3 --soc_version=Ascend310 --out_nodes="Identity:0" --input_shape="input_1:1, 25, 25, 30, 1"
