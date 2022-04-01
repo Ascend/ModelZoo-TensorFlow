@@ -714,7 +714,7 @@ def main(unused_argv):
   os.environ['TF_ENABLE_WINOGRAD_NONFUSED'] = '1'
 
   config = NPURunConfig(
-    precision_mode="allow_mix_precision",
+    #precision_mode="allow_mix_precision",
     #enable_data_pre_proc=True,
     save_checkpoints_steps=FLAGS.num_train_images // (FLAGS.train_batch_size * int(os.getenv('RANK_SIZE'))),
     session_config=estimator_config,
