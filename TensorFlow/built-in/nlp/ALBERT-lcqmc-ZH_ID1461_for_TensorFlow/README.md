@@ -104,7 +104,8 @@ run_config = NPURunConfig(
 
 
 <h2 id="训练环境准备.md">训练环境准备</h2>
-1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。_
+1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
+
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
 
     当前模型支持的镜像列表如[表1](#zh-cn_topic_0000001074498056_table1519011227314)所示。
@@ -129,6 +130,10 @@ run_config = NPURunConfig(
     </tr>
     </tbody>
     </table>
+
+3. 安装依赖
+
+pip3 install requirements.txt
 
 
 <h2 id="快速上手.md">快速上手</h2>
