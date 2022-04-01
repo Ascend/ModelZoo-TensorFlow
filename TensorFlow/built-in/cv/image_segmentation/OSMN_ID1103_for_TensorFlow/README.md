@@ -36,16 +36,13 @@
    OSMN是利用modulators模块快速地调整分割网络使其可以适应特定的物体，而不需要执行数百次的梯度下降；同时不需要调整所有的参数。在视频目标分割上有两个关键的点：视觉外观和空间中持续的移动。为了同时使用视觉和空间信息，将视觉modulator和空间modulator进行合并，在第一帧的标注信息和目标空间位置的基础上分别学习如何调整主体分割网络。
 
 -   参考论文：
-
       https://openaccess.thecvf.com/content_cvpr_2018/papers/Yang_Efficient_Video_Object_CVPR_2018_paper.pdf
 
 -   参考实现：
-
       https://github.com/linjieyangsc/video_seg
   
--   适配昇腾 AI 处理器的实现：
-    
-      https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/image_segmentation/OSMN_ID1103_for_TensorFlow
+-   适配昇腾 AI 处理器的实现：    
+      https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_segmentation/OSMN_ID1103_for_TensorFlow
 
 
 ## 训练环境准备
