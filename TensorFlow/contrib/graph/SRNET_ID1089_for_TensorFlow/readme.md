@@ -90,7 +90,7 @@ $ python3 predict.py
 GPU平台使用的GPU为：NVIDIA T4， 1 * 16G
 NPU平台使用的NPU为：Ascend 910
 #### 时间（性能）对比
-GPU平台上每50轮训练平均耗时为
+GPU平台上每50轮训练平均耗时为30s
 NPU平台上每50轮训练平均耗时约59s
 #### 效果对比
 GPU和NPU上训练效果对比如下图：
@@ -100,4 +100,4 @@ GPU和NPU上训练效果对比如下图：
 
 ## 数据集
 训练过程之中所采用的数据集为：[数据集](https://e-share.obs-website.cn-north-1.myhuaweicloud.com?token=F2eF/Z8D+mFBW+7kVK2hix+8Sp1M7bu7F8ghXFWNcp9uxF9jNxIB9bDWCokG6mGrFNRAGp+hhntj2rwzM21E37Ky0dZSgxFetwTBTUL+RhE+OB7BVR2HD5rZrDdeUaH6gejEiAArg7yvDQ087n9uWxH2URogbKlWQLmw7xBZYmTXEenFva32stWa2uyAxPrxmh9dLma7LSj5bqDQFgbvWsWsGVTWQi5fvMd/nqsi+oj3/Ex4KiCCNHYd0/rbOjb1Kk4mT7zm8C6sblxB24o9XnpTYMG+7j0HuClV2ecyM/YDN8FuE7ulj7rwbyMn48rUFg+KuTbpKHq9QDnGipDk9MViMuYvHip7Ngm+0oaapyQTFG1yZB5OjqziH5mnkkb7dihsYwY91uIZ0NOJz3b9AYZ/50f9gv/TPaiLmhTk90acdcp8VxXMdgqWM0oIPWHCGq8Y3C/gLthjsqABjGalW7YdHYl2RNVylcIbSWEa6hSzqf7gCb8/qAeC3urdxBSJM+Ww17WEIjAeuDosgbXll1ZMSwaj/jQuK81EAh38TJQAi3Aqyqn3+ljFIxjINB36)  
-Access Code为：xx11yy
+数据集的Access Code为：xx11yy
