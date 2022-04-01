@@ -131,11 +131,11 @@ then
         --data_url=${data_path} \
         --train_url=${output_path} 1>${print_log} 2>&1
 #    python3.7 ./test_symnet.py --name UT_best \
-        --data UT \
-        --epoch 600 \
-        --obj_pred UT_lr1e-3_ep140.pkl \
-        --wordvec onehot \
-        --batchnorm >>${print_log} 2>&1
+        #--data UT \
+        #--epoch 600 \
+        #--obj_pred UT_lr1e-3_ep140.pkl \
+        #--wordvec onehot \
+        #--batchnorm >>${print_log} 2>&1
 else
     echo --------1234567----------
     python3.7 ./run_symnet.py --name UT_best \
