@@ -180,7 +180,7 @@ if args.ifNPU == True:
 profiling_dir = "/cache/profiling"
 os.makedirs(profiling_dir)
 
-import moxing as mox
+#import moxing as mox
 
 
 ############################################################
@@ -206,7 +206,7 @@ def main():
         sw = SolverWrapper(net, train_dataloader, test_dataloader, args)
         sw.trainval_model(sess, args.epoch)
 
-    mox.file.copy_parallel(profiling_dir, args.train_url)
+    #mox.file.copy_parallel(profiling_dir, args.train_url)
 
 
 ################################################################################
