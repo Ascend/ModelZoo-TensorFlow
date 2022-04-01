@@ -2,7 +2,6 @@
 -   [概述](#概述.md)
 -   [训练环境准备](#训练环境准备.md)
 -   [快速上手](#快速上手.md)
--   [迁移学习指导](#迁移学习指导.md)
 -   [高级参考](#高级参考.md)
 <h2 id="基本信息.md">基本信息</h2>
 **发布者（Publisher）：Huawei**
@@ -31,22 +30,17 @@
   在预训练自然语言表示时增加模型大小通常会提高下游任务的性能。 但是，由于GPU / TPU内存的限制和更长的训练时间，在某些时候，进一步的模型增加变得更加困难。 为了解决这些问题，我们提出了两种参数减少技术，以降低内存消耗并提高BERT的训练速度。 全面的经验证据表明，与原始BERT相比，我们提出的方法所导致的模型可扩展性更好。 我们还使用了一个自我监督的损失，该损失集中于对句子之间的连贯性进行建模，并表明它始终可以通过多句子输入来帮助下游任务。 因此，我们的最佳模型在GLUE，RACE和\ squad基准上建立了最新的技术成果，而与BERT-large相比，参数更少。    
 
 -   参考论文：
-    
     https://paperswithcode.com/paper/albert-a-lite-bert-for-self-supervised
 
-- 参考实现：
-
+-   参考实现：
   https://github.com/brightmart/albert_zh
 
 
 -   适配昇腾 AI 处理器的实现：    
-    
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/nlp/ALBERT-lcqmc-ZH_ID1461_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/ALBERT-lcqmc-ZH_ID1461_for_TensorFlow
 
 -   通过Git获取对应commit\_id的代码方法如下：
-    
      
-    
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -109,7 +103,8 @@ run_config = NPURunConfig(
 
 
 <h2 id="训练环境准备.md">训练环境准备</h2>
-1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。_
+1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
+
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
 
     当前模型支持的镜像列表如[表1](#zh-cn_topic_0000001074498056_table1519011227314)所示。
@@ -134,6 +129,10 @@ run_config = NPURunConfig(
     </tr>
     </tbody>
     </table>
+
+3. 安装依赖
+
+pip3 install requirements.txt
 
 
 <h2 id="快速上手.md">快速上手</h2>
@@ -319,64 +318,4 @@ run_config = NPURunConfig(
 --use_fp16                     Whether to use fp16, default is True. 
 ```
 
-## 训练过程<a name="section1589455252218"></a>
-
-训练脚本会在训练过程中，每隔2500个训练步骤保存checkpoint，结果存储在model_dir目录中。
-
-训练脚本同时会每个step打印一次当前loss值，以方便查看loss收敛情况，如下：
-
-
-```
-INFO:tensorflow:words/sec: 43.81k 
-I0928 11:44:46.900814 281473395838992 wps_hook.py:60] words/sec: 43.81k 
-INFO:tensorflow:loss = 10.8089695, step = 36 (0.219 sec) 
-I0928 11:44:46.901059 281473395838992 basic_session_run_hooks.py:260] loss = 10.8089695, step = 36 (0.219 sec) 
-2020-09-28 11:44:46.901399: I tf_adapter/kernels/geop_npu.cc:393] [GEOP] Begin GeOp::ComputeAsync, kernel_name:GeOp9_0, num_inputs:0, num_outputs:1 2020-09-28 11:44:46.901443: I tf_adapter/kernels/geop_npu.cc:258] [GEOP] tf session directb287e87e429467f3, graph id: 31 no need to rebuild 
-2020-09-28 11:44:46.901453: I tf_adapter/kernels/geop_npu.cc:602] [GEOP] Call ge session RunGraphAsync, kernel_name:GeOp9_0 ,tf session: directb287e87e429467f3 ,graph id: 31 
-2020-09-28 11:44:46.901727: I tf_adapter/kernels/geop_npu.cc:615] [GEOP] End GeOp::ComputeAsync, kernel_name:GeOp9_0, ret_status:success ,tf session: directb287e87e429467f3 ,graph id: 31 [0 ms] 
-2020-09-28 11:44:46.904749: I tf_adapter/kernels/geop_npu.cc:76] BuildOutputTensorInfo, num_outputs:1 
-2020-09-28 11:44:46.904783: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:0, total_bytes:8, shape:, tensor_ptr:281462830504320, output281453257618064 
-2020-09-28 11:44:46.904805: I tf_adapter/kernels/geop_npu.cc:595] [GEOP] RunGraphAsync callback, status:0, kernel_name:GeOp9_0[ 3352us] 
-INFO:tensorflow:global_step...36 
-I0928 11:44:46.904968 281473395838992 npu_hook.py:114] global_step...36 
-2020-09-28 11:44:46.906018: I tf_adapter/kernels/geop_npu.cc:393] [GEOP] Begin GeOp::ComputeAsync, kernel_name:GeOp21_0, num_inputs:10, num_outputs:8 2020-09-28 11:44:46.906123: I tf_adapter/kernels/geop_npu.cc:258] [GEOP] tf session directb287e87e429467f3, graph id: 71 no need to rebuild 
-2020-09-28 11:44:46.906304: I tf_adapter/kernels/geop_npu.cc:602] [GEOP] Call ge session RunGraphAsync, kernel_name:GeOp21_0 ,tf session: directb287e87e429467f3 ,graph id: 71 
-2020-09-28 11:44:46.906606: I tf_adapter/kernels/geop_npu.cc:615] [GEOP] End GeOp::ComputeAsync, kernel_name:GeOp21_0, ret_status:success ,tf session: directb287e87e429467f3 ,graph id: 71 [0 ms] 
-2020-09-28 11:44:47.100919: I tf_adapter/kernels/geop_npu.cc:76] BuildOutputTensorInfo, num_outputs:8 
-2020-09-28 11:44:47.100972: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:0, total_bytes:4, shape:, tensor_ptr:281454044286272, output281454046025984 
-2020-09-28 11:44:47.100988: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:1, total_bytes:4, shape:, tensor_ptr:281454044286400, output281454043978208 
-2020-09-28 11:44:47.100996: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:2, total_bytes:4, shape:, tensor_ptr:281454044286592, output281454046026240 
-2020-09-28 11:44:47.101005: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:3, total_bytes:4, shape:, tensor_ptr:281454045161664, output281454045699456 
-2020-09-28 11:44:47.101013: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:4, total_bytes:4, shape:, tensor_ptr:281454045161856, output281454045182336 
-2020-09-28 11:44:47.101020: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:5, total_bytes:4, shape:, tensor_ptr:281454045161984, output281454045182208 
-2020-09-28 11:44:47.101028: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:6, total_bytes:8, shape:, tensor_ptr:281454045266560, output281454043539264 
-2020-09-28 11:44:47.101036: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:7, total_bytes:8, shape:, tensor_ptr:281454045266752, output281454043539552 
-2020-09-28 11:44:47.101045: I tf_adapter/kernels/geop_npu.cc:595] [GEOP] RunGraphAsync callback, status:0, kernel_name:GeOp21_0[ 194908us] 
-2020-09-28 11:44:47.102274: I tf_adapter/kernels/geop_npu.cc:393] [GEOP] Begin GeOp::ComputeAsync, kernel_name:GeOp9_0, num_inputs:0, num_outputs:1 2020-09-28 11:44:47.102332: I tf_adapter/kernels/geop_npu.cc:258] [GEOP] tf session directb287e87e429467f3, graph id: 31 no need to rebuild 
-2020-09-28 11:44:47.102343: I tf_adapter/kernels/geop_npu.cc:602] [GEOP] Call ge session RunGraphAsync, kernel_name:GeOp9_0 ,tf session: directb287e87e429467f3 ,graph id: 31 
-2020-09-28 11:44:47.102605: I tf_adapter/kernels/geop_npu.cc:615] [GEOP] End GeOp::ComputeAsync, kernel_name:GeOp9_0, ret_status:success ,tf session: directb287e87e429467f3 ,graph id: 31 [0 ms] 
-2020-09-28 11:44:47.105650: I tf_adapter/kernels/geop_npu.cc:76] BuildOutputTensorInfo, num_outputs:1 
-2020-09-28 11:44:47.105681: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:0, total_bytes:8, shape:, tensor_ptr:281462830504512, output281453176492864 
-2020-09-28 11:44:47.105695: I tf_adapter/kernels/geop_npu.cc:595] [GEOP] RunGraphAsync callback, status:0, kernel_name:GeOp9_0[ 3351us] 
-INFO:tensorflow:global_step/sec: 4.64619 
-I0928 11:44:47.106539 281473395838992 basic_session_run_hooks.py:692] global_step/sec: 4.64619 
-2020-09-28 11:44:47.107284: I tf_adapter/kernels/geop_npu.cc:393] [GEOP] Begin GeOp::ComputeAsync, kernel_name:GeOp9_0, num_inputs:0, num_outputs:1 2020-09-28 11:44:47.107373: I tf_adapter/kernels/geop_npu.cc:258] [GEOP] tf session directb287e87e429467f3, graph id: 31 no need to rebuild 
-2020-09-28 11:44:47.107391: I tf_adapter/kernels/geop_npu.cc:602] [GEOP] Call ge session RunGraphAsync, kernel_name:GeOp9_0 ,tf session: directb287e87e429467f3 ,graph id: 31 
-2020-09-28 11:44:47.107602: I tf_adapter/kernels/geop_npu.cc:615] [GEOP] End GeOp::ComputeAsync, kernel_name:GeOp9_0, ret_status:success ,tf session: directb287e87e429467f3 ,graph id: 31 [0 ms] 
-2020-09-28 11:44:47.110194: I tf_adapter/kernels/geop_npu.cc:76] BuildOutputTensorInfo, num_outputs:1 
-2020-09-28 11:44:47.110217: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:0, total_bytes:8, shape:, tensor_ptr:281462830977792, output281453202209616 
-2020-09-28 11:44:47.110232: I tf_adapter/kernels/geop_npu.cc:595] [GEOP] RunGraphAsync callback, status:0, kernel_name:GeOp9_0[ 2841us] 
-2020-09-28 11:44:47.111610: I tf_adapter/kernels/geop_npu.cc:393] [GEOP] Begin GeOp::ComputeAsync, kernel_name:GeOp19_0, num_inputs:0, num_outputs:1 2020-09-28 11:44:47.111668: I tf_adapter/kernels/geop_npu.cc:258] [GEOP] tf session directb287e87e429467f3, graph id: 61 no need to rebuild 
-2020-09-28 11:44:47.111685: I tf_adapter/kernels/geop_npu.cc:602] [GEOP] Call ge session RunGraphAsync, kernel_name:GeOp19_0 ,tf session: directb287e87e429467f3 ,graph id: 61 
-2020-09-28 11:44:47.111890: I tf_adapter/kernels/geop_npu.cc:615] [GEOP] End GeOp::ComputeAsync, kernel_name:GeOp19_0, ret_status:success ,tf session: directb287e87e429467f3 ,graph id: 61 [0 ms] 
-2020-09-28 11:44:47.114397: I tf_adapter/kernels/geop_npu.cc:76] BuildOutputTensorInfo, num_outputs:1 
-2020-09-28 11:44:47.114428: I tf_adapter/kernels/geop_npu.cc:103] BuildOutputTensorInfo, output index:0, total_bytes:8, shape:, tensor_ptr:281463707345344, output281453333853216 
-2020-09-28 11:44:47.114442: I tf_adapter/kernels/geop_npu.cc:595] [GEOP] RunGraphAsync callback, status:0, kernel_name:GeOp19_0[ 2756us]
-```
-
-## 推理/验证过程<a name="section1465595372416"></a>
-
-通过“快速上手”中的测试指令启动单卡或者多卡测试。单卡和多卡的配置与训练过程一致。
-
-BLEU = 28.74, 59.5/34.3/22.2/15.0 (BP=1.000, ratio=1.029, hyp_len=66369, ref_len=64504)
 
