@@ -43,8 +43,7 @@ https://arxiv.org/pdf/1905.08616.pdf
 }
 '''
 from npu_bridge.npu_init import *
-import os
-import time
+import os, time
 import numpy as np
 import tensorflow as tf
 import global_constants as settings
@@ -113,6 +112,15 @@ def train(train_image_path,
     boundaries = [np.int32((float(v)/n_epoch)*n_train_step) for v in learning_bounds]
     learning_rate = tf.train.piecewise_constant(global_step, boundaries, learning_rates)
     optimizer = tf.train.AdamOptimizer(learning_rate)
+
+    # Add Loss Scale
+    loss_scale_opt = optimizer
+    loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2 ** 32,
+                                                           incr_every_n_steps=1000,
+                                                           decr_every_n_nan_or_inf=2,
+                                                           decr_ratio=0.5)
+    optimizer = NPULossScaleOptimizer(loss_scale_opt, loss_scale_manager)
+
     # Initialize dataloader
     dataloader = DataLoader(shape=[n_batch, n_height, n_width, n_channel],
                             normalize=True,
@@ -180,7 +188,20 @@ def train(train_image_path,
     # Initialize Tensorflow session
     config = tf.ConfigProto(allow_soft_placement=True)
     config.gpu_options.allow_growth = True
-    session = tf.Session(config=npu_config_proto(config_proto=config))
+
+    # Add force_fp32
+    custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
+    custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["use_off_line"].b = True
+    # Resolve accuracy issue
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("force_fp32")
+    # Resolve preformance issue
+    # custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+    config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+    config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+    session = tf.Session(config=config)
+
+    # session = tf.Session(config=npu_config_proto(config_proto=config))
     # Initialize saver for storing and restoring checkpoints
     summary_writer = tf.summary.FileWriter(model_path+'-train', session.graph)
     train_saver = tf.train.Saver()
@@ -195,6 +216,7 @@ def train(train_image_path,
     log('Begin training...', log_path)
     start_step = global_step.eval(session=session)
     time_start = time.time()
+    time_batch = time_start
     train_step = start_step
 
     step = 0
@@ -219,12 +241,20 @@ def train(train_image_path,
           _, loss_value = session.run([gradients, loss])
 
         if train_step and (train_step % n_checkpoint) == 0:
-          # time_elapse = (time.time()-time_start)/3600*train_step/(train_step-start_step+1)
-          time_elapse = (time.time()-time_start)*train_step/(train_step-start_step+1)
+          time_elapse = (time.time()-time_start)/3600*train_step/(train_step-start_step+1)
           time_remain = (n_train_step/train_step-1)*time_elapse
-          # checkpoint_log = 'batch {:>6}  loss: {:.5f}  time elapsed: {:.2f}h  time left: {:.2f}h'
-          checkpoint_log = 'batch {:>6}  loss: {:.5f}  time elapsed: {:.2f}s  time left: {:.2f}s'
-          log(checkpoint_log.format(train_step, loss_value, time_elapse, time_remain), log_path)
+
+          #StepTime
+          if train_step == n_checkpoint:
+            time_step = (time_elapse)*3600/n_checkpoint
+          else:
+            time_step = (time_elapse-time_batch)*3600/n_checkpoint
+          time_batch = time_elapse
+          
+          #checkpoint_log = 'batch {:>6}  loss: {:.5f}  time elapsed: {:.2f}h  time left: {:.2f}h'
+          checkpoint_log = 'batch {:>6}  loss: {:.5f}  time elapsed: {:.2f}h  time left: {:.2f}h  StepTime: {:.6f}s'
+          #log(checkpoint_log.format(train_step, loss_value, time_elapse, time_remain), log_path)
+          log(checkpoint_log.format(train_step, loss_value, time_elapse, time_remain, time_step), log_path)
 
           train_saver.save(session, model_path, global_step=train_step)
 

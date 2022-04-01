@@ -1,141 +1,242 @@
 #!/bin/bash
 
-cur_path=`pwd`
+##########################################################
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+##########################################################
+# shell脚本所在路径
+cur_path=`echo $(cd $(dirname $0);pwd)`
 
+# 判断当前shell是否是performance
+perf_flag=`echo $0 | grep performance | wc -l`
+
+# 当前执行网络的名称
+Network=`echo $(cd $(dirname $0);pwd) | awk -F"/" '{print $(NF-1)}'`
 
 export RANK_SIZE=1
+export RANK_ID=0
 export JOB_ID=10087
-export RANK_ID_START=0
 
-
+# 路径参数初始化
 data_path=""
-ckpt_path=""
-Network="UDCVO_ID2359_for_TensorFlow"
-batch_size=8
-n_epoch=10000
-n_checkpoint=10
-# train_performance_1p.sh perf
-# train_full_1p.sh acc
-CaseName="${Network}_bs${batch_size}_${RANK_SIZE}p_acc"
+output_path=""
 
-
+# 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
-    echo"usage:./train_full_1p.sh <args>"
+    echo"usage:./train_performance_1P.sh <args>"
     echo " "
     echo "parameter explain:
-    --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
-    --over_dump		           if or not over detection, default is False
-    --data_dump_flag		     data dump flag, default is False
-    --data_dump_step		     data dump step, default is 10
-    --profiling		           if or not profiling for performance debug, default is False
-    --data_path		           source data of training
-    -h/--help		             show help message
+    --data_path              # dataset of training
+    --output_path            # output of training
+    --train_steps            # max_step for training
+	  --train_epochs           # max_epoch for training
+    --batch_size             # batch size
+    -h/--help                show help message
     "
     exit 1
 fi
+
+# 参数校验，不需要修改
 for para in $*
 do
     if [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
-        echo "${data_path}"
-    elif [[ $para == --ckpt_path* ]];then
-        ckpt_path=`echo ${para#*=}`
-        echo "${ckpt_path}"
+    elif [[ $para == --output_path* ]];then
+        output_path=`echo ${para#*=}`
+    elif [[ $para == --train_steps* ]];then
+        train_steps=`echo ${para#*=}`
+	elif [[ $para == --train_epochs* ]];then
+        train_epochs=`echo ${para#*=}`
     elif [[ $para == --batch_size* ]];then
         batch_size=`echo ${para#*=}`
-        echo "${batch_size}"
-    elif [[ $para == --max_steps* ]];then
-        max_steps=`echo ${para#*=}`
-        echo "${max_steps}"
     fi
 done
+
+# 校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
-    echo "[Error] para \"data_path\" must be confing"
+    echo "[Error] para \"data_path\" must be config"
     exit 1
 fi
 
-# MOVE SOME DATA
-cp -r ${data_path}/data ${cur_path}/../
-cp -r ${data_path}/data/testing ${cur_path}/../
-cp -r ${data_path}/data/training ${cur_path}/../
-cd $cur_path/../
-# START
-start_time=$(date +%s)
-for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
-do
-    echo "Device ID: $ASCEND_DEVICE_ID"
-    export RANK_ID=$RANK_ID
-    if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
-        rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt
+# 校验是否传入output_path,不需要修改
+if [[ $output_path == "" ]];then
+    output_path="./test/output/${ASCEND_DEVICE_ID}"
+fi
+
+# 设置打屏日志文件名，请保留，文件名为${print_log}
+print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
+etp_flag=${etp_running_flag}
+if [ x"${etp_flag}" != xtrue ];
+then
+    echo "running without etp..."
+    print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
+    print_log="/home/ma-user/modelarts/log/${print_log_name}"
+fi
+echo ${print_log}
+
+CaseName=""
+function get_casename()
+{
+    if [ x"${perf_flag}" = x1 ];
+    then
+        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'perf'
     else
-        mkdir -p ${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt
+        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'acc'
     fi
-    nohup python3 src/train_voiced.py \
-        --train_image_path training/testcase_image_1500.txt \
-        --train_interp_depth_path training/testcase_interp_depth_1500.txt \
-        --train_validity_map_path training/testcase_validity_map_1500.txt \
-        --train_intrinsics_path training/testcase_intrinsics_1500.txt \
-        --n_epoch ${n_epoch} \
-        --n_batch ${batch_size} \
-        --n_height 480 \
-        --n_width 640 \
-        --n_channel 3 \
-        --learning_rates 0.50e-4,0.25e-4,0.12e-4 \
-        --learning_bounds 12,16 \
-        --occ_threshold 1.5 \
-        --occ_ksize 7 \
-        --net_type vggnet11 \
-        --im_filter_pct 0.75 \
-        --sz_filter_pct 0.25 \
-        --min_predict_z 0.1 \
-        --max_predict_z 8.0 \
-        --w_ph 1.00 \
-        --w_co 0.20 \
-        --w_st 0.80 \
-        --w_sm 0.15 \
-        --w_sz 1.00 \
-        --w_pc 0.10 \
-        --pose_norm frobenius \
-        --rot_param exponential \
-        --n_summary 10 \
-        --n_checkpoint ${n_checkpoint} \
-        --checkpoint_path ${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
-done 
-wait
+}
+
+# 跳转到code目录
+cd ${cur_path}/../
+rm -rf ./test/output/${ASCEND_DEVICE_ID}
+mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+
+# 训练开始时间记录，不需要修改
+start_time=$(date +%s)
+##########################################################
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+##########################################################
+
+#=========================================================
+#=========================================================
+#========训练执行命令，需要根据您的网络进行修改==============
+#=========================================================
+#=========================================================
+# 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
+# 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
+# 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
+batch_size=8
+
+if [ x"${etp_flag}" != xtrue ];
+then
+    #python3.7 ./LeNet.py --data_path=${data_path} --output_path=${output_path}
+    python3.7 src/train_voiced.py \
+    --train_image_path /home/ma-user/modelarts/inputs/data_url_0/training/void_train_image_1500.txt \
+    --train_interp_depth_path /home/ma-user/modelarts/inputs/data_url_0/training/void_train_interp_depth_1500.txt \
+    --train_validity_map_path /home/ma-user/modelarts/inputs/data_url_0/training/void_train_validity_map_1500.txt \
+    --train_intrinsics_path /home/ma-user/modelarts/inputs/data_url_0/training/void_train_intrinsics_1500.txt \
+    --n_batch 8 \
+    --n_height 480 \
+    --n_width 640 \
+    --n_channel 3 \
+    --n_epoch 20 \
+    --learning_rates 0.50e-4,0.25e-4,0.12e-4 \
+    --learning_bounds 12,16 \
+    --occ_threshold 1.5 \
+    --occ_ksize 7 \
+    --net_type vggnet11 \
+    --im_filter_pct 0.75 \
+    --sz_filter_pct 0.25 \
+    --min_predict_z 0.1 \
+    --max_predict_z 8.0 \
+    --w_ph 1.00 \
+    --w_co 0.20 \
+    --w_st 0.80 \
+    --w_sm 0.15 \
+    --w_sz 1.00 \
+    --w_pc 0.10 \
+    --pose_norm frobenius \
+    --rot_param exponential \
+    --n_summary 1000 \
+    --n_checkpoint 5000 \
+    --checkpoint_path /home/ma-user/modelarts/outputs/train_url_0/
+else
+    #python3.7 ./LeNet.py --data_path=${data_path} --output_path=${output_path} > ${print_log}
+    python3.7 src/train_voiced.py \
+    --train_image_path /home/ma-user/modelarts/inputs/data_url_0/training/void_train_image_1500.txt \
+    --train_interp_depth_path /home/ma-user/modelarts/inputs/data_url_0/training/void_train_interp_depth_1500.txt \
+    --train_validity_map_path /home/ma-user/modelarts/inputs/data_url_0/training/void_train_validity_map_1500.txt \
+    --train_intrinsics_path /home/ma-user/modelarts/inputs/data_url_0/training/void_train_intrinsics_1500.txt \
+    --n_batch 8 \
+    --n_height 480 \
+    --n_width 640 \
+    --n_channel 3 \
+    --n_epoch 20 \
+    --learning_rates 0.50e-4,0.25e-4,0.12e-4 \
+    --learning_bounds 12,16 \
+    --occ_threshold 1.5 \
+    --occ_ksize 7 \
+    --net_type vggnet11 \
+    --im_filter_pct 0.75 \
+    --sz_filter_pct 0.25 \
+    --min_predict_z 0.1 \
+    --max_predict_z 8.0 \
+    --w_ph 1.00 \
+    --w_co 0.20 \
+    --w_st 0.80 \
+    --w_sm 0.15 \
+    --w_sz 1.00 \
+    --w_pc 0.10 \
+    --pose_norm frobenius \
+    --rot_param exponential \
+    --n_summary 1000 \
+    --n_checkpoint 5000 \
+    --checkpoint_path /home/ma-user/modelarts/outputs/train_url_0/
+fi
+
+# 性能相关数据计算
+StepTime=`grep "StepTime: " ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+
+# 精度相关数据计算
+#train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+# 提取所有loss打印信息
+grep "loss: " ${print_log} | awk -F ":" '{print $2}' | awk -F "  " '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+
+
+###########################################################
+#########后面的所有内容请不要修改###########################
+#########后面的所有内容请不要修改###########################
+#########后面的所有内容请不要修改###########################
+###########################################################
+
+# 判断本次执行是否正确使用Ascend NPU
+use_npu_flag=`grep "The model has been compiled on the Ascend AI processor" ${print_log} | wc -l`
+if [ x"${use_npu_flag}" == x0 ];
+then
+    echo "------------------ ERROR NOTICE START ------------------"
+    echo "ERROR, your task haven't used Ascend NPU, please check your npu Migration."
+    echo "------------------ ERROR NOTICE END------------------"
+else
+    echo "------------------ INFO NOTICE START------------------"
+    echo "INFO, your task have used Ascend NPU, please check your result."
+    echo "------------------ INFO NOTICE END------------------"
+fi
+
+# 获取最终的casename，请保留，case文件名为${CaseName}
+get_casename
+
+# 重命名loss文件
+if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
+then
+    mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
+fi
+
+# 训练端到端耗时
 end_time=$(date +%s)
-e2e_time=$(( ${end_time} - ${start_time} ))
-rm -rf ${cur_path}/../data
+e2e_time=$(( $end_time - $start_time ))
 
 echo "------------------ Final result ------------------"
-BatchSize=${batch_size}
-DeviceType=`uname -m`
-# getFPS
-a=`grep loss ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | tail -n 1 | awk -F'elapsed: ' '{print $2}' | awk -F's' '{print $1}'`
-b=`grep loss ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | tail -n 2 | head -n 1 | awk -F'elapsed: ' '{print $2}' | awk -F's' '{print $1}'`
-FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${n_checkpoint}'/('${a}'-'${b}')}'`
-ActualFPS=${FPS}
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'/'${FPS}'}'`
+# 输出性能FPS/单step耗时/端到端耗时
+echo "Final Performance images/sec : $FPS"
+echo "Final Performance sec/step : $StepTime"
+echo "E2E Training Duration sec : $e2e_time"
 
-# getAcc
- train_accuracy="None"
-
-# getLoss
-grep loss ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F'loss: ' 'END{print $2}' | awk -F' ' '{print $1}' > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${CaseName}_loss.txt
-ActualLoss=`awk 'END {print}' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${CaseName}_loss.txt`
-
-echo "Final Performance images/sec : ${FPS}"
+# 输出训练精度
 echo "Final Train Accuracy : ${train_accuracy}"
-echo "E2E Training Duration sec : ${e2e_time}"
 
+# 最后一个迭代loss值，不需要修改
+ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
 
-echo "Network = ${Network}"                  > ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "RankSize = ${RANK_SIZE}"              >> ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "BatchSize = ${BatchSize}"             >> ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "DeviceType = ${DeviceType}"           >> ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "CaseName = ${CaseName}"               >> ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "ActualFPS = ${ActualFPS}"             >> ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "TrainingTime = ${TrainingTime}"       >> ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}"    >> ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "ActualLoss = ${ActualLoss}"           >> ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "E2ETrainingTime = ${e2e_time}"        >> ${cur_path}/output/${ASCEND_DEVICE_ID}/${CaseName}.log
+#关键信息打印到${CaseName}.log中，不需要修改
+echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "BatchSize = ${batch_size}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DeviceType = `uname -m`" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
