@@ -1,14 +1,12 @@
-# SSD-Resnet50V1-FPN_for_TensorFlow
-
-## 目录
-* [基本信息](#基本信息)
-* [概述](#概述)
-* [训练环境准备](#训练环境准备)
-* [快速上手](#快速上手)
-* [高级参考](#高级参考)
+- [基本信息](#基本信息.md)
+- [概述](#概述.md)
+- [训练环境准备](#训练环境准备.md)
+- [快速上手](#快速上手.md)
+- [迁移学习指导](#迁移学习指导.md)
+- [高级参考](#高级参考.md)
 
 
-## 基本信息
+<h2 id="基本信息.md">基本信息</h2>
 
 **发布者（Publisher）：Huawei**
 **应用领域（Application Domain）：Object Detection
@@ -22,7 +20,7 @@
 **应用级别（Categories）：Official
 **描述（Description）：基于tensorflow实现，以Resnet50为backbone的SSD目标检测网络。
 
-## 概述
+<h2 id="概述.md">概述</h2>
 
 SSD-Resnet50V1-FPN将边界框的输出空间离散为一组默认框，每个特征地图位置的纵横比和比例不同。在预测时，网络为每个默认框中每个对象类别生成分数，并对该框进行调整，以更好地匹配对象形状。此外，该网络结合了来自不同分辨率的多个特征图的预测，从而自然地处理不同尺寸的物体
 
@@ -112,7 +110,7 @@ pip3 install requirements.txt
 
 3、mpl_toolkits
 
-## 快速上手
+<h2 id="快速上手.md">快速上手</h2>
 
 ### 数据集准备<a name="section361114841316"></a>
 
@@ -124,10 +122,11 @@ download_all.sh nvidia_ssd <data_dir_path> <checkpoint_dir_path>
 ### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
+- 开始训练    
+   
+    1. 启动训练之前，首先要配置程序运行相关环境变量。
 
-- 启动训练之前，首先要配置程序运行相关环境变量。
-
-  环境变量配置信息参见：
+       环境变量配置信息参见：
 
      [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
 
@@ -162,7 +161,7 @@ download_all.sh nvidia_ssd <data_dir_path> <checkpoint_dir_path>
 
 ## 高级参考
 
-### 核心脚本和示例代码<a name="section08421615141513"></a>
+## 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 ├── README.md                            //代码说明文档
@@ -235,4 +234,9 @@ download_all.sh nvidia_ssd <data_dir_path> <checkpoint_dir_path>
 --num_train_steps             训练的steps
 --model_dir                   训练模型存放路径
 --checkpoint_dir              待评测的模型路径（仅eval模式使用）
+```
+
+## 训练过程<a name="section1589455252218"></a>
+```
+  NA
 ```
