@@ -36,7 +36,7 @@ SSD-Resnet50V1-FPN将边界框的输出空间离散为一组默认框，每个�
 
 - 适配昇腾 AI 处理器的实现：
 
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/detection/SSD-Resnet50V1-FPN_ID1463_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/SSD-Resnet50V1-FPN_ID1463_for_TensorFlow
 
 
 - 通过Git获取对应commit\_id的代码方法如下：
@@ -77,34 +77,32 @@ SSD-Resnet50V1-FPN将边界框的输出空间离散为一组默认框，每个�
 | 分布式训练 | 是    |
 | 混合精度  | 是    |
 
+## 混合精度训练<a name="section168064817164"></a>
 
-## 训练环境准备
+昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
-2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
+## 开启混合精度<a name="section20779114113713"></a>
+相关代码示例。
 
-    当前模型支持的镜像列表如[表1](#zh-cn_topic_0000001074498056_table1519011227314)所示。
+```
+  config_proto = tf.ConfigProto(allow_soft_placement=True)
+  custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
+  custom_op.name = 'NpuOptimizer'
+  custom_op.parameter_map["use_off_line"].b = True
+  custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+  config_proto.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+  session_config = npu_config_proto(config_proto=config_proto)
+```
 
-    **表 1** 镜像列表
+<h2 id="训练环境准备.md">训练环境准备</h2>
 
-    <a name="zh-cn_topic_0000001074498056_table1519011227314"></a>
-    <table><thead align="left"><tr id="zh-cn_topic_0000001074498056_row0190152218319"><th class="cellrowborder" valign="top" width="47.32%" id="mcps1.2.4.1.1"><p id="zh-cn_topic_0000001074498056_p1419132211315"><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><em id="i1522884921219"><a name="i1522884921219"></a><a name="i1522884921219"></a>镜像名称</em></p>
-    </th>
-    <th class="cellrowborder" valign="top" width="25.52%" id="mcps1.2.4.1.2"><p id="zh-cn_topic_0000001074498056_p75071327115313"><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><em id="i1522994919122"><a name="i1522994919122"></a><a name="i1522994919122"></a>镜像版本</em></p>
-    </th>
-    <th class="cellrowborder" valign="top" width="27.16%" id="mcps1.2.4.1.3"><p id="zh-cn_topic_0000001074498056_p1024411406234"><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><em id="i723012493123"><a name="i723012493123"></a><a name="i723012493123"></a>配套CANN版本</em></p>
-    </th>
-    </tr>
-    </thead>
-    <tbody><tr id="zh-cn_topic_0000001074498056_row71915221134"><td class="cellrowborder" valign="top" width="47.32%" headers="mcps1.2.4.1.1 "><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><ul id="zh-cn_topic_0000001074498056_ul81691515131910"><li><em id="i82326495129"><a name="i82326495129"></a><a name="i82326495129"></a>ARM架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-arm" target="_blank" rel="noopener noreferrer">ascend-tensorflow-arm</a></em></li><li><em id="i18233184918125"><a name="i18233184918125"></a><a name="i18233184918125"></a>x86架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-x86" target="_blank" rel="noopener noreferrer">ascend-tensorflow-x86</a></em></li></ul>
-    </td>
-    <td class="cellrowborder" valign="top" width="25.52%" headers="mcps1.2.4.1.2 "><p id="zh-cn_topic_0000001074498056_p1450714271532"><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><em id="i72359495125"><a name="i72359495125"></a><a name="i72359495125"></a>21.0.2</em></p>
-    </td>
-    <td class="cellrowborder" valign="top" width="27.16%" headers="mcps1.2.4.1.3 "><p id="zh-cn_topic_0000001074498056_p18244640152312"><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><em id="i162363492129"><a name="i162363492129"></a><a name="i162363492129"></a><a href="https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373/software" target="_blank" rel="noopener noreferrer">5.0.2</a></em></p>
-    </td>
-    </tr>
-    </tbody>
-    </table>
+-  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
+-  运行以下命令安装依赖。
+```
+pip3 install requirements.txt
+```
+说明：依赖配置文件requirements.txt文件位于模型的根目录
+
 
 ## 安装依赖
 
