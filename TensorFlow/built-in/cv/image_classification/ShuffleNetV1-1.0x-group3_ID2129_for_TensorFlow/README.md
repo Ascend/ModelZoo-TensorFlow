@@ -1,8 +1,10 @@
--   [基本信息](#基本信息.md)
--   [概述](#概述.md)
--   [训练环境准备](#训练环境准备.md)
--   [快速上手](#快速上手.md)
--   [高级参考](#高级参考.md)
+- [基本信息](#基本信息.md)
+- [概述](#概述.md)
+- [训练环境准备](#训练环境准备.md)
+- [快速上手](#快速上手.md)
+- [迁移学习指导](#迁移学习指导.md)
+- [高级参考](#高级参考.md)
+
 <h2 id="基本信息.md">基本信息</h2>
 
 **发布者（Publisher）：Huawei**
@@ -31,7 +33,7 @@
 
 ​         目前，神经网络架构设计主要以计算复杂度的\emph{indirect} 度量，即FLOPs 为指导。然而，\emph{direct} 指标（例如速度）还取决于其他因素，例如内存访问成本和平台特性。因此，这项工作建议评估目标平台上的直接指标，而不仅仅是考虑 FLOP。基于一系列受控实验，这项工作推导出了几个实用的\ emph {指南}，用于有效的网络设计。ShuffleNetV1提出了channel shuffle操作，使得网络可以尽情地使用分组卷积来加速。
 
--   参考论文：
+- 参考论文：
   https://arxiv.org/pdf/1707.01083.pdf
 
 - 参考实现：
@@ -105,6 +107,13 @@ run_config = NPURunConfig( model_dir=flags_obj.model_dir,
 
 <h2 id="训练环境准备.md">训练环境准备</h2>
 
+-  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
+-  运行以下命令安装依赖。
+```
+pip3 install requirements.txt
+```
+说明：依赖配置文件requirements.txt文件位于模型的根目录
+
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
 
@@ -143,8 +152,8 @@ run_config = NPURunConfig( model_dir=flags_obj.model_dir,
 
 ## 模型训练<a name="section715881518135"></a>
 
--  单击“立即下载”，并选择合适的下载方式下载源码包。
--  启动训练之前，首先要配置程序运行相关环境变量。
+- 单击“立即下载”，并选择合适的下载方式下载源码包。
+- 开始训练。
 
    环境变量配置信息参见：
 
@@ -164,7 +173,7 @@ run_config = NPURunConfig( model_dir=flags_obj.model_dir,
 
 <h2 id="高级参考.md">高级参考</h2>
 
- 脚本和示例代码
+## 脚本和示例代码<a name="section08421615141513"></a>
 
 
 ```
@@ -207,4 +216,7 @@ ShuffleNetV1-1.0x-group3_ID2129_for_TensorFlow/
 ```
 
 
+## 训练过程<a name="section1589455252218"></a>
 
+通过“模型训练”中的训练指令启动单卡训练。
+将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。
