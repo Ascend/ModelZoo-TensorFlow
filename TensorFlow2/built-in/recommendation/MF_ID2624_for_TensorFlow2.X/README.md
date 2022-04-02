@@ -39,19 +39,20 @@
 
 - 参考实现：
 
-   https://github.com/ZiyaoGeng/Recommender-System-with-TF2.0/tree/master/MF
+   [https://github.com/ZiyaoGeng/Recommender-System-with-TF2.0/tree/master/MF](https://github.com/ZiyaoGeng/Recommender-System-with-TF2.0/tree/master/MF)
 
 - 适配昇腾 AI 处理器的实现：    
     
-   https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow2/Research/recommendation/MF_ID2624_for_TensorFlow2.X
+   [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/recommendation/MF_ID2624_for_TensorFlow2.X](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/recommendation/MF_ID2624_for_TensorFlow2.X)
 
 - 通过Git获取对应commit\_id的代码方法如下：
-    
-      git clone {repository_url}    # 克隆仓库的代码
-      cd {repository_name}    # 切换到模型的代码仓目录
-      git checkout  {branch}    # 切换到对应分支
-      git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
-      cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+    ```
+    git clone {repository_url}    # 克隆仓库的代码
+    cd {repository_name}    # 切换到模型的代码仓目录
+    git checkout  {branch}    # 切换到对应分支
+    git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
+    cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+    ```
 
 ## 默认配置
 
