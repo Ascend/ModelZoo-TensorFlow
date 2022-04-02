@@ -1,12 +1,9 @@
-# OSMN: One-Shot Modulation Network for Semi-supervised Video Segmentation
-
-## 目录
-- [基本信息](#基本信息)
-- [概述](#概述)
-- [训练环境准备](#训练环境准备)
-- [快速上手](#快速上手)
+- [基本信息](#基本信息.md)
+- [概述](#概述.md)
+- [训练环境准备](#训练环境准备.md)
+- [快速上手](#快速上手.md)
 - [迁移学习指导](#迁移学习指导.md)
-- [高级参考](#高级参考)
+- [高级参考](#高级参考.md)
 
 <h2 id="基本信息.md">基本信息</h2>
 
@@ -60,6 +57,26 @@
     -   优化器：Adam 
     -   单卡batchsize：1 
 
+## 支持特性<a name="section1899153513554"></a>
+
+| 特性列表   | 是否支持 |
+| ---------- | -------- |
+| 分布式训练 | 否       |
+| 混合精度   | 是       |
+| 数据并行   | 是       |
+
+## 混合精度训练<a name="section168064817164"></a>
+
+ 混合精度训练昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
+
+## 开启混合精度<a name="section20779114113713"></a>
+
+    config = tf.ConfigProto()
+    custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
+    custom_op.name =  "NpuOptimizer"
+    if FLAGS.precision_mode == "allow_mix_precision":
+         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+
 <h2 id="训练环境准备.md">训练环境准备</h2>
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
@@ -97,6 +114,10 @@ pip3 install requirements.txt
 2. 在TF model zoo中下载VGG16 预训练模型vgg_16.ckpt，放到 `models/` 目录下
 
 ## 模型训练<a name="section715881518135"></a>
+
+- 单击“立即下载”，并选择合适的下载方式下载源码包。
+
+- 开始训练  
 ```
  以数据目录为./data、预训练模型目录为 ./models为例:
   cd test
@@ -106,10 +127,9 @@ pip3 install requirements.txt
  
 ```
 
-
 <h2 id="高级参考.md">高级参考</h2>
 
-### 核心脚本和示例代码
+## 脚本和示例代码
 
 ```
 .
