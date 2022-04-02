@@ -7,7 +7,13 @@
 ##########################################################
 # shell脚本所在路径
 cur_path=`echo $(cd $(dirname $0);pwd)`
-
+cd /
+if [ -d ./cache/profiling ]
+then
+    rm -rf ./cache
+fi
+cd ${cur_path}
+#cur_path=`echo $(cd $(dirname $0);pwd)`
 # 判断当前shell是否是performance
 perf_flag=`echo $0 | grep performance | wc -l`
 
