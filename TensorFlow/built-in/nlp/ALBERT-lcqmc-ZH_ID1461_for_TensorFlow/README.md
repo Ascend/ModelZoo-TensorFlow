@@ -1,8 +1,9 @@
--   [基本信息](#基本信息.md)
--   [概述](#概述.md)
--   [训练环境准备](#训练环境准备.md)
--   [快速上手](#快速上手.md)
--   [高级参考](#高级参考.md)
+- [基本信息](#基本信息.md)
+- [概述](#概述.md)
+- [训练环境准备](#训练环境准备.md)
+- [快速上手](#快速上手.md)
+- [迁移学习指导](#迁移学习指导.md)
+- [高级参考](#高级参考.md)
 <h2 id="基本信息.md">基本信息</h2>
 **发布者（Publisher）：Huawei**
 
@@ -12,34 +13,34 @@
 
 **修改时间（Modified） ：2021.04.16**
 
-**大小（Size）：【深加工】**
+**大小（Size）：1M**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
 **模型格式（Model Format）：ckpt**
 
-**精度（Precision）：【深加工】**
+**精度（Precision）：Mixed**
 
 **处理器（Processor）：昇腾910**
 
-**应用级别（Categories）：【深加工】**
+**应用级别（Categories）：Official**
 
 **描述（Description）：基于TensorFlow框架的Albert_ZH代码**
 
 <h2 id="概述.md">概述</h2>
   在预训练自然语言表示时增加模型大小通常会提高下游任务的性能。 但是，由于GPU / TPU内存的限制和更长的训练时间，在某些时候，进一步的模型增加变得更加困难。 为了解决这些问题，我们提出了两种参数减少技术，以降低内存消耗并提高BERT的训练速度。 全面的经验证据表明，与原始BERT相比，我们提出的方法所导致的模型可扩展性更好。 我们还使用了一个自我监督的损失，该损失集中于对句子之间的连贯性进行建模，并表明它始终可以通过多句子输入来帮助下游任务。 因此，我们的最佳模型在GLUE，RACE和\ squad基准上建立了最新的技术成果，而与BERT-large相比，参数更少。    
 
--   参考论文：
+- 参考论文：
     https://paperswithcode.com/paper/albert-a-lite-bert-for-self-supervised
 
--   参考实现：
+- 参考实现：
   https://github.com/brightmart/albert_zh
 
 
--   适配昇腾 AI 处理器的实现：    
+- 适配昇腾 AI 处理器的实现：   
     https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/ALBERT-lcqmc-ZH_ID1461_for_TensorFlow
 
--   通过Git获取对应commit\_id的代码方法如下：
+- 通过Git获取对应commit\_id的代码方法如下：
      
     ```
     git clone {repository_url}    # 克隆仓库的代码
@@ -101,8 +102,15 @@ run_config = NPURunConfig(
      ）
 ```
 
-
 <h2 id="训练环境准备.md">训练环境准备</h2>
+
+-  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
+-  运行以下命令安装依赖。
+```
+pip3 install requirements.txt
+```
+说明：依赖配置文件requirements.txt文件位于模型的根目录
+
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
@@ -130,10 +138,6 @@ run_config = NPURunConfig(
     </tbody>
     </table>
 
-3. 安装依赖
-
-pip3 install requirements.txt
-
 
 <h2 id="快速上手.md">快速上手</h2>
 ## 数据集准备<a name="section361114841316"></a>
@@ -142,7 +146,7 @@ pip3 install requirements.txt
 2. 模型使用预训练模型 albert_tiny_zh，参考源代码提供路径下载。
 ## 模型训练<a name="section715881518135"></a>
 
-- 下载训练脚本。（单击“立即下载”，并选择合适的下载方式下载源码包。）
+- 单击“立即下载”，并选择合适的下载方式下载源码包。
 
 - 开始训练。
 
@@ -317,5 +321,7 @@ pip3 install requirements.txt
 --model_dir                    Model dir for saving checkpoint 
 --use_fp16                     Whether to use fp16, default is True. 
 ```
+## 训练过程<a name="section1589455252218"></a>
 
-
+通过“模型训练”中的训练指令启动单卡训练。
+将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。
