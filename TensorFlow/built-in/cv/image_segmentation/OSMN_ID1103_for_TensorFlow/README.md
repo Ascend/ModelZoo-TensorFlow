@@ -1,13 +1,14 @@
 # OSMN: One-Shot Modulation Network for Semi-supervised Video Segmentation
 
 ## 目录
-* [基本信息](#基本信息)
-* [概述](#概述)
-* [训练环境准备](#训练环境准备)
-* [快速上手](#快速上手)
-* [高级参考](#高级参考)
+- [基本信息](#基本信息)
+- [概述](#概述)
+- [训练环境准备](#训练环境准备)
+- [快速上手](#快速上手)
+- [迁移学习指导](#迁移学习指导.md)
+- [高级参考](#高级参考)
 
-## 基本信息
+<h2 id="基本信息.md">基本信息</h2>
 
 **发布者（Publisher）：Huawei**
 
@@ -31,21 +32,29 @@
 
 **描述（Description）：基于TensorFlow框架的OSMN网络训练代码**
 
-## 概述
+<h2 id="概述.md">概述</h2>
 
    OSMN是利用modulators模块快速地调整分割网络使其可以适应特定的物体，而不需要执行数百次的梯度下降；同时不需要调整所有的参数。在视频目标分割上有两个关键的点：视觉外观和空间中持续的移动。为了同时使用视觉和空间信息，将视觉modulator和空间modulator进行合并，在第一帧的标注信息和目标空间位置的基础上分别学习如何调整主体分割网络。
 
--   参考论文：
+- 参考论文：
       https://openaccess.thecvf.com/content_cvpr_2018/papers/Yang_Efficient_Video_Object_CVPR_2018_paper.pdf
 
--   参考实现：
+- 参考实现：
       https://github.com/linjieyangsc/video_seg
   
--   适配昇腾 AI 处理器的实现：    
+- 适配昇腾 AI 处理器的实现：    
       https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_segmentation/OSMN_ID1103_for_TensorFlow
 
+- 通过Git获取对应commit_id的代码方法如下:
+    
+    
+        git clone {repository_url}    # 克隆仓库的代码
+        cd {repository_name}    # 切换到模型的代码仓目录
+        git checkout  {branch}    # 切换到对应分支
+        git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
+        cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
 
-## 训练环境准备
+<h2 id="训练环境准备.md">训练环境准备</h2>
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
 
@@ -75,13 +84,13 @@
 ## 安装依赖
 pip3 install requirements.txt
 
-## 快速上手
+<h2 id="快速上手.md">快速上手</h2>
 
 ### 数据集准备<a name="section361114841316"></a>
 1. 下载MS-COCO 2017数据集
 2. 在TF model zoo中下载VGG16 预训练模型vgg_16.ckpt，放到 `models/` 目录下
 
-### 模型训练<a name="section715881518135"></a>
+## 模型训练<a name="section715881518135"></a>
 ```
  以数据目录为./data、预训练模型目录为 ./models为例:
   cd test
@@ -92,7 +101,7 @@ pip3 install requirements.txt
 ```
 
 
-## 高级参考
+<h2 id="高级参考.md">高级参考</h2>
 
 ### 核心脚本和示例代码
 
@@ -139,6 +148,11 @@ pip3 install requirements.txt
 
 ```
 
+## 训练过程<a name="section1589455252218"></a>
 
+1. 通过“模型训练”中的训练指令启动单卡训练。 
+2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。 
+3. 模型存储路径为“${cur_path}/output/$ASCEND_DEVICE_ID”，包括训练的log以及checkpoints文件。
+4. 以单卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。 
 
 
