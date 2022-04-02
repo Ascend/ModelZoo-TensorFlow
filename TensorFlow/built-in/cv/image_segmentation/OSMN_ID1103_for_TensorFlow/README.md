@@ -42,7 +42,7 @@
 - 适配昇腾 AI 处理器的实现：    
       https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_segmentation/OSMN_ID1103_for_TensorFlow
 
-- 通过Git获取对应commit_id的代码方法如下:
+- 通过Git获取对应commit\_id的代码方法如下:
     
     
         git clone {repository_url}    # 克隆仓库的代码
