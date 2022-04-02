@@ -139,17 +139,10 @@ python3.7 ${cur_path}/../train.py --rank_size=8 \
 
 done
 wait
-for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
-do
 #设置环境变量，不需要修改
-    echo "Device ID: $RANK_ID"
-    export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=$RANK_ID
-    ASCEND_DEVICE_ID=$RANK_ID
-
-    export DEVICE_ID=$RANK_ID
-	DEVICE_INDEX=$RANK_ID
-    export DEVICE_INDEX=${DEVICE_INDEX}
+export RANK_ID=7
+export DEVICE_INDEX=7
+export ASCEND_DEVICE_ID=7
 python3 ${cur_path}/../train.py --rank_size=8 \
                       --epochs_between_evals=1 \
                       --mode=evaluate \
@@ -170,7 +163,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能ms/step,需要模型审视修改
-step_sec=`grep FPS  ${cur_path}/output/0/train_0.log|awk 'END {print $3}'|awk -F ":" 'END {print $2}'|awk -F "," 'END {print $1}'`
+step_sec=`grep FPS  ${cur_path}/output/7/train_7.log|awk 'END {print $5}'|awk -F ":" 'END {print $2}'|awk -F "," 'END {print $1}'|awk -F "." '{print $1}'`
 #打印，不需要修改
 echo "Final Performance ms/step : $step_sec"
 
@@ -178,7 +171,7 @@ echo "Final Performance ms/step : $step_sec"
 #打印，不需要修改
 echo "Final Training Duration sec : $e2e_sec"
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep -A 3 "top1" ${cur_path}/output/0/train_0.log|tail -1|awk 'END {print $3}'`
+train_accuracy=`grep -B 1 "Finished" ${cur_path}/output/7/train_7.log|head -1|awk 'END {print $3}'`
 #打印，不需要修改
 echo "Final train_accuracy is ${train_accuracy}"
 echo "E2E training Duration sec: $e2e_time"
@@ -196,7 +189,7 @@ ActualFPS=${step_sec}
 TrainingTime=`expr ${batch_size} \* 1000 / ${step_sec}`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-`grep total_loss ${cur_path}/output/0/train_0.log|awk 'END {print $5}'|tr -d , >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
+`grep total_loss ${cur_path}/output/7/train_8.log|awk '{print $9}'|tr -d , >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
