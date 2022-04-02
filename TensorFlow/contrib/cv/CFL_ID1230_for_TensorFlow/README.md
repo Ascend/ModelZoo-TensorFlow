@@ -86,15 +86,15 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
     ```python
     batch_size=16
-    data_path=./data_weights/
-    output_path=./output/
+    data_path=./data_weights
+    output_path=./output
     ```
 
   - 启动测试
 
     启动单卡测试（脚本为test/train_full_1p.sh）
 
-    `bash test/train_full_1p.sh --data_path=./data_weights/ --output_path=./output/`
+    `bash test/train_full_1p.sh --data_path=./data_weights --output_path=./output`
 
 # 测试结果
 
@@ -126,7 +126,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 执行get_pb.py文件，将model.ckpt固化为cflnet.pb（路径需根据实际情况修改）：
 
-`python get_pb.py --dataset=./data/test/ --weights=./data/StdConvs/model.ckpt`
+`python get_pb.py --dataset=./data/test --weights=./data/StdConvs/model.ckpt`
 
 get_pb.py的工作逻辑为：
 
@@ -164,7 +164,7 @@ get_pb.py的工作逻辑为：
 
   通过调用jpg2bin.py文件（路径需根据实际情况修改），将模型测试集中的第一张p1.jpg图片文件转换为p1b.bin文件。
 
-  `python jpg2bin.py --dataset=./data/test/ ==weights=./data/StdConvs/model.ckpt` 
+  `python jpg2bin.py --dataset=./data/test ==weights=./data/StdConvs/model.ckpt` 
 
   下面展示的分别是p1.jpg原图及其边图、角图的ground truth。
 
@@ -183,7 +183,7 @@ get_pb.py的工作逻辑为：
 
   - 为了检查评估离线推理的效果，需要将tf_cfl_output_0.bin转换成.jpg文件，通过执行bin2jpg.py文件实现（路径需根据实际情况修改）。
 
-    `python bin2jpg.py --dataset=./data/test/ --weights=./data/StdConvs/model.ckpt`
+    `python bin2jpg.py --dataset=./data/test --weights=./data/StdConvs/model.ckpt`
 
     下面展示的是边图和角图的预测结果。
 
@@ -194,7 +194,7 @@ get_pb.py的工作逻辑为：
 
   - 生成图片之后，调用evaluate.py文件，对结果进行精度评估（路径需根据实际情况修改）。
 
-    `python evaluate.py --dataset=./data/test/ --weights=./data/StdConvs/model.ckpt`
+    `python evaluate.py --dataset=./data/test --weights=./data/StdConvs/model.ckpt`
 
     | 指标 |  IoU  | Accuracy | Precision | Recall | f1 score |
     | :--: | :---: | :------: | :-------: | :----: | :------: |
@@ -255,6 +255,6 @@ get_pb.py的工作逻辑为：
 
 ```python
 --batch_size        每个NPU的batch size,默认:16
---data_path         数据集路径,默认:./data_weights/
---output_path       结果输出路径,默认:./output/
+--data_path         数据集路径,默认:./data_weights
+--output_path       结果输出路径,默认:./output
 ```
