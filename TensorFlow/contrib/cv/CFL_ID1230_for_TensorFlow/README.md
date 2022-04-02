@@ -86,15 +86,15 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
     ```python
     batch_size=16
-    data_path=./data_weights
-    output_path=./output
+    data_path=./data_weights/
+    output_path=./output/
     ```
 
   - 启动测试
 
     启动单卡测试（脚本为test/train_full_1p.sh）
 
-    `bash test/train_full_1p.sh --data_path=./data_weights --output_path=./output`
+    `bash test/train_full_1p.sh --data_path=./data_weights/ --output_path=./output/`
 
 # 测试结果
 
@@ -126,7 +126,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 执行get_pb.py文件，将model.ckpt固化为cflnet.pb（路径需根据实际情况修改）：
 
-`python get_pb.py --dataset=./data/test --weights=./data/StdConvs/model.ckpt`
+`python get_pb.py --dataset=./data/test/ --weights=./data/StdConvs/model.ckpt`
 
 get_pb.py的工作逻辑为：
 
@@ -164,16 +164,14 @@ get_pb.py的工作逻辑为：
 
   通过调用jpg2bin.py文件（路径需根据实际情况修改），将模型测试集中的第一张p1.jpg图片文件转换为p1b.bin文件。
 
-  `python jpg2bin.py --dataset=./data/test ==weights=./data/StdConvs/model.ckpt` 
+  `python jpg2bin.py --dataset=./data/test/ ==weights=./data/StdConvs/model.ckpt` 
 
   下面展示的分别是p1.jpg原图及其边图、角图的ground truth。
 
-  <img src="D:\az\CFL-master-12-15\CFL-master-11-10(cuda9)\CFL-master\data\test\RGB\pano_0b9db1eaf8b73158dd047b8f810cf0cc.jpg" alt="pano_0b9db1eaf8b73158dd047b8f810cf0cc" style="zoom: 50%;" />
+  <img src="Image/p1.jpg" alt="p1" style="zoom: 50%;" />
+  <img src="Image/p1_EM.jpg" alt="p1_EM" style="zoom: 50%;" />
+  <img src="Image/p1_CM.jpg" alt="p1_CM" style="zoom: 50%;" />
 
-  <center class="half">
-  <img src="D:\az\CFL-master-12-15\CFL-master-11-10(cuda9)\CFL-master\data\test\EM_gt\pano_0b9db1eaf8b73158dd047b8f810cf0cc_EM.jpg" width=300/>
-  <img src="D:\az\CFL-master-12-15\CFL-master-11-10(cuda9)\CFL-master\data\test\CM_gt\pano_0b9db1eaf8b73158dd047b8f810cf0cc_CM.jpg" width=300/>
-  </center>
 
 - 执行命令
 
@@ -185,18 +183,18 @@ get_pb.py的工作逻辑为：
 
   - 为了检查评估离线推理的效果，需要将tf_cfl_output_0.bin转换成.jpg文件，通过执行bin2jpg.py文件实现（路径需根据实际情况修改）。
 
-    `python bin2jpg.py --dataset=./data/test --weights=./data/StdConvs/model.ckpt`
+    `python bin2jpg.py --dataset=./data/test/ --weights=./data/StdConvs/model.ckpt`
 
     下面展示的是边图和角图的预测结果。
 
-    <center class="half">
-    <img src="D:\az\CFL-master-12-15\CFL-master-11-10(cuda9)\CFL-master\data\test\EM_gt\pano_0b9db1eaf8b73158dd047b8f810cf0cc_EM.jpg" width=300/>
-    <img src="D:\az\CFL-master-12-15\CFL-master-11-10(cuda9)\CFL-master\data\test\CM_gt\pano_0b9db1eaf8b73158dd047b8f810cf0cc_CM.jpg" width=300/>
-    </center>
+    
+    <img src="Image/p1_EM_test.jpg" alt="p1" style="zoom: 50%;" />
+    <img src="Image/p1_CM_test.jpg" alt="p1_EM" style="zoom: 50%;" />
+   
 
   - 生成图片之后，调用evaluate.py文件，对结果进行精度评估（路径需根据实际情况修改）。
 
-    `python evaluate.py --dataset=./data/test --weights=./data/StdConvs/model.ckpt`
+    `python evaluate.py --dataset=./data/test/ --weights=./data/StdConvs/model.ckpt`
 
     | 指标 |  IoU  | Accuracy | Precision | Recall | f1 score |
     | :--: | :---: | :------: | :-------: | :----: | :------: |
@@ -204,7 +202,7 @@ get_pb.py的工作逻辑为：
 
 - 中间文件
 
-  离线推理过程生成的中间文件可在百度网盘获取https://pan.baidu.com/s/1TSK8yJLm32jhE1SBbcPDvQ，提取码：14uq
+  离线推理过程生成的中间文件可在[百度网盘](https://pan.baidu.com/s/1TSK8yJLm32jhE1SBbcPDvQ)获取，提取码：14uq
 
 # 高级参考
 
@@ -229,7 +227,7 @@ get_pb.py的工作逻辑为：
 |--config.py                  //参数设置文件
 |--evaluate.py                //评估推理结果
 |--get_pb.py                  //模型固化
-|--jpg2bin.py                 //.jpg文件转.bin
+|--jpg2bin.py                 //.jpg文件转.bin文件
 |--modelarts_entry_acc.py     //拉起测试文件
 |--modelzoo_level.txt         //网络进度
 |--requirements.txt           //python依赖列表
@@ -257,6 +255,6 @@ get_pb.py的工作逻辑为：
 
 ```python
 --batch_size        每个NPU的batch size,默认:16
---data_path         数据集路径,默认:./data_weights
---output_path       结果输出路径,默认:./output
+--data_path         数据集路径,默认:./data_weights/
+--output_path       结果输出路径,默认:./output/
 ```
