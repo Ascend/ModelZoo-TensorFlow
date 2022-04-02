@@ -1,8 +1,9 @@
--   [基本信息](#基本信息.md)
--   [概述](#概述.md)
--   [训练环境准备](#训练环境准备.md)
--   [快速上手](#快速上手.md)
--   [高级参考](#高级参考.md)
+- [基本信息](#基本信息.md)
+- [概述](#概述.md)
+- [训练环境准备](#训练环境准备.md)
+- [快速上手](#快速上手.md)
+- [迁移学习指导](#迁移学习指导.md)
+- [高级参考](#高级参考.md)
 <h2 id="基本信息.md">基本信息</h2>
 **发布者（Publisher）：Huawei**
 
@@ -29,17 +30,17 @@
 <h2 id="概述.md">概述</h2>
   在预训练自然语言表示时增加模型大小通常会提高下游任务的性能。 但是，由于GPU / TPU内存的限制和更长的训练时间，在某些时候，进一步的模型增加变得更加困难。 为了解决这些问题，我们提出了两种参数减少技术，以降低内存消耗并提高BERT的训练速度。 全面的经验证据表明，与原始BERT相比，我们提出的方法所导致的模型可扩展性更好。 我们还使用了一个自我监督的损失，该损失集中于对句子之间的连贯性进行建模，并表明它始终可以通过多句子输入来帮助下游任务。 因此，我们的最佳模型在GLUE，RACE和\ squad基准上建立了最新的技术成果，而与BERT-large相比，参数更少。    
 
--   参考论文：
+- 参考论文：
     https://paperswithcode.com/paper/albert-a-lite-bert-for-self-supervised
 
--   参考实现：
+- 参考实现：
   https://github.com/brightmart/albert_zh
 
 
--   适配昇腾 AI 处理器的实现：    
+- 适配昇腾 AI 处理器的实现：   
     https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/ALBERT-lcqmc-ZH_ID1461_for_TensorFlow
 
--   通过Git获取对应commit\_id的代码方法如下：
+- 通过Git获取对应commit\_id的代码方法如下：
      
     ```
     git clone {repository_url}    # 克隆仓库的代码
@@ -142,7 +143,7 @@ pip3 install requirements.txt
 2. 模型使用预训练模型 albert_tiny_zh，参考源代码提供路径下载。
 ## 模型训练<a name="section715881518135"></a>
 
-- 下载训练脚本。（单击“立即下载”，并选择合适的下载方式下载源码包。）
+- 单击“立即下载”，并选择合适的下载方式下载源码包。
 
 - 开始训练。
 
@@ -317,5 +318,7 @@ pip3 install requirements.txt
 --model_dir                    Model dir for saving checkpoint 
 --use_fp16                     Whether to use fp16, default is True. 
 ```
+## 训练过程<a name="section1589455252218"></a>
 
-
+通过“模型训练”中的训练指令启动单卡训练。
+将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。
