@@ -22,12 +22,12 @@ python freeze_graph.py --ckpt_path=./ckpt/DualNet.model-99002
 
 在Ascend310推理服务器下，使用ATC模型转换工具进行模型转换:
 
-AtoB模型转换
+A2B模型转换
 ```
 atc --model=/root/dualgan/pb_model/A2B.pb --framework=3 --output=/root/dualgan/A2B --soc_version=Ascend310 --input_shape="img:1,256,256,3" --log=info --out_nodes="output:0" --op_select_implmode=high_precision
 ```
 
-BtoA模型转换
+B2A模型转换
 ```
 atc --model=/root/dualgan/pb_model/B2A.pb --framework=3 --output=/root/dualgan/B2A --soc_version=Ascend310 --input_shape="img:1,256,256,3" --log=info --out_nodes="output:0" --op_select_implmode=high_precision
 ```
@@ -44,19 +44,19 @@ atc --model=/root/dualgan/pb_model/B2A.pb --framework=3 --output=/root/dualgan/B
 
 data_dir=测试集路径
 
-data_bin_dir=转化后的的bin数据集路径
+data_bin_dir=转化后的bin数据集路径
 ```
-python3 jpg2bin.py --datasets_dir=${data_dir} --output_dir=${data_bin_dir}
+python3 jpg2bin.py --datasets_dir=data_dir --output_dir=data_bin_dir
 ```
 
 ## 2.推理
 
-使用AtoB.om模型推理（input为输入数据路径，output为输出数据路径）
+使用A2B.om模型推理（input为输入数据路径，output为输出数据路径）
 ```
 ./msame --model /root/dualgan/A2B.om --input "/root/dualgan/data_bin" --output "/root/dualgan/outbin" --outfmt BIN
 ```
 
-使用BtoA.om模型转换
+使用B2A.om模型推理
 ```
 ./msame --model /root/dualgan/B2A.om --input "/root/dualgan/data_bin" --output "/root/dualgan/outbin" --outfmt BIN
 ```
@@ -65,9 +65,9 @@ python3 jpg2bin.py --datasets_dir=${data_dir} --output_dir=${data_bin_dir}
 
 推理结果为二进制.bin格式数据，需要将其转换为可视的.jpg格式图片。
 
-input_dir=/输入.bin数据路径
+input_dir=输入.bin数据路径
 
-output_dir=/输出路径
+output_dir=输出路径
 ```
-python3 bin2jpg.py --data_dir=${input_dir}   --dst_dir=${output_dir}
+python3 bin2jpg.py --data_dir=input_dir   --dst_dir=output_dir
 ```
