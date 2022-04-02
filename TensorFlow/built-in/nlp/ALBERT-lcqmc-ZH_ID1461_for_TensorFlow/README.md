@@ -13,17 +13,17 @@
 
 **修改时间（Modified） ：2021.04.16**
 
-**大小（Size）：【深加工】**
+**大小（Size）：1M**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
 **模型格式（Model Format）：ckpt**
 
-**精度（Precision）：【深加工】**
+**精度（Precision）：Mixed**
 
 **处理器（Processor）：昇腾910**
 
-**应用级别（Categories）：【深加工】**
+**应用级别（Categories）：Official**
 
 **描述（Description）：基于TensorFlow框架的Albert_ZH代码**
 
