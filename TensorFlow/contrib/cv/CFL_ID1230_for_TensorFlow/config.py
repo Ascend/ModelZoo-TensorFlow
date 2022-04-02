@@ -1,0 +1,89 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import argparse
+import os
+from npu_bridge.npu_init import *
+
+## PATHS: Please, change this before execution if needed.
+
+# Creates a directory in case it doesn't exist
+def check(dirname):
+    if not os.path.exists(dirname):
+        os.makedirs(dirname)
+    return dirname
+
+# The project directory
+CFL_DIR = os.path.dirname(os.path.realpath(__file__))
+
+# ---------------------------------------------------------------
+
+## Configuration of CFL
+
+# Mean color to subtract before propagating an image through a DNN
+MEAN_COLOR = [103.939, 116.779, 123.68]
+
+parser = argparse.ArgumentParser()
+
+# The dataset you want to train/test the model on
+parser.add_argument('--dataset', required=True, type=str, help='Path to dataset folders. It must contain RGB/, CM_gt/ and EM_gt/.')
+
+# CFL architecture
+parser.add_argument('--network', default='StdConvs', choices=['StdConvs','EquiConvs'], help='CFL architecture')
+
+# Path to weights
+parser.add_argument('--weights', required=True, help= 'Path to weights (eg. weights/StdConvs.ckpt')
+
+# Path to results folder
+parser.add_argument('--results', default=os.path.join(CFL_DIR, 'results/'), help= 'Path to results folder. It will generate the folder if it does not exist.')
+
+# GPU to be used
+parser.add_argument('--gpu', default="0", help= 'GPU to be used')
+
+# Ignore missing params
+parser.add_argument('--ignore', action="store_true", default=False, help= 'Ignore missing params')
+
+# TEST config
+parser.add_argument("--im_height", default=128, type=int)
+parser.add_argument("--im_width", default=256, type=int)
+parser.add_argument("--im_ch", default=3, type=int)
+
+# TRAIN config
+parser.add_argument("--weight_decay", default=0.0005, type=int)
+
+# Modelarts
+parser.add_argument('--platform', default='modelarts',  help='runtime platform, linux or modelarts')
+parser.add_argument('--chip', default='gpu',  help='device identifier -- gpu, tpu or npu')
+
+parser.add_argument('--logdir', default='/tmp/data',  help='directory for summaries and checkpoints.')
+parser.add_argument('--obs_dir', default='obs://eric-mt-net/log/g',  help='device identifier -- gpu, tpu or npu')
+
+
+
+args = parser.parse_args()
+
