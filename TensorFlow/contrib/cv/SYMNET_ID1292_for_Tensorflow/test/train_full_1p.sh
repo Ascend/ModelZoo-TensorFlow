@@ -134,7 +134,7 @@ then
         --lambda_trip 0.5 \
         --lambda_sym 0.01 \
         --lambda_axiom 0.03 \
-        --data_url=${data_path} \
+        --data_url=${data_path}/data \
         --train_url=${output_path} 1>${print_log} 2>&1
 #    python3.7 ./test_symnet.py --name UT_best \
         #--data UT \
