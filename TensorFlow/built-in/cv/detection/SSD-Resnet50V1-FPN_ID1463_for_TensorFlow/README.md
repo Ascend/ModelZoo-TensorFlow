@@ -9,15 +9,25 @@
 <h2 id="基本信息.md">基本信息</h2>
 
 **发布者（Publisher）：Huawei**
+
 **应用领域（Application Domain）：Object Detection
+
 **版本（Version）：1.1
+
 **修改时间（Modified） ：2021.07.19
+
 **大小（Size）：6M
+
 **框架（Framework）：TensorFlow 1.15.0
+
 **模型格式（Model Format）：ckpt
+
 **精度（Precision）：Mixed
+
 **处理器（Processor）：昇腾910
+
 **应用级别（Categories）：Official
+
 **描述（Description）：基于tensorflow实现，以Resnet50为backbone的SSD目标检测网络。
 
 <h2 id="概述.md">概述</h2>
