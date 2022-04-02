@@ -2,9 +2,9 @@
 
 **应用领域（Application Domain）**： Computer Version
 
-**版本（Version）**：1.0
+**版本（Version）**：2.0
 
-**修改时间（Modified）**：2021.12.06
+**修改时间（Modified）**：2022.03.25
 
 **框架（Framework）**：TensorFlow_1.15.0
 
@@ -13,6 +13,8 @@
 **处理器（Processor）**：昇腾910
 
 **描述（Description）**：通过摄像头运动和视觉惯性里程计估计出的稀疏深度，推断密集深度
+
+**精度（Precision）**：force_fp32
 
 # 概述
 
@@ -36,7 +38,7 @@
 * 参考实现：
 https://github.com/alexklwong/unsupervised-depth-completion-visual-inertial-odometry#unsupervised-depth-completion-from-visual-inertial-odometry
 * 适配昇腾 AI 处理器的实现：
-https://gitee.com/Goudaneer/modelzoo/tree/master/contrib/TensorFlow/Research/cv/UDCVO_ID2359_for_TensorFlow
+https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/UDCVO_ID2359_for_TensorFlow
 * 通过Git获取对应commit_id的代码方法如下: 
 ```
 git clone {repository_url}    # 克隆仓库的代码  
@@ -72,6 +74,11 @@ cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有�
 ```
 ├── bash
 ├── src
+├── modelarts_entry_acc.py
+├── modelarts_entry_perf.py
+├── test
+│    ├──train_full_1p.sh
+│    ├──train_performance_1p.sh
 ├── testing
 │    ├──void_test_ground_truth_1500.txt
 │    ├──void_test_image_1500.txt
@@ -91,8 +98,8 @@ cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有�
 │    ├──void_train_sparse_depth_1500.txt
 │    ├──void_train_validity_map_1500.txt
 ├── data
-│    ├──void_release
-│    ├──void_voiced
+│   ├──void_release
+│   ├──void_voiced
 ```
 
 
@@ -101,7 +108,7 @@ cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有�
 
 在项目路径下执行如下 shell 命令进行训练：
 ```
-sh bash/train_voiced_void.sh
+python3.7 modelarts_entry_acc.py
 ```
 
 可以使用 Tensorboard 监控训练情况：
@@ -109,14 +116,61 @@ sh bash/train_voiced_void.sh
 tensorboard --logdir trained_models/<model_name> --host=127.0.0.1
 ```
 
+## 精度模式
+
+float16 类型会导致训练错误，且精度不达标。**不支持混合精度** 。修改 `voiced_main.py` 中的相关代码为 `LossScale + force_fp32` 模式解决算子溢出以及精度问题。
+
+开启 LossScale：
+
+```python
+optimizer = tf.train.AdamOptimizer(learning_rate)
+
+# Add Loss Scale
+loss_scale_opt = optimizer
+loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2 ** 32,
+                                                       incr_every_n_steps=1000,
+                                                       decr_every_n_nan_or_inf=2,
+                                                       decr_ratio=0.5)
+optimizer = NPULossScaleOptimizer(loss_scale_opt, loss_scale_manager)
+```
+
+开启强制 float32 类型：
+
+```python
+# Initialize Tensorflow session
+config = tf.ConfigProto(allow_soft_placement=True)
+config.gpu_options.allow_growth = True
+
+# Add force_fp32
+custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
+custom_op.name = "NpuOptimizer"
+custom_op.parameter_map["use_off_line"].b = True
+# Resolve accuracy issue
+custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("force_fp32")
+config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+session = tf.Session(config=config)
+
+```
+
+
+
 ## 模型评估
 
-运行如下 shell 命令来评估预训练模型：
+运行如下 shell 命令来评估预训练模型精度：
 ```
 sh bash/evaluate_voiced_void.sh
 ```
 
 可以替换 shell 脚本中的 restore_path 和 output_path 路径来评估自己的 checkpoints 。
+
+## 评估结果
+
+|         |   MAE   | RMSE     | iMAE    | iRMSE   |
+| :-----: | :-----: | :-----: | :-----: | :-----: |
+| 原项目  |  82.27  | 141.99   | 49.23   | 99.67   |
+| GPU复现 | 96.9058 | 149.2545 | 54.2917 | 89.1794 |
+| NPU复现 | 91.9726 | 143.6669 | 52.1458 | 88.7566 |
 
 # License and disclaimer
 

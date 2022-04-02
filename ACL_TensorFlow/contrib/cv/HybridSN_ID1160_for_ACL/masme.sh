@@ -1,0 +1,1 @@
+./msame --model "/usr/l3.om" --input "/home/HwHiAiUser/data2" --output "/usr" --outfmt TXT

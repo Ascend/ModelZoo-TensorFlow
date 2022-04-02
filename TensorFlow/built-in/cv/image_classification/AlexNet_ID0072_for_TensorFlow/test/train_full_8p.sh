@@ -132,12 +132,13 @@ python3.7 ${cur_path}/../train.py --rank_size=8 \
         	            --batch_size=${batch_size} \
         	            --data_dir=${data_path} \
         	            --lr=0.06 \
-                      --checkpoint_dir=./model_8p \
-        	            --log_dir=./model_8p > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+                      --checkpoint_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
+        	            --log_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 						
 
 
 done
+wait
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
 #设置环境变量，不需要修改
@@ -157,8 +158,8 @@ python3 ${cur_path}/../train.py --rank_size=8 \
         	            --batch_size=${batch_size} \
         	            --data_dir=${data_path} \
         	            --lr=0.06 \
-                      --checkpoint_dir=./model_8p \
-        	            --log_dir=./model_8p >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+                      --checkpoint_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
+        	            --log_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done
 wait
 
