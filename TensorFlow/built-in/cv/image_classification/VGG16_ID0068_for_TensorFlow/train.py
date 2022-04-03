@@ -117,7 +117,7 @@ def main():
 
     #------------add--------------
     from hccl.split.api import set_split_strategy_by_size
-    set_split_strategy_by_size([80,20])
+    set_split_strategy_by_size([90,10])
     #-----------------------------
     model = ml.Model(args, data, hyper_param, layers, logger)
    
