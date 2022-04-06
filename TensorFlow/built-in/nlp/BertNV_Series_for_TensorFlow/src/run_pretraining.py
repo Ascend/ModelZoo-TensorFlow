@@ -152,13 +152,21 @@ flags.DEFINE_integer("npu_bert_loss_scale", 0, "Whether to use loss scale, -1 is
 
 flags.DEFINE_bool("npu_bert_clip_by_global_norm", False, "Use clip_by_global_norm if True, or use clip_by_norm for each gradient")
 
-flags.DEFINE_bool('npu_bert_npu_dropout', True, 'Whether to use npu defined gelu op')
+flags.DEFINE_bool('npu_bert_npu_dropout', True, 'Whether to use npu defined dropout op')
+
+flags.DEFINE_bool('npu_bert_npu_dropout_v3', True, 'Whether to use npu defined dropout_v3 op')
 
 flags.DEFINE_bool('npu_bert_tail_optimize', False, 'Whether to use npu allreduce tail optimization')
 
 flags.DEFINE_bool('npu_gather', True, 'Whether to use gather_npu whose backward propagation avoids IndexedSlices')
 
 flags.DEFINE_bool('hcom_parallel', True, 'Whether to use parallel allreduce')
+
+flags.DEFINE_bool('use_fast_gelu', True, 'use fast gelu instead gelu')
+
+flags.DEFINE_bool('npu_bert_use_fused_adam_momentum', True, 'Whether to use fused apply and assign in adam')
+
+flags.DEFINE_bool('npu_bert_use_fused_lamb_momentum', True, 'Whether to use fused apply and assign in lamb')
 
 # report samples/sec, total loss and learning rate during training
 class _LogSessionRunHook(tf.train.SessionRunHook):

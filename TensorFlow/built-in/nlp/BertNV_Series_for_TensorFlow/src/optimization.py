@@ -28,8 +28,11 @@ from tensorflow.python.ops import math_ops
 
 from npu_bridge.estimator.npu.npu_optimizer import NPUOptimizer
 from npu_bridge.estimator.npu import npu_loss_scale_manager as lsm_lib
+from npu_bridge.estimator import npu_ops
+from npu_bridge.tbe import npu_vector_ops
 
-def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, hvd=None, manual_fp16=False, use_fp16=False, num_accumulation_steps=1,
+def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, hvd=None, manual_fp16=False, use_fp16=False,
+                     num_accumulation_steps=1,
                      optimizer_type="adam", allreduce_post_accumulation=False):
   """Creates an optimizer training op."""
   global_step = tf.train.get_or_create_global_step()
@@ -40,7 +43,7 @@ def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, hvd=None,
       decayed_learning_rate_at_crossover_point = init_lr * (
                   (1.0 - float(num_warmup_steps) / float(num_train_steps)) ** power)
   else:
-      power = 0.5
+      power = 2.0
       decayed_learning_rate_at_crossover_point = init_lr
 
   adjusted_init_lr = init_lr * (init_lr / decayed_learning_rate_at_crossover_point)
@@ -92,7 +95,7 @@ def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, hvd=None,
           weight_decay_rate=0.01,
           beta_1=0.9,
           beta_2=0.999,
-          epsilon=1e-4,
+          epsilon=1e-6,
           exclude_from_weight_decay=["LayerNorm", "layer_norm", "bias"])
 
   # if hvd is not None and (num_accumulation_steps == 1 or (not allreduce_post_accumulation)):
@@ -267,36 +270,49 @@ class AdamWeightDecayOptimizer(tf.train.Optimizer):
             trainable=False,
             initializer=tf.zeros_initializer())
 
-        # Standard Adam update.
-        next_m = (
-            tf.multiply(self.beta_1, m) + tf.multiply(1.0 - self.beta_1, grad))
-        next_v = (
-            tf.multiply(self.beta_2, v) + tf.multiply(1.0 - self.beta_2,
-                                                      tf.square(grad)))
+        if tf.flags.FLAGS.npu_bert_use_fused_adam_momentum:
+            if self._do_use_weight_decay(param_name):
+                assignments.extend(
+                    [npu_ops.adam_apply_one_with_decay_assign(grad, v, m, param_fp32, self.learning_rate,
+                                                              self.beta_1, 1.0 - self.beta_1, self.beta_2,
+                                                              1.0 - self.beta_2,
+                                                              self.weight_decay_rate, self.epsilon)])
+            else:
+                assignments.extend(
+                    [npu_ops.adam_apply_one_assign(grad, v, m, param_fp32, self.learning_rate, self.beta_1,
+                                                   1.0 - self.beta_1, self.beta_2, 1.0 - self.beta_2,
+                                                   self.epsilon)])
+        else:
+            # Standard Adam update.
+            next_m = (
+                tf.multiply(self.beta_1, m) + tf.multiply(1.0 - self.beta_1, grad))
+            next_v = (
+                tf.multiply(self.beta_2, v) + tf.multiply(1.0 - self.beta_2,
+                                                          tf.square(grad)))
 
-        update = next_m / (tf.sqrt(next_v) + self.epsilon)
+            update = next_m / (tf.sqrt(next_v) + self.epsilon)
 
-        # Just adding the square of the weights to the loss function is *not*
-        # the correct way of using L2 regularization/weight decay with Adam,
-        # since that will interact with the m and v parameters in strange ways.
-        #
-        # Instead we want to decay the weights in a manner that doesn't interact
-        # with the m/v parameters. This is equivalent to adding the square
-        # of the weights to the loss with plain (non-momentum) SGD.
-        if self._do_use_weight_decay(param_name):
-          update += self.weight_decay_rate * param_fp32
+            # Just adding the square of the weights to the loss function is *not*
+            # the correct way of using L2 regularization/weight decay with Adam,
+            # since that will interact with the m and v parameters in strange ways.
+            #
+            # Instead we want to decay the weights in a manner that doesn't interact
+            # with the m/v parameters. This is equivalent to adding the square
+            # of the weights to the loss with plain (non-momentum) SGD.
+            if self._do_use_weight_decay(param_name):
+              update += self.weight_decay_rate * param_fp32
 
-        update_with_lr = self.learning_rate * update
+            update_with_lr = self.learning_rate * update
 
-        next_param = param_fp32 - update_with_lr
+            next_param = param_fp32 - update_with_lr
 
-        if has_shadow:
-          # cast shadow fp32 weights to fp16 and assign to trainable variable
-          param.assign(tf.cast(next_param, param.dtype.base_dtype))
-        assignments.extend(
-            [param_fp32.assign(next_param),
-             m.assign(next_m),
-             v.assign(next_v)])
+            if has_shadow:
+                # cast shadow fp32 weights to fp16 and assign to trainable variable
+                 param.assign(tf.cast(next_param, param.dtype.base_dtype))
+            assignments.extend(
+                [param_fp32.assign(next_param),
+                 m.assign(next_m),
+                 v.assign(next_v)])
     new_global_step = global_step + 1
     new_global_step = tf.identity(new_global_step, name='step_update')
     assignments.extend([global_step.assign(new_global_step)])
@@ -340,12 +356,17 @@ class LAMBOptimizer(tf.train.Optimizer):
     self.beta_2 = beta_2
     self.epsilon = epsilon
     self.exclude_from_weight_decay = exclude_from_weight_decay
-    self.steps = 0
+    # self.steps = 0
 
   def apply_gradients(self, grads_and_vars, global_step=None, name=None,
       manual_fp16=False):
     """See base class."""
     assignments = []
+    new_global_step = global_step + 1
+    new_global_step = tf.identity(new_global_step, name='step_update')
+    assignments.extend([global_step.assign(new_global_step)])
+    steps = tf.cast(new_global_step, tf.float32)
+
     for (grad, param) in grads_and_vars:
       with tf.name_scope("apply_one_lamb"):
         if grad is None or param is None:
@@ -376,51 +397,68 @@ class LAMBOptimizer(tf.train.Optimizer):
             trainable=False,
             initializer=tf.zeros_initializer())
 
-        # LAMB update
-        next_m = (
-            tf.multiply(self.beta_1, m) + tf.multiply(1.0 - self.beta_1, grad))
-        next_v = (
-            tf.multiply(self.beta_2, v) + tf.multiply(1.0 - self.beta_2,
-                                                      tf.square(grad)))
+        if tf.flags.FLAGS.npu_bert_use_fused_lamb_momentum:
+            with tf.name_scope("npu_bert_use_fused_lamb_momentum"):
+                do_use_weight = self._do_use_weight_decay(param_name)
+                do_use_weight = tf.cast(do_use_weight, tf.float32)
+                update, next_v, next_m = npu_vector_ops.lamb_apply_optimizer_assign(grad, v, m, param_fp32, self.beta_1,
+                                                                                    1.0 - self.beta_1, self.beta_2,
+                                                                                    1.0 - self.beta_2, self.epsilon,
+                                                                                    steps, do_use_weight,
+                                                                                    self.weight_decay_rate)
+                w_norm = linalg_ops.norm(param, ord=2)
+                g_norm = linalg_ops.norm(update, ord=2)
+                next_param = npu_vector_ops.lamb_apply_weight_assign(w_norm, g_norm, self.learning_rate, update, param_fp32)
+                assignments.extend([next_param,])
 
-        self.steps += 1
-        beta1_correction = (1 - self.beta_1 ** self.steps)
-        beta2_correction = (1 - self.beta_2 ** self.steps)
+        else:
+            # LAMB update
+            next_m = (
+                tf.multiply(self.beta_1, m) + tf.multiply(1.0 - self.beta_1, grad))
+            next_v = (
+                tf.multiply(self.beta_2, v) + tf.multiply(1.0 - self.beta_2,
+                                                          tf.square(grad)))
 
-        next_m_unbiased = next_m / beta1_correction
-        next_v_unbiased = next_v / beta2_correction
+            # self.steps += 1
+            # beta1_correction = (1 - self.beta_1 ** self.steps)
+            # beta2_correction = (1 - self.beta_2 ** self.steps)
+            beta1_correction = (1 - self.beta_1 ** steps)
+            beta2_correction = (1 - self.beta_2 ** steps)
 
-        update = next_m_unbiased / (tf.sqrt(next_v_unbiased) + self.epsilon)
+            next_m_unbiased = next_m / beta1_correction
+            next_v_unbiased = next_v / beta2_correction
 
-        # Just adding the square of the weights to the loss function is *not*
-        # the correct way of using L2 regularization/weight decay with Adam,
-        # since that will interact with the m and v parameters in strange ways.
-        #
-        # Instead we want to decay the weights in a manner that doesn't interact
-        # with the m/v parameters. This is equivalent to adding the square
-        # of the weights to the loss with plain (non-momentum) SGD.
-        if self._do_use_weight_decay(param_name):
-          update += self.weight_decay_rate * param_fp32
+            update = next_m_unbiased / (tf.sqrt(next_v_unbiased) + self.epsilon)
 
-        w_norm = linalg_ops.norm(param, ord=2)
-        g_norm = linalg_ops.norm(update, ord=2)
-        ratio = array_ops.where(math_ops.greater(w_norm, 0), array_ops.where(
-            math_ops.greater(g_norm, 0), (w_norm / g_norm), 1.0), 1.0)
+            # Just adding the square of the weights to the loss function is *not*
+            # the correct way of using L2 regularization/weight decay with Adam,
+            # since that will interact with the m and v parameters in strange ways.
+            #
+            # Instead we want to decay the weights in a manner that doesn't interact
+            # with the m/v parameters. This is equivalent to adding the square
+            # of the weights to the loss with plain (non-momentum) SGD.
+            if self._do_use_weight_decay(param_name):
+              update += self.weight_decay_rate * param_fp32
 
-        update_with_lr = ratio * self.learning_rate * update
+            w_norm = linalg_ops.norm(param, ord=2)
+            g_norm = linalg_ops.norm(update, ord=2)
+            ratio = array_ops.where(math_ops.greater(w_norm, 0), array_ops.where(
+                math_ops.greater(g_norm, 0), (w_norm / g_norm), 1.0), 1.0)
 
-        next_param = param_fp32 - update_with_lr
+            update_with_lr = ratio * self.learning_rate * update
 
-        if has_shadow:
-          # cast shadow fp32 weights to fp16 and assign to trainable variable
-          param.assign(tf.cast(next_param, param.dtype.base_dtype))
-        assignments.extend(
-            [param_fp32.assign(next_param),
-             m.assign(next_m),
-             v.assign(next_v)])
-    new_global_step = global_step + 1
-    new_global_step = tf.identity(new_global_step, name='step_update')
-    assignments.extend([global_step.assign(new_global_step)])
+            next_param = param_fp32 - update_with_lr
+
+            if has_shadow:
+                # cast shadow fp32 weights to fp16 and assign to trainable variable
+                param.assign(tf.cast(next_param, param.dtype.base_dtype))
+            assignments.extend(
+                [param_fp32.assign(next_param),
+                 m.assign(next_m),
+                 v.assign(next_v)])
+    # new_global_step = global_step + 1
+    # new_global_step = tf.identity(new_global_step, name='step_update')
+    # assignments.extend([global_step.assign(new_global_step)])
     return tf.group(*assignments, name=name)
 
   def _do_use_weight_decay(self, param_name):

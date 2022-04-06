@@ -112,10 +112,10 @@ do
         --max_seq_length=384 \
         --doc_stride=128 \
         --output_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
-        wait
-        python3 ${parent_path}/evaluate-v1.1.py $data_path/dataset/dev-v1.1.json \
-        ${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt/predictions.json >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 done
+wait
+  python3 ${parent_path}/evaluate-v1.1.py $data_path/dataset/dev-v1.1.json \
+        ${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt/predictions.json >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 wait
 
 #训练结束时间，不需要修改

@@ -110,13 +110,13 @@ do
         bind_core="taskset -c $a-$c"
     fi
     nohup ${bind_core} python3.7 $cur_path/../src/pretrain/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_base_config.json \
-    --max_seq_length=128 \
-    --max_predictions_per_seq=20 \
+    --max_seq_length=512 \
+    --max_predictions_per_seq=76 \
     --train_batch_size=${batch_size} \
-    --learning_rate=1e-4 \
-    --num_warmup_steps=100 \
+    --learning_rate=5e-5 \
+    --num_warmup_steps=0 \
     --num_train_steps=${train_steps} \
-    --optimizer_type=adam \
+    --optimizer_type=lamb \
     --manual_fp16=True \
     --use_fp16_cls=True \
     --input_files_dir=${data_path}/en_wiki_len512 \

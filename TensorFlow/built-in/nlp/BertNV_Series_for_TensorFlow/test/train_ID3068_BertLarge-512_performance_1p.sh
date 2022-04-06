@@ -99,13 +99,13 @@ do
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
     nohup python3.7 $cur_path/../src/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_large_config.json \
-    --max_seq_length=128 \
-    --max_predictions_per_seq=20 \
+    --max_seq_length=512 \
+    --max_predictions_per_seq=76 \
     --train_batch_size=${batch_size} \
-    --learning_rate=1e-4 \
+    --learning_rate=5e-5 \
     --num_warmup_steps=0 \
     --num_train_steps=${train_steps} \
-    --optimizer_type=adam \
+    --optimizer_type=lamb \
     --manual_fp16=True \
     --use_fp16_cls=True \
     --input_files_dir=${data_path}/en_wiki_len512 \

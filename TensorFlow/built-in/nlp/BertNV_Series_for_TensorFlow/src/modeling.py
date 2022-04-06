@@ -31,6 +31,7 @@ from gpu_environment import get_custom_getter
 
 from npu_bridge.estimator.npu_unary_ops import npu_unary_ops
 from npu_bridge.estimator import npu_ops
+from npu_bridge.estimator.npu_aicore_ops import npu_aicore_ops
 
 class BertConfig(object):
   """Configuration for `BertModel`."""
@@ -287,11 +288,18 @@ def gelu(x):
   """
 
   if tf.flags.FLAGS.npu_bert_fused_gelu:
-    return npu_unary_ops.gelu(x)
+      if tf.flags.FLAGS.use_fast_gelu:
+          return npu_aicore_ops.fast_gelu(x)
+      else:
+          return npu_unary_ops.gelu(x)
   else:
-    cdf = 0.5 * (1.0 + tf.tanh(
-        (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3)))))
-    return x * cdf
+      if tf.flags.FLAGS.use_fast_gelu:
+          f1 = tf.math.exp(0.851 * (x - tf.math.abs(x)))
+          return x / (1 + tf.math.exp(-1.702 * tf.math.abs(x))) * f1
+      else:
+          cdf = 0.5 * (1.0 + tf.tanh(
+              (np.sqrt(2 / np.pi) * (x + 0.044715 * tf.pow(x, 3)))))
+          return x * cdf
 
 
 
@@ -379,6 +387,8 @@ def dropout(input_tensor, dropout_prob):
 
   if tf.flags.FLAGS.npu_bert_npu_dropout:
     output = npu_ops.dropout(input_tensor, 1.0 - dropout_prob)
+  elif tf.flags.FLAGS.npu_bert_npu_dropout_v3:
+    output = npu_aicore_ops.dropout_v3(input_tensor, 1.0 - dropout_prob)
   else:
     output = tf.nn.dropout(input_tensor, 1.0 - dropout_prob)
   return output
@@ -391,7 +401,7 @@ def layer_norm(input_tensor, name=None):
       from fused_layer_norm import fused_layer_norm
       return fused_layer_norm(
           inputs=input_tensor, begin_norm_axis=-1, begin_params_axis=-1, scope=name,
-          use_fused_batch_norm=True)
+          use_fused_batch_norm=False)
     except ImportError:
       return tf.contrib.layers.layer_norm(
           inputs=input_tensor, begin_norm_axis=-1, begin_params_axis=-1, scope=name)
