@@ -1726,5 +1726,15 @@ elif FLAGS.npu_nums == 8:
 		"status":"completed",
 		"version":"1.0"
 	}
+	
+	
+	
+	
+with open("rank_table.json", "w") as f:
+	json.dump(rank, f)
+
+
+
+
 
 
