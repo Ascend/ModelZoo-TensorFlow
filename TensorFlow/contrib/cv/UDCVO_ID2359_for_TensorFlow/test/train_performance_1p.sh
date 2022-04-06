@@ -141,7 +141,7 @@ then
     --rot_param exponential \
     --n_summary 10 \
     --n_checkpoint 50 \
-    --checkpoint_path /home/ma-user/modelarts/outputs/train_url_0/
+    --checkpoint_path /home/ma-user/modelarts/outputs/train_url_0/ >${print_log} 2>&1 
 else
     #python3.7 ./LeNet.py --data_path=${data_path} --output_path=${output_path} --steps=${train_steps} > ${print_log}
     python3.7 src/train_voiced.py \

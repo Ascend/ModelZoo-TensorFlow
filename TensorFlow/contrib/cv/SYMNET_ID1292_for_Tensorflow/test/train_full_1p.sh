@@ -7,7 +7,13 @@
 ##########################################################
 # shell脚本所在路径
 cur_path=`echo $(cd $(dirname $0);pwd)`
-
+cd /
+if [ -d ./cache/profiling ]
+then
+    rm -rf ./cache
+fi
+cd ${cur_path}
+#cur_path=`echo $(cd $(dirname $0);pwd)`
 # 判断当前shell是否是performance
 perf_flag=`echo $0 | grep performance | wc -l`
 
@@ -113,12 +119,50 @@ epochs=700
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./run_symnet.py --name UT_best --data UT --epoch=${epochs} --obj_pred UT_obj_lr1e-3_test_ep260.pkl --trained_weight snapshot_epoch_586.ckpt --batchnorm  --wordvec onehot  --lr 1e-4 --bz=${batch_size} --lambda_cls_attr 1 --lambda_cls_obj 0.5 --lambda_trip 0.5 --lambda_sym 0.01 --lambda_axiom 0.03 --data_url=${data_path} --train_url=${output_path}
-#    python3.7 ./test_symnet.py --name UT_best --data UT --epoch=${epochs} --obj_pred UT_obj_lr1e-3_test_ep260.pkl --wordvec onehot --batchnorm --data_url=${data_path} --train_url=${output_path}
+    echo -------123456--------
+    python3.7 ./run_symnet.py --name UT_best \
+        --data UT \
+        --epoch=${epochs} \
+        --obj_pred UT_obj_lr1e-3_test_ep260.pkl \
+        --trained_weight snapshot_epoch_586.ckpt \
+        --batchnorm  \
+        --wordvec onehot  \
+        --lr 1e-4 \
+        --bz=${batch_size} \
+        --lambda_cls_attr 1 \
+        --lambda_cls_obj 0.5 \
+        --lambda_trip 0.5 \
+        --lambda_sym 0.01 \
+        --lambda_axiom 0.03 \
+        --data_url=${data_path}/data/ \
+        --train_url=${output_path} 1>${print_log} 2>&1
+#    python3.7 ./test_symnet.py --name UT_best \
+        #--data UT \
+        #--epoch 600 \
+        #--obj_pred UT_lr1e-3_ep140.pkl \
+        #--wordvec onehot \
+        #--batchnorm >>${print_log} 2>&1
 else
-    python3.7 ./run_symnet.py --name UT_best --data UT --epoch${epochs} --obj_pred UT_obj_lr1e-3_test_ep260.pkl --trained_weight snapshot_epoch_586.ckpt --batchnorm  --wordvec onehot  --lr 1e-4 --bz=${batch_size} --lambda_cls_attr 1 --lambda_cls_obj 0.5 --lambda_trip 0.5 --lambda_sym 0.01 --lambda_axiom 0.03 --data_url=${data_path} --train_url=${output_path} 1>${print_log} 2>&1
-#    python3.7 ./test_symnet.py --name UT_best --data UT --epoch=${epochs} --obj_pred UT_obj_lr1e-3_test_ep260.pkl --wordvec onehot --batchnorm --data_url=${data_path} --train_url=${output_path}
+    echo --------1234567----------
+    python3.7 ./run_symnet.py --name UT_best \
+        --data UT \
+        --epoch=${epochs} \
+        --obj_pred UT_obj_lr1e-3_test_ep260.pkl \
+        --trained_weight snapshot_epoch_586.ckpt \
+        --batchnorm  \
+        --wordvec onehot  \
+        --lr 1e-4 \
+        --bz=${batch_size} \
+        --lambda_cls_attr 1 \
+        --lambda_cls_obj 0.5 \
+        --lambda_trip 0.5 \
+        --lambda_sym 0.01 \
+        --lambda_axiom 0.03 \
+        --data_url=${data_path}/data \
+        --train_url=${output_path} 1>${print_log} 2>&1
+
 fi
+
 
 # 性能相关数据计算
 StepTime=`grep "sec/step :" ${print_log} | tail -n 20 | awk -F ':' '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
@@ -184,4 +228,9 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+cd /
+if [ -d ./cache/profiling ]
+then
+    rm -rf ./cache
+fi
