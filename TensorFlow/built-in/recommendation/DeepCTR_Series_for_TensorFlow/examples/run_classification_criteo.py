@@ -28,6 +28,7 @@
 # limitations under the License.
 #
 from npu_bridge.npu_init import *
+from tensorflow import keras
 import pandas as pd
 from sklearn.metrics import log_loss, roc_auc_score
 from sklearn.model_selection import train_test_split
@@ -37,6 +38,7 @@ from deepctr.models import DeepFM
 from deepctr.feature_column import SparseFeat, DenseFeat, get_feature_names
 
 if __name__ == "__main__":
+    npu_keras_sess = set_keras_session_npu_config()
     data = pd.read_csv('./criteo_sample.txt')
 
     sparse_features = ['C' + str(i) for i in range(1, 27)]
@@ -76,8 +78,9 @@ if __name__ == "__main__":
                   metrics=['binary_crossentropy'], )
 
     history = model.fit(train_model_input, train[target].values,
-                        batch_size=256, epochs=10, verbose=2, validation_split=0.2, )
-    pred_ans = model.predict(test_model_input, batch_size=256)
+                        batch_size=128, epochs=10, verbose=1, validation_split=0.2, )
+    pred_ans = model.predict(test_model_input, batch_size=8)
     print("test LogLoss", round(log_loss(test[target].values, pred_ans), 4))
     print("test AUC", round(roc_auc_score(test[target].values, pred_ans), 4))
+    close_session(npu_keras_sess)
 
