@@ -111,7 +111,7 @@ nohup python3.7 config.py --graph-run-mode="${graph_run_mode}" \
     --is-loss-scale="${is_loss_scale}"  > ${test_path_dir}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 
 wait
-sed -i "s@'${data_path}/datasets/kodak'@datasets/kodak@g" config.py
+sed -i "s@'${data_path}/datasets/kodak'@'datasets/kodak'@g" config.py
 
 ##################获取训练数据################
 # 训练结束时间，不需要修改
