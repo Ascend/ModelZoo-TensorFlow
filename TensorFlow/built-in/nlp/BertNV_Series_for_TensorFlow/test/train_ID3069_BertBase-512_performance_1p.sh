@@ -134,7 +134,7 @@ e2e_time=$(( $end_time - $start_time ))
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
 ActualFPS=`grep Throughput ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk 'END {print $6}'`
-TrainingTime=`echo "scale=4; ${RANK_SIZE} * ${batch_size} / ${ActualFPS}"|bc`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n", '${batch_size}' * '${RANK_SIZE}' / '${ActualFPS}'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $ActualFPS"
 

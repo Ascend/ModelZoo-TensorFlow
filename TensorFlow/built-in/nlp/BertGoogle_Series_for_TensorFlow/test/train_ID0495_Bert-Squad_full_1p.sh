@@ -133,11 +133,10 @@ DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 #获取性能数据
-fps=`grep "global_step/sec:" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F 'global_step/sec:' '{print $2}'|awk 'END {print $1}'`
+step_per_sec=`grep "global_step/sec:" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F 'global_step/sec:' '{print $2}'|awk 'END {print $1}'`
 
-ActualFPS=`echo "scale=2;${fps} * ${batch_size}"|bc`
-temp1=`echo "1000 * ${batch_size}"|bc`
-TrainingTime=`echo "scale=2;${temp1} / ${ActualFPS}"|bc`
+ActualFPS=`awk 'BEGIN {printf "%.2f\n", '${step_per_sec}' * '${batch_size}'}'`
+TrainingTime=`awk 'BEGIN {printf "%.2f\n", '1000' * '${batch_size}' / '${ActualFPS}'}'`
 
 ActualLoss=`grep "loss =" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F 'loss =' '{print $2}'|awk 'END {print $1}'|tr -d ,`
 

@@ -134,7 +134,7 @@ e2e_time=$(( $end_time - $start_time ))
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
 step_per_sec=`cat ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | grep "global_step/sec:" | awk -F "global_step/sec: " '{print $2}' | awk '{sum+=$1} END {print sum/NR}'`
-FPS=`echo "scale=3; $step_per_sec * $batch_size"|bc`
+FPS=`awk 'BEGIN {printf "%.2f\n", '${step_per_sec}' * '${batch_size}'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
