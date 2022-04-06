@@ -118,18 +118,42 @@ pip3 install tasks
 
 if [ x"${etp_flag}" != xtrue ];
 then
-    python3.7 ./train_supervised_active_vision.py --mode='train'   --logdir=${output_path}/checkpoint   --modality_types='det'   --batch_size=8   --train_iters=70000   --lstm_cell_size=2048   --policy_fc_size=2048   --sequence_length=20   --max_eval_episode_length=100   --test_iters=194   --gin_config=envs/configs/active_vision_config.gin   --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"   --logtostderr
+    python3.7 ./train_supervised_active_vision.py --mode='train' \
+        --logdir=${output_path}/checkpoint \
+        --modality_types='det' \
+        --batch_size=8 \
+        --train_iters=70000 \
+        --lstm_cell_size=2048 \
+        --policy_fc_size=2048 \
+        --sequence_length=20 \
+        --max_eval_episode_length=100  \
+        --test_iters=194  \
+        --gin_config=envs/configs/active_vision_config.gin  \
+        --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"  \
+        --logtostderr >${print_log} 2>&1
 else
     echo -------123456-------
-    python3.7 ./train_supervised_active_vision.py --mode='train'   --logdir=${output_path}/checkpoint   --modality_types='det'   --batch_size=8   --train_iters=70000   --lstm_cell_size=2048   --policy_fc_size=2048   --sequence_length=20   --max_eval_episode_length=100   --test_iters=194   --gin_config=envs/configs/active_vision_config.gin   --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"   --logtostderr  > ${print_log}
+    python3.7 ./train_supervised_active_vision.py --mode='train'  \
+        --logdir=${output_path}/checkpoint  \
+        --modality_types='det'  \
+        --batch_size=8  \
+        --train_iters=70000  \
+        --lstm_cell_size=2048  \
+        --policy_fc_size=2048  \
+        --sequence_length=20  \
+        --max_eval_episode_length=100  \
+        --test_iters=194  \
+        --gin_config=envs/configs/active_vision_config.gin  \
+        --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"  \
+        --logtostderr >${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`grep "sec/step" ${print_log} | tail -n 10 | awk -F "(" '{print $2}' | awk -F " " '{print $1}' |  awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "tensorflow:global step" ${print_log} | awk '{print $7}' | tr -d "(" | tail -n +3 | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "loss" ${print_log}   | tail -n 10 | awk -F "=" '{print $2}' | awk -F "(" '{print $1}'`
+train_accuracy=`grep "learning.py:507]" ${print_log} | awk -F "= " '{print $2}' | awk ' END {print $1}'`
 # 提取所有loss打印信息
 grep "loss" ${print_log} | awk -F "=" '{print $2}' | awk -F "(" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
@@ -187,4 +211,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
