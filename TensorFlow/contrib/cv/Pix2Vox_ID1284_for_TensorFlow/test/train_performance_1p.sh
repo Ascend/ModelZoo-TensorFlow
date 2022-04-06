@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #当前路径,不需要修改
-cur_path=`pwd`/../Code/
+cur_path=`pwd`/../
 
 #集合通信参数,不需要修改
 
