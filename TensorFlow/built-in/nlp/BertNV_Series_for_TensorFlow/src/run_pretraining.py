@@ -501,10 +501,8 @@ def input_fn_builder(input_files,
       d = tf.data.Dataset.from_tensor_slices(tf.constant(input_files))
       if FLAGS.distributed: 
         rank_size = int(os.getenv('RANK_SIZE'))
-        rank_id = int(os.getenv('RANK_INDEX'))
-        device_id = int(os.getenv('DEVICE_ID'))
-        local_rank = rank_id * 8 + device_id
-        print('RANK_SIZE=', rank_size, ' RANK_ID=', local_rank)
+        rank_id = int(os.getenv('RANK_ID'))
+        print('RANK_SIZE=', rank_size, ' RANK_ID=', rank_id)
         d = d.shard(rank_size, local_rank)
       d = d.repeat()
       if not FLAGS.npu_bert_debug:
