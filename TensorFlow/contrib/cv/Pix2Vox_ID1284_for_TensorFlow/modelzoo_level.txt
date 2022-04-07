@@ -1,6 +1,6 @@
 GPUStatus:OK
 NPUMigrationStatus:OK
 FuncStatus:OK
-PrecisionStatus:POK
+PrecisionStatus:OK
 AutoTune:NOK 
 PerfStatus:NOK
