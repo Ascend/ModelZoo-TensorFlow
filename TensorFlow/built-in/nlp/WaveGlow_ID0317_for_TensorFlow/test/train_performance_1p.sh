@@ -27,7 +27,7 @@ batch_size=32
 #迭代数iteration
 iteration=100
 #训练step
-train_steps=20
+train_steps=40
 #学习率
 #learning_rate=3.96
 
