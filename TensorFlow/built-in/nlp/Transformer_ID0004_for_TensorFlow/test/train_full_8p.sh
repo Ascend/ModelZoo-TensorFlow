@@ -224,7 +224,7 @@ echo "Final Performance images/sec : $FPS"
 #输出训练精度,需要模型审视修改
 bash inference.sh
 bash scripts/process_output.sh ${data_path}/newstest2014.tok.de ${data_path}/output-0603 ${data_path}/vocab.share
-perl multi-bleu.perl ${data_path}/newstest2014.tok.de.forbleu < ${data_path}/output-0603.forbleu > result_bleu.txt
+perl ${data_path}/multi-bleu.perl ${data_path}/newstest2014.tok.de.forbleu < ${data_path}/output-0603.forbleu > result_bleu.txt
 cat result_bleu.txt >> $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
 train_accuracy=`grep "BLEU" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'|tr -d ','`
 #打印，不需要修改
