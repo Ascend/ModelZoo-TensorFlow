@@ -503,7 +503,7 @@ def input_fn_builder(input_files,
         rank_size = int(os.getenv('RANK_SIZE'))
         rank_id = int(os.getenv('RANK_ID'))
         print('RANK_SIZE=', rank_size, ' RANK_ID=', rank_id)
-        d = d.shard(rank_size, local_rank)
+        d = d.shard(rank_size, rank_id)
       d = d.repeat()
       if not FLAGS.npu_bert_debug:
         d = d.shuffle(buffer_size=len(input_files))
