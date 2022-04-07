@@ -180,10 +180,11 @@ class _LogSessionRunHook(tf.train.SessionRunHook):
     self.t0 = time.time()
     if self.num_accumulation_steps <= 1:
         if (tf.flags.FLAGS.npu_bert_loss_scale == 0) and (FLAGS.manual_fp16 or FLAGS.use_fp16):
+            # 1p --> isFinite = 'apply_grads/All:0'
             return tf.train.SessionRunArgs(
                 fetches=['global_step:0', 'total_loss:0',
                          'learning_rate:0', 'nsp_loss:0',
-                         'mlm_loss:0', 'loss_scale:0', 'apply_grads/All:0'])
+                         'mlm_loss:0', 'loss_scale:0'])
         else:
             return tf.train.SessionRunArgs(
                 fetches=['global_step:0', 'total_loss:0',
@@ -204,7 +205,7 @@ class _LogSessionRunHook(tf.train.SessionRunHook):
     self.elapsed_secs += time.time() - self.t0
     if self.num_accumulation_steps <=1:
         if (tf.flags.FLAGS.npu_bert_loss_scale == 0) and (FLAGS.manual_fp16 or FLAGS.use_fp16):
-            global_step, total_loss, lr, nsp_loss, mlm_loss, loss_scaler, custom_arg = run_values.results
+            global_step, total_loss, lr, nsp_loss, mlm_loss, loss_scaler = run_values.results
         else:
             global_step, total_loss, lr, nsp_loss, mlm_loss = run_values.results
         update_step = True
@@ -223,15 +224,15 @@ class _LogSessionRunHook(tf.train.SessionRunHook):
         avg_loss_step = self.avg_loss / self.all_count
         if self.hvd_rank >= 0:
           if (tf.flags.FLAGS.npu_bert_loss_scale == 0) and (FLAGS.manual_fp16 or FLAGS.use_fp16):
-            print('Rank = %2d :: Step = %6i Throughput = %11.1f MLM Loss = %10.4e NSP Loss = %10.4e Loss = %9.6f Average Loss = %9.6f LR = %6.4e Loss scale = %6.4e isFinite = %2i' %
-                  (self.hvd_rank, print_step, sent_per_sec, mlm_loss, nsp_loss, total_loss, avg_loss_step, lr, loss_scaler, custom_arg), flush=True)
+            print('Rank = %2d :: Step = %6i Throughput = %11.1f MLM Loss = %10.4e NSP Loss = %10.4e Loss = %9.6f Average Loss = %9.6f LR = %6.4e Loss scale = %6.4e' %
+                  (self.hvd_rank, print_step, sent_per_sec, mlm_loss, nsp_loss, total_loss, avg_loss_step, lr, loss_scaler), flush=True)
           else:
             print('Rank = %2d :: Step = %6i Throughput = %11.1f MLM Loss = %10.4e NSP Loss = %10.4e Loss = %9.6f Average Loss = %9.6f LR = %6.4e' %
                   (self.hvd_rank, print_step, sent_per_sec, mlm_loss, nsp_loss, total_loss, avg_loss_step, lr), flush=True)
         else:
           if (tf.flags.FLAGS.npu_bert_loss_scale == 0) and (FLAGS.manual_fp16 or FLAGS.use_fp16):
-            print('Step = %6i Throughput = %11.1f MLM Loss = %10.4e NSP Loss = %10.4e Loss = %9.6f Average Loss = %9.6f LR = %6.4e Loss scale = %6.4e isFinite = %2i' %
-                  (print_step, sent_per_sec, mlm_loss, nsp_loss, total_loss, avg_loss_step, lr, loss_scaler, custom_arg), flush=True)
+            print('Step = %6i Throughput = %11.1f MLM Loss = %10.4e NSP Loss = %10.4e Loss = %9.6f Average Loss = %9.6f LR = %6.4e Loss scale = %6.4e' %
+                  (print_step, sent_per_sec, mlm_loss, nsp_loss, total_loss, avg_loss_step, lr, loss_scaler), flush=True)
           else:
             print('Step = %6i Throughput = %11.1f MLM Loss = %10.4e NSP Loss = %10.4e Loss = %9.6f Average Loss = %9.6f LR = %6.4e' %
                   (print_step, sent_per_sec, mlm_loss, nsp_loss, total_loss, avg_loss_step, lr), flush=True)
