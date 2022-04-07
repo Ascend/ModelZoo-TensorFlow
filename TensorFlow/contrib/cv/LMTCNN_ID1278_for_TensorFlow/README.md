@@ -172,5 +172,5 @@ $ ./script/evalfold1.sh ~ $ ./script/evalfold5.sh
 
 | GPU NVIDIA V100    | NPU            |
 | ------------- | -------------- |
-| 0.084 s/batch | 0.139 s/batch |
+| 0.084 s/batch | 0.04 s/batch |
 
