@@ -148,7 +148,24 @@ do
             --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
-
+    export RANK_ID=7
+    export DEVICE_INDEX=7
+    export ASCEND_DEVICE_ID=7
+    python3.7 $cur_path/../r1/resnet/imagenet_main.py \
+            --resnet_size=101 \
+            --batch_size=${batch_size} \
+            --num_gpus=1 \
+            --cosine_lr=True \
+            --dtype=fp16 \
+            --label_smoothing=0.1 \
+            --loss_scale=512 \
+            --train_epochs=90 \
+            --eval_only=True \
+            --epochs_between_evals=5 \
+            --hooks=ExamplesPerSecondHook,loggingtensorhook \
+            --data_dir=${data_path} \
+            --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+wait
 #训练结束时间，不需要修改
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
@@ -161,7 +178,7 @@ FPS=`grep "elapsed_steps"  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_D
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep "accuracy =" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F "," 'END {print $1}'|awk -F " " 'END {print $NF}'`
+train_accuracy=`grep "accuracy =" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $13}'|awk -F " " 'END {print $NF}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
