@@ -1,0 +1,4 @@
+imgaug
+tensorflow-gpu
+scikit-learn
+Pillow
