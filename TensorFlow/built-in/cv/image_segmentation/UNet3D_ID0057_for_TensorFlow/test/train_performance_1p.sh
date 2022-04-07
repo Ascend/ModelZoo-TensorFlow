@@ -2,6 +2,7 @@
 #当前路径,不需要修改
 cur_path=`pwd`
 #集合通信参数,不需要修改
+source /usr/local/Ascend/CANN-1.81/bin/setenv.bash
 
 #export ASCEND_SLOG_PRINT_TO_STDOUT=1
 export RANK_SIZE=1

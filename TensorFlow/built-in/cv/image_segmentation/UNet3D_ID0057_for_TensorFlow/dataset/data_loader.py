@@ -115,7 +115,7 @@ class Dataset:
         ds = ds.cache()
         ds = ds.shuffle(buffer_size=self._batch_size * 8, seed=self._seed)
         ds = ds.repeat()
-
+        ds = ds.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
         ds = ds.map(self.parse, num_parallel_calls=256)
 
         transforms = [
@@ -133,8 +133,9 @@ class Dataset:
         ds = ds.batch(batch_size=self._batch_size,
                       drop_remainder=True)
 
-        ds = ds.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
-        ds = threadpool.override_threadpool(ds,threadpool.PrivateThreadPool(128,display_name='input_pipeline_thread_pool'))
+        # ds = ds.prefetch(buffer_size=tf.data.experimental.AUTOTUNE)
+        if int(os.getenv("RANK_SIZE"))==1:
+            ds = threadpool.override_threadpool(ds,threadpool.PrivateThreadPool(128,display_name='input_pipeline_thread_pool'))
 
         return ds
 

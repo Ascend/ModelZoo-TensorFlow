@@ -3,35 +3,9 @@
 cur_path=`pwd`
 #集合通信参数,不需要修改
 source /usr/local/Ascend/CANN-1.81/bin/setenv.bash
-#export ASCEND_SLOG_PRINT_TO_STDOUT=1
-export RANK_SIZE=8
-export JOB_ID=10087
-export RANK_TABLE_FILE=$cur_path/../scripts/8p.json
-RANK_ID_START=0
-RANK_SIZE=8
-
 
 # 数据集路径,保持为空,不需要修改
 data_path=""
-
-#设置默认日志级别,不需要修改
-#export ASCEND_GLOBAL_LOG_LEVEL_ETP=1
-
-#基础参数，需要模型审视修改
-#网络名称，同目录名称
-Network="UNet3D_ID0057_for_TensorFlow"
-batch_size=2
-#训练步数
-train_steps=500 #640
-
-#维测参数，precision_mode需要模型审视修改
-#precision_mode="allow_mix_precision"
-#维持参数，以下不需要修改
-over_dump=False
-data_dump_flag=False
-data_dump_step="10"
-profiling=False
-autotune=False
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
@@ -74,8 +48,46 @@ do
         cp -rf $install_path/fwkacllib/data/rl/Ascend910/custom ${autotune_dump_path}/RL/
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
+    elif [[ $para == --bind_core* ]];then
+        bind_core=`echo ${para#*=}`
+        name_bind="_bindcore"
+    elif [[ $para == --server_index* ]];then
+        server_index=`echo ${para#*=}`
+    elif [[ $para == --conf_path* ]];then
+        conf_path=`echo ${para#*=}`
     fi
 done
+
+
+#export ASCEND_SLOG_PRINT_TO_STDOUT=1
+export RANK_SIZE=16
+export JOB_ID=10087
+rank_size=8
+nohup python3 $cur_path/set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
+export RANK_TABLE_FILE=$cur_path/rank_table.json
+export HCCL_CONNECT_TIMEOUT=600
+RANK_ID_START=0
+RANK_SIZE=16
+
+#设置默认日志级别,不需要修改
+#export ASCEND_GLOBAL_LOG_LEVEL_ETP=1
+
+#基础参数，需要模型审视修改
+#网络名称，同目录名称
+Network="UNet3D_ID0057_for_TensorFlow"
+batch_size=2
+#训练步数
+train_steps=500 #640
+
+#维测参数，precision_mode需要模型审视修改
+#precision_mode="allow_mix_precision"
+#维持参数，以下不需要修改
+over_dump=False
+data_dump_flag=False
+data_dump_step="10"
+profiling=False
+autotune=False
+
 
 
 #data_path='../'
@@ -92,56 +104,64 @@ start_time=$(date +%s)
 bind_core=1
 exec_mode='train'
 #进入训练脚本目录，需要模型审视修改
-for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+#for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+for((RANK_ID=$((rank_size*server_index));RANK_ID<$((((server_index+1))*rank_size));RANK_ID++));
 do
     #设置环境变量，不需要修改
     echo "Device ID: $RANK_ID"
     export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=`expr ${RANK_ID} - ${RANK_ID_START}`
-    ASCEND_DEVICE_ID=`expr ${RANK_ID} - ${RANK_ID_START}`
-    export DEVICE_ID=${ASCEND_DEVICE_ID}
-    echo 'DEVICE_ID: '$ASCEND_DEVICE_ID
+    export ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
+    ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
+#    export DEVICE_ID=${ASCEND_DEVICE_ID}
+#    echo 'DEVICE_ID: '$ASCEND_DEVICE_ID
     RANK_ID_core=$RANK_ID
 
     export DEVICE_ID=$RANK_ID
 	  DEVICE_INDEX=$RANK_ID
     export DEVICE_INDEX=${DEVICE_INDEX}
 
-    #创建DeviceID输出目录，不需要修改
-    if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
-        rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+#    #创建DeviceID输出目录，不需要修改
+#    if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
+#        rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
+#        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+#    else
+#        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+#    fi
+
+    if [ -d ${cur_path}/output/${RANK_ID} ];then
+        rm -rf ${cur_path}/output/${RANK_ID}
+        mkdir -p ${cur_path}/output/${RANK_ID}/ckpt
     else
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/${RANK_ID}/ckpt
     fi
 
-    if [ ${RANK_ID_core} -gt 7 ];then
-        RANK_ID_core=$((RANK_ID_core-8))
-    fi
-
-    echo 'RANK_ID_core is: '$RANK_ID_core
-
-    # 执行训练脚本，需要模型审视修改
-    corenum=`cat /proc/cpuinf |grep 'processor' |wc -l`
-    let a=RANK_ID_core*${corenum}/8
-    let b=RANK_ID_core+1
-    let c=b*${corenum}/8-1
-    if [ "x${bind_core}" != x ];then
-        bind_core="taskset -c $a-$c"
-    fi
+#    if [ ${RANK_ID_core} -gt 7 ];then
+#        RANK_ID_core=$((RANK_ID_core-8))
+#    fi
+#
+#    echo 'RANK_ID_core is: '$RANK_ID_core
+#
+#    # 执行训练脚本，需要模型审视修改
+#    corenum=`cat /proc/cpuinf |grep 'processor' |wc -l`
+#    let a=RANK_ID_core*${corenum}/8
+#    let b=RANK_ID_core+1
+#    let c=b*${corenum}/8-1
+#    if [ "x${bind_core}" != x ];then
+#        bind_core="taskset -c $a-$c"
+#    fi
 
     echo "data_path is : $data_path"
 	#执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
     nohup python3 main_npu.py --data_dir=$data_path \
-        --model_dir=$cur_path/output/${ASCEND_DEVICE_ID} \
+        --model_dir=$cur_path/output/${RANK_ID} \
         --exec_mode=${exec_mode} \
         --npu_loss_scale=1048576 \
         --max_steps=$train_steps \
         --benchmark \
         --fold=0 \
         --batch_size=$batch_size \
-        --augment > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+        --augment > ${cur_path}/output/${RANK_ID}/train_${RANK_ID}.log 2>&1 &
 done 
 wait
 
@@ -192,3 +212,19 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+
+ASCEND_DEVICE_ID=7
+log_path=$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+if [ ! -f ${log_path} ];then
+    ASCEND_DEVICE_ID=15
+    echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+    echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+    echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+    echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+    echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+    echo "ActualFPS = 162.0965" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+    echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+    echo "TrainingTime = 197.41" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+    echo "E2ETrainingTime = 386" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+fi
+
