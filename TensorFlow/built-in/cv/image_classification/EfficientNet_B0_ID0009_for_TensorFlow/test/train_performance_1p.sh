@@ -117,8 +117,8 @@ do
     --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
     --mode=train \
     --train_batch_size=256 \
-    --train_steps=250 \
-    --iterations_per_loop=10 \
+    --train_steps=500 \
+    --iterations_per_loop=100 \
     --model_name=efficientnet-b0  > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
