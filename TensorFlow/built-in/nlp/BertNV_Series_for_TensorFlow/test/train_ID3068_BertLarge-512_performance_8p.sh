@@ -109,7 +109,7 @@ do
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-    nohup ${bind_core} python3.7 $cur_path/../src/pretrain/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_base_config.json \
+    nohup ${bind_core} python3.7 $cur_path/../src/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_base_config.json \
     --max_seq_length=512 \
     --max_predictions_per_seq=76 \
     --train_batch_size=${batch_size} \
