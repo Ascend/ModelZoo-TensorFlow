@@ -142,8 +142,8 @@ do
     --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
     --mode=train_and_eval \
     --train_batch_size=256 \
-    --train_steps=250 \
-    --iterations_per_loop=10 \
+    --train_steps=500 \
+    --iterations_per_loop=100 \
     --steps_per_eval=31250 \
     --eval_batch_size=128 \
     --base_learning_rate=0.2 \
