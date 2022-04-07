@@ -35,12 +35,7 @@ from npu_bridge.estimator.npu.npu_estimator import *
 from npu_bridge.estimator.npu.npu_config import NPURunConfig
 from npu_bridge.estimator.npu.npu_estimator import NPUEstimator
 
-os.environ['WHICH_OP'] = 'GEOP'
-os.environ['NEW_GE_FE_ID'] = '1'
-os.environ['GE_AICPU_FLAG'] = '1'
 os.environ['GE_USE_STATIC_MEMORY'] = '1'
-os.environ['OPTION_EXEC_HCCL_FLAG'] = '1'
-os.environ['HCCL_CONNECT_TIMEOUT'] = '600'
 
 flags = tf.flags
 
