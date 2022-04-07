@@ -166,13 +166,12 @@ do
         #--profiling_dump_path=${profiling_dump_path} \
         #--autotune=${autotune} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 
-    
-    python3.7 eval_image_classifier_mobilenet.py \
-        --dataset_dir=${data_path} \
-        --checkpoint_path=${data_path}/../MobileNetV2_train/result/8p/2/results/model.ckpt-187500 >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
-
+    python3.7 eval_image_classifier_mobilenet.py \
+        --dataset_dir=${data_path} \
+        --checkpoint_path=${cur_path}/../results/model.ckpt-187500>> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+wait
 #训练结束时间，不需要修改
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
@@ -180,12 +179,12 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`grep 'ips:' $cur_path/output/0/train_0.log|grep -v "logger.py"|awk -F 'ips:' '{print $2}'|awk '{print $1}'`
+FPS=`grep 'ips:' $cur_path/output/7/train_7.log|grep -v "logger.py"|awk -F 'ips:' '{print $2}'|awk '{print $1}'|awk '{sum+=$1} END {print sum/NR}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep acc: $cur_path/output/0/train_0.log|awk 'END {print $2}'|cut -c 2-6`
+train_accuracy=`grep acc: $cur_path/output/7/train_7.log|awk 'END {print $2}'|cut -c 2-6`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
@@ -203,7 +202,7 @@ ActualFPS=${FPS}
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZE}'*1000/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep "loss =" $cur_path/output/0/train_0.log|grep -v basic_session_run_hooks.py|awk '{print $3}'|sed 's/,//g' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep "loss =" $cur_path/output/7/train_7.log|grep -v basic_session_run_hooks.py|awk '{print $3}'|sed 's/,//g' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
