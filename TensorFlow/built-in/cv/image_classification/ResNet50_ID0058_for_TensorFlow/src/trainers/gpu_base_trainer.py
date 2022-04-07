@@ -109,7 +109,7 @@ class GPUBaseTrain(object):
                 iterations_per_loop=self.config['iterations_per_loop'], 
                 keep_checkpoint_max=5,
                 enable_small_channel=1,
-                modify_mixlist='ReduceMeanD.json')
+                modify_mixlist='./src/trainers/ReduceMeanD.json')
             else :
                 run_config = NPURunConfig(hcom_parallel=True, precision_mode="allow_mix_precision", save_summary_steps=0, log_step_count_steps=None, enable_data_pre_proc=True,save_checkpoints_secs=1e9, session_config=session_config, model_dir = self.config['model_dir'], iterations_per_loop=self.config['iterations_per_loop'])
 
