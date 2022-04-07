@@ -124,10 +124,10 @@ do
         --iterations_per_loop=100 \
         --batch_size=$batch_size \
         --display_every=256 \
-	    --data_path=$data_path \
+            --data_path=$data_path \
         --lr=0.01 \
-        --log_dir=./model \
-        --eval_dir=./model \
+        --log_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt \
+        --eval_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt \
         --epochs_between_evals=50 \
         --log_name=googlenet.log > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
@@ -145,14 +145,14 @@ BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 #获取性能数据
-FPS=`grep epoch $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'FPS:' '{print $2}'|awk '{print $1}'|awk 'NR>1'|awk '{sum+=$1} END {print sum/NR}'`
+FPS=`grep epoch $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $6}'|grep -v UTC|awk '{print $1}'|awk '{sum+=$1} END {print sum/NR}'`
 
 ActualFPS=$FPS
 temp1=`echo "8000 * ${batch_size}"|bc`
 TrainingTime=`echo "scale=2;${temp1} / ${ActualFPS}"|bc`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep epoch $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'loss:' '{print $2}'|awk '{print $1}'> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep epoch $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'loss:' '{print $2}'|awk '{print $1}'|tr -s '\n'> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
