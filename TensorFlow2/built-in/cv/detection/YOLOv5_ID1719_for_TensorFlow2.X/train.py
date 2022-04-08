@@ -65,6 +65,7 @@ flags.DEFINE_integer('train_worker_num', 8, 'train worker num')
 flags.DEFINE_boolean('eval_only', False, 'skip train process')
 flags.DEFINE_boolean('mosaic', True, 'activate mosaic data augmentation')
 flags.DEFINE_integer('rank', 0, 'rank of current device')
+flags.DEFINE_integer('rank_size', 1, 'rank size of current device')
 flags.DEFINE_integer('perf', 0, 'run steps for perf')
 tic = 0
 e_tic = 0
@@ -169,8 +170,8 @@ def main(_argv):
             lr = cfg.TRAIN.LR_END + 0.5 * (cfg.TRAIN.LR_INIT - cfg.TRAIN.LR_END) * ((1 + tf.cos((global_steps - warmup_steps) / (total_steps - warmup_steps) * np.pi)))
         optimizer.lr.assign(lr.numpy())
         ciou_loss, conf_loss, prob_loss, total_loss = train_execute(image_data, target)
-        if FLAGS.rank == 0:
-            print("=> STEP %4d/%4d   lr: %.6f   ciou_loss: %4.2f   conf_loss: %4.2f   prob_loss: %4.2f   total_loss: %4.2f" % (global_steps, total_steps, optimizer.lr.numpy(), ciou_loss, conf_loss, prob_loss, total_loss), end='', flush=True)
+        # if FLAGS.rank == 0:
+        print("=> STEP %4d/%4d   lr: %.6f   ciou_loss: %4.2f   conf_loss: %4.2f   prob_loss: %4.2f   total_loss: %4.2f" % (global_steps, total_steps, optimizer.lr.numpy(), ciou_loss, conf_loss, prob_loss, total_loss), end='', flush=True)
         global_steps.assign_add(1)
 
     if not FLAGS.eval_only:
@@ -204,13 +205,13 @@ def main(_argv):
                             break
                     image_data, target, _, _, _, _ = fetcher.process_annotations(annotations)
                     with mutex_sess_run:
-                        if FLAGS.rank == 0:
-                            rstart = time.time()
+                        # if FLAGS.rank == 0:
+                        rstart = time.time()
                         train_step(image_data, target)
-                        if FLAGS.rank == 0:
-                            duration = time.time() - tic
-                            print(' ,global_step/sec: %.2f ,duration: %.2f'%((1 / duration), duration), flush=True)
-                            tic = time.time()
+                        # if FLAGS.rank == 0:
+                        duration = time.time() - tic
+                        print(' ,global_step/sec: %.2f ,duration: %.2f'%((1 / duration), duration), flush=True)
+                        tic = time.time()
                         if FLAGS.perf and (FLAGS.perf < global_steps.numpy()):
                             break
             threads = []
@@ -222,11 +223,11 @@ def main(_argv):
             for t in threads:
                 t.join()
             
-            if FLAGS.rank == 0:
-                print('epoch_duration: %d'%(time.time() - e_tic), flush=True)
-                e_tic = time.time()
-                print('saving checkpoints', flush=True)
-                checkpoint.save(checkpoint_dir+'/model.ckpt')
+            # if FLAGS.rank == 0:
+            print('epoch_duration: %d'%(time.time() - e_tic), flush=True)
+            e_tic = time.time()
+            # print('saving checkpoints', flush=True)
+            # checkpoint.save(checkpoint_dir+'/model.ckpt')
     if not FLAGS.perf and FLAGS.rank == 0:
         evaluator = COCOevaluator(model, testset, cfg.TRAIN.INPUT_SIZE, NUM_CLASS, FLAGS)
         evaluator.evaluate()

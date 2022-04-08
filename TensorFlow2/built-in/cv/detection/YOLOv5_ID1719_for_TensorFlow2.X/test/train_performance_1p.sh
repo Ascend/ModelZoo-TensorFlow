@@ -7,11 +7,12 @@ export PYTHONWARNINGS='ignore:semaphore_tracker:UserWarning'
 
 #集合通信参数,不需要修改
 #保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
-export RANK_SIZE=8
-export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
+export RANK_SIZE=1
+#export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 export JOB_ID=10087
 RANK_ID_START=0
-RANK_SIZE=8
+RANK_SIZE=1
+
 # 数据集路径,保持为空,不需要修改
 data_path=""
 
@@ -19,7 +20,7 @@ anno_converted='/npu/traindata/COCO2017/val2017.txt'
 gt_anno_path='/npu/traindata/COCO2017/annotations/instances_val2017.json'
 
 #屏蔽TF2.4升级到TF2.6图差异带来的性能下降
-export NPU_EXECUTE_OP_BY_ACL=false
+#export NPU_EXECUTE_OP_BY_ACL=false
 
 #设置默认日志级别,不需要修改
 export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
@@ -158,7 +159,7 @@ echo "------------------ Final result ------------------"
 #输出性能FPS。需要模型审视修改
 epoch_duration=`grep epoch_duration $cur_path/output/0/train_0.log | awk '{print $2}'`
 first_step=`grep duration: $cur_path/output/0/train_0.log |head -1| awk 'END{print $17}'`
-FPS=`awk 'BEGIN{printf "%.2f\n",('$perf'+'$train_worker_num'-2)/('$epoch_duration'-'$first_step')*'$batch_size'*8}'`
+FPS=`awk 'BEGIN{printf "%.2f\n",('$perf'+'$train_worker_num'-2)/('$epoch_duration'-'$first_step')*'$batch_size'*1}'`
 echo "Final Performance imgs/sec : $FPS"
 
 #训练精度，需要从train_$ASCEND_DEVICE_ID.log里，通过关键字获取。需要模型审视修改
