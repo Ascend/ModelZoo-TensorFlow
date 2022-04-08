@@ -16,7 +16,7 @@
 
 **大小（Size）：210KB**
 
-**框架（Framework）：TensorFlow_2.4.1**
+**框架（Framework）：TensorFlow_2.6.0**
 
 **模型格式（Model Format）：ckpt**
 
@@ -60,14 +60,14 @@ BERT模型的全称是：BidirectionalEncoder **Representations** from Transform
     -   24-layer, 1024-hidden, 16-heads, 340M parameters
     
 -   训练超参（单卡）：
-    -   Batch size: 16
+    -   Batch size: 24
     -   max_predictions_per_seq: 76
     -   max_seq_length: 512
     -   Learning rate\(LR\): 0.000058711
     -   Weight decay: 0.01
     -   beta_1:  0.91063
     -   beta_2: 0.96497
-    -   Train epoch: 12
+    -   Train epoch: 32
 
 
 ## 支持特性<a name="section1899153513554"></a>
@@ -87,7 +87,7 @@ BERT模型的全称是：BidirectionalEncoder **Representations** from Transform
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
 ```
- ./train_performance_1p_16bs.sh --help
+ ./train_performance_1p_24bs.sh --help
 
 parameter explain:
     --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
@@ -166,7 +166,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
 ## 模型训练<a name="section715881518135"></a>
 - 下载训练脚本。
-- 检查scripts/目录下是否有存在8卡IP的json配置文件“rank_table_8p.json"。
+- 检查并修改configs/目录下8卡IP的json配置文件“rank_table_8p.json"。
   
 ```
 {
@@ -235,15 +235,15 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
     2. 单卡训练
        
-        2. 1单卡训练指令（脚本位于BertLarge_TF2.x_for_Tensorflow/test/train_full_1p_16bs.sh）,请确保下面例子中的“--data_path”修改为用户的tfrecord的路径,这里选择将tfrecord文件夹放在home目录下。
+        2.1 单卡训练指令（脚本位于BertLarge_TF2.x_for_Tensorflow/test/train_performance_1p_24bs.sh）,请确保下面例子中的“--data_path”修改为用户的tfrecord的路径,这里选择将tfrecord文件夹放在home目录下。
         
-            bash test/train_full_1p_16bs.sh --data_path=/home/tfrecord --precision_mode='allow_mix_precision'
+            bash test/train_performance_1p_24bs.sh --data_path=/home/tfrecord --precision_mode=allow_mix_precision
     
     3. 8卡训练
     
-        3.1 8卡训练指令（脚本位于BertLarge_TF2.x_for_Tensorflow/test/train_full_8p_128bs.sh),请确保下面例子中的“--data_path”修改为用户的tfrecord的路径。
+        3.1 8卡训练指令（脚本位于BertLarge_TF2.x_for_Tensorflow/test/train_performance_8p_192bs.sh),请确保下面例子中的“--data_path”修改为用户的tfrecord的路径。
     
-            bash test/train_full_8p_128bs.sh --data_path=/home/tfrecord --precision_mode='allow_mix_precision'
+            bash test/train_performance_8p_192bs.sh --data_path=/home/tfrecord --precision_mode=allow_mix_precision
 
 
 
@@ -260,8 +260,8 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 |   |--bert_config.json
 |   |--rank_table_8p.json
 |--test			#训练脚本目录
-|	|--train_full_1p_16bs.sh
-|	|--train_full_8p_64bs.sh
+|	|--train_performance_1p_24bs.sh
+|	|--train_performance_8p_192bs.sh
 |   |--......
 ```
 
@@ -295,6 +295,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 ## 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以8卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
+
 
 
 
