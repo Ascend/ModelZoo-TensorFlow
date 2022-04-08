@@ -163,7 +163,7 @@ def main():
     print('CORNERS: IoU: ' + str('%.3f' % IoU_c) + '; Accuracy: ' + str('%.3f' % Acc_c) + '; Precision: ' + str(
         '%.3f' % P_c) + '; Recall: ' + str('%.3f' % R_c) + '; f1 score: ' + str('%.3f' % f1_c))
 
-    print("Final Accuracy accuracy EDGES:"+str('%.3f'%Acc_e)+";CORNERS:"+str('%.3f'%Acc_c))
+    print("Final Accuracy accuracy :"+str('%.3f'%Acc_c))
     # latex format
     latex = [str('$%.3f$' % IoU_c) + " & " + str('$%.3f$' % Acc_c) + " & " + str('$%.3f$' % P_c) + " & " + str(
         '$%.3f$' % R_c) + " & " + str('$%.3f$' % f1_c)]
@@ -173,7 +173,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
