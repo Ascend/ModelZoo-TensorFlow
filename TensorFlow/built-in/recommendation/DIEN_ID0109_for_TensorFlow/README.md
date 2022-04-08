@@ -35,7 +35,7 @@
 
 - 参考实现：
 
-    https://arxiv.org/abs/1809.03672
+    https://github.com/mouna99/dien 
 
 - 适配昇腾 AI 处理器的实现：
     
