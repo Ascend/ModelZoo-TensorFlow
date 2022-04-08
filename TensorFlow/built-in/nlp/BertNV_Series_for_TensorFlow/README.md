@@ -157,7 +157,7 @@
 运行如下命令，将数据集转换为tfrecord格式。
 
 ```
-      python src/pretrain/create_pretraining_data.py \   
+      python src/create_pretraining_data.py \   
       --input_file=<path to your testdata> \   
       --output_file=<tfrecord dir>/some_output_data.tfrecord \   
       --vocab_file=<path to vocab.txt> \   
@@ -170,96 +170,41 @@
 ```
 
 - 模型训练
-- 启动训练之前，首先要配置程序运行相关环境变量。环境变量配置信息参见：
+- 启动训练之前，首先要配置程序运行相关环境变量。
 
-[Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
+  环境变量配置信息参见：
 
-- 脚本修改:
-  版本Atlas Data Center SolutionV100R020C30之前的版本:
+     [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
 
-  修改src/pretrain/run_pretraining.py文件，将apply_grads/overflow_status_reduce_all改为apply_grads/All
-
+  将环境变量配置到test/train_*.sh中
 
  - 单卡训练
    
-    1. 在`scripts`路径下的`run_pretraining.sh`中配置参数，确保 `--input_files_dir` 和 `--eval_files_dir` 配置为用户数据集具体路径，如下：
-       
-```
-        --input_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \      #训练数据集路径
-        --eval_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \       #验证数据集路径
-```
-
-      2. 单卡训练指令，在ModelZoo_BertBase_TF目录下，执行如下命令：
-            
-            bash scripts/run_pretraining.sh
-
-   
+    1. 将test/train_ID0060_BertBase_performance_1p.sh的data_path配置为用户数据集具体路径
+    
+    2. 单卡训练指令，在test目录下，执行如下命令：
+        ``` 
+        bash train_ID0060_BertBase_performance_1p.sh
+        ```
 
 
 - 8卡训练
-    1. 在`scripts`路径下的`train_8p.sh`中配置参数，确保 `--input_files_dir` 和 `--eval_files_dir` 配置为用户数据集具体路径，如下：
-        ```
-         --input_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \      #训练数据集路径
-         --eval_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \       #验证数据集路径  
-        ```
-    2. 8卡训练指令，在ModelZoo_BertBase_TF目录下，执行如下命令： 
+    1. 修改test/train_ID0060_BertBase_performance_8p.sh中的data_path配置为用户数据集具体路径
 
+    2. 8卡训练指令，在test目录下，执行如下命令：
         ```
-        bash scripts/run_8p.sh
+        bash train_ID0060_BertBase_performance_8p.sh
         ```
-
-- 注意说明：当前Bert-base网络的下游任务（src/downstream）暂未调测
 
 <h2 id="高级参考.md">高级参考</h2>
 
     脚本和示例代码
     ├── configs  
-    │    ├──BERT_base_64p_poc.json              //8*8p rank table配置文件
-    │    ├──nezha_large_config.json               //NEZHA large模型配置文件
-    │    ├──nezha_large_vocab.txt                 //NEZHA large中文词表
-    ├── scripts
-    │    ├──npu_set_env.sh                         //集群配置
-    │    ├──run_downstream_classifier.sh           //运行下游任务分类器
-    │    ├──run_downstream_ner.sh                  //运行下游任务序列标注
-    │    ├──run_downstream_reading.sh              //运行下游任务阅读理解
-    │    ├──run_pretraining.sh                     //单卡预训练脚本
-    │    ├──run_8p.sh                              //8卡预训练入口脚本
-    │    ├──train_8p.sh                            //8卡预训练脚本  
-    ├── src/downstream
-    │    ├──gpu_environment.py                     //原始gpu_environment设置
-    │    ├──metrics_impl.py                       //适配NPU后的metrics_impl.py
-    │    ├──modeling.py                           //NEZHA模型脚本
-    │    ├──optimization.py                       //优化器脚本
-    │    ├──reading_evaluate.py                   //阅读理解评价脚本
-    │    ├──run_classifier.py                     //下游任务分类脚本
-    │    ├──run_ner.py                           //下游任务序列标注脚本
-    │    ├──run_reading.py                         //下游任务阅读理解脚本
-    │    ├──tf_metrics.py                        //tf metrics脚本
-    │    ├──tokenization.py                      //分词器脚本
-    ├── src/pretrain
-    │    ├──gpu_environment.py                     //原始gpu_environment设置
-    │    ├──create_pretraining_data.py            //生成与训练数据脚本
-    │    ├──modeling.py                           //NEZHA模型脚本
-    │    ├──optimization.py                       //优化器脚本
-    │    ├──extract_features.py                   //特征抽取脚本
-    │    ├──fp16_utils.py                       //fp16 utils脚本
-    │    ├──fused_layer_norm.py                     //layer norm融合脚本
-    │    ├──run_pretraining.py                    //预训练启动脚本
-    │    ├──tf_metrics.py                        //tf metrics脚本
-    │    ├──tokenization.py                      //分词器脚本
-    │    ├──utils.py                            //utils脚本├── CONTRIBUTING.md                             //CONTRIBUTING.md
-    ├── src/downstream
-    │    ├──gpu_environment.py                     //原始gpu_environment设置
-    │    ├──metrics_impl.py                       //适配NPU后的metrics_impl.py
-    │    ├──modeling.py                           //NEZHA模型脚本
-    │    ├──optimization.py                       //优化器脚本
-    │    ├──reading_evaluate.py                   //阅读理解评价脚本
-    │    ├──run_classifier.py                     //下游任务分类脚本
-    │    ├──run_ner.py                           //下游任务序列标注脚本
-    │    ├──run_reading.py                         //下游任务阅读理解脚本
-    │    ├──tf_metrics.py                        //tf metrics脚本
-    │    ├──tokenization.py                      //分词器脚本
-    ├── src/pretrain
+    │    ├──8p.json              //8p rank table配置文件
+    │    ├──bert_base_config.json                //bert large模型配置文件
+    │    ├──bert_large_config.json               //bert base模型配置文件
+    │    ├──bert_base_vocab.txt                 //bert base中文词表
+    ├── src
     │    ├──gpu_environment.py                     //原始gpu_environment设置
     │    ├──create_pretraining_data.py            //生成与训练数据脚本
     │    ├──modeling.py                           //NEZHA模型脚本
@@ -273,7 +218,8 @@
     │    ├──utils.py                            //utils脚本
     ├── CONTRIBUTING.md                             //CONTRIBUTING.md
     ├── LICENCE                                   //LICENCE
-    ├── NOTICE                                   //NOTICE├── README.md                                 //说明文档
+    ├── NOTICE                                   //NOTICE
+    ├── README.md                                 //说明文档
 
 
 ## 脚本参数<a name="section6669162441511"></a>

@@ -140,28 +140,28 @@ BERT是一种与训练语言表示的方法，这意味着我们在大型文本�
 
      [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
 
-  将环境变量配置到scripts/run_*.sh中
+  将环境变量配置到test/train_*.sh中
 
 - 单卡训练 
 
   启动单卡训练
 
-  修改scripts/run_1p.sh中的BERT_BASE_DIR和SQUAD_DIR，BERT_BASE_DIR为预处理模型路径，SQUAD_DIR为squad v1.1数据集的路径
+  修改test/train_ID0495_Bert-Squad_performance_1p.sh中的data_path为squad v1.1数据集以及预训练模型的路径，然后执行：
   
   ```
-  cd scripts
-  bash run_1p.sh
+  cd test
+  bash train_ID0495_Bert-Squad_performance_1p.sh
   ```
   
 - 8卡训练
 
   启动8卡训练
 
-  修改scripts/run_8p.sh中的BERT_BASE_DIR和SQUAD_DIR，BERT_BASE_DIR为预处理模型路径，SQUAD_DIR为squad v1.1数据集的路径
+  修改test/train_ID0495_Bert-Squad_performance_1p.sh中的data_path为squad v1.1数据集以及预训练模型的路径，然后执行：
   
   ```
-  cd scripts
-  bash run_8p.sh
+  cd test
+  bash train_ID0495_Bert-Squad_performance_8p.sh
   ```
   
   
@@ -172,14 +172,17 @@ BERT是一种与训练语言表示的方法，这意味着我们在大型文本�
 
 ```
 └─Bertsquad_for_TensorFlow
-    ├─scripts
-    |     ├─8p.json
-    |     ├─docker_start.sh
-    |     ├─run_1p.sh
-    |     ├─run_8p.sh
-    |     ├─test.sh
-    |     ├─train_1p.sh
-    |     └─train_8p.sh
+    ├─configs
+    |     ├─rank_table_8p.json
+    ├─test
+    |     ├─train_ID0495_Bert-Squad_performance_1p.sh
+    |     ├─train_ID0495_Bert-Squad_performance_8p.sh
+    |     ├─train_ID0495_Bert-Squad_full_1p.sh
+    |     ├─train_ID0495_Bert-Squad_full_8p.sh
+    |     ├─train_ID3082_BertLarge-Squad_performance_1p.sh
+    |     └─train_ID3082_BertLarge-Squad_performance_8p.sh
+    |     ├─train_ID3082_BertLarge-Squad_full_1p.sh
+    |     └─train_ID3082_BertLarge-Squad_full_8p.sh
     ├─utils
     |   ├─create_glue_data.py
     |   ├─create_pretraining_data.py
@@ -229,14 +232,14 @@ python3 run_squad.py \
 
 1.  通过“模型训练”中的训练指令启动单卡训练和8卡训练。
 
-2.  训练日志及结果见scripts/result/1p/train_*.log。
+2.  训练日志及结果见test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log。
 
 
 
 ## 推理/验证过程<a name="section1465595372416"></a>
 
 ```
-python3 evaluate-v1.1.py dataset/dev-v1.1.json .scripts/result/1p/0/output/predictions.json
+python3 evaluate-v1.1.py dataset/dev-v1.1.json .test/output/${ASCEND_DEVICE_ID}/predictions.json
 
 ##predict result for 1p:
 {"exact_match": 79.87701040681173, "f1": 87.42429097480438}
