@@ -104,10 +104,7 @@ pip3 install requirements.txt
 
 ## 数据集准备<a name="section361114841316"></a>
 
-1. 可以从亚马逊网站获取数据集并使用脚本生成
-```
-sh prepare_data.sh
-```
+1. 可以从"参考实现"中的源码链接里下载数据集
 2. 下载好数据集后可以解压到本地目录下
 tar -jxvf data.tar.gz
 mv data/* .
