@@ -8,7 +8,7 @@ cur_path=`pwd`
 export RANK_SIZE=1
 export JOB_ID=10087
 RANK_ID_START=0
-
+unset LD_PRELOAD 
 
 # 数据集路径,保持为空,不需要修改
 data_path="/npu/traindata/imagenet_TF"
