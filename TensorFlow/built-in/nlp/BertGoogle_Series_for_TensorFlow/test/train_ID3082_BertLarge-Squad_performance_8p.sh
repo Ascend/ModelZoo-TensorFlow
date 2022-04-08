@@ -75,7 +75,7 @@ fi
 vocab_file=${data_path}/uncased_L-24_H-1024_A-16/vocab.txt
 bert_config_file=${data_path}/uncased_L-24_H-1024_A-16/bert_config.json
 init_checkpoint=${data_path}/uncased_L-24_H-1024_A-16/bert_model.ckpt
-train_file=${data_path}/dataset/train-v1.1.json
+train_file=${data_path}/dataset/train-v1.1_small.json
 predict_file=${data_path}/dataset/dev-v1.1.json
 
 #训练开始时间，不需要修改
