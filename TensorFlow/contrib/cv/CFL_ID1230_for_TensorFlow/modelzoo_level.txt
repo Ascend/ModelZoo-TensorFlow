@@ -2,5 +2,3 @@ GPUStatus:OK
 NPUMigrationStatus:OK
 FuncStatus:OK
 PrecisionStatus:OK
-ModelConvert:OK
-QuantStatus:OK
