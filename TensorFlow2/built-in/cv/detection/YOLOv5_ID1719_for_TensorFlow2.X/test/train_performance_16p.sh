@@ -5,15 +5,68 @@ cur_path=`pwd`
 
 export PYTHONWARNINGS='ignore:semaphore_tracker:UserWarning'
 
-#集合通信参数,不需要修改
-#保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
-export RANK_SIZE=8
-export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
+# 帮助信息，不需要修改
+if [[ $1 == --help || $1 == -h ]];then
+    echo"usage:./train_performance_1p.sh <args>"
+    echo " "
+    echo "parameter explain:
+    --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
+    -h/--help		         show help message
+    "
+    exit 1
+fi
+
+#参数校验，不需要修改
+for para in $*
+do
+    if [[ $para == --precision_mode* ]];then
+        precision_mode=`echo ${para#*=}`
+    elif [[ $para == --over_dump* ]];then
+        over_dump=`echo ${para#*=}`
+        over_dump_path=${cur_path}/output/overflow_dump
+        mkdir -p ${over_dump_path}
+    elif [[ $para == --data_dump_flag* ]];then
+        data_dump_flag=`echo ${para#*=}`
+        data_dump_path=${cur_path}/output/data_dump
+        mkdir -p ${data_dump_path}
+    elif [[ $para == --data_dump_step* ]];then
+        data_dump_step=`echo ${para#*=}`
+    elif [[ $para == --profiling* ]];then
+        profiling=`echo ${para#*=}`
+        profiling_dump_path=${cur_path}/output/profiling
+        mkdir -p ${profiling_dump_path}
+    elif [[ $para == --autotune* ]];then
+        autotune=`echo ${para#*=}`
+        mv $install_path/fwkacllib/data/rl/Ascend910/custom $install_path/fwkacllib/data/rl/Ascend910/custom_bak
+        mv $install_path/fwkacllib/data/tiling/Ascend910/custom $install_path/fwkacllib/data/tiling/Ascend910/custom_bak
+        autotune_dump_path=${cur_path}/output/autotune_dump
+        mkdir -p ${autotune_dump_path}/GA
+        mkdir -p ${autotune_dump_path}/rl
+        cp -rf $install_path/fwkacllib/data/tiling/Ascend910/custom ${autotune_dump_path}/GA/
+        cp -rf $install_path/fwkacllib/data/rl/Ascend910/custom ${autotune_dump_path}/RL/
+    elif [[ $para == --data_path* ]];then
+        data_path=`echo ${para#*=}`
+    elif [[ $para == --bind_core* ]];then
+        bind_core=`echo ${para#*=}`
+        name_bind="_bindcore"
+    elif [[ $para == --server_index* ]];then
+        server_index=`echo ${para#*=}`
+    elif [[ $para == --conf_path* ]];then
+        conf_path=`echo ${para#*=}`
+    fi
+done
+
+#export ASCEND_SLOG_PRINT_TO_STDOUT=1
+export RANK_SIZE=16
 export JOB_ID=10087
+rank_size=8
+nohup python3 $cur_path/set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
+export RANK_TABLE_FILE=${cur_path}/rank_table.json
+export HCCL_CONNECT_TIMEOUT=600
 RANK_ID_START=0
-RANK_SIZE=8
+RANK_SIZE=16
 # 数据集路径,保持为空,不需要修改
-data_path=""
+data_path="/npu/traindata/COCO2017"
 
 anno_converted='/npu/traindata/COCO2017/val2017.txt'
 gt_anno_path='/npu/traindata/COCO2017/annotations/instances_val2017.json'
@@ -52,48 +105,6 @@ profiling=False
 autotune=False
 perf=20
 
-# 帮助信息，不需要修改
-if [[ $1 == --help || $1 == -h ]];then
-    echo"usage:./train_full_8p.sh <args>"
-    echo " "
-    echo "parameter explain:
-    --precision_mode           precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
-    --over_dump		           if or not over detection, default is False
-    --data_dump_flag		   data dump flag, default is 0
-    --data_dump_step		   data dump step, default is 10
-    --profiling		           if or not profiling for performance debug, default is False
-    --data_path		           source data of training
-    -h/--help		           show help message
-    "
-    exit 1
-fi
-
-#参数校验，不需要修改
-for para in $*
-do
-    if [[ $para == --precision_mode* ]];then
-        precision_mode=`echo ${para#*=}`
-    elif [[ $para == --over_dump* ]];then
-        over_dump=`echo ${para#*=}`
-        over_dump_path=${cur_path}/output/overflow_dump
-        mkdir -p ${over_dump_path}
-    elif [[ $para == --data_dump_flag* ]];then
-        data_dump_flag=`echo ${para#*=}`
-        data_dump_path=${cur_path}/output/data_dump
-        mkdir -p ${data_dump_path}
-    elif [[ $para == --data_dump_step* ]];then
-        data_dump_step=`echo ${para#*=}`
-    elif [[ $para == --profiling* ]];then
-        profiling=`echo ${para#*=}`
-        profiling_dump_path=${cur_path}/output/profiling
-        mkdir -p ${profiling_dump_path}
-    elif [[ $para == --data_path* ]];then
-        data_path=`echo ${para#*=}`
-    elif [[ $para == --bind_core* ]]; then
-        bind_core=`echo ${para#*=}`
-        name_bind="_bindcore"
-    fi
-done
 
 #校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
@@ -105,13 +116,17 @@ fi
 start_time=$(date +%s)
 bind_core=1
 #进入训练脚本目录，需要模型审视修改
-for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+#for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+for((RANK_ID=$((rank_size*server_index));RANK_ID<$((((server_index+1))*rank_size));RANK_ID++));
 do
     #设置环境变量，不需要修改
     echo "Device ID: $RANK_ID"
     export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=$RANK_ID
-    ASCEND_DEVICE_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
+    ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
+    export DEVICE_ID=${ASCEND_DEVICE_ID}
+    #echo 'DEVICE_ID: '$ASCEND_DEVICE_ID
+    RANK_ID_core=$RANK_ID
 
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/$ASCEND_DEVICE_ID ];then
@@ -122,9 +137,16 @@ do
     fi
     cd ${cur_path}/output/$ASCEND_DEVICE_ID/
     #执行训练脚本，需要模型审视修改
+    if [ ${RANK_ID_core} -gt 7 ];then
+        RANK_ID_core=$((RANK_ID_core-8))
+    fi
+
+    #echo 'RANK_ID_core is: '$RANK_ID_core
+
+    # 执行训练脚本，需要模型审视修改
     corenum=`cat /proc/cpuinfo |grep 'processor' |wc -l`
-    let a=RANK_ID*${corenum}/8
-    let b=RANK_ID+1
+    let a=RANK_ID_core*${corenum}/8
+    let b=RANK_ID_core+1
     let c=b*${corenum}/8-1
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
@@ -157,8 +179,8 @@ e2e_time=$(( $end_time - $start_time ))
 echo "------------------ Final result ------------------"
 #输出性能FPS。需要模型审视修改
 epoch_duration=`grep epoch_duration $cur_path/output/0/train_0.log | awk '{print $2}'`
-first_step=`grep duration: $cur_path/output/0/train_0.log |head -1| awk 'END{print $17}'`
-FPS=`awk 'BEGIN{printf "%.2f\n",('$perf'+'$train_worker_num'-2)/('$epoch_duration'-'$first_step')*'$batch_size'*8}'`
+first_step=`grep duration: $cur_path/output/0/train_0.log |head -1| awk 'END{print $18}'`
+FPS=`awk 'BEGIN{printf "%.2f\n",('$perf'+'$train_worker_num'-2)/('$epoch_duration'-'$first_step')*'$batch_size'*16}'`
 echo "Final Performance imgs/sec : $FPS"
 
 #训练精度，需要从train_$ASCEND_DEVICE_ID.log里，通过关键字获取。需要模型审视修改
