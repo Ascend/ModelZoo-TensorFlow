@@ -125,10 +125,11 @@ mv data2/* .
     
 
 - 单卡训练 
+   以数据集放在/data为例
     ```
 	cd test
 	bash train_performance_1p.sh --data_path=/data  (功能和性能)
-	bash train_full_1p.sh --data_path=/data        （全量）
+	bash train_full_1p.sh --data_path=/data        （全量） ## 当前full脚本尚未调通
     ```
             
 <h2 id="迁移学习指导.md">迁移学习指导</h2>
