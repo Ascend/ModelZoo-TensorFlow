@@ -148,9 +148,17 @@ do
             --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
-    export RANK_ID=7
-    export DEVICE_INDEX=7
-    export ASCEND_DEVICE_ID=7
+for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+do
+    #设置环境变量，不需要修改
+    echo "Device ID: $RANK_ID"
+    export RANK_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=$RANK_ID
+    ASCEND_DEVICE_ID=$RANK_ID
+
+    export DEVICE_ID=$RANK_ID
+        DEVICE_INDEX=$RANK_ID
+    export DEVICE_INDEX=${DEVICE_INDEX}
     python3.7 $cur_path/../r1/resnet/imagenet_main.py \
             --resnet_size=101 \
             --batch_size=${batch_size} \
