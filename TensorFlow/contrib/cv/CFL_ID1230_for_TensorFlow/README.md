@@ -120,101 +120,13 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
     |   Recall   |  0.488   |  0.498  |  0.484  |
     |  f1 score  |  0.627   |  0.632  |  0.624  |
 
-# 离线推理
 
-##### 模型固化
-
-执行get_pb.py文件，将model.ckpt固化为cflnet.pb（路径需根据实际情况修改）：
-
-`python get_pb.py --dataset=./data/test --weights=./data/StdConvs/model.ckpt`
-
-get_pb.py的工作逻辑为：
-
-- 定义输入节点：input
-- 定义输出节点：edge-estimator/output_likelihood/edge-estimator/output_likelihood
-- 调用网络模型生成推理图
-- 使用tf.train.writegraph将上述推理图保存成model.pb
-- 使用freeze_graph将tf.train.writegraph生成的model.pb与model.ckpt文件合并，生成用于推理的pb图文件：cflnet.pb
-
-##### 模型转换
-
-使用ATC工具，将cflnet.pb转换为tf_cfl.om文件。
-
-- 工具：请按照[`ATC`工具使用环境搭建](https://gitee.com/link?target=https%3A%2F%2Fsupport.huaweicloud.com%2Fatctool-cann502alpha3infer%2Fatlasatc_16_0004.html)搭建运行环境。
-
-- 命令：`atc --model=./CFL/cflnet.pb --framework=3 --output=./CFL/tf_cfl --soc_version=Ascend310   --input_shape="input:1,128,256,3"`
-
-- 参数：
-
-  ```
-  --model             pb模型文件
-  --framework         源pb模型使用的框架 
-  --output            生成.om文件的路径及名称
-  --soc_version       使用的芯片类型
-  --input_shape       输入的形状（batch_size,height,width,channel）
-  ```
-
-##### 离线推理
-
-- 工具准备
-
-  请参考https://gitee.com/ascend/tools/tree/master/msame，编译出msame推理工具。
-
-- 数据处理
-
-  通过调用jpg2bin.py文件（路径需根据实际情况修改），将模型测试集中的第一张p1.jpg图片文件转换为p1b.bin文件。
-
-  `python jpg2bin.py --dataset=./data/test ==weights=./data/StdConvs/model.ckpt` 
-
-  下面展示的分别是p1.jpg原图及其边图、角图的ground truth。
-
-  <img src="Image/p1.jpg" alt="p1" style="zoom: 50%;" />
-  <img src="Image/p1_EM.jpg" alt="p1_EM" style="zoom: 50%;" />
-  <img src="Image/p1_CM.jpg" alt="p1_CM" style="zoom: 50%;" />
-
-
-- 执行命令
-
-  在编译好的msame工具目录下执行以下命令，会生成预测出的tf_cfl_output_0.bin文件。
-
-  `./msame --model "/root/CFL/tf_cfl.om" --input "/root/CFL/data/p1b.bin" --output "/root/CFL/result" --outfmt BIN --loop 1`
-
-- 结果评估
-
-  - 为了检查评估离线推理的效果，需要将tf_cfl_output_0.bin转换成.jpg文件，通过执行bin2jpg.py文件实现（路径需根据实际情况修改）。
-
-    `python bin2jpg.py --dataset=./data/test --weights=./data/StdConvs/model.ckpt`
-
-    下面展示的是边图和角图的预测结果。
-
-    
-    <img src="Image/p1_EM_test.jpg" alt="p1" style="zoom: 50%;" />
-    <img src="Image/p1_CM_test.jpg" alt="p1_EM" style="zoom: 50%;" />
-   
-
-  - 生成图片之后，调用evaluate.py文件，对结果进行精度评估（路径需根据实际情况修改）。
-
-    `python evaluate.py --dataset=./data/test --weights=./data/StdConvs/model.ckpt`
-
-    | 指标 |  IoU  | Accuracy | Precision | Recall | f1 score |
-    | :--: | :---: | :------: | :-------: | :----: | :------: |
-    | 均值 | 0.589 |  0.963   |   0.919   | 0.628  |  0.741   |
-
-- 中间文件
-
-  离线推理过程生成的中间文件可在[百度网盘](https://pan.baidu.com/s/1TSK8yJLm32jhE1SBbcPDvQ)获取，提取码：14uq
 
 # 高级参考
 
 ##### 文件说明
 
 ```python
-|--Image                      //存放图片
-     |--p1.jpg
-     |--p1_CM.jpg
-     |--p1_CM_test.jpg
-     |--p1_EM.jpg
-     |--p1_EM_test.jpg
 |--Models
  	 |--__init__.py           //网络初始化
      |--CFL_StdConvs.py       //网络构建
@@ -223,11 +135,7 @@ get_pb.py的工作逻辑为：
      |--train_full_1p.sh      //单卡全量启动脚本
 |--License                    //声明
 |--README.md                  //代码说明文档
-|--bin2jpg.py                 //.bin文件转.jpg文件
 |--config.py                  //参数设置文件
-|--evaluate.py                //评估推理结果
-|--get_pb.py                  //模型固化
-|--jpg2bin.py                 //.jpg文件转.bin文件
 |--modelarts_entry_acc.py     //拉起测试文件
 |--modelzoo_level.txt         //网络进度
 |--requirements.txt           //python依赖列表
