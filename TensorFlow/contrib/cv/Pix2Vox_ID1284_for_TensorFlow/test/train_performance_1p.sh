@@ -105,11 +105,11 @@ do
 
 
     #创建DeviceID输出目录，不需要修改
-    if [ -d ${cur_path}../test/output/${ASCEND_DEVICE_ID} ];then
-        rm -rf ${cur_path}../test/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}../test/output/$ASCEND_DEVICE_ID/ckpt
+    if [ -d ${cur_path}/test/output/${ASCEND_DEVICE_ID} ];then
+        rm -rf ${cur_path}/test/output/${ASCEND_DEVICE_ID}
+        mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
     else
-        mkdir -p ${cur_path}../test/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
     fi
 
 
@@ -129,7 +129,7 @@ do
 	--train_view_num 64 \
 	--data_url ${data_path} \
 	--total_mv 192 \
-	--train_url train_model  |tee  ${cur_path}../test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
+	--train_url train_model  |tee  ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
 
 
 done 
@@ -142,9 +142,9 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-grep "TimeHistory"  $cur_path../test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log  |awk '{print $3}'|tail -n +2 > $cur_path../test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt
-cat  $cur_path../test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt |awk '{sum+=$1} END {print "Avg = ",sum/NR}' > $cur_path../test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt
-TrainingTime=`grep 'Avg' $cur_path../test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt |awk '{print $3}'` 
+grep "TimeHistory"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log  |awk '{print $3}'|tail -n +2 > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt
+cat  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt |awk '{sum+=$1} END {print "Avg = ",sum/NR}' > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt
+TrainingTime=`grep 'Avg' $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt |awk '{print $3}'` 
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
@@ -157,18 +157,18 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 ActualFPS=`awk 'BEGIN{printf "%.2f\n", 2/'${TrainingTime}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep 'rec loss:' $cur_path../test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $9}'  > $cur_path../test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep 'rec loss:' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $9}'  > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
-ActualLoss=`awk 'END {print}' $cur_path../test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
+ActualLoss=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
 #关键信息打印到${CaseName}.log中，不需要修改
-echo "Network = ${Network}" > $cur_path../test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "RankSize = ${RANK_SIZE}" >> $cur_path../test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "BatchSize = ${BatchSize}" >> $cur_path../test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "DeviceType = ${DeviceType}" >> $cur_path../test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "CaseName = ${CaseName}" >> $cur_path../test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "ActualFPS = ${ActualFPS}" >> $cur_path../test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainingTime = ${TrainingTime}" >> $cur_path../test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "ActualLoss = ${ActualLoss}" >> $cur_path../test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "E2ETrainingTime = ${e2e_time}" >> $cur_path../test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "Network = ${Network}" > $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZE}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "BatchSize = ${BatchSize}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "DeviceType = ${DeviceType}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
