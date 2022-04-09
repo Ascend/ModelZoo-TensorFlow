@@ -114,7 +114,7 @@ batch_size=128
 if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ./train.py
-    python3.7 ./get_map.py --data_path=${data_path}
+    python3.7 ./get_map.py
 else
     python3.7 ./train.py  1>>${print_log} 2>&1
     python3.7 ./get_map.py 1>>${print_log} 2>&1
