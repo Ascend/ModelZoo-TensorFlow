@@ -8,13 +8,13 @@
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：Natural Language Processing** 
+**应用领域（Application Domain）：CV** 
 
 **版本（Version）：1.2**
 
-**修改时间（Modified） ：2021.4.6**
+**修改时间（Modified） ：2022.4.9**
 
-**大小（Size）：104KB**
+**大小（Size）：248KB**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
@@ -24,9 +24,9 @@
 
 **处理器（Processor）：昇腾910**
 
-**应用级别（Categories）：Official**
+**应用级别（Categories）：Contrib**
 
-**描述（Description）：基于TensorFlow框架对图片中手写0~9数字进行识别、分类的训练代码** 
+**描述（Description）：结合深度数据关联度量方法的简易实时在线目标追踪 ** 
 
 <h2 id="概述.md">概述</h2>
     This repository contains code for training a metric feature representation to be
