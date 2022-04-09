@@ -140,8 +140,15 @@
 ## 模型训练<a name="section715881518135"></a>
 
 - 源码obs链接如下：
-    
     obs://yolov5-id0378/npu/
+
+    解压得到VOCdevkit
+
+2.数据集需要生成对应的txt文件存储位置信息
+    将voc_annotation.py文件中VOCdevkit_path修改为../../../VOCdevkit格式，指定到数据集路径
+    python voc_annotation.py
+    得到2007_train.txt、2007_val.txt文件，在train.py中配置路径
+
 - 启动训练之前，首先要配置程序运行相关环境变量。
 
   环境变量配置信息参见：
@@ -209,7 +216,3 @@
 ## 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动单卡卡训练。
-
-2.  参考脚本的模型存储路径为./osnet.h5。
-
-
