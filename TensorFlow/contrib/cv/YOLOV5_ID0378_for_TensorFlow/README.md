@@ -145,8 +145,11 @@
     解压得到VOCdevkit
 
 2.数据集需要生成对应的txt文件存储位置信息
+
     将voc_annotation.py文件中VOCdevkit_path修改为../../../VOCdevkit格式，指定到数据集路径
+
     python voc_annotation.py
+
     得到2007_train.txt、2007_val.txt文件，在train.py中配置路径
 
 - 启动训练之前，首先要配置程序运行相关环境变量。
