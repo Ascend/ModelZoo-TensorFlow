@@ -11,7 +11,7 @@ export RANK_SIZE=8
 export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 export JOB_ID=10087
 RANK_ID_START=0
-
+RANK_SIZE=8
 # 数据集路径,保持为空,不需要修改
 data_path=""
 
@@ -22,7 +22,7 @@ gt_anno_path='/npu/traindata/COCO2017/annotations/instances_val2017.json'
 export NPU_EXECUTE_OP_BY_ACL=false
 
 #设置默认日志级别,不需要修改
-export ASCEND_GLOBAL_LOG_LEVEL=3
+export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
 
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
@@ -103,7 +103,7 @@ fi
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
-
+bind_core=1
 #进入训练脚本目录，需要模型审视修改
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
@@ -129,22 +129,24 @@ do
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-	${bind_core} python3 ../../../train.py --weights='' \
-            --perf=$perf \
-            --model=yolov5m \
-            --rank=${RANK_ID} \
-            --train_worker_num=${train_worker_num} \
-            --data_path=${data_path} \
-            --anno_converted=${anno_converted} \
-            --gt_anno_path=${gt_anno_path} \
-            --batch_size=${batch_size} \
-            --precision_mode=${precision_mode} \
-            --stage1_epoch=${stage1_epoch} \
-            --stage2_epoch=${stage2_epoch} \
-            --over_dump=${over_dump} \
-            --over_dump_path=${over_dump_path} \
-            --data_dump_flag=${data_dump_flag} \
-            --data_dump_step=${data_dump_step} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+    #${bind_core} python3 ../../../train.py --weights='' \
+    nohup ${bind_core} python3 ../../../train.py --weights='' \
+              --perf=$perf \
+              --model=yolov5m \
+              --rank=${RANK_ID} \
+              --rank_size=${RANK_SIZE} \
+              --train_worker_num=${train_worker_num} \
+              --data_path=${data_path} \
+              --anno_converted=${anno_converted} \
+              --gt_anno_path=${gt_anno_path} \
+              --batch_size=${batch_size} \
+              --precision_mode=${precision_mode} \
+              --stage1_epoch=${stage1_epoch} \
+              --stage2_epoch=${stage2_epoch} \
+              --over_dump=${over_dump} \
+              --over_dump_path=${over_dump_path} \
+              --data_dump_flag=${data_dump_flag} \
+              --data_dump_step=${data_dump_step} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done
 wait
 
@@ -178,7 +180,7 @@ ActualFPS=${FPS}
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",('$epoch_duration'-'$first_step')/('$perf'+'$train_worker_num'-2)}'`
 
 ##获取Loss，通过train_*.log中关键字，需要根据模型审视
-grep loss $cur_path/output/0/train_0.log|awk '{print $13}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep loss $cur_path/output/0/train_0.log|awk '{print $13}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`grep total_loss: $cur_path/output/0/train_0.log | awk 'END{print $13}'`

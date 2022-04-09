@@ -2,12 +2,13 @@
 #当前路径,不需要修改
 cur_path=`pwd`
 #集合通信参数,不需要修改
-
+source /usr/local/Ascend/CANN-1.81/bin/setenv.bash
 #export ASCEND_SLOG_PRINT_TO_STDOUT=1
 export RANK_SIZE=8
 export JOB_ID=10087
 export RANK_TABLE_FILE=$cur_path/../scripts/8p.json
 RANK_ID_START=0
+RANK_SIZE=8
 
 
 # 数据集路径,保持为空,不需要修改
@@ -88,19 +89,22 @@ cd $cur_path/../
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
-
-
+bind_core=1
+exec_mode='train'
 #进入训练脚本目录，需要模型审视修改
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
     echo "Device ID: $RANK_ID"
     export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=$RANK_ID
-    ASCEND_DEVICE_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=`expr ${RANK_ID} - ${RANK_ID_START}`
+    ASCEND_DEVICE_ID=`expr ${RANK_ID} - ${RANK_ID_START}`
+    export DEVICE_ID=${ASCEND_DEVICE_ID}
+    echo 'DEVICE_ID: '$ASCEND_DEVICE_ID
+    RANK_ID_core=$RANK_ID
 
     export DEVICE_ID=$RANK_ID
-	DEVICE_INDEX=$RANK_ID
+	  DEVICE_INDEX=$RANK_ID
     export DEVICE_INDEX=${DEVICE_INDEX}
 
     #创建DeviceID输出目录，不需要修改
@@ -111,12 +115,27 @@ do
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
 
+    if [ ${RANK_ID_core} -gt 7 ];then
+        RANK_ID_core=$((RANK_ID_core-8))
+    fi
+
+    echo 'RANK_ID_core is: '$RANK_ID_core
+
+    # 执行训练脚本，需要模型审视修改
+    corenum=`cat /proc/cpuinf |grep 'processor' |wc -l`
+    let a=RANK_ID_core*${corenum}/8
+    let b=RANK_ID_core+1
+    let c=b*${corenum}/8-1
+    if [ "x${bind_core}" != x ];then
+        bind_core="taskset -c $a-$c"
+    fi
+
     echo "data_path is : $data_path"
 	#执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
     nohup python3 main_npu.py --data_dir=$data_path \
         --model_dir=$cur_path/output/${ASCEND_DEVICE_ID} \
-        --exec_mode=train \
+        --exec_mode=${exec_mode} \
         --npu_loss_scale=1048576 \
         --max_steps=$train_steps \
         --benchmark \

@@ -233,13 +233,13 @@ def main(argv=None):
 			iterator = dataset.make_one_shot_iterator()
 			images0, agelabels0, genderlabels0 = iterator.get_next()
 			for step in range(num_steps):
-				start_time = time.time()
+				#start_time = time.time()
 
 				images, agelabels_1, genderlabels_1 = sess.run([images0, agelabels0, genderlabels0])
 				# images1 = (np.reshape(images,(FLAGS.batch_size,227,227,3))).astype(np.float32)
 				agelabels_1 = (np.reshape(agelabels_1, (FLAGS.batch_size))).astype(np.int32)
 				genderlabels_1 = (np.reshape(genderlabels_1, (FLAGS.batch_size))).astype(np.int32)
-
+				start_time = time.time()
 				_,totallossvalue, agelossvalue, genderlossvalue = sess.run([ agegendertrain_op, totallosses, agelosses, genderlosses],
 																		   feed_dict = {images_holder:images,agelabels_holder: agelabels_1, genderlabels_holder:genderlabels_1})
 				duration = time.time() - start_time

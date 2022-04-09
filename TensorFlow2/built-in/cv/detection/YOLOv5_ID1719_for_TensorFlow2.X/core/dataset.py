@@ -63,7 +63,7 @@ class Dataset(object):
         self.anchor_per_scale = cfg.YOLO.ANCHOR_PER_SCALE
         self.max_bbox_per_scale = 450
 
-        self.annotations = self.load_annotations()
+        self.annotations = self.load_annotations(FLAGS)
         self.num_samples = len(self.annotations)
         self.num_batchs = int(np.ceil(self.num_samples / self.batch_size))
         self.batch_count = 0
@@ -71,7 +71,7 @@ class Dataset(object):
 
         self._data_buff = dict()
 
-    def load_annotations(self):
+    def load_annotations(self,FLAGS):
         with open(self.annot_path, "r") as f:
             txt = f.readlines()
             if self.dataset_type == "converted_coco":
@@ -106,6 +106,12 @@ class Dataset(object):
                         annotations.append(image_path + string)
 
         np.random.shuffle(annotations)
+
+        # shard
+        if FLAGS.rank_size > 1:
+            len_annotations = len(annotations)
+            annotations = annotations[int(len_annotations//int(FLAGS.rank_size))*FLAGS.rank:int(len_annotations//int(FLAGS.rank_size))*(FLAGS.rank+1)]
+
         return annotations
 
     def __iter__(self):

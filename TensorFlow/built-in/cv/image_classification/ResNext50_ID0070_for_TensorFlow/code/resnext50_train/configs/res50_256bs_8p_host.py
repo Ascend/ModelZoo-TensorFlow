@@ -112,7 +112,7 @@ config = {
     'lr_warmup_mode': 'linear',                             # "linear" or "cosine"
     'warmup_lr': 0.0,
     'warmup_epochs': 5,
-    'learning_rate_maximum': 0.1,                    
+    'learning_rate_maximum': 0.8,                    
 
     'lr_decay_mode': 'cosine',                              # "steps", "poly", "poly_cycle", "cosine", "linear_cosine", "linear_twice", "constant" for 1980 only
     'learning_rate_end': 0.000001,
