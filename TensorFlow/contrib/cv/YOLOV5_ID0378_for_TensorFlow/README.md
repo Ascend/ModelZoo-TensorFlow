@@ -152,7 +152,7 @@
 
   1. 配置训练参数。
 
-     首先在train.py中，配置等参数，请用户根据实际路径配置train_image_dir，或者在启动训练的命令行中以参数形式下发。
+     首先在train.py中，配置参数。
 
      ```
      classes_path               指向model_data下的voc_classes.txt
