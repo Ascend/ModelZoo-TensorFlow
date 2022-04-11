@@ -160,15 +160,16 @@
 
 - 单卡训练 
 
-  1. 配置训练参数。
+  1. 配置训练和测试参数。
 
-     首先在train.py中，配置参数。
+     在train.py、yolo.py中，配置参数。
 
      ```
      classes_path               指向model_data下的voc_classes.txt
      anchors_path               指向model_data下的yolo_anchors.txt'
      train_annotation_path      指向2007_train.txt
      val_annotation_path        指向2007_val.txt'
+     model_path                 指向训练好的模型
      ```
 
   2. 启动训练。
