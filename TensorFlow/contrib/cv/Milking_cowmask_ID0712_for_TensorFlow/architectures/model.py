@@ -147,7 +147,13 @@ class Model():
         self.seed = 123
         self.create_net()
         self.saver = tf.train.Saver()
-        self.sess = tf.Session(config=npu_config_proto())
+        config_proto = tf.ConfigProto()
+        custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
+        custom_op.name = 'NpuOptimizer'
+        custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+        config = npu_config_proto(config_proto=config_proto)
+        self.sess = tf.Session(config=config)
+        # self.sess = tf.Session(config=npu_config_proto())
         self.metrics['init'] = tf.global_variables_initializer()
         if ckpt:
             model_file = tf.train.latest_checkpoint(self.metrics['model_path'])
