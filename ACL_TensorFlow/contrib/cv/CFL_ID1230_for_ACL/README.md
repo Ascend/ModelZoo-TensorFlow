@@ -131,7 +131,7 @@ get_pb.py的工作逻辑为：
 
 - 中间文件
 
-  离线推理过程生成的中间文件可在百度网盘获取https://pan.baidu.com/s/1TSK8yJLm32jhE1SBbcPDvQ，提取码：14uq
+  离线推理过程生成的中间文件可在[百度网盘](https://pan.baidu.com/s/1TSK8yJLm32jhE1SBbcPDvQ)获取，提取码：14uq
 
   百度网盘文件夹中文件结构如下图所示：
 
