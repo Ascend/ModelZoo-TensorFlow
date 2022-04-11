@@ -124,13 +124,13 @@ else
 fi
 
 # 性能相关数据计算
-StepTime=`grep "ms/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
-FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}*1000'}'`
+StepTime=`cat ${print_log} | tr -d '\b\r' | grep -Eo "[0-9]*ms/step" | head -n -2 | awk '{sum+=$1} END {print"",sum/NR}' | sed s/[[:space:]]//g`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}*1000'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`cat ${print_log} | tr -d '\b\r'| grep -Eo "acc: [0-9]*\.[0-9]*" | awk '{print $2}' | awk '{if (NR%91 == 0) print $0; }' | awk 'NR==1{max=$1;next}{max=max>$1?max:$1}END{print max}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+cat ${print_log} | tr -d '\b\r'| grep -Eo "loss: [0-9]*\.[0-9]*" | awk '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
