@@ -153,7 +153,7 @@ CaseName=${Network}_bs${batch_size}_${RankSize}'p'_'perf'
 TrainingTime=`grep "Time" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk 'END{print $6}'`
 wait
 ActualFPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${TrainingTime}'}'`
-train_accuracy="None"
+train_accuracy=`grep -a 'd_loss:' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${ASCEND_DEVICE_ID}.log | awk 'END{print $2}'`
 
 ##获取性能数据，不需要修改
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
