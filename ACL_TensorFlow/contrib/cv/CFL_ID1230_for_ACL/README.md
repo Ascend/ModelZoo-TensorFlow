@@ -142,7 +142,7 @@ get_pb.py的工作逻辑为：
                  |--tf_cfl_output_0.bin  //离线推理预测出的.bin文件
        |--data
             |--p1b.bin                   //将图片转换成的.bin文件
-       |--tf_cfl.om                      //使用ATC工具，将cflnet.pb转换为tf_cfl.om文件
+       |--tf_cfl.om                      //使用ATC工具,将cflnet.pb转换为tf_cfl.om文件
        |--cflnet.pb                      //运行get_pb.py文件生成的cflnet.pb
       
   ```
@@ -169,10 +169,10 @@ get_pb.py的工作逻辑为：
 |--jpg2bin.py                 //.jpg文件转.bin
 |--p1b.bin                    //p1.jpg生成的.bin文件
 |--tf_cfl_output_0.bin        //离线推理预测生成的.bin文件
-|--p1_EM_test.jpg             //离线推理预测生成的.bin文件生成的.jpg，边图
-|--p1_CM_test.jpg             //离线推理预测生成的.bin文件生成的.jpg，角图
-|--p1_EM.jpg                  //测试图片的ground_truth，边图
-|--p1_CM.jpg                  //测试图片的ground_truth，角图
+|--p1_EM_test.jpg             //离线推理预测生成的.bin文件生成的.jpg,边图
+|--p1_CM_test.jpg             //离线推理预测生成的.bin文件生成的.jpg,角图
+|--p1_EM.jpg                  //测试图片的ground_truth,边图
+|--p1_CM.jpg                  //测试图片的ground_truth,角图
 |--modelzoo_level.txt         //离线推理进度
 |--requirements.txt           //python依赖列表
 |--pb_model                   //存放pb模型
