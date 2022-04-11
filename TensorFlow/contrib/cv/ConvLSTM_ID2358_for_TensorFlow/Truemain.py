@@ -49,7 +49,7 @@ from cell import ConvLSTMCell  # added
 
 USE_CUDA = True
 
-LSTM_HIDDEN_SIZE = 50
+LSTM_HIDDEN_SIZE = 550
 TIME_STEPS = 1
 K = 100
 
@@ -447,7 +447,7 @@ if __name__ == '__main__':
     parser.add_argument('--trajectory_length', default=4)#此处在326已改好，不影响后面
     parser.add_argument('--lr', default=0.0001)
     parser.add_argument('--train_iter', default=1)
-    parser.add_argument('--time_steps', default=1)
+    parser.add_argument('--time_steps', default=100)
     args = parser.parse_args()
     train(args, args.datapath, args.outputpath, args.train_iter, args.trajectory_length)
 """以下为测试模块，可以注释掉上面if __name__ == '__main__'块代码，换好路径后进行测试"""
