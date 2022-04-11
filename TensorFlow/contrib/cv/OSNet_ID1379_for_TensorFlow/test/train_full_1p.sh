@@ -12,7 +12,7 @@ cur_path=`echo $(cd $(dirname $0);pwd)`
 perf_flag=`echo $0 | grep performance | wc -l`
 
 # 当前执行网络的名称
-Network=`echo $(cd $(dirname $0);pwd) | awk -F"/" '{print $NF}'`
+Network=`echo $(cd $(dirname $0);pwd) | awk -F"/" '{print $(NF-1)}'`
 
 export RANK_SIZE=1
 export RANK_ID=0
@@ -156,9 +156,9 @@ fi
 get_casename
 
 # 重命名loss文件
-if [ -f ./output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
+if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
 then
-    mv ./output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
+    mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
 fi
 
 # 训练端到端耗时
