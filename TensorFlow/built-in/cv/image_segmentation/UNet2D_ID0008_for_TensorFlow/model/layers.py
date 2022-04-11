@@ -18,6 +18,7 @@
 """
 
 import tensorflow as tf
+from npu_bridge.npu_init import *
 
 
 def _crop_and_concat(inputs, residual_input):
@@ -126,7 +127,8 @@ def bottleneck(inputs, filters, mode):
 
         training = (mode == tf.estimator.ModeKeys.TRAIN)
 
-        out = tf.layers.dropout(out, rate=0.5, training=training)
+        # out = tf.layers.dropout(out, rate=0.5, training=training)
+        out = npu_ops.dropout(out, keep_prob=0.5)
 
         return tf.layers.conv2d_transpose(inputs=out,
                                           filters=filters // 2,
