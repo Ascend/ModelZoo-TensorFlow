@@ -1,5 +1,6 @@
 pwd=`pwd`
 dir_name=`dirname $pwd`
+pip3 install -e ${dir_name}
 export SOC_VERSION=Ascend910
 export JOB_ID=10087
 export DEVICE_ID=0
