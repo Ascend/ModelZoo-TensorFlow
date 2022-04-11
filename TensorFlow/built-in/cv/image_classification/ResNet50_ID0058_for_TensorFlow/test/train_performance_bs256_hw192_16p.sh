@@ -8,7 +8,6 @@ export RANK_SIZE=16
 export JOB_ID=99990001
 export RANK_ID=8
 export SLOG_PRINT_TO_STDOUT=0
-# export RANK_TABLE_FILE=${cur_path}/../configs/8p.json
 export HCCL_CONNECT_TIMEOUT=600
 RANK_ID_START=0
 
@@ -31,7 +30,6 @@ train_steps=2000
 learning_rate=
 
 #维测参数，precision_mode需要模型审视修改
-#precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
 over_dump=False
 data_dump_flag=False
@@ -126,7 +124,6 @@ start_time=$(date +%s)
 
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../
-# for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 for((RANK_ID=$((rank_size*server_index));RANK_ID<$((((server_index+1))*rank_size));RANK_ID++));
 do
     #设置环境变量，不需要修改
@@ -179,10 +176,7 @@ FPS=`cat ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | 
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
-#输出训练精度,需要模型审视修改
-#train_accuracy=`grep -A 1 top1 $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'`
 #打印，不需要修改
-#echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
 
 #稳定性精度看护结果汇总
