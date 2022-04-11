@@ -1,0 +1,21 @@
+{
+    "black-list":{
+        "to-add":[
+            "SquaredDifference",
+            "AddN",
+            "Add",
+            "Relu",
+            "Sigmoid",
+            "Assign",
+            "Minimum",
+            "Square",
+            "Sub",
+            "Mul",
+            "RealDiv",
+            "ConfusionSoftmaxGrad",
+            "ReduceSumD",
+            "SoftmaxCrossEntropyWithLogits",
+            "StridedSliceD"
+        ]
+    }
+}

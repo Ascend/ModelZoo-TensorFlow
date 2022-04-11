@@ -240,7 +240,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
     
         3.1 8卡训练指令（脚本位于ResNet50_ID0360_for_TensorFlow2.X/test/train_full_8p_256bs_SGD.sh),请确保下面例子中的“--data_path”修改为用户的ImageNet的路径。
     
-            bash test/train_full_8p_128bs.sh --data_path=/home/ImageNet
+            bash test/train_full_8p_256bs_SGD.sh --data_path=/home/ImageNet
 
 
 
