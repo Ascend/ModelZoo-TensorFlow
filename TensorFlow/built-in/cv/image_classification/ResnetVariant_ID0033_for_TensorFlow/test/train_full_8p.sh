@@ -99,7 +99,7 @@ start_time=$(date +%s)
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../automl/examples/
 ASCEND_DEVICE_ID=0
-    
+export TE_PARALLEL_COMPILER=0
 #创建DeviceID输出目录，不需要修改
 if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
     rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
@@ -133,7 +133,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*1000*10/'${step_time}'}'`
 echo "Final Performance images/sec : $FPS"
 echo "E2E Training Duration sec : $e2e_time"
 
-train_accuracy=`grep -r accuracy $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|grep metrics|awk '{print $8}'|awk -F "}" '{sum+=$1} END {print "AvgAcc =", sum/NR}'`
+train_accuracy=`grep -r accuracy $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|grep metrics|awk '{print $8}'|awk -F "}" '{sum+=$1} END {print sum/NR}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
