@@ -47,6 +47,7 @@ def main(_):
     config = tf.ConfigProto()
     custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 
     if tf_flags.phase == "train":
