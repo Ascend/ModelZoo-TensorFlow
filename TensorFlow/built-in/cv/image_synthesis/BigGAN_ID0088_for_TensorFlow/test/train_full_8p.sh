@@ -20,7 +20,7 @@ data_path=""
 #网络名称，同目录名称
 Network="BigGAN_ID0088_for_TensorFlow"
 #训练epoch
-epoch=1000
+epoch=100
 #训练batch_size
 RANK_SIZE=8
 batch_size=64
@@ -191,7 +191,7 @@ BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
-`grep "d_loss:" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| awk '{print $14}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
+`grep "d_loss:" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| awk '{print $13}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 train_accuracy=${ActualLoss}
 #关键信息打印到${CaseName}.log中，不需要修改
