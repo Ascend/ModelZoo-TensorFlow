@@ -34,7 +34,7 @@ fi
 data_dump_flag=False
 data_dump_step="10"
 profiling=False
-use_mixlist=False
+use_mixlist=True
 mixlist_file="./configs/ops_info.json"
 fusion_off_flag=False
 fusion_off_file="./configs/fusion_switch.cfg"
