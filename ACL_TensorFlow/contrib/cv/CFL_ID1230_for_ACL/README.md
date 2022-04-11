@@ -95,11 +95,11 @@ get_pb.py的工作逻辑为：
 
   下面展示的分别是p1.jpg原图及其边图、角图的ground truth。
 
-  <img src="D:\az\CFL-master-12-15\CFL-master-11-10(cuda9)\CFL-master\data\test\RGB\pano_0b9db1eaf8b73158dd047b8f810cf0cc.jpg" alt="pano_0b9db1eaf8b73158dd047b8f810cf0cc" style="zoom: 50%;" />
+  <img src="./Images/p1.jpg" alt="pano_0b9db1eaf8b73158dd047b8f810cf0cc" style="zoom: 50%;" />
 
   <center class="half">
-  <img src="D:\az\CFL-master-12-15\CFL-master-11-10(cuda9)\CFL-master\data\test\EM_gt\pano_0b9db1eaf8b73158dd047b8f810cf0cc_EM.jpg" width=300/>
-  <img src="D:\az\CFL-master-12-15\CFL-master-11-10(cuda9)\CFL-master\data\test\CM_gt\pano_0b9db1eaf8b73158dd047b8f810cf0cc_CM.jpg" width=300/>
+  <img src="./Images/p1_EM.jpg" width=300/>
+  <img src="./Images/p1_CM.jpg" width=300/>
   </center>
 
 - 执行命令
@@ -117,8 +117,8 @@ get_pb.py的工作逻辑为：
     下面展示的是边图和角图的预测结果。
 
     <center class="half">
-    <img src="./Images/p1_EM_test" width=300/>
-    <img src="./Images/p1_CM_test" width=300/>
+    <img src="./Images/p1_EM_test.jpg" width=300/>
+    <img src="./Images/p1_CM_test.jpg" width=300/>
     </center>
 
   - 生成图片之后，调用evaluate.py文件，对结果进行精度评估（路径需根据实际情况修改）。
