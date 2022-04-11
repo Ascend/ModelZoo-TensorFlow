@@ -173,6 +173,7 @@ do
             --hooks=ExamplesPerSecondHook,loggingtensorhook \
             --data_dir=${data_path} \
             --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+done
 wait
 #训练结束时间，不需要修改
 end_time=$(date +%s)
