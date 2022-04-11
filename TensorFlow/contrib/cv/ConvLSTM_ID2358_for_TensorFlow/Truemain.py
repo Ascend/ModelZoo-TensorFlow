@@ -49,7 +49,7 @@ from cell import ConvLSTMCell  # added
 
 USE_CUDA = True
 
-LSTM_HIDDEN_SIZE = 550
+LSTM_HIDDEN_SIZE = 50
 TIME_STEPS = 1
 K = 100
 
@@ -417,7 +417,7 @@ class VisualOdometryDataLoader(object):
 
 # Main_Args Class
 class MyArgs():
-    def __init__(self, datapath, bsize, trajectory_length, lr=0.001, time_steps=10, train_iter=5):
+    def __init__(self, datapath, bsize, trajectory_length, lr=0.001, time_steps=100, train_iter=5):
         self.datapath = datapath
         self.bsize = bsize
         self.trajectory_length = trajectory_length
