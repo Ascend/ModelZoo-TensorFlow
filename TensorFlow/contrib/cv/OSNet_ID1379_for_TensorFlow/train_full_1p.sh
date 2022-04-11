@@ -12,15 +12,15 @@ cur_path=`echo $(cd $(dirname $0);pwd)`
 perf_flag=`echo $0 | grep performance | wc -l`
 
 # 当前执行网络的名称
-Network=`echo $(cd $(dirname $0);pwd) | awk -F"/" '{print $(NF-1)}'`
+Network=`echo $(cd $(dirname $0);pwd) | awk -F"/" '{print $NF}'`
 
 export RANK_SIZE=1
 export RANK_ID=0
 export JOB_ID=10087
 
 # 路径参数初始化
-data_path='/home/dingwei/osnet/dataset/Market-1501-v15.09.15'
-output_path='/home/dingwei/osnet/osnet_tf/output'
+data_path=""
+output_path=""
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
@@ -86,10 +86,13 @@ function get_casename()
     fi
 }
 
-# 跳转到code目录
+#切换code目录
 cd ${cur_path}/../
+
+# 删除/新建日志目录
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+
 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
@@ -113,11 +116,11 @@ batch_size=128
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --train_image_dir=${data_path}/bounding_box_train  --num_epoch=3
-    python3.7 ./eval.py --data_path=${data_path}
+    python3.7 ./train.py --train_image_dir=${data_path}/dataset/Market-1501-v15.09.15/bounding_box_train --num_epoch=100 >> ${print_log} 2>&1
+    python3.7 ./eval.py --data_path=${data_path}/dataset/Market-1501-v15.09.15/ >> ${print_log} 2>&1
 else
-    python3.7 ./train.py --train_image_dir=${data_path}/bounding_box_train  --num_epoch=1 1>>${print_log} 2>&1
-    python3.7 ./eval.py --data_path=${data_path} 1>>${print_log} 2>&1
+    python3.7 ./train.py --train_image_dir=${data_path}/dataset/Market-1501-v15.09.15/bounding_box_train --num_epoch=100 >> ${print_log} 2>&1
+    python3.7 ./eval.py --data_path=${data_path}/dataset/Market-1501-v15.09.15/ >> ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -153,9 +156,9 @@ fi
 get_casename
 
 # 重命名loss文件
-if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
+if [ -f ./output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
 then
-    mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
+    mv ./output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
 fi
 
 # 训练端到端耗时
@@ -184,4 +187,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
