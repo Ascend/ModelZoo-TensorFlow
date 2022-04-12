@@ -277,7 +277,7 @@ if __name__ == "__main__":
         logging         = TensorBoard(log_dir)
         loss_history    = LossHistory(log_dir)
         checkpoint      = ModelCheckpoint(os.path.join(save_dir, "yolov5.h5"), 
-                                monitor = 'val_loss', save_weights_only = True, save_best_only = True, period = save_period)
+                                monitor = 'val_loss', save_weights_only = True, save_best_only = False, period = save_period)
         early_stopping  = EarlyStopping(monitor='val_loss', min_delta = 0, patience = 10, verbose = 1)
         lr_scheduler    = LearningRateScheduler(lr_scheduler_func, verbose = 1)
         callbacks       = [logging, loss_history, checkpoint, lr_scheduler]
