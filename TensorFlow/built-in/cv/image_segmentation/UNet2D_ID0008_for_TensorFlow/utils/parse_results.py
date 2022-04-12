@@ -22,7 +22,7 @@ def process_performance_stats(timestamps, batch_size):
     latency_ms = timestamps_ms.mean()
     std = timestamps_ms.std()
     n = np.sqrt(len(timestamps_ms))
-    throughput_imgps = (1000.0 * batch_size / timestamps_ms).mean()
+    throughput_imgps = (10 * 1000.0 * batch_size / timestamps_ms).mean()
 
     stats = [("Throughput Avg", str(throughput_imgps)),
              ('Latency Avg:', str(latency_ms))]

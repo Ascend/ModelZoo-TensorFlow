@@ -87,7 +87,7 @@ def build_estimator(params, model_dir):
         #save_checkpoints_steps=(params.max_steps // hvd.size()) if hvd.rank() == 0 else None,
         save_checkpoints_steps=params.max_steps,
         precision_mode='allow_fp32_to_fp16',
-        iterations_per_loop=1,
+        iterations_per_loop=10,
         hcom_parallel=True,
         keep_checkpoint_max=1)
         # for npu
