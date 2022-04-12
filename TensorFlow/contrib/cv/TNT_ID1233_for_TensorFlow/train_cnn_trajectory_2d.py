@@ -156,9 +156,10 @@ def main(args):
             for k in range(len(total_batch_x)):
                 if np.sum(total_batch_x[k, 0, :, 1]) == 0:
                     remove_idx.append(k)
-            total_batch_x = np.delete(total_batch_x, np.array(remove_idx), axis=0)
-            total_batch_y = np.delete(total_batch_y, np.array(remove_idx), axis=0)
-            print(len(total_batch_y))
+            if len(remove_idx):
+                total_batch_x = np.delete(total_batch_x, np.array(remove_idx), axis=0)
+                total_batch_y = np.delete(total_batch_y, np.array(remove_idx), axis=0)
+                print(len(total_batch_y))
 
             total_batch_x[:, 4:, :, 0] = 10 * total_batch_x[:, 4:, :, 0]
             temp_X = np.copy(total_batch_x)
@@ -915,13 +916,14 @@ def parse_arguments(argv):
                         default='/home/ma-user/modelarts/outputs/train_url_0/temp')
     parser.add_argument('--triplet_model', type=str,
                         default='/home/ma-user/modelarts/outputs/train_url_0/model_data/20211209-124102/ ')
-    parser.add_argument('--max_step', type=int,default='20000000')
+    parser.add_argument('--max_step', type=int,default='2000000')
     parser.add_argument('--save_dir', type=str,
                         default='/home/ma-user/modelarts/outputs/train_url_0/models/result/model.ckpt')
     parser.add_argument('--output_path', type=str,
                         default='/home/ma-user/modelarts/outputs/train_url_0/logs/')
     return parser.parse_args(argv)
 
+ 
 
 if __name__ == '__main__':
     main(parse_arguments(sys.argv[1:]))
