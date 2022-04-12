@@ -108,25 +108,29 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-
+batch_size=32
 if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ./train_cnn_trajectory_2d.py \
-          --MAT_folder ${data_path}original_data/MOT17Det/mat/ \
+          --MAT_folder ${data_path}/dataset/original_data/MOT17Det/mat \
+          --img_folder ${data_path}/dataset/original_data/MOT17Det/train \
           --temp_folder ${output_path}temp/ \
-          --triplet_model ${data_path}model_data/20211209-124102/ \
-          --save_dir ${output_path}model_data/traj/model.ckpt \
-          --max_step 2001 \
-          --output_path ${output_path}
+          --triplet_model ${data_path}/dataset/model_data/20211209-124102/ \
+          --save_dir ${output_path}model_data/traj/ \
+          --max_step 15 \
+          --output_path ${output_path} >${print_log} 2>&1
+
 
 else
     python3.7 ./train_cnn_trajectory_2d.py \
-          --MAT_folder ${data_path}original_data/MOT17Det/mat/ \
+          --MAT_folder ${data_path}/dataset/original_data/MOT17Det/mat \
+          --img_folder ${data_path}/dataset/original_data/MOT17Det/train \
           --temp_folder ${output_path}temp/ \
-          --triplet_model ${data_path}model_data/20211209-124102/ \
+          --triplet_model ${data_path}/dataset/model_data/20211209-124102/ \
           --save_dir ${output_path}model_data/traj/ \
-          --max_step 2001 \
-          --output_path ${output_path}
+          --max_step 15 \
+          --output_path ${output_path} >${print_log} 2>&1
+
 fi
 
 # 性能相关数据计算
@@ -192,4 +196,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
