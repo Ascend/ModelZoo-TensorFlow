@@ -98,6 +98,7 @@ start_time=$(date +%s)
 
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../automl/examples/
+unset ASCEND_DEVICE_ID
 ASCEND_DEVICE_ID=0
 export TE_PARALLEL_COMPILER=0
 #创建DeviceID输出目录，不需要修改
