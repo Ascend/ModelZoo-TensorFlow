@@ -19,8 +19,8 @@ export RANK_ID=0
 export JOB_ID=10087
 
 # 路径参数初始化
-data_path='/home/dingwei/osnet/dataset/Market-1501-v15.09.15'
-output_path='/home/dingwei/osnet/osnet_tf/output'
+data_path=""
+output_path=""
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
@@ -86,10 +86,13 @@ function get_casename()
     fi
 }
 
-# 跳转到code目录
+#切换code目录
 cd ${cur_path}/../
+
+# 删除/新建日志目录
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+
 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
@@ -113,21 +116,21 @@ batch_size=128
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --train_image_dir=${data_path}/bounding_box_train  --num_epoch=3
-    python3.7 ./eval.py --data_path=${data_path}
+    python3.7 ./train.py --train_image_dir=${data_path}/dataset/Market-1501-v15.09.15/bounding_box_train --num_epoch=100 >> ${print_log} 2>&1
+    python3.7 ./eval.py --data_path=${data_path}/dataset/Market-1501-v15.09.15/ >> ${print_log} 2>&1
 else
-    python3.7 ./train.py --train_image_dir=${data_path}/bounding_box_train  --num_epoch=1 1>>${print_log} 2>&1
-    python3.7 ./eval.py --data_path=${data_path} 1>>${print_log} 2>&1
+    python3.7 ./train.py --train_image_dir=${data_path}/dataset/Market-1501-v15.09.15/bounding_box_train --num_epoch=100 >> ${print_log} 2>&1
+    python3.7 ./eval.py --data_path=${data_path}/dataset/Market-1501-v15.09.15/ >> ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`grep "ms/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
-FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}*1000'}'`
+StepTime=`cat ${print_log} | tr -d '\b\r' | grep -Eo "[0-9]*ms/step" | head -n -2 | awk '{sum+=$1} END {print"",sum/NR}' | sed s/[[:space:]]//g`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}*1000'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`cat ${print_log} | tr -d '\b\r'| grep -Eo "acc: [0-9]*\.[0-9]*" | awk '{print $2}' | awk '{if (NR%91 == 0) print $0; }' | awk 'NR==1{max=$1;next}{max=max>$1?max:$1}END{print max}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+cat ${print_log} | tr -d '\b\r'| grep -Eo "loss: [0-9]*\.[0-9]*" | awk '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
@@ -184,4 +187,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log

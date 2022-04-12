@@ -114,9 +114,9 @@ batch_size=32
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./Truemain.py --datapath=${data_path} --outputpath=${output_path}
+    python3.7 ./Truemain.py --datapath=${data_path} --outputpath=${output_path} > ${print_log} 2>&1
 else
-    python3.7 ./Truemain.py --datapath=${data_path} --outputpath=${output_path} > ${print_log}#--train_iter=${train_epochs}
+    python3.7 ./Truemain.py --datapath=${data_path} --outputpath=${output_path} > ${print_log} 2>&1 #--train_iter=${train_epochs}
 fi
 
 # 性能相关数据计算，按照关键字，取最后n行中每行的最后一列（默认空格分隔），求平均
