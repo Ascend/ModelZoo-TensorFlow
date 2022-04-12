@@ -8,7 +8,6 @@ import train_app
 from datasets import market1501
 from datasets import util
 import nets.deep_sort.network_definition as net
-import moxing as mox
 from npu_bridge.estimator import npu_ops
 from tensorflow.core.protobuf import rewriter_config_pb2
 import argparse
