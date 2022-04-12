@@ -132,7 +132,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 # 精度相关数据计算
 train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+#grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
@@ -158,10 +158,10 @@ fi
 get_casename
 
 # 重命名loss文件
-if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
-then
-    mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
-fi
+#if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
+#then
+#    mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
+#fi
 
 # 训练端到端耗时
 end_time=$(date +%s)
@@ -187,5 +187,6 @@ echo "DeviceType = `uname -m`" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+#echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "Train_Accuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
