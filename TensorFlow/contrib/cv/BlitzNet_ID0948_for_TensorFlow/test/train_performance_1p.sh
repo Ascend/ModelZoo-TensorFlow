@@ -15,7 +15,7 @@ data_path=''
 ckpt_path=''
 
 #设置默认日志级别,不需要修改
-export ASCEND_GLOBAL_LOG_LEVEL=3
+export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
 #export ASCEND_DEVICE_ID=3
 
 #基础参数，需要模型审视修改
@@ -94,6 +94,7 @@ start_time=$(date +%s)
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/
 
+
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
@@ -147,8 +148,9 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep "sec/batch" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk 'END {print $17}'`
-
+TrainingTime=`grep "sec/batch" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | tail -n +2 | awk '{print $17}' | awk '{sum+=$1} END {print"",sum/NR}' | awk '{print $1}'`
+#输出单步耗时
+echo "Final Performance sec/step : $TrainingTime"
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
