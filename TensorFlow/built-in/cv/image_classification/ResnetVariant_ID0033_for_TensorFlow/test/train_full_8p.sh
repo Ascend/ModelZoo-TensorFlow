@@ -128,13 +128,13 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-step_time=`grep 'INFO loss' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'sec' '{print $1}'|tr -d '('|awk 'NR>2'|awk '{print $NF}'|awk '{sum+=$1} END {print  1000*sum/NR}'`
+step_time=`grep -a 'INFO loss' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'sec' '{print $1}'|tr -d '('|awk 'NR>2'|awk '{print $NF}'|awk '{sum+=$1} END {print  1000*sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*1000*10/'${step_time}'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 echo "E2E Training Duration sec : $e2e_time"
 
-train_accuracy=`grep -r accuracy $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|grep metrics|awk '{print $8}'|awk -F "}" '{sum+=$1} END {print sum/NR}'`
+train_accuracy=`grep -ar accuracy $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|grep metrics|awk '{print $8}'|awk -F "}" '{sum+=$1} END {print sum/NR}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
@@ -152,7 +152,7 @@ TrainingTime=$step_time
 
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep 'INFO loss' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'loss' '{print $2}'|tr -d ','|awk '{print $2}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep -a 'tensorflow:loss' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $3}'|tr -d ',' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
