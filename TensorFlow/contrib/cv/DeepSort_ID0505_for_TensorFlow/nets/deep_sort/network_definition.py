@@ -72,7 +72,8 @@ def create_network(images, num_classes=None, add_logits=True, reuse=None,
     print("feature dimensionality: ", feature_dim)
     network = slim.flatten(network)
 
-    network = slim.dropout(network, keep_prob=0.6)
+    #network = slim.dropout(network, keep_prob=0.6)
+    network = npu_ops.dropout(network, keep_prob=0.6)
     network = slim.fully_connected(
         network, feature_dim, activation_fn=nonlinearity,
         normalizer_fn=batch_norm_fn, weights_regularizer=fc_regularizer,

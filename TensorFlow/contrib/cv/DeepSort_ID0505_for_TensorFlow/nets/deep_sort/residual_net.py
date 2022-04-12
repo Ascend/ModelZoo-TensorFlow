@@ -59,7 +59,8 @@ def create_inner_block(
     if summarize_activations:
         tf.summary.histogram(incoming.name + "/activations", incoming)
 
-    incoming = slim.dropout(incoming, keep_prob=0.6)
+    #incoming = slim.dropout(incoming, keep_prob=0.6)
+    incoming = npu_ops.dropout(incoming, keep_prob=0.6)
 
     incoming = slim.conv2d(
         incoming, n, [3, 3], 1, activation_fn=None, padding="SAME",
