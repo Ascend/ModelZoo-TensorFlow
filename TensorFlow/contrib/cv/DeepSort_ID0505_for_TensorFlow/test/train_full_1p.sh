@@ -113,9 +113,9 @@ steps=100000
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3 ./train_market1501.py --number_of_steps=${steps} --dataset_dir=${data_path}/Market-1501-v15.09.15 --sdk_dir=${data_path}/Market-1501-v15.09.15-baseline --log_dir=${output_path}
+    python3 ./train_market1501.py --number_of_steps=${steps} --dataset_dir=${data_path} --sdk_dir=${data_path}/Market-1501-v15.09.15-baseline --log_dir=${output_path}
 else
-    python3 ./train_market1501.py --number_of_steps=${steps} --dataset_dir=${data_path}/Market-1501-v15.09.15 --sdk_dir=${data_path}/Market-1501-v15.09.15-baseline --log_dir=${output_path} 1>${print_log} 2>&1
+    python3 ./train_market1501.py --number_of_steps=${steps} --dataset_dir=${data_path} --sdk_dir=${data_path}/Market-1501-v15.09.15-baseline --log_dir=${output_path} 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
