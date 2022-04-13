@@ -77,7 +77,7 @@ train_accuracy=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 #稳定性精度看护结果汇总
-#训练用例信息，不需要修改
+
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
