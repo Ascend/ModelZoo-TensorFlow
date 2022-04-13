@@ -20,7 +20,7 @@ export ASCEND_GLOBAL_LOG_LEVEL=3
 
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
-Network="InceptionV4_for_TensorFlow"
+Network="InceptionV4_ID0002_for_TensorFlow"
 #训练epoch
 train_epochs=100
 #训练batch_size
@@ -44,13 +44,13 @@ if [[ $1 == --help || $1 == -h ]];then
     echo " "
     echo "parameter explain:
     --precision_mode           precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
-    --over_dump		           if or not over detection, default is False
-    --data_dump_flag		   data dump flag, default is 0
-    --data_dump_step		   data dump step, default is 10
-    --profiling		           if or not profiling for performance debug, default is False
+    --over_dump                    if or not over detection, default is False
+    --data_dump_flag               data dump flag, default is 0
+    --data_dump_step               data dump step, default is 10
+    --profiling                    if or not profiling for performance debug, default is False
     --autotune                 whether to enable autotune, default is False
-    --data_path		           source data of training
-    -h/--help		           show help message
+    --data_path                    source data of training
+    -h/--help                      show help message
     "
     exit 1
 fi
@@ -76,7 +76,7 @@ do
         mkdir -p ${profiling_dump_path}
     elif [[ $para == --autotune* ]];then
         autotune=`echo ${para#*=}`
-		export autotune=$autotune
+                export autotune=$autotune
         mv $install_path/fwkacllib/data/rl/Ascend910/custom $install_path/fwkacllib/data/rl/Ascend910/custom_bak
         mv $install_path/fwkacllib/data/tiling/Ascend910/custom $install_path/fwkacllib/data/tiling/Ascend910/custom_bak
         autotune_dump_path=${cur_path}/output/autotune_dump
@@ -86,9 +86,6 @@ do
         cp -rf $install_path/fwkacllib/data/rl/Ascend910/custom ${autotune_dump_path}/RL/
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
-    elif [[ $para == --bind_core* ]]; then
-        bind_core=`echo ${para#*=}`
-        name_bind="_bindcore"
     fi
 done
 
@@ -103,7 +100,7 @@ if [[ $autotune == True ]]; then
     train_full_1p.sh --autotune=$autotune --data_path=$data_path
     wait
     autotune=False
-	export autotune=$autotune
+        export autotune=$autotune
 fi
 
 #训练开始时间，不需要修改
@@ -118,13 +115,13 @@ do
     #export RANK_ID_n=$RANK_ID
     export ASCEND_DEVICE_ID=$RANK_ID_n
     ASCEND_DEVICE_ID=$RANK_ID_n
-	
-	# 自行添加环境变量
 
-	export DEVICE_ID=$RANK_ID_n
-	DEVICE_INDEX=$DEVICE_ID
+        # 自行添加环境变量
+
+        export DEVICE_ID=$RANK_ID_n
+        DEVICE_INDEX=$DEVICE_ID
     export DEVICE_INDEX=${DEVICE_INDEX}
-    
+
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
@@ -132,19 +129,12 @@ do
     else
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
-    
-    
+
+
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    corenum=`cat /proc/cpuinfo |grep 'processor' |wc -l`
-    let a=RANK_ID*${corenum}/8
-    let b=RANK_ID+1
-    let c=b*${corenum}/8-1
-    if [ "x${bind_core}" != x ];then
-        bind_core="taskset -c $a-$c"
-    fi
-    ${bind_core} python3.7 train.py --rank_size=8 \
+    python3.7 train.py --rank_size=8 \
         --mode=train_and_evaluate \
         --max_epochs=$train_epochs \
         --T_max=100 \
@@ -153,19 +143,19 @@ do
         --display_every=100 \
         --data_dir=$data_path \
         --lr=0.045 \
-        --log_dir=${cur_path}/output/$ASCEND_DEVICE_ID \
-        --eval_dir=${cur_path}/output/$ASCEND_DEVICE_ID \
+        --log_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
+        --eval_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
         --log_name=inception_v4.log \
         --over_dump=${over_dump} \
         --over_dump_path=${over_dump_path} \
-		> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+                > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
         #--data_dump_flag=${data_dump_flag} \
         #--data_dump_step=${data_dump_step} \
         #--data_dump_path=${data_dump_path} \
         #--profiling=${profiling} \
         #--profiling_dump_path=${profiling_dump_path} \
         #--autotune=${autotune} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
-done 
+done
 wait
 
 #训练结束时间，不需要修改
@@ -175,12 +165,12 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`grep TimeHistory  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $6}'`
+FPS=`grep FPS  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $6}'|awk '{sum+=$1} END {print sum/NR}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep train_accuracy $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $8}'|cut -c 1-5`
+train_accuracy=`grep -A 1 'top1' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
@@ -189,7 +179,7 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据
 #吞吐量，不需要修改
@@ -198,7 +188,7 @@ ActualFPS=${FPS}
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZE}'*1000/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep train_loss $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|grep -v BatchTimestamp|awk '{print $10}'|sed 's/,//g'|sed '/^$/d' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+`grep total_loss $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $10}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
