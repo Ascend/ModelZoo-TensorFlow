@@ -169,7 +169,7 @@ StepTime=`grep "sec/step :" ${print_log} | tail -n 20 | awk -F ':' '{print $NF}'
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Best score_rmd" ${print_log} | tail -n 1 | awk -F / '{print $NF}'`
+train_accuracy=`grep "Best score_rmd" ${print_log} | tail -n 1 | awk -F / '{print $NF}' | awk -F ":" '{print $4}'`
 # 提取所有loss打印信息
 grep "Current score_rmd" ${print_log} | awk -F "/" '{print NF}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
