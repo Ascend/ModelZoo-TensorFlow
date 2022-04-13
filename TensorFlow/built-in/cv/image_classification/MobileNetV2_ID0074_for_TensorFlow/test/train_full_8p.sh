@@ -170,7 +170,7 @@ done
 wait
     python3.7 eval_image_classifier_mobilenet.py \
         --dataset_dir=${data_path} \
-        --checkpoint_path=${cur_path}/../results/model.ckpt-187500>> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+        --checkpoint_path=${cur_path}/../results/model.ckpt-187500 >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 wait
 #训练结束时间，不需要修改
 end_time=$(date +%s)
