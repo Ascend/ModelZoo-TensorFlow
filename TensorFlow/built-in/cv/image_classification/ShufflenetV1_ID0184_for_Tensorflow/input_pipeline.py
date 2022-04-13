@@ -66,7 +66,7 @@ class Pipeline:
         # mix the training examples
         if is_training:
             dataset = dataset.shuffle(buffer_size=SHUFFLE_BUFFER_SIZE)
-        dataset = dataset.repeat(num_epochs)
+        dataset = dataset.repeat()
         
         # decode and augment data (对数据进行相关变换)
         dataset = dataset.apply(tf.contrib.data.map_and_batch(
