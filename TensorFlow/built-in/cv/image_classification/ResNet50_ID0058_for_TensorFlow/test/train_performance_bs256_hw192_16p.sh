@@ -15,7 +15,7 @@ RANK_ID_START=0
 data_path=""
 
 #设置默认日志级别,不需要修改
-export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
+export ASCEND_GLOBAL_LOG_LEVEL=3
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
@@ -172,7 +172,7 @@ sed -i "107s|${cur_path}/output/0/d\_solution/ckpt0|PATH_TO_BE_CONFIGURED|g"  $c
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`cat ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | grep "FPS:" | awk -F "FPS:" '{print $2}' | awk -F "  loss:" '{print $1}' | tail -n +2 | awk '{sum+=$1} END {print sum/NR}'`
+FPS=`cat ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | grep "FPS:" | awk -F "FPS:" '{print $2}' | awk -F "  loss:" '{print $1}' | tail -n +2 | awk '{sum+=$1} END {print sum*2/NR}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
