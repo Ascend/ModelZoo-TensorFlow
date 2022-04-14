@@ -7,7 +7,6 @@ cur_path=`pwd`
 #保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
 export JOB_ID=9999001
 export RANK_SIZE=8
-export RANK_ID=ascend8p
 export SLOG_PRINT_TO_STDOUT=0
 export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 RANK_ID_START=0
@@ -108,17 +107,17 @@ start_time=$(date +%s)
 
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../
-for((RANK_ID_n=$RANK_ID_START;RANK_ID_n<$((RANK_SIZE+RANK_ID_START));RANK_ID_n++));
+for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $RANK_ID_n"
-    #export RANK_ID_n=$RANK_ID
-    export ASCEND_DEVICE_ID=$RANK_ID_n
-    ASCEND_DEVICE_ID=$RANK_ID_n
+    echo "Device ID: $RANK_ID"
+    export RANK_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=$RANK_ID
+    ASCEND_DEVICE_ID=$RANK_ID
 
         # 自行添加环境变量
 
-        export DEVICE_ID=$RANK_ID_n
+        export DEVICE_ID=$RANK_ID
         DEVICE_INDEX=$DEVICE_ID
     export DEVICE_INDEX=${DEVICE_INDEX}
 
