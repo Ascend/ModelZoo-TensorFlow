@@ -300,7 +300,7 @@ def train(args, datapath, outputpath, epoches, trajectory_length):
         if data_loader.current_epoch % 40 == 0:#added，每过40个epoch存储一下
             save_path = saver.save(sess, args.outputpath + 'model' + str(data_loader.current_epoch))#added
         
-        if args.total_steps != -1 and i >= args.total_steps:
+        if int(args.total_steps) != -1 and i >= int(args.total_steps):
             break
  
     save_path = saver.save(sess, args.outputpath + 'model')
