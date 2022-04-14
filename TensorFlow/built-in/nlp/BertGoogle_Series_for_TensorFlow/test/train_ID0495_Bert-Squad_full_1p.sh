@@ -122,7 +122,7 @@ end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep -a "f1" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $4}'|tr -d }`
+train_accuracy=`grep -a "exact_match" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $4}'|tr -d }`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
