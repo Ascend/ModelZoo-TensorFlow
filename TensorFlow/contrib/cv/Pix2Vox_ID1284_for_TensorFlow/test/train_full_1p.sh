@@ -66,14 +66,14 @@ fi
 
 # 设置打屏日志文件名，请保留，文件名为${print_log}
 print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
-etp_flag=${etp_running_flag}
-if [ x"${etp_flag}" != xtrue ];
+modelarts_flag=${MODELARTS_MODEL_PATH}
+if [ x"${modelarts_flag}" != x ];
 then
     echo "running without etp..."
     print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
     print_log="/home/ma-user/modelarts/log/${print_log_name}"
 fi
-echo ${print_log}
+echo "### get your log here : ${print_log}"
 
 CaseName=""
 function get_casename()
@@ -104,26 +104,42 @@ start_time=$(date +%s)
 #========训练执行命令，需要根据您的网络进行修改==============
 #=========================================================
 #=========================================================
+# 基础参数，需要模型审视修改
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-batch_size=64
+batch_size=2
+steps=100
 
-if [ x"${etp_flag}" != xtrue ];
+if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./main_AttSets.py --data_url=${data_path} --train_url=${output_path}
+    python3 main_AttSets.py \
+	--epoch 50 \
+	--batchsize 2 \
+	--train_view_num 64 \
+	--data_url ${data_path} \
+	--total_mv 192 \
+	--train_url train_model
 else
-    python3.7 ./main_AttSets.py --data_url=${data_path} --train_url=${output_path} > ${print_log}
+    python3 main_AttSets.py \
+	--epoch 50 \
+	--batchsize 2 \
+	--train_view_num 64 \
+	--data_url ${data_path} \
+	--total_mv 192 \
+	--train_url train_model 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-# StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
-# FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+StepTime=`grep "TimeHistory" ${print_log} | tail -n 10 | awk '{print $3}' | awk '{sum+=$1} END {print sum/NR}'`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
 train_accuracy=`cat ${print_log} | grep "train single ref_iou" | tail -n 200 | awk -F"[" '{print $NF}' | awk -F"]" '{print $1}'  | awk '{sum+=$1} END {print sum/NR}'`
 # 提取所有loss打印信息
-grep "train single ref_iou: " ${print_log} | awk -F"[" '{print $NF}' | awk -F"]" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep 'rec loss:' ${print_log} |awk  '{print $9}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+
+
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -179,3 +195,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
