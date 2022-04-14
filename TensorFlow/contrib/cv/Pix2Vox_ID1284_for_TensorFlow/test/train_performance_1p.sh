@@ -115,6 +115,7 @@ if [ x"${modelarts_flag}" != x ];
 then
     python3 main_AttSets.py \
 	--epoch 1 \
+    --total_steps ${steps} \
 	--batchsize 2 \
 	--train_view_num 64 \
 	--data_url ${data_path} \
@@ -123,6 +124,7 @@ then
 else
     python3 main_AttSets.py \
 	--epoch 1 \
+    --total_steps ${steps} \
 	--batchsize 2 \
 	--train_view_num 64 \
 	--data_url ${data_path} \
