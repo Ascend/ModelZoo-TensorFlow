@@ -91,9 +91,9 @@ do
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     else
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     fi
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
@@ -108,8 +108,8 @@ do
     --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/wikipedia_128 \
-    --eval_files_dir=${data_path}/cn-wiki-128 \
+    --input_files_dir=${data_path}/train_phase1 \
+    --eval_files_dir=${data_path}/eval_phase1 \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \

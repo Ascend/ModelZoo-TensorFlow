@@ -91,9 +91,9 @@ do
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     else
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     fi
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
@@ -108,8 +108,8 @@ do
     --optimizer_type=lamb \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/en_wiki_len512 \
-    --eval_files_dir=${data_path}/en_wiki_len512 \
+    --input_files_dir=${data_path}/train \
+    --eval_files_dir=${data_path}/eval \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \
@@ -139,9 +139,9 @@ TrainingTime=`awk 'BEGIN{printf "%.2f\n", '${batch_size}' * '${RANK_SIZE}' / '${
 echo "Final Performance images/sec : $ActualFPS"
 
 #输出训练精度,需要模型审视修改
-TrainAccuracy=`grep -A 1 top1 $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'`
+#train_accuracy=`grep -A 1 top1 $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'`
 #打印，不需要修改
-echo "Final Train Accuracy : ${TrainAccuracy}"
+#echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
 
 #稳定性精度看护结果汇总

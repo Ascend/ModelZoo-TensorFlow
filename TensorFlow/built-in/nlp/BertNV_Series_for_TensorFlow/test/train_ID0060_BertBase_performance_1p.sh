@@ -91,9 +91,9 @@ do
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     else
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     fi
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
@@ -108,8 +108,8 @@ do
     --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/../wikipedia_128 \
-    --eval_files_dir=${data_path} \
+    --input_files_dir=${data_path}/train_phase1 \
+    --eval_files_dir=${data_path}/eval_phase1 \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \
@@ -122,7 +122,7 @@ do
     --npu_bert_loss_scale=0 \
     --over_dump=${over_dump} \
     --over_dump_path=${over_dump_path} \
-    --output_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/d_solution/ckpt${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+    --output_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
 
@@ -133,10 +133,10 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-step_per_sec=`cat ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | grep "global_step/sec:" | awk -F "global_step/sec: " '{print $2}' | awk '{sum+=$1} END {print sum/NR}'`
-FPS=`awk 'BEGIN {printf "%.2f\n", '${step_per_sec}' * '${batch_size}'}'`
+ActualFPS=`grep Throughput ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk 'END {print $6}'`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n", '${batch_size}' * '${RANK_SIZE}' / '${ActualFPS}'}'`
 #打印，不需要修改
-echo "Final Performance images/sec : $FPS"
+echo "Final Performance images/sec : $ActualFPS"
 
 #输出训练精度,需要模型审视修改
 #train_accuracy=`grep -A 1 top1 $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'`
@@ -150,11 +150,6 @@ BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
-##获取性能数据
-#吞吐量，不需要修改
-ActualFPS=${FPS}
-#单迭代训练时长，不需要修改
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${RANK_SIZE}'*1000/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep "tensorflow:loss =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F "loss = " '{print $2}' | awk -F "," '{print $1}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt

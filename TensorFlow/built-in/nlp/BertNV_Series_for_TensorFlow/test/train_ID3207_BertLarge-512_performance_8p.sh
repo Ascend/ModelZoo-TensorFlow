@@ -14,7 +14,7 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertLarge-512_ID3068_for_TensorFlow"
+Network="BertLarge-512_ID3207_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
@@ -116,7 +116,7 @@ do
     --learning_rate=5e-5 \
     --num_warmup_steps=0 \
     --num_train_steps=${train_steps} \
-    --optimizer_type=lamb \
+    --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
     --input_files_dir=${data_path}/train \
