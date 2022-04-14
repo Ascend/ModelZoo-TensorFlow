@@ -142,7 +142,6 @@ do
         --train_batch_size=${batch_size} \
         --eval_batch_size=${batch_size} \
         --max_train_step=2000 \
-        --num_epochs=5 \
         --iterations_per_loop=100 \
         --initial_learning_rate=0.06 \
         --end_learning_rate=2e-6 \
