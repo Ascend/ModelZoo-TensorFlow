@@ -62,6 +62,7 @@ parser.add_argument("--epoch", type=int, default=20)
 parser.add_argument("--batchsize", type=int, default=2)
 parser.add_argument("--train_view_num", type=int, default=24)
 parser.add_argument("--total_mv", type=int, default=24)
+parser.add_argument("--total_steps", type=int, default=-1)
 
 obs_config = parser.parse_args()
 
@@ -619,6 +620,8 @@ class Network:
             train_view_num = obs_config.train_view_num
             data.shuffle_train_files(epoch, train_mv=train_view_num)
             total_train_batch_num = data.total_train_batch_num  #int(len(self.X_rgb_train_files)/(self.batch_size*train_mv))
+            if obs_config.total_steps != -1:
+                total_train_batch_num = obs_config.total_steps
             print ('total_train_batch_num:', total_train_batch_num)
             for i in range(total_train_batch_num):
                 #### training
