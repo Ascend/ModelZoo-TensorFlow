@@ -88,7 +88,7 @@ def parse_args():
                         help="""the number of steps in devices for each iteration""")
     parser.add_argument('--num_epochs', default=1, type=int,
                         help="""total epochs for training""")
-    parser.add_argument('--epochs_between_evals', default=5, type=int,
+    parser.add_argument('--epochs_between_evals', default=50, type=int,
                         help="""the interval between train and evaluation , only meaningful
                         when the mode is train_and_evaluate""")
     parser.add_argument('--model_dir', default='',
