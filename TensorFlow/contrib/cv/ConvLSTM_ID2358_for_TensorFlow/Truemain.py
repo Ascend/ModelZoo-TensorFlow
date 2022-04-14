@@ -299,6 +299,10 @@ def train(args, datapath, outputpath, epoches, trajectory_length):
         print('sec/step : %s' % (end - start))#单步时间计算
         if data_loader.current_epoch % 40 == 0:#added，每过40个epoch存储一下
             save_path = saver.save(sess, args.outputpath + 'model' + str(data_loader.current_epoch))#added
+        
+        if args.total_steps != -1 and i >= args.total_steps:
+            break
+ 
     save_path = saver.save(sess, args.outputpath + 'model')
     print("Model saved in file: %s" % save_path)
     print("epochs trained: " + str(data_loader.current_epoch))
@@ -448,6 +452,7 @@ if __name__ == '__main__':
     parser.add_argument('--lr', default=0.0001)
     parser.add_argument('--train_iter', default=1)
     parser.add_argument('--time_steps', default=1)
+    parser.add_argument('--total_steps', default=-1)
     args = parser.parse_args()
     train(args, args.datapath, args.outputpath, args.train_iter, args.trajectory_length)
 """以下为测试模块，可以注释掉上面if __name__ == '__main__'块代码，换好路径后进行测试"""
