@@ -58,6 +58,11 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--train_url', type=str, help='the path model saved')
 parser.add_argument("--data_url", type=str, default="./dataset")
+parser.add_argument("--epoch", type=int, default=20)
+parser.add_argument("--batchsize", type=int, default=2)
+parser.add_argument("--train_view_num", type=int, default=24)
+parser.add_argument("--total_mv", type=int, default=24)
+
 obs_config = parser.parse_args()
 
 ###################
@@ -80,12 +85,14 @@ multi_view_train = True
 
 plot_list_iou = []
 plot_list_i = []
-iii = 0
-config = {}  # python dictionary
-config['batch_size'] = batch_size
-config['total_mv'] = total_mv
-# config['cat_names'] = ['02691156','02828884','04530566','03636649','03001627']
-# config['cat_names'] = ['02691156','02828884','02933112','02958343','03001627','03211117',
+iii=0
+config={}                                 # python dictionary
+##config['batch_size'] = batch_size
+#config['total_mv'] = total_mv
+config['batch_size'] = obs_config.batchsize
+config['total_mv'] = obs_config.total_mv
+#config['cat_names'] = ['02691156','02828884','04530566','03636649','03001627']
+#config['cat_names'] = ['02691156','02828884','02933112','02958343','03001627','03211117',
 #            '03636649','03691459','04090263','04256520','04379243','04401088','04530566']
 config['cat_names'] = ['02691156']
 for name in config['cat_names']:
@@ -248,7 +255,7 @@ def attsets_fc(x, out_ele_num):
         ########## option 1
         weights_1st = weights_1st
         ########## option 2
-        #		weights_1st = tf.nn.tanh(weights_1st)
+        #        weights_1st = tf.nn.tanh(weights_1st)
 
         ####################
         weights_1st = tf.reshape(weights_1st, [-1, in_ele_num, out_ele_num, out_ele_len], name="att_fc_out")
@@ -326,8 +333,8 @@ class Network:
             print("Network Structure")
             print("base_r2n2", X_rgb.shape)  # base_r2n2 (?, 127, 127, 3)
 
-            #			plot_buf_1= tf.reshape(X_rgb, [-1, 127, 127, 3]) ###################
-            #			tf.summary.image("Input", plot_buf_1)###############################
+            #            plot_buf_1= tf.reshape(X_rgb, [-1, 127, 127, 3]) ###################
+            #            tf.summary.image("Input", plot_buf_1)###############################
 
             en_c = [96, 128, 256, 256, 256, 256]
             l1 = tools.Ops.xxlu(tools.Ops.conv2d(X_rgb, k=7, out_c=en_c[0], str=1, name='en_c1'), label='lrelu')
@@ -337,8 +344,8 @@ class Network:
             l2 = tools.Ops.maxpool2d(l2, k=2, s=2, name='en_mp1')
             print("l2_r2n", l2.shape)  # l2_r2n (?, 64, 64, 96)
 
-            #			plot_buf_1= tf.reshape(l2, [-1, 32, 32, 3]) #########################
-            #			tf.summary.image("L2_MP_en", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(l2, [-1, 32, 32, 3]) #########################
+            #            tf.summary.image("L2_MP_en", plot_buf_1)#############################
 
             l3 = tools.Ops.xxlu(tools.Ops.conv2d(l2, k=3, out_c=en_c[1], str=1, name='en_c3'), label='lrelu')
             print("l3_r2n", l3.shape)  # l3_r2n (?, 64, 64, 128)
@@ -350,8 +357,8 @@ class Network:
             l4 = tools.Ops.maxpool2d(l4, k=2, s=2, name='en_mp2')
             print("l4+l22_r2n", l4.shape)  # l4+l22_r2n (?, 32, 32, 128)
 
-            #			plot_buf_1= tf.reshape(l4, [-1, 32, 32, 3]) ##########################
-            #			tf.summary.image("l4+l22_en", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(l4, [-1, 32, 32, 3]) ##########################
+            #            tf.summary.image("l4+l22_en", plot_buf_1)#############################
 
             l5 = tools.Ops.xxlu(tools.Ops.conv2d(l4, k=3, out_c=en_c[2], str=1, name='en_c5'), label='lrelu')
             print("l5_r2n", l5.shape)  # l5_r2n (?, 32, 32, 256)
@@ -363,21 +370,21 @@ class Network:
             l6 = tools.Ops.maxpool2d(l6, k=2, s=2, name='en_mp3')
             print("l6+l44_r2n", l6.shape)  # l6+l44_r2n (?, 16, 16, 256)
 
-            #			plot_buf_1= tf.reshape(l6, [-1, 16, 16, 3]) ##########################
-            #			tf.summary.image("l6+l44_en", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(l6, [-1, 16, 16, 3]) ##########################
+            #            tf.summary.image("l6+l44_en", plot_buf_1)#############################
 
             l7 = tools.Ops.xxlu(tools.Ops.conv2d(l6, k=3, out_c=en_c[3], str=1, name='en_c7'), label='lrelu')
             print("l7_r2n", l7.shape)  # l7_r2n (?, 16, 16, 256)
             l8 = tools.Ops.xxlu(tools.Ops.conv2d(l7, k=3, out_c=en_c[3], str=1, name='en_c8'), label='lrelu')
             print("l8_r2n", l8.shape)  # l8_r2n (?, 16, 16, 256)
-            #			l66=tools.Ops.conv2d(l6, k=1, out_c=en_c[3], str=1, name='en_c66')
-            #			print("l66_r2n",l66.shape)
-            #			l8=l8+l66
+            #            l66=tools.Ops.conv2d(l6, k=1, out_c=en_c[3], str=1, name='en_c66')
+            #            print("l66_r2n",l66.shape)
+            #            l8=l8+l66
             l8 = tools.Ops.maxpool2d(l8, k=2, s=2, name='en_mp4')
             print("l8_r2n", l8.shape)  # l8_r2n (?, 8, 8, 256)
 
-            #			plot_buf_1= tf.reshape(l8, [-1, 8, 8, 3]) ########################
-            #			tf.summary.image("l8_en", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(l8, [-1, 8, 8, 3]) ########################
+            #            tf.summary.image("l8_en", plot_buf_1)#############################
 
             l9 = tools.Ops.xxlu(tools.Ops.conv2d(l8, k=3, out_c=en_c[4], str=1, name='en_c9'), label='lrelu')
             print("l9_r2n", l9.shape)  # l9_r2n (?, 8, 8, 256)
@@ -389,8 +396,8 @@ class Network:
             l10 = tools.Ops.maxpool2d(l10, k=2, s=2, name='en_mp5')
             print("l10_r2n", l10.shape)  # l10_r2n (?, 4, 4, 256)
 
-            #			plot_buf_1= tf.reshape(l10, [-1, 4, 4, 3]) ########################
-            #			tf.summary.image("l10_en", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(l10, [-1, 4, 4, 3]) ########################
+            #            tf.summary.image("l10_en", plot_buf_1)#############################
 
             l11 = tools.Ops.xxlu(tools.Ops.conv2d(l10, k=3, out_c=en_c[5], str=1, name='en_c11'), label='lrelu')
             print("l11_r2n", l11.shape)  # l11_r2n (?, 4, 4, 256)
@@ -402,8 +409,8 @@ class Network:
             l12 = tools.Ops.maxpool2d(l12, k=2, s=2, name='en_mp6')
             print("l12_r2n", l12.shape)  # l12_r2n (?, 2, 2, 256)
 
-            #			plot_buf_1= tf.reshape(l12, [-1, 2, 2, 3]) ########################
-            #			tf.summary.image("l12_en", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(l12, [-1, 2, 2, 3]) ########################
+            #            tf.summary.image("l12_en", plot_buf_1)#############################
 
             [_, d1, d2, cc] = l12.get_shape()
             l12 = tf.reshape(l12, [-1, int(d1) * int(d2) * int(cc)], name="en_fc1_in")
@@ -438,8 +445,8 @@ class Network:
             d2 = d2 + d00
             print("d2+d00_out_r2n", d2.shape)  # d2+d00_out_r2n (?, 8, 8, 8, 128)
 
-            #			plot_buf_1= tf.reshape(d2, [-1, 8, 8, 4]) ################################
-            #			tf.summary.image("d2+d00_out_de", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(d2, [-1, 8, 8, 4]) ################################
+            #            tf.summary.image("d2+d00_out_de", plot_buf_1)#############################
 
             d3 = tools.Ops.xxlu(tools.Ops.deconv3d(d2, k=3, out_c=de_c[2], str=2, name='de_c3'), label='lrelu')
             print("d3_out_r2n", d3.shape)  # d3_out_r2n (?, 16, 16, 16, 128)
@@ -450,8 +457,8 @@ class Network:
             d4 = d4 + d22
             print("d4+d22_out_r2n", d4.shape)  # d4+d22_out_r2n (?, 16, 16, 16, 128)
 
-            #			plot_buf_1= tf.reshape(d4, [-1, 16, 16, 4]) ##############################
-            #			tf.summary.image("d4+d22_out_de", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(d4, [-1, 16, 16, 4]) ##############################
+            #            tf.summary.image("d4+d22_out_de", plot_buf_1)#############################
 
             d5 = tools.Ops.xxlu(tools.Ops.deconv3d(d4, k=3, out_c=de_c[3], str=2, name='de_c5'), label='lrelu')
             print("d5_out_r2n", d5.shape)  # d5_out_r2n (?, 32, 32, 32, 64)
@@ -462,8 +469,8 @@ class Network:
             d6 = d6 + d44
             print("d6+d44_out_r2n", d6.shape)  # d6+d44_out_r2n (?, 32, 32, 32, 64)
 
-            #			plot_buf_1= tf.reshape(d6, [-1, 32, 32, 4]) ##############################
-            #			tf.summary.image("d6+d44_out_de", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(d6, [-1, 32, 32, 4]) ##############################
+            #            tf.summary.image("d6+d44_out_de", plot_buf_1)#############################
 
             d7 = tools.Ops.xxlu(tools.Ops.deconv3d(d6, k=3, out_c=de_c[4], str=1, name='de_c7'), label='lrelu')
             print("d7_out_r2n", d7.shape)  # d7_out_r2n (?, 32, 32, 32, 32)
@@ -474,14 +481,14 @@ class Network:
             d8 = d8 + d77
             print("d8+d77_out_r2n", d8.shape)  # d8+d77_out_r2n (?, 32, 32, 32, 32)
 
-            #			plot_buf_1= tf.reshape(d8, [-1, 32, 32, 4]) ##############################
-            #			tf.summary.image("d8+d77_out_de", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(d8, [-1, 32, 32, 4]) ##############################
+            #            tf.summary.image("d8+d77_out_de", plot_buf_1)#############################
 
             d11 = tools.Ops.deconv3d(d8, k=3, out_c=de_c[5], str=1, name='de_c9')
             print("d11_out_r2n", d11.shape)  # d11_out_r2n (?, 32, 32, 32, 1)
 
-            #			plot_buf_1= tf.reshape(d11, [-1, 32, 32,4]) ##########################
-            #			tf.summary.image("Ref_input", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(d11, [-1, 32, 32,4]) ##########################
+            #            tf.summary.image("Ref_input", plot_buf_1)#############################
 
             ref_in = tf.reshape(d11, [-1, vox_res32, vox_res32, vox_res32], name="ref_in")  ###
 
@@ -494,8 +501,8 @@ class Network:
         with tf.variable_scope('ref_net'):
             ref_o = refiner_network(ref_in)
 
-            #			plot_buf_1= tf.reshape(ref_o, [-1, 32, 32,4]) ######################
-            #			tf.summary.image("Ref_Out", plot_buf_1)#############################
+            #            plot_buf_1= tf.reshape(ref_o, [-1, 32, 32,4]) ######################
+            #            tf.summary.image("Ref_Out", plot_buf_1)#############################
 
             return ref_o, att_o, weights
 
@@ -585,8 +592,8 @@ class Network:
         self.saver = tf.train.Saver(max_to_keep=1)
 
         config = tf.ConfigProto(allow_soft_placement=True)
-        config.gpu_options.allow_growth = True
-        config.gpu_options.visible_device_list = '0,1'
+        #config.gpu_options.allow_growth = True
+        #config.gpu_options.visible_device_list = '0,1'
 
         self.sess = tf.Session(config=npu_config_proto(config_proto=config))
         #config = npu_config_proto(config_proto=config)
@@ -604,29 +611,30 @@ class Network:
         else:
             self.sess.run(tf.global_variables_initializer())
 
-        return 0
 
+        return 0
+    
     def train(self, data):
-        for epoch in range(0, 50, 1):
-            train_view_num = 24  ##!!!!!!!!!!!
+        for epoch in range(0, obs_config.epoch, 1):
+            train_view_num = obs_config.train_view_num
             data.shuffle_train_files(epoch, train_mv=train_view_num)
-            total_train_batch_num = data.total_train_batch_num  # int(len(self.X_rgb_train_files)/(self.batch_size*train_mv))
-            print('total_train_batch_num:', total_train_batch_num)
+            total_train_batch_num = data.total_train_batch_num  #int(len(self.X_rgb_train_files)/(self.batch_size*train_mv))
+            print ('total_train_batch_num:', total_train_batch_num)
             for i in range(total_train_batch_num):
                 #### training
                 X_rgb_bat, Y_vox_bat = data.load_X_Y_train_next_batch(train_mv=train_view_num)
-                print("multi_view_train_X_rgb_bat : ",
-                      X_rgb_bat.shape)  # np.asarray(X.append(X_rgb[b*train_mv:(b+1)*train_mv,:]))
+                print("multi_view_train_X_rgb_bat : ",X_rgb_bat.shape)#np.asarray(X.append(X_rgb[b*train_mv:(b+1)*train_mv,:]))
+                
 
                 print(time.ctime())
-
+                
                 ##### option 1: seperate train, seperate optimize
-                # if epoch<=30:
-                #	single_view_train=True
-                #	multi_view_train=False
-                # else:
-                #	single_view_train=False
-                #	multi_view_train=True
+                #if epoch<=30:
+                #    single_view_train=True
+                #    multi_view_train=False
+                #else:
+                #    single_view_train=False
+                #    multi_view_train=True
 
                 ##### optiion 2: joint train, seperate optimize
                 single_view_train = True
@@ -647,7 +655,8 @@ class Network:
                     print("single_view_train_rgb_input_shape ", rgb.shape)
                     vox = np.tile(Y_vox_bat[:, None, :, :, :], [1, train_view_num, 1, 1, 1])
                     vox = np.reshape(vox, [batch_size * train_view_num, 32, 32, 32])
-            # vae_loss_c,eee,ddd, rec_loss_c, sum_train,rrr,mean_vae,iou_ref_,iou_vae_ = self.sess.run([self.vae_loss,self.base_en_optim2,self.base_de_optim2,self.rec_loss,self.merged,self.refine_optim,self.mean_loss,self.iou_ref,self.iou_vae],feed_dict={self.X_rgb: rgb, self.Y_vox: vox, self.lr: att_lr,self.refine_lr: ref_lr})
+                    start_time=time.time()    
+                    # vae_loss_c,eee,ddd, rec_loss_c, sum_train,rrr,mean_vae,iou_ref_,iou_vae_ = self.sess.run([self.vae_loss,self.base_en_optim2,self.base_de_optim2,self.rec_loss,self.merged,self.refine_optim,self.mean_loss,self.iou_ref,self.iou_vae],feed_dict={self.X_rgb: rgb, self.Y_vox: vox, self.lr: att_lr,self.refine_lr: ref_lr})
 
                     vae_loss_c = self.sess.run([self.vae_loss], feed_dict={self.X_rgb: rgb, self.Y_vox: vox, self.lr: att_lr,
                                                                self.refine_lr: ref_lr})
@@ -667,14 +676,14 @@ class Network:
                                  feed_dict={self.X_rgb: rgb, self.Y_vox: vox, self.lr: att_lr, self.refine_lr: ref_lr})
                     iou_vae_ = self.sess.run([self.iou_vae], feed_dict={self.X_rgb: rgb, self.Y_vox: vox, self.lr: att_lr,
                                                               self.refine_lr: ref_lr})
-
+                    print('TimeHistory = %.4f' % (time.time()-start_time))
                     print('ep:', epoch, 'i:', i, 'train single rec loss:', rec_loss_c)
                     print('ep:', epoch, 'i:', i, 'train single vae loss:', vae_loss_c)
                     print('ep:', epoch, 'i:', i, 'train single mean_vae loss:', mean_vae)
                     print('ep:', epoch, 'i:', i, 'train single ref_iou:', iou_ref_)
                     print('ep:', epoch, 'i:', i, 'train single vae_iou:', iou_vae_)
 
-        ########## multi view train
+                ########## multi view train
 
                 if multi_view_train:
                     vae_loss_c, rec_loss_c, _, sum_train, xxx, mean_vae, iou_ref_, iou_vae_ = self.sess.run(
@@ -687,21 +696,21 @@ class Network:
                     print('ep:', epoch, 'i:', i, 'train multi ref_iou:', iou_ref_)
                     print('ep:', epoch, 'i:', i, 'train multi vae_iou:', iou_vae_)
 
-        ############
-                if i % 10 == 0:
+                ############
+                if i % 5 == 0:
                     self.sum_writer_train.add_summary(sum_train, epoch * total_train_batch_num + i)
 
 
         #### testing
-                if i % 20 == 0:
+                if i % 10 == 0:
                     X_rgb_batch, Y_vox_batch = data.load_X_Y_test_next_batch(test_mv=3)
 
-        #					vae_pred = tf.get_default_graph().get_tensor_by_name("Decoder/de_out:0")
-        #					ref_pred = tf.get_default_graph().get_tensor_by_name("ref_net/ref_Dec/ref_out:0")
-        #					gt_vox=Y_vox_batch.astype(np.float32)
+        #                    vae_pred = tf.get_default_graph().get_tensor_by_name("Decoder/de_out:0")
+        #                    ref_pred = tf.get_default_graph().get_tensor_by_name("ref_net/ref_Dec/ref_out:0")
+        #                    gt_vox=Y_vox_batch.astype(np.float32)
 
-        #					iou_pred = metric_iou(ref_pred,gt_vox)
-        #					tf.summary.scalar("iou",iou_pred)
+        #                    iou_pred = metric_iou(ref_pred,gt_vox)
+        #                    tf.summary.scalar("iou",iou_pred)
 
                     rrrr, aaaa, rec_loss_te, qwerty, Y_vox_test_pred, att_pred, sum_test, mean_vae, iou_ref_, iou_vae_ = \
                         self.sess.run([self.refine_optim, self.att_optim2, self.rec_loss, self.vae_loss, self.Y_pred, self.weights,
@@ -720,28 +729,28 @@ class Network:
 
                     self.sum_writer_test.add_summary(sum_test, epoch * total_train_batch_num + i)
 
-        #					iou_ref=evaluate_voxel_prediction(ref_pred_,gt_vox)
-        #					iou_vae=evaluate_voxel_prediction(vae_pred_,gt_vox)
+        #                    iou_ref=evaluate_voxel_prediction(ref_pred_,gt_vox)
+        #                    iou_vae=evaluate_voxel_prediction(vae_pred_,gt_vox)
 
-        #					print("Ref_iou:",iou_ref)
-        #					print("Vae_iou:",iou_vae)
+        #                    print("Ref_iou:",iou_ref)
+        #                    print("Vae_iou:",iou_vae)
 
-        #					plot_list_iou.append(iou_ref)
-        #					plot_list_i.append((i/50))
-        #					graph_plot(plot_list_iou,plot_list_i)
+        #                    plot_list_iou.append(iou_ref)
+        #                    plot_list_i.append((i/50))
+        #                    graph_plot(plot_list_iou,plot_list_i)
                     print('ep:', epoch, 'i:', i, 'test rec loss:', rec_loss_te)
                     print('ep:', epoch, 'i:', i, 'test vae loss:', qwerty)
                     print('ep:', epoch, 'i:', i, 'test mean_vae loss:', mean_vae)
                     print('ep:', epoch, 'i:', i, 'test ref_iou:', iou_ref_)
                     print('ep:', epoch, 'i:', i, 'test vae_iou:', iou_vae_)
 
-        #### model saving
-                if i % 100 == 0:
-                    self.saver.save(self.sess, save_path=self.train_mod_dir + '/' + str(epoch) + str(i) + '/' + 'model.cptk')
-                    print('epoch:', epoch, 'i:', i, 'model saved!')
+                #### model saving
+                #if i % 100 == 0 :
+                    #self.saver.save( self.sess, save_path=self.train_mod_dir + 'model.cptk' )
+                    #print ( 'epoch:', epoch, 'i:', i, 'model saved!' )
 
 
-#					plt.show()
+#                    plt.show()
 
 
 ##########
