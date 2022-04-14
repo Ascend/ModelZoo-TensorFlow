@@ -138,7 +138,7 @@ do
   	--loss_scale=dynamic \
   	--max_predictions_per_seq=20 \
   	--max_seq_length=128 \
-	--use_npu_dropout=False \
+	--use_npu_dropout=True \
 	--mixlist_file='ops_info_mul.json' \
   	--model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt_${learning_rate} \
   	--num_accumulation_steps=1 \
