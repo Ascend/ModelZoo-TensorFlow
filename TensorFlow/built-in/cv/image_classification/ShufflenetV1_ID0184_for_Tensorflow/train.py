@@ -86,7 +86,7 @@ def parse_args():
                         help="""max train step""")
     parser.add_argument('--iterations_per_loop', default=10, type=int,
                         help="""the number of steps in devices for each iteration""")
-    parser.add_argument('--num_epochs', default=100, type=int,
+    parser.add_argument('--num_epochs', default=1, type=int,
                         help="""total epochs for training""")
     parser.add_argument('--epochs_between_evals', default=5, type=int,
                         help="""the interval between train and evaluation , only meaningful
@@ -184,17 +184,17 @@ n_loops = math.ceil(args.num_epochs / args.epochs_between_evals)
 schedule = [args.epochs_between_evals for _ in range(int(n_loops))]
 schedule[-1] = args.num_epochs - sum(schedule[:-1])  # over counting.
 
-
+current_steps = 0
 for cycle_index, num_train_epochs in enumerate(schedule):
     tf.compat.v1.logging.info('Starting cycle: %d/%d Num_train_epochs: %d', cycle_index, int(n_loops), int(num_train_epochs))
-    if args.num_epochs:
-        max_steps = num_train_epochs * (args.train_dataset_size // args.train_batch_size // rank_size)
+    if args.max_train_step is None:
+        current_steps += num_train_epochs * (args.train_dataset_size // args.train_batch_size // rank_size)
     else:
-        max_steps = args.max_train_step
+        current_steps += args.max_train_step
 
     estimator.train(input_fn=get_input_fn(True, num_train_epochs),
             hooks=[RestoreMovingAverageHook(PARAMS['model_dir'])],
-            max_steps=max_steps)
+            max_steps=current_steps)
 
     tf.compat.v1.logging.info('Starting to evaluate.')
     estimator.evaluate(input_fn=get_input_fn(False, 1), hooks=[RestoreMovingAverageHook(PARAMS['model_dir'])])
