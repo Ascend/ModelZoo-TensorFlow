@@ -13,11 +13,11 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="Bert-base_ID0060_for_TensorFlow"
+Network="BertBase-512_ID3206_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=128
+batch_size=64
 #训练step
 train_steps=1000
 #学习率
@@ -99,17 +99,17 @@ do
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
     nohup python3.7 $cur_path/../src/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_base_config.json \
-    --max_seq_length=128 \
-    --max_predictions_per_seq=20 \
+    --max_seq_length=512 \
+    --max_predictions_per_seq=76 \
     --train_batch_size=${batch_size} \
-    --learning_rate=1e-4 \
+    --learning_rate=5e-5 \
     --num_warmup_steps=100 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/train_phase1 \
-    --eval_files_dir=${data_path}/eval_phase1 \
+    --input_files_dir=${data_path}/train \
+    --eval_files_dir=${data_path}/eval \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \

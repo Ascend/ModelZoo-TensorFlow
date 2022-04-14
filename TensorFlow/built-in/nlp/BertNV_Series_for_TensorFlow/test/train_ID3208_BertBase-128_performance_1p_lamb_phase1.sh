@@ -13,7 +13,7 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="Bert-base_ID0060_for_TensorFlow"
+Network="BertBase-128_ID3208_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
@@ -105,7 +105,7 @@ do
     --learning_rate=1e-4 \
     --num_warmup_steps=100 \
     --num_train_steps=${train_steps} \
-    --optimizer_type=adam \
+    --optimizer_type=lamb \
     --manual_fp16=True \
     --use_fp16_cls=True \
     --input_files_dir=${data_path}/train_phase1 \

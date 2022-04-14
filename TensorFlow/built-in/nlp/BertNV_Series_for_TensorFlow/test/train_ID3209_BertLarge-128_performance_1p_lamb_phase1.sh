@@ -13,13 +13,13 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="Bert-base_ID0060_for_TensorFlow"
+Network="BertLarge-128_ID3209_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=128
+batch_size=24
 #训练step
-train_steps=1000
+train_steps=100
 #学习率
 learning_rate=
 
@@ -98,14 +98,14 @@ do
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
-    nohup python3.7 $cur_path/../src/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_base_config.json \
+    nohup python3.7 $cur_path/../src/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_large_config.json \
     --max_seq_length=128 \
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
     --learning_rate=1e-4 \
-    --num_warmup_steps=100 \
+    --num_warmup_steps=0 \
     --num_train_steps=${train_steps} \
-    --optimizer_type=adam \
+    --optimizer_type=lamb \
     --manual_fp16=True \
     --use_fp16_cls=True \
     --input_files_dir=${data_path}/train_phase1 \
@@ -115,11 +115,12 @@ do
     --do_train=True \
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
-    --iterations_per_loop=100 \
-    --save_checkpoints_steps=1000 \
+    --iterations_per_loop=10 \
+    --save_checkpoints_steps=100 \
     --npu_bert_clip_by_global_norm=False \
     --distributed=False \
     --npu_bert_loss_scale=0 \
+    --init_loss_scale_value=1 \
     --over_dump=${over_dump} \
     --over_dump_path=${over_dump_path} \
     --output_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &

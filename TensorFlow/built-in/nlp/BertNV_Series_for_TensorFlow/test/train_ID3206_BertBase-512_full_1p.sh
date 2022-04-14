@@ -13,13 +13,13 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertBase-512_ID3069_for_TensorFlow"
+Network="BertBase-512_ID3206_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
 batch_size=64
 #训练step
-train_steps=1000
+train_steps=100000
 #学习率
 learning_rate=
 
@@ -91,9 +91,9 @@ do
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     else
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     fi
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
@@ -103,19 +103,19 @@ do
     --max_predictions_per_seq=76 \
     --train_batch_size=${batch_size} \
     --learning_rate=5e-5 \
-    --num_warmup_steps=100 \
+    --num_warmup_steps=1000 \
     --num_train_steps=${train_steps} \
-    --optimizer_type=lamb \
+    --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/en_wiki_len512 \
-    --eval_files_dir=${data_path}/en_wiki_len512 \
+    --input_files_dir=${data_path}/train \
+    --eval_files_dir=${data_path}/eval \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
-    --iterations_per_loop=100 \
+    --iterations_per_loop=1000 \
     --save_checkpoints_steps=1000 \
     --npu_bert_clip_by_global_norm=False \
     --distributed=False \
@@ -148,7 +148,7 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
@@ -166,4 +166,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${TrainAccuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log

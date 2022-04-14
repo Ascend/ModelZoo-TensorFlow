@@ -13,7 +13,7 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertLarge-512_ID3068_for_TensorFlow"
+Network="BertLarge-512_ID3207_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
@@ -91,9 +91,9 @@ do
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     else
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     fi
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
@@ -105,11 +105,11 @@ do
     --learning_rate=5e-5 \
     --num_warmup_steps=1000 \
     --num_train_steps=${train_steps} \
-    --optimizer_type=lamb \
+    --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/en_wiki_len512 \
-    --eval_files_dir=${data_path}/en_wiki_len512 \
+    --input_files_dir=${data_path}/train \
+    --eval_files_dir=${data_path}/eval \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \

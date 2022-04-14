@@ -4,8 +4,9 @@
 cur_path=`pwd`
 
 #集合通信参数,不需要修改
-export RANK_SIZE=1
+export RANK_SIZE=8
 export JOB_ID=99990001
+export RANK_TABLE_FILE=${cur_path}/../configs/8p.json
 RANK_ID_START=0
 
 # 数据集路径,保持为空,不需要修改
@@ -13,11 +14,11 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="Bert-base_ID0060_for_TensorFlow"
+Network="BertBase-512_ID3206_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=128
+batch_size=64
 #训练step
 train_steps=1000
 #学习率
@@ -85,8 +86,9 @@ start_time=$(date +%s)
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $ASCEND_DEVICE_ID"
+    echo "Device ID: $RANK_ID"
     export RANK_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=$RANK_ID
     
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
@@ -95,21 +97,30 @@ do
     else
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     fi
+    
+     # 绑核，不需要的绑核的模型删除，需要模型审视修改
+    corenum=`cat /proc/cpuinfo |grep "processor"|wc -l`
+    let a=RANK_ID*${corenum}/${RANK_SIZE}
+    let b=RANK_ID+1
+    let c=b*${corenum}/${RANK_SIZE}-1
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
-    #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
-    nohup python3.7 $cur_path/../src/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_base_config.json \
-    --max_seq_length=128 \
-    --max_predictions_per_seq=20 \
+    #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
+    if [ "x${bind_core}" != x ];then
+        bind_core="taskset -c $a-$c"
+    fi
+    nohup ${bind_core} python3.7 $cur_path/../src/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_base_config.json \
+    --max_seq_length=512 \
+    --max_predictions_per_seq=76 \
     --train_batch_size=${batch_size} \
-    --learning_rate=1e-4 \
+    --learning_rate=5e-5 \
     --num_warmup_steps=100 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/train_phase1 \
-    --eval_files_dir=${data_path}/eval_phase1 \
+    --input_files_dir=${data_path}/train \
+    --eval_files_dir=${data_path}/eval \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \
@@ -118,7 +129,8 @@ do
     --iterations_per_loop=100 \
     --save_checkpoints_steps=1000 \
     --npu_bert_clip_by_global_norm=False \
-    --distributed=False \
+    --distributed=True \
+    --npu_bert_tail_optimize=True \
     --npu_bert_loss_scale=0 \
     --over_dump=${over_dump} \
     --over_dump_path=${over_dump_path} \
