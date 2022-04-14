@@ -291,7 +291,7 @@ def train(args, datapath, outputpath, epoches, trajectory_length):
     test_writer = tf.summary.FileWriter(outputpath + 'test')
 
     i = 0
-    while data_loader.current_epoch < int(epoches) and i < args.total_steps:
+    while data_loader.current_epoch < int(epoches):
         start = time.time()
         train_model(data_loader, sess, merged, loss_op, train_op, input_data, labels_, i, test_writer, train_writer)
         i += 1
