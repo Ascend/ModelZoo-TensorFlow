@@ -45,6 +45,7 @@ from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 sess_config = tf.ConfigProto()
 custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
+custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
 sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 sess = tf.Session(config=sess_config)
 K.set_session(sess)
