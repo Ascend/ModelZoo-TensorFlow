@@ -137,7 +137,7 @@ StepTime=`grep "TimeHistory" ${print_log} | tail -n 10 | awk '{print $3}' | awk 
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 提取所有loss打印信息
-grep 'rec loss:' ${print_log} |awk  '{print $9}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep 'rec loss:' ${print_log} |awk  '{print $9}' | tr -d "[]" > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 
