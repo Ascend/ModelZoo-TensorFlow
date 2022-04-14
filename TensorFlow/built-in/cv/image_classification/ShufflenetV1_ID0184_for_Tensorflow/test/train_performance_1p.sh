@@ -117,9 +117,8 @@ do
         --train_batch_size=${batch_size} \
         --eval_batch_size=${batch_size} \
         --max_train_step=2000 \
-        --num_epochs=1 \
         --iterations_per_loop=100 \
-		--precision_mode=${precision_mode} \
+		    --precision_mode=${precision_mode} \
         --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
         --train_data_dir=${data_path}/train_shards \
         --eval_data_dir=${data_path}/eval_shards   > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
