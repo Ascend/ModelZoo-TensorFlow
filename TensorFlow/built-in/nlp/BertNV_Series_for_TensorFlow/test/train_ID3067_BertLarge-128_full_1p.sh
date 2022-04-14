@@ -18,8 +18,9 @@ Network="BertLarge-128_ID3067_for_TensorFlow"
 train_epochs=1
 #训练batch_size
 batch_size=24
-#训练step
-train_steps=100000
+#训练step  1144000 / (24/16)
+# warmup step 10000 / (24/16)
+train_steps=763000
 #学习率
 learning_rate=
 
@@ -103,7 +104,7 @@ do
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
     --learning_rate=1e-4 \
-    --num_warmup_steps=10000 \
+    --num_warmup_steps=7000 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
     --manual_fp16=True \
@@ -116,11 +117,10 @@ do
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
     --iterations_per_loop=1000 \
-    --save_checkpoints_steps=1000 \
+    --save_checkpoints_steps=10000 \
     --npu_bert_clip_by_global_norm=False \
     --distributed=False \
     --npu_bert_loss_scale=0 \
-    --init_loss_scale_value=1 \
     --over_dump=${over_dump} \
     --over_dump_path=${over_dump_path} \
     --output_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &

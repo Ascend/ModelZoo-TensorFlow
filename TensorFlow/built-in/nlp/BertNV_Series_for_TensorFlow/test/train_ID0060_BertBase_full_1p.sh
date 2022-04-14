@@ -19,7 +19,7 @@ train_epochs=1
 #训练batch_size
 batch_size=128
 #训练step
-train_steps=1000
+train_steps=1144000
 #学习率
 learning_rate=
 
@@ -103,7 +103,7 @@ do
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
     --learning_rate=1e-4 \
-    --num_warmup_steps=100 \
+    --num_warmup_steps=5000 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
     --manual_fp16=True \
@@ -115,8 +115,8 @@ do
     --do_train=True \
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
-    --iterations_per_loop=100 \
-    --save_checkpoints_steps=1000 \
+    --iterations_per_loop=1000 \
+    --save_checkpoints_steps=10000 \
     --npu_bert_clip_by_global_norm=False \
     --distributed=False \
     --npu_bert_loss_scale=0 \

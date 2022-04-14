@@ -120,7 +120,6 @@ do
     --npu_bert_clip_by_global_norm=False \
     --distributed=False \
     --npu_bert_loss_scale=0 \
-    --init_loss_scale_value=1 \
     --over_dump=${over_dump} \
     --over_dump_path=${over_dump_path} \
     --output_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
