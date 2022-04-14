@@ -82,13 +82,13 @@ sed -i "s|model_name = \"|model_name = \"${data_path}/models/|g" train.py
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 ln -s ${data_path} ./nn_se/noisy_datasets_16k
-tar zxvf libsndfile-1.0.28.tar.gz
-cd libsndfile-1.0.28
-chmod +x *
-./configure
-make -j20
-cd ..
-source compile.sh
+#tar zxvf libsndfile-1.0.28.tar.gz
+#cd libsndfile-1.0.28
+#chmod +x *
+#./configure
+#make -j20
+#cd ..
+#source compile.sh
 nohup python3 nn_se/_2_train.py ${train_epochs} > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 wait
 #训练结束时间，不需要修改
