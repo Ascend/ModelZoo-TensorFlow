@@ -114,7 +114,7 @@ batch_size=32
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./Truemain.py --datapath=${data_path} --outputpath=${output_path} --total_steps=100 > ${print_log} 2>&1
+    python3.7 ./Truemain.py --datapath=${data_path} --outputpath=${output_path} --total_steps=100 
 else
     python3.7 ./Truemain.py --datapath=${data_path} --outputpath=${output_path} --total_steps=100 > ${print_log} 2>&1 #--train_iter=${train_epochs}
 fi
