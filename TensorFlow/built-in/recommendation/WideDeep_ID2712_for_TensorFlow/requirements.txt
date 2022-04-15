@@ -1,0 +1,4 @@
+sklearn
+pandas
+tables
+tensorflow_transform==0.14.0
