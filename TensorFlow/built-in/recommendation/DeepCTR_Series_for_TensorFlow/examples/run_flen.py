@@ -28,6 +28,7 @@
 # limitations under the License.
 #
 from npu_bridge.npu_init import *
+from tensorflow import keras
 import pandas as pd
 from sklearn.metrics import log_loss, roc_auc_score
 from sklearn.model_selection import train_test_split
@@ -36,8 +37,39 @@ from sklearn.preprocessing import LabelEncoder
 from deepctr.feature_column import SparseFeat,get_feature_names
 from deepctr.models import FLEN
 
-if __name__ == "__main__":
-    data = pd.read_csv('./avazu_sample.txt')
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data_dir', default="./",
+                        help='data path for train')
+    parser.add_argument('--precision_mode', default='allow_fp32_to_fp16',
+                        help='allow_fp32_to_fp16/force_fp16/ '
+                             'must_keep_origin_dtype/allow_mix_precision.')
+    parser.add_argument('--profiling', default=False,
+                        help='if or not profiling for performance debug, default is False')
+    parser.add_argument('--profiling_dump_path', default="/home/data",
+                        help='the path to save profiling data')
+    args = parser.parse_args()
+
+    sess_config = tf.ConfigProto()
+    custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
+    sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+    sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+    custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)
+
+    if args.profiling:
+        custom_op.parameter_map["profiling_mode"].b = True
+        custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes(
+            '{"output":"' + args.profiling_dump_path + '", \
+                          "training_trace":"on", \
+                          "task_trace":"on", \
+                          "aicpu":"on", \
+                          "aic_metrics":"PipeUtilization",\
+                          "fp_point":"concatenate_1/concat", \
+                          "bp_point":"training/Adam/gradients/gradients/AddN_38"}')
+
+    npu_keras_sess = set_keras_session_npu_config(config=sess_config)
+    data = pd.read_csv(os.path.join(args.data_dir,'./avazu_sample.txt'))
     data['day'] = data['hour'].apply(lambda x: str(x)[4:6])
     data['hour'] = data['hour'].apply(lambda x: str(x)[6:])
 
@@ -88,8 +120,11 @@ if __name__ == "__main__":
                   metrics=['binary_crossentropy'], )
 
     history = model.fit(train_model_input, train[target].values,
-                        batch_size=256, epochs=10, verbose=2, validation_split=0.2, )
-    pred_ans = model.predict(test_model_input, batch_size=256)
+                        batch_size=64, epochs=10, verbose=1, validation_split=0.2, )
+    pred_ans = model.predict(test_model_input, batch_size=4)
     print("test LogLoss", round(log_loss(test[target].values, pred_ans), 4))
     print("test AUC", round(roc_auc_score(test[target].values, pred_ans), 4))
+
+if __name__ == "__main__":
+    main()
 

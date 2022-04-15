@@ -28,6 +28,7 @@
 # limitations under the License.
 #
 from npu_bridge.npu_init import *
+from tensorflow import keras
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
@@ -46,9 +47,39 @@ def split(x):
     return list(map(lambda x: key2index[x], key_ans))
 
 
-if __name__ == "__main__":
-    npu_keras_sess = set_keras_session_npu_config()
-    data = pd.read_csv("./movielens_sample.txt")
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data_dir', default="./",
+                        help='data path for train')
+    parser.add_argument('--precision_mode', default='allow_fp32_to_fp16',
+                        help='allow_fp32_to_fp16/force_fp16/ '
+                             'must_keep_origin_dtype/allow_mix_precision.')
+    parser.add_argument('--profiling', default=False,
+                        help='if or not profiling for performance debug, default is False')
+    parser.add_argument('--profiling_dump_path', default="/home/data",
+                        help='the path to save profiling data')
+    args = parser.parse_args()
+
+    sess_config = tf.ConfigProto()
+    custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
+    sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+    sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+    custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)
+
+    if args.profiling:
+        custom_op.parameter_map["profiling_mode"].b = True
+        custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes(
+            '{"output":"' + args.profiling_dump_path + '", \
+                          "training_trace":"on", \
+                          "task_trace":"on", \
+                          "aicpu":"on", \
+                          "aic_metrics":"PipeUtilization",\
+                          "fp_point":"concatenate_1/concat", \
+                          "bp_point":"training/Adam/gradients/gradients/AddN_38"}')
+
+    npu_keras_sess = set_keras_session_npu_config(config=sess_config)
+    data = pd.read_csv(os.path.join(args.data_dir,"./movielens_sample.txt"))
     sparse_features = ["movie_id", "user_id",
                        "gender", "age", "occupation", "zip", ]
     target = ['rating']
@@ -96,6 +127,9 @@ if __name__ == "__main__":
 
     model.compile("adam", "mse", metrics=['mse'], )
     history = model.fit(model_input, data[target].values,
-                        batch_size=256, epochs=10, verbose=2, validation_split=0.2, )
+                        batch_size=160, epochs=10, verbose=1, validation_split=0.2, )
     close_session(npu_keras_sess)
+
+if __name__ == "__main__":
+    main()
 

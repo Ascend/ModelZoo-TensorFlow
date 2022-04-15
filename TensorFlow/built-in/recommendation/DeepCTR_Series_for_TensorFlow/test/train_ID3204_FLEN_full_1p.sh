@@ -15,11 +15,11 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="DeepFM_ID3062_for_TensorFlow"
+Network="FLEN_ID3204_for_TensorFlow"
 #训练epoch
 train_epochs=10
 #训练batch_size
-batch_size=128
+batch_size=64
 #训练step
 train_steps=
 #学习率
@@ -43,7 +43,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_dump_flag		     data dump flag, default is False
     --data_dump_step		     data dump step, default is 10
     --profiling		           if or not profiling for performance debug, default is False
-    --data_path		           source data of training
+	--data_path		           source data of training
     -h/--help		             show help message
     "
     exit 1
@@ -85,6 +85,7 @@ start_time=$(date +%s)
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../examples
 
+
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
@@ -101,7 +102,11 @@ do
     
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    nohup python3 run_classification_criteo.py > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+    nohup python3 run_flen.py \
+        --data_dir=${data_path} \
+        --precision_mode=${precision_mode} \
+        --profiling=${profiling} \
+        --profiling_dump_path=${profiling_dump_path} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
 
@@ -109,11 +114,12 @@ wait
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
 
+
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 # #输出性能FPS，需要模型审视修改
 
-Time=`cat $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|tr -d '\b\r'|grep -Eo "[0-9]*us/sample"|awk -F "us/sample" 'END{print $1}'`
+Time=`cat $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|tr -d '\b\r'|grep -Eo "[0-9]*us/sample"|awk -F "us/sample" 'END {print $1}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", 1 /'${Time}'*1000000}'`
 #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
@@ -136,7 +142,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ActualFPS=${FPS}
 #单迭代训练时长
-TrainingTime=`awk 'BEGIN{printf "%.6f\n",'${BatchSize}'/'${FPS}'}'`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 cat $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|tr -d '\b\r'|grep -Eo " loss: [0-9]*\.[0-9]*"|awk -F " " '{print $2}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
