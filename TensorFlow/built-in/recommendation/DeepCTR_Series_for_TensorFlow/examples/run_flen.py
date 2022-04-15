@@ -36,6 +36,8 @@ from sklearn.preprocessing import LabelEncoder
 
 from deepctr.feature_column import SparseFeat,get_feature_names
 from deepctr.models import FLEN
+import argparse
+import os
 
 def main():
     parser = argparse.ArgumentParser()
