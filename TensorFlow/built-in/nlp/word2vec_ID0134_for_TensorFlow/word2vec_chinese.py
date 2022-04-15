@@ -216,6 +216,7 @@ with tf.Session(graph=graph, config=npu_session_config_init()) as session:
 
     dataset = tf.data.Dataset.from_tensor_slices((batch, labels))
     dataset = dataset.shuffle(buffer_size=10000)
+    dataset = dataset.repeat()
     dataset = dataset.prefetch(buffer_size=tf.contrib.data.AUTOTUNE)
     dataset = dataset.batch(batch_size)
     iterator = dataset.make_initializable_iterator()
@@ -290,6 +291,6 @@ try:
     plot_only = 500
     low_dim_embs = tsne.fit_transform(final_embeddings[:plot_only, :])
     labels = [reverse_dictionary[i] for i in xrange(plot_only)]
-    plot_with_labels(low_dim_embs, labels, fonts=font)
+    #plot_with_labels(low_dim_embs, labels, fonts=font)
 except ImportError:
     print('Please install sklearn, matplotlib, and scipy to visualize embeddings.')
