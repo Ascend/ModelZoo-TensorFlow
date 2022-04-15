@@ -36,6 +36,8 @@ from tensorflow.python.keras.preprocessing.sequence import pad_sequences
 
 from deepctr.feature_column import SparseFeat, VarLenSparseFeat,get_feature_names
 from deepctr.models import DeepFM
+import argparse
+import os
 
 
 def split(x):
