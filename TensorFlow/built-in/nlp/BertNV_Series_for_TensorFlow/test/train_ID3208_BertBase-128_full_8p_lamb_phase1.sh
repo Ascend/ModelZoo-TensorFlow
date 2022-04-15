@@ -125,6 +125,7 @@ do
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \
+    --do_eval=True \
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
     --iterations_per_loop=100 \

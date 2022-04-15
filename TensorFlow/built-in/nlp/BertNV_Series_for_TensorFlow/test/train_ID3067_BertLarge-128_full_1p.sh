@@ -103,7 +103,7 @@ do
     --max_seq_length=128 \
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
-    --learning_rate=1e-4 \
+    --learning_rate=5e-5 \
     --num_warmup_steps=7000 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
@@ -114,6 +114,7 @@ do
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \
+    --do_eval=True \
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
     --iterations_per_loop=1000 \
