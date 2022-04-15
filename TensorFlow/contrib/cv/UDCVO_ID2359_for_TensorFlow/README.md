@@ -106,7 +106,7 @@ cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有�
 
 ## 模型训练
 
-在项目路径下执行如下 shell 命令进行训练：
+在项目路径下执行如下 shell 命令进行训练与精度评估（顺序执行）：
 ```
 python3.7 modelarts_entry_acc.py
 ```
@@ -154,15 +154,6 @@ session = tf.Session(config=config)
 ```
 
 
-
-## 模型评估
-
-运行如下 shell 命令来评估预训练模型精度：
-```
-sh bash/evaluate_voiced_void.sh
-```
-
-可以替换 shell 脚本中的 restore_path 和 output_path 路径来评估自己的 checkpoints 。
 
 ## 评估结果
 
