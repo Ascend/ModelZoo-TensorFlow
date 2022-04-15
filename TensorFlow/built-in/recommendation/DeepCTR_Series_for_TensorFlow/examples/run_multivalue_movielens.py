@@ -48,8 +48,7 @@ def split(x):
             key2index[key] = len(key2index) + 1
     return list(map(lambda x: key2index[x], key_ans))
 
-
-def main():
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_dir', default="./",
                         help='data path for train')
@@ -131,7 +130,4 @@ def main():
     history = model.fit(model_input, data[target].values,
                         batch_size=160, epochs=10, verbose=1, validation_split=0.2, )
     close_session(npu_keras_sess)
-
-if __name__ == "__main__":
-    main()
 
