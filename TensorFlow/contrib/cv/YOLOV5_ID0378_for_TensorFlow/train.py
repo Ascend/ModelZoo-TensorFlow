@@ -1,35 +1,7 @@
-# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ============================================================================
-# Copyright 2021 Huawei Technologies Co., Ltd
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-from npu_bridge.npu_init import *
 import datetime
 import os
-import tensorflow as tf
-from tensorflow.python.keras import backend as K
+
+import tensorflow.keras.backend as K
 from tensorflow.keras.callbacks import (EarlyStopping, LearningRateScheduler,
                              ModelCheckpoint, TensorBoard)
 from tensorflow.keras.layers import Conv2D, Dense, DepthwiseConv2D
@@ -42,29 +14,9 @@ from utils.callbacks import LossHistory
 from utils.dataloader import YoloDatasets
 from utils.utils import get_anchors, get_classes
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
-
-'''
-训练自己的目标检测模型一定需要注意以下几点：
-1、训练前仔细检查自己的格式是否满足要求，该库要求数据集格式为VOC格式，需要准备好的内容有输入图片和标签
-   输入图片为.jpg图片，无需固定大小，传入训练前会自动进行resize。
-   灰度图会自动转成RGB图片进行训练，无需自己修改。
-   输入图片如果后缀非jpg，需要自己批量转成jpg后再开始训练。
-
-   标签为.xml格式，文件中会有需要检测的目标信息，标签文件和输入图片文件相对应。
-
-2、训练好的权值文件保存在logs文件夹中，每个epoch都会保存一次，如果只是训练了几个step是不会保存的，epoch和step的概念要捋清楚一下。
-   在训练过程中，该代码并没有设定只保存最低损失的，因此按默认参数训练完会有100个权值，如果空间不够可以自行删除。
-   这个并不是保存越少越好也不是保存越多越好，有人想要都保存、有人想只保存一点，为了满足大多数的需求，还是都保存可选择性高。
-
-3、损失值的大小用于判断是否收敛，比较重要的是有收敛的趋势，即验证集损失不断下降，如果验证集损失基本上不改变的话，模型基本上就收敛了。
-   损失值的具体大小并没有什么意义，大和小只在于损失的计算方式，并不是接近于0才好。如果想要让损失好看点，可以直接到对应的损失函数里面除上10000。
-   训练过程中的损失值会保存在logs文件夹下的loss_%Y_%m_%d_%H_%M_%S文件夹中
-
-4、调参是一门蛮重要的学问，没有什么参数是一定好的，现有的参数是我测试过可以正常训练的参数，因此我会建议用现有的参数。
-   但是参数本身并不是绝对的，比如随着batch的增大学习率也可以增大，效果也会好一些；过深的网络不要用太大的学习率等等。
-   这些都是经验上，只能靠各位同学多查询资料和自己试试了。
-'''  
-def main():  
+from npu_bridge.npu_init import *
+  
+if __name__ == "__main__":
     #---------------------------------------------------------------------#
     #   classes_path    指向model_data下的txt，与自己训练的数据集相关 
     #                   训练前一定要修改classes_path，使其对应自己的数据集
@@ -95,7 +47,6 @@ def main():
     #      可以设置mosaic=True，直接随机初始化参数开始训练，但得到的效果仍然不如有预训练的情况。（像COCO这样的大数据集可以这样做）
     #   2、了解imagenet数据集，首先训练分类模型，获得网络的主干部分权值，分类模型的 主干部分 和该模型通用，基于此进行训练。
     #----------------------------------------------------------------------------------------------------------------------------#
-    # model_path      = 'model_data/yolov5_s.h5'
     model_path      = ''
     #------------------------------------------------------#
     #   input_shape     输入的shape大小，一定要是32的倍数
@@ -147,7 +98,7 @@ def main():
     #                       (当Freeze_Train=False时失效)
     #------------------------------------------------------------------#
     Init_Epoch          = 0
-    Freeze_Epoch        = 1
+    Freeze_Epoch        = 50
     Freeze_batch_size   = 16
     #------------------------------------------------------------------#
     #   解冻阶段训练参数
@@ -163,7 +114,7 @@ def main():
     #                   默认先冻结主干训练后解冻训练。
     #                   如果设置Freeze_Train=False，建议使用优化器为sgd
     #------------------------------------------------------------------#
-    Freeze_Train        = False
+    Freeze_Train        = True
     
     #------------------------------------------------------------------#
     #   其它训练参数：学习率、优化器、学习率下降有关
@@ -182,6 +133,7 @@ def main():
     #                   当使用SGD优化器时建议设置   Init_lr=1e-2
     #   momentum        优化器内部使用到的momentum参数
     #   weight_decay    权值衰减，可防止过拟合
+    #                   adam会导致weight_decay错误，使用adam时建议设置为0。
     #------------------------------------------------------------------#
     optimizer_type      = "sgd"
     momentum            = 0.937
@@ -194,6 +146,10 @@ def main():
     #   save_period     多少个epoch保存一次权值，默认每个世代都保存
     #------------------------------------------------------------------#
     save_period         = 1
+    #------------------------------------------------------------------#
+    #   save_dir        权值与日志文件保存的文件夹
+    #------------------------------------------------------------------#
+    save_dir            = 'logs'
     #------------------------------------------------------------------#
     #   num_workers     用于设置是否使用多线程读取数据，1代表关闭多线程
     #                   开启后会加快数据读取速度，但是会占用更多内存
@@ -230,6 +186,8 @@ def main():
     sess = tf.Session(config=sess_config)
     K.set_session(sess)
     
+    
+    
     #------------------------------------------------------#
     #   创建yolo模型
     #------------------------------------------------------#
@@ -239,8 +197,7 @@ def main():
         #   载入预训练权重
         #------------------------------------------------------#
         print('Load weights {}.'.format(model_path))
-        model_body.load_weights(model_path, by_name=True)
-        # model_body.load_weights(model_path, by_name=True, skip_mismatch=True)
+        model_body.load_weights(model_path, by_name=False)
 
     model = get_train_model(model_body, input_shape, num_classes, anchors, anchors_mask, label_smoothing)
     
@@ -285,8 +242,8 @@ def main():
         #   判断当前batch_size与64的差别，自适应调整学习率
         #-------------------------------------------------------------------#
         nbs     = 64
-        Init_lr_fit = max(batch_size / nbs * Init_lr, 1e-4)
-        Min_lr_fit  = max(batch_size / nbs * Min_lr, 1e-6)
+        Init_lr_fit = max(batch_size / nbs * Init_lr, 3e-4)
+        Min_lr_fit  = max(batch_size / nbs * Min_lr, 3e-6)
 
         optimizer = {
             'adam'  : Adam(lr = Init_lr_fit, beta_1 = momentum),
@@ -316,14 +273,14 @@ def main():
         #   early_stopping  用于设定早停，val_loss多次不下降自动结束训练，表示模型基本收敛
         #-------------------------------------------------------------------------------#
         time_str        = datetime.datetime.strftime(datetime.datetime.now(),'%Y_%m_%d_%H_%M_%S')
-        log_dir         = os.path.join('logs', "loss_" + str(time_str))
+        log_dir         = os.path.join(save_dir, "loss_" + str(time_str))
         logging         = TensorBoard(log_dir)
         loss_history    = LossHistory(log_dir)
-        checkpoint      = ModelCheckpoint('ckpt/ep{epoch:03d}-loss{loss:.3f}-val_loss{val_loss:.3f}.h5',
+        checkpoint      = ModelCheckpoint(os.path.join(save_dir, "ep{epoch:03d}.h5"), 
                                 monitor = 'val_loss', save_weights_only = True, save_best_only = False, period = save_period)
         early_stopping  = EarlyStopping(monitor='val_loss', min_delta = 0, patience = 10, verbose = 1)
         lr_scheduler    = LearningRateScheduler(lr_scheduler_func, verbose = 1)
-        callbacks       = [logging, loss_history, checkpoint, lr_scheduler, early_stopping]
+        callbacks       = [logging, loss_history, checkpoint, lr_scheduler]
 
         if start_epoch < end_epoch:
             print('Train on {} samples, val on {} samples, with batch size {}.'.format(num_train, num_val, batch_size))
@@ -351,14 +308,14 @@ def main():
             #   判断当前batch_size与64的差别，自适应调整学习率
             #-------------------------------------------------------------------#
             nbs     = 64
-            Init_lr_fit = max(batch_size / nbs * Init_lr, 1e-4)
-            Min_lr_fit  = max(batch_size / nbs * Min_lr, 1e-6)
+            Init_lr_fit = max(batch_size / nbs * Init_lr, 3e-4)
+            Min_lr_fit  = max(batch_size / nbs * Min_lr, 3e-6)
             #---------------------------------------#
             #   获得学习率下降的公式
             #---------------------------------------#
             lr_scheduler_func = get_lr_scheduler(lr_decay_type, Init_lr_fit, Min_lr_fit, UnFreeze_Epoch)
             lr_scheduler    = LearningRateScheduler(lr_scheduler_func, verbose = 1)
-            callbacks       = [logging, loss_history, checkpoint, lr_scheduler, early_stopping]
+            callbacks       = [logging, loss_history, checkpoint, lr_scheduler]
                 
             for i in range(len(model.layers)): 
                 model.layers[i].trainable = True
@@ -386,9 +343,3 @@ def main():
                 callbacks           = callbacks
             )
     sess.close()
-    
-if __name__ == "__main__":
-
-    print(1)
-    main()
-    

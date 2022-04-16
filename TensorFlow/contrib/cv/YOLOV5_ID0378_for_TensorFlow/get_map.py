@@ -26,6 +26,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import os
+import argparse
+
 import xml.etree.ElementTree as ET
 
 from PIL import Image
@@ -36,6 +38,11 @@ from utils.utils import get_classes
 from utils.utils_map import get_coco_map, get_map
 
 if __name__ == "__main__":
+    # 解析输入参数data_url
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--data_url", type=str, default="/home/ma-user/modelarts/inputs/data_url_0")
+    config = parser.parse_args()
+
     '''
     Recall和Precision不像AP是一个面积的概念，在门限值不同时，网络的Recall和Precision值是不同的。
     map计算结果中的Recall和Precision代表的是当预测时，门限置信度为0.5时，所对应的Recall和Precision值。
@@ -70,7 +77,7 @@ if __name__ == "__main__":
     #   指向VOC数据集所在的文件夹
     #   默认指向根目录下的VOC数据集
     #-------------------------------------------------------#
-    VOCdevkit_path  = 'VOCdevkit'
+    VOCdevkit_path  = config.data_url + '/VOCdevkit/'
     #-------------------------------------------------------#
     #   结果输出的文件夹，默认为map_out
     #-------------------------------------------------------#
