@@ -33,6 +33,7 @@ Written by Yu Qian
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from npu_bridge.npu_init import *
 
 import os
 import cv2
@@ -80,9 +81,9 @@ def srnet_datagen():
             w_sum += int(w * scale_ratio)
         
         to_h = cfg.data_shape[0]
+        to_w = 128
         #to_w = w_sum // cfg.batch_size
         #to_w = int(round(to_w / 8)) * 8
-        to_w = 128 
         to_scale = (to_w, to_h) # w first for cv2
         for i in range(cfg.batch_size): 
             i_t_batch[i] = cv2.resize(i_t_batch[i], to_scale)
@@ -111,6 +112,8 @@ def srnet_datagen():
         
         yield [i_t_batch, i_s_batch, t_sk_batch, t_t_batch, t_b_batch, t_f_batch, mask_t_batch]
 
+#每隔一段时间我们要利用当前训练的结果进行预测
+#这里就是获取用来预测的数据的
 def get_input_data(data_dir = cfg.example_data_dir):
     
     # get input data from dir
@@ -133,3 +136,4 @@ def get_input_data(data_dir = cfg.example_data_dir):
         i_s = np.expand_dims(i_s, axis = 0)
         res_list.append([i_t, i_s, (w, h), data_name]) # w first for cv2
     return res_list
+

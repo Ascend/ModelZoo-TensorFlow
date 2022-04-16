@@ -33,6 +33,10 @@ Written by Yu Qian
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import argparse
+import moxing as mox
+
+from npu_bridge.npu_init import *
 
 import tensorflow as tf
 from model import SRNet
@@ -41,24 +45,10 @@ import os
 import cfg
 from utils import *
 from datagen import srnet_datagen, get_input_data
-import argparse
+
+from tensorflow.core.protobuf.rewriter_config_pb2 import  RewriterConfig
 
 def main():
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("version", metavar="V", type=str)
-    parser.add_argument("lr", metavar="L", nargs='?', const=0.001, type=float)
-    args = parser.parse_args()
-    # gpu
-    os.environ['CUDA_VISIBLE_DEVICES'] = str(cfg.gpu)
-
-    if os.path.exists(os.path.join(cfg.trainoutRoot, args.version)):
-        os.mkdir(os.path.join(cfg.trainoutRoot, args.version))
-
-    #path
-    tensorboard_dir = os.path.join(cfg.trainoutRoot, args.version, 'train_logs')
-    lossFilePath = os.path.join(cfg.trainoutRoot, args.version, 'loss.txt')
-    fd = os.open(lossFilePath, os.O_WRONLY | os.O_CREAT);
     # define train_name
     if not cfg.train_name:
         train_name = get_train_name()
@@ -67,15 +57,28 @@ def main():
     
     # define model
     print_log('model compiling start.', content_color = PrintColor['yellow'])
-    model = SRNet(learning_rate=args.lr, dir= tensorboard_dir, shape = cfg.data_shape, name = train_name)
+    model = SRNet(shape = cfg.data_shape, name = train_name)
     print_log('model compiled.', content_color = PrintColor['yellow'])
 
     # define data generator
+    #datagen()之中包含yield，所以不会正真执行，而是返回一个生成器(迭代器)
     gen = srnet_datagen()
     
     with model.graph.as_default():
         init = tf.global_variables_initializer()
-        with tf.Session() as sess:
+        trainCfg = tf.ConfigProto()
+        custom_op = trainCfg.graph_options.rewrite_options.custom_optimizers.add()
+        custom_op.name = "NpuOptimizer"
+        trainCfg.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+
+        #trainCfg.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+        #custom_op.parameter_map["dynamic_input"].b = True
+
+        #custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("dynamic_execute")
+        #custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("data:[-1, 224, 224, 3], [-1, 224, 224, 3], [-1, 224, 224, 1], [-1, 224, 224, 3], [-1, 224, 224, 3], [-1, 224, 224, 3], [-1, 224, 224, 1]")
+
+
+        with tf.Session(config=npu_config_proto()) as sess:
             saver = tf.train.Saver(tf.global_variables(), max_to_keep = 100)
             
             # load pretrained weights or initialize variables
@@ -87,7 +90,6 @@ def main():
                 print_log('weight initialize start.', content_color = PrintColor['yellow'])
                 sess.run(init)
                 print_log('weight initialized.', content_color = PrintColor['yellow'])
-
             
             # train
             print_log('training start.', content_color = PrintColor['yellow'])
@@ -100,8 +102,6 @@ def main():
                 # show loss
                 if global_step % cfg.show_loss_interval == 0 or step == 0:
                     print_log ("step: {:>6d}   d_loss: {:>3.5f}   g_loss: {:>3.5f}".format(global_step, d_loss, g_loss))
-                    lossReportStr = "step: {:>6d}   d_loss: {:>3.5f}   g_loss: {:>3.5f}\n".format(global_step, d_loss, g_loss)
-                    os.write(fd, lossReportStr.encode())
                 
                 # write tensorboard
                 if global_step % cfg.write_log_interval == 0:
@@ -109,20 +109,25 @@ def main():
 
                 # gen example
                 if global_step % cfg.gen_example_interval == 0:
-                    savedir = os.path.join(cfg.trainoutRoot, args.version, 'examples', 'iter-' + str(global_step).zfill(len(str(cfg.max_iter))))
+                    savedir = os.path.join(cfg.example_result_dir, train_name, 'iter-' + str(global_step).zfill(len(str(cfg.max_iter))))
                     predict_data_list(model, sess, savedir, get_input_data())
                     print_log ("example generated in dir {}".format(savedir), content_color = PrintColor['green'])
 
                 # save checkpoint
                 if global_step % cfg.save_ckpt_interval == 0:
-                    savedir = os.path.join(cfg.trainoutRoot, args.version, 'checkpoints', 'iter')
+                    savedir = os.path.join(cfg.checkpoint_savedir, train_name, 'iter')
+                    if not os.path.exists(savedir):
+                        os.makedirs(savedir)
                     save_checkpoint(sess, saver, savedir, global_step)
                     print_log ("checkpoint saved in dir {}".format(savedir), content_color = PrintColor['green'])
 
             print_log('training finished.', content_color = PrintColor['yellow'])
-            pb_savepath = os.path.join(cfg.trainoutRoot, args.version, 'checkpoints', 'final.pb')
+            pb_savepath = os.path.join(cfg.checkpoint_savedir, train_name, 'final.pb')
             save_pb(sess, pb_savepath, ['o_sk', 'o_t', 'o_b', 'o_f'])
             print_log('pb model saved in dir {}'.format(pb_savepath), content_color = PrintColor['green'])
-    os.close(fd)
+
+    mox.file.copy_parallel(src_url = r'\cache\out', dst_url = r'obs:\\cann-nju-srnet\trainout')
+
 if __name__ == '__main__':
     main()
+

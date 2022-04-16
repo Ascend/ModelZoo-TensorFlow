@@ -44,11 +44,9 @@
 * tensorflow 1.15
 
 由于Gitee平台对单文件大小的限制，训练过程之中采用的预训练模型无法直接上传，请通过OBS服务器[下载](https://cann-nju-srnet.obs.cn-north-4.myhuaweicloud.com:443/vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb?AccessKeyId=DNOFMBDXF3DTPNGYLYN7&Expires=1679819348&Signature=xZTguiVqpKyGuGzko/AI8fu0ilM%3D)  
-对于NPU训练，请将预训练模型保存在model_logs/vgg19目录下  
-对于GPU训练，直接将预训练模型保存在当前目录下即可  
+进行训练时，请将预训练模型保存在model_logs/vgg19目录下  
 
-#### NPU训练
-NPU训练依托于华为的Modelarts平台。  
+训练依托于华为的Modelarts平台。  
 首先，下载并安装pycharm以及[华为modelart插件](https://modelarts-pycharm-plugin.obs.cn-north-1.myhuaweicloud.com/Pycharm-ToolKit-3.0.zip)，配置密钥  
 然后，将准备好的数据集上传到华为OBS服务器上，并在modelarts插件之中进行如下配置  
 * Fruquently-used  
@@ -56,17 +54,8 @@ NPU训练依托于华为的Modelarts平台。
   * Boot File Path: 仓库中npu_version/cfg.py对应的本地文件路径  
   * Code Directory: 仓库中npu-version对应的本地文件夹路径  
   * OBS Path: 训练时会自动将代码上传至OBS服务器，OBS Path对应OBS服务器中代码自动上传的位置  
-  * Data Path in OBS: 数据集在OBS服务器之中存放的位置  
-  
-然后即可进行训练，最终的训练结果需要拷贝回OBS服务器，通过更改train.py 101之中dst_url的参数来指定拷贝的目标路径。
-#### GPU训练
-首先，在根目录下创建/srdata和/trainout文件夹，用于存放训练数据以及训练结果。  
-然后，执行以下命令进行训练：  
-```console
-$python3 train.py versionName learningRate
-```
-versionName为用户指定的训练版本，训练结果将被保存在/trainout/versionName目录下；learningRate对应的是此次训练的学习率，默认值为1e-3  
-*** 
+  * Data Path in OBS: 数据集在OBS服务器之中存放的位置    
+然后即可进行训练，最终的训练结果需要拷贝回OBS服务器，通过更改train.py第101行之中的参数dst_url来指定拷贝的目标路径。
 
 ## 测试
 ### 测试流程
@@ -98,6 +87,8 @@ GPU和NPU上训练效果对比如下图：
 不难看出，二者的训练效果相当，且均达到了[复现团队训练时的效果](https://github.com/youdao-ai/SRNet/issues/11)。
 ***
 
-## 数据集
+## 数据集与OBS桶
 训练过程之中所采用的数据集为：[数据集](https://e-share.obs-website.cn-north-1.myhuaweicloud.com?token=F2eF/Z8D+mFBW+7kVK2hix+8Sp1M7bu7F8ghXFWNcp9uxF9jNxIB9bDWCokG6mGrFNRAGp+hhntj2rwzM21E37Ky0dZSgxFetwTBTUL+RhE+OB7BVR2HD5rZrDdeUaH6gejEiAArg7yvDQ087n9uWxH2URogbKlWQLmw7xBZYmTXEenFva32stWa2uyAxPrxmh9dLma7LSj5bqDQFgbvWsWsGVTWQi5fvMd/nqsi+oj3/Ex4KiCCNHYd0/rbOjb1Kk4mT7zm8C6sblxB24o9XnpTYMG+7j0HuClV2ecyM/YDN8FuE7ulj7rwbyMn48rUFg+KuTbpKHq9QDnGipDk9MViMuYvHip7Ngm+0oaapyQTFG1yZB5OjqziH5mnkkb7dihsYwY91uIZ0NOJz3b9AYZ/50f9gv/TPaiLmhTk90acdcp8VxXMdgqWM0oIPWHCGq8Y3C/gLthjsqABjGalW7YdHYl2RNVylcIbSWEa6hSzqf7gCb8/qAeC3urdxBSJM+Ww17WEIjAeuDosgbXll1ZMSwaj/jQuK81EAh38TJQAi3Aqyqn3+ljFIxjINB36)  
-数据集的Access Code为：xx11yy
+数据集的Access Code为：xx11yy  
+训练采用的OBS桶的地址为：[OBS桶](obs://cann-nju-srnet/)
+

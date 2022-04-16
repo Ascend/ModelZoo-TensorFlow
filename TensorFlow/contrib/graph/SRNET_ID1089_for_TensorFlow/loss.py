@@ -33,6 +33,7 @@ Written by Yu Qian
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from npu_bridge.npu_init import *
 
 import tensorflow as tf
 import cfg
@@ -129,3 +130,4 @@ def build_generator_loss(out_g, out_d, out_vgg, labels, name = 'g_loss'):
     
     l = cfg.lt * l_t + cfg.lb * l_b + cfg.lf * l_f
     return l, [l_t_sk, l_t_l1, l_b_gan, l_b_l1, l_f_gan, l_f_l1, l_f_vgg_per, l_f_vgg_style]
+

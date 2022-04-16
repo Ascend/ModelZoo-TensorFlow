@@ -33,6 +33,7 @@ Written by Yu Qian
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from npu_bridge.npu_init import *
 
 import tensorflow as tf
 from model import SRNet
@@ -71,7 +72,7 @@ def main():
     print_log('model compiled.', content_color = PrintColor['yellow'])
 
     with model.graph.as_default():
-        with tf.Session() as sess:
+        with tf.Session(config=npu_config_proto()) as sess:
             saver = tf.train.Saver(tf.global_variables())
             
             # load pretrained weights
@@ -97,3 +98,4 @@ def main():
             
 if __name__ == '__main__':
     main()
+

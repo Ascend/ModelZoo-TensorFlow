@@ -33,6 +33,7 @@ Written by Yu Qian
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from npu_bridge.npu_init import *
 
 import os
 import cv2
@@ -43,13 +44,11 @@ import cfg
 
 class SRNet():
 
-    def __init__(self, dir, learning_rate, shape = [224, 224], name = ''):
+    def __init__(self, shape = [224, 224], name = ''):
 
         self.name = name
         self.cnum = 32
         self.graph = tf.Graph()
-        self.learning_rate = learning_rate
-        self.tensorboard_dir = dir
         with self.graph.as_default():
             self.i_t = tf.placeholder(dtype = tf.float32, shape = [None] + shape + [3])
             self.i_s = tf.placeholder(dtype = tf.float32, shape = [None] + shape + [3])
@@ -122,21 +121,21 @@ class SRNet():
         x = self._conv_bn_relu(x, 8 * self.cnum, name = name + '_conv1_2')
         f1 = x
         
-        x = tf.layers.conv2d_transpose(x, 4 * self.cnum, kernel_size = 3, strides = 2, activation = activation, padding = padding, name = name + '_deconv1')
+        x = tf.layers.Conv2DTranspose(4 * self.cnum, kernel_size = 3, strides = 2, activation = activation, padding = padding, name = name + '_deconv1')(x)
         if fuse and fuse[1] is not None:
             x = tf.concat([x, fuse[1]], axis = -1, name = name + '_fuse2')
         x = self._conv_bn_relu(x, 4 * self.cnum, name = name + '_conv2_1')
         x = self._conv_bn_relu(x, 4 * self.cnum, name = name + '_conv2_2')
         f2 = x
         
-        x = tf.layers.conv2d_transpose(x, 2 * self.cnum, kernel_size = 3, strides = 2, activation = activation, padding = padding, name = name + '_deconv2')
+        x = x = tf.layers.Conv2DTranspose(2 * self.cnum, kernel_size = 3, strides = 2, activation = activation, padding = padding, name = name + '_deconv2')(x)
         if fuse and fuse[2] is not None:
             x = tf.concat([x, fuse[2]], axis = -1, name = name + '_fuse3')
         x = self._conv_bn_relu(x, 2 * self.cnum, name = name + '_conv3_1')
         x = self._conv_bn_relu(x, 2 * self.cnum, name = name + '_conv3_2')
         f3 = x
         
-        x = tf.layers.conv2d_transpose(x, self.cnum, kernel_size = 3, strides = 2, activation = activation, padding = padding, name = name + '_deconv3')
+        x = x = tf.layers.Conv2DTranspose(self.cnum, kernel_size = 3, strides = 2, activation = activation, padding = padding, name = name + '_deconv3')(x)
         x = self._conv_bn_relu(x, self.cnum, name = name + '_conv4_1')
         x = self._conv_bn_relu(x, self.cnum, name = name + '_conv4_2')
         if get_feature_map:
@@ -237,7 +236,7 @@ class SRNet():
         with open(vgg_graph_path, 'rb') as f:
             vgg_graph_def.ParseFromString(f.read())
             _ = tf.import_graph_def(vgg_graph_def, input_map = {"inputs:0": i_vgg})
-        with tf.Session() as sess:
+        with tf.Session(config=npu_config_proto()) as sess:
             o_vgg_1 = sess.graph.get_tensor_by_name("import/block1_conv1/Relu:0")
             o_vgg_2 = sess.graph.get_tensor_by_name("import/block2_conv1/Relu:0")
             o_vgg_3 = sess.graph.get_tensor_by_name("import/block3_conv1/Relu:0")
@@ -256,7 +255,7 @@ class SRNet():
      
     def build_optimizer(self):
 
-        self.learning_rate = tf.train.exponential_decay(learning_rate = self.learning_rate, global_step = self.global_step,
+        self.learning_rate = tf.train.exponential_decay(learning_rate = cfg.learning_rate, global_step = self.global_step,
                                 decay_steps = cfg.decay_steps, decay_rate = cfg.decay_rate, staircase = cfg.staircase)
         d_update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS, scope='D')
         with tf.control_dependencies(d_update_ops):
@@ -288,8 +287,8 @@ class SRNet():
                                               g_summary_loss_b_gan, g_summary_loss_b_l1, g_summary_loss_f_gan,
                                               g_summary_loss_f_l1, g_summary_loss_f_vgg_per, g_summary_loss_f_vgg_style])
         
-        self.d_writer = tf.summary.FileWriter(os.path.join(self.tensorboard_dir, self.name, 'descriminator'), self.graph)
-        self.g_writer = tf.summary.FileWriter(os.path.join(self.tensorboard_dir, self.name, 'generator'), self.graph)
+        self.d_writer = tf.summary.FileWriter(os.path.join(cfg.tensorboard_dir, self.name, 'descriminator'), self.graph)
+        self.g_writer = tf.summary.FileWriter(os.path.join(cfg.tensorboard_dir, self.name, 'generator'), self.graph)
      
     def train_step(self, sess, global_step, i_t, i_s, t_sk, t_t, t_b, t_f, mask_t):
 
@@ -344,3 +343,4 @@ class SRNet():
         o_b = cv2.resize(((o_b[0] + 1.) * 127.5).astype(np.uint8), to_shape)
         o_f = cv2.resize(((o_f[0] + 1.) * 127.5).astype(np.uint8), to_shape)
         return [o_sk, o_t, o_b, o_f]
+

@@ -34,6 +34,8 @@ Written by Yu Qian
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from npu_bridge.npu_init import *
+
 import tensorflow as tf
 from tensorflow.python.framework import graph_util
 import os
@@ -121,4 +123,5 @@ def save_pb(sess, save_path, outputs = ['o_sk', 'o_t', 'o_b', 'o_f']):
     constant_graph = graph_util.convert_variables_to_constants(sess, sess.graph_def, outputs)
     with tf.gfile.FastGFile(save_path, mode='wb') as f:
         f.write(constant_graph.SerializeToString())
+
 
