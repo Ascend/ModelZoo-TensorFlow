@@ -18,6 +18,9 @@ pb文件下载地址 :
 
 ## om模型
 
+pb模型转om模型参考freeze_pb.py
+
+
 om模型下载地址：
 
 链接：https://pan.baidu.com/s/1GCuGdEUiniYZlTdFn2sknw 
