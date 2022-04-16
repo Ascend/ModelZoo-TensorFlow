@@ -1,6 +1,6 @@
 ## 模型功能
 
-行人重识别（REID)
+目标跟踪
 
 ## 原始模型
 
@@ -31,10 +31,8 @@ atc --model=/root/deepsort/deep_sort.pb --framework=3 --output=/root/deepsort/de
 
 ## 数据集准备
 
-VOC原始验证集中的图像数据转换为bin文件参见img2bin.py文件：
+market1501测试集中的图像数据转换为bin数据集 地址：
 
-
-bin格式数据集地址：
 
 链接：https://pan.baidu.com/s/1h9bWDVEW7-voFHFi7TaTuw 提取码：nwyj
 
