@@ -19,7 +19,8 @@ Network="Bert-base_ID0060_for_TensorFlow"
 train_epochs=
 #训练batch_size
 batch_size=128
-#训练step
+#训练step  1144000 / (128/16)
+# warmup step 10000 / (128/16)
 train_steps=143000
 #学习率
 learning_rate=
@@ -115,7 +116,7 @@ do
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
     --learning_rate=1e-4 \
-    --num_warmup_steps=1250 \
+    --num_warmup_steps=1000 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
     --manual_fp16=True \
