@@ -17,7 +17,7 @@ Network="BertLarge-128_ID3067_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=32
+batch_size=128
 #训练step
 train_steps=100
 #学习率
@@ -108,8 +108,8 @@ do
     --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/train_phase1 \
-    --eval_files_dir=${data_path}/eval_phase1 \
+    --input_files_dir=${data_path}/tfrecord/seq_len_128_max_pred_20/wikicorpus_en/training \
+    --eval_files_dir=${data_path}/tfrecord/seq_len_128_max_pred_20/wikicorpus_en/test \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \

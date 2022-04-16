@@ -120,8 +120,8 @@ do
     --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/train \
-    --eval_files_dir=${data_path}/eval \
+    --input_files_dir=${data_path}/tfrecord/seq_len_512_max_pred_80/wikicorpus_en/training \
+    --eval_files_dir=${data_path}/tfrecord/seq_len_512_max_pred_80/wikicorpus_en/test \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \

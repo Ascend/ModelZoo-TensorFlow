@@ -18,10 +18,10 @@ Network="BertLarge-128_ID3067_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=24
-#训练step  1144000 / (24/16) / (512/128)
-# warmup step 10000 / (24/16) / (512/128)
-train_steps=191000
+batch_size=128
+#训练step  1144000 / (128/16)
+# warmup step 10000 / (128/16)
+train_steps=143000
 #学习率
 learning_rate=
 
@@ -115,13 +115,13 @@ do
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
     --learning_rate=5e-5 \
-    --num_warmup_steps=2000 \
+    --num_warmup_steps=1000 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/train_phase1 \
-    --eval_files_dir=${data_path}/eval_phase1 \
+    --input_files_dir=${data_path}/tfrecord/seq_len_128_max_pred_20/wikicorpus_en/training \
+    --eval_files_dir=${data_path}/tfrecord/seq_len_128_max_pred_20/wikicorpus_en/test \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \

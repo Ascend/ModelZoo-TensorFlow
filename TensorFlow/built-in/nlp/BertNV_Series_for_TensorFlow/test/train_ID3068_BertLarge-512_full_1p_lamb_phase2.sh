@@ -100,7 +100,7 @@ do
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
     nohup python3.7 $cur_path/../src/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_large_config.json \
     --max_seq_length=512 \
-    --max_predictions_per_seq=76 \
+    --max_predictions_per_seq=80 \
     --train_batch_size=${batch_size} \
     --learning_rate=5e-5 \
     --num_warmup_steps=1000 \
@@ -108,8 +108,8 @@ do
     --optimizer_type=lamb \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/train \
-    --eval_files_dir=${data_path}/eval \
+    --input_files_dir=${data_path}/tfrecord/seq_len_512_max_pred_80/wikicorpus_en/training \
+    --eval_files_dir=${data_path}/tfrecord/seq_len_512_max_pred_80/wikicorpus_en/test \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \
