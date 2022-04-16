@@ -18,7 +18,7 @@ Network="BertLarge-128_ID3067_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=24
+batch_size=128
 #训练step
 train_steps=1000
 #学习率

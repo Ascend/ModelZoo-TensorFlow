@@ -20,7 +20,7 @@ train_epochs=1
 #训练batch_size
 batch_size=24
 #训练step
-train_steps=32000
+train_steps=50000
 #学习率
 learning_rate=
 
@@ -113,8 +113,8 @@ do
     --max_seq_length=512 \
     --max_predictions_per_seq=80 \
     --train_batch_size=${batch_size} \
-    --learning_rate=5e-5 \
-    --num_warmup_steps=1000 \
+    --learning_rate=7e-4 \
+    --num_warmup_steps=0 \
     --num_train_steps=${train_steps} \
     --optimizer_type=lamb \
     --manual_fp16=True \
@@ -128,12 +128,11 @@ do
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
     --iterations_per_loop=1000 \
-    --save_checkpoints_steps=1000 \
+    --save_checkpoints_steps=10000 \
     --npu_bert_clip_by_global_norm=False \
     --distributed=True \
     --npu_bert_tail_optimize=True \
     --npu_bert_loss_scale=0 \
-    --init_loss_scale_value=1 \
     --over_dump=${over_dump} \
     --over_dump_path=${over_dump_path} \
     --output_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &

@@ -129,7 +129,7 @@ do
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
     --iterations_per_loop=1000 \
-    --save_checkpoints_steps=1000 \
+    --save_checkpoints_steps=10000 \
     --npu_bert_clip_by_global_norm=False \
     --distributed=True \
     --npu_bert_tail_optimize=True \

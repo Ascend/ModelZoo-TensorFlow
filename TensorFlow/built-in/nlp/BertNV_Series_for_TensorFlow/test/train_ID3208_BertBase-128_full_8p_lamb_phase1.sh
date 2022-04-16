@@ -19,8 +19,8 @@ Network="BertBase-128_ID3208_for_TensorFlow"
 train_epochs=
 #训练batch_size
 batch_size=128
-#训练step
-train_steps=500000
+#训练step 300000 / (128/24)
+train_steps=60000
 #学习率
 learning_rate=
 
@@ -115,7 +115,7 @@ do
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
     --learning_rate=5e-4 \
-    --num_warmup_steps=100 \
+    --num_warmup_steps=0 \
     --num_train_steps=${train_steps} \
     --optimizer_type=lamb \
     --manual_fp16=True \
@@ -128,8 +128,8 @@ do
     --do_eval=True \
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
-    --iterations_per_loop=100 \
-    --save_checkpoints_steps=1000 \
+    --iterations_per_loop=1000 \
+    --save_checkpoints_steps=10000 \
     --npu_bert_clip_by_global_norm=False \
     --distributed=True \
     --npu_bert_tail_optimize=True \

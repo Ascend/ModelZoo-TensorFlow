@@ -102,7 +102,7 @@ do
     --max_seq_length=512 \
     --max_predictions_per_seq=80 \
     --train_batch_size=${batch_size} \
-    --learning_rate=5e-5 \
+    --learning_rate=5e-4 \
     --num_warmup_steps=0 \
     --num_train_steps=${train_steps} \
     --optimizer_type=lamb \
