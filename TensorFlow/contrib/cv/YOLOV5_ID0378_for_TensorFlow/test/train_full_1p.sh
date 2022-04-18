@@ -119,7 +119,7 @@ then
     python3.7 ./get_map.py --data_url=${data_path}
 else
     python3.7 ./train.py 1>${print_log} 2>&1
-    python3.7 ./get_map.py --data_url=${data_path} 1>${print_log} 2>&1
+    python3.7 ./get_map.py --data_url=${data_path} 1>>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
