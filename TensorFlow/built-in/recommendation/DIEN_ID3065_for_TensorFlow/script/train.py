@@ -200,7 +200,7 @@ def train(
                 uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, noclk_mids, noclk_cats = prepare_data(src, tgt, maxlen, return_neg=True)
                 loss, acc, aux_loss = model.train(sess, [uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, lr, noclk_mids, noclk_cats])
                 end_time = time.time()
-                print("step_time:", end_time - start_time)
+                #print("step_time:", end_time - start_time)
                 # tf.io.write_graph(sess.graph_def, '/data1/d00564369/dien-npu', 'train_graph.pbtxt')
                 loss_sum += loss
                 accuracy_sum += acc
