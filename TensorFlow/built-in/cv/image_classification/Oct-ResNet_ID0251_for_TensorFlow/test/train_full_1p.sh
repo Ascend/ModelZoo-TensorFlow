@@ -155,7 +155,7 @@ FPS=`awk 'BEGIN {printf "%.2f\n",'${batch_size}'*'${batch_per_sec}'}'`
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep "acc =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -n 1 | awk -F " " '{print $9}'`
+train_accuracy=`grep "acc =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -n 1 | tr -d ','| awk -F " " '{print $9}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
