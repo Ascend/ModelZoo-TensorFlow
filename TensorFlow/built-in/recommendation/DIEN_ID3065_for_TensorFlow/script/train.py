@@ -213,7 +213,7 @@ def train(
                     avg_examples_per_second = batch_size/(end_time - start_time)
                     print("avg_time_per_step: ", avg_time_per_step)
                     print("avg_examples_per_second: ", avg_examples_per_second)
-                    print("step_time:", end_time - start_time)
+                    #print("step_time:", end_time - start_time)
 
                     print('[epoch: %d, iter: %d] ----> train_loss: %.4f ---- train_accuracy: %.4f ---- train_aux_loss: %.4f' % \
                                           (itr, iter, loss_sum / test_iter, accuracy_sum / test_iter, aux_loss_sum / test_iter))
