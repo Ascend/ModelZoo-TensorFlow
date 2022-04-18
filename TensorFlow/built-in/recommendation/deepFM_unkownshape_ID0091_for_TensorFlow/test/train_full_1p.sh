@@ -104,6 +104,7 @@ fi
 
 #参数修改
 sed -i 's|"device\_id"\:"0"|"device_\id"\:"'$ASCEND_DEVICE_ID'"|g' $cur_path/../configs/hccl.json
+sed -i 's|"rank\_id"\:"0"|"rank_\id"\:"'$ASCEND_DEVICE_ID'"|g' $cur_path/../configs/hccl.json
 wait
 
 
