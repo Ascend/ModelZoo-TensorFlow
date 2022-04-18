@@ -128,12 +128,12 @@ sed -i "s|break|pass|g" train.py
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 # #输出性能FPS，需要模型审视修改
-FPS=`grep  avg_examples_per_second train_0.log | awk -F ":" 'END{print $2}'`
+FPS=`grep  avg_examples_per_second $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F ":" 'END{print $2}'`
 #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep "train_accuracy" train_0.log | awk -F "train_accuracy:" 'END{print $2}' | awk -F ' ' '{print $1}'`
+train_accuracy=`grep "train_accuracy" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F "train_accuracy:" 'END{print $2}' | awk -F ' ' '{print $1}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
