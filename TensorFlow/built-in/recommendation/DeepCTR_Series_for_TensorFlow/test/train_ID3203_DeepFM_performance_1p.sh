@@ -15,11 +15,11 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="DeepFM_ID3062_for_TensorFlow"
+Network="DeepFM_ID3203_for_TensorFlow"
 #训练epoch
-train_epochs=10
+train_epochs=5
 #训练batch_size
-batch_size=128
+batch_size=160
 #训练step
 train_steps=
 #学习率
@@ -35,7 +35,7 @@ profiling=False
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
-    echo"usage:./train_full_1P.sh <args>"
+    echo"usage:./train_performance_1P.sh <args>"
     echo " "
     echo "parameter explain:
     --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
@@ -43,7 +43,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_dump_flag		     data dump flag, default is False
     --data_dump_step		     data dump step, default is 10
     --profiling		           if or not profiling for performance debug, default is False
-    --data_path		           source data of training
+	--data_path		           source data of training
     -h/--help		             show help message
     "
     exit 1
@@ -85,6 +85,8 @@ start_time=$(date +%s)
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../examples
 
+sed -i "s|epochs=10|epochs=5|g" run_multivalue_movielens.py
+
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
@@ -101,7 +103,11 @@ do
     
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    nohup python3 run_classification_criteo.py > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+    nohup python3 run_multivalue_movielens.py \
+        --data_dir=${data_path} \
+        --precision_mode=${precision_mode} \
+        --profiling=${profiling} \
+        --profiling_dump_path=${profiling_dump_path} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
 
@@ -109,34 +115,36 @@ wait
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
 
+sed -i "s|epochs=5|epochs=10|g" run_multivalue_movielens.py
+
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 # #输出性能FPS，需要模型审视修改
 
-Time=`cat $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|tr -d '\b\r'|grep -Eo "[0-9]*us/sample"|awk -F "us/sample" 'END{print $1}'`
+Time=`cat $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|tr -d '\b\r'|grep -Eo "[0-9]*us/sample"|awk -F "us/sample" 'END {print $1}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", 1 /'${Time}'*1000000}'`
 #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
 
 
 # #输出训练精度,需要模型审视修改
-train_accuracy=`grep "test AUC" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $3}'`
+#train_accuracy=`grep "test AUC" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $3}'`
 # #打印，不需要修改
-echo "Final Train Accuracy : ${train_accuracy}"
+#echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 ##获取性能数据，不需要修改
 #吞吐量
 
 ActualFPS=${FPS}
 #单迭代训练时长
-TrainingTime=`awk 'BEGIN{printf "%.6f\n",'${BatchSize}'/'${FPS}'}'`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 cat $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|tr -d '\b\r'|grep -Eo " loss: [0-9]*\.[0-9]*"|awk -F " " '{print $2}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
@@ -151,7 +159,7 @@ echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = None" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
