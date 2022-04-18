@@ -102,7 +102,9 @@ fi
 
 
 
-
+#参数修改
+sed -i 's|"device\_id"\:"0"|"device_\id"\:"'$ASCEND_DEVICE_ID'"|g' $cur_path/../configs/hccl.json
+wait
 
 
 #训练开始时间，不需要修改
