@@ -151,7 +151,7 @@ TrainingTime=`awk 'BEGIN{printf "%.2f\n", '${batch_size}' * '${RANK_SIZE}' / '${
 echo "Final Performance images/sec : $ActualFPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep -A 1 top1 $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'`
+train_accuracy=`grep "tensorflow:  masked_lm_accuracy" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $4}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
