@@ -99,11 +99,11 @@ fi
 if [ -f $cur_path/../config/1p_$ASCEND_DEVICE_ID.json ];then
     export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE_ID.json
     export RANK_ID=0
-    echo $RANK_TABLE_FILE
+    env
 else
     export RANK_TABLE_FILE=$cur_path/../config/1p_0.json
     export RANK_ID=0
-    echo $RANK_TABLE_FILE
+    env
 fi
 
 wait
