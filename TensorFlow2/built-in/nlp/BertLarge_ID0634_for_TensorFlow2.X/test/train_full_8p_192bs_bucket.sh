@@ -177,9 +177,14 @@ e2e_time=$(( $end_time - $start_time ))
 #############结果处理#########################
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-single_batch_step_sec=`grep TimeHistory  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $8}'`
-avg_bs=`grep avg_bs  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $8}'`
-FPS=`awk 'BEGIN{printf "%.2f\n",'${single_batch_step_sec}'*'${avg_bs}'*8}'`
+FPS=0.0
+for((ID=0; ID<8; ID++))
+do
+    single_batch_step_sec=`grep TimeHistory  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $8}'`
+    avg_bs=`grep avg_bs  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $8}'`
+    PER_FPS=`awk 'BEGIN{printf "%.2f\n",'${single_batch_step_sec}'*'${avg_bs}'}'`
+    FPS=`awk 'BEGIN{printf "%.2f\n",'${PER_FPS}'+'${FPS}'}'`
+done
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 

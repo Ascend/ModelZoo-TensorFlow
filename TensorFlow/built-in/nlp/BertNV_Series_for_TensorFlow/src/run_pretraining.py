@@ -37,6 +37,9 @@ from npu_bridge.estimator.npu.npu_estimator import NPUEstimator
 
 os.environ['GE_USE_STATIC_MEMORY'] = '1'
 
+rank_size = int(os.getenv('RANK_SIZE'))
+rank_id = int(os.getenv('RANK_ID'))
+
 flags = tf.flags
 
 FLAGS = flags.FLAGS
@@ -290,7 +293,7 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
     tvars = tf.trainable_variables()
 
     initialized_variable_names = {}
-    if init_checkpoint and (hvd is None or hvd.rank() == 0):
+    if init_checkpoint and (rank_id == 0):
       print("Loading checkpoint", init_checkpoint)
       (assignment_map, initialized_variable_names
       ) = modeling.get_assignment_map_from_checkpoint(tvars, init_checkpoint)
@@ -500,9 +503,7 @@ def input_fn_builder(input_files,
     # For eval, we want no shuffling and parallel reading doesn't matter.
     if is_training:
       d = tf.data.Dataset.from_tensor_slices(tf.constant(input_files))
-      if FLAGS.distributed: 
-        rank_size = int(os.getenv('RANK_SIZE'))
-        rank_id = int(os.getenv('RANK_ID'))
+      if FLAGS.distributed:
         print('RANK_SIZE=', rank_size, ' RANK_ID=', rank_id)
         d = d.shard(rank_size, rank_id)
       d = d.repeat()
@@ -633,7 +634,7 @@ def main(_):
       model_dir=FLAGS.output_dir,
       save_summary_steps=0,
       session_config=config,
-      save_checkpoints_steps=FLAGS.save_checkpoints_steps if not FLAGS.horovod or hvd.rank() == 0 else None,
+      save_checkpoints_steps=FLAGS.save_checkpoints_steps if rank_id == 0 else 0,
       # This variable controls how often estimator reports examples/sec.
       # Default value is every 100 steps.
       # When --report_loss is True, we set to very large value to prevent
@@ -645,12 +646,10 @@ def main(_):
       is_tailing_optimization=FLAGS.npu_bert_tail_optimize,
       hcom_parallel=FLAGS.hcom_parallel)
 
-  if FLAGS.distributed:
-    rank_size = int(os.getenv('RANK_SIZE'))
   model_fn = model_fn_builder(
       bert_config=bert_config,
       init_checkpoint=FLAGS.init_checkpoint,
-      learning_rate=FLAGS.learning_rate * rank_size if FLAGS.distributed else FLAGS.learning_rate,
+      learning_rate=FLAGS.learning_rate,
       num_train_steps=FLAGS.num_train_steps,
       num_warmup_steps=FLAGS.num_warmup_steps,
       use_one_hot_embeddings=False,
@@ -688,7 +687,7 @@ def main(_):
 
     estimator.train(input_fn=train_input_fn, hooks=training_hooks, max_steps=FLAGS.num_train_steps)
 
-  if FLAGS.do_eval and (not FLAGS.horovod or hvd.rank() == 0):
+  if FLAGS.do_eval and (rank_id == 0):
     tf.logging.info("***** Running evaluation *****")
     tf.logging.info("  Batch size = %d", FLAGS.eval_batch_size)
 

@@ -18,7 +18,7 @@ Network="BertLarge-128_ID3067_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=24
+batch_size=128
 #训练step
 train_steps=1000
 #学习率
@@ -113,14 +113,14 @@ do
     --max_seq_length=128 \
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
-    --learning_rate=1e-4 \
-    --num_warmup_steps=100 \
+    --learning_rate=5e-5 \
+    --num_warmup_steps=0 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/train_phase1 \
-    --eval_files_dir=${data_path}/eval_phase1 \
+    --input_files_dir=${data_path}/tfrecord/seq_len_128_max_pred_20/wikicorpus_en/training \
+    --eval_files_dir=${data_path}/tfrecord/seq_len_128_max_pred_20/wikicorpus_en/test \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \
@@ -132,7 +132,6 @@ do
     --distributed=True \
     --npu_bert_tail_optimize=True \
     --npu_bert_loss_scale=0 \
-    --init_loss_scale_value=1 \
     --over_dump=${over_dump} \
     --over_dump_path=${over_dump_path} \
     --output_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &

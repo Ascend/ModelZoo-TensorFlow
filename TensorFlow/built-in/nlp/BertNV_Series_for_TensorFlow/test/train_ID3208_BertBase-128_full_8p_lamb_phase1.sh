@@ -19,8 +19,10 @@ Network="BertBase-128_ID3208_for_TensorFlow"
 train_epochs=
 #训练batch_size
 batch_size=128
-#训练step
-train_steps=500000
+#训练step  1140000 / (128*8/256)
+# warmup step 10000 / (128*8/256)
+# lr = 1e-4 * (128*8/256)
+train_steps=286000
 #学习率
 learning_rate=
 
@@ -114,21 +116,22 @@ do
     --max_seq_length=128 \
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
-    --learning_rate=1e-4 \
-    --num_warmup_steps=100 \
+    --learning_rate=5e-4 \
+    --num_warmup_steps=2500 \
     --num_train_steps=${train_steps} \
     --optimizer_type=lamb \
     --manual_fp16=True \
     --use_fp16_cls=True \
-    --input_files_dir=${data_path}/train_phase1 \
-    --eval_files_dir=${data_path}/eval_phase1 \
+    --input_files_dir=${data_path}/tfrecord/seq_len_128_max_pred_20/wikicorpus_en/training \
+    --eval_files_dir=${data_path}/tfrecord/seq_len_128_max_pred_20/wikicorpus_en/test \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
     --do_train=True \
+    --do_eval=True \
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \
-    --iterations_per_loop=100 \
-    --save_checkpoints_steps=1000 \
+    --iterations_per_loop=1000 \
+    --save_checkpoints_steps=10000 \
     --npu_bert_clip_by_global_norm=False \
     --distributed=True \
     --npu_bert_tail_optimize=True \
@@ -150,7 +153,7 @@ TrainingTime=`awk 'BEGIN{printf "%.2f\n", '${batch_size}' * '${RANK_SIZE}' / '${
 echo "Final Performance images/sec : $ActualFPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep -A 1 top1 $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'`
+train_accuracy=`grep "tensorflow:  masked_lm_accuracy" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $4}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
