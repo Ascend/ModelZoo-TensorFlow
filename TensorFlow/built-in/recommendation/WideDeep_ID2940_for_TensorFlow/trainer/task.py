@@ -480,7 +480,8 @@ def main(FLAGS):
             benchmark_hook = BenchmarkLoggingHook(global_batch_size=FLAGS.global_batch_size,
                                                   warmup_steps=FLAGS.benchmark_warmup_steps)
             hooks.append(benchmark_hook)
-            estimator.train(train_input_fn, hooks=hooks, steps=FLAGS.benchmark_steps)
+            #estimator.train(train_input_fn, hooks=hooks, steps=FLAGS.benchmark_steps)
+            estimator.train(train_input_fn, hooks=hooks, steps=200)
             train_throughput = benchmark_hook.mean_throughput.value()
             dllogger.log(data={'train_throughput': train_throughput}, step=tuple())
         else:
