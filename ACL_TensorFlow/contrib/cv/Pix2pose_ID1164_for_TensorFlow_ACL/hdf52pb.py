@@ -51,7 +51,7 @@ def h5_to_pb(h5_weight_path, output_dir, out_prefix="output_", log_tensorboard=T
         out_nodes.append(out_prefix + str(i + 1))
         tf.identity(h5_model.output[i], out_prefix + str(i + 1))
 
-    model_name = os.path.splitext(os.path.split(h5_weight_path)[-1])[0] + index + '.pb'
+    model_name = os.path.splitext(os.path.split(h5_weight_path)[-1])[0] + '.pb'
 
     sess = K.get_session()
     init_graph = sess.graph.as_graph_def()
@@ -69,9 +69,7 @@ def build_model():
 
 
 if __name__ == '__main__':
-    output_path=''
-    inference_weight_hdf5=''
-    output_dir = os.path.join(output_path)
-    h5_weight_path=os.path.join(inference_weight_hdf5)
+    output_dir = ''
+    h5_weight_path=''
     h5_to_pb(h5_weight_path, output_dir)
     print('finished')
