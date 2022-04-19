@@ -476,6 +476,7 @@ def main(FLAGS):
     else:  # training
 
         if FLAGS.benchmark:
+            print("================is benchmark, not eval")
             benchmark_hook = BenchmarkLoggingHook(global_batch_size=FLAGS.global_batch_size,
                                                   warmup_steps=FLAGS.benchmark_warmup_steps)
             hooks.append(benchmark_hook)
