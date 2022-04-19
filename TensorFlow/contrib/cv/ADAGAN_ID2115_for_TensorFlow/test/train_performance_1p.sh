@@ -125,19 +125,17 @@ e2e_time=$(( $end_time - $start_time ))
 
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
+##获取性能数据，不需要修改
+#吞吐量
+ActualFPS=`cat ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | grep -Eo "[0-9]*\.[0-9]*it/s" | tail -n 10 | awk -F "i" '{print $1}' | awk '{sum+=$1} END {print "", sum/NR}' | awk '{print $1}'`
 #输出性能FPS，需要模型审视修改
-TrainingTime1=`grep "Perf: " $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk 'END {print $2}'`
-TrainingTime=`awk 'BEGIN{printf "%.2f\n", '${TrainingTime1}'/'3'}'`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n", '1'/'${ActualFPS}'}'`
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
-
-##获取性能数据，不需要修改
-#吞吐量
-ActualFPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
 
 #获取模型精度
 train_accuracy=`grep "C= " $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk 'END {print $8}'`
