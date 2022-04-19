@@ -28,7 +28,7 @@ RankSize=1
 train_epochs=1
 
 #迭代下沉循环次数
-iteration_per_loop=1
+iteration_per_loop=0
 
 #参数配置
 data_path=""
