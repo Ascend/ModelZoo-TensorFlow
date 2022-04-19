@@ -121,7 +121,7 @@ else
 fi
 
 # 性能相关数据计算
-StepTime=`grep "48/48" ${print_log} | grep -v "val_loss" | tail -n 5 | awk -F"48/48" '{print $2}' | awk '{print $4}' | awk -F"ms" '{print $1}' | awk '{sum+=$1} END {print sum*1000/NR}'`
+StepTime=`grep "48/48" ${print_log} | grep -v "val_loss" | tail -n 5 | awk -F"48/48" '{print $2}' | awk '{print $4}' | awk -F"ms" '{print $1/1000}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 提取所有loss打印信息
