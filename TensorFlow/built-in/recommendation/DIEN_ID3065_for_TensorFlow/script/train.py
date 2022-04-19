@@ -200,7 +200,6 @@ def train(
                 uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, noclk_mids, noclk_cats = prepare_data(src, tgt, maxlen, return_neg=True)
                 loss, acc, aux_loss = model.train(sess, [uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, lr, noclk_mids, noclk_cats])
                 end_time = time.time()
-                print("step_time:", end_time - start_time)
                 # tf.io.write_graph(sess.graph_def, '/data1/d00564369/dien-npu', 'train_graph.pbtxt')
                 loss_sum += loss
                 accuracy_sum += acc
@@ -213,7 +212,6 @@ def train(
                     avg_examples_per_second = batch_size/(end_time - start_time)
                     print("avg_time_per_step: ", avg_time_per_step)
                     print("avg_examples_per_second: ", avg_examples_per_second)
-                    print("step_time:", end_time - start_time)
 
                     print('[epoch: %d, iter: %d] ----> train_loss: %.4f ---- train_accuracy: %.4f ---- train_aux_loss: %.4f' % \
                                           (itr, iter, loss_sum / test_iter, accuracy_sum / test_iter, aux_loss_sum / test_iter))
