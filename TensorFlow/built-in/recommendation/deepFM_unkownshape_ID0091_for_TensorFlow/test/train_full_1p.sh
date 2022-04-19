@@ -104,7 +104,6 @@ fi
 
 #参数修改
 sed -i 's|"device\_id"\:"0"|"device_\id"\:"'$ASCEND_DEVICE_ID'"|g' $cur_path/../configs/hccl.json
-sed -i 's|"rank\_id"\:"0"|"rank_\id"\:"'$ASCEND_DEVICE_ID'"|g' $cur_path/../configs/hccl.json
 wait
 
 
@@ -117,7 +116,7 @@ for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
     echo "Device ID: $ASCEND_DEVICE_ID"
-    export RANK_ID=$ASCEND_DEVICE_ID
+    export RANK_ID=$RANK_ID_START
 	#自行设置变量
     export RANK_TABLE_FILE=$cur_path/../configs/hccl.json
     
