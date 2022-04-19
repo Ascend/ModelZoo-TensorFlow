@@ -15,8 +15,18 @@ from utils.dataloader import YoloDatasets
 from utils.utils import get_anchors, get_classes
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 from npu_bridge.npu_init import *
-  
+
+import argparse
+
 if __name__ == "__main__":
+
+    # 解析输入参数data_url
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--epochs", type=int, default=120)
+    parser.add_argument("--steps", type=int, default=-1)
+    parser.add_argument("--freeze_flag", type=str, default="True")
+    config = parser.parse_args()
+
     #---------------------------------------------------------------------#
     #   classes_path    指向model_data下的txt，与自己训练的数据集相关 
     #                   训练前一定要修改classes_path，使其对应自己的数据集
@@ -107,14 +117,14 @@ if __name__ == "__main__":
     #   UnFreeze_Epoch          模型总共训练的epoch
     #   Unfreeze_batch_size     模型在解冻后的batch_size
     #------------------------------------------------------------------#
-    UnFreeze_Epoch      = 120
+    UnFreeze_Epoch      = config.epochs
     Unfreeze_batch_size = 8
     #------------------------------------------------------------------#
     #   Freeze_Train    是否进行冻结训练
     #                   默认先冻结主干训练后解冻训练。
     #                   如果设置Freeze_Train=False，建议使用优化器为sgd
     #------------------------------------------------------------------#
-    Freeze_Train        = True
+    Freeze_Train        = config.freeze_flag
     
     #------------------------------------------------------------------#
     #   其它训练参数：学习率、优化器、学习率下降有关
@@ -258,6 +268,10 @@ if __name__ == "__main__":
 
         epoch_step          = num_train // batch_size
         epoch_step_val      = num_val // batch_size
+
+        if config.steps != -1:
+            epoch_step = config.steps
+            epoch_step_val = config.steps
 
         if epoch_step == 0 or epoch_step_val == 0:
             raise ValueError('数据集过小，无法进行训练，请扩充数据集。')
