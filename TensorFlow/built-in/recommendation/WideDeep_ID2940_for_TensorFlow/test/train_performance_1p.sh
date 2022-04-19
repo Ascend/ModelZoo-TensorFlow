@@ -96,13 +96,9 @@ else
    mkdir -p $cur_path/output/$ASCEND_DEVICE_ID/ckpt
 fi
 
-if [ -d $cur_path/../config/1p_$ASCEND_DEVICE.json ];then
-    export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE_ID.json
-    export RANK_ID=0
-else
-    export RANK_TABLE_FILE=$cur_path/../config/1p_0.json
-    export RANK_ID=0
-fi
+export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE_ID.json
+export RANK_ID=0
+
 wait
 
 cd $cur_path/../
