@@ -27,10 +27,6 @@ import tensorflow as tf
 import tensorflow_transform as tft
 from tensorflow.core.protobuf import rewriter_config_pb2
 from trainer import features
-#from utils.dataloader import separate_input_fn
-#from utils.hooks.benchmark_hooks import BenchmarkLoggingHook
-#from utils.metrics import map_custom_metric, map_custom_metric_with_leak
-#from utils.schedulers import learning_rate_scheduler
 from util.dataloader import separate_input_fn
 from util.hooks.benchmark_hooks import BenchmarkLoggingHook
 from util.metrics import map_custom_metric, map_custom_metric_with_leak
@@ -369,12 +365,6 @@ def main(FLAGS):
         int(FLAGS.eval_epoch_interval * steps_per_epoch)
     count_steps = FLAGS.benchmark_steps + 1 if FLAGS.benchmark else 100
 
-    #run_config = tf.estimator.RunConfig(model_dir=model_dir, save_summary_steps=0) \
-    #    .replace(session_config=session_config,
-    #             save_checkpoints_steps=save_checkpoints_steps,
-    #             save_summary_steps=count_steps,
-    #             log_step_count_steps=count_steps,
-    #             keep_checkpoint_max=1)
     run_config = tf.estimator.RunConfig(model_dir=model_dir, save_summary_steps=0, session_config=session_config, save_checkpoints_steps=save_checkpoints_steps, log_step_count_steps=count_steps, keep_checkpoint_max=1)
 
     def wide_optimizer():
