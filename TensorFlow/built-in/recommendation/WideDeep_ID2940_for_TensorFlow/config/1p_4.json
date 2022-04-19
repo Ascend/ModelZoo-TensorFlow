@@ -6,7 +6,7 @@
       "devices": [
         {
           "device_id": "4",
-          "device_ip": "192.168.1.195",
+          "device_ip": "192.168.30.65",
           "rank_id": "0"
         }
         ],   
