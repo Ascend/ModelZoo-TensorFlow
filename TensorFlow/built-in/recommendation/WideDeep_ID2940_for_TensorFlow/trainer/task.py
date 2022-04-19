@@ -27,11 +27,15 @@ import tensorflow as tf
 import tensorflow_transform as tft
 from tensorflow.core.protobuf import rewriter_config_pb2
 from trainer import features
-from utils.dataloader import separate_input_fn
-from utils.hooks.benchmark_hooks import BenchmarkLoggingHook
-from utils.metrics import map_custom_metric, map_custom_metric_with_leak
-from utils.schedulers import learning_rate_scheduler
-
+#from utils.dataloader import separate_input_fn
+#from utils.hooks.benchmark_hooks import BenchmarkLoggingHook
+#from utils.metrics import map_custom_metric, map_custom_metric_with_leak
+#from utils.schedulers import learning_rate_scheduler
+from util.dataloader import separate_input_fn
+from util.hooks.benchmark_hooks import BenchmarkLoggingHook
+from util.metrics import map_custom_metric, map_custom_metric_with_leak
+from util.schedulers import learning_rate_scheduler
+from util.dnn_linear_combined import DNNLinearCombinedClassifier
 MODEL_TYPES = ['wide', 'deep', 'wide_n_deep']
 WIDE, DEEP, WIDE_N_DEEP = MODEL_TYPES
 
@@ -239,6 +243,11 @@ def create_parser():
         help='Number of steps for train performance benchmark',
         type=int,
         default=100)
+    parser.add_argument(
+        '--iteration_per_loop',
+        help='Number of iters per loop',
+        type=int,
+        default=0)
 
     return parser
 
@@ -262,7 +271,7 @@ def construct_estimator(model_type, run_config,
             optimizer=deep_optimizer)
 
     elif model_type == WIDE_N_DEEP:
-        estimator = tf.estimator.DNNLinearCombinedClassifier(
+        estimator = DNNLinearCombinedClassifier(
             config=npu_run_config_init(run_config=run_config),
             linear_feature_columns=wide_columns,
             linear_optimizer=wide_optimizer,
@@ -329,15 +338,14 @@ def main(FLAGS):
                 log_device_placement=FLAGS.log_device_placement
             )
     else:
-        #session_config = tf.compat.v1.ConfigProto(
-        #    device_count={'GPU': 0},
-        #    log_device_placement=FLAGS.log_device_placement
-        #)
         session_config = tf.ConfigProto()
         custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
         custom_op.parameter_map["use_off_line"].b = True
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+        if FLAGS.iteration_per_loop:
+            custom_op.parameter_map["enable_data_pre_proc"].b = True
+            custom_op.parameter_map["iterations_per_loop"].i = FLAGS.iteration_per_loop
         session_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
         session_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 
@@ -361,12 +369,13 @@ def main(FLAGS):
         int(FLAGS.eval_epoch_interval * steps_per_epoch)
     count_steps = FLAGS.benchmark_steps + 1 if FLAGS.benchmark else 100
 
-    run_config = tf.estimator.RunConfig(model_dir=model_dir, save_summary_steps=0) \
-        .replace(session_config=session_config,
-                 save_checkpoints_steps=save_checkpoints_steps,
-                 save_summary_steps=count_steps,
-                 log_step_count_steps=count_steps,
-                 keep_checkpoint_max=1)
+    #run_config = tf.estimator.RunConfig(model_dir=model_dir, save_summary_steps=0) \
+    #    .replace(session_config=session_config,
+    #             save_checkpoints_steps=save_checkpoints_steps,
+    #             save_summary_steps=count_steps,
+    #             log_step_count_steps=count_steps,
+    #             keep_checkpoint_max=1)
+    run_config = tf.estimator.RunConfig(model_dir=model_dir, save_summary_steps=0, session_config=session_config, save_checkpoints_steps=save_checkpoints_steps, log_step_count_steps=count_steps, keep_checkpoint_max=1)
 
     def wide_optimizer():
         opt = tf.compat.v1.train.FtrlOptimizer(
@@ -431,6 +440,8 @@ def main(FLAGS):
     estimator = tf.estimator.add_metrics(estimator, map_custom_metric_with_leak)
 
     hooks = []
+    if FLAGS.iteration_per_loop:
+        hooks.append(npu_hook.SetIterationsVarHook(FLAGS.iteration_per_loop))
     if FLAGS.hvd:
         hooks.append(NPUBroadcastGlobalVariablesHook(0, int(os.getenv('RANK_ID', '0'))))
 
@@ -482,6 +493,7 @@ def main(FLAGS):
             train_throughput = benchmark_hook.mean_throughput.value()
             dllogger.log(data={'train_throughput': train_throughput}, step=tuple())
         else:
+            print('train and eval')
             train_spec = tf.estimator.TrainSpec(input_fn=train_input_fn,
                                                 max_steps=max_steps,
                                                 hooks=hooks)
@@ -498,18 +510,20 @@ def main(FLAGS):
 
 
 if __name__ == '__main__':
+    FLAGS = create_parser().parse_args()
     session_config = tf.ConfigProto()
     custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
-    custom_op.parameter_map["graph_memory_max_size"].s= tf.compat.as_bytes(str(16 * 1024 * 1024 * 1024))
-    custom_op.parameter_map["variable_memory_max_size"].s = tf.compat.as_bytes(str(15 * 1024 * 1024 * 1024))
+    if FLAGS.iteration_per_loop:
+        print('>>>>>>>>> iteration per loop var: %d'%(FLAGS.iteration_per_loop))
+        custom_op.parameter_map["enable_data_pre_proc"].b = True
+        custom_op.parameter_map["iterations_per_loop"].i = FLAGS.iteration_per_loop
     session_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
     session_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 
     (npu_sess, npu_shutdown) = init_resource(config=session_config)
-    FLAGS = create_parser().parse_args()
     main(FLAGS)
     shutdown_resource(npu_sess, npu_shutdown)
     close_session(npu_sess)
