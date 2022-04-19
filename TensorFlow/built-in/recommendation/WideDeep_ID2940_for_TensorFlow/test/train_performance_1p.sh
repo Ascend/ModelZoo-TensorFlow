@@ -27,6 +27,9 @@ RankSize=1
 #训练epoch，可选
 train_epochs=1
 
+#迭代下沉循环次数
+iteration_per_loop=1
+
 #参数配置
 data_path=""
 
@@ -95,7 +98,7 @@ fi
 
 if [ -d $cur_path/../config/1p_$ASCEND_DEVICE.json ];then
     export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE.json
-    export RANK_ID=$ASCEND_DEVICE_ID
+    export RANK_ID=0
 else
     export RANK_TABLE_FILE=$cur_path/../config/1p_0.json
     export RANK_ID=0
@@ -104,13 +107,15 @@ wait
 
 cd $cur_path/../
 start=$(date +%s)
-python3 -m trainer.task --gpu \
+python3 -m trainer.task  \
  --Adam \
+ --iteration_per_loop=$iteration_per_loop \
  --train_data_pattern=$data_path/outbrain/tfrecords/train/part* \
  --eval_data_pattern=$data_path/outbrain/tfrecords/eval/part* \
  --model_dir=$cur_path/output/$ASCEND_DEVICE_ID/ckpt \
  --transformed_metadata_path=$data_path/outbrain/tfrecords \
- --num_epochs=$train_epochs > $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+ --num_epochs=$train_epochs \
+ --global_batch_size=$batch_size > $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 wait
 end=$(date +%s)
 e2etime=$(( $end - $start ))
