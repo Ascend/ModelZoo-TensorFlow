@@ -24,7 +24,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--epochs", type=int, default=120)
     parser.add_argument("--steps", type=int, default=-1)
-    parser.add_argument("--freeze_flag", type=str, default="True")
+    parser.add_argument("--freeze_flag", type=int, default=1)
     config = parser.parse_args()
 
     #---------------------------------------------------------------------#
@@ -124,7 +124,10 @@ if __name__ == "__main__":
     #                   默认先冻结主干训练后解冻训练。
     #                   如果设置Freeze_Train=False，建议使用优化器为sgd
     #------------------------------------------------------------------#
-    Freeze_Train        = config.freeze_flag
+    if config.freeze_flag != 0:
+        Freeze_Train = True
+    else:
+        Freeze_Train = False
     
     #------------------------------------------------------------------#
     #   其它训练参数：学习率、优化器、学习率下降有关
@@ -247,6 +250,7 @@ if __name__ == "__main__":
         batch_size  = Freeze_batch_size if Freeze_Train else Unfreeze_batch_size
         start_epoch = Init_Epoch
         end_epoch   = Freeze_Epoch if Freeze_Train else UnFreeze_Epoch
+        
         
         #-------------------------------------------------------------------#
         #   判断当前batch_size与64的差别，自适应调整学习率
