@@ -116,7 +116,7 @@ for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
     echo "Device ID: $ASCEND_DEVICE_ID"
-    export RANK_ID=$ASCEND_DEVICE_ID
+    export RANK_ID=$RANK_ID_START
 	#自行设置变量
     export RANK_TABLE_FILE=$cur_path/../configs/hccl.json
     
