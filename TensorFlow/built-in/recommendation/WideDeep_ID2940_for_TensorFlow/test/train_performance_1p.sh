@@ -116,6 +116,7 @@ python3 -m trainer.task  \
  --model_dir=$cur_path/output/$ASCEND_DEVICE_ID/ckpt \
  --transformed_metadata_path=$data_path/outbrain/tfrecords \
  --num_epochs=$train_epochs \
+ --benchmark \
  --global_batch_size=$batch_size > $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 wait
 end=$(date +%s)
