@@ -35,7 +35,7 @@ import matplotlib.pyplot as plt
 
 def main():
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument('--atc_dir', dest='atc_dir', default='D:\mindspore\h52pb\OM01_output_0.txt', help='directory for atc result')
+    parser.add_argument('--atc_dir', dest='atc_dir', default='', help='directory for atc result')
     parser.add_argument('--width', dest='width', type=int, default=128)
     parser.add_argument('--height', dest='height', type=int, default=128)
 

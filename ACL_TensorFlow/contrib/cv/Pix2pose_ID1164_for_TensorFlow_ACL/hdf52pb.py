@@ -38,12 +38,6 @@ from keras.models import load_model
 import tensorflow as tf
 from keras import backend as K
 from tensorflow.python.framework import graph_util, graph_io
-##keras库保存模型包括
-#load_model：模型和参数
-#load_weights：仅保存参数
-#本代码实现：从A.hdf5（包括模型和参数，由load_model保存获得）中提取模型，从B.hdf5（仅包括参数，由load_weights保存获得）中提取参数，将B中的参数塞到A模型中
-#必须保持A和B模型一致
-#将上述hdf5文件转化为pb文件
 
 def h5_to_pb(h5_weight_path, output_dir, out_prefix="output_", log_tensorboard=True):
     if not os.path.exists(output_dir):
@@ -69,11 +63,14 @@ def h5_to_pb(h5_weight_path, output_dir, out_prefix="output_", log_tensorboard=T
 
 
 def build_model():
+    inference_model_hdf5=''
     h5_model = load_model(inference_model_hdf5)
     return h5_model
 
 
 if __name__ == '__main__':
+    output_path=''
+    inference_weight_hdf5=''
     output_dir = os.path.join(output_path)
     h5_weight_path=os.path.join(inference_weight_hdf5)
     h5_to_pb(h5_weight_path, output_dir)
