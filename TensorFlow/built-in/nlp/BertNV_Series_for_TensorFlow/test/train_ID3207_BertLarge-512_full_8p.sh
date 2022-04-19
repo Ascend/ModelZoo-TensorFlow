@@ -19,9 +19,9 @@ Network="BertLarge-512_ID3207_for_TensorFlow"
 train_epochs=1
 #训练batch_size
 batch_size=24
-#训练step  1144000 / (24/16)
-# warmup step 10000 / (24/16)
-train_steps=763000
+#训练step  1144000 / (24*8/256)
+# warmup step 10000 / (24*8/256)
+train_steps=1144000
 #学习率
 learning_rate=
 
@@ -115,7 +115,7 @@ do
     --max_predictions_per_seq=80 \
     --train_batch_size=${batch_size} \
     --learning_rate=5e-5 \
-    --num_warmup_steps=6000 \
+    --num_warmup_steps=10000 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
     --manual_fp16=True \

@@ -103,7 +103,7 @@ do
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
     --learning_rate=1e-4 \
-    --num_warmup_steps=100 \
+    --num_warmup_steps=0 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
     --manual_fp16=True \

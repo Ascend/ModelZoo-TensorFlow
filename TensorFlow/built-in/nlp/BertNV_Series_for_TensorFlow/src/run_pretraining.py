@@ -293,7 +293,7 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
     tvars = tf.trainable_variables()
 
     initialized_variable_names = {}
-    if init_checkpoint and (hvd is None or hvd.rank() == 0):
+    if init_checkpoint and (rank_id == 0):
       print("Loading checkpoint", init_checkpoint)
       (assignment_map, initialized_variable_names
       ) = modeling.get_assignment_map_from_checkpoint(tvars, init_checkpoint)

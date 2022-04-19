@@ -19,8 +19,8 @@ Network="BertBase-512_ID3069_for_TensorFlow"
 train_epochs=
 #训练batch_size
 batch_size=64
-#训练step 50000 / (64/24)
-train_steps=20000
+#训练step
+train_steps=50000
 #学习率
 learning_rate=
 
