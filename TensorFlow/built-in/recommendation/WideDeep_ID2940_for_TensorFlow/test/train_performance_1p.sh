@@ -96,8 +96,8 @@ else
    mkdir -p $cur_path/output/$ASCEND_DEVICE_ID/ckpt
 fi
 
-export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE_ID.json
-export RANK_ID=0
+#export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE_ID.json
+#export RANK_ID=0
 
 wait
 
