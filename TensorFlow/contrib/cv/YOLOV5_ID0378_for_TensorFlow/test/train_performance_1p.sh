@@ -115,13 +115,13 @@ sed -i s#"/home/dingwei/yolov5"#"${data_path}"#g ./2007_val.txt
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --epochs=10 --steps=48 --freeze_flag=False
+    python3.7 ./train.py --epochs=8 --steps=48 --freeze_flag=0
 else
-    python3.7 ./train.py --epochs=10 --steps=48 --freeze_flag=False 1>${print_log} 2>&1
+    python3.7 ./train.py --epochs=8 --steps=48 --freeze_flag=0 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`grep "ms/step" ${print_log} | tail -n 10 | awk -F"ms" '{print $1}' | awk '{print $NF} | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "48/48" ${print_log} | grep -v "val_loss" | tail -n 5 | awk -F"48/48" '{print $2}' | awk '{print $4}' | awk -F"ms" '{print $1}' | awk '{sum+=$1} END {print sum*1000/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 提取所有loss打印信息
@@ -165,9 +165,6 @@ echo "------------------ Final result ------------------"
 echo "Final Performance images/sec : $FPS"
 echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
-
-# 输出训练精度
-echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
 ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
