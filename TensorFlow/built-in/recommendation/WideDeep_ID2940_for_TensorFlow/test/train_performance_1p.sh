@@ -96,16 +96,13 @@ else
    mkdir -p $cur_path/output/$ASCEND_DEVICE_ID/ckpt
 fi
 
-export RANK_ID=0
-#if [ -f $cur_path/../config/1p_$ASCEND_DEVICE_ID.json ];then
-#    export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE_ID.json
-#    export RANK_ID=0
-#    env
-#else
-#    export RANK_TABLE_FILE=$cur_path/../config/1p_0.json
-#    export RANK_ID=0
-#    env
-#fi
+if [ -f $cur_path/../config/1p_$ASCEND_DEVICE_ID.json ];then
+    export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE_ID.json
+    export RANK_ID=0
+else
+    export RANK_TABLE_FILE=$cur_path/../config/1p_0.json
+    export RANK_ID=0
+fi
 
 wait
 
