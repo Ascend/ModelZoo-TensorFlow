@@ -97,7 +97,7 @@ else
 fi
 
 if [ -d $cur_path/../config/1p_$ASCEND_DEVICE.json ];then
-    export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE.json
+    export RANK_TABLE_FILE=$cur_path/../config/1p_$ASCEND_DEVICE_ID.json
     export RANK_ID=0
 else
     export RANK_TABLE_FILE=$cur_path/../config/1p_0.json
