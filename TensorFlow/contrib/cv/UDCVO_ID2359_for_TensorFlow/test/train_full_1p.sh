@@ -257,7 +257,7 @@ StepTime=`grep "StepTime: " ${print_log} | tail -n 10 | awk '{print $NF}' | awk 
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-#train_accuracy=`cat ${print_log} | grep -Eo "   [0-9]*\.[0-9]*" | awk '{print $1}' | head -n 1`
+train_accuracy=`cat ${print_log} | grep -Eo "   [0-9]*\.[0-9]*" | awk '{print $1}' | head -n 1`
 # 提取所有loss打印信息
 grep "loss: " ${print_log} | awk -F ":" '{print $2}' | awk -F "  " '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
