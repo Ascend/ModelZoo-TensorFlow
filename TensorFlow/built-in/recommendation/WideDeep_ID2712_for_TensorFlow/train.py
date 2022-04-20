@@ -458,7 +458,7 @@ if __name__ == '__main__':
                         
                         dt = end_time_test - start_time_test
                         fps=train_para['batch_size'] * rank_size * config.iterations_per_loop/dt
-
+                        print("================epoch_finished_batches", epoch_finished_batches, display_step, num_gpu)
                         if epoch_finished_batches % (display_step / num_gpu) == 0: # print step
                             if _epoch:
                                 print("================epoch_finished_batches", epoch_finished_batches, display_step, num_gpu)
