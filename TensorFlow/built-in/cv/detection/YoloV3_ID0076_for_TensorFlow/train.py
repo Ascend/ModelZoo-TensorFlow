@@ -71,7 +71,8 @@ parser.add_argument("--save_dir", default='./training/',
                     help="path of ckpt.")
 parser.add_argument("--batch_size", type=int, default=16,
                     help="batchsize.")
-
+parser.add_argument("--total_epoches", type=int, default=200,
+                    help="epoches of train.")
 # modify for npu overflow start
 # enable overflow
 parser.add_argument("--over_dump", type=str, default="False",
@@ -108,7 +109,8 @@ if args_input.save_dir:
     args.save_dir = args_input.save_dir
 if args_input.batch_size:
     args.batch_size = args_input.batch_size
-
+if args_input.total_epoches:
+    args.total_epoches = args_input.total_epoches
 print('setting train mode %s.' % args_input.mode)
 
 # setting loggers
