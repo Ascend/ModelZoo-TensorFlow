@@ -45,7 +45,7 @@ if not os.path.exists(save_dir):
 if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
-work_path = '/cache/user-job-dir/YoloV3_for_TensorFlow'
+work_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "../")
 
 ### Some paths
 train_file =        os.path.join(work_path, './modelarts/coco2014_trainval_modelarts.txt')  # The path of the training txt file.
