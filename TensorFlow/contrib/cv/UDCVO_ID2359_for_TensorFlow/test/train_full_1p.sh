@@ -92,6 +92,33 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+#move some data
+cp -r ${data_path}/training ${cur_path}/../
+sed -i 's/^data//' training/void_train_image_1500.txt
+sed -i "/void_voiced/s!^!${data_path}!" training/void_train_image_1500.txt
+
+sed -i 's/^data//' training/void_train_interp_depth_1500.txt
+sed -i "/void_voiced/s!^!${data_path}!" training/void_train_interp_depth_1500.txt
+
+sed -i 's/^data//' training/void_train_validity_map_1500.txt
+sed -i "/void_release/s!^!${data_path}!" training/void_train_validity_map_1500.txt
+
+sed -i 's/^data//' training/void_train_intrinsics_1500.txt
+sed -i "/void_voiced/s!^!${data_path}!" training/void_train_intrinsics_1500.txt
+
+cp -r ${data_path}/testing ${cur_path}/../
+sed -i 's/^data//' testing/void_test_image_1500.txt
+sed -i "/void_voiced/s!^!${data_path}!" testing/void_test_image_1500.txt
+
+sed -i 's/^data//' testing/void_test_interp_depth_1500.txt
+sed -i "/void_voiced/s!^!${data_path}!" testing/void_test_interp_depth_1500.txt
+
+sed -i 's/^data//' testing/void_test_validity_map_1500.txt
+sed -i "/void_release/s!^!${data_path}!" testing/void_test_validity_map_1500.txt
+
+sed -i 's/^data//' testing/void_test_ground_truth_1500.txt
+sed -i "/void_release/s!^!${data_path}!" testing/void_test_ground_truth_1500.txt
+
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -113,11 +140,11 @@ batch_size=8
 if [ x"${etp_flag}" != xtrue ];
 then
     #python3.7 ./LeNet.py --data_path=${data_path} --output_path=${output_path}
-    python3.7 ./train_voiced.py \
-    --train_image_path ${data_path}/training/void_train_image_1500.txt \
-    --train_interp_depth_path ${data_path}/training/void_train_interp_depth_1500.txt \
-    --train_validity_map_path ${data_path}/training/void_train_validity_map_1500.txt \
-    --train_intrinsics_path ${data_path}/training/void_train_intrinsics_1500.txt \
+    python3.7 ./src/train_voiced.py \
+    --train_image_path training/void_train_image_1500.txt \
+    --train_interp_depth_path training/void_train_interp_depth_1500.txt \
+    --train_validity_map_path training/void_train_validity_map_1500.txt \
+    --train_intrinsics_path training/void_train_intrinsics_1500.txt \
     --n_batch 8 \
     --n_height 480 \
     --n_width 640 \
@@ -142,14 +169,14 @@ then
     --rot_param exponential \
     --n_summary 1000 \
     --n_checkpoint 5000 \
-    --checkpoint_path ${output_path} 
+    --checkpoint_path ${output_path}
 	
     # 计算MAE,RMSE,iMAE,iRMSE
-    python3.7 ./evaluate_model.py \
-    --image_path ${data_path}/testing/void_test_image_1500.txt \
-    --interp_depth_path ${data_path}/testing/void_test_interp_depth_1500.txt \
-    --validity_map_path ${data_path}/testing/void_test_validity_map_1500.txt \
-    --ground_truth_path ${data_path}/testing/void_test_ground_truth_1500.txt \
+    python3.7 ./src/evaluate_model.py \
+    --image_path testing/void_test_image_1500.txt \
+    --interp_depth_path testing/void_test_interp_depth_1500.txt \
+    --validity_map_path testing/void_test_validity_map_1500.txt \
+    --ground_truth_path testing/void_test_ground_truth_1500.txt \
     --start_idx 0 \
     --end_idx 800 \
     --n_batch 8 \
@@ -165,15 +192,15 @@ then
     --min_evaluate_z 0.2 \
     --max_evaluate_z 5.0 \
     --save_depth \
-    --output_path ${output_path}/output \
-    --restore_path ${output_path}model.ckpt-103000
+    --output_path ${output_path} \
+    --restore_path ${output_path}/model.ckpt-103000
 else
     #python3.7 ./LeNet.py --data_path=${data_path} --output_path=${output_path} > ${print_log}
-    python3.7 ./train_voiced.py \
-    --train_image_path ${data_path}/training/void_train_image_1500.txt \
-    --train_interp_depth_path ${data_path}/training/void_train_interp_depth_1500.txt \
-    --train_validity_map_path ${data_path}/training/void_train_validity_map_1500.txt \
-    --train_intrinsics_path ${data_path}/training/void_train_intrinsics_1500.txt \
+    python3.7 ./src/train_voiced.py \
+    --train_image_path training/void_train_image_1500.txt \
+    --train_interp_depth_path training/void_train_interp_depth_1500.txt \
+    --train_validity_map_path training/void_train_validity_map_1500.txt \
+    --train_intrinsics_path training/void_train_intrinsics_1500.txt \
     --n_batch 8 \
     --n_height 480 \
     --n_width 640 \
@@ -198,14 +225,14 @@ else
     --rot_param exponential \
     --n_summary 1000 \
     --n_checkpoint 5000 \
-    --checkpoint_path ${output_path}/ 1>${print_log} 2>&1
+    --checkpoint_path ${output_path} > ${print_log} 2>&1
 	
     # 计算MAE,RMSE,iMAE,iRMSE
-    python3.7 ./evaluate_model.py \
-    --image_path ${data_path}/testing/void_test_image_1500.txt \
-    --interp_depth_path ${data_path}/testing/void_test_interp_depth_1500.txt \
-    --validity_map_path ${data_path}/testing/void_test_validity_map_1500.txt \
-    --ground_truth_path ${data_path}/testing/void_test_ground_truth_1500.txt \
+    python3.7 ./src/evaluate_model.py \
+    --image_path testing/void_test_image_1500.txt \
+    --interp_depth_path testing/void_test_interp_depth_1500.txt \
+    --validity_map_path testing/void_test_validity_map_1500.txt \
+    --ground_truth_path testing/void_test_ground_truth_1500.txt \
     --start_idx 0 \
     --end_idx 800 \
     --n_batch 8 \
@@ -221,8 +248,8 @@ else
     --min_evaluate_z 0.2 \
     --max_evaluate_z 5.0 \
     --save_depth \
-    --output_path ${output_path}/output \
-    --restore_path ${output_path}model.ckpt-103000 1>${print_log} 2>&1
+    --output_path ${output_path} \
+    --restore_path ${output_path}/model.ckpt-103000 >> ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -230,7 +257,7 @@ StepTime=`grep "StepTime: " ${print_log} | tail -n 10 | awk '{print $NF}' | awk 
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-#train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+#train_accuracy=`cat ${print_log} | grep -Eo "   [0-9]*\.[0-9]*" | awk '{print $1}' | head -n 1`
 # 提取所有loss打印信息
 grep "loss: " ${print_log} | awk -F ":" '{print $2}' | awk -F "  " '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
