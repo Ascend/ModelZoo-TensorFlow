@@ -115,10 +115,10 @@ sed -i s#"/home/dingwei/yolov5"#"${data_path}"#g ./2007_val.txt
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py
+    python3.7 ./train.py --freeze_flag=0
     python3.7 ./get_map.py --data_url=${data_path}
 else
-    python3.7 ./train.py 1>${print_log} 2>&1
+    python3.7 ./train.py --freeze_flag=0 1>${print_log} 2>&1
     python3.7 ./get_map.py --data_url=${data_path} 1>>${print_log} 2>&1
 fi
 
