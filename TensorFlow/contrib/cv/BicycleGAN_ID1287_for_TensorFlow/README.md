@@ -55,7 +55,7 @@ BicycleGAN模型是Toward Multimodal Image-to-Image Translation论文的Tensorfl
 
 |       | GPU   | NPU   |
 |-------|-------|-------|
-| LPIPS |  |  |
+| LPIPS | 0.412 |  |
 
 - 性能
 
