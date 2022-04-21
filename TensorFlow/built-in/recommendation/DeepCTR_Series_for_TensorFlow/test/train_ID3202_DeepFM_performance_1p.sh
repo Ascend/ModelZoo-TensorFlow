@@ -15,11 +15,11 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="DeepFM_ID3203_for_TensorFlow"
+Network="DeepFM_ID3202_for_TensorFlow"
 #训练epoch
 train_epochs=5
 #训练batch_size
-batch_size=160
+batch_size=162
 #训练step
 train_steps=
 #学习率
