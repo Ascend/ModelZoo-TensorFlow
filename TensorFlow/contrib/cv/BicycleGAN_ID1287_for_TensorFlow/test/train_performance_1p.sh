@@ -113,9 +113,9 @@ epoch=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./main_npu.py --data_path=${data_path} --output_path=${output_path} --epoch=${epoch}
+    python3.7 ./main.py --data_path=${data_path} --output_path=${output_path} --epoch=${epoch}
 else
-    python3.7 ./main_npu.py --data_path=${data_path} --output_path=${output_path} --epoch=${epoch} > ${print_log}
+    python3.7 ./main.py --data_path=${data_path} --output_path=${output_path} --epoch=${epoch} > ${print_log}
 fi
 
 # 性能相关数据计算
