@@ -135,6 +135,7 @@ do
         --mode single \
 		--data_url $data_path/coco \
 		--train_url ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
+		--total_epoches 1 \
         --over_dump ${over_dump} \
         --over_dump_path ${over_dump_path} \
 		> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
