@@ -5,7 +5,7 @@ cur_path=`pwd`
 #export ASCEND_SLOG_PRINT_TO_STDOUT=1
 #export GE_USE_STATIC_MEMORY=1
 
-export HCCL_CONNECT_TIMEOUT=1200
+export HCCL_CONNECT_TIMEOUT=300
 
 #集合通信参数,不需要修改
 export RANK_SIZE=8
