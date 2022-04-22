@@ -144,6 +144,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 ##获取性能数据，不需要修改
 #吞吐量
+TrainingTime=`awk 'BEGIN{printf "%.6f\n",'${BatchSize}'/'${FPS}'}'`
 
 ActualFPS=${FPS}
 grep ":loss =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| awk '{ print $3}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
