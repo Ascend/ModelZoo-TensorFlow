@@ -217,6 +217,11 @@ def define_transformer_flags():
           'If True, then only the model\'s weights will be saved '
           '(`model.save_weights(filepath)`), else the full model is saved '
           '(`model.save(filepath)`)'))
+  flags.DEFINE_bool(
+      name='dynamic_eval',
+      default=False,
+      help=flags_core.help_wrap(
+          'use dynamic eval'))
 
   flags_core.set_defaults(
       data_dir='/tmp/translate_ende',
