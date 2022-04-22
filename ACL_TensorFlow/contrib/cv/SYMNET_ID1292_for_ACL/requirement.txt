@@ -1,0 +1,4 @@
+tensorflow==1.15.0
+torch==1.10.0
+torchvision
+numpy==1.21.2
