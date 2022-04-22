@@ -65,6 +65,31 @@ def _get_sorted_inputs(filename,batch_size):
   return sorted_inputs, sorted_keys
 
 
+def _get_sorted_inputs_dynamic(filename):
+  """Read and sort lines from the file sorted by decreasing length.
+  Args:
+    filename: String name of file to read inputs from.
+  Returns:
+    Sorted list of inputs, and dictionary mapping original index->sorted index
+    of each element.
+  """
+  with tf.io.gfile.GFile(filename) as f:
+    records = f.read().split("\n")
+    inputs = [record.strip() for record in records]
+    if not inputs[-1]:
+      inputs.pop()
+
+  input_lens = [(i, len(line.split())) for i, line in enumerate(inputs)]
+  sorted_input_lens = sorted(input_lens, key=lambda x: x[1], reverse=True)
+
+  sorted_inputs = [None] * len(sorted_input_lens)
+  sorted_keys = [0] * len(sorted_input_lens)
+  for i, (index, _) in enumerate(sorted_input_lens):
+    sorted_inputs[i] = inputs[index]
+    sorted_keys[index] = i
+  return sorted_inputs, sorted_keys
+
+
 def _encode_and_add_eos(line, subtokenizer):
   """Encode line with subtokenizer, and add EOS id to the end."""
   return subtokenizer.encode(line) + [tokenizer.EOS_ID]
@@ -107,7 +132,11 @@ def translate_file(model,
 
   # Read and sort inputs by length. Keep dictionary (original index-->new index
   # in sorted list) to write translations in the original order.
-  sorted_inputs, sorted_keys = _get_sorted_inputs(input_file,batch_size)
+
+  if params['dynamic_eval']:
+    sorted_inputs, sorted_keys = _get_sorted_inputs_dynamic(input_file)
+  else:
+    sorted_inputs, sorted_keys = _get_sorted_inputs(input_file,batch_size)
   total_samples = len(sorted_inputs)
   num_decode_batches = (total_samples - 1) // batch_size + 1
   #static input modify
