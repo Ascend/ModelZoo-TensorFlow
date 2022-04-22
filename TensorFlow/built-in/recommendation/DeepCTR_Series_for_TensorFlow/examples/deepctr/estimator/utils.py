@@ -138,12 +138,13 @@ class Head(_Head):
         training_loss = loss + reg_loss
 
         eval_metric_ops = self._eval_metric_ops(labels, logits, pred, unweighted_loss)
-
+        training_Hook=tf.train.LoggingTensorHook({"loss":training_loss}, every_n_iter=1)
         return tf.estimator.EstimatorSpec(
             mode=mode,
             predictions=predictions,
             loss=training_loss,
             train_op=train_op_fn(training_loss),
+            training_hooks=[training_Hook],
             eval_metric_ops=eval_metric_ops,
             training_chief_hooks=training_chief_hooks)
 
