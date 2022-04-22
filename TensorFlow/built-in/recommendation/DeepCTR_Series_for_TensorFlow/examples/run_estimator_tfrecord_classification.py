@@ -91,8 +91,8 @@ def main():
         {k: FixedLenFeature(dtype=tf.float32, shape=1) for k in dense_features})
     feature_description['label'] = FixedLenFeature(dtype=tf.float32, shape=1)
 
-    train_model_input = input_fn_tfrecord('./criteo_sample.tr.tfrecords', feature_description, 'label', batch_size=256,
-                                          num_epochs=1, shuffle_factor=10)
+    train_model_input = input_fn_tfrecord('./criteo_sample.tr.tfrecords', feature_description, 'label', batch_size=162,
+                                          num_epochs=100, shuffle_factor=10)
     test_model_input = input_fn_tfrecord('./criteo_sample.te.tfrecords', feature_description, 'label',
                                          batch_size=2 ** 14, num_epochs=1, shuffle_factor=0)
 
