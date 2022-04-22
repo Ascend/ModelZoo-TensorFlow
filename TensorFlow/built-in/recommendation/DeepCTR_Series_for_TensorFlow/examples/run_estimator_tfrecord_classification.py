@@ -99,7 +99,7 @@ def main():
     # 3.Define Model,train,predict and evaluate
     model = DeepFMEstimator(linear_feature_columns, dnn_feature_columns, task='binary',
                             config=tf.estimator.RunConfig(tf_random_seed=2021, save_summary_steps=0))
-
+    tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.INFO)
     model.train(train_model_input)
     eval_result = model.evaluate(test_model_input)
 
