@@ -115,20 +115,23 @@ wait
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
 
-sed -i "s|epochs=5|epochs=10|g" run_multivalue_movielens.py
 
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 # #输出性能FPS，需要模型审视修改
-
-Time=`cat $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|tr -d '\b\r'|grep -Eo "[0-9]*us/sample"|awk -F "us/sample" 'END {print $1}'`
-FPS=`awk 'BEGIN{printf "%.2f\n", 1 /'${Time}'*1000000}'`
-#打印，不需要修改
+Time=`grep ":loss =" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk '{ print $4}'| awk -F "(" '{print $2}'|tail -n 2|awk '{sum+=$1} END {print"",sum/NR}'|awk '{print $1}'
+`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${Time}'}'`
+# #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
+
+# #输出训练精度,需要模型审视修改
+train_accuracy=`grep "AUC = " $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk '{print $9}'|awk -F "," '{print $1}'`
+
 
 
 # #输出训练精度,需要模型审视修改
-#train_accuracy=`grep "test AUC" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $3}'`
+
 # #打印，不需要修改
 #echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
@@ -143,12 +146,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 #吞吐量
 
 ActualFPS=${FPS}
-#单迭代训练时长
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'/'${FPS}'}'`
-
-#从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-cat $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|tr -d '\b\r'|grep -Eo " loss: [0-9]*\.[0-9]*"|awk -F " " '{print $2}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
-
+grep ":loss =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| awk '{ print $3}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
