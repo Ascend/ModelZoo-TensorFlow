@@ -14,7 +14,7 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertLarge-Squad2.0_ID3220_for_Tensorflow"
+Network="BertLarge-Squad2.0_ID3220_for_TensorFlow"
 #训练batch_size
 train_batch_size=16
 

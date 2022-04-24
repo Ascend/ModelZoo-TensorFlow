@@ -12,7 +12,7 @@ RANK_ID_START=0
 data_path=""
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertLarge-Squad1.1_ID3218_for_Tensorflow"
+Network="BertLarge-Squad1.1_ID3218_for_TensorFlow"
 #训练batch_size
 train_batch_size=32
 #训练ephch
