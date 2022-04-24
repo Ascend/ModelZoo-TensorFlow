@@ -119,7 +119,6 @@ do
 	--vocab_file=${data_path}/vocab.ende.32768 \
 	--param_set=big \
 	--train_steps=${train_steps} \
-	--static_batch=true \
 	--batch_size=${batch_size} \
 	--steps_between_evals=10000 \
 	--max_length=64 \
