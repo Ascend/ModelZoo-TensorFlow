@@ -112,7 +112,7 @@ do
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID}
     fi
 
-    nohup python run_squad.py \
+    nohup python3.7 ${cur_path}/../src/run_squad.py \
       --precision_mode=$precision_mode \
       --vocab_file=${model_path}/vocab.txt \
       --bert_config_file=${model_path}/bert_config.json \
