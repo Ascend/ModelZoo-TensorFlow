@@ -1,4 +1,3 @@
-
 # Copyright 2017 The TensorFlow Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +34,7 @@ logging.info("Start BicycleGAN")
 logger = logging.getLogger('BicycleGAN')
 logger.setLevel(logging.INFO)
 
+
 def makedirs(path):
     if not os.path.exists(path):
-		os.makedirs(path)
+        os.makedirs(path)
