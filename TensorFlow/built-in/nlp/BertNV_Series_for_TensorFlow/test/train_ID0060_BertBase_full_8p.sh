@@ -116,7 +116,7 @@ do
     --max_seq_length=128 \
     --max_predictions_per_seq=20 \
     --train_batch_size=${batch_size} \
-    --learning_rate=3e-4 \
+    --learning_rate=1e-4 \
     --num_warmup_steps=2500 \
     --num_train_steps=${train_steps} \
     --optimizer_type=adam \
