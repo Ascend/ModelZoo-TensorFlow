@@ -112,9 +112,9 @@ batch_size=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./main.py --data_path=${data_path} --output_path=${output_path}
+    python3.7 ./main.py --data_path=${data_path}/maps --output_path=${output_path}
 else
-    python3.7 ./main.py --data_path=${data_path} --output_path=${output_path} > ${print_log}
+    python3.7 ./main.py --data_path=${data_path}/maps --output_path=${output_path} > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -181,3 +181,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
