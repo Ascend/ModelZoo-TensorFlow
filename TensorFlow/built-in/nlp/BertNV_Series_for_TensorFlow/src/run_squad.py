@@ -181,6 +181,7 @@ def extract_run_squad_flags():
   flags.DEFINE_integer("num_eval_iterations", None,
                        "How many eval iterations to run - performs inference on subset")
   # npu parameter
+  flags.DEFINE_bool('npu_bert_debug', False, 'If True, dropout and shuffle is disabled.')
   flags.DEFINE_integer('init_loss_scale_value', 2 ** 32, 'Initial loss scale value for loss scale optimizer')
   flags.DEFINE_integer("iterations_per_loop", 1, "How many steps to make in each estimator call.")
   flags.DEFINE_bool('npu_bert_fused_gelu', True, 'Whether to use npu defined gelu op')
@@ -480,7 +481,8 @@ def input_fn_builder(input_file, batch_size, seq_length, is_training, drop_remai
         if rank_size > 1:
             d = d.shard(rank_size, rank_id)
         d = d.apply(tf.data.experimental.ignore_errors())
-        d = d.shuffle(buffer_size=100)
+        if not FLAGS.npu_bert_debug:
+            d = d.shuffle(buffer_size=100)
         d = d.repeat()
     else:
         d = tf.data.TFRecordDataset(input_file)
