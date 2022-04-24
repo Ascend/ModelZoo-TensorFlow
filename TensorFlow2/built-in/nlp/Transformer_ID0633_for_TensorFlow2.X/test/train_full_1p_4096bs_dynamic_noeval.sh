@@ -175,7 +175,7 @@ echo "E2E Training Duration sec : $e2e_time"
 #fail info
 ModelStatus="图执行FAIL"
 DTS_Number="DTS2022042410927"
-error_msg="not supported shape\[FUNC:DoNdTiling\]"
+error_msg="op\[SoftmaxCrossEntropyWithLogitsTiling\], not supported shape\[FUNC:DoNdTiling\]"
 Status=`grep "${error_msg}" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|wc -l`
 error_msg=`grep "${error_msg}" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|tail -1`
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
