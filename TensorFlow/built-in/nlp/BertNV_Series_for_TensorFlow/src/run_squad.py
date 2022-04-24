@@ -198,7 +198,7 @@ def extract_run_squad_flags():
   flags.DEFINE_bool('npu_bert_tail_optimize', False, 'Whether to use npu allreduce tail optimization')
 
   flags.DEFINE_bool('npu_gather', True, 'Whether to use gather_npu whose backward propagation avoids IndexedSlices')
-  flags.DEFINE_bool("distribute", False, "Whether to train for multi-npu runs")
+  flags.DEFINE_bool("distributed", False, "Whether to train for multi-npu runs")
   flags.DEFINE_bool('hcom_parallel', True, 'Whether to use parallel allreduce')
 
   flags.DEFINE_bool('use_fast_gelu', True, 'use fast gelu instead gelu')
@@ -1035,7 +1035,7 @@ def main(_):
 
   learning_rate = FLAGS.learning_rate
   # if FLAGS.horovod:
-  if FLAGS.distribute:
+  if FLAGS.distributed:
       tf.compat.v1.logging.info("Multi-NPU training...")
       tf.compat.v1.logging.info("rank_size = %d rank_id = %d", rank_size, rank_id)
       global_batch_size = FLAGS.train_batch_size * rank_size * FLAGS.num_accumulation_steps
@@ -1099,7 +1099,7 @@ def main(_):
     tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record")]
 
     # if FLAGS.horovod:
-    if FLAGS.distribute:
+    if FLAGS.distributed:
       tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record{}".format(i)) for i in range(rank_size)]
       num_examples_per_rank = len(train_examples) // rank_size
       remainder = len(train_examples) % rank_size
