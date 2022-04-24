@@ -145,7 +145,7 @@ def extract_run_squad_flags():
 
   flags.DEFINE_integer("save_checkpoints_steps", 5000,
                        "How often to save the model checkpoint.")
-  flags.DEFINE_integer("display_loss_steps", 1,
+  flags.DEFINE_integer("display_loss_steps", 100,
                        "How often to print loss from estimator")
 
   flags.DEFINE_integer("num_accumulation_steps", 1,
@@ -183,7 +183,7 @@ def extract_run_squad_flags():
   # npu parameter
   flags.DEFINE_bool('npu_bert_debug', False, 'If True, dropout and shuffle is disabled.')
   flags.DEFINE_integer('init_loss_scale_value', 2 ** 32, 'Initial loss scale value for loss scale optimizer')
-  flags.DEFINE_integer("iterations_per_loop", 1, "How many steps to make in each estimator call.")
+  flags.DEFINE_integer("iterations_per_loop", 100, "How many steps to make in each estimator call.")
   flags.DEFINE_bool("use_fp16_cls", False, "Whether to use fp16 in cls and pooler.")
   flags.DEFINE_bool('npu_bert_fused_gelu', True, 'Whether to use npu defined gelu op')
   flags.DEFINE_integer("npu_bert_loss_scale", 0,
@@ -487,7 +487,6 @@ def input_fn_builder(input_file, batch_size, seq_length, is_training, drop_remai
         d = d.repeat()
     else:
         d = tf.data.TFRecordDataset(input_file)
-
 
     d = d.apply(
         tf.contrib.data.map_and_batch(
@@ -1082,33 +1081,33 @@ def main(_):
 
   # Prepare Training Data
   if FLAGS.do_train:
-    train_examples = read_squad_examples(
-        input_file=FLAGS.train_file, is_training=True,
-        version_2_with_negative=FLAGS.version_2_with_negative)
-    num_train_steps = int(
-        len(train_examples) / global_batch_size * FLAGS.num_train_epochs)
+    # train_examples = read_squad_examples(
+    #     input_file=FLAGS.train_file, is_training=True,
+    #     version_2_with_negative=FLAGS.version_2_with_negative)
+    # train_examples = 87599, num_train_steps = 2737
+    num_train_steps = int(87599 / global_batch_size * FLAGS.num_train_epochs)
     num_warmup_steps = int(num_train_steps * FLAGS.warmup_proportion)
 
-    # Pre-shuffle the input to avoid having to make a very large shuffle
-    # buffer in in the `input_fn`.
-    rng = random.Random(12345)
-    rng.shuffle(train_examples)
-
-    start_index = 0 
-    end_index = len(train_examples)
-    tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record")]
-
-    # if FLAGS.horovod:
-    if FLAGS.distributed:
-      tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record{}".format(i)) for i in range(rank_size)]
-      num_examples_per_rank = len(train_examples) // rank_size
-      remainder = len(train_examples) % rank_size
-      if rank_id < remainder:
-        start_index = rank_id * (num_examples_per_rank + 1)
-        end_index = start_index + num_examples_per_rank + 1
-      else:
-        start_index = rank_id * num_examples_per_rank + remainder
-        end_index = start_index + num_examples_per_rank
+    # # Pre-shuffle the input to avoid having to make a very large shuffle
+    # # buffer in in the `input_fn`.
+    # rng = random.Random(12345)
+    # rng.shuffle(train_examples)
+    #
+    # start_index = 0
+    # end_index = len(train_examples)
+    # tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record")]
+    #
+    # # if FLAGS.horovod:
+    # if FLAGS.distributed:
+    #   tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record{}".format(i)) for i in range(rank_size)]
+    #   num_examples_per_rank = len(train_examples) // rank_size
+    #   remainder = len(train_examples) % rank_size
+    #   if rank_id < remainder:
+    #     start_index = rank_id * (num_examples_per_rank + 1)
+    #     end_index = start_index + num_examples_per_rank + 1
+    #   else:
+    #     start_index = rank_id * num_examples_per_rank + remainder
+    #     end_index = start_index + num_examples_per_rank
 
 
   model_fn = model_fn_builder(
@@ -1134,30 +1133,31 @@ def main(_):
 
     # We write to a temporary file to avoid storing very large constant tensors
     # in memory.
-    train_writer = FeatureWriter(
-        filename=tmp_filenames[hvd_rank],
-        is_training=True)
-    convert_examples_to_features(
-        examples=train_examples[start_index:end_index],
-        tokenizer=tokenizer,
-        max_seq_length=FLAGS.max_seq_length,
-        doc_stride=FLAGS.doc_stride,
-        max_query_length=FLAGS.max_query_length,
-        is_training=True,
-        output_fn=train_writer.process_feature,
-        verbose_logging=FLAGS.verbose_logging)
-    train_writer.close()
+    # train_writer = FeatureWriter(
+    #     filename=tmp_filenames[hvd_rank],
+    #     is_training=True)
+    # convert_examples_to_features(
+    #     examples=train_examples[start_index:end_index],
+    #     tokenizer=tokenizer,
+    #     max_seq_length=FLAGS.max_seq_length,
+    #     doc_stride=FLAGS.doc_stride,
+    #     max_query_length=FLAGS.max_query_length,
+    #     is_training=True,
+    #     output_fn=train_writer.process_feature,
+    #     verbose_logging=FLAGS.verbose_logging)
+    # train_writer.close()
 
     tf.compat.v1.logging.info("***** Running training *****")
-    tf.compat.v1.logging.info("  Num orig examples = %d", end_index - start_index)
-    tf.compat.v1.logging.info("  Num split examples = %d", train_writer.num_features)
+    # tf.compat.v1.logging.info("  Num orig examples = %d", end_index - start_index)
+    # tf.compat.v1.logging.info("  Num split examples = %d", train_writer.num_features)
     tf.compat.v1.logging.info("  Batch size = %d", FLAGS.train_batch_size)
     tf.compat.v1.logging.info("  Num steps = %d", num_train_steps)
     tf.compat.v1.logging.info("  LR = %f", learning_rate)
-    del train_examples
+    # del train_examples
 
     train_input_fn = input_fn_builder(
-        input_file=tmp_filenames,
+        # input_file=tmp_filenames,
+        input_file=FLAGS.train_file,
         batch_size=FLAGS.train_batch_size,
         seq_length=FLAGS.max_seq_length,
         is_training=True,
@@ -1167,16 +1167,16 @@ def main(_):
     train_start_time = time.time()
     estimator.train(input_fn=train_input_fn, hooks=npu_hooks_append(hooks_list=training_hooks), max_steps=num_train_steps)
     train_time_elapsed = time.time() - train_start_time
-    train_time_wo_overhead = training_hooks[-1].total_time
+    train_time_wo_overhead = training_hooks[-2].total_time
     avg_sentences_per_second = num_train_steps * global_batch_size * 1.0 / train_time_elapsed
-    ss_sentences_per_second = (num_train_steps - training_hooks[-1].skipped) * global_batch_size * 1.0 / train_time_wo_overhead
+    ss_sentences_per_second = (num_train_steps - training_hooks[-2].skipped) * global_batch_size * 1.0 / train_time_wo_overhead
 
     if master_process:
         tf.compat.v1.logging.info("-----------------------------")
         tf.compat.v1.logging.info("Total Training Time = %0.2f for Sentences = %d", train_time_elapsed,
                         num_train_steps * global_batch_size)
         tf.compat.v1.logging.info("Total Training Time W/O Overhead = %0.2f for Sentences = %d", train_time_wo_overhead,
-                        (num_train_steps - training_hooks[-1].skipped) * global_batch_size)
+                        (num_train_steps - training_hooks[-2].skipped) * global_batch_size)
         tf.compat.v1.logging.info("Throughput Average (sentences/sec) with overhead = %0.2f", avg_sentences_per_second)
         tf.compat.v1.logging.info("Throughput Average (sentences/sec) = %0.2f", ss_sentences_per_second)
         # dllogging.logger.log(step=(), data={"throughput_train": ss_sentences_per_second}, verbosity=Verbosity.DEFAULT)
