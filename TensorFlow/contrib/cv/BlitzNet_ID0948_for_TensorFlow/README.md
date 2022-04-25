@@ -118,10 +118,11 @@ BlitzNet在一次前向传递中联合执行对象检测和语义分割，从而
 
 <h2 id="快速上手">快速上手</h2>
 
-- 数据集准备
-
+- 训练数据集准备
+  
   OBS下载地址：（下载的数据集为处理完的tf数据集）
   https://blitznets.obs.myhuaweicloud.com:443/Datasets/voc12-train-seg?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1661686224&Signature=QkWct66ZOwIUfNOYeoWFFZ/FTsk%3D
+  
 - ResNet预训练模型准备
 
   OBS下载地址：（将下载的resnet50_full.ckpt文件置于Weights_imagenet中）
@@ -198,6 +199,51 @@ data_input_test.py
 
 2.  参考脚本的模型存储路径为test/output/*，训练脚本train_*.log中可查看性能、精度的相关运行状态。
 
+## 推理过程<a name="section1589455252218"></a>
+1.  ckpt文件
+
+- ckpt文件下载地址:
+  
+  https://sharegua.obs.cn-north-4.myhuaweicloud.com:443/checkpoint65.zip?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1667698491&Signature=Ltfv5%2B5VbaFSklW3pI6W6oTh73A%3D
+  
+    通过freeze_graph.py转换成pb文件bliznet_tf_310.pb
+  
+- pb文件下载地址:
+  
+  https://sharegua.obs.myhuaweicloud.com:443/bliznet_tf_310.pb?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1667656586&Signature=JhBRfk5dpeDFE%2BPy1jQg6Q4mvHY%3D
+
+2.  om模型
+
+- om模型下载地址:
+  
+  https://sharegua.obs.myhuaweicloud.com:443/bliznet_tf_310.om?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1667656644&Signature=Z7DyzKRGPd27pYipfD2Ke/KSGAo%3D
+
+    使用ATC模型转换工具进行模型转换时可以参考如下指令:
+
+```
+atc --model=/home/HwHiAiUser/atc/bliznet_tf_310.pb --framework=3 --output=/home/HwHiAiUser/atc/bliznet_tf_310 --soc_version=Ascend310 \
+        --input_shape="input:1,300,300,3" \
+        --log=info \
+        --out_nodes="concat_1:0;concat_2:0;ssd_2/Conv_7/BiasAdd:0"      
+```
+
+3.  使用msame工具推理
+    
+    参考 https://gitee.com/ascend/tools/tree/master/msame, 获取msame推理工具及使用方法。
+
+    获取到msame可执行文件之后，将待检测om文件放在model文件夹，然后进行性能测试。
+    
+    msame推理可以参考如下指令:
+```
+./msame --model "/home/HwHiAiUser/msame/bliznet_tf_310.om" --input "/home/HwHiAiUser/msame/data" --output "/home/HwHiAiUser/msame/out/" --outfmt TXT
+```
+- 测试数据bin文件下载地址:
+  
+  https://sharegua.obs.cn-north-4.myhuaweicloud.com:443/img.zip?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1667698452&Signature=f3aLaUdPnodF8PKtCaI5Ox4wb6c%3D
+
+4.  性能测试
+    
+    使用testBliznetPb_OM_Data.py对推理完成后获得的txt文件进行测试
 
 <h2 id="精度测试">精度测试</h2>
 
@@ -205,8 +251,9 @@ data_input_test.py
 
 测试集：VOC12 val
 
-|    | mIoU |  mAP |
-| ---------- | -------- | -------- |
-| 论文精度 | 72.8       | 80.0 |
-| GPU精度   | 72.8       | 80.0 |
-| NPU精度   | 待测       | 待测 |
+|    | mIoU |  mAP | 性能|
+| ---------- | -------- | -------- | -------- |
+| 论文精度 | 72.8       | 80.0 |       / |
+| GPU精度32 | 72.8       | 80.0 |     0.35 sec/batch  |
+| GPU精度16 | 72.0       | 78.3 |     0.35 sec/batch  |
+| NPU精度   | 70.1       | 77.6 |     0.5 sec/batch  |
