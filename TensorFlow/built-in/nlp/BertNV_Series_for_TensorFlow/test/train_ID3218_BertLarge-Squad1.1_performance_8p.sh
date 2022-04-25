@@ -127,7 +127,7 @@ do
       --save_checkpoints_steps=1000 \
       --distributed=True \
       --npu_bert_tail_optimize=True \
-      --npu_bert_loss_scale=0 \
+      --npu_bert_loss_scale=-1 \
       --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID} \
       --enable_exception_dump=$enable_exception_dump\
       --data_dump_flag=$data_dump_flag \
