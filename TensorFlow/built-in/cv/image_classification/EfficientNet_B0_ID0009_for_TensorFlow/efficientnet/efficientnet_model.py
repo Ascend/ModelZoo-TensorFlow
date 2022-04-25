@@ -29,7 +29,7 @@ import numpy as np
 import six
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow as tf
-
+from npu_bridge.estimator import npu_ops
 import utils
 
 GlobalParams = collections.namedtuple('GlobalParams', [
@@ -636,7 +636,8 @@ class Model(tf.keras.Model):
           self.endpoints['pooled_features'] = outputs
           if not pooled_features_only:
             if self._dropout:
-              outputs = self._dropout(outputs, training=training)
+              #outputs = self._dropout(outputs, training=training)
+              outputs = npu_ops.dropout(outputs, keep_prob = 1.0 - self._global_params.drop_connect_rate)
             self.endpoints['global_pool'] = outputs
             if self._fc:
               outputs = tf.squeeze(outputs, self._spatial_dims)
@@ -647,7 +648,8 @@ class Model(tf.keras.Model):
           self.endpoints['pooled_features'] = outputs
           if not pooled_features_only:
             if self._dropout:
-              outputs = self._dropout(outputs, training=training)
+              #outputs = self._dropout(outputs, training=training)
+              outputs = npu_ops.dropout(outputs, keep_prob = 1.0 - self._global_params.drop_connect_rate)
             self.endpoints['global_pool'] = outputs
             if self._fc:
               outputs = self._fc(outputs)
