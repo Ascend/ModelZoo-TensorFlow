@@ -114,7 +114,7 @@ do
       --bert_config_file=${model_path}/bert_config.json \
       --init_checkpoint=${model_path}/bert_model.ckpt \
       --do_train=True \
-      --train_file=${data_path}/squad/v1.1/train-v1.1.json \
+      --train_file=${data_path}/squad/v1.1/squad_v1.1_train.tf_record \
       --do_predict=False \
       --predict_file=${data_path}/squad/v1.1/dev-v1.1.json \
       --eval_script=${data_path}/squad/v1.1/evaluate-v1.1.py \

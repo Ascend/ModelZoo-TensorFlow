@@ -1155,7 +1155,7 @@ def main(_):
     tf.compat.v1.logging.info("  Batch size = %d", FLAGS.train_batch_size)
     tf.compat.v1.logging.info("  Num steps = %d", num_train_steps)
     tf.compat.v1.logging.info("  LR = %f", learning_rate)
-    del train_examples
+    # del train_examples
 
     train_input_fn = input_fn_builder(
         # input_file=tmp_filenames,
