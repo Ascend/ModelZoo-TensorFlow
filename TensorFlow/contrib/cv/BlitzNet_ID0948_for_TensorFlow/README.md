@@ -256,4 +256,4 @@ atc --model=/home/HwHiAiUser/atc/bliznet_tf_310.pb --framework=3 --output=/home/
 | 论文精度 | 72.8       | 80.0 |       / |
 | GPU精度32 | 72.8       | 80.0 |     0.35 sec/batch  |
 | GPU精度16 | 72.0       | 78.3 |     0.35 sec/batch  |
-| NPU精度   | 70.1       | 77.6 |     0.5 sec/batch  |
+| NPU精度   | 70.1       | 77.6 |     0.40 sec/batch  |
