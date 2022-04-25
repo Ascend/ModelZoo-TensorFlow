@@ -406,6 +406,8 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
 
       total_loss = (start_loss + end_loss) / 2.0
 
+      total_loss = tf.identity(total_loss, name='total_loss')
+
       train_op = optimization.create_optimizer(
           total_loss, learning_rate, num_train_steps, num_warmup_steps, hvd, False, amp, FLAGS.num_accumulation_steps)
 

@@ -102,7 +102,7 @@ class ExamplesPerSecondHook(tf.estimator.SessionRunHook):
 
   def before_run(self, run_context):  # pylint: disable=unused-argument
     self.start_time = time.time()
-    return tf.estimator.SessionRunArgs(fetches=[tf.compat.v1.train.get_global_step(), 'loss/total_loss:0'])
+    return tf.estimator.SessionRunArgs(fetches=[tf.compat.v1.train.get_global_step(), 'total_loss:0'])
 
   def after_run(self, run_context, run_values):
     self.end_time = time.time()
