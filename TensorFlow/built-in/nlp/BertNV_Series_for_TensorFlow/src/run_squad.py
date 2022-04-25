@@ -1027,7 +1027,7 @@ def main(_):
   master_process = True
   training_hooks = []
   global_batch_size = FLAGS.train_batch_size * FLAGS.num_accumulation_steps
-  hvd_rank = 0
+  # hvd_rank = 0
 
   config = tf.ConfigProto(
       inter_op_parallelism_threads=0,
@@ -1042,7 +1042,7 @@ def main(_):
       global_batch_size = FLAGS.train_batch_size * rank_size * FLAGS.num_accumulation_steps
       learning_rate = learning_rate * rank_size
       master_process = (rank_id == 0)
-      hvd_rank = rank_id
+      # hvd_rank = rank_id
       # config.gpu_options.visible_device_list = str(hvd.local_rank())
       #set_affinity(hvd.local_rank())
       # if rank_size > 1:
@@ -1076,40 +1076,40 @@ def main(_):
           tf.compat.v1.logging.info('  {}: {}'.format(key, getattr(FLAGS, key)))
       tf.compat.v1.logging.info("**************************")
 
-  train_examples = None
+  # train_examples = None
   num_train_steps = None
   num_warmup_steps = None
   training_hooks.append(ExamplesPerSecondHook(global_batch_size, FLAGS.iterations_per_loop))
 
   # Prepare Training Data
   if FLAGS.do_train:
-    train_examples = read_squad_examples(
-        input_file=FLAGS.train_file, is_training=True,
-        version_2_with_negative=FLAGS.version_2_with_negative)
+    # train_examples = read_squad_examples(
+    #     input_file=FLAGS.train_file, is_training=True,
+    #     version_2_with_negative=FLAGS.version_2_with_negative)
     # train_examples = 87599, num_train_steps = 2737
-    num_train_steps = int(len(train_examples) / global_batch_size * FLAGS.num_train_epochs)
+    num_train_steps = int(87599 / global_batch_size * FLAGS.num_train_epochs)
     num_warmup_steps = int(num_train_steps * FLAGS.warmup_proportion)
 
     # Pre-shuffle the input to avoid having to make a very large shuffle
     # buffer in in the `input_fn`.
-    rng = random.Random(12345)
-    rng.shuffle(train_examples)
-
-    start_index = 0
-    end_index = len(train_examples)
-    tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record")]
+    # rng = random.Random(12345)
+    # rng.shuffle(train_examples)
+    #
+    # start_index = 0
+    # end_index = len(train_examples)
+    # tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record")]
 
     # if FLAGS.horovod:
-    if FLAGS.distributed:
-      tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record{}".format(i)) for i in range(rank_size)]
-      num_examples_per_rank = len(train_examples) // rank_size
-      remainder = len(train_examples) % rank_size
-      if rank_id < remainder:
-        start_index = rank_id * (num_examples_per_rank + 1)
-        end_index = start_index + num_examples_per_rank + 1
-      else:
-        start_index = rank_id * num_examples_per_rank + remainder
-        end_index = start_index + num_examples_per_rank
+    # if FLAGS.distributed:
+    #   tmp_filenames = [os.path.join(FLAGS.output_dir, "train.tf_record{}".format(i)) for i in range(rank_size)]
+    #   num_examples_per_rank = len(train_examples) // rank_size
+    #   remainder = len(train_examples) % rank_size
+    #   if rank_id < remainder:
+    #     start_index = rank_id * (num_examples_per_rank + 1)
+    #     end_index = start_index + num_examples_per_rank + 1
+    #   else:
+    #     start_index = rank_id * num_examples_per_rank + remainder
+    #     end_index = start_index + num_examples_per_rank
 
 
   model_fn = model_fn_builder(
@@ -1135,31 +1135,31 @@ def main(_):
 
     # We write to a temporary file to avoid storing very large constant tensors
     # in memory.
-    train_writer = FeatureWriter(
-        filename=tmp_filenames[hvd_rank],
-        is_training=True)
-    convert_examples_to_features(
-        examples=train_examples[start_index:end_index],
-        tokenizer=tokenizer,
-        max_seq_length=FLAGS.max_seq_length,
-        doc_stride=FLAGS.doc_stride,
-        max_query_length=FLAGS.max_query_length,
-        is_training=True,
-        output_fn=train_writer.process_feature,
-        verbose_logging=FLAGS.verbose_logging)
-    train_writer.close()
+    # train_writer = FeatureWriter(
+    #     filename=tmp_filenames[hvd_rank],
+    #     is_training=True)
+    # convert_examples_to_features(
+    #     examples=train_examples[start_index:end_index],
+    #     tokenizer=tokenizer,
+    #     max_seq_length=FLAGS.max_seq_length,
+    #     doc_stride=FLAGS.doc_stride,
+    #     max_query_length=FLAGS.max_query_length,
+    #     is_training=True,
+    #     output_fn=train_writer.process_feature,
+    #     verbose_logging=FLAGS.verbose_logging)
+    # train_writer.close()
 
     tf.compat.v1.logging.info("***** Running training *****")
-    tf.compat.v1.logging.info("  Num orig examples = %d", end_index - start_index)
-    tf.compat.v1.logging.info("  Num split examples = %d", train_writer.num_features)
+    # tf.compat.v1.logging.info("  Num orig examples = %d", end_index - start_index)
+    # tf.compat.v1.logging.info("  Num split examples = %d", train_writer.num_features)
     tf.compat.v1.logging.info("  Batch size = %d", FLAGS.train_batch_size)
     tf.compat.v1.logging.info("  Num steps = %d", num_train_steps)
     tf.compat.v1.logging.info("  LR = %f", learning_rate)
     del train_examples
 
     train_input_fn = input_fn_builder(
-        input_file=tmp_filenames,
-        # input_file=FLAGS.train_file,
+        # input_file=tmp_filenames,
+        input_file=FLAGS.train_file,
         batch_size=FLAGS.train_batch_size,
         seq_length=FLAGS.max_seq_length,
         is_training=True,
