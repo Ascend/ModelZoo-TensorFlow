@@ -131,7 +131,7 @@ python test_sintel.py
 - 用visualize（可视化脚本集合）执行得到的.mat文件，得到如下的结果：
 
 <h2 id="高级参考.md">高级参考</h2>
-
+![输入图片说明](Result.png)
 ## 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
