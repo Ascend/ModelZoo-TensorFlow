@@ -20,7 +20,7 @@ train_batch_size=32
 #训练ephch
 num_train_epochs=2.0
 #学习率
-learning_rate=5e-6
+learning_rate=3e-5
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
@@ -142,22 +142,15 @@ end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
 
 #############结果处理#########################
-step_sec=`grep -a 'INFO:tensorflow:global_step/sec: ' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $2}'`
-Accuracy=`grep -a 'eval_accuracy' ${cur_path}/${output_dir}/eval_results.txt|awk '{print $3}'`
-   
-FPS=`awk 'BEGIN{printf "%d\n",'$step_sec' * '$train_batch_size'}'` 
-
-echo "--------Final Result ----------"
+#输出性能FPS，需要模型审视修改
+FPS=`grep "examples/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |grep -v "INFO"| awk 'END {print $6}'`
+#打印，不需要修改
 echo "Final Performance images/sec : $FPS"
-echo "Final Train Accuracy : $Accuracy"
-echo "E2E Training Duration sec : $e2etime"
 
-
-##冒烟看护字段
-BatchSize=${train_batch_size}
-DeviceType=`uname -m`
-
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+#输出训练精度,需要模型审视修改
+train_accuracy=`grep "f1 =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $3}'`
+#打印，不需要修改
+echo "Final Train Accuracy : ${train_accuracy}"
 
 ##获取性能数据
 #吞吐量
@@ -166,8 +159,17 @@ ActualFPS=$FPS
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${train_batch_size}'*1000/'${FPS}'}'`
 
 ##获取Loss
-grep "INFO:tensorflow:Saving dict for global step" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $18}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
-ActualLoss=`awk 'END {print $1}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
+#从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
+grep "loss =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F  " " '{print $3}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+#最后一个迭代loss值，不需要修改'
+ActualLoss=(`awk 'END {print $NF}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`)
+
+##冒烟看护字段
+BatchSize=${train_batch_size}
+DeviceType=`uname -m`
+
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+
 
 #关键性息打印到CaseName.log中
 echo "Network = ${Network}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log

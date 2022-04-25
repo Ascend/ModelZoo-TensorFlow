@@ -79,19 +79,38 @@ class LogTrainRunHook(tf.estimator.SessionRunHook):
   def before_run(self, run_context):
     self.t0 = time.time()
     return tf.estimator.SessionRunArgs(
-        fetches=['global_step:0'])
+        fetches=['step_update:0'])
 
   def after_run(self, run_context, run_values):
     elapsed_secs = time.time() - self.t0
     self.global_step = run_values.results[0]
     self.count += 1
 
-    self.total_time += elapsed_secs
-
     # Removing first 100 step + first five steps after every checkpoint save
-    # if (self.global_step - self.init_global_step) <= self.num_steps_ignore_xla or (self.global_step - self.init_global_step) % self.save_checkpoints_steps < 5:
-    #   print("Skipping time record for ", self.global_step, " due to checkpoint-saving/warmup overhead")
-    #   self.skipped += 1
-    # else:
-    #   self.total_time += elapsed_secs
+    if (self.global_step - self.init_global_step) <= self.num_steps_ignore_xla or (self.global_step - self.init_global_step) % self.save_checkpoints_steps < 5:
+      print("Skipping time record for ", self.global_step, " due to checkpoint-saving/warmup overhead")
+      self.skipped += 1
+    else:
+      self.total_time += elapsed_secs
+
+class ExamplesPerSecondHook(tf.estimator.SessionRunHook):
+  def __init__(self, batch_size, iterations_per_loop=1):
+    self._batch_size = batch_size
+    self._iter_per_loop = iterations_per_loop
+    self.start_time = 0
+    self.end_time = 0
+
+  def before_run(self, run_context):  # pylint: disable=unused-argument
+    self.start_time = time.time()
+    return tf.estimator.SessionRunArgs(fetches=[tf.compat.v1.train.get_global_step(), 'loss/total_loss:0'])
+
+  def after_run(self, run_context, run_values):
+    self.end_time = time.time()
+    elapsed_time = self.end_time - self.start_time
+    global_step, total_loss = run_values.results
+    global_step_per_sec = self._iter_per_loop / elapsed_time
+    examples_per_sec = self._batch_size * global_step_per_sec
+    tf.compat.v1.logging.info('loss = %.7f', total_loss)
+    tf.compat.v1.logging.info('global_step/sec: %g', global_step_per_sec)
+    tf.compat.v1.logging.info('examples/sec: %g', examples_per_sec)
 

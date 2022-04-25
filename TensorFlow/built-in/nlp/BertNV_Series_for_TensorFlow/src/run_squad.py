@@ -53,7 +53,7 @@ import modeling
 import optimization
 import tokenization
 from utils.create_squad_data import *
-from utils.utils import LogEvalRunHook, LogTrainRunHook
+from utils.utils import LogEvalRunHook, LogTrainRunHook, ExamplesPerSecondHook
 #from utils.gpu_affinity import set_affinity
 # import utils.dllogger_class
 # from dllogger import Verbosity
@@ -419,12 +419,12 @@ def model_fn_builder(bert_config, init_checkpoint, learning_rate,
       #     train_op=train_op)
     elif mode == tf.estimator.ModeKeys.PREDICT:
 
-      dummy_op = tf.no_op()
-      # Need to call mixed precision graph rewrite if fp16 to enable graph rewrite
-      if amp:
-        loss_scaler = FixedLossScaleManager(1)
-        dummy_op = tf.train.experimental.enable_mixed_precision_graph_rewrite(
-            optimization.LAMBOptimizer(learning_rate=0.0), loss_scaler)
+      # dummy_op = tf.no_op()
+      # # Need to call mixed precision graph rewrite if fp16 to enable graph rewrite
+      # if amp:
+      #   loss_scaler = FixedLossScaleManager(1)
+      #   dummy_op = tf.train.experimental.enable_mixed_precision_graph_rewrite(
+      #       optimization.LAMBOptimizer(learning_rate=0.0), loss_scaler)
 
       predictions = {
           "unique_ids": tf.identity(unique_ids),
@@ -1025,7 +1025,7 @@ def main(_):
   master_process = True
   training_hooks = []
   global_batch_size = FLAGS.train_batch_size * FLAGS.num_accumulation_steps
-  hvd_rank = 0
+  # hvd_rank = 0
 
   config = tf.ConfigProto(
       inter_op_parallelism_threads=0,
@@ -1040,7 +1040,7 @@ def main(_):
       global_batch_size = FLAGS.train_batch_size * rank_size * FLAGS.num_accumulation_steps
       learning_rate = learning_rate * rank_size
       master_process = (rank_id == 0)
-      hvd_rank = rank_id
+      # hvd_rank = rank_id
       # config.gpu_options.visible_device_list = str(hvd.local_rank())
       #set_affinity(hvd.local_rank())
       # if rank_size > 1:
@@ -1074,10 +1074,10 @@ def main(_):
           tf.compat.v1.logging.info('  {}: {}'.format(key, getattr(FLAGS, key)))
       tf.compat.v1.logging.info("**************************")
 
-  train_examples = None
+  # train_examples = None
   num_train_steps = None
   num_warmup_steps = None
-  training_hooks.append(LogTrainRunHook(global_batch_size, hvd_rank, FLAGS.save_checkpoints_steps))
+  training_hooks.append(ExamplesPerSecondHook(global_batch_size, FLAGS.iterations_per_loop))
 
   # Prepare Training Data
   if FLAGS.do_train:
@@ -1164,23 +1164,23 @@ def main(_):
         drop_remainder=True,
         hvd=None if not FLAGS.horovod else hvd)
 
-    train_start_time = time.time()
-    estimator.train(input_fn=train_input_fn, hooks=npu_hooks_append(hooks_list=training_hooks), max_steps=num_train_steps)
-    train_time_elapsed = time.time() - train_start_time
-    train_time_wo_overhead = training_hooks[-2].total_time
-    avg_sentences_per_second = num_train_steps * global_batch_size * 1.0 / train_time_elapsed
-    ss_sentences_per_second = (num_train_steps - training_hooks[-2].skipped) * global_batch_size * 1.0 / train_time_wo_overhead
+    # train_start_time = time.time()
+    estimator.train(input_fn=train_input_fn, hooks=training_hooks, max_steps=num_train_steps)
+    # train_time_elapsed = time.time() - train_start_time
+    # train_time_wo_overhead = training_hooks[-1].total_time
+    # avg_sentences_per_second = num_train_steps * global_batch_size * 1.0 / train_time_elapsed
+    # ss_sentences_per_second = (num_train_steps - training_hooks[-1].skipped) * global_batch_size * 1.0 / train_time_wo_overhead
 
-    if master_process:
-        tf.compat.v1.logging.info("-----------------------------")
-        tf.compat.v1.logging.info("Total Training Time = %0.2f for Sentences = %d", train_time_elapsed,
-                        num_train_steps * global_batch_size)
-        tf.compat.v1.logging.info("Total Training Time W/O Overhead = %0.2f for Sentences = %d", train_time_wo_overhead,
-                        (num_train_steps - training_hooks[-2].skipped) * global_batch_size)
-        tf.compat.v1.logging.info("Throughput Average (sentences/sec) with overhead = %0.2f", avg_sentences_per_second)
-        tf.compat.v1.logging.info("Throughput Average (sentences/sec) = %0.2f", ss_sentences_per_second)
-        # dllogging.logger.log(step=(), data={"throughput_train": ss_sentences_per_second}, verbosity=Verbosity.DEFAULT)
-        tf.compat.v1.logging.info("-----------------------------")
+    # if master_process:
+    #     tf.compat.v1.logging.info("-----------------------------")
+    #     tf.compat.v1.logging.info("Total Training Time = %0.2f for Sentences = %d", train_time_elapsed,
+    #                     num_train_steps * global_batch_size)
+    #     tf.compat.v1.logging.info("Total Training Time W/O Overhead = %0.2f for Sentences = %d", train_time_wo_overhead,
+    #                     (num_train_steps - training_hooks[-1].skipped) * global_batch_size)
+    #     tf.compat.v1.logging.info("Throughput Average (sentences/sec) with overhead = %0.2f", avg_sentences_per_second)
+    #     tf.compat.v1.logging.info("Throughput Average (sentences/sec) = %0.2f", ss_sentences_per_second)
+    #     # dllogging.logger.log(step=(), data={"throughput_train": ss_sentences_per_second}, verbosity=Verbosity.DEFAULT)
+    #     tf.compat.v1.logging.info("-----------------------------")
 
 
   if FLAGS.export_triton and master_process:
