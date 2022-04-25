@@ -1066,7 +1066,7 @@ def main(_):
       iterations_per_loop=FLAGS.iterations_per_loop,
       session_config=config,
       precision_mode=FLAGS.precision_mode,
-      log_step_count_steps=FLAGS.display_loss_steps,
+      log_step_count_steps=None,
       is_tailing_optimization=FLAGS.npu_bert_tail_optimize,
       hcom_parallel=FLAGS.hcom_parallel)
 

@@ -20,7 +20,7 @@ train_batch_size=32
 #训练ephch
 num_train_epochs=2.0
 #学习率
-learning_rate=3e-5
+learning_rate=5e-6
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
@@ -127,7 +127,7 @@ do
       --distributed=True \
       --npu_bert_tail_optimize=True \
       --npu_bert_loss_scale=0 \
-      --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID \
+      --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID} \
       --enable_exception_dump=$enable_exception_dump\
       --data_dump_flag=$data_dump_flag \
       --data_dump_step=$data_dump_step\
@@ -143,7 +143,7 @@ e2e_time=$(( $end_time - $start_time ))
 
 #############结果处理#########################
 #输出性能FPS，需要模型审视修改
-FPS=`grep "examples/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |grep -v "INFO"| awk 'END {print $6}'`
+FPS=`grep "tensorflow:examples/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk 'END {print $2}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
@@ -160,7 +160,7 @@ TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${train_batch_size}'*1000/'${FPS}'}'`
 
 ##获取Loss
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep "loss =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F  " " '{print $3}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep "tensorflow:loss =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F  " " '{print $3}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改'
 ActualLoss=(`awk 'END {print $NF}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`)
 

@@ -18,7 +18,7 @@ train_batch_size=32
 #训练ephch
 num_train_epochs=1.0
 #学习率
-learning_rate=3e-5
+learning_rate=5e-6
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
@@ -115,7 +115,7 @@ do
       --init_checkpoint=${model_path}/bert_model.ckpt \
       --do_train=True \
       --train_file=${data_path}/squad/v1.1/squad_v1.1_train.tf_record \
-      --do_predict=True \
+      --do_predict=False \
       --predict_file=${data_path}/squad/v1.1/dev-v1.1.json \
       --eval_script=${data_path}/squad/v1.1/evaluate-v1.1.py \
       --train_batch_size=$train_batch_size \
@@ -123,7 +123,7 @@ do
       --num_train_epochs=$num_train_epochs \
       --save_checkpoints_steps=1000 \
       --npu_bert_loss_scale=0 \
-      --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID \
+      --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID} \
       --enable_exception_dump=$enable_exception_dump\
       --data_dump_flag=$data_dump_flag \
       --data_dump_step=$data_dump_step\
@@ -139,14 +139,14 @@ e2e_time=$(( $end_time - $start_time ))
 
 #############结果处理#########################
 #输出性能FPS，需要模型审视修改
-FPS=`grep "examples/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |grep -v "INFO"| awk 'END {print $6}'`
+FPS=`grep "tensorflow:examples/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk 'END {print $2}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep "f1 =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $3}'`
+#train_accuracy=`grep "f1 =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $3}'`
 #打印，不需要修改
-echo "Final Train Accuracy : ${train_accuracy}"
+#echo "Final Train Accuracy : ${train_accuracy}"
 
 ##获取性能数据
 #吞吐量
@@ -156,7 +156,7 @@ TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${train_batch_size}'*1000/'${FPS}'}'`
 
 ##获取Loss
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep "loss =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F  " " '{print $3}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep "tensorflow:loss =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F  " " '{print $3}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改'
 ActualLoss=(`awk 'END {print $NF}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`)
 
@@ -174,7 +174,7 @@ echo "DeviceType = ${DeviceType}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "CaseName = ${CaseName}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${ActualFPS}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${Accuracy}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+#echo "TrainAccuracy = ${Accuracy}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2etime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 
