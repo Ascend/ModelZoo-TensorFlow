@@ -107,7 +107,7 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-batch_size=9
+batch_size=1
 
 if [ x"${etp_flag}" != xtrue ];
 then
