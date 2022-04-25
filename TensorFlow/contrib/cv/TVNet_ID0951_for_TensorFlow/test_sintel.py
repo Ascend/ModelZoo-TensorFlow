@@ -28,7 +28,6 @@
 import os
 
 import cv2
-import moxing as mox
 import numpy as np
 import scipy.io as sio
 import tensorflow as tf
@@ -46,8 +45,7 @@ data_path = '/home/ma-user/modelarts/inputs/data_url_0/'
 output_path = '/home/ma-user/modelarts/outputs/train_url_0/'
 print('data_url :' + data_path)
 print('output_url :' + output_path)
-# 从obs上获取模型
-mox.file.copy_parallel('obs://cann-id0951/model/output/',output_path)
+
 
 eval_data = os.listdir(output_path)  # 返回data_path下包含的文件或文件夹的名字的列表
 print('输出目录下的文件：')
@@ -102,4 +100,3 @@ print("Extracting Flow finished!")
 # 关闭sess
 sess.close()
 
-mox.file.copy_parallel(output_path, 'obs://cann-id0951/result/')
