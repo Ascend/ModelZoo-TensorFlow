@@ -1027,7 +1027,7 @@ def main(_):
   master_process = True
   training_hooks = []
   global_batch_size = FLAGS.train_batch_size * FLAGS.num_accumulation_steps
-  # hvd_rank = 0
+  hvd_rank = 0
 
   config = tf.ConfigProto(
       inter_op_parallelism_threads=0,
@@ -1042,7 +1042,7 @@ def main(_):
       global_batch_size = FLAGS.train_batch_size * rank_size * FLAGS.num_accumulation_steps
       learning_rate = learning_rate * rank_size
       master_process = (rank_id == 0)
-      # hvd_rank = rank_id
+      hvd_rank = rank_id
       # config.gpu_options.visible_device_list = str(hvd.local_rank())
       #set_affinity(hvd.local_rank())
       # if rank_size > 1:
