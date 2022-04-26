@@ -162,7 +162,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
                 ├──eval_10k.tfrecord
 ```
 
-4、数据集pack (仅在使用packc策略进行训练时执行)
+4、数据集pack (仅在使用pack策略进行训练时执行)
 
 若训练时使用pack策略 （参看“模型训练” - 开始训练 - 4.pack策略）， 须将数据集进行处理，生成为pack后的数据集。再使用pack后的数据集进行训练。 数据集转换脚本在bert/data_pack/目录下，具体可参看该文件夹内README文件。 数据集pack过后，在指定的目录下生成“strategy_record”开头的一系列文件。
 
