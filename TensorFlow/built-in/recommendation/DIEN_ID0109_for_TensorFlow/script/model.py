@@ -111,7 +111,10 @@ class Model(object):
             if self.use_negsampling:
                 self.loss += self.aux_loss
             tf.summary.scalar('loss', self.loss)
-            self.optimizer = tf.train.AdamOptimizer(learning_rate=self.lr).minimize(self.loss)
+            self.optimizer = tf.train.AdamOptimizer(learning_rate=self.lr)
+            loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=2, decr_ratio=0.5)
+            self.optimizer = NPULossScaleOptimizer(self.optimizer, loss_scale_manager)
+            self.optimizer = self.optimizer.minimize(self.loss)
 
             # Accuracy metric
             self.accuracy = tf.reduce_mean(tf.cast(tf.equal(tf.round(self.y_hat), self.target_ph), tf.float32))
