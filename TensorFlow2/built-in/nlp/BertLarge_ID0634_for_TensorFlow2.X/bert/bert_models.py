@@ -223,7 +223,7 @@ def pretrain_model(bert_config,
         shape=(FLAGS.max_sequences_per_pack,), dtype=tf.int32, name='next_sentence_positions')
     next_sentence_labels = tf.keras.layers.Input(
         shape=(FLAGS.max_sequences_per_pack,), name='next_sentence_labels', dtype=tf.int32)
-  else：
+  else:
     next_sentence_labels = tf.keras.layers.Input(
         shape=(1,), name='next_sentence_labels', dtype=tf.int32)
 
