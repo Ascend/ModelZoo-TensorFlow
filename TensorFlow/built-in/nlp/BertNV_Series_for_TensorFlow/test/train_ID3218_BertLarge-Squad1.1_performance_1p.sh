@@ -20,7 +20,8 @@ num_train_epochs=1.0
 #学习率
 learning_rate=2e-5
 #维测参数，precision_mode需要模型审视修改
-precision_mode="allow_mix_precision"
+#precision_mode="allow_mix_precision"
+precision_mode="allow_fp32_to_fp16"
 #维持参数，以下不需要修改
 over_dump=False
 over_dump_path=${cur_path}/output/overflow_dump
@@ -122,8 +123,9 @@ do
       --learning_rate=$learning_rate \
       --num_train_epochs=$num_train_epochs \
       --save_checkpoints_steps=1000 \
-      --npu_bert_loss_scale=0 \
+      --npu_bert_loss_scale=-1 \
       --npu_gather=False \
+      --use_fast_gelu=False \
       --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID} \
       --enable_exception_dump=$enable_exception_dump\
       --data_dump_flag=$data_dump_flag \
