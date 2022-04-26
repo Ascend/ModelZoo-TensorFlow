@@ -223,7 +223,7 @@ def main():
 
     print("#########gpu number:",args.ngpu)
     args.logdir = os.path.join(hparams.logdir_root, args.run_name)
-    if not os.path.exists(args.logdir):
+    if not os.path.exists(args.logdir) and deviceid == 0:
         os.makedirs(args.logdir)
 
     args.gen_wave_dir = os.path.join(args.logdir, 'wave')
