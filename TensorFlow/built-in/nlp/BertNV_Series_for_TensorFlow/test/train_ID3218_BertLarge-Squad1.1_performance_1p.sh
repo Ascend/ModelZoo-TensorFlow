@@ -122,7 +122,7 @@ do
       --learning_rate=$learning_rate \
       --num_train_epochs=$num_train_epochs \
       --save_checkpoints_steps=1000 \
-      --npu_bert_loss_scale=-1 \
+      --npu_bert_loss_scale=0 \
       --npu_gather=False \
       --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID} \
       --enable_exception_dump=$enable_exception_dump\
