@@ -29,7 +29,8 @@ from modeling.networks import bert_pretrainer
 from modeling.networks import bert_span_labeler
 from modeling.layers import bert_dropout
 from metrics_sparse_int32 import sparse_categorical_accuracy_int32
-
+from absl import flags
+FLAGS=flags.FLAGS
 
 class BertPretrainLossAndMetricLayer(tf.keras.layers.Layer):
   """Returns layer that computes custom loss and metrics for pretraining."""
@@ -43,7 +44,7 @@ class BertPretrainLossAndMetricLayer(tf.keras.layers.Layer):
 
   def _add_metrics(self, lm_output, lm_labels, lm_label_weights,
                    lm_example_loss, sentence_output, sentence_labels,
-                   next_sentence_loss):
+                   next_sentence_loss, next_sentence_weights=None):
     """Adds metrics."""
     #masked_lm_accuracy = tf.keras.metrics.sparse_categorical_accuracy(
     #    lm_labels, lm_output)
@@ -59,6 +60,11 @@ class BertPretrainLossAndMetricLayer(tf.keras.layers.Layer):
     #next_sentence_accuracy = tf.keras.metrics.sparse_categorical_accuracy(
     #    sentence_labels, sentence_output)
     next_sentence_accuracy = sparse_categorical_accuracy_int32(sentence_labels, sentence_output)
+    if FLAGS.use_packed_model:
+      print("next_sentence_accuracy, next_sentence_weights=====", next_sentence_accuracy, next_sentence_weights)
+      next_sentence_numerator = tf.reduce_sum(next_sentence_accuracy * next_sentence_weights)
+      next_sentence_denominator = tf.reduce_sum(next_sentence_weights)
+      next_sentence_accuracy = next_sentence_numerator / next_sentence_denominator
     next_sentence_num = tf.reduce_sum(next_sentence_accuracy)
     next_sentence_denom = tf.size(next_sentence_accuracy)
     # self.add_metric(
@@ -81,15 +87,24 @@ class BertPretrainLossAndMetricLayer(tf.keras.layers.Layer):
 
 
   def call(self, lm_output, sentence_output, lm_label_ids, lm_label_weights,
-           sentence_labels):
+           sentence_labels, next_sentence_weights=None):
     """Implements call() for the layer."""
     lm_label_weights = tf.cast(lm_label_weights, tf.float32)
+    if FLAGS.use_packed_model:
+      lm_label_weights = tf.minimum(lm_label_weights, 1.0)
     lm_output = tf.cast(lm_output, tf.float32)
     sentence_output = tf.cast(sentence_output, tf.float32)
 
     mask_label_loss = losses.weighted_sparse_categorical_crossentropy_loss(
         labels=lm_label_ids, predictions=lm_output, weights=lm_label_weights)
-    sentence_loss = losses.weighted_sparse_categorical_crossentropy_loss(
+    if FLAGS.use_packed_model:
+      # change shape [B, 3] to [B*3, ], keep batch normal
+      sentence_labels = tf.reshape(sentence_labels, [-1,])
+      next_sentence_weights = tf.reshape(next_sentence_weights, [-1,])
+      sentence_loss = losses.weighted_sparse_categorical_crossentropy_loss(
+        labels=sentence_labels, predictions=sentence_output, weights=next_sentence_weights)
+    else:
+      sentence_loss = losses.weighted_sparse_categorical_crossentropy_loss(
         labels=sentence_labels, predictions=sentence_output)
     loss = mask_label_loss + sentence_loss
     batch_shape = tf.slice(tf.shape(sentence_labels), [0], [1])
@@ -100,9 +115,15 @@ class BertPretrainLossAndMetricLayer(tf.keras.layers.Layer):
     # TODO(b/122840926): metrics use distribution strategy merge_call() and do
     # not work with tf.function(compile=True). Either fix this issue or move
     # metric aggregation outside the model.
-    metric_outputs = self._add_metrics(lm_output, lm_label_ids, lm_label_weights,
-                     mask_label_loss, sentence_output, sentence_labels,
-                     sentence_loss)
+    if FLAGS.use_packed_model:
+      next_sentence_weights = tf.cast(next_sentence_weights,dtype=tf.float32)
+      metric_outputs = self._add_metrics(lm_output, lm_label_ids, lm_label_weights,
+                       mask_label_loss, sentence_output, sentence_labels,
+                       sentence_loss,next_sentence_weights)
+    else:
+      metric_outputs = self._add_metrics(lm_output, lm_label_ids, lm_label_weights,
+                       mask_label_loss, sentence_output, sentence_labels,
+                       sentence_loss)
     return final_loss, bs, metric_outputs
 
 
@@ -194,8 +215,17 @@ def pretrain_model(bert_config,
       shape=(max_predictions_per_seq,),
       name='masked_lm_weights',
       dtype=tf.int32)
-  next_sentence_labels = tf.keras.layers.Input(
-      shape=(1,), name='next_sentence_labels', dtype=tf.int32)
+  
+  if FLAGS.use_packed_model:
+    next_sentence_weights = tf.keras.layers.Input(
+        shape=(FLAGS.max_sequences_per_pack,), name='next_sentence_weights', dtype=tf.int32)
+    next_sentence_positions = tf.keras.layers.Input(
+        shape=(FLAGS.max_sequences_per_pack,), dtype=tf.int32, name='next_sentence_positions')
+    next_sentence_labels = tf.keras.layers.Input(
+        shape=(FLAGS.max_sequences_per_pack,), name='next_sentence_labels', dtype=tf.int32)
+  else：
+    next_sentence_labels = tf.keras.layers.Input(
+        shape=(1,), name='next_sentence_labels', dtype=tf.int32)
 
   transformer_encoder = get_transformer_encoder(bert_config, seq_length)
   if initializer is None:
@@ -208,16 +238,39 @@ def pretrain_model(bert_config,
       activation=tf_utils.get_activation(bert_config.hidden_act),
       initializer=initializer,
       output='predictions')
-
-  lm_output, sentence_output = pretrainer_model(
-      [input_word_ids, input_mask, input_type_ids, masked_lm_positions])
+  
+  if FLAGS.use_packed_model:
+    lm_output, sentence_output = pretrainer_model(
+        [input_word_ids, input_mask, input_type_ids, next_sentence_positions, masked_lm_positions])
+  else:
+    lm_output, sentence_output = pretrainer_model(
+        [input_word_ids, input_mask, input_type_ids, masked_lm_positions])
 
   pretrain_loss_layer = BertPretrainLossAndMetricLayer(
       vocab_size=bert_config.vocab_size)
-  output_loss = pretrain_loss_layer(lm_output, sentence_output, masked_lm_ids,
-                                    masked_lm_weights, next_sentence_labels)
-  keras_model = tf.keras.Model(
+  if FLAGS.use_packed_model:
+    output_loss = pretrain_loss_layer(lm_output, sentence_output, masked_lm_ids,
+                                      masked_lm_weights, next_sentence_labels, next_sentence_weights)
+  else:
+    output_loss = pretrain_loss_layer(lm_output, sentence_output, masked_lm_ids,
+                                      masked_lm_weights, next_sentence_labels)
+  if FLAGS.use_packed_model:
+    keras_model = tf.keras.Model(
       inputs={
+          'input_word_ids': input_word_ids,
+          'input_mask': input_mask,
+          'input_type_ids': input_type_ids,
+          'masked_lm_positions': masked_lm_positions,
+          'masked_lm_ids': masked_lm_ids,
+          'masked_lm_weights': masked_lm_weights,
+          'next_sentence_labels': next_sentence_labels,
+          'next_sentence_weights': next_sentence_weights,
+          'next_sentence_positions': next_sentence_positions,
+      },
+      outputs=output_loss)
+  else:
+    keras_model = tf.keras.Model(
+        inputs={
           'input_word_ids': input_word_ids,
           'input_mask': input_mask,
           'input_type_ids': input_type_ids,
