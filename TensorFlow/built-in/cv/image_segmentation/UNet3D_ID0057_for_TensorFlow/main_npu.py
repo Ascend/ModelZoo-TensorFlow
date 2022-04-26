@@ -39,8 +39,8 @@ from dataset.data_loader import Dataset, CLASSES
 from runtime.hooks import get_hooks, ProfilingHook, TrainingHook
 from runtime.arguments import PARSER
 from runtime.setup import prepare_model_dir, build_estimator, set_flags, get_logger
-#from hccl.split.api import set_split_strategy_by_idx
-#set_split_strategy_by_idx([1,90,99])
+from hccl.split.api import set_split_strategy_by_idx
+set_split_strategy_by_idx([1,90,99])
 
 def parse_evaluation_results(result):
     data = {CLASSES[i]: result[CLASSES[i]] for i in range(len(CLASSES))}
