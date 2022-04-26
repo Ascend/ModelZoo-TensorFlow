@@ -7,6 +7,7 @@ import json
 import re
 import tensorflow as tf
 from tqdm import trange
+from npu_bridge.npu_init import *
 
 from ascendcv.runner.solver import build_solver
 from ascendcv.utils.writer import ImageWriter
@@ -168,6 +169,7 @@ class VSR(object):
         self.saver = tf.train.Saver(max_to_keep=100, keep_checkpoint_every_n_hours=1)
 
         ave_loss = None
+        train_op = util.set_iteration_per_loop(sess, train_op, 10)
         st_time = time.time()
         for it in range(recover_step, solver.total_step):
             if self.read_mode == 'python':
@@ -188,7 +190,7 @@ class VSR(object):
 
             if (it + 1) % self.solver.print_interval == 0 and \
                     not (npu_distributed and int(os.environ['DEVICE_ID']) != self.cfg.root_rank):
-                ave_time = once_time / self.solver.print_interval
+                ave_time = once_time / self.solver.print_interval / 10
                 fps = self.batch_size / ave_time * self.cfg.rank_size
                 print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
                       'Step:{}, lr:{:.8f}, loss:{:.08f}, session time:{:.2f}ms, session fps:{:.2f}, device_id: {}'.format(
