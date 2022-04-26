@@ -174,10 +174,10 @@ class TransformerEncoder(tf.keras.Model):
       
       first_token_tensor = (
           tf.keras.layers.Lambda(first_token)([encoder_outputs, next_sentence_starts]))
-  else:
-    first_token_tensor = (
-        tf.keras.layers.Lambda(lambda x: tf.squeeze(x[:, 0:1, :], axis=1))(
-            encoder_outputs[-1]))
+    else:
+      first_token_tensor = (
+          tf.keras.layers.Lambda(lambda x: tf.squeeze(x[:, 0:1, :], axis=1))(
+              encoder_outputs[-1]))
     cls_output = tf.keras.layers.Dense(
         units=hidden_size,
         activation='tanh',
