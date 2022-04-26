@@ -14,7 +14,7 @@ data_path=""
 #网络名称，同目录名称
 Network="BertLarge-Squad1.1_ID3218_for_TensorFlow"
 #训练batch_size
-train_batch_size=32
+train_batch_size=16
 #训练ephch
 num_train_epochs=1.0
 #学习率
