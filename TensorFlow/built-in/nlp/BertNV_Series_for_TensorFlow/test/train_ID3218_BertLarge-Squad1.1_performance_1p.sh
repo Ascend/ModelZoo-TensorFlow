@@ -14,11 +14,11 @@ data_path=""
 #网络名称，同目录名称
 Network="BertLarge-Squad1.1_ID3218_for_TensorFlow"
 #训练batch_size
-train_batch_size=16
+train_batch_size=32
 #训练ephch
 num_train_epochs=1.0
 #学习率
-learning_rate=2e-5
+learning_rate=5e-6
 #维测参数，precision_mode需要模型审视修改
 #precision_mode="allow_mix_precision"
 precision_mode="allow_fp32_to_fp16"
@@ -123,9 +123,7 @@ do
       --learning_rate=$learning_rate \
       --num_train_epochs=$num_train_epochs \
       --save_checkpoints_steps=1000 \
-      --npu_bert_loss_scale=-1 \
-      --npu_gather=False \
-      --use_fast_gelu=False \
+      --npu_bert_loss_scale=0 \
       --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID} \
       --enable_exception_dump=$enable_exception_dump\
       --data_dump_flag=$data_dump_flag \
