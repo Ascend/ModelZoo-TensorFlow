@@ -134,7 +134,7 @@ def create_pretrain_dataset(input_patterns,
           tf.io.FixedLenFeature([seq_length], tf.int64),
       'masked_lm_positions':
           tf.io.FixedLenFeature([max_predictions_per_seq], tf.int64),
-      'masked_lm_positions':
+      'masked_lm_ids':
           tf.io.FixedLenFeature([max_predictions_per_seq], tf.int64),
       'masked_lm_weights':
           tf.io.FixedLenFeature([max_predictions_per_seq], tf.int64),
