@@ -18,7 +18,7 @@ train_batch_size=32
 #训练ephch
 num_train_epochs=1.0
 #学习率
-learning_rate=5e-6
+learning_rate=2e-5
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
