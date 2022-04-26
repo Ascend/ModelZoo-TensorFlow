@@ -164,11 +164,15 @@ BlitzNet在一次前向传递中联合执行对象检测和语义分割，从而
      train_performance_1p.sh中调用的训练命令示例如下：
      python3 train_1p.py --obs_dir=${obs_url} --run_name=BlitzNet300_x4_VOC12_detsegaug --dataset=voc12-train --trunk=resnet50 --x4 --batch_size=16 --optimizer=adam --detect --segment --max_iterations=40000 --lr_decay 25000 35000
 
-  3. 执行结果。
-|    | ACC| FPS|
-| ---------- | -------- | -------- |
-| GPU精度16 | 0.88 | 0.35 sec/batch  |
-| NPU精度   | 0.88 | 0.23 sec/batch  |
+  3. 执行结果。    
+
+  |精度指标项|论文发布|GPU实测|NPU实测|
+  |---|---|---|---|
+  |ACC|xxx|0.88|0.88|
+
+  |性能指标项|论文发布|GPU实测|NPU实测|
+  |---|---|---|---|
+  |FPS|XXX|0.35 sec/batch|0.23 sec/batch|
 
 
 <h2 id="高级参考">高级参考</h2>
