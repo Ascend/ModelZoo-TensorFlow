@@ -21,6 +21,8 @@ from __future__ import print_function
 import tensorflow as tf
 from tf2_common.modeling import tf_utils
 
+from absl import flags
+FLAGS=flags.FLAGS
 
 @tf.keras.utils.register_keras_serializable(package='Text')
 class SelfAttentionMask(tf.keras.layers.Layer):
@@ -44,19 +46,30 @@ class SelfAttentionMask(tf.keras.layers.Layer):
     to_shape = tf_utils.get_shape_list(to_mask, expected_rank=2)
     to_seq_length = to_shape[1]
 
-    to_mask = tf.cast(
-        tf.reshape(to_mask, [batch_size, 1, to_seq_length]),
-        dtype=from_tensor.dtype)
+    if FLAGS.use_packed_model:
+      mask_tile = tf.tile(to_mask, [1, to_seq_length])
+      mask_tile = tf.reshape(mask_tile, (batch_size * to_seq_length, to_seq_length))
+      reshape_mask = tf.reshape(to_mask, (1, -1))
+      broadcast_mask = tf.broadcast_to(reshape_mask, (to_seq_length, batch_size * to_seq_length))
+      transpose_mask = tf.transpose(broadcast_mask, (1, 0))
+      equal_mask = tf.equal(mask_tile, transpose_mask)
+      equal_mask = tf.cast(equal_mask, dtype=tf.float32)
+      mask = tf.reshape(equal_mask, [batch_size, to_seq_length, to_seq_length])
 
-    # We don't assume that `from_tensor` is a mask (although it could be). We
-    # don't actually care if we attend *from* padding tokens (only *to* padding)
-    # tokens so we create a tensor of all ones.
-    #
-    # `broadcast_ones` = [batch_size, from_seq_length, 1]
-    broadcast_ones = tf.ones(
-        shape=[batch_size, from_seq_length, 1], dtype=from_tensor.dtype)
+    else:
+      to_mask = tf.cast(
+          tf.reshape(to_mask, [batch_size, 1, to_seq_length]),
+          dtype=from_tensor.dtype)
 
-    # Here we broadcast along two dimensions to create the mask.
-    mask = broadcast_ones * to_mask
+      # We don't assume that `from_tensor` is a mask (although it could be). We
+      # don't actually care if we attend *from* padding tokens (only *to* padding)
+      # tokens so we create a tensor of all ones.
+      #
+      # `broadcast_ones` = [batch_size, from_seq_length, 1]
+      broadcast_ones = tf.ones(
+          shape=[batch_size, from_seq_length, 1], dtype=from_tensor.dtype)
+
+      # Here we broadcast along two dimensions to create the mask.
+      mask = broadcast_ones * to_mask
 
     return mask
