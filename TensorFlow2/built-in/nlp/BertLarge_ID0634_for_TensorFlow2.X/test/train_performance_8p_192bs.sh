@@ -1,4 +1,4 @@
-#!/bin/bash
+#'!/bin/bash
 
 #当前路径,不需要修改
 cur_path=`pwd`
@@ -88,7 +88,7 @@ if [[ $data_path == "" ]];then
     exit 1
 fi
 
-init_ckpt_path=${data_path}/tf2_ckpt/model.ckpt-28252  #need modify to actual path
+init_ckpt_path=${data_path}/'tf2_ckpt/model.ckpt-28252'  #need modify to actual path
 train_files_path=${data_path}/'train/*'  #need modify to actual path
 eval_files_path=${data_path}/'eval/eval.tfrecord'  #need modify to actual path
 
