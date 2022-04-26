@@ -24,7 +24,7 @@ Network="BlitzNet_ID0948_for_TensorFlow"
 #训练epoch
 train_epochs=
 #训练batch_size
-batch_size=32
+batch_size=16
 #训练step
 train_steps=40000
 #学习率
@@ -129,7 +129,7 @@ do
         --dataset=voc12-train \
         --trunk=resnet50 \
         --x4 \
-        --batch_size=32 \
+        --batch_size=16 \
         --optimizer=adam \
         --detect \
         --segment \
@@ -161,7 +161,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 ActualFPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
 
 #获取模型精度
-train_accuracy=`grep "acc =" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk 'END {print $12}'|sed 's/,//g'`
+train_accuracy=`grep "acc =" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | tail -n 10 | awk '{print $12}' | awk -F"," '{print $1}' | awk '{sum+=$1} END {print sum/NR}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep 'loss =' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $9}'|sed 's/,//g' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
