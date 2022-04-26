@@ -24,7 +24,7 @@ Network="BlitzNet_ID0948_for_TensorFlow"
 #训练epoch
 train_epochs=
 #训练batch_size
-batch_size=32
+batch_size=16
 #训练step
 train_steps=10
 #学习率
@@ -130,7 +130,7 @@ do
         --dataset=voc12-train \
         --trunk=resnet50 \
         --x4 \
-        --batch_size=32 \
+        --batch_size=16 \
         --optimizer=adam \
         --detect \
         --segment \
