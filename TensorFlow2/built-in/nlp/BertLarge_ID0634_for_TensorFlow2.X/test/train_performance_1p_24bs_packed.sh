@@ -90,7 +90,7 @@ fi
 
 init_ckpt_path=${data_path}/'output_ckpt/model.ckpt-28252'  #need modify to actual path
 train_files_path=${data_path}/'train_packed/*'  #need modify to actual path
-eval_files_path=${data_path}/'eval/eval_packed/*'  #need modify to actual path
+eval_files_path=${data_path}/'eval_packed/*'  #need modify to actual path
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
@@ -124,7 +124,7 @@ do
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
     nohup taskset -c $a-$c python3 ../bert/run_pretraining.py \
-    --use_packed_model=True \
+      --use_packed_model=True \
   	--all_reduce_alg=nccl \
  	 --bert_config_file=../configs/bert_config.json \
   	--beta_1=0.91063 \
