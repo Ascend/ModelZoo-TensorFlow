@@ -12,7 +12,7 @@ RANK_ID_START=0
 data_path=""
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertLarge-Squad1.1_ID3218_for_TensorFlow"
+Network="BertBase-Squad1.1_ID3217_for_TensorFlow"
 #训练batch_size
 train_batch_size=32
 #训练ephch
@@ -89,7 +89,7 @@ if [[ $data_path == "" ]];then
 	echo "[Error] para \"data_path\" must be config"
 	exit 1
 fi
-model_path=${data_path}/google_pretrained_weights/uncased_L-24_H-1024_A-16
+model_path=${data_path}/google_pretrained_weights/uncased_L-12_H-768_A-12
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
@@ -115,7 +115,7 @@ do
       --init_checkpoint=${model_path}/bert_model.ckpt \
       --do_train=True \
       --train_file=${data_path}/squad/v1.1/squad_v1.1_train.tf_record \
-      --do_predict=False \
+      --do_predict=True \
       --predict_file=${data_path}/squad/v1.1/dev-v1.1.json \
       --eval_script=${data_path}/squad/v1.1/evaluate-v1.1.py \
       --train_batch_size=$train_batch_size \
