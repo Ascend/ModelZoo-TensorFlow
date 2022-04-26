@@ -1,4 +1,4 @@
-#'!/bin/bash
+#!/bin/bash
 
 #当前路径,不需要修改
 cur_path=`pwd`
@@ -91,7 +91,7 @@ fi
 
 init_ckpt_path=${data_path}/'output_ckpt/model.ckpt-28252'  #need modify to actual path
 train_files_path=${data_path}/'train_packed/*'  #need modify to actual path
-eval_files_path=${data_path}/'eval/eval_packed/*'  #need modify to actual path
+eval_files_path=${data_path}/'eval_packed/*'  #need modify to actual path
 
 
 
@@ -126,7 +126,7 @@ do
         bind_core="taskset -c $a-$c"
     fi
     nohup ${bind_core} python3 ../bert/run_pretraining.py \
-    --use_packed_model=True \
+      --use_packed_model=True \
   	--all_reduce_alg=nccl \
  	 --bert_config_file=../configs/bert_config.json \
   	--beta_1=0.91063 \
