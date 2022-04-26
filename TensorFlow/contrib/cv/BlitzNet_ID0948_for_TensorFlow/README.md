@@ -141,26 +141,37 @@ BlitzNet在一次前向传递中联合执行对象检测和语义分割，从而
 
 - 单卡训练 
 
-  1. 配置训练参数。
+  1. 单卡性能训练。
 
-     首先在脚本run_1p.sh中，配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
-
-     ```
-     
-     python3 ${code_dir}/train_1p.py --obs_dir=${obs_url} --run_name=BlitzNet300_x4_VOC12_detsegaug --dataset=voc12-train --trunk=resnet50 --x4 --batch_size=32 --optimizer=adam --detect --segment --max_iterations=40000 --lr_decay 25000 35000
-     ```
-
-  2. 启动训练。
-
-     启动单卡精度训练 （脚本为BlitzNet_ID0948_for_Tensorflow/train_testcase.sh）
+     用户可以执行test/train_performance_1p.sh脚本执行少量step获取性能信息：
 
      ```
-     bash train_testcase.sh --code_url=/npu/traindata/cnews --data_url=/npu/traindata/cnews --result_url=/npu/traindata/cnews
+     cd test
+     bash train_performance_1p.sh --data_path=数据集路径   
+
+     train_performance_1p.sh中调用的训练命令示例如下：
+     python3 train_1p.py --obs_dir=${obs_url} --run_name=BlitzNet300_x4_VOC12_detsegaug --dataset=voc12-train --trunk=resnet50 --x4 --batch_size=16 --optimizer=adam --detect --segment --max_iterations=10 --lr_decay 25000 35000
      ```
+
+  2. 单卡精度训练。
+
+     用户可以执行test/train_full_1p.sh脚本执行少量step获取性能信息：
+
+     ```
+     cd test
+     bash train_full_1p.sh --data_path=数据集路径   
+
+     train_performance_1p.sh中调用的训练命令示例如下：
+     python3 train_1p.py --obs_dir=${obs_url} --run_name=BlitzNet300_x4_VOC12_detsegaug --dataset=voc12-train --trunk=resnet50 --x4 --batch_size=16 --optimizer=adam --detect --segment --max_iterations=40000 --lr_decay 25000 35000
+
+  3. 执行结果。
+|    | ACC| FPS|
+| ---------- | -------- | -------- |
+| GPU精度16 | 0.88 | 0.35 sec/batch  |
+| NPU精度   | 0.88 | 0.23 sec/batch  |
+
 
 <h2 id="高级参考">高级参考</h2>
-
-
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 
@@ -175,85 +186,3 @@ BlitzNet在一次前向传递中联合执行对象检测和语义分割，从而
 │    ├──train_testcase.sh                    //自测试用例脚本
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
-
-```
-data_input_test.py 
---obs_dir=${obs_url} 
---run_name=BlitzNet300_x4_VOC12_detsegaug 
---dataset=voc12-train 
---trunk=resnet50 
---x4 
---batch_size=32 
---optimizer=adam 
---detect 
---segment 
---max_iterations=40000 
---lr_decay 25000 35000
-```
-
-
-## 训练过程<a name="section1589455252218"></a>
-
-1.  通过“模型训练”中的训练指令启动性能或者精度训练。性能和精度通过运行不同脚本，支持性能、精度网络训练。
-
-2.  参考脚本的模型存储路径为test/output/*，训练脚本train_*.log中可查看性能、精度的相关运行状态。
-
-## 推理过程<a name="section1589455252218"></a>
-1.  ckpt文件
-
-- ckpt文件下载地址:
-  
-  https://sharegua.obs.cn-north-4.myhuaweicloud.com:443/checkpoint65.zip?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1667698491&Signature=Ltfv5%2B5VbaFSklW3pI6W6oTh73A%3D
-  
-    通过freeze_graph.py转换成pb文件bliznet_tf_310.pb
-  
-- pb文件下载地址:
-  
-  https://sharegua.obs.myhuaweicloud.com:443/bliznet_tf_310.pb?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1667656586&Signature=JhBRfk5dpeDFE%2BPy1jQg6Q4mvHY%3D
-
-2.  om模型
-
-- om模型下载地址:
-  
-  https://sharegua.obs.myhuaweicloud.com:443/bliznet_tf_310.om?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1667656644&Signature=Z7DyzKRGPd27pYipfD2Ke/KSGAo%3D
-
-    使用ATC模型转换工具进行模型转换时可以参考如下指令:
-
-```
-atc --model=/home/HwHiAiUser/atc/bliznet_tf_310.pb --framework=3 --output=/home/HwHiAiUser/atc/bliznet_tf_310 --soc_version=Ascend310 \
-        --input_shape="input:1,300,300,3" \
-        --log=info \
-        --out_nodes="concat_1:0;concat_2:0;ssd_2/Conv_7/BiasAdd:0"      
-```
-
-3.  使用msame工具推理
-    
-    参考 https://gitee.com/ascend/tools/tree/master/msame, 获取msame推理工具及使用方法。
-
-    获取到msame可执行文件之后，将待检测om文件放在model文件夹，然后进行性能测试。
-    
-    msame推理可以参考如下指令:
-```
-./msame --model "/home/HwHiAiUser/msame/bliznet_tf_310.om" --input "/home/HwHiAiUser/msame/data" --output "/home/HwHiAiUser/msame/out/" --outfmt TXT
-```
-- 测试数据bin文件下载地址:
-  
-  https://sharegua.obs.cn-north-4.myhuaweicloud.com:443/img.zip?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1667698452&Signature=f3aLaUdPnodF8PKtCaI5Ox4wb6c%3D
-
-4.  性能测试
-    
-    使用testBliznetPb_OM_Data.py对推理完成后获得的txt文件进行测试
-
-<h2 id="精度测试">精度测试</h2>
-
-训练集：VOC12 train-seg-aug
-
-测试集：VOC12 val
-
-|    | mIoU |  mAP | 性能|
-| ---------- | -------- | -------- | -------- |
-| 论文精度 | 72.8       | 80.0 |       / |
-| GPU精度32 | 72.8       | 80.0 |     0.35 sec/batch  |
-| GPU精度16 | 72.0       | 78.3 |     0.35 sec/batch  |
-| NPU精度   | 70.1       | 77.6 |     0.40 sec/batch  |
