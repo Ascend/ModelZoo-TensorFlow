@@ -189,7 +189,7 @@ BatchSize=${batch_size}
 #设备类型
 DeviceType=`uname -m`
 #用例名称
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p_packed'_'perf'
 
 ##获取性能数据
 #吞吐量，不需要修改
