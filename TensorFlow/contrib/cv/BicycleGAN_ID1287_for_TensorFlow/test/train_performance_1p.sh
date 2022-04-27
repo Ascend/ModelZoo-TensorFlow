@@ -113,13 +113,13 @@ epoch=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./main.py --data_path=${data_path} --output_path=${output_path} --epoch=${epoch}
+    python3.7 ./main.py --data_path=${data_path}/maps --output_path=${output_path} --epoch=${epoch}
 else
-    python3.7 ./main.py --data_path=${data_path} --output_path=${output_path} --epoch=${epoch} > ${print_log}
+    python3.7 ./main.py --data_path=${data_path}/maps --output_path=${output_path} --epoch=${epoch} > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "sec/step :" ${print_log} | tail -n 7 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
