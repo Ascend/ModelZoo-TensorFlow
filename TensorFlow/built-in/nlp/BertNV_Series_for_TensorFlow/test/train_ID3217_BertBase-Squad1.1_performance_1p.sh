@@ -18,7 +18,7 @@ train_batch_size=32
 #训练ephch
 num_train_epochs=1.0
 #学习率
-learning_rate=5e-6
+learning_rate=3e-5
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
@@ -115,7 +115,7 @@ do
       --init_checkpoint=${model_path}/bert_model.ckpt \
       --do_train=True \
       --train_file=${data_path}/squad/v1.1/squad_v1.1_train.tf_record \
-      --do_predict=True \
+      --do_predict=False \
       --predict_file=${data_path}/squad/v1.1/dev-v1.1.json \
       --eval_script=${data_path}/squad/v1.1/evaluate-v1.1.py \
       --train_batch_size=$train_batch_size \
