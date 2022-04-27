@@ -40,7 +40,8 @@ import npu_device as npu
 from npu_device.npu_device import global_npu_ctx
 import numpy as np
 from tf2_common.utils.dataset_unpad import _batch_examples
-
+from absl import flags
+FLAGS=flags.FLAGS
 
 def decode_record(record, name_to_features):
   """Decodes a record to a TensorFlow example."""
@@ -121,22 +122,44 @@ def create_pretrain_dataset(input_patterns,
                             input_pipeline_context=None,
                             num_eval_samples=None):
   """Creates input dataset from (tf)records files for pretraining."""
-  name_to_features = {
+  if FLAGS.use_packed_model:
+    name_to_features = {
       'input_ids':
           tf.io.FixedLenFeature([seq_length], tf.int64),
       'input_mask':
           tf.io.FixedLenFeature([seq_length], tf.int64),
       'segment_ids':
           tf.io.FixedLenFeature([seq_length], tf.int64),
+      'positions_ids':
+          tf.io.FixedLenFeature([seq_length], tf.int64),
       'masked_lm_positions':
           tf.io.FixedLenFeature([max_predictions_per_seq], tf.int64),
       'masked_lm_ids':
           tf.io.FixedLenFeature([max_predictions_per_seq], tf.int64),
       'masked_lm_weights':
-          tf.io.FixedLenFeature([max_predictions_per_seq], tf.float32),
-      'next_sentence_labels':
-          tf.io.FixedLenFeature([1], tf.int64),
-  }
+          tf.io.FixedLenFeature([max_predictions_per_seq], tf.int64),
+      
+      'next_sentence_positions': tf.io.FixedLenFeature([FLAGS.max_sequences_per_pack], tf.int64),
+      'next_sentence_labels': tf.io.FixedLenFeature([FLAGS.max_sequences_per_pack], tf.int64),
+      'next_sentence_weights': tf.io.FixedLenFeature([FLAGS.max_sequences_per_pack], tf.int64),
+    }
+  else:
+    name_to_features = {
+        'input_ids':
+            tf.io.FixedLenFeature([seq_length], tf.int64),
+        'input_mask':
+            tf.io.FixedLenFeature([seq_length], tf.int64),
+        'segment_ids':
+            tf.io.FixedLenFeature([seq_length], tf.int64),
+        'masked_lm_positions':
+            tf.io.FixedLenFeature([max_predictions_per_seq], tf.int64),
+        'masked_lm_ids':
+            tf.io.FixedLenFeature([max_predictions_per_seq], tf.int64),
+        'masked_lm_weights':
+            tf.io.FixedLenFeature([max_predictions_per_seq], tf.float32),
+        'next_sentence_labels':
+            tf.io.FixedLenFeature([1], tf.int64),
+    }
 
   if use_synthetic:
     dataset = create_synthetic_pretrain_dataset(
@@ -188,15 +211,28 @@ def create_pretrain_dataset(input_patterns,
 
   def _select_data_from_record(record):
     """Filter out features to use for pretraining."""
-    x = {
-        'input_word_ids': record['input_ids'],
-        'input_mask': record['input_mask'],
-        'input_type_ids': record['segment_ids'],
-        'masked_lm_positions': record['masked_lm_positions'],
-        'masked_lm_ids': record['masked_lm_ids'],
-        'masked_lm_weights': record['masked_lm_weights'],
-        'next_sentence_labels': record['next_sentence_labels'],
-    }
+    if FLAGS.use_packed_model:
+      x = {
+          'input_word_ids': record['input_ids'],
+          'input_mask': record['input_mask'],
+          'input_type_ids': record['segment_ids'],
+          'masked_lm_positions': record['masked_lm_positions'],
+          'masked_lm_ids': record['masked_lm_ids'],
+          'masked_lm_weights': record['masked_lm_weights'],
+          'next_sentence_labels': record['next_sentence_labels'],
+          'next_sentence_positions': record['next_sentence_positions'],
+          'next_sentence_weights': record['next_sentence_weights'],
+      }
+    else:
+      x = {
+          'input_word_ids': record['input_ids'],
+          'input_mask': record['input_mask'],
+          'input_type_ids': record['segment_ids'],
+          'masked_lm_positions': record['masked_lm_positions'],
+          'masked_lm_ids': record['masked_lm_ids'],
+          'masked_lm_weights': record['masked_lm_weights'],
+          'next_sentence_labels': record['next_sentence_labels'],
+      }
 
     y = record['masked_lm_weights']
 

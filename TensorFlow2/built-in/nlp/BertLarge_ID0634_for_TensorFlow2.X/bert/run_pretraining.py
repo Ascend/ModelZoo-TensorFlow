@@ -120,6 +120,21 @@ flags.DEFINE_integer('num_accumulation_steps', 1,
                      'number of steps to accumulate with large batch size.')
 flags.DEFINE_float('stop_threshold', 0.912, 'Stop threshold for MLPerf.')
 flags.DEFINE_float('poly_power', 1.0, 'The power of poly decay.')
+
+flags.DEFINE_boolean(name='use_packed_model', default=False, help='whether to enable packed model, default is True.')
+flags.DEFINE_integer(
+    "max_sequences_per_pack", 3, 
+    "Maximum number of sequences per sequence. "
+    "Must match data generation.")
+flags.DEFINE_float(
+    "average_sequences_per_sample", 1.999, 
+    "average number of sequences per sample. "
+    "Must match data generation.")
+flags.DEFINE_float(
+    "average_sequences_per_eval_sample", 1.73, 
+    "average number of sequences per sample. "
+    "Must match data generation.")
+
 common_flags.define_common_bert_flags()
 
 FLAGS = flags.FLAGS
