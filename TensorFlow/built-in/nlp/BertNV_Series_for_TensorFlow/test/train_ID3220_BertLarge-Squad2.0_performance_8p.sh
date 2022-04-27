@@ -21,8 +21,7 @@ train_batch_size=16
 #训练ephch
 num_train_epochs=1.0
 #学习率
-learning_rate=2.5e-5
-warmup_proportion=0.1
+learning_rate=5e-6
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
@@ -93,7 +92,7 @@ if [[ $data_path == "" ]];then
 	echo "[Error] para \"data_path\" must be config"
 	exit 1
 fi
-model_path=${data_path}/google_pretrained_weights/uncased_L-24_H-1024_A-16
+model_path=${data_path}/uncased_L-24_H-1024_A-16
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
@@ -119,10 +118,10 @@ do
       --bert_config_file=${model_path}/bert_config.json \
       --init_checkpoint=${model_path}/bert_model.ckpt \
       --do_train=True \
-      --train_file=${data_path}/squad/v2.0/train-v2.0.json \
+      --train_file=${data_path}/dataset/train-v2.0.json \
       --do_predict=False \
-      --predict_file=${data_path}/squad/v2.0/dev-v2.0.json \
-      --eval_script=${data_path}/squad/v2.0/evaluate-v2.0.py \
+      --predict_file=${data_path}/dataset/dev-v2.0.json \
+      --eval_script=${data_path}/dataset/evaluate-v2.0.py \
       --train_batch_size=$train_batch_size \
       --learning_rate=$learning_rate \
       --num_train_epochs=$num_train_epochs \
@@ -161,6 +160,11 @@ echo "Final Performance images/sec : $FPS"
 ActualFPS=$FPS
 #单迭代训练时长
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${train_batch_size}'*1000/'${FPS}'}'`
+
+##冒烟看护字段
+BatchSize=${train_batch_size}
+DeviceType=`uname -m`
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 ##获取Loss
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视

@@ -89,7 +89,7 @@ if [[ $data_path == "" ]];then
 	echo "[Error] para \"data_path\" must be config"
 	exit 1
 fi
-model_path=${data_path}/google_pretrained_weights/uncased_L-12_H-768_A-12
+model_path=${data_path}/model
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
@@ -114,10 +114,10 @@ do
       --bert_config_file=${model_path}/bert_config.json \
       --init_checkpoint=${model_path}/bert_model.ckpt \
       --do_train=True \
-      --train_file=${data_path}/squad/v1.1/squad_v1.1_train.tf_record \
+      --train_file=${data_path}/dataset/squad_v1.1_train.tf_record \
       --do_predict=False \
-      --predict_file=${data_path}/squad/v1.1/dev-v1.1.json \
-      --eval_script=${data_path}/squad/v1.1/evaluate-v1.1.py \
+      --predict_file=${data_path}/dataset/dev-v1.1.json \
+      --eval_script=${data_path}/dataset/evaluate-v1.1.py \
       --train_batch_size=$train_batch_size \
       --learning_rate=$learning_rate \
       --num_train_epochs=$num_train_epochs \
@@ -154,17 +154,16 @@ ActualFPS=$FPS
 #单迭代训练时长
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${train_batch_size}'*1000/'${FPS}'}'`
 
+##冒烟看护字段
+BatchSize=${train_batch_size}
+DeviceType=`uname -m`
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+
 ##获取Loss
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep "tensorflow:loss =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F  " " '{print $3}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改'
 ActualLoss=(`awk 'END {print $NF}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`)
-
-##冒烟看护字段
-BatchSize=${train_batch_size}
-DeviceType=`uname -m`
-
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 #关键性息打印到CaseName.log中
 echo "Network = ${Network}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
