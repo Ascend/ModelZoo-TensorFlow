@@ -111,19 +111,19 @@ batch_size=1
 
 if [ x"${etp_flag}" != xtrue ];
 then
-    python3.7 ./train_epe_sintel.py --data_path=${data_path} --output_path=${output_path}
+    python3.7 ./train_epe_sintel.py --data_path=${data_path}/dataset --output_path=${output_path}
 else
-    python3.7 ./train_epe_sintel.py --data_path=${data_path} --output_path=${output_path} > ${print_log} 2>&1
+    python3.7 ./train_epe_sintel.py --data_path=${data_path}/dataset --output_path=${output_path} > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "sec/step :" ${print_log} | awk '{print $3}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}' `
 
 # 精度相关数据计算
-train_accuracy=`grep "loss:" ${print_log} | awk '{print $NF}' |grep -v skipping | tail -n 1`
+train_accuracy=''
 # 提取所有loss打印信息
-grep "loss:" ${print_log} | awk '{print $NF}' |grep -v skipping > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep " loss =" ${print_log} | awk '{print $5}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
@@ -168,7 +168,7 @@ echo "E2E Training Duration sec : $e2e_time"
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
+ActualLoss=`grep "Average epeLoss:" ${print_log} | awk '{print $3}' | tr -d ';'`
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -180,4 +180,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+#echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
