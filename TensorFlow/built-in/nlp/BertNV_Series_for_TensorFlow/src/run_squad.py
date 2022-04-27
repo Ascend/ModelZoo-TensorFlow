@@ -518,6 +518,10 @@ def get_predictions(all_examples, all_features, all_results, n_best_size, max_an
   for result in all_results:
     unique_id_to_result[result.unique_id] = result
 
+  # process unique id issue
+  max_unique_id = all_results[-1].unique_id
+  print("max_unique_id=%d" % max_unique_id)
+
   _PrelimPrediction = collections.namedtuple(  # pylint: disable=invalid-name
       "PrelimPrediction",
       ["feature_index", "start_index", "end_index", "start_logit", "end_logit"])
@@ -536,6 +540,8 @@ def get_predictions(all_examples, all_features, all_results, n_best_size, max_an
     null_start_logit = 0  # the start logit at the slice with min null score
     null_end_logit = 0  # the end logit at the slice with min null score
     for (feature_index, feature) in enumerate(features):
+      if feature.unique_id > max_unique_id:
+          continue
       result = unique_id_to_result[feature.unique_id]
       start_indexes = _get_best_indexes(result.start_logits, n_best_size)
       end_indexes = _get_best_indexes(result.end_logits, n_best_size)
