@@ -150,7 +150,7 @@ FPS=`grep "tensorflow:examples/sec" $cur_path/output/$ASCEND_DEVICE_ID/train_$AS
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep "f1 =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $3}'`
+train_accuracy=`grep "tensorflow:f1 =" $cur_path/output/0/train_0.log|awk 'END {print $3}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 
