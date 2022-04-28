@@ -84,3 +84,7 @@ Our result was obtained by running the applicable inference script. To achieve t
 |       model       | **data**  |    Top1/Top5    |
 | :---------------: | :-------: | :-------------: |
 | offline Inference | 50000 images | 76.5 %/ 93.1% |
+
+## Reference
+
+[1] https://github.com/IntelAI/models
