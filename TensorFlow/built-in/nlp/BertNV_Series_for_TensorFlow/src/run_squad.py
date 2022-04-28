@@ -1309,13 +1309,13 @@ def main(_):
         eval_out = subprocess.check_output([sys.executable, FLAGS.eval_script,
                                           FLAGS.predict_file, output_prediction_file])
         scores = str(eval_out).strip()
+        print(str(eval_out))
         exact_match = float(scores.split(":")[1].split(",")[0])
         f1 = float(scores.split(":")[2].split("}")[0])
         tf.compat.v1.logging.info("f1 = %2.7f", f1)
         tf.compat.v1.logging.info("exact_match = %2.7f", exact_match)
         # dllogging.logger.log(step=(), data={"f1": f1}, verbosity=Verbosity.DEFAULT)
         # dllogging.logger.log(step=(), data={"exact_match": exact_match}, verbosity=Verbosity.DEFAULT)
-        print(str(eval_out))
 
 
 if __name__ == "__main__":
