@@ -15,12 +15,12 @@ data_path=""
 #网络名称，同目录名称
 Network="BertLarge-Squad2.0_ID3220_for_TensorFlow"
 #训练batch_size
-train_batch_size=16
+train_batch_size=48
 
 #训练ephch
 num_train_epochs=1.0
 #学习率
-learning_rate=5e-6
+learning_rate=5e-5
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
