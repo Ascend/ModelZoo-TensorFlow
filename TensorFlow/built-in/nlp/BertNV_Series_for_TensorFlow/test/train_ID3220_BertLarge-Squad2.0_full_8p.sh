@@ -16,7 +16,7 @@ data_path=""
 #网络名称，同目录名称
 Network="BertLarge-Squad2.0_ID3220_for_TensorFlow"
 #训练batch_size
-train_batch_size=16
+train_batch_size=32
 
 #训练ephch
 num_train_epochs=2.0
