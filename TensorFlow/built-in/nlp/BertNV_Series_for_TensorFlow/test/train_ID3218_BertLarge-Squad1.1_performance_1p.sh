@@ -116,7 +116,7 @@ do
       --init_checkpoint=${model_path}/model.ckpt \
       --do_train=True \
       --train_file=${data_path}/dataset/squad_v1.1_train.tf_record \
-      --do_predict=False \
+      --do_predict=True \
       --predict_file=${data_path}/dataset/dev-v1.1.json \
       --eval_script=${data_path}/dataset/evaluate-v1.1.py \
       --train_batch_size=$train_batch_size \
@@ -124,6 +124,7 @@ do
       --num_train_epochs=$num_train_epochs \
       --save_checkpoints_steps=1000 \
       --npu_bert_loss_scale=0 \
+      --num_train_steps=1000 \
       --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID} \
       --enable_exception_dump=$enable_exception_dump\
       --data_dump_flag=$data_dump_flag \

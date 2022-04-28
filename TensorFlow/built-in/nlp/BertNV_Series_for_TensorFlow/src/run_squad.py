@@ -138,6 +138,9 @@ def extract_run_squad_flags():
   flags.DEFINE_float("num_train_epochs", 3.0,
                      "Total number of training epochs to perform.")
 
+  flags.DEFINE_integer("num_train_steps", 0,
+                       "How many steps to train.")
+
   flags.DEFINE_float(
       "warmup_proportion", 0.1,
       "Proportion of training to perform linear learning rate warmup for. "
@@ -1083,7 +1086,7 @@ def main(_):
       tf.compat.v1.logging.info("**************************")
 
   # train_examples = None
-  num_train_steps = None
+  num_train_steps = FLAGS.num_train_steps
   num_warmup_steps = None
   training_hooks.append(ExamplesPerSecondHook(global_batch_size, FLAGS.iterations_per_loop))
 
@@ -1092,8 +1095,12 @@ def main(_):
     # train_examples = read_squad_examples(
     #     input_file=FLAGS.train_file, is_training=True,
     #     version_2_with_negative=FLAGS.version_2_with_negative)
-    # train_examples = 87599, num_train_steps = 2737
-    num_train_steps = int(87599 / global_batch_size * FLAGS.num_train_epochs)
+    # Squad_V1.1 train_examples = 87599, num_train_steps = 2737
+    if num_train_steps == 0:
+        if FLAGS.version_2_with_negative:
+            num_train_steps = int(87599 / global_batch_size * FLAGS.num_train_epochs)
+        else:
+            num_train_steps = int(87599 / global_batch_size * FLAGS.num_train_epochs)
     num_warmup_steps = int(num_train_steps * FLAGS.warmup_proportion)
 
     # Pre-shuffle the input to avoid having to make a very large shuffle

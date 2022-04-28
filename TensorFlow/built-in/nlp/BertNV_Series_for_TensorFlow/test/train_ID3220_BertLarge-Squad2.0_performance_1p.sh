@@ -15,7 +15,7 @@ data_path=""
 #网络名称，同目录名称
 Network="BertLarge-Squad2.0_ID3220_for_TensorFlow"
 #训练batch_size
-train_batch_size=48
+train_batch_size=32
 
 #训练ephch
 num_train_epochs=1.0
@@ -126,6 +126,7 @@ do
       --num_train_epochs=$num_train_epochs \
       --save_checkpoints_steps=1000 \
       --npu_bert_loss_scale=0 \
+      --num_train_steps=1000 \
       --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID} \
       --version_2_with_negative=True \
       --enable_exception_dump=$enable_exception_dump\

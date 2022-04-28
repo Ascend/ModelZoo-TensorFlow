@@ -125,6 +125,7 @@ do
       --num_train_epochs=$num_train_epochs \
       --save_checkpoints_steps=1000 \
       --npu_bert_loss_scale=0 \
+      --num_train_steps=1000 \
       --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt${ASCEND_DEVICE_ID} \
       --version_2_with_negative=True \
       --enable_exception_dump=$enable_exception_dump\
