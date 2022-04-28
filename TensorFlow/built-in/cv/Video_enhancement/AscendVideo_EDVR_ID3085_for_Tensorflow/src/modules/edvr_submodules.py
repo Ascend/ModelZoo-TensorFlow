@@ -176,7 +176,7 @@ class PCWoDCN(object):
 
             # Cascading
             feat = Conv2DNormAct(self.mid_channels, kernel_size=[3, 3],
-                           padding='same', name='dcn_cas')(feat)
+                           padding='same', name=f'pc_final_conv{i}')(feat)
             feat = ActLayer(act_cfg)(feat)
 
             return feat

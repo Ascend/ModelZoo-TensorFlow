@@ -41,12 +41,9 @@ class _Freezer:
         # The fixed input size is given by:
         #   cfg.data.inference.best_patch_size[0] + pads_h + cfg.data.inference.patch_pad_size[0]
         #   cfg.data.inference.best_patch_size[1] + pads_w + cfg.data.inference.patch_pad_size[1]
-        pads_h, pads_w = self.adapter.cal_adapted_size(self.adapter.best_in_size)
-        self.adapter.limited_in_size = [self.adapter.best_in_size[0] + pads_h + self.adapter.eval_pad_size*2,
-                                        self.adapter.best_in_size[1] + pads_w + self.adapter.eval_pad_size*2]
-        self.adapter.register_raw_size(self.adapter.limited_in_size)
+        self.adapter.register_raw_size(cfg.data.inference.input_size)
 
-        self.network.build_graph((cfg.data.eval_batch_size, self.adapter.input_size))
+        self.network.build_graph(input_size=(1, self.adapter.input_size))
 
     def restore(self):
         """
@@ -67,9 +64,9 @@ class SessionFreezer(_Freezer):
     """
     def __init__(self, dataloader, network, cfg):
         super().__init__(dataloader, network, cfg)
-        sess_cfg = get_sess_config(cfg.device,
-                                   cfg.solver.xla,
-                                   cfg.solver.mix_precision,
+        sess_cfg = get_sess_config(cfg.env.device,
+                                   cfg.session.xla,
+                                   cfg.session.mix_precision,
                                    False)
         self.session = tf.Session(config=sess_cfg)
 
@@ -77,7 +74,7 @@ class SessionFreezer(_Freezer):
         """
         Restore the requireed part of the graph given the ckpt.
         """
-        loose_loading(self.session, self.cfg.model.scope, self.cfg.output_dir, self.cfg.checkpoint)
+        loose_loading(self.session, self.cfg.model.scope, '', self.cfg.checkpoint)
 
     def run(self):
         """

@@ -5,16 +5,19 @@ models=$2
 dir=$3
 codec_file=$4
 
-resource_file='resource.json'
 if [ -z "$4" ]; then
   codec_file=configs/codecs/default_sdr_x264.json
 fi
 video_file_ext=$(cat ${codec_file} | python3 -c "import sys, json; print(json.load(sys.stdin)['format'])")
 
 # Set models
-declare -A edvr=(
-["config"]="configs/models/edvr_config.py"
-["ckpt"]="outputs/edvr/TempoEDVR-280000"
+declare -A edvr_s2=(
+["config"]="cmodels/2x/edvr_modified_scale2_config.py"
+["ckpt"]="models/2x/EDVR-450000"
+)
+declare -A edvr_s4=(
+["config"]="cmodels/4x/edvr_modified_scale4_config.py"
+["ckpt"]="models/4x/EDVR-600000"
 )
 
 readarray -d , -t models <<< "${models},"
@@ -27,23 +30,9 @@ then
   dir=${dir%/}
 fi
 
-# Set FPS
-FPS=$(echo $dir | grep -Eo '[0-9]+[\.]?[0-9]+FPS' | grep -Eo '[0-9]+[\.]?[0-9]+')
-FPS=$(awk -vp=$FPS -vq=1 'BEGIN{printf "%.3f" ,p * q}')
-
-# Check whether has been vfi
-if test "${dir#*vfi}" != "${dir}"
-then
-  FPS=$(awk -vp=${FPS} -vq=2 'BEGIN{printf "%0.3f" ,p * q}')
-fi
 
 # Create temp txt file to record subvideo names
 cur_dir=`pwd`
-txt_file="temp.txt"
-if [ -e "${dir_out}_videos/${txt_file}" ]
-then
-  rm -f ${dir_out}_videos/${txt_file}
-fi
 
 source scripts/env.sh
 
@@ -87,10 +76,7 @@ function cmd() {
     data.data_dir ${dir_in} \
     data.inference.auto_adapt_input True\
     inference.result_dir ${dir_out} \
-    inference.io_backend ${io_backend} \
-    inference.ffmpeg.video_filename ${rank_id}.${video_file_ext} \
-    inference.ffmpeg.codec_file  ${codec_file} \
-    inference.ffmpeg.fps ${FPS} \
+    inference.io_backend 'disk' \
     env.rank_size ${RANK_SIZE} \
     checkpoint ${model["ckpt"]} \
     env.device 'npu'
@@ -118,17 +104,6 @@ echo "[INFO] device_rank: ${device_rank}"
 cnt=0
 io_backend="disk"
 for model_name in "${models[@]}"; do
-  if [[ "$model_name" =~ "vfi" ]]; then
-    # if model_name contains "vfi", multiply the fps
-    # bash does not support floating point
-    FPS=$(awk -vp=$FPS -vq=2 'BEGIN{printf "%.3f" ,p * q}')
-  fi
-
-  if [[ "$var" =~ "hdr" && "$1" = "" ]]; then
-    codec_file=configs/codecs/exr2020_to_hlg_hdr_x264.json
-    video_file_ext=$(cat ${codec_file} | python3 -c "import sys, json; print(json.load(sys.stdin)['format'])")
-  fi
-  
   cnt=$(( $cnt + 1 ))
 
   dir_out="${dir}_${model_name}"
@@ -150,11 +125,7 @@ for model_name in "${models[@]}"; do
       cd ${cur_dir}
       bash scripts/create_new_experiment.sh D_${d_id}
       cd D_${d_id}
-      # set video output for the last model
-      if [ $cnt -eq ${#models[@]} ]; then
-        # write video name to text file
-        echo "file ${dir_out}_videos/${d_id}.${video_file_ext}" >> ${dir_out}_videos/${txt_file}
-      fi
+
       # inference
       if [ $d_id -ne ${max_device_rank} ]; then
         cmd ${device_list[$d_id]} ${device_rank} ${d_id} ${model_name} ${dir} ${dir_out} ${io_backend} &
@@ -165,13 +136,8 @@ for model_name in "${models[@]}"; do
     done
     # wait untill all jobs done
     wait < <(jobs -p)
-    # concat all subvideos after the last model inference
-    if [ $cnt -eq ${#models[@]} ]; then
-      ffmpeg -y -f concat -safe 0 -i ${dir_out}_videos/${txt_file} -c copy ${dir_out}.${video_file_ext}
-    fi
   else
     cmd ${device_list[$d_id]} ${device_rank} ${device_list[$d_id]} ${model_name} ${dir} ${dir_out} ${io_backend} || exit 1
-    mv ${dir_out}_videos/${device_list[$d_id]}.${video_file_ext} ${dir_out}.${video_file_ext}
   fi
   # update path
   dir="${dir_out}"
