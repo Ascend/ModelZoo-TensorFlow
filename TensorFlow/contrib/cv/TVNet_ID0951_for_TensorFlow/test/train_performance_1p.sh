@@ -170,7 +170,7 @@ echo "E2E Training Duration sec : $e2e_time"
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-ActualLoss=grep "Average epeLoss:" ${print_log} | awk '{print $3}' | tr -d ';'
+ActualLoss=`grep "Average epeLoss:" ${print_log} | awk '{print $3}' | tr -d ';'`
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
