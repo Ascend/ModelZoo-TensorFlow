@@ -92,7 +92,8 @@ if [[ $data_path == "" ]];then
 	echo "[Error] para \"data_path\" must be config"
 	exit 1
 fi
-model_path=${data_path}/uncased_L-24_H-1024_A-16
+#model_path=${data_path}/uncased_L-24_H-1024_A-16
+model_path=${data_path}/bert_tf_ckpt_large_pretraining_amp_lamb_19.03.1
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
@@ -116,7 +117,7 @@ do
       --precision_mode=$precision_mode \
       --vocab_file=${model_path}/vocab.txt \
       --bert_config_file=${model_path}/bert_config.json \
-      --init_checkpoint=${model_path}/bert_model.ckpt \
+      --init_checkpoint=${model_path}/model.ckpt \
       --do_train=True \
       --train_file=${data_path}/dataset/train-v2.0.json \
       --do_predict=True \
