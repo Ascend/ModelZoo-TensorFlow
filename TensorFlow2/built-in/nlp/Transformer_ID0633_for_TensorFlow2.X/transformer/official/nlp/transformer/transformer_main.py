@@ -233,6 +233,7 @@ class TransformerTask(object):
     params["steps_between_evals"] = flags_obj.steps_between_evals
     params["enable_checkpointing"] = flags_obj.enable_checkpointing
     params["save_weights_only"] = flags_obj.save_weights_only
+    params["dynamic_eval"] = flags_obj.dynamic_eval
 
     self.distribution_strategy = distribute_utils.get_distribution_strategy(
         distribution_strategy=flags_obj.distribution_strategy,

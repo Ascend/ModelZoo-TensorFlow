@@ -1,4 +1,3 @@
-
 # Copyright 2017 The TensorFlow Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -104,8 +103,8 @@ def deconv2d_layer(x, out_channel, filter_height, filter_width, stride_height, s
 # Function for Residual Blocks
 def residual_block1(input, num_filters, filter_size, is_training, name="res_block"):
     with tf.variable_scope(name):
-        x_shortcut = input
-        x = lrelu_layer(bn_layer(conv2d_layer(input, num_filters, filter_size, filter_size, 2, 2, name='res_convd1'),
+        x_shortcut = x
+        x = lrelu_layer(bn_layer(conv2d_layer(x, num_filters, filter_size, filter_size, 2, 2, name='res_convd1'),
                                  is_training=is_training, scope='ebn_1'))
         x = bn_layer(conv2d_layer(x, num_filters, 1, 1, 1, 1, name='res_convd2'), is_training=is_training,
                      scope='ebn_2')

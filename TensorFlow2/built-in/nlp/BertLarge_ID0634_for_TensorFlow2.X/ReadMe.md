@@ -162,7 +162,9 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
                 ├──eval_10k.tfrecord
 ```
 
+4、数据集pack (仅在使用pack策略进行训练时执行)
 
+若训练时使用pack策略 （参看“模型训练” - 开始训练 - 4.pack策略）， 须将数据集进行处理，生成为pack后的数据集。再使用pack后的数据集进行训练。 数据集转换脚本在bert/data_pack/目录下，具体可参看该文件夹内README文件。 数据集pack过后，在指定的目录下生成“strategy_record”开头的一系列文件。
 
 ## 模型训练<a name="section715881518135"></a>
 - 下载训练脚本。
@@ -245,7 +247,10 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
     
             bash test/train_performance_8p_192bs.sh --data_path=/home/tfrecord --precision_mode=allow_mix_precision
 
-
+    4. pack策略
+    
+        4.1 含pack策略的训练脚本（./test/目录下名字带有“_pack”的shell脚本即为包含pack策略的训练脚本）
+        使用pack策略进行训练时，需使用pack过后的数据集（train, eval）及对应的预训练模型。若无对应的tensorflow-v2版本packed预训练模型。可由tensorflow-v1版本进行转换得来。模型转换相关脚本为bert/tf2_encoder_checkpoint_converter.py, 详见：“迁移学习指导” - 脚本和事例代码 - 模型转换脚本
 
 <h2 id="迁移学习指导.md">高级参考</h2>
 
@@ -255,6 +260,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 |--bert			#网络代码目录
 |   |--tf2_common
 |   |--modeling
+|   |--data_pack        #pack脚本及说明所在目录
 |	|--......
 |--configs		#配置文件目录
 |   |--bert_config.json
@@ -264,6 +270,13 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 |	|--train_performance_8p_192bs.sh
 |   |--......
 ```
+
+添加：
+
+模型转换脚本（仅tensorflow_v1版本checkpoint转化为tensorflow_v2版本时使用）
+
+tensorflow-v1的checkpoint与tensorflow-v2的checkpoint从结构和使用上具有较大差异。迁移原有tensorflow-v1生成的checkpoint， 使其转换为tensorflow-v2环境中可使用的checkpoint， 需使用转换脚本， 脚本位置：“./bert/tf2_encoder_checkpoint_converter.py”。
+脚本使用示例： python3 tf2_encoder_checkpoint_converter.py --bert_config_file=/path/to/your/tensorflow_v1/bert_config.json  --checkpoint_to_convert=/path/to/your/tensorflow_v1/model.ckpt-28252 --converted_checkpoint_path=/path/to/save/output_ckpt/output_ckpt
 
 ## 脚本参数<a name="section6669162441511"></a>
 

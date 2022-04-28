@@ -118,10 +118,11 @@ BlitzNet在一次前向传递中联合执行对象检测和语义分割，从而
 
 <h2 id="快速上手">快速上手</h2>
 
-- 数据集准备
-
+- 训练数据集准备
+  
   OBS下载地址：（下载的数据集为处理完的tf数据集）
   https://blitznets.obs.myhuaweicloud.com:443/Datasets/voc12-train-seg?AccessKeyId=UC40X3U4Z2RUPSTV8ADH&Expires=1661686224&Signature=QkWct66ZOwIUfNOYeoWFFZ/FTsk%3D
+  
 - ResNet预训练模型准备
 
   OBS下载地址：（将下载的resnet50_full.ckpt文件置于Weights_imagenet中）
@@ -140,26 +141,41 @@ BlitzNet在一次前向传递中联合执行对象检测和语义分割，从而
 
 - 单卡训练 
 
-  1. 配置训练参数。
+  1. 单卡性能训练。
 
-     首先在脚本run_1p.sh中，配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
-
-     ```
-     
-     python3 ${code_dir}/train_1p.py --obs_dir=${obs_url} --run_name=BlitzNet300_x4_VOC12_detsegaug --dataset=voc12-train --trunk=resnet50 --x4 --batch_size=32 --optimizer=adam --detect --segment --max_iterations=40000 --lr_decay 25000 35000
-     ```
-
-  2. 启动训练。
-
-     启动单卡精度训练 （脚本为BlitzNet_ID0948_for_Tensorflow/train_testcase.sh）
+     用户可以执行test/train_performance_1p.sh脚本执行少量step获取性能信息：
 
      ```
-     bash train_testcase.sh --code_url=/npu/traindata/cnews --data_url=/npu/traindata/cnews --result_url=/npu/traindata/cnews
+     cd test
+     bash train_performance_1p.sh --data_path=数据集路径   
+
+     train_performance_1p.sh中调用的训练命令示例如下：
+     python3 train_1p.py --obs_dir=${obs_url} --run_name=BlitzNet300_x4_VOC12_detsegaug --dataset=voc12-train --trunk=resnet50 --x4 --batch_size=16 --optimizer=adam --detect --segment --max_iterations=10 --lr_decay 25000 35000
      ```
+
+  2. 单卡精度训练。
+
+     用户可以执行test/train_full_1p.sh脚本执行少量step获取性能信息：
+
+     ```
+     cd test
+     bash train_full_1p.sh --data_path=数据集路径   
+
+     train_performance_1p.sh中调用的训练命令示例如下：
+     python3 train_1p.py --obs_dir=${obs_url} --run_name=BlitzNet300_x4_VOC12_detsegaug --dataset=voc12-train --trunk=resnet50 --x4 --batch_size=16 --optimizer=adam --detect --segment --max_iterations=40000 --lr_decay 25000 35000
+
+  3. 执行结果。    
+
+  |精度指标项|论文发布|GPU实测|NPU实测|
+  |---|---|---|---|
+  |ACC|xxx|0.88|0.88|
+
+  |性能指标项|论文发布|GPU实测|NPU实测|
+  |---|---|---|---|
+  |FPS|XXX|0.35 sec/batch|0.23 sec/batch|
+
 
 <h2 id="高级参考">高级参考</h2>
-
-
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 
@@ -174,39 +190,3 @@ BlitzNet在一次前向传递中联合执行对象检测和语义分割，从而
 │    ├──train_testcase.sh                    //自测试用例脚本
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
-
-```
-data_input_test.py 
---obs_dir=${obs_url} 
---run_name=BlitzNet300_x4_VOC12_detsegaug 
---dataset=voc12-train 
---trunk=resnet50 
---x4 
---batch_size=32 
---optimizer=adam 
---detect 
---segment 
---max_iterations=40000 
---lr_decay 25000 35000
-```
-
-
-## 训练过程<a name="section1589455252218"></a>
-
-1.  通过“模型训练”中的训练指令启动性能或者精度训练。性能和精度通过运行不同脚本，支持性能、精度网络训练。
-
-2.  参考脚本的模型存储路径为test/output/*，训练脚本train_*.log中可查看性能、精度的相关运行状态。
-
-
-<h2 id="精度测试">精度测试</h2>
-
-训练集：VOC12 train-seg-aug
-
-测试集：VOC12 val
-
-|    | mIoU |  mAP |
-| ---------- | -------- | -------- |
-| 论文精度 | 72.8       | 80.0 |
-| GPU精度   | 72.8       | 80.0 |
-| NPU精度   | 待测       | 待测 |

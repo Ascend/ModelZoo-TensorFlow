@@ -54,9 +54,9 @@ log = logging.getLogger()
 dataset_num_classes = len(VOC_CATS)
 
 
-def npu_tf_optimizer(opt):
-    npu_opt = NPUDistributedOptimizer(opt)
-    return npu_opt
+#def npu_tf_optimizer(opt):
+#    npu_opt = NPUDistributedOptimizer(opt)
+#    return npu_opt
 
 
 def objective(location, confidence, refine_ph, classes_ph,
@@ -271,9 +271,11 @@ def train(net, config):
     learning_rate = cosine_decay(tf.to_int32(global_step), steps, learning_rates)
 
     if args.optimizer == 'adam':
-        opt = npu_tf_optimizer(tf.train.AdamOptimizer(learning_rate=learning_rate))
+        # opt = npu_tf_optimizer(tf.train.AdamOptimizer(learning_rate=learning_rate))
+        opt = tf.train.AdamOptimizer(learning_rate=learning_rate)
     elif args.optimizer == 'nesterov':
-        opt = npu_tf_optimizer(tf.train.MomentumOptimizer(learning_rate=learning_rate, momentum=0.9, use_nesterov=True))
+        # opt = npu_tf_optimizer(tf.train.MomentumOptimizer(learning_rate=learning_rate, momentum=0.9, use_nesterov=True))
+        opt = tf.train.MomentumOptimizer(learning_rate=learning_rate, momentum=0.9, use_nesterov=True)
     else:
         raise ValueError
 
@@ -292,7 +294,7 @@ def train(net, config):
     custom_op = config_npu.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
-    # custom_op.parameter_map["mix_compile_mode"].b = True
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     config_npu.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 
     with tf.Session(config=config_npu) as sess:

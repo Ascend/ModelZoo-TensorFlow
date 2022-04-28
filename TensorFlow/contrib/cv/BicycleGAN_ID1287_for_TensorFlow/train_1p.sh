@@ -1,1 +1,0 @@
-python main_npu.py

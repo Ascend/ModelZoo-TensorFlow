@@ -177,7 +177,7 @@ with tf.Graph().as_default():
   # Initialize Tensorflow session
   config = tf.ConfigProto(allow_soft_placement=True)
   config.gpu_options.allow_growth = True
-  session = tf.Session(config=npu_config_proto(config_proto=config))
+  session = tf.Session(config=config)
   # Load from checkpoint
   train_saver = tf.train.Saver()
   session.run(tf.global_variables_initializer())

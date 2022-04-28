@@ -692,6 +692,7 @@ def main(unused_argv):
         session_config=estimator_config,
         model_dir=FLAGS.model_dir,
         iterations_per_loop=FLAGS.iterations_per_loop,
+        modify_mixlist='./efficientnet/ReduceMeanD.json',
         keep_checkpoint_max=5)
 
     # for NPU

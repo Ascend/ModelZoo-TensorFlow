@@ -26,6 +26,10 @@ from modeling.layers import util
 from modeling.layers import bert_dropout
 from modeling.layers import bert_layernorm
 
+from tf2_common.modeling import tf_utils
+from absl import flags
+FLAGS = flags.FLAGS
+
 @tf.keras.utils.register_keras_serializable(package='Text')
 class TransformerEncoder(tf.keras.Model):
   """Bi-directional Transformer-based encoder network.
@@ -106,6 +110,10 @@ class TransformerEncoder(tf.keras.Model):
         shape=(sequence_length,), dtype=tf.int32, name='input_mask')
     type_ids = tf.keras.layers.Input(
         shape=(sequence_length,), dtype=tf.int32, name='input_type_ids')
+    
+    if FLAGS.use_packed_model:
+      next_sentence_starts = tf.keras.layers.Input(
+        shape=([FLAGS.max_sequences_per_pack,]), dtype=tf.int32, name='next_sentence_positions')
 
     self._embedding_layer = layers.OnDeviceEmbedding(
         vocab_size=vocab_size,
@@ -156,10 +164,20 @@ class TransformerEncoder(tf.keras.Model):
       self._transformer_layers.append(layer)
       data = layer([data, attention_mask])
       encoder_outputs.append(data)
-
-    first_token_tensor = (
-        tf.keras.layers.Lambda(lambda x: tf.squeeze(x[:, 0:1, :], axis=1))(
-            encoder_outputs[-1]))
+    if FLAGS.use_packed_model:
+      def first_token(args):
+          encoder_outputs, next_sentence_starts = args[0],args[1]
+          sequence_output = encoder_outputs[-1]
+          first_token_tensor = tf.gather(sequence_output, next_sentence_starts, axis=1, batch_dims=1, name=None)
+          first_token_tensor = tf.reshape(first_token_tensor, [-1, hidden_size])
+          return first_token_tensor
+      
+      first_token_tensor = (
+          tf.keras.layers.Lambda(first_token)([encoder_outputs, next_sentence_starts]))
+    else:
+      first_token_tensor = (
+          tf.keras.layers.Lambda(lambda x: tf.squeeze(x[:, 0:1, :], axis=1))(
+              encoder_outputs[-1]))
     cls_output = tf.keras.layers.Dense(
         units=hidden_size,
         activation='tanh',
@@ -171,9 +189,12 @@ class TransformerEncoder(tf.keras.Model):
       outputs = [encoder_outputs, cls_output]
     else:
       outputs = [encoder_outputs[-1], cls_output]
-
-    super(TransformerEncoder, self).__init__(
-        inputs=[word_ids, mask, type_ids], outputs=outputs, **kwargs)
+    if FLAGS.use_packed_model:
+        super(TransformerEncoder, self).__init__(
+            inputs=[word_ids, mask, type_ids, next_sentence_starts], outputs=outputs, **kwargs)
+    else:
+        super(TransformerEncoder, self).__init__(
+            inputs=[word_ids, mask, type_ids], outputs=outputs, **kwargs)
 
   def get_embedding_table(self):
     return self._embedding_layer.embeddings

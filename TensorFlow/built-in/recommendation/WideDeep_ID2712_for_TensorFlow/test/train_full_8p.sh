@@ -6,7 +6,7 @@ cur_path=`pwd`
 #集合通信参数,不需要修改
 
 
-export HCCL_CONNECT_TIMEOUT=300
+export HCCL_CONNECT_TIMEOUT=1200
 
 #集合通信参数,不需要修改
 export RANK_SIZE=8

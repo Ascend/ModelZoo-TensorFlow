@@ -36,6 +36,7 @@ import numpy as np
 import json
 import os
 import time
+import math
 
 from absl import logging
 import tensorflow as tf
@@ -43,6 +44,9 @@ from tf2_common.training import grad_utils
 from tf2_common.utils.misc import distribution_utils
 from tf2_common.utils.mlp_log import mlp_log
 import npu_device as npu
+
+from absl import flags
+FLAGS = flags.FLAGS
 
 _SUMMARY_TXT = 'training_summary.txt'
 _MIN_SUMMARY_STEPS = 10
@@ -211,6 +215,8 @@ def run_customized_training_loop(
         by `model_fn` is None.
   """
   mlperf_block_number = 1
+  if FLAGS.use_packed_model:
+    eval_steps = int(math.floor(eval_steps / FLAGS.average_sequences_per_eval_sample))
 
   if _sentinel is not None:
     raise ValueError('only call `run_customized_training_loop()` '

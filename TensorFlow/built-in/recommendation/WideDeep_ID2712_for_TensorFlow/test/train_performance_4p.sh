@@ -5,7 +5,7 @@ cur_path=`pwd`
 #export ASCEND_SLOG_PRINT_TO_STDOUT=1
 #export GE_USE_STATIC_MEMORY=1
 
-export HCCL_CONNECT_TIMEOUT=300
+export HCCL_CONNECT_TIMEOUT=1200
 
 #集合通信参数,不需要修改
 export RANK_SIZE=4
@@ -24,8 +24,8 @@ RankSize=1
 
 #参数配置
 data_path="/npu/traindata/ID2940_CarPeting_TF_WideDeep_TF"
-train_size=13107200
-display_step=1
+train_size=52428800
+display_step=10
 n_epoches=4
 
 #维持参数，以下不需要修改

@@ -121,7 +121,7 @@ flags.DEFINE_integer('num_accumulation_steps', 1,
 flags.DEFINE_float('stop_threshold', 0.912, 'Stop threshold for MLPerf.')
 flags.DEFINE_float('poly_power', 1.0, 'The power of poly decay.')
 
-flags.DEFINE_multi_integer("seq_len_buckets", [64,128,192,256,384,512],
+flags.DEFINE_multi_integer("seq_len_buckets", [64,128,192,256,320,384,448,512],
                            "sequence length bucketizations boundaries")
 
 flags.DEFINE_integer('max_tockens_num', 12288, 'max_tockens_num = bs * seq_len')
@@ -132,9 +132,22 @@ FLAGS = flags.FLAGS
 
 def npu_config():
   FLAGS = flags.FLAGS
-  npu_device.global_options().input_shape = "data_0:-1,-1;data_1:-1,-1;data_2:-1,-1;data_3:-1,-1;data_4:-1,-1;data_5:-1,-1;data_6:-1,-1"
-  npu_device.global_options().dynamic_node_type = "0"
-  npu_device.global_options().dynamic_dims = "192,64,192,64,192,64,192,76,192,76,192,76,192,1;96,128,96,128,96,128,96,76,96,76,96,76,96,1;64,192,64,192,64,192,64,76,64,76,64,76,64,1;48,256,48,256,48,256,48,76,48,76,48,76,48,1;32,384,32,384,32,384,32,76,32,76,32,76,32,1;24,512,24,512,24,512,24,76,24,76,24,76,24,1"
+  npu_device.global_options().experimental.multi_branches_config.input_shape = "data_0:-1,-1;" \
+                                                                               "data_1:-1,-1;" \
+                                                                               "data_2:-1,-1;" \
+                                                                               "data_3:-1,-1;" \
+                                                                               "data_4:-1,-1;" \
+                                                                               "data_5:-1,-1;" \
+                                                                               "data_6:-1,-1"
+  npu_device.global_options().experimental.multi_branches_config.dynamic_node_type = "0"
+  npu_device.global_options().experimental.multi_branches_config.dynamic_dims = "192,64,192,64,192,64,192,76,192,76,192,76,192,1;" \
+                                                                                "96,128,96,128,96,128,96,76,96,76,96,76,96,1;" \
+                                                                                "64,192,64,192,64,192,64,76,64,76,64,76,64,1;" \
+                                                                                "48,256,48,256,48,256,48,76,48,76,48,76,48,1;" \
+                                                                                "38,320,38,320,38,320,38,76,38,76,38,76,38,1;" \
+                                                                                "32,384,32,384,32,384,32,76,32,76,32,76,32,1;" \
+                                                                                "28,448,28,448,28,448,28,76,28,76,28,76,28,1;" \
+                                                                                "24,512,24,512,24,512,24,76,24,76,24,76,24,1"
 
   if FLAGS.data_dump_flag:
     npu_device.global_options().dump_config.enable_dump = True

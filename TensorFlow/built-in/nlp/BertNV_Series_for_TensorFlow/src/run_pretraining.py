@@ -26,7 +26,7 @@ import modeling
 import optimization
 import tensorflow as tf
 import glob
-from utils import LogEvalRunHook
+from utils.utils import LogEvalRunHook
 from tensorflow.core.protobuf import rewriter_config_pb2
 from gpu_environment import get_custom_getter
 
@@ -709,9 +709,10 @@ def main(_):
         input_fn=eval_input_fn, steps=FLAGS.max_eval_steps, hooks=eval_hooks)
 
     eval_time_elapsed = time.time() - eval_start_time
-    eval_time_wo_overhead = eval_hooks[-1].total_time
-
-    num_sentences = (eval_hooks[-1].count - eval_hooks[-1].skipped) * FLAGS.eval_batch_size
+    time_list = eval_hooks[-1].time_list
+    time_list.sort()
+    eval_time_wo_overhead = sum(time_list[:int(len(time_list) * 0.99)])
+    num_sentences = (int(len(time_list) * 0.99)) * FLAGS.eval_batch_size
 
     ss_sentences_per_second = num_sentences * 1.0 / eval_time_wo_overhead
 
@@ -719,7 +720,7 @@ def main(_):
     tf.logging.info("Total Inference Time = %0.2f for Sentences = %d", eval_time_elapsed,
                     eval_hooks[-1].count * FLAGS.eval_batch_size)
     tf.logging.info("Total Inference Time W/O Overhead = %0.2f for Sentences = %d", eval_time_wo_overhead,
-                    (eval_hooks[-1].count - eval_hooks[-1].skipped) * FLAGS.eval_batch_size)
+                    num_sentences)
     tf.logging.info("Summary Inference Statistics on EVAL set")
     tf.logging.info("Batch size = %d", FLAGS.eval_batch_size)
     tf.logging.info("Sequence Length = %d", FLAGS.max_seq_length)

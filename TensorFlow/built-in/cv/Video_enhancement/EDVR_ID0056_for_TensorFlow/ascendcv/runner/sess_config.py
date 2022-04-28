@@ -12,18 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import tensorflow as tf
+from npu_bridge.npu_init import *
 
 
 def _npu_config(mix_precision, is_distributed):
     config = tf.ConfigProto()
     custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
-    custom_op.parameter_map["enable_data_pre_proc"].b = False
     custom_op.parameter_map["mix_compile_mode"].b = False
     custom_op.parameter_map["use_off_line"].b = True
     custom_op.parameter_map["graph_memory_max_size"].s = tf.compat.as_bytes(str(28*1024 * 1024 * 1024))
     custom_op.parameter_map["variable_memory_max_size"].s = tf.compat.as_bytes(str(3*1024 * 1024 * 1024))
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+    custom_op.parameter_map["enable_data_pre_proc"].b = True
+    custom_op.parameter_map["iterations_per_loop"].i = 10 
+    config = npu_config_proto(config_proto=config)
     #if mix_precision:
     #    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     if is_distributed:

@@ -14,7 +14,7 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertLarge-128_ID3067_for_TensorFlow"
+Network="BertLarge-128_ID3209_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
