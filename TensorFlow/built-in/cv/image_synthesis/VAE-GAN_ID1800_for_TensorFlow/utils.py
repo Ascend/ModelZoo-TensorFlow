@@ -45,7 +45,8 @@ def encoder(input_tensor, output_size):
     net = layers.conv2d(net, 32, 5, stride=2)
     net = layers.conv2d(net, 64, 5, stride=2)
     net = layers.conv2d(net, 128, 5, stride=2, padding='VALID')
-    net = layers.dropout(net, keep_prob=0.9)
+   # net = layers.dropout(net, keep_prob=0.9)
+    net = npu_ops.dropout(net, keep_prob=0.9)
     net = layers.flatten(net)
     return layers.fully_connected(net, output_size, activation_fn=None)
 
