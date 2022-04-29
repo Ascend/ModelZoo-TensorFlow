@@ -1092,14 +1092,14 @@ def main(_):
 
   # Prepare Training Data
   if FLAGS.do_train:
-    train_examples = read_squad_examples(
-        input_file=FLAGS.train_file, is_training=True,
-        version_2_with_negative=FLAGS.version_2_with_negative)
-    print("train_examples:", len(train_examples))
-    # Squad_V1.1 train_examples = 87599, num_train_steps = 2737
+    # train_examples = read_squad_examples(
+    #     input_file=FLAGS.train_file, is_training=True,
+    #     version_2_with_negative=FLAGS.version_2_with_negative)
+    # Squad_V1.1 train_examples = 87599
+    # Squad_V2.0 train_examples = 130319
     if num_train_steps == 0:
         if FLAGS.version_2_with_negative:
-            num_train_steps = int(87599 / global_batch_size * FLAGS.num_train_epochs)
+            num_train_steps = int(130319 / global_batch_size * FLAGS.num_train_epochs)
         else:
             num_train_steps = int(87599 / global_batch_size * FLAGS.num_train_epochs)
     num_warmup_steps = int(num_train_steps * FLAGS.warmup_proportion)
