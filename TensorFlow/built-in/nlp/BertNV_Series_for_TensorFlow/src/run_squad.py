@@ -1092,9 +1092,10 @@ def main(_):
 
   # Prepare Training Data
   if FLAGS.do_train:
-    # train_examples = read_squad_examples(
-    #     input_file=FLAGS.train_file, is_training=True,
-    #     version_2_with_negative=FLAGS.version_2_with_negative)
+    train_examples = read_squad_examples(
+        input_file=FLAGS.train_file, is_training=True,
+        version_2_with_negative=FLAGS.version_2_with_negative)
+    print("train_examples:", len(train_examples))
     # Squad_V1.1 train_examples = 87599, num_train_steps = 2737
     if num_train_steps == 0:
         if FLAGS.version_2_with_negative:
