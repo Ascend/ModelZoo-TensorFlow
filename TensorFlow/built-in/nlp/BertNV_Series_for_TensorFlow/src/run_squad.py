@@ -1311,7 +1311,10 @@ def main(_):
         scores = str(eval_out).strip()
         print(str(eval_out))
         exact_match = float(scores.split(":")[1].split(",")[0])
-        f1 = float(scores.split(":")[2].split("}")[0])
+        if FLAGS.version_2_with_negative:
+            f1 = float(scores.split(":")[2].split(",")[0])
+        else:
+            f1 = float(scores.split(":")[2].split("}")[0])
         tf.compat.v1.logging.info("f1 = %2.7f", f1)
         tf.compat.v1.logging.info("exact_match = %2.7f", exact_match)
         # dllogging.logger.log(step=(), data={"f1": f1}, verbosity=Verbosity.DEFAULT)
