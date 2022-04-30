@@ -56,7 +56,7 @@ NPU（使用modelArts训练）每个iteration耗时2.70s。
 
 
 
-## 7、Loss比较
+## 7、训练日志
 
 训练过程中，部分日志如图所示。
 gpu训练过程回显
