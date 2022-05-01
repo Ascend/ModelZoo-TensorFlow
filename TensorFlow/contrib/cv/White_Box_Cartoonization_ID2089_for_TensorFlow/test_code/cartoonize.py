@@ -42,7 +42,7 @@ from tqdm import tqdm
 
 def arg_parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model_path", default='/home/test_user03/wbc/output/train_cartoon/saved_models', type=str)
+    parser.add_argument("--output_path", default='/home/test_user03/wbc/output', type=str)
     parser.add_argument("--data_path", default='../../dataset', type=str)
     parser.add_argument("--save_folder", default='.cartoonized_scenery', type=str)
 
@@ -99,7 +99,11 @@ def cartoonize(load_folder, save_folder, model_path):
 
 if __name__ == '__main__':
     args = arg_parser()
-    load_path = os.join(args.load_folder, "scenery_photo")
-    if not os.path.exists(args.save_folder):
-        os.mkdir(args.save_folder)
-    cartoonize(load_path, args.save_folder, args.model_path)
+    load_path = os.path.join(args.data_path, "scenery_photo")
+    model_path = os.path.join(args.output_path, "train_cartoon/saved_models")
+    save_folder = os.path.join(args.output_path, "cartoonized_scenery")
+    print("output path",args.output_path)
+    print("model_path", model_path)
+    if not os.path.exists(save_folder):
+        os.mkdir(save_folder)
+    cartoonize(load_path, save_folder, model_path)
