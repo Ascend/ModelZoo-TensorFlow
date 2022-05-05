@@ -30,7 +30,7 @@ precision_mode="allow_fp32_to_fp16"
 #维持参数，以下不需要修改
 over_dump=False
 data_dump_flag=False
-data_dump_step="10"
+data_dump_step="1"
 profiling=False
 
 # 帮助信息，不需要修改
@@ -107,7 +107,7 @@ do
             --precision_mode=${precision_mode} \
             ${data_dump_flag} \
             --data_dump_step=${data_dump_step} \
-            --dump_path = ${data_dump_path} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+            --data_dump_path = ${data_dump_path} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
 sed -i "s|epochs=5|epochs=10|g" run_classification_criteo.py
