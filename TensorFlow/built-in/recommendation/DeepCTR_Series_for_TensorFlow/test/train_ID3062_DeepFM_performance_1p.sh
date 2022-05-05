@@ -29,8 +29,8 @@ learning_rate=
 precision_mode="allow_fp32_to_fp16"
 #维持参数，以下不需要修改
 over_dump=False
-data_dump_flag=False
-data_dump_step="10"
+data_dump_flag=""
+data_dump_step="1"
 profiling=False
 
 # 帮助信息，不需要修改
@@ -40,8 +40,8 @@ if [[ $1 == --help || $1 == -h ]];then
     echo "parameter explain:
     --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
     --over_dump		           if or not over detection, default is False
-    --data_dump_flag		     data dump flag, default is False
-    --data_dump_step		     data dump step, default is 10
+    --data_dump_flag		     data dump flag, default is ""
+    --data_dump_step		     data dump step, default is 1
     --profiling		           if or not profiling for performance debug, default is False
     --data_path		           source data of training
     -h/--help		             show help message
@@ -59,7 +59,8 @@ do
         over_dump_path=${cur_path}/output/overflow_dump
         mkdir -p ${over_dump_path}
     elif [[ $para == --data_dump_flag* ]];then
-        data_dump_flag=`echo ${para#*=}`
+        # data_dump_flag=`echo ${para#*=}`
+        data_dump_flag="--data_dump_flag"
         data_dump_path=${cur_path}/output/data_dump
         mkdir -p ${data_dump_path}
     elif [[ $para == --data_dump_step* ]];then
@@ -101,7 +102,11 @@ do
     
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    nohup python3 run_classification_criteo.py > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+    nohup python3 run_classification_criteo.py \
+            --data_dir=${data_path} \
+            --precision_mode=${precision_mode} \
+            ${data_dump_flag} --data_dump_step=${data_dump_step} \
+            --data_dump_path=${data_dump_path} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
 sed -i "s|epochs=5|epochs=10|g" run_classification_criteo.py

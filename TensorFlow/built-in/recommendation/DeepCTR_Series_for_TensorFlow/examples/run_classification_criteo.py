@@ -36,10 +36,39 @@ from sklearn.preprocessing import LabelEncoder, MinMaxScaler
 
 from deepctr.models import DeepFM
 from deepctr.feature_column import SparseFeat, DenseFeat, get_feature_names
+import argparse
 
 if __name__ == "__main__":
-    npu_keras_sess = set_keras_session_npu_config()
-    data = pd.read_csv('./criteo_sample.txt')
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data_dir', default="./",
+                        help='data path for train')
+    parser.add_argument('--precision_mode', default='allow_fp32_to_fp16',
+                        help='allow_fp32_to_fp16/force_fp16/ '
+                             'must_keep_origin_dtype/allow_mix_precision.')
+    parser.add_argument('--data_dump_flag', action="store_true",
+                        help='whether to enable dump data')
+    parser.add_argument('--data_dump_path', default="/home/data",
+                        help='the path to save dump data')
+    parser.add_argument('--data_dump_step', default="0",
+                        help='the step to dump')
+    args = parser.parse_args()
+
+    sess_config = tf.ConfigProto()
+    custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
+    sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+    sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+    custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)
+    if args.data_dump_flag:
+        print("start to config data dump...{}", args.data_dump_flag)
+        custom_op.parameter_map["enable_dump"].b = True
+        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes(args.data_dump_path)
+        custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes(args.data_dump_step)
+        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
+
+    npu_keras_sess = set_keras_session_npu_config(config=sess_config)
+    data = pd.read_csv(os.path.join(args.data_dir, 'criteo_sample.txt'))
 
     sparse_features = ['C' + str(i) for i in range(1, 27)]
     dense_features = ['I' + str(i) for i in range(1, 14)]
