@@ -99,7 +99,21 @@ steps: The train steps, default is 8000
 |  平台| 性能 |
 |--|--|
 |  GPU(V100)| 10ms/step |
-|  NPU(Ascend910)| 25.5ms/step |
+|  NPU(Ascend910)| 7.9ms/step |  
+
+NPU性能详情  
+```
+------------------ INFO NOTICE START------------------
+INFO, your task have used Ascend NPU, please check your result.
+------------------ INFO NOTICE END------------------
+------------------ Final result ------------------
+Final Performance images/sec :16,202 image/sec 备注：128 batch
+Final Performance sec/step : 0.0079 sec/step
+E2E Training Duration sec : 136.11秒 （1000 step）
+Final Train Accuracy : NA
+备注：使用x86机器本地复现
+```
+
 #### 精度结果
 ##### GPU结果
 ```
