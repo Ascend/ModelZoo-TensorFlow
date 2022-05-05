@@ -59,7 +59,8 @@ do
         over_dump_path=${cur_path}/output/overflow_dump
         mkdir -p ${over_dump_path}
     elif [[ $para == --data_dump_flag* ]];then
-        data_dump_flag=`echo ${para#*=}`
+        # data_dump_flag=`echo ${para#*=}`
+        data_dump_flag="--data_dump_flag"
         data_dump_path=${cur_path}/output/data_dump
         mkdir -p ${data_dump_path}
     elif [[ $para == --data_dump_step* ]];then
@@ -101,7 +102,12 @@ do
     
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    nohup python3 run_classification_criteo.py > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+    nohup python3 run_classification_criteo.py \
+            --data_dir=${data_path} \
+            --precision_mode=${precision_mode} \
+            ${data_dump_flag} \
+            --data_dump_step=${data_dump_step} \
+            --dump_path = ${data_dump_path} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
 sed -i "s|epochs=5|epochs=10|g" run_classification_criteo.py
