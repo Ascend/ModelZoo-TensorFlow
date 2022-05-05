@@ -107,7 +107,7 @@ do
             --precision_mode=${precision_mode} \
             ${data_dump_flag} \
             --data_dump_step=${data_dump_step} \
-            --data_dump_path = ${data_dump_path} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+            --data_dump_path=${data_dump_path} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
 sed -i "s|epochs=5|epochs=10|g" run_classification_criteo.py

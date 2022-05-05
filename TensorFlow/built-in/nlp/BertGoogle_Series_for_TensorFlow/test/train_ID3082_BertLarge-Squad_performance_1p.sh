@@ -105,7 +105,7 @@ do
         --do_predict=True \
         --do_train=True \
         --predict_file=$predict_file \
-	      --train_batch_size=24 \
+        --train_batch_size=32 \
         --num_train_epochs=1 \
         --num_train_steps=1000 \
         --learning_rate=3e-5 \
