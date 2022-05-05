@@ -14,7 +14,7 @@ RANK_ID_START=0
 data_path=""
 
 sed -i "s/n_epoches = 1/n_epoches = 50/g" `grep -rl "n_epoches = 1" ${cur_path}/../configs/config.py`
-sed -i "s/iterations_per_loop = 1/iterations_per_loop = 10/g" `grep -rl "iterations_per_loop = 1" ${cur_path}/../configs/config.py`
+#sed -i "s/iterations_per_loop = 1/iterations_per_loop = 10/g" `grep -rl "iterations_per_loop = 1" ${cur_path}/../configs/config.py`
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
 Network="WideDeep_ID0028_for_TensorFlow"
