@@ -40,9 +40,9 @@ multi_hot_flags = [False]
 multi_hot_len = 1
 ###
 #n_epoches =50
-#iterations_per_loop = 10
+iterations_per_loop = 10
 n_epoches = 1
-iterations_per_loop = 1
+# iterations_per_loop = 1
 #one_step = 50/iterations_per_loop # for one step debug
 one_step = 0
 line_per_sample = 1000
