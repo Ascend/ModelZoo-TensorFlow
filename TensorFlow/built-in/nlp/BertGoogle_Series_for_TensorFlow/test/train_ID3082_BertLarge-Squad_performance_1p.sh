@@ -15,7 +15,7 @@ data_path=""
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
 Network="BertLarge-Squad_ID3082_for_TensorFlow"
-batch_size=24
+batch_size=32
 epoch=1
 
 
@@ -105,8 +105,8 @@ do
         --do_predict=True \
         --do_train=True \
         --predict_file=$predict_file \
-        --train_batch_size=32 \
-        --num_train_epochs=1 \
+        --train_batch_size=${batch_size} \
+        --num_train_epochs=${epoch} \
         --num_train_steps=1000 \
         --learning_rate=3e-5 \
         --max_seq_length=384 \
