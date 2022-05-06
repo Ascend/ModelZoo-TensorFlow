@@ -123,16 +123,16 @@ do
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
 		
-	sed -i "s|"./data/mnist"|"${data_path}"|g" gitloss_pref.py
+	sed -i "s|"./data/mnist"|"${data_path}"|g" gitloss_perf.py
 	
-	python3 gitloss_pref.py \
+	python3 gitloss_perf.py \
 	--update_centers=1000 \
 	--lambda_c=1.0 \
 	--lambda_g=1.0 \
 	--steps=100 \
 	--exp_save_dir $cur_path/test/output/${ASCEND_DEVICE_ID} >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 	
-	sed -i "s|"${data_path}"|"./data/mnist"|g" gitloss_pref.py
+	sed -i "s|"${data_path}"|"./data/mnist"|g" gitloss_perf.py
 	
 
     
