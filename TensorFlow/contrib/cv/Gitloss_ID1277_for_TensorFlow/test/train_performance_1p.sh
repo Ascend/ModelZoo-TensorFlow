@@ -130,7 +130,7 @@ do
 	--update_centers=1000 \
 	--lambda_c=1.0 \
 	--lambda_g=1.0 \
-	--steps=100 \
+	--steps=8000 \
 	--exp_save_dir $cur_path/test/output/${ASCEND_DEVICE_ID} >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 	
 	sed -i "s|"${data_path}"|"./data/mnist"|g" gitloss_perf.py
