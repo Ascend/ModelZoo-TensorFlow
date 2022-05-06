@@ -68,8 +68,10 @@ GitLoss
   ├─data        存放数据集文件夹
   ├─test
 	├─output    存放模型运行日志文件夹
-	├─run_1p.sh 代码运行脚本
-  ├─gitloss.py  模型定义及主函数
+	├─train_full_1p.sh 训练及验证，验证精度
+        ├─train_performance_1p.sh 仅训练，验证性能
+  ├─gitloss.py  模型定义及主函数（训练及验证）
+  ├─gitloss_perf.py 模型定义及主函数（仅训练）
 ```
 
 ## Running the code
