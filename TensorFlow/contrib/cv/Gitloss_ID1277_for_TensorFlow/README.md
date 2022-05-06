@@ -76,13 +76,13 @@ GitLoss
 ### Run command
 #### Use bash
 ```
-bash ./test/run_1p.sh
-```
-#### Run directly
+1. train_full_1p  
+bash ./test/train_full_1p.sh  
 
+2. train_performance_1p
+bash ./test/train_performance_1p.sh
 ```
-python gitloss.py
-```
+
 参数注释：
 ```
 update_centers: numbers of steps after which update the centers, default is 1000
@@ -99,19 +99,21 @@ steps: The train steps, default is 8000
 |  平台| 性能 |
 |--|--|
 |  GPU(V100)| 10ms/step |
+|  GPU(V100)| 1.7013s/epoch |  
 |  NPU(Ascend910)| 7.9ms/step |  
+|  NPU(Ascend910)| 1.79s/epoch |  
 
 NPU性能详情  
 ```
------------------- INFO NOTICE START------------------
-INFO, your task have used Ascend NPU, please check your result.
------------------- INFO NOTICE END------------------
------------------- Final result ------------------
-Final Performance images/sec :16,202 image/sec 备注：128 batch
-Final Performance sec/step : 0.0079 sec/step
-E2E Training Duration sec : 136.11秒 （1000 step）
-Final Train Accuracy : NA
-备注：使用x86机器本地复现
+------------------ INFO NOTICE START------------------  
+INFO, your task have used Ascend NPU, please check your result.  
+------------------ INFO NOTICE END------------------  
+------------------ Final result ------------------  
+Final Performance images/sec :16,202 image/sec 备注：128 batch  
+Final Performance sec/step : 0.0079 sec/step  
+E2E Training Duration sec : 136.11秒 （1000 step）  
+Final Train Accuracy : NA  
+备注：使用x86机器本地复现  
 ```
 
 #### 精度结果
