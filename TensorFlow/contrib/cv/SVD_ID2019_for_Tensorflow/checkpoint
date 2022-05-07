@@ -1,0 +1,6 @@
+model_checkpoint_path: "/home/ma-user/modelarts/inputs/data_url_0/output/model.ckpt-2600000"
+all_model_checkpoint_paths: "/home/ma-user/modelarts/outputs/train_url_0/model.ckpt-2200000"
+all_model_checkpoint_paths: "/home/ma-user/modelarts/outputs/train_url_0/model.ckpt-2300000"
+all_model_checkpoint_paths: "/home/ma-user/modelarts/outputs/train_url_0/model.ckpt-2400000"
+all_model_checkpoint_paths: "/home/ma-user/modelarts/outputs/train_url_0/model.ckpt-2500000"
+all_model_checkpoint_paths: "/home/ma-user/modelarts/outputs/train_url_0/model.ckpt-2600000"
