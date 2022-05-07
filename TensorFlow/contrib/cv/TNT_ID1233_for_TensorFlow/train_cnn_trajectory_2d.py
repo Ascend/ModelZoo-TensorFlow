@@ -174,6 +174,9 @@ def main(args):
             # shuffle 4 times
             acc = []
             step_time = 0
+
+            iter_start = time.time()
+
             for kk in range(num_batch):
                 temp_batch_size = batch_size
                 if kk == num_batch - 1:
@@ -241,6 +244,10 @@ def main(args):
                     #print('step %d, training accuracy %g' % (cnt, train_accuracy))
                     step_time = time.time() - start_time
                     print("epoch : {}----step : {}----loss : {}----sec/step : {:.3f}".format(i, cnt, 1-train_accuracy,step_time))
+            
+            iter_end = time.time()
+            print("\n ----> iter duration = {} \n".format(iter_end - iter_start), flush=True)
+
             acc = np.array(acc)
             print('accuracy : {}'.format(np.mean(acc)))
 
