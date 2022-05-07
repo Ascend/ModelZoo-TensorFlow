@@ -68,21 +68,23 @@ GitLoss
   ├─data        存放数据集文件夹
   ├─test
 	├─output    存放模型运行日志文件夹
-	├─run_1p.sh 代码运行脚本
-  ├─gitloss.py  模型定义及主函数
+	├─train_full_1p.sh 训练及验证，验证精度
+    ├─train_performance_1p.sh 仅训练，验证性能
+  ├─gitloss.py  模型定义及主函数（训练及验证）
+  ├─gitloss_perf.py 模型定义及主函数（仅训练）
 ```
 
 ## Running the code
 ### Run command
 #### Use bash
 ```
-bash ./test/run_1p.sh
-```
-#### Run directly
+1. train_full_1p  
+bash ./test/train_full_1p.sh  
 
+2. train_performance_1p
+bash ./test/train_performance_1p.sh
 ```
-python gitloss.py
-```
+
 参数注释：
 ```
 update_centers: numbers of steps after which update the centers, default is 1000
@@ -98,8 +100,22 @@ steps: The train steps, default is 8000
 #### 训练性能分析
 |  平台| 性能 |
 |--|--|
-|  GPU(V100)| 10ms/step |
-|  NPU(Ascend910)| 25.5ms/step |
+|  GPU(V100)| 1.7013s/epoch |   
+|  NPU(Ascend910)| 1.71s/epoch |  
+
+#### 打屏信息
+```
+Device ID: 
+------------------ INFO NOTICE START------------------
+INFO, your task have used Ascend NPU, please check your result.
+------------------ INFO NOTICE END------------------
+------------------ Final result ------------------
+Final Performance sec/epoch : 1.71
+E2E Training Duration sec : 154
+Final Train Accuracy : 1.0000
+ActualLoss : 0.5325
+```
+
 #### 精度结果
 ##### GPU结果
 ```

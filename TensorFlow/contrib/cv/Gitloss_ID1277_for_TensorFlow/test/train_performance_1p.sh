@@ -14,8 +14,12 @@ RANK_ID_START=0
 data_path=''
 ckpt_path=''
 
+# 设置环境
+# source ~/env.sh
+
 #设置默认日志级别,不需要修改
 export ASCEND_GLOBAL_LOG_LEVEL=3
+export ASCEND_GLOBAL_EVENT_ENABLE=0
 #export ASCEND_DEVICE_ID=3
 
 #基础参数，需要模型审视修改
@@ -123,16 +127,16 @@ do
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
 		
-	sed -i "s|"./data/mnist"|"${data_path}"|g" gitloss.py
+	sed -i "s|"./data/mnist"|"${data_path}"|g" gitloss_perf.py
 	
-	python3 gitloss.py \
-	--update_centers=10 \
+	python3 gitloss_perf.py \
+	--update_centers=1000 \
 	--lambda_c=1.0 \
 	--lambda_g=1.0 \
-	--steps=100 \
+	--steps=8000 \
 	--exp_save_dir $cur_path/test/output/${ASCEND_DEVICE_ID} >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 	
-	sed -i "s|"${data_path}"|"./data/mnist"|g" gitloss.py
+	sed -i "s|"${data_path}"|"./data/mnist"|g" gitloss_perf.py
 	
 
     
@@ -143,13 +147,18 @@ wait
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
 
+echo "------------------ INFO NOTICE START------------------"
+echo "INFO, your task have used Ascend NPU, please check your result."
+echo "------------------ INFO NOTICE END------------------"
+
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-grep "train_time"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log  |awk '{print $22}'|tail -n +2 > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt
+grep "train_time"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log  |awk '{print $18}'|tail -n +2 > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt
 cat  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt |awk '{sum+=$1} END {print "Avg = ",sum/NR}' > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt
 TrainingTime=`grep 'Avg' $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt |awk '{print $3}'` 
 
+echo "Final Performance sec/epoch : $TrainingTime"
 #输出训练精度,需要模型审视修改
 echo "E2E Training Duration sec : $e2e_time"
 
@@ -163,9 +172,16 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 #吞吐量
 ActualFPS=`awk 'BEGIN{printf "%.3f\n",  128/'${TrainingTime}'}'`
 
+#最后一个迭代acc值，不需要修改
+grep 'Train_Acc:' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $9}' |tail -n +2 > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_acc.txt
+
+#最后一个迭代acc值，不需要修改
+ActualAcc=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_acc.txt`
+
+echo "Final Train Accuracy : $ActualAcc"
 
 #最后一个迭代loss值，不需要修改
-grep 'Train_Loss:' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $4}' |tail -n +2 > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep 'Train_Loss:' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $6}' |tail -n +2 > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
@@ -181,4 +197,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseN
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualAcc = ${ActualAcc}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
