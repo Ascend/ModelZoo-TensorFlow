@@ -118,14 +118,14 @@ bash train_performance_1p.sh \
 ```
 打屏信息:
 
->------------------ INFO NOTICE START------------------
->INFO, your task have used Ascend NPU, please check your result.
->------------------ INFO NOTICE END------------------
->------------------ Final result ------------------
->Final Performance images/sec : 1245.0326379815197
->Final Performance sec/step : 0.05140427491423721
->E2E Training Duration sec : 536
->Final Train Accuracy : 0.5850
+>------------------ INFO NOTICE START------------------  
+>INFO, your task have used Ascend NPU, please check your result.  
+>------------------ INFO NOTICE END------------------  
+>------------------ Final result ------------------  
+>Final Performance images/sec : 1245.0326379815197  
+>Final Performance sec/step : 0.05140427491423721  
+>E2E Training Duration sec : 536  
+>Final Train Accuracy : 0.5850  
 
 
 ### 检测精度
@@ -137,13 +137,13 @@ bash train_full_1p.sh \
 ```
 
 打屏信息:
->------------------ INFO NOTICE START------------------
->INFO, your task have used Ascend NPU, please check your result.
->------------------ INFO NOTICE END------------------
->------------------ Final result ------------------
->Final Performance images/sec : 1785.9793972748832
->Final Performance sec/step : 0.03583467989477017
->E2E Training Duration sec : 1993
->Final Train Accuracy : 0.6645
+>------------------ INFO NOTICE START------------------  
+>INFO, your task have used Ascend NPU, please check your result.  
+>------------------ INFO NOTICE END------------------  
+>------------------ Final result ------------------  
+>Final Performance images/sec : 1785.9793972748832  
+>Final Performance sec/step : 0.03583467989477017  
+>E2E Training Duration sec : 1993  
+>Final Train Accuracy : 0.6645  
 
 
