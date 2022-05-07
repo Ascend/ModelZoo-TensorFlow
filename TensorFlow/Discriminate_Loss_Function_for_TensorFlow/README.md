@@ -1,4 +1,5 @@
 代码位置：https://github.com/hq-jiang/instance-segmentation-with-discriminative-loss-tensorflow
+参数：默认参数
 
 训练命令：python training.py
 GPU 训练时间：168小时
