@@ -1,5 +1,24 @@
 GPU代码位置：https://github.com/hq-jiang/instance-segmentation-with-discriminative-loss-tensorflow
 
+### Files
+
+├── __data__ here the data should be stored  
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   └── __tusimple_dataset_processing.py__ processes the TuSimple dataset  
+├── __doc__ documentation  
+├── __inference_test__ inference related data  
+│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   └── __images__ for testing the inference    
+├── __trained_model__  pretrained model for finetuning  
+├── __clustering.py__ mean-shift clustering  
+├── __datagenerator.py__ feeds data for training and evaluation  
+├── __enet.py__ [Enet architecture](https://github.com/kwotsin/TensorFlow-ENet)  
+├── __inference.py__ tests inference on images  
+├── __loss.py__ defines discriminative loss function  
+├── __README.md__  
+├── __training.py__ contains training pipeline  
+├── __utils.py__ contains utilities files for building and initializing the graph  
+└── __visualization.py__ contains visualization of the clustering and pixel embeddings  
+
+
 参数：默认参数
 
 数据集：http://benchmark.tusimple.ai/#/t/1
