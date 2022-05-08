@@ -1,7 +1,5 @@
 GPU代码位置：https://github.com/hq-jiang/instance-segmentation-with-discriminative-loss-tensorflow
 
-NPU代码位置：obs://cann001/dataset/output/MA-new-CANN_npu_20211027101127-04-10-21-10/
-
 参数：默认参数
 
 数据集：http://benchmark.tusimple.ai/#/t/1
