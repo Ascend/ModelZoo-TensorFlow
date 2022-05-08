@@ -60,9 +60,14 @@ def main():
     model = SRNet(shape = cfg.data_shape, name = train_name)
     print_log('model compiled.', content_color = PrintColor['yellow'])
 
+    argPraser = argparse.ArgumentParser()
+    argPraser.add_argument("-t", dest="test", type=bool, default=False, action="store_true")
+    argPraser.add_argument("--data_dir", dest="data_dir", required=True)
+    args = argPraser.parse_args()
+
     # define data generator
     #datagen()之中包含yield，所以不会正真执行，而是返回一个生成器(迭代器)
-    gen = srnet_datagen()
+    gen = srnet_datagen(args.data_dir)
     
     with model.graph.as_default():
         init = tf.global_variables_initializer()
@@ -126,7 +131,8 @@ def main():
             save_pb(sess, pb_savepath, ['o_sk', 'o_t', 'o_b', 'o_f'])
             print_log('pb model saved in dir {}'.format(pb_savepath), content_color = PrintColor['green'])
 
-    mox.file.copy_parallel(src_url = r'\cache\out', dst_url = r'obs:\\cann-nju-srnet\trainout')
+    if not args.test:
+        mox.file.copy_parallel(src_url = r'/cache/out', dst_url = r'obs:\\cann-nju-srnet\trainout')
 
 if __name__ == '__main__':
     main()

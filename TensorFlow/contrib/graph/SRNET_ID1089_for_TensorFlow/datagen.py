@@ -41,10 +41,10 @@ import numpy as np
 import random
 import cfg 
 
-def srnet_datagen():
+def srnet_datagen(data_dir):
    
     # generator SRNet data for training
-    name_list = os.listdir(os.path.join(cfg.data_dir, cfg.t_b_dir))
+    name_list = os.listdir(os.path.join(data_dir, cfg.t_b_dir))
     random.shuffle(name_list)
     name_num = len(name_list)
     idx = 0
@@ -57,13 +57,13 @@ def srnet_datagen():
         for _ in range(cfg.batch_size):
             name = name_list[idx]
 
-            i_t = cv2.imread(os.path.join(cfg.data_dir, cfg.i_t_dir, name))
-            i_s = cv2.imread(os.path.join(cfg.data_dir, cfg.i_s_dir, name))
-            t_sk = cv2.imread(os.path.join(cfg.data_dir, cfg.t_sk_dir, name), cv2.IMREAD_GRAYSCALE)
-            t_t = cv2.imread(os.path.join(cfg.data_dir, cfg.t_t_dir, name))
-            t_b = cv2.imread(os.path.join(cfg.data_dir, cfg.t_b_dir, name))
-            t_f = cv2.imread(os.path.join(cfg.data_dir, cfg.t_f_dir, name))
-            mask_t = cv2.imread(os.path.join(cfg.data_dir, cfg.mask_t_dir, name), cv2.IMREAD_GRAYSCALE)
+            i_t = cv2.imread(os.path.join(data_dir, cfg.i_t_dir, name))
+            i_s = cv2.imread(os.path.join(data_dir, cfg.i_s_dir, name))
+            t_sk = cv2.imread(os.path.join(data_dir, cfg.t_sk_dir, name), cv2.IMREAD_GRAYSCALE)
+            t_t = cv2.imread(os.path.join(data_dir, cfg.t_t_dir, name))
+            t_b = cv2.imread(os.path.join(data_dir, cfg.t_b_dir, name))
+            t_f = cv2.imread(os.path.join(data_dir, cfg.t_f_dir, name))
+            mask_t = cv2.imread(os.path.join(data_dir, cfg.mask_t_dir, name), cv2.IMREAD_GRAYSCALE)
 
             i_t_batch.append(i_t)
             i_s_batch.append(i_s)

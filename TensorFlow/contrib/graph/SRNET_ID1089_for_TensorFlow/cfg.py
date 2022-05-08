@@ -39,7 +39,7 @@ import argparse
 import moxing as mox
 
 # pretrained vgg
-vgg19_weights = r'/home/ma-user/modelarts/user-job-dir/code/model_logs/vgg19/vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb'
+vgg19_weights = './model/vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb'
 
 # model parameters
 lt = 1.
@@ -88,24 +88,27 @@ predict_ckpt_path = None
 predict_data_dir = None
 predict_result_dir = 'examples/result'
 
-#out_dir = ''
-
 def main():
     code_dir = os.path.dirname(__file__)
 
     parser = argparse.ArgumentParser()
+    parser.add_argument("-t", dest="test", action="store_true", type=bool, default=False)
     parser.add_argument("--train_url", type=str)
     parser.add_argument("--data_url", type=str)
-    parser.add_argument("--modelarts_data_dir", type=str, default="/cache/data")
+    parser.add_argument("--modelarts_data_dir", type=str, default=data_dir)
     parser.add_argument("--modelarts_output_dir", type=str, default="/cache/out")
     paraConfig = parser.parse_args()
 
-    #out_dir = paraConfig.modelarts_output_dir
+    if paraConfig.test:
+        os.makedirs("./model/testdata")
+        mox.file.copy_parallel(src_url=paraConfig.data_url, dst_url="./model/testdata/")
+        os.system("python3" + ' ' + './train.py' + " --data_dir " + "./model/testdata")
+
     os.makedirs(paraConfig.modelarts_data_dir)
     os.makedirs(paraConfig.modelarts_output_dir)
     os.makedirs(r'/cache/out/genLogs')
     mox.file.copy_parallel(src_url=paraConfig.data_url, dst_url=paraConfig.modelarts_data_dir)
-    os.system("python3" + ' ' + code_dir + '/train.py')
+    os.system("python3" + ' ' + code_dir + '/train.py' + " --data_dir " + data_dir)
 
 if __name__ == "__main__":
     main()
