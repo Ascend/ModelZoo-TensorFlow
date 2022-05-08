@@ -30,7 +30,11 @@ NPU 训练时间：24小时
 
 GPU 精度：https://cann001.obs.cn-north-4.myhuaweicloud.com/log.1217215.out
 
+step_valid 18150 valid loss 0.09118794 	valid l_var 0.07415567 	valid l_dist 0.0039632297 	valid l_reg 0.013069032
+
 NPU 精度：https://cann001.obs.cn-north-4.myhuaweicloud.com/modelarts-job-4c06ae91-0a9b-4c9c-a9f6-4e32fe5c0bd7-proc-rank-0-device-0.txt
+
+step_valid 18150 valid loss 0.074521884 	valid l_var 0.057265442 	valid l_dist 0.0004725394 	valid l_reg 0.016783904
 
 ckpt转pb：https://gitee.com/ascend/modelzoo/blob/master/built-in/TensorFlow/Research/cv/image_segmentation/UNet3D_ID0057_for_TensorFlow/pbinference/unet3d_pb_frozen.py
 
