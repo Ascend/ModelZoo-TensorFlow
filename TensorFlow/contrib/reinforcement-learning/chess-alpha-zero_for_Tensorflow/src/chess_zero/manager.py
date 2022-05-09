@@ -52,6 +52,8 @@ def create_parser():
     parser.add_argument("--new", help="run from new best model", action="store_true")
     parser.add_argument("--type", help="use normal setting", default="mini")
     parser.add_argument("--total-step", help="set TrainerConfig.start_total_steps", type=int)
+    parser.add_argument("--epochs", help="how many epochs to run", default=-1)
+    parser.add_argument("--npu", help="use npu or not, default not", default=False, action="store_true")
     return parser
 
 
@@ -82,23 +84,23 @@ def start():
     if args.cmd == 'uci':
         disable(999999) # plz don't interfere with uci
 
-    config = Config(config_type=config_type)
+    config = Config(config_type=config_type, args.epochs, args.npu)
     setup(config, args)
 
     logger.info(f"config type: {config_type}")
 
-    if args.cmd == 'self':
-        from .worker import self_play
-        return self_play.start(config)
+    if args.cmd == 'sl':
+        from .worker import sl
+        return sl.start(config)
     elif args.cmd == 'opt':
         from .worker import optimize
         return optimize.start(config)
     elif args.cmd == 'eval':
         from .worker import evaluate
         return evaluate.start(config)
-    elif args.cmd == 'sl':
-        from .worker import sl
-        return sl.start(config)
-    elif args.cmd == 'uci':
-        from .play_game import uci
-        return uci.start(config)
+    # elif args.cmd == 'self':
+    #     from .worker import self_play
+    #     return self_play.start(config)
+    # elif args.cmd == 'uci':
+    #     from .play_game import uci
+    #     return uci.start(config)
