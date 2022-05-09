@@ -3,12 +3,14 @@
 # shell脚本所在路径
 cur_path=`echo $(cd $(dirname $0);pwd)`
 
+mkdir -p ../experiments/test_git
+
 # 判断当前shell是否是performance
 perf_flag=`echo $0 | grep performance | wc -l`
 # 当前执行网络的名称
 Network="GMH—MDN_ID1225_for_TensorFlow"
 #失败用例打屏
-export ASCEND_SLOG_PRINT_TO_STDOUT=1
+export ASCEND_SLOG_PRINT_TO_STDOUT=0
 #基础参数，需要模型审视修改
 #batch Size
 batch_size=64
@@ -18,7 +20,7 @@ test="False"
 #Device数量，单卡默认为1
 RankSize=1
 #训练epoch，可选
-epochs=1
+epochs=200
 #学习率
 learning_rate='1e-3'
 #参数配置
@@ -176,6 +178,3 @@ echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseNa
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-
-
-
