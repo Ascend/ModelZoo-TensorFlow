@@ -119,7 +119,7 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
   1. 配置训练参数。
 
-     首先在脚本xx.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，数据集参数如下所示：
+     首先在脚本train_performance_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
 
      ```
         DATA_DIR=/home/test_user03/tf_records/
@@ -127,12 +127,10 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
       
      ```
 
-  2. 启动训练。
-
-     （脚本为xx.sh） 
+  2. 启动训练。（脚本为train_performance_1p.sh） 
 
      ```
-     bash xx.sh
+     bash train_performance_1p.sh
      ```
 
 
@@ -140,7 +138,7 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
   1. 配置验证参数。
 
-     首先在脚本xx.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，数据集参数如下所示：
+     首先在脚本train_full_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
 
      ```
         DATA_DIR=/home/test_user03/tf_records/
@@ -148,20 +146,12 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
       
      ```
 
-  2. 启动验证。
-
-     （脚本为xx.sh） 
+  2. 启动验证。（脚本为train_full_1p.sh） 
 
      ```
-     bash xx.sh
-     ```          ```
-- 测试用例。
+     bash train_full_1p.sh
+     ```          
 
-  2. 测试用例测试指令（脚本位于xx.sh）
-
-      ```
-      bash xx.sh
-      ```
 
 
 
@@ -204,62 +194,71 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
 ## 训练过程<a name="section1589455252218"></a>
 
-1.  通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡、8卡网络训练。
+1.  通过“模型训练”中的训练指令启动单卡训练。
 
-2.  参考脚本的模型存储路径为results/1p或者results/8p，训练脚本log中包括如下信息。
+2.  训练脚本log中包括如下信息。
 
 ```
-2020-06-20 22:25:48.893067: I tf_adapter/kernels/geop_npu.cc:64] BuildOutputTensorInfo, num_outputs:1
-2020-06-20 22:25:48.893122: I tf_adapter/kernels/geop_npu.cc:93] BuildOutputTensorInfo, output index:0, total_bytes:8, shape:, tensor_ptr:140670893455168, output140653543141408
-2020-06-20 22:25:48.893165: I tf_adapter/kernels/geop_npu.cc:745] [GEOP] RunGraphAsync callback, status:0, kernel_name:GeOp133_0[ 1330us]step:150120  epoch: 30.0  FPS: 4216.5  loss: 3.373  total_loss: 4.215  lr:0.09106
-2020-06-20 22:25:48.897526: I tf_adapter/kernels/geop_npu.cc:545] [GEOP] Begin GeOp::ComputeAsync, kernel_name:GeOp133_0, num_inputs:0, num_outputs:1
-2020-06-20 22:25:48.897593: I tf_adapter/kernels/geop_npu.cc:412] [GEOP] tf session direct5649af5909132193, graph id: 51 no need to rebuild
-2020-06-20 22:25:48.897604: I tf_adapter/kernels/geop_npu.cc:753] [GEOP] Call ge session RunGraphAsync, kernel_name:GeOp133_0 ,tf session: direct5649af5909132193 ,graph id: 51
-2020-06-20 22:25:48.897656: I tf_adapter/kernels/geop_npu.cc:767] [GEOP] End GeOp::ComputeAsync, kernel_name:GeOp133_0, ret_status:success ,tf session: direct5649af5909132193 ,graph id: 51 [0 ms]
-2020-06-20 22:25:48.898088: I tf_adapter/kernels/geop_npu.cc:64] BuildOutputTensorInfo, num_outputs:1
-2020-06-20 22:25:48.898118: I tf_adapter/kernels/geop_npu.cc:93] BuildOutputTensorInfo, output index:0, total_bytes:8, shape:, tensor_ptr:140650333523648, output140653566153952
-2020-06-20 22:25:48.898135: I tf_adapter/kernels/geop_npu.cc:745] [GEOP] RunGraphAsync callback, status:0, kernel_name:GeOp133_0[ 529us]
-2020-06-20 22:25:48.898456: I tf_adapter/kernels/geop_npu.cc:545] [GEOP] Begin GeOp::ComputeAsync, kernel_name:GeOp133_0, num_inputs:0, num_outputs:1
-2020-06-20 22:25:48.898475: I tf_adapter/kernels/geop_npu.cc:412] [GEOP] tf session direct5649af5909132193, graph id: 51 no need to rebuild
-2020-06-20 22:25:48.898485: I tf_adapter/kernels/geop_npu.cc:753] [GEOP] Call ge session RunGraphAsync, kernel_name:GeOp133_0 ,tf session: direct5649af5909132193 ,graph id: 51
+I0420 23:35:31.718360 281472996956240 basic_session_run_hooks.py:692] global_step/sec: 4.13978
+INFO:tensorflow:global_step...700647
+I0420 23:35:31.722282 281472996956240 npu_hook.py:132] global_step...700647
+INFO:tensorflow:global_step...700648
+I0420 23:35:31.963601 281472996956240 npu_hook.py:132] global_step...700648
+...
+INFO:tensorflow:Saving checkpoints for 700662 into /home/test_user03/ckpt5/model.ckpt.
+I0420 23:35:35.366074 281472996956240 basic_session_run_hooks.py:606] Saving checkpoints for 700662 into /home/test_user03/ckpt5/model.ckpt.
+INFO:tensorflow:global_step...700663
+I0420 23:36:39.784266 281472996956240 npu_hook.py:132] global_step...700663
+INFO:tensorflow:global_step...700664
+I0420 23:36:40.024840 281472996956240 npu_hook.py:132] global_step...700664
+INFO:tensorflow:global_step...700665
+I0420 23:36:40.267009 281472996956240 npu_hook.py:132] global_step...700665
+INFO:tensorflow:NPUCheckpointSaverHook end...
+I0420 23:36:40.267664 281472996956240 npu_hook.py:137] NPUCheckpointSaverHook end...
+INFO:tensorflow:Saving checkpoints for 700665 into /home/test_user03/ckpt5/model.ckpt.
+I0420 23:36:40.269501 281472996956240 basic_session_run_hooks.py:606] Saving checkpoints for 700665 into /home/test_user03/ckpt5/model.ckpt.
+INFO:tensorflow:Loss for final step: 4.1664658.
+I0420 23:38:08.704852 281472996956240 estimator.py:371] Loss for final step: 4.1664658.
 ```
 
 ## 推理/验证过程<a name="section1465595372416"></a>
 
-1.  通过“模型训练”中的测试指令启动测试。
+1.  通过“模型训练”中的验证指令启动验证。
 
 2.  当前只能针对该工程训练出的checkpoint进行推理测试。
 
-3.  推理脚本的参数eval_dir可以配置为checkpoint所在的文件夹路径，则该路径下所有.ckpt文件都会根据进行推理。
-
-4.  测试结束后会打印验证集的top1 accuracy和top5 accuracy，如下所示。
+3.  测试结束后会打印测试集的top1 accuracy和top5 accuracy，如下所示。
 
 ```
-2020-06-20 19:06:09.349677: I tf_adapter/kernels/geop_npu.cc:338] [GEOP] GeOp Finalize start, tf session: direct24135e275a110a29, graph_id_: 1
-2020-06-20 19:06:09.349684: I tf_adapter/kernels/geop_npu.cc:342] tf session: direct24135e275a110a29, graph id: 1
-2020-06-20 19:06:09.397087: I tf_adapter/kernels/geop_npu.cc:347] [GEOP] GE Remove Graph success. tf session: direct24135e275a110a29 , graph id: 1
-2020-06-20 19:06:09.397105: I tf_adapter/kernels/geop_npu.cc:368] [GEOP] GeOp Finalize success, tf session: direct24135e275a110a29, graph_id_: 1
-2020-06-20 19:06:09.398108: I tf_adapter/kernels/geop_npu.cc:338] [GEOP] GeOp Finalize start, tf session: direct24135e275a110a29, graph_id_: 31
-2020-06-20 19:06:09.398122: I tf_adapter/kernels/geop_npu.cc:368] [GEOP] GeOp Finalize success, tf session: direct24135e275a110a29, graph_id_: 31
-2020-06-20 19:06:09.398247: I tf_adapter/kernels/host_queue_dataset_op.cc:71] Start destroy tdt.
-2020-06-20 19:06:09.412269: I tf_adapter/kernels/host_queue_dataset_op.cc:77] Tdt client close success.
-2020-06-20 19:06:09.412288: I tf_adapter/kernels/host_queue_dataset_op.cc:83] dlclose handle finish.
-2020-06-20 19:06:09.412316: I tf_adapter/kernels/geop_npu.cc:338] [GEOP] GeOp Finalize start, tf session: direct24135e275a110a29, graph_id_: 51
-2020-06-20 19:06:09.412323: I tf_adapter/kernels/geop_npu.cc:342] tf session: direct24135e275a110a29, graph id: 51
-2020-06-20 19:06:09.553281: I tf_adapter/kernels/geop_npu.cc:347] [GEOP] GE Remove Graph success. tf session: direct24135e275a110a29 , graph id: 51
-2020-06-20 19:06:09.553299: I tf_adapter/kernels/geop_npu.cc:368] [GEOP] GeOp Finalize success, tf session: direct24135e275a110a29, graph_id_: 51
-2020-06-20 19:06:10.619514: I tf_adapter/kernels/host_queue_dataset_op.cc:172] HostQueueDatasetOp's iterator is released.
-2020-06-20 19:06:10.620037: I tf_adapter/kernels/geop_npu.cc:338] [GEOP] GeOp Finalize start, tf session: direct24135e275a110a29, graph_id_: 41
-2020-06-20 19:06:10.620054: I tf_adapter/kernels/geop_npu.cc:342] tf session: direct24135e275a110a29, graph id: 41
-2020-06-20 19:06:10.621564: I tf_adapter/kernels/geop_npu.cc:347] [GEOP] GE Remove Graph success. tf session: direct24135e275a110a29 , graph id: 41
-2020-06-20 19:06:10.622904: I tf_adapter/util/session_manager.cc:50] find ge session connect with tf session direct24135e275a110a29
-2020-06-20 19:06:10.975070: I tf_adapter/util/session_manager.cc:55] destory ge session connect with tf session direct24135e275a110a29 success.
-2020-06-20 19:06:11.380491: I tf_adapter/kernels/geop_npu.cc:388] [GEOP] Close TsdClient.
-2020-06-20 19:06:11.664666: I tf_adapter/kernels/geop_npu.cc:393] [GEOP] Close TsdClient success.
-2020-06-20 19:06:11.665011: I tf_adapter/kernels/geop_npu.cc:368] [GEOP] GeOp Finalize success, tf session: direct24135e275a110a29, graph_id_: 41 step  epoch  top1    top5     loss   checkpoint_time(UTC)85068    3.0  50.988   76.99    3.09  
-2020-06-20 18:06:0690072    3.0  51.569   77.51    3.03  
-2020-06-20 18:11:1495076    3.0  51.689   77.33    3.00  
-2020-06-20 18:16:22100080    3.0  51.426   77.04    3.08  
-2020-06-20 18:25:11105084    3.0  51.581   77.50    3.03  
-2020-06-20 18:34:23Finished evaluation
+ow:Evaluation [78/781]
+I0420 23:40:00.258475 281472996956240 evaluation.py:167] Evaluation [78/781]
+INFO:tensorflow:Evaluation [156/781]
+I0420 23:40:07.798311 281472996956240 evaluation.py:167] Evaluation [156/781]
+INFO:tensorflow:Evaluation [234/781]
+I0420 23:40:15.336721 281472996956240 evaluation.py:167] Evaluation [234/781]
+INFO:tensorflow:Evaluation [312/781]
+I0420 23:40:22.876575 281472996956240 evaluation.py:167] Evaluation [312/781]
+INFO:tensorflow:Evaluation [390/781]
+I0420 23:40:30.432068 281472996956240 evaluation.py:167] Evaluation [390/781]
+INFO:tensorflow:Evaluation [468/781]
+I0420 23:40:38.020324 281472996956240 evaluation.py:167] Evaluation [468/781]
+INFO:tensorflow:Evaluation [546/781]
+I0420 23:40:45.564076 281472996956240 evaluation.py:167] Evaluation [546/781]
+INFO:tensorflow:Evaluation [624/781]
+I0420 23:40:53.106832 281472996956240 evaluation.py:167] Evaluation [624/781]
+INFO:tensorflow:Evaluation [702/781]
+I0420 23:41:00.634234 281472996956240 evaluation.py:167] Evaluation [702/781]
+INFO:tensorflow:Evaluation [780/781]
+I0420 23:41:08.236136 281472996956240 evaluation.py:167] Evaluation [780/781]
+INFO:tensorflow:Evaluation [781/781]
+I0420 23:41:08.331177 281472996956240 evaluation.py:167] Evaluation [781/781]
+2022-04-20 23:41:08.749352: I /home/phisik3/jenkins/workspace/work_code/tmp/host-prefix/src/host-build/asl/tfadaptor/CMakeFiles/tf_adapter.dir/compiler_depend.ts:805] The model has been compiled on the Ascend AI processor, current graph id is: 71
+INFO:tensorflow:Finished evaluation at 2022-04-20-23:41:13
+I0420 23:41:13.806376 281472996956240 evaluation.py:275] Finished evaluation at 2022-04-20-23:41:13
+INFO:tensorflow:Saving dict for global step 700665: global_step = 700665, loss = 1.8883309, top_1_accuracy = 0.75600195, top_5_accuracy = 0.9269366
+I0420 23:41:13.807576 281472996956240 estimator.py:2049] Saving dict for global step 700665: global_step = 700665, loss = 1.8883309, top_1_accuracy = 0.75600195, top_5_accuracy = 0.9269366
+INFO:tensorflow:Saving 'checkpoint_path' summary for global step 700665: /home/test_user03/ckpt5/model.ckpt-700665
+I0420 23:41:13.810555 281472996956240 estimator.py:2109] Saving 'checkpoint_path' summary for global step 700665: /home/test_user03/ckpt5/model.ckpt-700665
+INFO:tensorflow:Evaluation results: {'loss': 1.8883309, 'top_1_accuracy': 0.75600195, 'top_5_accuracy': 0.9269366, 'global_step': 700665}
+I0420 23:41:13.813197 281472996956240 amoeba_net.py:467] Evaluation results: {'loss': 1.8883309, 'top_1_accuracy': 0.75600195, 'top_5_accuracy': 0.9269366, 'global_step': 700665}
 ```
