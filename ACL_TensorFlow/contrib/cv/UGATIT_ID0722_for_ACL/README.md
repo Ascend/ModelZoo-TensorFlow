@@ -26,14 +26,14 @@ UGATIT_BtoA.pb
 ```
 atc --model=./model/pb/UGATIT_AtoB.pb --framework=3 \
 	--output=./model/om/UGATIT_AtoB --soc_version=Ascend310 \
-	--input_shape="test_domain_A:1,256,256,3"
+	--input_shape="test_domain_A:1,256,256,3" --precision_mode="force_fp32"  
 ```
 
 转换UGATIT_BtoA.pb命令:
 ```
 atc --model=./model/pb/UGATIT_BtoA.pb --framework=3 \
 	--output=./model/om/UGATIT_BtoA --soc_version=Ascend310 \
-	--input_shape="test_domain_B:1,256,256,3"
+	--input_shape="test_domain_B:1,256,256,3" --precision_mode="force_fp32"  
 ```
 
 
@@ -59,7 +59,7 @@ atc --model=./model/pb/UGATIT_BtoA.pb --framework=3 \
 
 运行 process.py,得推理图片结果.
 
-## CSPDarknet53 离线推理精度与推理时间
+## UGATIT离线推理精度与推理时间
 在Ascend 310进行推理, 含有1张图片样本的bin文件，  
 ### 推理时间：  
 2126.14ms 
