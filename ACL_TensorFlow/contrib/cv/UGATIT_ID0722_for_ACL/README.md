@@ -15,10 +15,9 @@
 ### Step1: 将 checkpoint 文件固化为 pb 文件：
 将 convert_pb.py 中的 input_checkpoint 变量值改为 checkpoint 文件路径,
 运行 convert_pb.py, 固化生成 pb 文件:  
-UGATIT_AtoB.pb
-UGATIT_BtoA.pb
+UGATIT_AtoB.pb   
+UGATIT_BtoA.pb  
 
-下面以UGATIT_AtoB.pb为例进行介绍:
 
 ### Step2： 将 pb 文件转换为 om 文件：
 需要使用 atc 工具.
@@ -37,9 +36,6 @@ atc --model=./model/pb/UGATIT_BtoA.pb --framework=3 \
 	--input_shape="test_domain_B:1,256,256,3"
 ```
 
-atc --model=./UGATIT_BtoA.pb --framework=3 \
-	--output=./UGATIT_BtoA --soc_version=Ascend310 \
-	--input_shape="test_domain_B:1,256,256,3"
 
 ### Step3 进行推理：
 需要使用 msame 工具.
