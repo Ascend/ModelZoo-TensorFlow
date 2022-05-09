@@ -1,4 +1,4 @@
-## CSPNet 离线推理步骤
+## UGATIT 离线推理步骤
 
 ### Step0: 下载所需文件,安装依赖库
 #### checkpoint 文件地址：
