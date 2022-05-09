@@ -1,12 +1,13 @@
 #! /bin/bash
 
+#ä½¿ç”¨ImageNet2012æ•°æ®é›†ï¼Œé…ç½®DATA_DIRæ•°æ®é›†è·¯å¾„å’ŒMODEL_DIRä¿å­˜checkpointè·¯å¾„
 DATA_DIR=/home/test_user03/tf_records/
 MODEL_DIR=/home/test_user03/hh
 
-#¿ª·¢Õß¸öÈË¶ÀÁ¢Ô¤ÖÃµÄÊı¾İ¼¯¡¢Ô¤ÑµÁ·Ä£ĞÍ¡¢ATC-OMÄ£ĞÍµÈ£¬Ö§³Ö´ÓOBS²ÖÏÂÔØ
+#å¼€å‘è€…ä¸ªäººç‹¬ç«‹é¢„ç½®çš„æ•°æ®é›†ã€é¢„è®­ç»ƒæ¨¡å‹ã€ATC-OMæ¨¡å‹ç­‰ï¼Œæ”¯æŒä»OBSä»“ä¸‹è½½
 #obsutil cp obs://obsxxx/xxx/xxx.ckpt ./model/ -f -r
 
-#testcaseÖ÷Ìå£¬¿ª·¢Õß¸ù¾İ²»Í¬Ä£ĞÍĞ´×÷
+#testcaseä¸»ä½“ï¼Œå¼€å‘è€…æ ¹æ®ä¸åŒæ¨¡å‹å†™ä½œ
 python3 amoeba_net.py \
   --data_dir=${DATA_DIR} \
   --model_dir=${MODEL_DIR} \
@@ -23,15 +24,15 @@ python3 amoeba_net.py \
   --num_train_images=10000 \
   --num_eval_images=1000 \
   > train.log 2>&1 
-#ÑµÁ·²âÊÔÓÃÀıÖ»ÑµÁ·10000ÕÅÍ¼Æ¬£¬²¢±£´æ´òÓ¡ĞÅÏ¢ÖÁtrain.log
+#è®­ç»ƒæµ‹è¯•ç”¨ä¾‹åªè®­ç»ƒ10000å¼ å›¾ç‰‡ï¼Œå¹¶ä¿å­˜æ‰“å°ä¿¡æ¯è‡³train.log
 
-#½á¹ûÅĞ¶Ï£¬¹¦ÄÜ¼ì²éÊä³öckpt/ÈÕÖ¾¹Ø¼ü×Ö¡¢¾«¶È¼ì²élossÖµ/accucy¹Ø¼ü×Ö¡¢ĞÔÄÜ¼ì²éºÄÊ±´òµã/ThroughOutputµÈ¹Ø¼ü×Ö
-key1="Saving checkpoints"  #¹¦ÄÜ¼ì²é×Ö
-key2="global_step/sec:"  #ĞÔÄÜ¼ì²é×Ö
-key3="loss = "  #¾«¶È¼ì²é×Ö
+#ç»“æœåˆ¤æ–­ï¼ŒåŠŸèƒ½æ£€æŸ¥è¾“å‡ºckpt/æ—¥å¿—å…³é”®å­—ã€ç²¾åº¦æ£€æŸ¥losså€¼/accucyå…³é”®å­—ã€æ€§èƒ½æ£€æŸ¥è€—æ—¶æ‰“ç‚¹/ThroughOutputç­‰å…³é”®å­—
+key1="Saving checkpoints"  #åŠŸèƒ½æ£€æŸ¥å­—
+key2="global_step/sec:"  #æ€§èƒ½æ£€æŸ¥å­—
+key3="loss = "  #ç²¾åº¦æ£€æŸ¥å­—
 
 
-if [ `grep -c "$key1" "train.log"` -ne '0' ] && [ `grep -c "$key2" "train.log"` -ne '0' ] && [ `grep -c "$key3" "train.log"` -ne '0' ];then   #¿ÉÒÔ¸ù¾İĞèÒªµ÷Õû¼ì²éÂß¼­
+if [ `grep -c "$key1" "train.log"` -ne '0' ] && [ `grep -c "$key2" "train.log"` -ne '0' ] && [ `grep -c "$key3" "train.log"` -ne '0' ];then   #å¯ä»¥æ ¹æ®éœ€è¦è°ƒæ•´æ£€æŸ¥é€»è¾‘
    echo "Run testcase success!"
 else
    echo "Run testcase failed!"
