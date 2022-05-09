@@ -17,5 +17,5 @@ nohup python3 amoeba_net.py \
   --lr_warmup_epochs=0.35 \
   --mode=train \
   --iterations_per_loop=1251 \
-  > xx.log 2>&1 &
+  > train_performance_1p.log 2>&1 &
 
