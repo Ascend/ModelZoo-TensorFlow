@@ -22,9 +22,11 @@ epochs=1
 #学习率
 learning_rate='1e-3'
 #参数配置
-cameras_path=""
-data_dir=""
-train_dir=""
+data_path=""
+output_path=""
+cameras_path=${data_path}/human36m-master/h36m/cameras.h5
+data_dir=${data_path}/human36m-master/h36m
+train_dir=$cur_path/../experiments/test_git
 load_dir=""
 load=0
 
@@ -34,16 +36,16 @@ if [[ $1 == --help || $1 == --h ]];then
 
    echo ""
    echo "parameter explain:
-    --test          Set to True for sampling
-    --learning_rate	Learning rate
-    --batch_size	batch size to use during training
-    --epochs		How many epochs we should train for
-    --cameras_path	Directory to load camera parameters
-    --data_dir		Data directory
-    --train_dir		Training directory
-    --load_dir		Specify the directory to load trained model
-    --load		    Try to load a previous checkpoint
-    -h/--help       Show help message
+    --test          #Set to True for sampling
+    --learning_rate     #Learning rate
+    --batch_size        #batch size to use during training
+    --epochs            #How many epochs we should train for
+    --cameras_path      #Directory to load camera parameters
+    --data_dir          #Data directory
+    --train_dir         #Training directory
+    --load_dir          #Specify the directory to load trained model
+    --load              #Try to load a previous checkpoint
+    -h/--help       #Show help message
    "
    exit 1
 fi
@@ -51,49 +53,38 @@ fi
 # 参数校验，不需要修改
 for para in $*
 do
-    if [[ $para == --data_dir* ]];then
-        data_dir=`echo ${para#*=}`
+    if [[ $para == --data_path* ]];then
+        data_path=`echo ${para#*=}`
+    elif [[ $para == --output_path* ]];then
+        output_path=`echo ${para#*=}`
+    elif [[ $para == --train_steps* ]];then
+        train_steps=`echo ${para#*=}`
+        elif [[ $para == --train_epochs* ]];then
+        train_epochs=`echo ${para#*=}`
     elif [[ $para == --batch_size* ]];then
         batch_size=`echo ${para#*=}`
-    elif [[ $para == --epochs* ]];then
-        epochs=`echo ${para#*=}`
-    elif [[ $para == --train_dir* ]];then
-        train_dir=`echo ${para#*=}`
-    elif [[ $para == --load_dir* ]];then
-        load_dir=`echo ${para#*=}`
-    elif [[ $para == --cameras_path* ]];then
-        cameras_path=`echo ${para#*=}`
-    elif [[ $para == --load* ]];then
-        load=`echo ${para#*=}`
-    elif [[ $para == --learning_rate* ]];then
-        learning_rate=`echo ${para#*=}`
-    elif [[ $para == --test* ]];then
-        test=`echo ${para#*=}`
     fi
 done
 
-# 校验是否传入data_dir,不需要修改
-if [[ $data_dir  == "" ]];then
-   echo "[Error] para \"data_dir\" must be config"
+
+# 校验是否传入data_path,不需要修改
+if [[ $data_path  == "" ]];then
+   echo "[Error] para \"data_path\" must be config"
    exit 1
 fi
 
-# 校验是否传入train_dir,不需要修改
-if [[ $train_dir  == "" ]];then
-   echo "[Error] para \"train_dir\" must be config"
-   exit 1
+# 校验是否传入output_path,不需要修改
+if [[ $output_path == "" ]];then
+    output_path="./test/output/${ASCEND_DEVICE_ID}"
 fi
 
 # 设置打屏日志文件名，请保留，文件名为${print_log}
 print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
-modelarts_flag=${MODELARTS_MODEL_PATH}
-if [ x"${modelarts_flag}" != x ];
-then
-    echo "running without etp..."
-    print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
-    print_log="/home/ma-user/modelarts/log/${print_log_name}"
-fi
 echo "### get your log here : ${print_log}"
+
+cameras_path=${data_path}/human36m-master/h36m/cameras.h5
+data_dir=${data_path}/human36m-master/h36m
+train_dir=$cur_path/../experiments/test_git
 
 CaseName=""
 function get_casename()
@@ -113,34 +104,35 @@ mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 touch ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 cd ${cur_path}/../src
 
+echo ${cameras_path}
 start=$(date +%s)
 python3 ./predict_3dpose_mdm.py \
---data_dir ${data_dir} \
---train_dir ${train_dir} \
---test ${test} \
---load_dir ${load_dir} \
---cameras_path ${cameras_path} \
---load ${load}
---batch_size ${batch_size} \
---epochs ${epochs} \
---learning_rate ${learning_rate} > ${print_log}
+    --cameras_path ${cameras_path} \
+    --data_dir ${data_dir} \
+    --train_dir ${train_dir} \
+    --load_dir ${load_dir} \
+    --test ${test} \
+    --load ${load} \
+    --batch_size ${batch_size} \
+    --epochs ${epochs} \
+    --learning_rate ${learning_rate} >${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 wait
 end=$(date +%s)
 e2e_time=$(( $end - $start ))
 
 #输出性能FPS，需要模型审视修改
-StepTime=`grep "done in" ${print_log} | tail -n 10|awk '{print $3}' | awk '{sum+=$1} END {print sum/NR/1000}'`
+StepTime=`grep "done in" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | grep -v 'Saving the model' | awk '{print $11}' | tail -n 10 | awk '{sum+=$1} END {print sum/NR/1000}'`
 #打印，不需要修改
-FPS=`awk 'BEGIN{printf("%.2f\n", '${batch_size}' /'${StepTime}')}'`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}' /'${StepTime}'}'`
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep "root - Average" ${print_log} | awk 'END {print $7}'`
+train_accuracy=`grep "root - Average" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk 'END {print $7}'`
 
 # 提取所有loss打印信息
-grep "Train loss avg:" ${print_log} | awk '{print $4}' > $cur_path/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "Train loss avg:" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $4}' > $cur_path/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 # 判断本次执行是否正确使用Ascend NPU
-use_npu_flag=`grep "tf_adapter" ${print_log} | wc -l`
+use_npu_flag=`grep "tf_adapter" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
 if [ x"${use_npu_flag}" == x0 ];
 then
     echo "------------------ ERROR NOTICE START ------------------"
@@ -182,4 +174,8 @@ echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+
+
+
