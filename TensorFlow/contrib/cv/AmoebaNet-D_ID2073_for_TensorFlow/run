@@ -1,2 +1,0 @@
-bash train_testcase.sh
-bash online_inference_testcase.sh
