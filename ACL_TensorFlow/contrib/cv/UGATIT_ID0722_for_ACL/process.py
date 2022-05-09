@@ -12,8 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import numpy as np
+import imageio
 
 
-fake = np.fromfile('./output/BtoA/20220509_212345/UGATIT_BtoA_output_0.bin',np.float32).reshape(512,512,3)
+fake = np.fromfile('./output/BtoA/20220509_212345/UGATIT_BtoA_output_0.bin',np.float32).reshape(256,256,3)
 fake = ((fake+1)/2)*255
 imageio.imsave('./result/BtoA/0000.png',fake)
