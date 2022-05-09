@@ -218,7 +218,7 @@ with tf.Graph().as_default(), tf.device('/cpu:0'):
         fig_loss_2d[i - start_iter-1] = loss_2d_v
         duration += time.time()-start_time
         if (i % train_para['show_loss_freq']) == 0:
-            print('Iteration %d\t Loss %.1e, Loss_2d %.1e, Loss_PAF %.1e, MPJPE &f, duration %f' % (i, loss_v, loss_2d_v, loss_PAF_v, (loss_2d_v*135424/6) duration))
+            print('Iteration %d\t Loss %.1e, Loss_2d %.1e, Loss_PAF %.1e, MPJPE %f, duration %f' % (i, loss_v, loss_2d_v, loss_PAF_v, (loss_2d_v*135424/6), duration))
             sys.stdout.flush()
             duration=0
 
