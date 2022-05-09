@@ -169,6 +169,12 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 ├── network_utils_test.py                  //对network_utils自定义模块的测试
 ├── tf_hub.py                               //模型导出和评估
 ├── inception_preprocessing.py            //图像预处理
+├── train_testcase.sh                      //训练测试用例
+├── online_inference_testcase.sh           //在线推理测试用例
+├── train_performance_1p.sh                //训练入口
+├── train_full_1p.sh                       //训练入口，包含准确率评估
+├── modelzoo_level.txt                     //网络状态描述文件
+├── requirements.txt                       
 ├── common
 │    ├──imagenet.py                         //为ImageNet ILSVRC 2012数据集提供数据帮助程序
 │    ├──inference_warmup.py                //inference warmup实现```
@@ -177,9 +183,9 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 ## 脚本参数<a name="section6669162441511"></a>
 ```
 --use_tpu              是否使用tpu，默认：False（由于该代码从tpu版本迁移过来，在晟腾910上只能是False）
---mode                 运行模式，默认train_and_eval；可选：train，eval
+--mode                 运行模式，可选：train_and_eval，train，eval
 --data_dir             数据集目录
---mmodel_dir           保存模型输出的目录
+--mmodel_dir           保存checkpoint的目录
 --num_cells             网络结构中cell的数量，默认：6
 --image_size            图像尺寸，默认：224
 --num_epochs           训练迭代次数，默认：35
