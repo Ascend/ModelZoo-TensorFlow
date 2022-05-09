@@ -29,6 +29,7 @@
 
 **描述（Description）：基于TensorFlow框架的DIEN网络训练代码**
 
+<h2 id="概述.md">概述</h2>
 - 参考论文：
 
     https://arxiv.org/abs/1809.03672
@@ -82,7 +83,7 @@
 相关代码示例。
 
 ```
-config_proto = tf.ConfigProto(allow_soft_placement=True)
+  config_proto = tf.ConfigProto(allow_soft_placement=True)
   custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
   custom_op.name = 'NpuOptimizer'
   custom_op.parameter_map["use_off_line"].b = True
