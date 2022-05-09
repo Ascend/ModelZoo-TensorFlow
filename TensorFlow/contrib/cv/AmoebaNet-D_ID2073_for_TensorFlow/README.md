@@ -184,8 +184,8 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 │    ├──imagenet.py                         //为ImageNet ILSVRC 2012数据集提供数据帮助程序
 │    ├──inference_warmup.py                //inference warmup实现```
 
+```
 ## 脚本参数<a name="section6669162441511"></a>
-
 ```
 --use_tpu              是否使用tpu，默认：False（由于该代码从tpu版本迁移过来，在晟腾910上只能是False）
 --mode                 运行模式，默认train_and_eval；可选：train，eval
