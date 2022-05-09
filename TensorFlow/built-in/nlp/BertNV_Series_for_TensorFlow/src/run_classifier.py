@@ -46,7 +46,7 @@ import tokenization
 import tensorflow as tf
 #import horovod.tensorflow as hvd
 import time, sys
-from npu_bridge.estimator.npu.npu_estimator import NPUEstimator,NPUstimatorSpec
+from npu_bridge.estimator.npu.npu_estimator import NPUEstimator,NPUEstimatorSpec
 from utils.utils import LogEvalRunHook, LogTrainRunHook, setup_xla_flags
 #from utils.gpu_affinity import set_affinity
 import utils.dllogger_class
@@ -84,29 +84,39 @@ flags.DEFINE_string(
     "output_dir", None,
     "The output directory where the model checkpoints will be written.")
 
-flags.DEFINE_bool('npu_gather', False, 'Whether to use gather_npu whose backward propagation avoids IndexedSlices')
-
+# npu parameter
 flags.DEFINE_bool('npu_bert_debug', False, 'If True, dropout and shuffle is disabled.')
+flags.DEFINE_integer('init_loss_scale_value', 2 ** 32, 'Initial loss scale value for loss scale optimizer')
+flags.DEFINE_integer("iterations_per_loop", 1, "How many steps to make in each estimator call.")
+flags.DEFINE_bool("use_fp16_cls", False, "Whether to use fp16 in cls and pooler.")
+flags.DEFINE_bool('npu_bert_fused_gelu', True, 'Whether to use npu defined gelu op')
+flags.DEFINE_integer("npu_bert_loss_scale", 0,
+                   "Whether to use loss scale, -1 is disable, 0 is dynamic loss scale, >=1 is static loss scale")
+flags.DEFINE_bool("npu_bert_clip_by_global_norm", False,
+                "Use clip_by_global_norm if True, or use clip_by_norm for each gradient")
 
 flags.DEFINE_bool('npu_bert_npu_dropout', True, 'Whether to use npu defined dropout op')
 
-flags.DEFINE_bool('npu_bert_fused_gelu', True, 'Whether to use npu defined gelu op')
-
-flags.DEFINE_bool('use_fast_gelu', False, 'use fast gelu instead gelu')
-
-flags.DEFINE_bool("use_fp16_cls", False, "Whether to use fp16 in cls and pooler.")
-
-flags.DEFINE_integer('init_loss_scale_value', 2**32, 'Initial loss scale value for loss scale optimizer')
+flags.DEFINE_bool('npu_bert_npu_dropout_v3', False, 'Whether to use npu defined dropout_v3 op')
 
 flags.DEFINE_bool('npu_bert_tail_optimize', False, 'Whether to use npu allreduce tail optimization')
 
-flags.DEFINE_bool("npu_bert_clip_by_global_norm", True, "Use clip_by_global_norm if True, or use clip_by_norm for each gradient")
+flags.DEFINE_bool('npu_gather', True, 'Whether to use gather_npu whose backward propagation avoids IndexedSlices')
+flags.DEFINE_bool("distributed", False, "Whether to train for multi-npu runs")
+flags.DEFINE_bool('hcom_parallel', True, 'Whether to use parallel allreduce')
+
+flags.DEFINE_bool('use_fast_gelu', True, 'use fast gelu instead gelu')
 
 flags.DEFINE_bool('npu_bert_use_fused_adam_momentum', False, 'Whether to use fused apply and assign in adam')
 
 flags.DEFINE_bool('npu_bert_use_fused_lamb_momentum', False, 'Whether to use fused apply and assign in lamb')
+flags.DEFINE_bool("enable_exception_dump", False, "Whether to enable excepttion dump.")
+flags.DEFINE_bool("data_dump_flag", False, "Whether to  dump data.")
+flags.DEFINE_string("data_dump_step", "0", "How many steps to dump data.")
+flags.DEFINE_string("data_dump_path", "./output/data_dump", "path to dump data.")
+flags.DEFINE_bool("over_dump", False, "Whether to  over_dump.")
+flags.DEFINE_string("over_dump_path", "./output/doverflow_dump", "path to dump overflow data.")
 
-flags.DEFINE_bool('npu_bert_npu_dropout_v3', False, 'Whether to use npu defined dropout_v3 op')
 ## Other parameters
 flags.DEFINE_string(
     "dllog_path", "bert_dllog.json",
@@ -139,8 +149,6 @@ flags.DEFINE_bool(
     "do_predict", False,
     "Whether to run the model in inference mode on the test set.")
 
-flags.DEFINE_integer("npu_bert_loss_scale", 0, "Whether to use loss scale.")
-
 flags.DEFINE_integer("train_batch_size", 32, "Total batch size for training.")
 
 flags.DEFINE_integer("eval_batch_size", 8, "Total batch size for eval.")
@@ -154,8 +162,6 @@ flags.DEFINE_bool("use_trt", False, "Whether to use TF-TRT")
 flags.DEFINE_float("num_train_epochs", 3.0,
                    "Total number of training epochs to perform.")
 
-flags.DEFINE_bool("distributed", False, "Use multiple NPUs for training.")
-
 flags.DEFINE_float(
     "warmup_proportion", 0.1,
     "Proportion of training to perform linear learning rate warmup for. "
@@ -166,8 +172,6 @@ flags.DEFINE_integer("save_checkpoints_steps", 1000,
 flags.DEFINE_integer("display_loss_steps", 10,
                      "How often to print loss from estimator")
 
-flags.DEFINE_integer("iterations_per_loop", 1,
-                     "How many steps to make in each estimator call.")
 flags.DEFINE_integer("num_accumulation_steps", 1,
                      "Number of accumulation steps before gradient update" 
                       "Global batch size = num_accumulation_steps * train_batch_size")
@@ -182,24 +186,8 @@ flags.DEFINE_bool(
 
 #npu parameter
 flags.DEFINE_string("precision_mode", "allow_mix_precision", "Npu Precision Mode")
-flags.DEFINE_bool(
-    "enable_exception_dump", False,
-    "Whether to enable excepttion dump.")
-flags.DEFINE_bool("data_dump_flag", False,"Whether to  dump data.")
-flags.DEFINE_string("data_dump_step", "0",
-                     "How many steps to dump data.")
-flags.DEFINE_string("data_dump_path", "./output/data_dump",
-                     "path to dump data.")
-flags.DEFINE_bool("over_dump", False,"Whether to  over_dump.")
-flags.DEFINE_string("over_dump_path", "./output/doverflow_dump",
-                     "path to dump overflow data.")
 
 ##################NPU_modify start#############################
-flags.DEFINE_bool("over_dump", False, "Whether check overflow")
-flags.DEFINE_bool("data_dump_flag", False, "whether dump data")
-flags.DEFINE_string("data_dump_step", "0", "Only used if `data_dump_flag` is True")
-flags.DEFINE_string("over_dump_path", "test/output/overflow_dump", "Only used if `over_dump` is True")
-flags.DEFINE_string("data_dump_path", "test/output/data_dump", "Only used if `data_dump_flag` is True")
 flags.DEFINE_bool("autotune", False, "Whether autotune")
 flags.DEFINE_bool("profiling", False, "Whether profiling")
 flags.DEFINE_string("profiling_dump_path", "test/output/profiling_path", "Only used if `profiling` is True")
@@ -621,7 +609,8 @@ def main(_):
       save_checkpoints_steps=FLAGS.save_checkpoints_steps if master_process else 0,
       iterations_per_loop=FLAGS.iterations_per_loop,
       session_config=config_proto,
-      hcom_parallel=True,
+      hcom_parallel=FLAGS.hcom_parallel,
+      is_tailing_optimization=FLAGS.npu_bert_tail_optimize,
       precision_mode=FLAGS.precision_mode,
       keep_checkpoint_max=5,
       log_step_count_steps=10,

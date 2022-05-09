@@ -190,7 +190,8 @@ do
      --num_train_epochs=$num_train_epochs \
      --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/${output_dir} \
      --horovod=false "$use_fp16" \
-     --distributed=False \
+     --distributed=True \
+     --npu_bert_tail_optimize=True \
      --npu_bert_loss_scale=0 \
      --optimizer_type= $optimizer_type \
      $use_xla_tag --warmup_proportion=$warmup_proportion  > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
