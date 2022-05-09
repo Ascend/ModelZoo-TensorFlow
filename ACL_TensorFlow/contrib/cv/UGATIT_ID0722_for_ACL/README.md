@@ -5,8 +5,8 @@
 > obs://cann-id0722/ACL_Tensorflow/checkpoint/
 
 #### bin 文件地址：
-> obs://cann-id0722/ACL_Tensorflow/data/testA
-> obs://cann-id0722/ACL_Tensorflow/data/testB
+> obs://cann-id0722/ACL_Tensorflow/data/testA  
+> obs://cann-id0722/ACL_Tensorflow/data/testB  
 
 根据requirements文件安装后处理依赖库.
 
