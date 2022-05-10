@@ -343,7 +343,7 @@ def get_frozen_tftrt_model(bert_config, shape, num_labels, use_one_hot_embedding
 
 def model_fn_builder(task_name, bert_config, num_labels, init_checkpoint, learning_rate,
                      num_train_steps, num_warmup_steps,
-                     use_one_hot_embeddings, hvd=None):
+                     use_one_hot_embeddings, distributed, hvd=None):
   """Returns `model_fn` closure for Estimator."""
 
   def model_fn(features, labels, mode, params):  # pylint: disable=unused-argument
@@ -413,7 +413,7 @@ def model_fn_builder(task_name, bert_config, num_labels, init_checkpoint, learni
 
     tvars = tf.trainable_variables()
     initialized_variable_names = {}
-    if init_checkpoint and (hvd is None or get_npu_rank_id() == 0):
+    if init_checkpoint and (hvd is None or rank_id == 0):
       (assignment_map, initialized_variable_names
       ) = modeling.get_assignment_map_from_checkpoint(tvars, init_checkpoint)
       tf.train.init_from_checkpoint(init_checkpoint, assignment_map)

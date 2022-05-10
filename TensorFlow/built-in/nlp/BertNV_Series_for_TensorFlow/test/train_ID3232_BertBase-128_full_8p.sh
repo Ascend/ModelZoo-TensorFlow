@@ -15,7 +15,7 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertBase-128_ID3232_for_Tensorflow"
+Network="BertBase-128_ID3232_for_TensorFlow"
 #训练batch_size
 train_batch_size=32
 #训练ephch
@@ -165,7 +165,7 @@ do
     let a=RANK_ID*${corenum}/8
     let b=RANK_ID+1
     let c=b*${corenum}/8-1
-    if [ "x${bind_core" != x ];then
+    if [ "x${bind_core}" != x ];then
        bind_core="taskset -c $a-$c"
     fi
 
@@ -188,7 +188,7 @@ do
      --train_batch_size=$train_batch_size \
      --learning_rate=$learning_rate \
      --num_train_epochs=$num_train_epochs \
-     --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/${output_dir} \
+     --output_dir=${cur_path}/${output_dir} \
      --horovod=false "$use_fp16" \
      --distributed=True \
      --npu_bert_tail_optimize=True \
