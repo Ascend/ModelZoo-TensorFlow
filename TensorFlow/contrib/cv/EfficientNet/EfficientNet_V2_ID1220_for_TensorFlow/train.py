@@ -177,10 +177,12 @@ out, model_endpoint = efficientnet_builder.build_model(
     model_name="efficientnet-b0",
     training=FLAGS.is_training,
     override_params=None)
+
 labels_batch=tf.squeeze(labels_batch)
 
 train_op, train_loss, train_val = training_op(out, labels_batch)
 test_acc = evaluation(out, labels_batch)
+
 
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
@@ -189,13 +191,11 @@ custom_op.parameter_map["use_off_line"].b = True  # 在昇腾AI处理器执行�
 custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
 custom_op.parameter_map["enable_data_pre_proc"].b = True # getnext算子下沉是迭代循环下沉的必要条件
 custom_op.parameter_map["iterations_per_loop"].i = 10
-
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 关闭remap开关
 sess = tf.Session(config=config)
+train_op = util.set_iteration_per_loop(sess, train_op, 10)
 sess.run(tf.global_variables_initializer())
 sess.run(iterator.initializer)
-train_op = util.set_iteration_per_loop(sess, train_op, 10)
-
 saver = tf.train.Saver()
 saver.restore(sess, WEIGHTS_MODEL)
 
@@ -208,7 +208,7 @@ try:
     perf_lsit=[]
     fps_list=[]
     for epoch in range(FLAGS.epochs):
-        for step in range(int(FLAGS.image_num / FLAGS.batch_size)):    #900/90=10
+        for step in range(0,int(FLAGS.image_num / FLAGS.batch_size),10):    #900/90=10
             star_time = time.time()
             # x_in, y_in = sess.run([images_batch, labels_batch])
             # y_in = np.squeeze(y_in, 1)
