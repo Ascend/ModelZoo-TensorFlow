@@ -156,7 +156,7 @@ def tf_data_list(tf_data_path):
 
 
 dataset = tf.data.TFRecordDataset(tf_data_list(FLAGS.TMP_DATA_PATH + "/" +"train_tf"))
-dataset = dataset.map(_parse_read, num_parallel_calls=1)
+dataset = dataset.map(_parse_read, num_parallel_calls=192)
 
 if FLAGS.is_training:
     dataset = dataset.shuffle(FLAGS.batch_size * 6)
