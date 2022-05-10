@@ -80,6 +80,7 @@ else
    mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
 fi
 
+cp -r $data_path/albert_config $cur_path/
 
 #执行训练
 cd $cur_path
