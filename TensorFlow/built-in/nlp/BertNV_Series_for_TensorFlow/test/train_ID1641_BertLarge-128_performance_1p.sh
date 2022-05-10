@@ -14,7 +14,7 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertLarge-128_ID1641_for_Tensorflow"
+Network="BertLarge-128_ID1641_for_TensorFlow"
 #训练batch_size
 train_batch_size=32
 #训练ephch
@@ -179,7 +179,7 @@ do
      --train_batch_size=$train_batch_size \
      --learning_rate=$learning_rate \
      --num_train_epochs=$num_train_epochs \
-     --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/${output_dir} \
+     --output_dir=${cur_path}/${output_dir} \
      --horovod=false "$use_fp16" \
      --distributed=False \
      --npu_bert_loss_scale=0 \

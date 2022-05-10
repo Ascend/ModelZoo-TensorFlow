@@ -14,7 +14,7 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="BertLarge-128_ID1643_for_Tensorflow"
+Network="BertLarge-128_ID1643_for_TensorFlow"
 #训练batch_size
 train_batch_size=32
 #训练ephch
@@ -179,7 +179,7 @@ do
      --train_batch_size=$train_batch_size \
      --learning_rate=$learning_rate \
      --num_train_epochs=$num_train_epochs \
-     --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/${output_dir} \
+     --output_dir=${cur_path}/${output_dir} \
      --horovod=false "$use_fp16" \
      --distributed=False \
      --npu_bert_loss_scale=0 \
@@ -199,7 +199,7 @@ FPS=`awk 'BEGIN{printf "%d\n",'$step_sec' * '$train_batch_size'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep -a 'eval_accuracy' ${cur_path}/${output_dir}/eval_results.txt|awk '{print $3}'`
+train_accuracy=`grep -a 'MCC' ${cur_path}/${output_dir}/eval_results.txt|awk '{print $3}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
