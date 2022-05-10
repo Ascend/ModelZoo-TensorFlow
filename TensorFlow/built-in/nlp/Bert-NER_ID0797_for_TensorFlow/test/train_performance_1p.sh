@@ -89,6 +89,9 @@ fi
 #BERT NER性能测试专有，指定trains steps
 sed -i "s|#num_train_steps = 100|num_train_steps = 25|g" $cur_path/../BERT_NER.py
 
+mkdir -p $cur_path/../output
+cp -r $data_path/result_dir $cur_path/../output/
+
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 
