@@ -91,6 +91,7 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+obsutil cp https://cann-nju-srnet.obs.cn-north-4.myhuaweicloud.com/vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb ./
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
