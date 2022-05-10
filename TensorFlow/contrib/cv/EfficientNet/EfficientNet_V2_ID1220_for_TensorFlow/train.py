@@ -156,39 +156,46 @@ def tf_data_list(tf_data_path):
 
 
 dataset = tf.data.TFRecordDataset(tf_data_list(FLAGS.TMP_DATA_PATH + "/" +"train_tf"))
-dataset = dataset.map(_parse_read, num_parallel_calls=1)
+dataset = dataset.map(_parse_read, num_parallel_calls=192)
 
 if FLAGS.is_training:
     dataset = dataset.shuffle(FLAGS.batch_size * 6)
-    dataset = dataset.repeat(FLAGS.epochs)
+    dataset = dataset.repeat()
 else:
     dataset = dataset.repeat(1)
 
 dataset = dataset.batch(FLAGS.batch_size, drop_remainder=True)
-iterator = dataset.make_one_shot_iterator()
+# iterator = dataset.make_one_shot_iterator()
+iterator = dataset.make_initializable_iterator()
 images_batch, labels_batch = iterator.get_next()
 print(images_batch, labels_batch)
 
-inputx = tf.placeholder(tf.float32, shape=[FLAGS.batch_size, 224, 224, 3], name="inputx")
-inputy = tf.placeholder(tf.int64, name="inputy")
+# inputx = tf.placeholder(tf.float32, shape=[FLAGS.batch_size, 224, 224, 3], name="inputx")
+# inputy = tf.placeholder(tf.int64, name="inputy")
 out, model_endpoint = efficientnet_builder.build_model(
-    inputx,
+    images_batch,
     model_name="efficientnet-b0",
     training=FLAGS.is_training,
     override_params=None)
 
-train_op, train_loss, train_val = training_op(out, inputy)
-test_acc = evaluation(out, inputy)
+labels_batch=tf.squeeze(labels_batch)
+
+train_op, train_loss, train_val = training_op(out, labels_batch)
+test_acc = evaluation(out, labels_batch)
+
 
 config = tf.ConfigProto(allow_soft_placement=True)
 custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
 custom_op.parameter_map["use_off_line"].b = True  # 在昇腾AI处理器执行训练
 custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+custom_op.parameter_map["enable_data_pre_proc"].b = True # getnext算子下沉是迭代循环下沉的必要条件
+custom_op.parameter_map["iterations_per_loop"].i = 10
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 关闭remap开关
 sess = tf.Session(config=config)
+train_op = util.set_iteration_per_loop(sess, train_op, 10)
 sess.run(tf.global_variables_initializer())
-
+sess.run(iterator.initializer)
 saver = tf.train.Saver()
 saver.restore(sess, WEIGHTS_MODEL)
 
@@ -201,22 +208,21 @@ try:
     perf_lsit=[]
     fps_list=[]
     for epoch in range(FLAGS.epochs):
-        for step in range(int(FLAGS.image_num / FLAGS.batch_size)):    #900/90=10
+        for step in range(0,int(FLAGS.image_num / FLAGS.batch_size),10):    #900/90=10
             star_time = time.time()
-            x_in, y_in = sess.run([images_batch, labels_batch])
-            y_in = np.squeeze(y_in, 1)
-            _, tra_loss, tra_acc = sess.run([train_op, train_loss, train_val],
-                                                     feed_dict={inputx: x_in, inputy: y_in})
-            if (step + 1) % 1 == 0:
-                if step > 0:   #去掉第一次不稳定数据
-                    perf = time.time() - star_time
-                    perf_lsit.append(perf)
-                    perf_ = np.mean(perf_lsit)
-                    fps = FLAGS.batch_size / perf 
-                    fps_list.append(fps)
-                    fps_ = np.mean(fps_list)
-                    print('Epoch %d step %d train loss = %.4f train accuracy = %.2f%%  time:  %.4f  fps: %.4f' % (
-                        epoch + 1, step + 1, tra_loss, tra_acc * 100.0, perf_, fps_))
+            # x_in, y_in = sess.run([images_batch, labels_batch])
+            # y_in = np.squeeze(y_in, 1)
+            _, tra_loss, tra_acc = sess.run([train_op, train_loss, train_val])
+            # if (step + 1) % 1 == 0:
+            #     if step > 0:   #去掉第一次不稳定数据
+            perf = (time.time() - star_time) / 10
+            perf_lsit.append(perf)
+            perf_ = np.mean(perf_lsit)
+            fps = FLAGS.batch_size / perf 
+            fps_list.append(fps)
+            fps_ = np.mean(fps_list)
+            print('Epoch %d step %d train loss = %.4f train accuracy = %.2f%%  time:  %.4f  fps: %.4f' % (
+                epoch + 1, step + 1, tra_loss, tra_acc * 100.0, perf_, fps_))
         checkpoint_path = os.path.join(FLAGS.TMP_MODEL_PATH, "m.ckpt")
         saver_train.save(sess, checkpoint_path, global_step=epoch)
 except tf.errors.OutOfRangeError:
