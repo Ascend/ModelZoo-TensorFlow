@@ -165,7 +165,8 @@ else:
     dataset = dataset.repeat(1)
 
 dataset = dataset.batch(FLAGS.batch_size, drop_remainder=True)
-iterator = dataset.make_one_shot_iterator()
+# iterator = dataset.make_one_shot_iterator()
+iterator = dataset.make_initializable_iterator()
 images_batch, labels_batch = iterator.get_next()
 print(images_batch, labels_batch)
 
@@ -192,6 +193,7 @@ custom_op.parameter_map["iterations_per_loop"].i = 10
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 关闭remap开关
 sess = tf.Session(config=config)
 sess.run(tf.global_variables_initializer())
+sess.run(iterator.initializer)
 train_op = util.set_iteration_per_loop(sess, train_op, 10)
 
 saver = tf.train.Saver()
