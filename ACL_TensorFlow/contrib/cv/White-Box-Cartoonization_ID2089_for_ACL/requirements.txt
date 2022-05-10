@@ -1,0 +1,7 @@
+tensorflow-gpu:1.12.0 or 1.13
+pytorch-fid
+numpy==1.19.2
+opencv-python
+tqdm
+joblib
+scikit-image==0.14.5
