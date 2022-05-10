@@ -104,7 +104,7 @@ fi
 #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
 python3 train.py \
      --TMP_DATA_PATH=${data_path}/data_quan \
-     --epochs=1 \
+     --epochs=10 \
 	 --TMP_WEIGHTS_PATH=${data_path}/weights \
 	 --image_num=900 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 wait
