@@ -4,7 +4,7 @@ cur_path=`pwd`
 
 #集合通信参数,不需要修改
 export RANK_SIZE=8
-export RANK_TABLE_FILE=#cur_path/../configs/${RANK_SIZE}p.json
+export RANK_TABLE_FILE=$cur_path/../configs/${RANK_SIZE}p.json
 export JOB_ID=10087
 export GE_USE_STATIC_MEMORY=1
 export HCCL_CONNECT_TIMEOUT=600
@@ -139,7 +139,7 @@ cd $cur_path/../
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $ASCEND_DEVICE_ID"
+    echo "Device ID: $RANK_ID"
     export RANK_ID=$RANK_ID
     export ASCEND_DEVICE_ID=$RANK_ID
     ASCEND_DEVICE_ID=${ASCEND_DEVICE_ID}
