@@ -78,7 +78,7 @@ t_t_dir = 't_t'
 t_b_dir = 't_b'
 t_f_dir = 't_f'
 mask_t_dir = 'mask_t'
-example_data_dir = r'/home/ma-user/modelarts/user-job-dir/code/examples/labels'
+example_data_dir = r'examples/labels'
 example_result_dir = '/cache/out/genLogs'
 
 # predict
