@@ -71,7 +71,6 @@ def main():
         os.makedirs(args.dataDir)
         mox.file.copy_parallel(src_url=args.data_url, dst_url=args.dataDir)
 
-
     if args.test:
         max_iter = cfg.test_max_iter
     else:
@@ -93,7 +92,7 @@ def main():
 
     # define data generator
     #datagen()之中包含yield，所以不会正真执行，而是返回一个生成器(迭代器)
-    gen = srnet_datagen(args.dataDir, args.bSize)
+    gen = srnet_datagen(args.dataDir, cfg.batch_size)
     
     with model.graph.as_default():
         init = tf.global_variables_initializer()

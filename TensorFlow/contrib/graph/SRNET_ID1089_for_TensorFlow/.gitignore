@@ -1,3 +1,4 @@
-./vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb
+*.pb
 
 .idea/
+MA_LOG/
