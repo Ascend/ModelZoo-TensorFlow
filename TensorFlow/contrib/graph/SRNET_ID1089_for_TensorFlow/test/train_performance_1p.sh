@@ -109,10 +109,25 @@ start_time=$(date +%s)
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
 #obsutil cp  obs://cann-nju-srnet/vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb ./ -f -r
+train_epochs=2
+train_steps=100
+batch_size=8
 
-python3.7 ./train.py -t --data_dir=${data_path} --output_dir=${output_path} > ${print_log}
+if [ x"${modelarts_flag}" != x ];
+then
+    python3.7 ./train.py -t --data_dir=${data_path} --output_dir=${output_path}
+else
+    python3.7 ./train.py -t --data_dir=${data_path} --output_dir=${output_path} > ${print_log} >${print_log} 2>&1
+fi
+
+# 性能相关数据计算
+StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+
+# 精度相关数据计算
+train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
 # 提取所有loss打印信息
-grep "step:    500" ${print_log} > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
