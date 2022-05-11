@@ -41,7 +41,7 @@ import numpy as np
 import random
 import cfg 
 
-def srnet_datagen(data_dir):
+def srnet_datagen(data_dir, batchSize):
    
     # generator SRNet data for training
     name_list = os.listdir(os.path.join(data_dir, cfg.t_b_dir))
@@ -54,7 +54,7 @@ def srnet_datagen(data_dir):
         t_sk_batch, t_t_batch, t_b_batch, t_f_batch = [], [], [], []
         mask_t_batch = []
         
-        for _ in range(cfg.batch_size):
+        for _ in range(batchSize):
             name = name_list[idx]
 
             i_t = cv2.imread(os.path.join(data_dir, cfg.i_t_dir, name))

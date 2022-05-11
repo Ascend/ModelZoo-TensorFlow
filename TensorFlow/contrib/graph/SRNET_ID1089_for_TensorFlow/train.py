@@ -48,26 +48,52 @@ from datagen import srnet_datagen, get_input_data
 
 from tensorflow.core.protobuf.rewriter_config_pb2 import  RewriterConfig
 
+def getParas(code_dir):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", dest="test", action="store_true")
+    parser.add_argument("--train_url", type=str)
+    parser.add_argument("--data_url", type=str)
+    parser.add_argument("--data_dir", dest="dataDir", type=str, default=os.path.join(code_dir, "trainData"))
+    parser.add_argument("--output_dir", dest="resultDir", type=str, default=os.path.join(r"/cache/out"))
+    return parser.parse_args()
+
 def main():
+    code_dir = os.path.dirname(__file__)
+    args = getParas(code_dir)
+
+    example_data_dir = os.path.join(code_dir, "examples", "labels")
+    vgg19Path = os.path.join(code_dir, "vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb")
+    example_result_dir = os.path.join(args.resultDir, "predictResult")
+    tensorboardDir = os.path.join(args.resultDir, "trainResult", "train_logs")
+    checkpoint_savedir = os.path.join(args.resultDir, "trainResult", "checkpoints")
+
+    if not args.test:
+        os.makedirs(args.dataDir)
+        mox.file.copy_parallel(src_url=args.data_url, dst_url=args.dataDir)
+
+
+    if args.test:
+        max_iter = cfg.test_max_iter
+    else:
+        max_iter = cfg.max_iter
+
     # define train_name
     if not cfg.train_name:
         train_name = get_train_name()
     else: 
         train_name = cfg.train_name
-    
+
     # define model
     print_log('model compiling start.', content_color = PrintColor['yellow'])
-    model = SRNet(shape = cfg.data_shape, name = train_name)
+    model = SRNet(vgg19Path=vgg19Path,
+                  tensorboardDir=tensorboardDir,
+                  shape = cfg.data_shape,
+                  name = train_name)
     print_log('model compiled.', content_color = PrintColor['yellow'])
-
-    argPraser = argparse.ArgumentParser()
-    argPraser.add_argument("-t", dest="test", type=bool, default=False, action="store_true")
-    argPraser.add_argument("--data_dir", dest="data_dir", required=True)
-    args = argPraser.parse_args()
 
     # define data generator
     #datagen()之中包含yield，所以不会正真执行，而是返回一个生成器(迭代器)
-    gen = srnet_datagen(args.data_dir)
+    gen = srnet_datagen(args.dataDir, args.bSize)
     
     with model.graph.as_default():
         init = tf.global_variables_initializer()
@@ -75,13 +101,6 @@ def main():
         custom_op = trainCfg.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
         trainCfg.graph_options.rewrite_options.remapping = RewriterConfig.OFF
-
-        #trainCfg.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
-        #custom_op.parameter_map["dynamic_input"].b = True
-
-        #custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("dynamic_execute")
-        #custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("data:[-1, 224, 224, 3], [-1, 224, 224, 3], [-1, 224, 224, 1], [-1, 224, 224, 3], [-1, 224, 224, 3], [-1, 224, 224, 3], [-1, 224, 224, 1]")
-
 
         with tf.Session(config=npu_config_proto()) as sess:
             saver = tf.train.Saver(tf.global_variables(), max_to_keep = 100)
@@ -98,7 +117,7 @@ def main():
             
             # train
             print_log('training start.', content_color = PrintColor['yellow'])
-            for step in range(cfg.max_iter):
+            for step in range(max_iter):
                 global_step = step + 1
                 
                 # train and get loss
@@ -114,25 +133,25 @@ def main():
 
                 # gen example
                 if global_step % cfg.gen_example_interval == 0:
-                    savedir = os.path.join(cfg.example_result_dir, train_name, 'iter-' + str(global_step).zfill(len(str(cfg.max_iter))))
-                    predict_data_list(model, sess, savedir, get_input_data())
+                    savedir = os.path.join(example_result_dir, train_name, 'iter-' + str(global_step).zfill(len(str(max_iter))))
+                    predict_data_list(model, sess, savedir, get_input_data(example_data_dir))
                     print_log ("example generated in dir {}".format(savedir), content_color = PrintColor['green'])
 
                 # save checkpoint
                 if global_step % cfg.save_ckpt_interval == 0:
-                    savedir = os.path.join(cfg.checkpoint_savedir, train_name, 'iter')
+                    savedir = os.path.join(checkpoint_savedir, train_name, 'iter')
                     if not os.path.exists(savedir):
                         os.makedirs(savedir)
                     save_checkpoint(sess, saver, savedir, global_step)
                     print_log ("checkpoint saved in dir {}".format(savedir), content_color = PrintColor['green'])
 
             print_log('training finished.', content_color = PrintColor['yellow'])
-            pb_savepath = os.path.join(cfg.checkpoint_savedir, train_name, 'final.pb')
+            pb_savepath = os.path.join(checkpoint_savedir, train_name, 'final.pb')
             save_pb(sess, pb_savepath, ['o_sk', 'o_t', 'o_b', 'o_f'])
             print_log('pb model saved in dir {}'.format(pb_savepath), content_color = PrintColor['green'])
 
     if not args.test:
-        mox.file.copy_parallel(src_url = r'/cache/out', dst_url = r'obs:\\cann-nju-srnet\trainout')
+        mox.file.copy_parallel(src_url = args.resultDir, dst_url = r'obs:\\cann-nju-srnet\trainout')
 
 if __name__ == '__main__':
     main()

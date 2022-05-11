@@ -43,12 +43,12 @@ from loss import build_discriminator_loss, build_generator_loss
 import cfg
 
 class SRNet():
-
-    def __init__(self, shape = [224, 224], name = ''):
-
+    def __init__(self, vgg19Path, tensorboardDir, shape = [224, 224], name = ''):
         self.name = name
         self.cnum = 32
         self.graph = tf.Graph()
+        self.vgg19Path = vgg19Path
+        self.tensorboardDir = tensorboardDir
         with self.graph.as_default():
             self.i_t = tf.placeholder(dtype = tf.float32, shape = [None] + shape + [3])
             self.i_s = tf.placeholder(dtype = tf.float32, shape = [None] + shape + [3])
@@ -232,7 +232,8 @@ class SRNet():
         i_vgg = tf.concat([t_f, o_f], axis = 0, name = 'vgg_concat')
 
         vgg_graph_def = tf.GraphDef()
-        vgg_graph_path = cfg.vgg19_weights
+        #修改
+        vgg_graph_path = self.vgg19Path
         with open(vgg_graph_path, 'rb') as f:
             vgg_graph_def.ParseFromString(f.read())
             _ = tf.import_graph_def(vgg_graph_def, input_map = {"inputs:0": i_vgg})
@@ -287,8 +288,9 @@ class SRNet():
                                               g_summary_loss_b_gan, g_summary_loss_b_l1, g_summary_loss_f_gan,
                                               g_summary_loss_f_l1, g_summary_loss_f_vgg_per, g_summary_loss_f_vgg_style])
         
-        self.d_writer = tf.summary.FileWriter(os.path.join(cfg.tensorboard_dir, self.name, 'descriminator'), self.graph)
-        self.g_writer = tf.summary.FileWriter(os.path.join(cfg.tensorboard_dir, self.name, 'generator'), self.graph)
+        #修改
+        self.d_writer = tf.summary.FileWriter(os.path.join(self.tensorboardDir, self.name, 'descriminator'), self.graph)
+        self.g_writer = tf.summary.FileWriter(os.path.join(self.tensorboardDir, self.name, 'generator'), self.graph)
      
     def train_step(self, sess, global_step, i_t, i_s, t_sk, t_t, t_b, t_f, mask_t):
 

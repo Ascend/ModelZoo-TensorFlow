@@ -59,20 +59,18 @@ decay_steps = 10000
 staircase = False
 beta1 = 0.9 # default 0.9
 beta2 = 0.999 # default 0.999
+test_max_iter = 500
 max_iter = 500000
 show_loss_interval = 50
 write_log_interval = 50
 save_ckpt_interval = 10000
 gen_example_interval = 1000
-checkpoint_savedir = '/cache/out/model_logs/checkpoints'
-tensorboard_dir = '/cache/out/model_logs/train_logs'
 pretrained_ckpt_path = None
 train_name = None # used for name examples and tensorboard logdirs, set None to use time
 
 # data
 batch_size = 8
 data_shape = [64, None]
-data_dir = '/cache/data'
 i_t_dir = 'i_t'
 i_s_dir = 'i_s'
 t_sk_dir = 't_sk'
@@ -87,28 +85,3 @@ example_result_dir = '/cache/out/genLogs'
 predict_ckpt_path = None
 predict_data_dir = None
 predict_result_dir = 'examples/result'
-
-def main():
-    code_dir = os.path.dirname(__file__)
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-t", dest="test", action="store_true", type=bool, default=False)
-    parser.add_argument("--train_url", type=str)
-    parser.add_argument("--data_url", type=str)
-    parser.add_argument("--modelarts_data_dir", type=str, default=data_dir)
-    parser.add_argument("--modelarts_output_dir", type=str, default="/cache/out")
-    paraConfig = parser.parse_args()
-
-    if paraConfig.test:
-        os.makedirs("./model/testdata")
-        mox.file.copy_parallel(src_url=paraConfig.data_url, dst_url="./model/testdata/")
-        os.system("python3" + ' ' + './train.py' + " --data_dir " + "./model/testdata")
-
-    os.makedirs(paraConfig.modelarts_data_dir)
-    os.makedirs(paraConfig.modelarts_output_dir)
-    os.makedirs(r'/cache/out/genLogs')
-    mox.file.copy_parallel(src_url=paraConfig.data_url, dst_url=paraConfig.modelarts_data_dir)
-    os.system("python3" + ' ' + code_dir + '/train.py' + " --data_dir " + data_dir)
-
-if __name__ == "__main__":
-    main()

@@ -110,9 +110,6 @@ start_time=$(date +%s)
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
 
 python3.7 ./train.py -t --data_dir=${data_path} --output_dir=${output_path} >${print_log}
-
-# 精度相关数据计算
-train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
 # 提取所有loss打印信息
 grep "step:    500" ${print_log} > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
