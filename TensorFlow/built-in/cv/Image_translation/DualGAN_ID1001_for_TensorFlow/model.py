@@ -91,14 +91,16 @@ class DualNet(object):
         self.log_freq = log_freq
         self.gamma = 10.
         self.disc_type = disc_type
-        self.build_model()
+        # self.build_model()
 
-    def build_model(self):
+    def build_model(self, imgA_batch, imgB_batch):
     ###    define place holders
-        self.real_A = tf.placeholder(tf.float32,[self.batch_size, self.image_size, self.image_size,
-                                         self.A_channels ],name='real_A')
-        self.real_B = tf.placeholder(tf.float32, [self.batch_size, self.image_size, self.image_size,
-                                         self.B_channels ], name='real_B')
+        # self.real_A = tf.placeholder(tf.float32,[self.batch_size, self.image_size, self.image_size,
+        #                                  self.A_channels ],name='real_A')
+        # self.real_B = tf.placeholder(tf.float32, [self.batch_size, self.image_size, self.image_size,
+        #                                  self.B_channels ], name='real_B')
+        self.real_A = imgA_batch
+        self.real_B = imgB_batch
         
     ###  define graphs
         self.A2B = self.A_g_net(self.real_A, reuse = False)
@@ -216,24 +218,37 @@ class DualNet(object):
         return imgA, imgB
 
     def process_function(self, a, b):
-        return tf.py_func(self.read_data, inp=[a, b], Tout=[tf.float32, tf.float32])
-        #result_tensor = tf.py_func(self.read_data, inp=[a, b], Tout=[tf.float32, tf.float32])
-        #result_tensor[0].set_shape([256,256,3])
-        #result_tensor[1].set_shape([256,256,3])
-        #return result_tensor
+        # return tf.py_func(self.read_data, inp=[a, b], Tout=[tf.float32, tf.float32])
+        result_tensor = tf.py_func(self.read_data, inp=[a, b], Tout=[tf.float32, tf.float32])
+        result_tensor[0].set_shape([256,256,3])
+        result_tensor[1].set_shape([256,256,3])
+        return result_tensor
 
     def make_dataset(self, dataAlist, dataBlist, batch_size, epoch=1):
         ds = tf.data.Dataset.from_tensor_slices((dataAlist, dataBlist))
         ds = ds.map(lambda a, b: self.process_function(a, b), num_parallel_calls=tf.data.experimental.AUTOTUNE)
         # same with data size for perfect shuffle
         ds = ds.shuffle(buffer_size=995)
-        ds = ds.repeat(epoch)
         ds = ds.batch(batch_size, drop_remainder=True)
+        ds = ds.repeat()
         ds = ds.prefetch(buffer_size=tf.contrib.data.AUTOTUNE)
+        # ds = ds.prefetch(buffer_size=1)
         return ds
 
     def train(self, args):
         """Train Dual GAN"""
+
+        data_A = glob('{}/train/A/*.*[g|G]'.format(self.dataset_name))
+        data_B = glob('{}/train/B/*.*[g|G]'.format(self.dataset_name))
+        epoch_size = min(len(data_A), len(data_B)) // (self.batch_size)
+        train_dataset = self.make_dataset(data_A, data_B, self.batch_size, args.epoch)
+        iterator = train_dataset.make_initializable_iterator()
+        # next_element = iterator.get_next()
+        imgA_batch, imgB_batch = iterator.get_next()
+        self.sess.run(iterator.initializer)
+
+        self.build_model(imgA_batch, imgB_batch)
+
         decay = 0.9
         self.d_optim = npu_tf_optimizer(tf.train.RMSPropOptimizer(args.lr, decay=decay)) \
                           .minimize(self.d_loss, var_list=self.d_vars)
@@ -255,14 +270,17 @@ class DualNet(object):
             print(" Load failed...ignored...")
             print(" start training...")
 
-        data_A = glob('{}/train/A/*.*[g|G]'.format(self.dataset_name))
-        data_B = glob('{}/train/B/*.*[g|G]'.format(self.dataset_name))
-        epoch_size = min(len(data_A), len(data_B)) // (self.batch_size)
+        # data_A = glob('{}/train/A/*.*[g|G]'.format(self.dataset_name))
+        # data_B = glob('{}/train/B/*.*[g|G]'.format(self.dataset_name))
+        # epoch_size = min(len(data_A), len(data_B)) // (self.batch_size)
 
-        train_dataset = self.make_dataset(data_A, data_B, self.batch_size, args.epoch)
-        iterator = train_dataset.make_initializable_iterator()
-        next_element = iterator.get_next()
-        self.sess.run(iterator.initializer)
+        # train_dataset = self.make_dataset(data_A, data_B, self.batch_size, args.epoch)
+        # iterator = train_dataset.make_initializable_iterator()
+        # # next_element = iterator.get_next()
+        # imgA_batch, imgB_batch = iterator.get_next()
+        # self.sess.run(iterator.initializer)
+
+        # self.build_model(imgA_batch, imgB_batch)
 
         for epoch_idx in range(args.epoch):
             # data_A = glob('{}/train/A/*.*[g|G]'.format(self.dataset_name))
@@ -274,10 +292,10 @@ class DualNet(object):
             print("#data_A: %d  #data_B:%d" %(len(data_A),len(data_B)))
             print('[*] run optimizor...')
 
-            for batch_idx in range(0, epoch_size):
+            for batch_idx in range(0, epoch_size, 10):
                 # imgA_batch = self.load_training_imgs(data_A, batch_idx)
                 # imgB_batch = self.load_training_imgs(data_B, batch_idx)
-                imgA_batch, imgB_batch = self.sess.run(next_element)
+                # imgA_batch, imgB_batch = self.sess.run(next_element)
                 if step % self.log_freq == 0:
                     print("Epoch: [%2d] [%4d/%4d]"%(epoch_idx, batch_idx, epoch_size))
                 step = step + 1
@@ -298,20 +316,26 @@ class DualNet(object):
         return batch_imgs
         
     def run_optim(self,batch_A_imgs, batch_B_imgs,  counter, start_time, batch_idx):
-        
 
+        train_op_d = util.set_iteration_per_loop(self.sess, self.d_optim, 10)
+        train_op_g = util.set_iteration_per_loop(self.sess, self.g_optim, 10)
+
+        # _, Adfake,Adreal,Bdfake,Bdreal, Ad, Bd = self.sess.run(
+        #     [self.d_optim, self.Ad_loss_fake, self.Ad_loss_real, self.Bd_loss_fake, self.Bd_loss_real, self.Ad_loss, self.Bd_loss], 
+        #     feed_dict = {self.real_A: batch_A_imgs, self.real_B: batch_B_imgs})
         _, Adfake,Adreal,Bdfake,Bdreal, Ad, Bd = self.sess.run(
-            [self.d_optim, self.Ad_loss_fake, self.Ad_loss_real, self.Bd_loss_fake, self.Bd_loss_real, self.Ad_loss, self.Bd_loss], 
-            feed_dict = {self.real_A: batch_A_imgs, self.real_B: batch_B_imgs})
+            [self.d_optim, self.Ad_loss_fake, self.Ad_loss_real, self.Bd_loss_fake, self.Bd_loss_real, self.Ad_loss, self.Bd_loss])
         
         if 'wgan' == self.GAN_type:
-        	self.sess.run(self.clip_ops)
+            self.sess.run(self.clip_ops)
 
         if 'wgan' in self.GAN_type:
             if batch_idx % self.n_critic == 0:
+                # _, Ag, Bg, Aloss, Bloss = self.sess.run(
+                # [self.g_optim, self.Ag_loss, self.Bg_loss, self.A_loss, self.B_loss], 
+                # feed_dict={ self.real_A: batch_A_imgs, self.real_B: batch_B_imgs})
                 _, Ag, Bg, Aloss, Bloss = self.sess.run(
-                [self.g_optim, self.Ag_loss, self.Bg_loss, self.A_loss, self.B_loss], 
-                feed_dict={ self.real_A: batch_A_imgs, self.real_B: batch_B_imgs})
+                [self.g_optim, self.Ag_loss, self.Bg_loss, self.A_loss, self.B_loss])
             else:
                 Ag, Bg, Aloss, Bloss = self.sess.run(
                 [self.Ag_loss, self.Bg_loss, self.A_loss, self.B_loss], 
@@ -325,7 +349,7 @@ class DualNet(object):
                 feed_dict={ self.real_A: batch_A_imgs, self.real_B: batch_B_imgs})
         if batch_idx % self.log_freq == 0:
             print("time: %4.4f, Ad: %.2f, Ag: %.2f, Bd: %.2f, Bg: %.2f,  U_diff: %.5f, V_diff: %.5f" \
-                    % (time.time() - start_time, Ad,Ag,Bd,Bg, Aloss, Bloss))
+                    % ((time.time() - start_time) / 10 / 10, Ad,Ag,Bd,Bg, Aloss, Bloss))
             print("Ad_fake: %.2f, Ad_real: %.2f, Bd_fake: %.2f, Bd_real: %.2f" % (Adfake,Adreal,Bdfake,Bdreal))
 
     def A_d_net(self, imgs, y = None, reuse = False):
