@@ -108,9 +108,9 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-obsutil cp  obs://cann-nju-srnet/vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb  ./ -f -r
+#obsutil cp  obs://cann-nju-srnet/vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb ./ -f -r
 
-python3.7 ./train.py -t --data_dir=${data_path} --output_dir=${output_path} >${print_log}
+python3.7 ./train.py -t --data_dir=${data_path} --output_dir=${output_path} > ${print_log}
 # 提取所有loss打印信息
 grep "step:    500" ${print_log} > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
