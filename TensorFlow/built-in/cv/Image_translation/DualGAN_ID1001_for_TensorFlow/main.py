@@ -85,6 +85,8 @@ def main(_):
     custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+    custom_op.parameter_map["enable_data_pre_proc"].b = True
+    custom_op.parameter_map["iterations_per_loop"].i = 10
 
     config_proto.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 
