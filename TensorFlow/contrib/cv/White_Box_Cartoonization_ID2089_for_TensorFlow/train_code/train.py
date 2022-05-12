@@ -37,7 +37,7 @@ import tensorflow.contrib.slim as slim
 
 import utils
 import os
-import moxing as mox
+#import moxing as mox
 import numpy as np
 import argparse
 import network
@@ -48,14 +48,6 @@ import time
 from guided_filter import guided_filter
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-
-# modelarts modification------------------------------
-CACHE_TRAINING_URL = "/cache/training/"
-SAVE_DIR = CACHE_TRAINING_URL + "train_cartoon"
-REAL_PATH = '/cache/dataset'
-
-if not os.path.isdir(CACHE_TRAINING_URL):
-    os.makedirs(CACHE_TRAINING_URL)
 
 
 # modelarts modification------------------------------
@@ -71,6 +63,7 @@ def arg_parser():
     parser.add_argument("--save_dir", default='train_cartoon', type=str)
     parser.add_argument("--use_enhance", default=False)
     parser.add_argument("--data_path", default='/cache/dataset', type=str)
+    parser.add_argument("--REAL_PATH", default='/cache/dataset', type=str)
     parser.add_argument("--output_path", default='/cache/output', type=str)
 
     args = parser.parse_args()
@@ -80,9 +73,15 @@ def arg_parser():
 
 def train(args):
     # modelarts modification------------------------------
+    SAVE_DIR = os.path.join(args.output_path, "train_cartoon")
+
+    if not os.path.isdir(SAVE_DIR):
+        os.makedirs(SAVE_DIR)
+    REAL_PATH = args.REAL_PATH
+    print(REAL_PATH)
     if not os.path.exists(REAL_PATH):
         os.makedirs(REAL_PATH, 0o755)
-    mox.file.copy_parallel(args.data_path, REAL_PATH)
+    #mox.file.copy_parallel(args.data_path, REAL_PATH)
     print("training data finish copy to %s." % REAL_PATH)
 
     input_photo = tf.placeholder(tf.float32, [args.batch_size,
@@ -106,6 +105,7 @@ def train(args):
                                                scale=1, patch=True, name='disc_blur')
 
     vgg_path = os.path.join(REAL_PATH, 'vgg19_no_fc.npy')
+    print(vgg_path)
     vgg_model = loss.Vgg19(vgg_path)
     vgg_photo = vgg_model.build_conv4_4(input_photo)
     vgg_output = vgg_model.build_conv4_4(output)
@@ -171,7 +171,9 @@ def train(args):
     with tf.device('/cpu:0'):
 
         sess.run([tf.global_variables_initializer()])
-        saver.restore(sess, tf.train.latest_checkpoint('pretrain/saved_models'))
+        pretrain_dir = os.path.join(args.data_path,'pretrain/saved_models')
+        print(pretrain_dir)
+        saver.restore(sess, tf.train.latest_checkpoint(pretrain_dir))
 
         face_photo_dir = os.path.join(REAL_PATH, 'face_photo')
         print("face photo dir = ", face_photo_dir)
@@ -256,7 +258,7 @@ def train(args):
                     utils.write_batch_image(photo_scenery, SAVE_DIR + '/images',
                                             str(total_iter) + '_scenery_photo.jpg', 4)
 
-    mox.file.copy_parallel(CACHE_TRAINING_URL, args.output_path)
+    #mox.file.copy_parallel(CACHE_TRAINING_URL, args.output_path)
     sess.close()
 
 

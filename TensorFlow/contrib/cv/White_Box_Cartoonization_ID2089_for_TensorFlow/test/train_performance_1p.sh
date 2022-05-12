@@ -22,6 +22,10 @@ export JOB_ID=10087
 data_path=""
 output_path=""
 
+pip3 install scikit-image==0.14.5
+pip3 install numpy==1.19.2
+pip3 install pytorch-fid
+
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
     echo"usage:./train_performance_1P.sh <args>"
@@ -91,6 +95,7 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -108,16 +113,23 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-train_steps=100
+train_steps=1000
 batch_size=16
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3 ./train_code/train.py --data_path=${data_path} --output_path=${output_path} --total_iter=${train_steps}
-    python3 ./test_code/cartoonize.py --data_path=${data_path} --output_path=${output_path} --total_iter=${train_steps}
+    #python3 ./train_code/pretrain.py --data_path=${data_path}/dataset/
+    echo "*******************************************"
+    python3 ./train_code/train.py --data_path=${data_path}/dataset/ --REAL_PATH=${data_path}/dataset/ --output_path=${output_path} --total_iter=${train_steps} 1>>${print_log} 2>&1
+    echo "********************************************************"
+    python3 ./test_code/cartoonize.py --data_path=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
+
 else
-    python3 ./train_code/train.py --data_path=${data_path} --output_path=${output_path} --total_iter=${train_steps} 1>>${print_log} 2>&1
-    python3 ./test_code/cartoonize.py --data_path=${data_path} --output_path=${output_path} --total_iter=${train_steps} 1>>${print_log} 2>&1
+    #python3 ./train_code/pretrain.py --data_path=${data_path}/dataset/
+    echo "*****************************************************"
+    python3 ./train_code/train.py --data_path=${data_path}/dataset/ --REAL_PATH=${data_path}/dataset/ --output_path=${output_path} --total_iter=${train_steps} 1>>${print_log} 2>&1
+    echo "***************************************"
+    python3 ./test_code/cartoonize.py --data_path=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -170,7 +182,7 @@ echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
 # 输出训练精度
-echo "Final Train Accuracy : ${train_accuracy}"
+#echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
 ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
