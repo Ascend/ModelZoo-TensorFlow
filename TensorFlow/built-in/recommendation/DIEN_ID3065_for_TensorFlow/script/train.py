@@ -231,6 +231,8 @@ def train(
                 iter += 1
                 sys.stdout.flush()
                 if (iter % test_iter) == 0:
+                    avg_examples_per_second = batch_size/(end_time - start_time)
+                    print("avg_examples_per_second: ", avg_examples_per_second)
                     print('iter: %d ----> train_loss: %.4f ---- train_accuracy: %.4f ---- train_aux_loss: %.4f ---- perf: %.4f' % \
                                           (iter, loss_sum / test_iter, accuracy_sum / test_iter, aux_loss_sum / test_iter, end_time-start_time))
                     #print('                                                                                          test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
