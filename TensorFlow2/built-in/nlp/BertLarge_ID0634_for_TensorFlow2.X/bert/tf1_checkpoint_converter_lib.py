@@ -71,7 +71,13 @@ def _bert_name_replacement(var_name, name_replacements):
       old_var_name = var_name
       var_name = var_name.replace(src_pattern, tgt_pattern)
       tf.logging.info("Converted: %s --> %s", old_var_name, var_name)
-  return var_name
+    if "transformer" in var_name and "layer" in var_name:
+      node_list = var_name.split("/")
+      new_node_list = node_list[0:2] | node_list
+      connect_str= "/"
+      var_name = connect_str.join(new_node_list)
+      tf.logging.info("Converted new: %s ---> %s", old_var_name, var_name)  
+    return var_name
 
 
 def _has_exclude_patterns(name, exclude_patterns):
