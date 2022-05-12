@@ -51,7 +51,7 @@ def session(graph=None, allow_soft_placement=True,
 
 
     #custom_op.parameter_map["auto_tune_mode"].s = tf.compat.as_bytes("RL,GA")
-    #custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     npu_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # ������ʽ�ر�remap
     npu_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
     #npu_config = npu_tf_config.session_dump_config(npu_config, action='overflow')
