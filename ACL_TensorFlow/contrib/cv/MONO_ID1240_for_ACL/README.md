@@ -23,10 +23,7 @@ atc --model=/home/HwHiAiUser/AscendProjects/NGNN/pb_model/mono2.pb --framework=3
 
 ## 数据集准备
 
-market1501测试集中的图像数据转换为bin数据集 地址：
-
-
-链接：https://pan.baidu.com/s/1h9bWDVEW7-voFHFi7TaTuw 提取码：nwyj
+测试集中的图像数据转换为bin数据集 程序见：to_bin.py
 
 
 ## 使用msame工具推理
