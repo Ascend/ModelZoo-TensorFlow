@@ -1,0 +1,13 @@
+name: tf-monodepth2
+dependencies:
+    - pip
+    - python=3.7.5
+    - numpy
+    - pyyaml
+    - tensorflow-gpu=1.15
+    - matplotlib
+    - scipy
+    - joblib
+    - pip:
+       - opencv-python
+       - opencv-contrib-python
