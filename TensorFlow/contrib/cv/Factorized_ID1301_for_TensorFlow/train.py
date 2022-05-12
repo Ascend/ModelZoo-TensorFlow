@@ -38,7 +38,7 @@ import numpy as np
 import glob, os, random, math, collections, time, argparse, shutil
 from utils.warp import feature_warping2
 from utils.warp import image_warping2
-import moxing as mox
+#import moxing as mox
 
 from matplotlib import cm
 
@@ -54,24 +54,24 @@ MODE = "train"
 
 
 #OUTPUT_DIR = 'Factorized-Spatial-Embeddings-master/output' #输出路径
-# OUTPUT_DIR = '/fse-test/output/test1/output/V0085/'  #输出路径 存储模型 以及输出图像
+#OUTPUT_DIR = '/fse-test/output/test1/output/V0085/'  #输出路径 存储模型 以及输出图像
 #OUTPUT_DIR = 'Factorized-Spatial-Embeddings-master/output' #输出路径
 LANDMARK_N = 8
 
 
-data_dir = "/cache/dataset"
-os.makedirs(data_dir)
+#data_dir = "/cache/dataset"
+#os.makedirs(data_dir)
 
-model_dir = "/cache/result"
-os.makedirs(model_dir)
+#model_dir = "/cache/result"
+#os.makedirs(model_dir)
 
 #INPUT_DIR = './dataset/celebA-test/'   #数据集路径
 #INPUT_DIR = 's3://fse-test/dataset/celebA-test/'   #obs的数据集路径
 
 #DATA_DIRECTORY = "/celebatest/celebAtest/" #数据集路径（obs桶中）
 #OUTPUT_DIR = './output'
-INPUT_DIR = '/cache/dataset'
-OUTPUT_DIR = '/cache/result'
+#INPUT_DIR = '/cache/dataset'
+#OUTPUT_DIR = '/cache/result'
 
 #CHECKPOINT = './backup/model/'
 CHECKPOINT = None
@@ -96,9 +96,9 @@ MAX_EPOCH = 200
 
 
 #OUTPUT_DIR = './output'
-# OUTPUT_DIR = r'C:\Users\User\PycharmProjects\pythonProject2\Factorized-Spatial-Embeddings-master\output'
+#OUTPUT_DIR = r'C:\Users\User\PycharmProjects\pythonProject2\Factorized-Spatial-Embeddings-master\output'
 
-# CHECKPOINT = r'C:\Users\User\PycharmProjects\pythonProject2\Factorized-Spatial-Embeddings-master\backup\model'
+#CHECKPOINT = r'C:\Users\User\PycharmProjects\pythonProject2\Factorized-Spatial-Embeddings-master\backup\model'
 #CHECKPOINT = 'backup.model'
 
 
@@ -115,12 +115,12 @@ def get_arguments():
     parser.add_argument("--train_url", type=str, default="/fse-1/workplace/")
     #parser.add_argument("--mode", default=MODE, choices=["train", "test"])
     parser.add_argument("--mode", default=MODE)
-    parser.add_argument("--input_dir", default=INPUT_DIR,
+    parser.add_argument("--input_dir",
                         help="Path to the directory containing the training or testing images.")
     parser.add_argument("--K", type=int, default=LANDMARK_N,
                         help="Number of landmarks.")
 
-    parser.add_argument("--output_dir", default=OUTPUT_DIR,
+    parser.add_argument("--output_dir",
                         help="Where to put output files")
 
 
@@ -545,7 +545,7 @@ def main():
     """Create the model and start the training."""
     args = get_arguments()
 
-    mox.file.copy_parallel(args.data_url, data_dir)
+    #mox.file.copy_parallel(args.data_url, data_dir)
 
     tf.set_random_seed(args.random_seed)
     examples = load_examples(args)
@@ -785,7 +785,7 @@ def main():
                     print("evaluated image", f["name"])
             print("rate", (time.time() - start) / max_steps)
             print("----------图像存储位置  : ", )
-    mox.file.copy_parallel(model_dir, args.train_url)
+    #mox.file.copy_parallel(model_dir, args.train_url)
 
 if __name__ == '__main__':
     main()
