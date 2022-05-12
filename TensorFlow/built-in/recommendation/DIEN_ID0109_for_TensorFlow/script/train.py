@@ -37,9 +37,9 @@ import random
 import sys
 from utils import *
 
-EMBEDDING_DIM = 64
-HIDDEN_SIZE = 16 * 2
-ATTENTION_SIZE = 16 * 2
+EMBEDDING_DIM = 18
+HIDDEN_SIZE = 18 * 2
+ATTENTION_SIZE = 18 * 2
 best_auc = 0.0
 
 def prepare_data(input, target, maxlen = None, return_neg = False):
