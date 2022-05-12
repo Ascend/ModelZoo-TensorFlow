@@ -1,0 +1,17 @@
+dataset:
+    root_dir: '/media/smartcar/DataBase/kitti_dataset/kitti_raw_eigen/'
+    image_height: 192
+    image_width: 640
+    min_depth: 0.1
+    max_depth: 80.
+    preprocess: True
+model:
+    root_dir: '/home/smartcar/Downloads/tf-monodepth2-master/kitti_saved_model/'
+    batch_size: 1
+    num_source: 3
+    num_scales: 4
+    batch_norm_decay: 0.95
+    batch_norm_epsilon: 1e-5
+    pose_scale: 1e-2
+    pose_type: 'seperate' # seperate or shared
+output_dir: '/home/smartcar/Downloads/tf-monodepth2-master/kitti_out_eval/'
