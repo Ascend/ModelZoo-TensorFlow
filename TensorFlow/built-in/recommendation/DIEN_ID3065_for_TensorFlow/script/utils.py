@@ -1,13 +1,42 @@
+#
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+from npu_bridge.npu_init import *
 import tensorflow as tf
-# from tensorflow.python.ops.rnn_cell import *
+#from tensorflow.python.ops.rnn_cell import *
 from tensorflow.contrib.rnn import *
-from tensorflow.contrib.rnn.python.ops.rnn_cell import _Linear
-# from tensorflow.python.ops import math_ops
-# from tensorflow.python.ops import init_ops
-# from tensorflow.python.ops import array_ops
-# from tensorflow.python.ops import variable_scope as vs
-import math
-
+from tensorflow.contrib.rnn.python.ops.rnn_cell import  _Linear
+from tensorflow import keras
+from tensorflow.python.ops import math_ops
+from tensorflow.python.ops import init_ops
+from tensorflow.python.ops import array_ops
+from tensorflow.python.ops import variable_scope as vs
 
 class QAAttGRUCell(RNNCell):
   """Gated Recurrent Unit cell (cf. http://arxiv.org/abs/1406.1078).
@@ -30,8 +59,7 @@ class QAAttGRUCell(RNNCell):
                bias_initializer=None):
     super(QAAttGRUCell, self).__init__(_reuse=reuse)
     self._num_units = num_units
-    # self._activation = activation or math_ops.tanh
-    self._activation = activation or tf.tanh
+    self._activation = activation or math_ops.tanh
     self._kernel_initializer = kernel_initializer
     self._bias_initializer = bias_initializer
     self._gate_linear = None
@@ -53,9 +81,8 @@ class QAAttGRUCell(RNNCell):
     if self._gate_linear is None:
       bias_ones = self._bias_initializer
       if self._bias_initializer is None:
-        # bias_ones = init_ops.constant_initializer(1.0, dtype=inputs.dtype)
-        bias_ones = tf.constant_initializer(1.0)
-      with tf.variable_scope("gates"):  # Reset gate and update gate.
+        bias_ones = init_ops.constant_initializer(1.0, dtype=inputs.dtype)
+      with vs.variable_scope("gates"):  # Reset gate and update gate.
         self._gate_linear = _Linear(
             [inputs, state],
             2 * self._num_units,
@@ -63,13 +90,12 @@ class QAAttGRUCell(RNNCell):
             bias_initializer=bias_ones,
             kernel_initializer=self._kernel_initializer)
 
-    # value = math_ops.sigmoid(self._gate_linear([inputs, state]))
-    value = tf.sigmoid(self._gate_linear([inputs, state]))
-    r, u = tf.split(value=value, num_or_size_splits=2, axis=1)
+    value = math_ops.sigmoid(self._gate_linear([inputs, state]))
+    r, u = array_ops.split(value=value, num_or_size_splits=2, axis=1)
 
     r_state = r * state
     if self._candidate_linear is None:
-      with tf.variable_scope("candidate"):
+      with vs.variable_scope("candidate"):
         self._candidate_linear = _Linear(
             [inputs, r_state],
             self._num_units,
@@ -101,8 +127,7 @@ class VecAttGRUCell(RNNCell):
                bias_initializer=None):
     super(VecAttGRUCell, self).__init__(_reuse=reuse)
     self._num_units = num_units
-    # self._activation = activation or math_ops.tanh
-    self._activation = activation or tf.tanh
+    self._activation = activation or math_ops.tanh
     self._kernel_initializer = kernel_initializer
     self._bias_initializer = bias_initializer
     self._gate_linear = None
@@ -122,9 +147,8 @@ class VecAttGRUCell(RNNCell):
     if self._gate_linear is None:
       bias_ones = self._bias_initializer
       if self._bias_initializer is None:
-        bias_ones = tf.constant_initializer(1.0)
-        # bias_ones = init_ops.constant_initializer(1.0, dtype=inputs.dtype)
-      with tf.variable_scope("gates"):  # Reset gate and update gate.
+        bias_ones = init_ops.constant_initializer(1.0, dtype=inputs.dtype)
+      with vs.variable_scope("gates"):  # Reset gate and update gate.
         self._gate_linear = _Linear(
             [inputs, state],
             2 * self._num_units,
@@ -132,13 +156,12 @@ class VecAttGRUCell(RNNCell):
             bias_initializer=bias_ones,
             kernel_initializer=self._kernel_initializer)
 
-    # value = math_ops.sigmoid(self._gate_linear([inputs, state]))
-    value = tf.sigmoid(self._gate_linear([inputs, state]))
-    r, u = tf.split(value=value, num_or_size_splits=2, axis=1)
+    value = math_ops.sigmoid(self._gate_linear([inputs, state]))
+    r, u = array_ops.split(value=value, num_or_size_splits=2, axis=1)
 
     r_state = r * state
     if self._candidate_linear is None:
-      with tf.variable_scope("candidate"):
+      with vs.variable_scope("candidate"):
         self._candidate_linear = _Linear(
             [inputs, r_state],
             self._num_units,
@@ -146,81 +169,9 @@ class VecAttGRUCell(RNNCell):
             bias_initializer=self._bias_initializer,
             kernel_initializer=self._kernel_initializer)
     c = self._activation(self._candidate_linear([inputs, r_state]))
-    print("????????????????? att", att_score.get_shape().as_list())
-    print("????????????????? u", u.get_shape().as_list())
     u = (1.0 - att_score) * u
     new_h = u * state + (1 - u) * c
     return new_h, new_h
-
-class VecAttGRUCellV2(RNNCell):
-  """Gated Recurrent Unit cell (cf. http://arxiv.org/abs/1406.1078).
-  Args:
-    num_units: int, The number of units in the GRU cell.
-    activation: Nonlinearity to use.  Default: `tanh`.
-    reuse: (optional) Python boolean describing whether to reuse variables
-     in an existing scope.  If not `True`, and the existing scope already has
-     the given variables, an error is raised.
-    kernel_initializer: (optional) The initializer to use for the weight and
-    projection matrices.
-    bias_initializer: (optional) The initializer to use for the bias.
-  """
-
-  def __init__(self,
-               num_units,
-               activation=None,
-               reuse=None,
-               kernel_initializer=None,
-               bias_initializer=None):
-    super(VecAttGRUCell, self).__init__(_reuse=reuse)
-    self._num_units = num_units
-    # self._activation = activation or math_ops.tanh
-    self._activation = activation or tf.tanh
-    self._kernel_initializer = kernel_initializer
-    self._bias_initializer = bias_initializer
-    self._gate_linear = None
-    self._candidate_linear = None
-
-  @property
-  def state_size(self):
-    return self._num_units
-
-  @property
-  def output_size(self):
-    return self._num_units
-  def __call__(self, inputs, state, att_score):
-      return self.call(inputs, state, att_score)
-  def call(self, inputs, state, att_score=None):
-    """Gated recurrent unit (GRU) with nunits cells."""
-    stdv = 1.0 / math.sqrt(self._num_units)
-    with tf.variable_scope("input_gates"):  # Reset gate and update gate.
-        self._input_gate_linear = _Linear(
-            inputs,
-            3 * self._num_units,
-            True,
-            bias_initializer=init_ops.random_uniform_initializer(-stdv, stdv),
-            kernel_initializer=init_ops.random_uniform_initializer(-stdv, stdv))
-    with tf.variable_scope("hidden_gates"):  # Reset gate and update gate.
-        self._hidden_gate_linear = _Linear(
-            state,
-            3 * self._num_units,
-            True,
-            bias_initializer=init_ops.random_uniform_initializer(-stdv, stdv),
-            kernel_initializer=init_ops.random_uniform_initializer(-stdv, stdv))
-
-    # value = math_ops.sigmoid(self._gate_linear([inputs, state]))
-    input_value = self._input_gate_linear(inputs)
-    hidden_value = self._hidden_gate_linear(state)
-    i_i, i_r, i_n = tf.split(value=input_value, num_or_size_splits=3, axis=1)
-    h_i, h_r, h_n = tf.split(value=hidden_value, num_or_size_splits=3, axis=1)
-    
-    i_t = tf.sigmoid(i_i + h_i)
-    u_t = (1.0 - att_score) * i_t
-    r_t = tf.sigmoid(i_r + h_r)
-    n_t = self._activation(i_n + r_t * h_n)
-    new_h = u_t * state + (1 - u_t) * n_t
-
-    return new_h, new_h
-
 
 def prelu(_x, scope=''):
     """parametric ReLU activation"""
@@ -274,7 +225,7 @@ def attention(query, facts, attention_size, mask, stag='null', mode='LIST', soft
 
     if time_major:
         # (T,B,D) => (B,T,D)
-        facts = tf.transpose(facts, [1, 0, 2])
+        facts = tf.array_ops.transpose(facts, [1, 0, 2])
 
     mask = tf.equal(mask, tf.ones_like(mask))
     hidden_size = facts.get_shape().as_list()[-1]  # D value - hidden size of the RNN layer
@@ -324,7 +275,7 @@ def din_attention(query, facts, attention_size, mask, stag='null', mode='SUM', s
 
     if time_major:
         # (T,B,D) => (B,T,D)
-        facts = tf.transpose(facts, [1, 0, 2])
+        facts = tf.array_ops.transpose(facts, [1, 0, 2])
     mask = tf.equal(mask, tf.ones_like(mask))
     facts_size = facts.get_shape().as_list()[-1]  # D value - hidden size of the RNN layer
     querry_size = query.get_shape().as_list()[-1]
@@ -368,7 +319,7 @@ def din_fcn_attention(query, facts, attention_size, mask, stag='null', mode='SUM
 
     if time_major:
         # (T,B,D) => (B,T,D)
-        facts = tf.transpose(facts, [1, 0, 2])
+        facts = tf.array_ops.transpose(facts, [1, 0, 2])
     # Trainable parameters
     mask = tf.equal(mask, tf.ones_like(mask))
     facts_size = facts.get_shape().as_list()[-1]  # D value - hidden size of the RNN layer
@@ -464,7 +415,7 @@ def din_fcn_shine(query, facts, attention_size, mask, stag='null', mode='SUM', s
 
     if time_major:
         # (T,B,D) => (B,T,D)
-        facts = tf.transpose(facts, [1, 0, 2])
+        facts = tf.array_ops.transpose(facts, [1, 0, 2])
     # Trainable parameters
     mask = tf.equal(mask, tf.ones_like(mask))
     facts_size = facts.get_shape().as_list()[-1]  # D value - hidden size of the RNN layer
@@ -479,4 +430,5 @@ def din_fcn_shine(query, facts, attention_size, mask, stag='null', mode='SUM', s
     d_layer_2_all = tf.reshape(d_layer_2_all, tf.shape(facts))
     output = d_layer_2_all
     return output
+
 

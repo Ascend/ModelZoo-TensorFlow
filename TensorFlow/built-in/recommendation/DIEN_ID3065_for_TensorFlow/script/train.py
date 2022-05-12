@@ -1,21 +1,45 @@
-from npu_bridge.estimator import npu_ops
-from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
-
+#
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+from npu_bridge.npu_init import *
 import numpy
 from data_iterator import DataIterator
 import tensorflow as tf
-# tf.enable_eager_execution()
-
-# from model import *
-from model_general import *
+from model import *
 import time
 import random
 import sys
 from utils import *
 
-EMBEDDING_DIM = 64
-HIDDEN_SIZE = 16 * 2
-ATTENTION_SIZE = 16 * 2
+EMBEDDING_DIM = 18
+HIDDEN_SIZE = 18 * 2
+ATTENTION_SIZE = 18 * 2
 best_auc = 0.0
 
 def prepare_data(input, target, maxlen = None, return_neg = False):
@@ -55,7 +79,7 @@ def prepare_data(input, target, maxlen = None, return_neg = False):
             return None, None, None, None
 
     n_samples = len(seqs_mid)
-    # maxlen_x = numpy.max(lengths_x)
+    #maxlen_x = numpy.max(lengths_x)
     if maxlen is not None:
         maxlen_x = maxlen
     else:
@@ -73,7 +97,6 @@ def prepare_data(input, target, maxlen = None, return_neg = False):
         cat_his[idx, :lengths_x[idx]] = s_y
         noclk_mid_his[idx, :lengths_x[idx], :] = no_sx
         noclk_cat_his[idx, :lengths_x[idx], :] = no_sy
-        # lengths_x[idx] = maxlen
 
     uids = numpy.array([inp[0] for inp in input])
     mids = numpy.array([inp[1] for inp in input])
@@ -86,8 +109,6 @@ def prepare_data(input, target, maxlen = None, return_neg = False):
         return uids, mids, cats, mid_his, cat_his, mid_mask, numpy.array(target), numpy.array(lengths_x)
 
 def eval(sess, test_data, model, model_path):
-    # import pdb
-    # pdb.set_trace()
 
     loss_sum = 0.
     accuracy_sum = 0.
@@ -95,9 +116,7 @@ def eval(sess, test_data, model, model_path):
     nums = 0
     stored_arr = []
     for src, tgt in test_data:
-        # print("!!!!!!", num)
         nums += 1
-        # uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, noclk_mids, noclk_cats = prepare_data(src, tgt, return_neg=True)
         uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, noclk_mids, noclk_cats = prepare_data(src, tgt, maxlen=100, return_neg=True)
         prob, loss, acc, aux_loss = model.calculate(sess, [uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, noclk_mids, noclk_cats])
         loss_sum += loss
@@ -126,28 +145,41 @@ def train(
         batch_size = 128,
         maxlen = 100,
         test_iter = 100,
-        save_iter = 100,
+        save_iter = 5000,
         model_type = 'DNN',
-        seed = 2,
+	    seed = 2,
 ):
     model_path = "dnn_save_path/ckpt_noshuff" + model_type + str(seed)
     best_model_path = "dnn_best_model/ckpt_noshuff" + model_type + str(seed)
-    tensorboard_path = "tensorboard_log"
     gpu_options = tf.GPUOptions(allow_growth=True)
+    ###################
+    sess_config = tf.ConfigProto(gpu_options=gpu_options)
+    custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
+    custom_op.name = 'NpuOptimizer'
+    custom_op.parameter_map["enable_data_pre_proc"].b = True
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
 
-    config = tf.ConfigProto()
-    custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
-    custom_op.name = "NpuOptimizer"
-    custom_op.parameter_map["use_off_line"].b = True #在昇腾AI处理器执行训练
-    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes('allow_mix_precision')
-    config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  #关闭remap开关
+    if False:
+        custom_op.parameter_map["enable_dump"].b = True
+        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/autotest/mwx927052/DIEN_ID0109_for_TensorFlow_ori/test/overflow")
+        custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0")
+        custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
+    if False:
+        print('i am check overflow')
+        custom_op.parameter_map["enable_dump_debug"].b = True
+        custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/autotest/mwx927052/DIEN_ID0109_for_TensorFlow_ori/test/overflow")
+        custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all")
 
-    # custom_op.parameter_map["enable_dump"].b = True
-    # custom_op.parameter_map["dump_path"].s = tf.compat.as_bytes("/data1/d00564369/dien/dump_mix")
-    # custom_op.parameter_map["dump_step"].s = tf.compat.as_bytes("0-5")
-    # custom_op.parameter_map["dump_mode"].s = tf.compat.as_bytes("all")
 
-    with tf.Session(config=config) as sess:
+    sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+    sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+
+
+
+    with tf.Session(config=npu_config_proto(config_proto=sess_config)) as sess:
+    ####################
+
+    #with tf.Session(config=npu_config_proto(config_proto=tf.ConfigProto(gpu_options=gpu_options))) as sess:
         train_data = DataIterator(train_file, uid_voc, mid_voc, cat_voc, batch_size, maxlen, shuffle_each_epoch=False)
         test_data = DataIterator(test_file, uid_voc, mid_voc, cat_voc, batch_size, maxlen)
         n_uid, n_mid, n_cat = train_data.get_n()
@@ -176,58 +208,40 @@ def train(
         sess.run(tf.global_variables_initializer())
         sess.run(tf.local_variables_initializer())
         sys.stdout.flush()
-        print('test_auc: %.4f ---- test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
+        #print('                                                                                      test_auc: %.4f ---- test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
         sys.stdout.flush()
 
-        # summary_writer = tf.summary.FileWriter(tensorboard_path, tf.get_default_graph())
-
-        start = time.time()
+        #start_time = time.time()
         iter = 0
-        start_epoch = 0
-        start_iter = 0
-        a = 0
-        lr = 0.001 * 0.5**(start_epoch)
-        
-        for itr in range(start_epoch, 3):
+        lr = 0.001
+        for itr in range(3):
             loss_sum = 0.0
             accuracy_sum = 0.
             aux_loss_sum = 0.
-            # for src, tgt in train_data:
-            for iter, (src, tgt) in enumerate(train_data, start=start_iter):
-                if a > 500:
+            for src, tgt in train_data:
+                if iter > 500:
                     pass
                 start_time = time.time()
                 uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, noclk_mids, noclk_cats = prepare_data(src, tgt, maxlen, return_neg=True)
                 loss, acc, aux_loss = model.train(sess, [uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, lr, noclk_mids, noclk_cats])
                 end_time = time.time()
-                # tf.io.write_graph(sess.graph_def, '/data1/d00564369/dien-npu', 'train_graph.pbtxt')
                 loss_sum += loss
                 accuracy_sum += acc
                 aux_loss_sum += aux_loss
-                a += 1
+                iter += 1
                 sys.stdout.flush()
                 if (iter % test_iter) == 0:
-                    avg_time_per_step = (time.time() - start) / test_iter
-                    #avg_examples_per_second = (test_iter * batch_size)/(time.time() - start)
                     avg_examples_per_second = batch_size/(end_time - start_time)
-                    print("avg_time_per_step: ", avg_time_per_step)
                     print("avg_examples_per_second: ", avg_examples_per_second)
-
-                    print('[epoch: %d, iter: %d] ----> train_loss: %.4f ---- train_accuracy: %.4f ---- train_aux_loss: %.4f' % \
-                                          (itr, iter, loss_sum / test_iter, accuracy_sum / test_iter, aux_loss_sum / test_iter))
-                    print('test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
-                    # model.summary_op(summary_writer, summary_str, iter)
-                    start = time.time()
+                    print('iter: %d ----> train_loss: %.4f ---- train_accuracy: %.4f ---- train_aux_loss: %.4f ---- perf: %.4f' % \
+                                          (iter, loss_sum / test_iter, accuracy_sum / test_iter, aux_loss_sum / test_iter, end_time-start_time))
+                    #print('                                                                                          test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
                     loss_sum = 0.0
                     accuracy_sum = 0.0
                     aux_loss_sum = 0.0
-                #if (iter % save_iter) == 0:
-                if (iter % 10000) == 0:
-                    print('save model epoch {}, iter: {}'.format(itr, iter))
-                    model.save(sess, model_path + "--" + str(itr)+"--"+str(iter))
-                
-            start_iter = 0
-                    
+                if (iter % save_iter) == 0:
+                    print('save model iter: %d' %(iter))
+                    model.save(sess, model_path+"--"+str(iter))
             lr *= 0.5
 
 def test(
@@ -239,14 +253,13 @@ def test(
         batch_size = 128,
         maxlen = 100,
         model_type = 'DNN',
-        seed = 2
+	    seed = 2
 ):
 
     model_path = "dnn_best_model/ckpt_noshuff" + model_type + str(seed)
     gpu_options = tf.GPUOptions(allow_growth=True)
-    with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
+    with tf.Session(config=npu_config_proto(config_proto=tf.ConfigProto(gpu_options=gpu_options))) as sess:
         train_data = DataIterator(train_file, uid_voc, mid_voc, cat_voc, batch_size, maxlen)
-        # tofix, in test and eval stage, last batch cannot be discarded
         test_data = DataIterator(test_file, uid_voc, mid_voc, cat_voc, batch_size, maxlen)
         n_uid, n_mid, n_cat = train_data.get_n()
         if model_type == 'DNN':
@@ -254,7 +267,7 @@ def test(
         elif model_type == 'PNN':
             model = Model_PNN(n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
         elif model_type == 'Wide':
-            model = Model_WideDeep(n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
+	        model = Model_WideDeep(n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
         elif model_type == 'DIN':
             model = Model_DIN(n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
         elif model_type == 'DIN-V2-gru-att-gru':
@@ -266,7 +279,7 @@ def test(
         elif model_type == 'DIN-V2-gru-vec-attGru':
             model = Model_DIN_V2_Gru_Vec_attGru(n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
         elif model_type == 'DIEN':
-            model = Model_DIN_V2_Gru_Vec_attGru_Neg(batch_size, maxlen, n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
+            model = Model_DIN_V2_Gru_Vec_attGru_Neg(None, maxlen, n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
         else:
             print ("Invalid model_type : %s", model_type)
             return
@@ -281,7 +294,6 @@ if __name__ == '__main__':
     tf.set_random_seed(SEED)
     numpy.random.seed(SEED)
     random.seed(SEED)
-
     if sys.argv[1] == 'train':
         train(model_type=sys.argv[2], seed=SEED)
     elif sys.argv[1] == 'test':
