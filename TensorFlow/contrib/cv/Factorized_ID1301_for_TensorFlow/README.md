@@ -63,4 +63,10 @@ Training dataset：celebA。
 ├── utils/ThinPlateSplineB.py                        //调用模块4             
 
 
-
+精度性能信息对比：
+gpu：
+精度loss_align 4-8
+性能image/sec 196.5
+npu
+精度loss_align 4-8
+性能image/sec 233.1 
