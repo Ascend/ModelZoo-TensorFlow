@@ -87,7 +87,7 @@ flags.DEFINE_string(
 # npu parameter
 flags.DEFINE_bool('npu_bert_debug', False, 'If True, dropout and shuffle is disabled.')
 flags.DEFINE_integer('init_loss_scale_value', 2 ** 32, 'Initial loss scale value for loss scale optimizer')
-flags.DEFINE_integer("iterations_per_loop", 1, "How many steps to make in each estimator call.")
+flags.DEFINE_integer("iterations_per_loop", 100, "How many steps to make in each estimator call.")
 flags.DEFINE_bool("use_fp16_cls", False, "Whether to use fp16 in cls and pooler.")
 flags.DEFINE_bool('npu_bert_fused_gelu', True, 'Whether to use npu defined gelu op')
 flags.DEFINE_integer("npu_bert_loss_scale", 0,
