@@ -22,6 +22,11 @@ export JOB_ID=10087
 data_path=""
 output_path=""
 
+pip3 install scikit-image==0.14.5
+pip3 install numpy==1.19.2
+pip3 install pytorch-fid
+
+
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
     echo"usage:./train_performance_1P.sh <args>"
@@ -30,7 +35,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -112,17 +117,18 @@ batch_size=16
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3 ./train_code/pretrain.py --data_path=${data_path}
-    python3 ./train_code/train.py --data_path=${data_path} --output_path=${output_path}
-    python3 ./test_code/cartoonize.py --data_path=${data_path} --output_path=${output_path}
-    python3 -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/scenery_photo
-    python3 -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/scenery_cartoon
+    #python3 ./train_code/pretrain.py --data_path=${data_path}/dataset/
+    python3 ./train_code/train.py --data_path=${data_path}/dataset/ --REAL_PATH=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
+    python3 ./test_code/cartoonize.py --data_path=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
+    python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_photo 1>>${print_log} 2>&1
+    python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_cartoon 1>>${print_log} 2>&1
+
 else
-    python3 ./train_code/pretrain.py --data_path=${data_path}
-    python3 ./train_code/train.py --data_path=${data_path} --output_path=${output_path} 1>>${print_log} 2>&1
-    python3 ./test_code/cartoonize.py --data_path=${data_path} --output_path=${output_path} 1>>${print_log} 2>&1
-    python3 fid.py ${output_path}/cartoonized_scenery/ ${data_path}/scenery_photo2 1>>${print_log} 2>&1
-    python3 fid.py ${output_path}/cartoonized_scenery/ ${data_path}/scenery_cartoon2 1>>${print_log} 2>&1
+    #python3 ./train_code/pretrain.py --data_path=${data_path}/dataset/
+    python3 ./train_code/train.py --data_path=${data_path}/dataset/ --REAL_PATH=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
+    python3 ./test_code/cartoonize.py --data_path=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
+    python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_photo 1>>${print_log} 2>&1
+    python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_cartoon 1>>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -188,4 +194,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
