@@ -4,7 +4,7 @@ cur_path=`pwd`
 
 #集合通信参数,不需要修改
 export RANK_SIZE=8
-export RANK_TABLE_FILE=#cur_path/../configs/${RANK_SIZE}p.json
+export RANK_TABLE_FILE=$cur_path/../configs/${RANK_SIZE}p.json
 export JOB_ID=10087
 export GE_USE_STATIC_MEMORY=1
 export HCCL_CONNECT_TIMEOUT=600
@@ -139,7 +139,7 @@ cd $cur_path/../
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $ASCEND_DEVICE_ID"
+    echo "Device ID: $RANK_ID"
     export RANK_ID=$RANK_ID
     export ASCEND_DEVICE_ID=$RANK_ID
     ASCEND_DEVICE_ID=${ASCEND_DEVICE_ID}
@@ -205,7 +205,7 @@ e2e_time=$(( $end_time - $start_time ))
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
 step_sec=`grep -a 'INFO:tensorflow:global_step/sec: ' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $2}'`
-FPS=`awk 'BEGIN{printf "%d\n",'$step_sec' * '$train_batch_size'}'` 
+FPS=`awk 'BEGIN{printf "%d\n",'$step_sec' * '$train_batch_size' * '$RANK_SIZE'}'`  
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 #输出训练精度,需要模型审视修改
@@ -227,7 +227,7 @@ ActualFPS=${FPS}
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*1000/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep ' basic_session_run_hooks.py:260] loss =' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F 'loss = ' '{print $2}'|awk -F ', ' '{print $1}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep 'tensorflow:loss =' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F ' ' '{print $3}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
