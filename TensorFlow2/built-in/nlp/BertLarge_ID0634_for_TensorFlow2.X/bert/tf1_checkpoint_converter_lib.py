@@ -71,6 +71,12 @@ def _bert_name_replacement(var_name, name_replacements):
       old_var_name = var_name
       var_name = var_name.replace(src_pattern, tgt_pattern)
       tf.logging.info("Converted: %s --> %s", old_var_name, var_name)
+  if "transformer" in var_name and "layer" in var_name:
+      node_list = var_name.split("/")
+      new_node_list = node_list[0:2] | node_list
+      connect_str= "/"
+      var_name = connect_str.join(new_node_list)
+      tf.logging.info("Converted new: %s ---> %s", old_var_name, var_name)  
   return var_name
 
 
@@ -188,7 +194,7 @@ def convert(checkpoint_from_path,
     with tf.Session() as sess:
       sess.run(tf.global_variables_initializer())
       tf.logging.info("Writing checkpoint_to_path %s", checkpoint_to_path)
-      saver.save(sess, checkpoint_to_path)
+      saver.save(sess, checkpoint_to_path, write_meta_graph=False)
 
   tf.logging.info("Summary:")
   tf.logging.info("  Converted %d variable name(s).", len(new_variable_map))
