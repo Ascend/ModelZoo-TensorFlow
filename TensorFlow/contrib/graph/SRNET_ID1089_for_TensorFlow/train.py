@@ -48,6 +48,7 @@ import time
 
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 
+import moxing as mox
 
 def getParas(code_dir):
     parser = argparse.ArgumentParser()
@@ -61,11 +62,7 @@ def getParas(code_dir):
 
 def main():
     code_dir = os.path.dirname(__file__)
-    print(code_dir)
     args = getParas(code_dir)
-    print("******************")
-    print(args.dataDir)
-    print("******************")
 
     example_data_dir = os.path.join(code_dir, "examples", "labels")
     vgg19Path = os.path.join(args.dataDir, "vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb")
@@ -74,8 +71,8 @@ def main():
     checkpoint_savedir = os.path.join(args.resultDir, "trainResult", "checkpoints")
 
     #if not args.test:
-    #    os.makedirs(args.dataDir)
-    #    mox.file.copy_parallel(src_url=args.data_url, dst_url=args.dataDir)
+    #os.makedirs(args.dataDir)
+     #   mox.file.copy_parallel(src_url=args.data_url, dst_url=args.dataDir)
 
     if args.test:
         max_iter = cfg.test_max_iter
@@ -157,9 +154,7 @@ def main():
             pb_savepath = os.path.join(checkpoint_savedir, train_name, 'final.pb')
             save_pb(sess, pb_savepath, ['o_sk', 'o_t', 'o_b', 'o_f'])
             print_log('pb model saved in dir {}'.format(pb_savepath), content_color=PrintColor['green'])
-
-    #if not args.test:
-    #    mox.file.copy_parallel(src_url=args.resultDir, dst_url=r'obs:\\cann-nju-srnet\trainout')
+    #mox.file.copy_parallel(src_url=args.resultDir, dst_url=r'obs:\\cann-nju-srnet\tt')
 
 
 if __name__ == '__main__':

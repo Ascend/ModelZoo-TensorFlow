@@ -39,7 +39,9 @@ import os
 import cv2
 import numpy as np
 import random
-import cfg 
+import cfg
+
+
 
 def srnet_datagen(data_dir, batchSize):
    
@@ -73,17 +75,17 @@ def srnet_datagen(data_dir, batchSize):
             t_f_batch.append(t_f)
             mask_t_batch.append(mask_t)
             idx = (idx + 1) % name_num
-        
+
+        '''
         w_sum = 0
         for t_b in t_b_batch:
             h, w = t_b.shape[:2]
             scale_ratio = cfg.data_shape[0] / h
             w_sum += int(w * scale_ratio)
+        '''
         
         to_h = cfg.data_shape[0]
         to_w = 128
-        #to_w = w_sum // cfg.batch_size
-        #to_w = int(round(to_w / 8)) * 8
         to_scale = (to_w, to_h) # w first for cv2
         for i in range(cfg.batch_size): 
             i_t_batch[i] = cv2.resize(i_t_batch[i], to_scale)
@@ -114,21 +116,21 @@ def srnet_datagen(data_dir, batchSize):
 
 #每隔一段时间我们要利用当前训练的结果进行预测
 #这里就是获取用来预测的数据的
-def get_input_data(data_dir = cfg.example_data_dir):
-    
+def get_input_data(data_dir):
     # get input data from dir
     data_list = os.listdir(data_dir)
     data_list = [data_name.split('_')[0] + '_' for data_name in data_list]
     data_list = list(set(data_list))
     res_list = []
     for data_name in data_list:
-        i_t = cv2.imread(os.path.join(cfg.example_data_dir, data_name + 'i_t.png'))
-        i_s = cv2.imread(os.path.join(cfg.example_data_dir, data_name + 'i_s.png'))
+        i_t = cv2.imread(os.path.join(data_dir, data_name + 'i_t.png'))
+        i_s = cv2.imread(os.path.join(data_dir, data_name + 'i_s.png'))
+        # scale_ratio = cfg.data_shape[0] / h
+        # to_w = int(round(int(w * scale_ratio) / 8)) * 8
         h, w = i_t.shape[:2]
-        scale_ratio = cfg.data_shape[0] / h
         to_h = cfg.data_shape[0]
         to_w = 128
-        #to_w = int(round(int(w * scale_ratio) / 8)) * 8
+
         to_scale = (to_w, to_h) # w first for cv2
         i_t = cv2.resize(i_t, to_scale).astype(np.float32) / 127.5 - 1.
         i_s = cv2.resize(i_s, to_scale).astype(np.float32) / 127.5 - 1.

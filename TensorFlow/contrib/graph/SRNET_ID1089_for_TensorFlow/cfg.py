@@ -34,13 +34,6 @@ Written by Yu Qian
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-import argparse
-import moxing as mox
-
-# pretrained vgg
-vgg19_weights = './model/vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb'
-
 # model parameters
 lt = 1.
 lt_alpha = 1.
@@ -60,7 +53,7 @@ staircase = False
 beta1 = 0.9 # default 0.9
 beta2 = 0.999 # default 0.999
 test_max_iter = 500
-max_iter = 500000
+max_iter = 20000
 show_loss_interval = 50
 write_log_interval = 50
 save_ckpt_interval = 10000
