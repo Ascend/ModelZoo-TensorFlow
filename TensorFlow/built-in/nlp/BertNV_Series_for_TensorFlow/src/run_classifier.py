@@ -95,9 +95,9 @@ flags.DEFINE_integer("npu_bert_loss_scale", 0,
 flags.DEFINE_bool("npu_bert_clip_by_global_norm", False,
                 "Use clip_by_global_norm if True, or use clip_by_norm for each gradient")
 
-flags.DEFINE_bool('npu_bert_npu_dropout', True, 'Whether to use npu defined dropout op')
+flags.DEFINE_bool('npu_bert_npu_dropout', False, 'Whether to use npu defined dropout op')
 
-flags.DEFINE_bool('npu_bert_npu_dropout_v3', False, 'Whether to use npu defined dropout_v3 op')
+flags.DEFINE_bool('npu_bert_npu_dropout_v3', True, 'Whether to use npu defined dropout_v3 op')
 
 flags.DEFINE_bool('npu_bert_tail_optimize', False, 'Whether to use npu allreduce tail optimization')
 
@@ -249,7 +249,7 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
       input_mask=input_mask,
       token_type_ids=segment_ids,
       use_one_hot_embeddings=use_one_hot_embeddings,
-      compute_type=tf.float32)
+      compute_type=tf.float16 if FLAGS.precision_mode == "allow_mix_precision" else tf.float32)
 
   # In the demo, we are doing a simple classification task on the entire
   # segment.
