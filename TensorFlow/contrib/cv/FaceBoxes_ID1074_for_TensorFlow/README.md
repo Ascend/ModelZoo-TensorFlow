@@ -171,7 +171,7 @@ obs://faceboxes/data/WIDER/
   模型测试所需数据集：使用src/preparedata/preparedata.py所生成的WIDER/val_shards中的tfrecords文件。
 
  ```
- python3.7 ${code_dir}/5_evaluation_bop_basic.py --data_path=${dataset_path} --output_path=${output_path}
+python3.7 ${code_dir}/evaluate.py --data_path=${dataset_path} --output_path=${output_path}
  ```
 
 
