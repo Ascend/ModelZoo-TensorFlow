@@ -117,6 +117,10 @@ def srnet_datagen(data_dir, batchSize):
 #每隔一段时间我们要利用当前训练的结果进行预测
 #这里就是获取用来预测的数据的
 def get_input_data(data_dir):
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 19faf3ec4d60a46a77e5ec8faddd930a453205b5
     # get input data from dir
     data_list = os.listdir(data_dir)
     data_list = [data_name.split('_')[0] + '_' for data_name in data_list]
@@ -125,8 +129,11 @@ def get_input_data(data_dir):
     for data_name in data_list:
         i_t = cv2.imread(os.path.join(data_dir, data_name + 'i_t.png'))
         i_s = cv2.imread(os.path.join(data_dir, data_name + 'i_s.png'))
+<<<<<<< HEAD
         # scale_ratio = cfg.data_shape[0] / h
         # to_w = int(round(int(w * scale_ratio) / 8)) * 8
+=======
+>>>>>>> 19faf3ec4d60a46a77e5ec8faddd930a453205b5
         h, w = i_t.shape[:2]
         to_h = cfg.data_shape[0]
         to_w = 128

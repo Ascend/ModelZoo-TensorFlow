@@ -63,6 +63,10 @@ def getParas(code_dir):
 def main():
     code_dir = os.path.dirname(__file__)
     args = getParas(code_dir)
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 19faf3ec4d60a46a77e5ec8faddd930a453205b5
 
     example_data_dir = os.path.join(code_dir, "examples", "labels")
     vgg19Path = os.path.join(args.dataDir, "vgg19_weights_tf_dim_ordering_tf_kernels_notop.pb")
