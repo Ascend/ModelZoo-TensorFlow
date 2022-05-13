@@ -31,7 +31,7 @@ from gpu_environment import get_custom_getter
 
 from npu_bridge.estimator.npu_unary_ops import npu_unary_ops
 from npu_bridge.estimator import npu_ops
-from npu_bridge.estimator.npu_aicore_ops import npu_aicore_ops
+#from npu_bridge.estimator.npu_aicore_ops import npu_aicore_ops
 
 class BertConfig(object):
   """Configuration for `BertModel`."""
@@ -289,6 +289,7 @@ def gelu(x):
 
   if tf.flags.FLAGS.npu_bert_fused_gelu:
       if tf.flags.FLAGS.use_fast_gelu:
+          from npu_bridge.estimator.npu_aicore_ops import npu_aicore_ops
           return npu_aicore_ops.fast_gelu(x)
       else:
           return npu_unary_ops.gelu(x)
@@ -388,6 +389,7 @@ def dropout(input_tensor, dropout_prob):
   if tf.flags.FLAGS.npu_bert_npu_dropout:
     output = npu_ops.dropout(input_tensor, 1.0 - dropout_prob)
   elif tf.flags.FLAGS.npu_bert_npu_dropout_v3:
+    from npu_bridge.estimator import npu_aicore_ops
     output = npu_aicore_ops.dropout_v3(input_tensor, 1.0 - dropout_prob)
   else:
     output = tf.nn.dropout(input_tensor, 1.0 - dropout_prob)
