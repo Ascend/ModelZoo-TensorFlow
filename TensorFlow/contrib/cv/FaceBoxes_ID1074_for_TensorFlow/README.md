@@ -145,6 +145,7 @@ obs://faceboxes/data/WIDER/
     │    ├──network.py　　　　　　　　　　　　　　　　　　　　　　　　　　　　//网络定义   
     │    ├──training_target_creation.py　　　　　　　　　　　　　　　　　　//训练目标转化  
 
+    ├── model/run00　　　　　　　　　　　　　　　　　　　　　　　　　        //模型
 ```
 
 ## 模型训练
