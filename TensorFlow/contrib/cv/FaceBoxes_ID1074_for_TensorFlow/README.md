@@ -29,22 +29,6 @@ FaceBoxes是一个实时人脸检测网络。其主要特点为速度快，可�
 [FaceBoxes-tensorflow](https://gitee.com/majunfu0519/FaceBoxes-tensorflow)
 
 
-## 默认配置
-
-- 训练超参
-
-```
-    -    batch size: 16
-    -    weight_decay: 1e-3
-    -    score_threshold: 0.05
-    -    iou_threshold: 0.3
-    -    localization_loss_weight: 1.0
-    -    classification_loss_weight: 1.0
-    -    lr_boundaries: [160000, 200000]
-    -    lr_values: [0.004, 0.0004, 0.00004]
-    -    nms_threshold: 0.99
-```
-
 
 
 ## 支持特性
@@ -123,12 +107,24 @@ FaceBoxes是一个实时人脸检测网络。其主要特点为速度快，可�
 obs://faceboxes/data/WIDER/
 ```
 
+## 超参设置
+在训练中，需要在本仓库根目录中的config.json文件中设定相应的超参，文件中已经给出了超参的默认设置
 
-## 训练
+- 默认超参
 
-->在pycharm中使用modelarts插件训练，将modelarts_entry.py作为启动文件。（启动文件中使用的为根目录下的train_testcase.sh命令）
+```
+    -    batch size: 16
+    -    weight_decay: 1e-3
+    -    score_threshold: 0.05
+    -    iou_threshold: 0.3
+    -    localization_loss_weight: 1.0
+    -    classification_loss_weight: 1.0
+    -    lr_boundaries: [160000, 200000]
+    -    lr_values: [0.004, 0.0004, 0.00004]
+    -    nms_threshold: 0.99
+```
 
-- 代码目录结构
+## 代码目录结构
 
 ```
 
