@@ -155,8 +155,6 @@ obs://faceboxes/data/WIDER/
 
   [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend 910训练平台环境变量设置?sort_id=3148819)
 
-- 快速demo
-
   模型测试所需数据集：  使用src/preparedata/preparedata.py所生成的WIDER/train_shards中的tfrecords文件。
 
   以及参数文件：`config.json`。
@@ -167,6 +165,7 @@ obs://faceboxes/data/WIDER/
   python3.7 ${code_dir}/train.py --data_path=${dataset_path} --output_path=${output_path} --step=100
   ```
   输出为位于model文件夹下的ckpt文件
+
 
 ## 模型测试
   模型测试所需数据集：使用src/preparedata/preparedata.py所生成的WIDER/val_shards中的tfrecords文件。
