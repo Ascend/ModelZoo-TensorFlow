@@ -1,0 +1,1 @@
+python3 test_zyh.py DATAPATH/Dataset-ABIDE/test/ --model_path ../models/model/
