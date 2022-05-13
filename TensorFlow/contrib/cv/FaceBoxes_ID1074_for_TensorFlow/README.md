@@ -5,7 +5,7 @@
 
 **版本（Version）：1.2**
 
-**修改时间（Modified） ：2021.12.21**
+**修改时间（Modified） ：2022.5.13**
 
 **大小（Size）：7M**
 
@@ -59,7 +59,7 @@ FaceBoxes是一个实时人脸检测网络。其主要特点为速度快，可�
 
 ## 环境
 
-    CANN镜像：ascend-share/5.0.4.alpha002_tensorflow-ascend910-cp37-euleros2.8-aarch64-training:1.15.0-21.0.2_1207
+    CANN镜像：ascend-share/5.1.rc2.alpha001_tensorflow-ascend910-cp37-euleros2.8-aarch64-training:1.15.0-21.0.2_0415
 ```
     opencv-python
     Pillow
