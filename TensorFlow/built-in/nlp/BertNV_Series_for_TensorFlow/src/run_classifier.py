@@ -95,9 +95,9 @@ flags.DEFINE_integer("npu_bert_loss_scale", 0,
 flags.DEFINE_bool("npu_bert_clip_by_global_norm", False,
                 "Use clip_by_global_norm if True, or use clip_by_norm for each gradient")
 
-flags.DEFINE_bool('npu_bert_npu_dropout', False, 'Whether to use npu defined dropout op')
+flags.DEFINE_bool('npu_bert_npu_dropout', True, 'Whether to use npu defined dropout op')
 
-flags.DEFINE_bool('npu_bert_npu_dropout_v3', True, 'Whether to use npu defined dropout_v3 op')
+flags.DEFINE_bool('npu_bert_npu_dropout_v3', False, 'Whether to use npu defined dropout_v3 op')
 
 flags.DEFINE_bool('npu_bert_tail_optimize', False, 'Whether to use npu allreduce tail optimization')
 
