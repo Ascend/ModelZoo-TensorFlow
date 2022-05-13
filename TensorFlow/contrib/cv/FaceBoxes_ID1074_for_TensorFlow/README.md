@@ -38,7 +38,7 @@ FaceBoxes是一个实时人脸检测网络。其主要特点为速度快，可�
 | 混合精度  | 否    |
 | 并行数据  | 否    |
 
-### 训练环境准备
+## 训练环境准备
 
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
@@ -66,21 +66,8 @@ FaceBoxes是一个实时人脸检测网络。其主要特点为速度快，可�
     </tbody>
     </table>
 
-## 使用方式
-下载至本地->数据集准备->使用modelarts训练
 
-## 环境
-
-    CANN镜像：ascend-share/5.1.rc2.alpha001_tensorflow-ascend910-cp37-euleros2.8-aarch64-training:1.15.0-21.0.2_0415
-```
-    opencv-python
-    Pillow
-    tqdm
-    numpy==1.19.5
-
-```
-
-### 快速上手
+## 快速上手
 
 - 源码准备
 
