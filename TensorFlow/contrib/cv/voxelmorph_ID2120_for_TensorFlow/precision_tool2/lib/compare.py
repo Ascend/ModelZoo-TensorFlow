@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 """
 Compare
@@ -39,10 +67,12 @@ class Compare(object):
             if sub_graphs is None:
                 continue
             for sub_graph in sub_graphs:
-                npu_dir = self._get_sub_dir_by_sub_graph_name(sub_graph, npu_root_dir)
+                npu_dir = self._get_sub_dir_by_sub_graph_name(
+                    sub_graph, npu_root_dir)
                 if npu_dir is None:
                     continue
-                self.vector_compare(npu_dir, tf_root_dir, result_dir, graph_file)
+                self.vector_compare(npu_dir, tf_root_dir,
+                                    result_dir, graph_file)
 
     @catch_tool_exception
     def _get_sub_dir_by_sub_graph_name(self, sub_graph, npu_root_dir):
@@ -65,7 +95,8 @@ class Compare(object):
         with open(graph_file, 'r') as f:
             graph_json = json.load(f)
             if 'graph' not in graph_json:
-                raise PrecisionToolException("No graph in file: %s" % graph_file)
+                raise PrecisionToolException(
+                    "No graph in file: %s" % graph_file)
             sub_graphs = []
             for graph in graph_json['graph']:
                 sub_graphs.append(graph['name'])
@@ -102,17 +133,22 @@ class Compare(object):
         if file_name is None:
             sub_dir = util.get_newest_dir(cfg.VECTOR_COMPARE_PATH)
             if sub_dir == '':
-                raise PrecisionToolException("Empty vector compare path:%s" % cfg.VECTOR_COMPARE_PATH)
+                raise PrecisionToolException(
+                    "Empty vector compare path:%s" % cfg.VECTOR_COMPARE_PATH)
             file_name = os.path.join(cfg.VECTOR_COMPARE_PATH, sub_dir)
         if os.path.isfile(file_name):
             results.append(CompareResult(file_name))
         if os.path.isdir(file_name):
-            vector_compare_result_files = util.list_vector_compare_result_files(file_name)
+            vector_compare_result_files = util.list_vector_compare_result_files(
+                file_name)
             if vector_compare_result_files is None or len(vector_compare_result_files) == 0:
-                raise PrecisionToolException("Can not find any vector compare result in dir:%s" % file_name)
-            file_list = sorted(vector_compare_result_files.values(), key=lambda x: x.timestamp)
+                raise PrecisionToolException(
+                    "Can not find any vector compare result in dir:%s" % file_name)
+            file_list = sorted(
+                vector_compare_result_files.values(), key=lambda x: x.timestamp)
             file_names = [x.file_name for x in file_list]
-            self.log.debug("Find %s result files in dir %s", file_names, file_name)
+            self.log.debug("Find %s result files in dir %s",
+                           file_names, file_name)
             for file in file_list:
                 results.append(CompareResult(file.path))
         return results
@@ -123,11 +159,14 @@ class Compare(object):
         compare_results = self._get_compare_result_by_file_name(file_name)
         error_ops = []
         for compare_result in compare_results:
-            err_ops = compare_result.get_op_by_cosine_sim_threshold(cos_sim_threshold, limit)
-            self.log.info("Find %d ops less then %s in %s", len(err_ops), cos_sim_threshold, compare_result.file_path)
+            err_ops = compare_result.get_op_by_cosine_sim_threshold(
+                cos_sim_threshold, limit)
+            self.log.info("Find %d ops less then %s in %s", len(
+                err_ops), cos_sim_threshold, compare_result.file_path)
             error_ops.extend(err_ops)
         if len(error_ops) == 0:
-            self.log.info("Can not find any compare result over threshold: %s" % cos_sim_threshold)
+            self.log.info(
+                "Can not find any compare result over threshold: %s" % cos_sim_threshold)
         else:
             for i, error_op in enumerate(error_ops):
                 if i < limit:
@@ -145,20 +184,24 @@ class Compare(object):
             util.save_npy_to_txt(left)
             util.save_npy_to_txt(right)
         # compare data
-        total_cnt, all_close, cos_sim, err_percent = self._do_compare_data(left, right, rl, al, diff_count)
+        total_cnt, all_close, cos_sim, err_percent = self._do_compare_data(
+            left, right, rl, al, diff_count)
         content = ['Left:', ' ├─ NpyFile: %s' % left]
         if save_txt:
             content.append(' ├─ TxtFile: [green]%s.txt[/green]' % left)
-        content.append(' └─ NpySpec: [yellow]%s[/yellow]' % util.gen_npy_info_txt(left))
+        content.append(' └─ NpySpec: [yellow]%s[/yellow]' %
+                       util.gen_npy_info_txt(left))
         content.append('Right:')
         content.append(' ├─ NpyFile: %s' % right)
         if save_txt:
             content.append(' ├─ TxtFile: [green]%s.txt[/green]' % right)
-        content.append(' └─ NpySpec: [yellow]%s[/yellow]' % util.gen_npy_info_txt(right))
+        content.append(' └─ NpySpec: [yellow]%s[/yellow]' %
+                       util.gen_npy_info_txt(right))
         content.append('NumCnt:   %s' % total_cnt)
         content.append('AllClose: %s' % all_close)
         content.append('CosSim:   %s' % cos_sim)
-        content.append('ErrorPer: %s  (rl= %s, al= %s)' % (err_percent, rl, al))
+        content.append('ErrorPer: %s  (rl= %s, al= %s)' %
+                       (err_percent, rl, al))
         util.print_panel(Constant.NEW_LINE.join(content))
 
     def _do_compare_data(self, left, right, rl=0.001, al=0.001, diff_count=20):
@@ -167,19 +210,23 @@ class Compare(object):
         shape_left = data_left.shape
         shape_right = data_right.shape
         if shape_left != shape_right:
-            self.log.warning("Data shape not equal: %s vs %s", data_left.shape, data_right.shape)
+            self.log.warning("Data shape not equal: %s vs %s",
+                             data_left.shape, data_right.shape)
         data_left = data_left.reshape(-1)
         data_right = data_right.reshape(-1)
         if data_left.shape[0] != data_right.shape[0]:
-            self.log.warning("Data size not equal: %s vs %s", data_left.shape, data_right.shape)
+            self.log.warning("Data size not equal: %s vs %s",
+                             data_left.shape, data_right.shape)
             if data_left.shape[0] < data_right.shape[0]:
-                data_left = np.pad(data_left, (0, data_right.shape[0] - data_left.shape[0]), 'constant')
+                data_left = np.pad(
+                    data_left, (0, data_right.shape[0] - data_left.shape[0]), 'constant')
             else:
-                data_right = np.pad(data_right,(0, data_left.shape[0] - data_right.shape[0]), 'constant')
+                data_right = np.pad(
+                    data_right, (0, data_left.shape[0] - data_right.shape[0]), 'constant')
         all_close = np.allclose(data_left, data_right, atol=al, rtol=rl)
         # cos_sim = 1 - spatial.distance.cosine(data_left, data_right)
         cos_sim = np.dot(data_left, data_right) / (
-                np.sqrt(np.dot(data_left, data_left)) * np.sqrt(np.dot(data_right, data_right)))
+            np.sqrt(np.dot(data_left, data_left)) * np.sqrt(np.dot(data_right, data_right)))
         err_cnt = 0
         total_cnt = data_left.shape[0]
         diff_table_columns = ['Index', 'Left', 'Right', 'Diff']
@@ -188,10 +235,12 @@ class Compare(object):
         for i in range(total_cnt):
             abs_diff = abs(data_left[i] - data_right[i])
             if i < diff_count:
-                top_table.add_row(str(i), str(data_left[i]), str(data_right[i]), str(abs_diff))
+                top_table.add_row(str(i), str(data_left[i]), str(
+                    data_right[i]), str(abs_diff))
             if abs_diff > (al + rl * abs(data_right[i])):
                 if err_cnt < diff_count:
-                    err_table.add_row(str(i), str(data_left[i]), str(data_right[i]), str(abs_diff))
+                    err_table.add_row(str(i), str(data_left[i]), str(
+                        data_right[i]), str(abs_diff))
                 err_cnt += 1
         err_percent = float(err_cnt / total_cnt)
         util.print(util.create_columns([err_table, top_table]))
@@ -204,6 +253,7 @@ class Compare(object):
         for parent_dir in [cfg.TMP_DIR, cfg.TF_DUMP_DIR]:
             file_infos = util.list_numpy_files(parent_dir, file_name)
             if len(file_infos) > 0:
-                self.log.info("Find %s, choose first one.", list(file_infos.keys()))
+                self.log.info("Find %s, choose first one.",
+                              list(file_infos.keys()))
                 return list(file_infos.values())[0].path
         return None

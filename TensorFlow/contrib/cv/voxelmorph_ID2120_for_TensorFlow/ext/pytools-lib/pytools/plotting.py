@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """
 function to help in plotting
 """
@@ -36,14 +64,17 @@ def jitter(n=256, colmap="hsv", nargout=1):
 
     # pad with -1 to make it transformable to a square
     nb_elems = np.ceil(n / m) * m
-    idx = np.pad(idx, [0, (nb_elems - n).astype(int)], 'constant', constant_values=-1)
+    idx = np.pad(idx, [0, (nb_elems - n).astype(int)],
+                 'constant', constant_values=-1)
 
     # permute elements by resizing to a matrix, transposing, and re-flatteneing
-    idxnew = np.array(np.reshape(idx, [m, (nb_elems // m).astype(int)]).transpose().flatten())
+    idxnew = np.array(np.reshape(
+        idx, [m, (nb_elems // m).astype(int)]).transpose().flatten())
 
     # throw away the extra elements
     idxnew = idxnew[np.where(idxnew >= 0)]
-    assert len(idxnew) == n, "jitter: something went wrong with some inner logic :("
+    assert len(
+        idxnew) == n, "jitter: something went wrong with some inner logic :("
 
     # get colormap and scramble it
     if isinstance(colmap, six.string_types):

@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 import os
 import random
@@ -13,7 +41,8 @@ FLAG_DUMP_GRAPH_PATH = 'DUMP_GRAPH_PATH'
 FLAG_NPU_DUMP_GRAPH = 'NPU_DUMP_GRAPH'
 
 # Fusion switch file path
-FUSION_SWITCH_FILE = os.path.join(os.path.dirname(__file__), 'fusion_switch.cfg')
+FUSION_SWITCH_FILE = os.path.join(
+    os.path.dirname(__file__), 'fusion_switch.cfg')
 FUSION_OFF_FILE = os.path.join(os.path.dirname(__file__), 'fusion_off.cfg')
 
 DEFAULT_OP_DEBUG_DIR = cfg.DEFAULT_OP_DEBUG_DIR
@@ -92,7 +121,8 @@ def estimator_dump_config(action=None):
     from npu_bridge.npu_init import DumpConfig
     _init()
     if _is_overflow(action):
-        config = DumpConfig(enable_dump_debug=True, dump_path=cfg.NPU_OVERFLOW_DUMP_DIR, dump_mode="all")
+        config = DumpConfig(enable_dump_debug=True,
+                            dump_path=cfg.NPU_OVERFLOW_DUMP_DIR, dump_mode="all")
     elif _is_dump(action):
         config = DumpConfig(enable_dump=True, dump_path=cfg.DEFAULT_NPU_DUMP_DIR, dump_step=cfg.TF_DUMP_STEP,
                             dump_mode="all")
@@ -136,23 +166,30 @@ def update_custom_op(custom_op, action=None):
     :return:
     """
     _init()
-    custom_op.parameter_map['debug_dir'].s = tf.compat.as_bytes(cfg.DEFAULT_OP_DEBUG_DIR)
+    custom_op.parameter_map['debug_dir'].s = tf.compat.as_bytes(
+        cfg.DEFAULT_OP_DEBUG_DIR)
     if _is_overflow(action):
         custom_op.parameter_map['enable_dump_debug'].b = True
-        custom_op.parameter_map['dump_debug_mode'].s = tf.compat.as_bytes("all")
-        custom_op.parameter_map['dump_path'].s = tf.compat.as_bytes(cfg.NPU_OVERFLOW_DUMP_DIR)
+        custom_op.parameter_map['dump_debug_mode'].s = tf.compat.as_bytes(
+            "all")
+        custom_op.parameter_map['dump_path'].s = tf.compat.as_bytes(
+            cfg.NPU_OVERFLOW_DUMP_DIR)
         custom_op.parameter_map['op_debug_level'].i = cfg.OP_DEBUG_LEVEL
     elif _is_dump(action):
         custom_op.parameter_map['enable_dump'].b = True
         custom_op.parameter_map['dump_mode'].s = tf.compat.as_bytes("all")
-        custom_op.parameter_map['dump_path'].s = tf.compat.as_bytes(cfg.DEFAULT_NPU_DUMP_DIR)
+        custom_op.parameter_map['dump_path'].s = tf.compat.as_bytes(
+            cfg.DEFAULT_NPU_DUMP_DIR)
         custom_op.parameter_map['op_debug_level'].i = cfg.OP_DEBUG_LEVEL
-        custom_op.parameter_map['dump_step'].s = tf.compat.as_bytes(cfg.TF_DUMP_STEP)
+        custom_op.parameter_map['dump_step'].s = tf.compat.as_bytes(
+            cfg.TF_DUMP_STEP)
     if _is_fusion_off(action):
-        custom_op.parameter_map['fusion_switch_file'].s = tf.compat.as_bytes(FUSION_OFF_FILE)
+        custom_op.parameter_map['fusion_switch_file'].s = tf.compat.as_bytes(
+            FUSION_OFF_FILE)
         print("[PrecisionTool] Set fusion switch file: ", FUSION_OFF_FILE)
     elif _is_fusion_switch(action):
-        custom_op.parameter_map['fusion_switch_file'].s = tf.compat.as_bytes(FUSION_SWITCH_FILE)
+        custom_op.parameter_map['fusion_switch_file'].s = tf.compat.as_bytes(
+            FUSION_SWITCH_FILE)
         print("[PrecisionTool] Set fusion switch file: ", FUSION_SWITCH_FILE)
     return custom_op
 

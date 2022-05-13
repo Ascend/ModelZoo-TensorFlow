@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import os
 import numpy as np
 
@@ -62,11 +90,13 @@ class H5Util(object):
             self.log.warning("Tensor:%s not exist." % tensor_name)
             return
         file_path = self._dump_numpy(tensor_name, tensor)
-        util.print_npy_summary(os.path.dirname(file_path), os.path.basename(file_path))
+        util.print_npy_summary(os.path.dirname(
+            file_path), os.path.basename(file_path))
 
     def _prepare(self):
         if not os.path.isfile(self.file_name) or not str(self.file_name).endswith(Constant.Suffix.H5):
-            self.log.error("File [%s] not exist or not a h5 file" % self.file_name)
+            self.log.error(
+                "File [%s] not exist or not a h5 file" % self.file_name)
         if h5py is None:
             self.log.warning("Can not find python module h5py.")
         self.h5 = h5py.File(self.file_name, 'r')

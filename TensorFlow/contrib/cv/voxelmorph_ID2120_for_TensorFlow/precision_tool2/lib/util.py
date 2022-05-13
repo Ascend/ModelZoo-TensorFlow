@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 import csv
 import re
@@ -101,18 +129,22 @@ class Util(object):
         :return: result json file
         """
         if not os.path.exists(src_file):
-            raise PrecisionToolException("Source proto file %s not exist." % src_file)
+            raise PrecisionToolException(
+                "Source proto file %s not exist." % src_file)
         # src_file = os.path.join(cfg.GRAPH_DIR_ALL, proto_file)
         # json_file = proto_file + '.json'
         # dst_file = os.path.join(cfg.GRAPH_DIR_BUILD, json_file)
         if os.path.exists(dst_file) and os.path.getmtime(dst_file) > os.path.getmtime(src_file):
             self.log.debug("GE graph build json already exist.")
             return dst_file
-        cmd = '%s --mode=5 --om=%s --json=%s' % (self._get_atc(), src_file, dst_file)
+        cmd = '%s --mode=5 --om=%s --json=%s' % (
+            self._get_atc(), src_file, dst_file)
         self.execute_command(cmd)
         if not os.path.isfile(dst_file):
-            raise PrecisionToolException("Convert GE build graph to json failed. can not find any json file.")
-        self.log.info('Finish convert [%s] build graph from proto to json format.', src_file)
+            raise PrecisionToolException(
+                "Convert GE build graph to json failed. can not find any json file.")
+        self.log.info(
+            'Finish convert [%s] build graph from proto to json format.', src_file)
         return dst_file
 
     def convert_dump_to_npy(self, src_file, dst_path, data_format=None):
@@ -124,7 +156,8 @@ class Util(object):
         """
         self.create_dir(dst_path)
         format_cmd = '' if data_format is None else '-f %s' % data_format
-        cmd = '%s %s convert -d %s -out %s %s' % (self.python, self._get_ms_accu_cmp(), src_file, dst_path, format_cmd)
+        cmd = '%s %s convert -d %s -out %s %s' % (
+            self.python, self._get_ms_accu_cmp(), src_file, dst_path, format_cmd)
         return self.execute_command(cmd)
 
     def compare_vector(self, npu_dump_dir, cpu_dump_dir, graph_json, result_path):
@@ -153,14 +186,16 @@ class Util(object):
         """
         parent_dirs = {}
         dump_files = {}
-        newest_sub_path = self.get_newest_dir(path) if sub_path == '' else sub_path
+        newest_sub_path = self.get_newest_dir(
+            path) if sub_path == '' else sub_path
         dump_pattern = re.compile(OFFLINE_DUMP_PATTERN)
         for dir_path, dir_names, file_names in os.walk(os.path.join(path, newest_sub_path), followlinks=True):
             for name in file_names:
                 dump_match = dump_pattern.match(name)
                 if dump_match is None:
                     continue
-                dump_files[name] = self._gen_dump_file_info(name, dump_match, dir_path)
+                dump_files[name] = self._gen_dump_file_info(
+                    name, dump_match, dir_path)
                 if dir_path not in parent_dirs:
                     parent_dirs[dir_path] = {}
                 parent_dirs[dir_path][name] = dump_files[name]
@@ -177,16 +212,19 @@ class Util(object):
             for item in mapping:
                 src_file = os.path.abspath(os.path.join(dir_path, item[0]))
                 if not os.path.isfile(src_file):
-                    self.log.warning("Can not find file %s in mapping.csv, dir: %s.", item[0], dir_path)
+                    self.log.warning(
+                        "Can not find file %s in mapping.csv, dir: %s.", item[0], dir_path)
                     continue
                 match = re_pattern.match(item[1])
                 if match is None:
-                    self.log.warning("file name [%s] in mapping.csv is invalid.", item[1])
+                    self.log.warning(
+                        "file name [%s] in mapping.csv is invalid.", item[1])
                     continue
                 file_desc = self._gen_dump_file_info(item[0], match, dir_path)
                 dst_file_name = '.'.join([file_desc.op_type, file_desc.file_name, str(file_desc.task_id),
                                           str(file_desc.stream_id), str(file_desc.timestamp)])
-                dst_file = os.path.abspath(os.path.join(dir_path, dst_file_name))
+                dst_file = os.path.abspath(
+                    os.path.join(dir_path, dst_file_name))
                 if not os.path.islink(src_file):
                     os.rename(src_file, dst_file)
                     os.symlink(dst_file, src_file)
@@ -198,7 +236,8 @@ class Util(object):
     def list_npu_dump_files(self, path, extern_pattern=''):
         npu_dump_files = self._list_file_with_pattern(path, OFFLINE_DUMP_PATTERN, extern_pattern,
                                                       self._gen_dump_file_info)
-        npu_dump_files.update(self.parse_mapping_csv(path, OFFLINE_DUMP_PATTERN, extern_pattern))
+        npu_dump_files.update(self.parse_mapping_csv(
+            path, OFFLINE_DUMP_PATTERN, extern_pattern))
         return npu_dump_files
 
     def list_ge_graph_files(self, path, extern_pattern=''):
@@ -275,14 +314,17 @@ class Util(object):
         """
         if isinstance(source_data, str):
             if not str(source_data).endswith(NUMPY_SHUFFIX):
-                raise PrecisionToolException("Npy file [%s] is invalid" % source_data)
+                raise PrecisionToolException(
+                    "Npy file [%s] is invalid" % source_data)
             data = np.load(source_data, allow_pickle=True)
         elif isinstance(source_data, np.ndarray):
             data = source_data
         else:
-            raise PrecisionToolException("Invalid source data:%s" % source_data)
+            raise PrecisionToolException(
+                "Invalid source data:%s" % source_data)
         if data.dtype == 'object':
-            raise PrecisionToolException("Invalid source data, data is object.")
+            raise PrecisionToolException(
+                "Invalid source data, data is object.")
         if np.size(data) == 0:
             raise PrecisionToolException("Empty source data:%s" % source_data)
         return data.shape, data.dtype, data.max(), data.min(), data.mean()
@@ -315,13 +357,16 @@ class Util(object):
         flatten_data = data.flatten()
         for i in range(min(16, int(np.ceil(flatten_data.size / 8)))):
             last_idx = min(flatten_data.size, i*8+8)
-            table.add_row(str(i * 8), ' '.join(flatten_data[i*8: last_idx].astype('str').tolist()))
-        summary = ['[yellow]%s[/yellow]' % self.gen_npy_info_txt(data), 'Path: %s' % target_file]
+            table.add_row(
+                str(i * 8), ' '.join(flatten_data[i*8: last_idx].astype('str').tolist()))
+        summary = ['[yellow]%s[/yellow]' %
+                   self.gen_npy_info_txt(data), 'Path: %s' % target_file]
         if is_convert:
             summary.append('TxtFile: %s.txt' % target_file)
         if extern_content != '':
             summary.append('%s' % extern_content)
-        self.print_panel(self.create_columns([table, Constant.NEW_LINE.join(summary)]), file_name)
+        self.print_panel(self.create_columns(
+            [table, Constant.NEW_LINE.join(summary)]), file_name)
         if is_convert:
             self.save_npy_to_txt(data, target_file + '.txt')
 
@@ -336,7 +381,8 @@ class Util(object):
         if dst_file == '':
             dst_file = src_file + '.txt'
         if os.path.exists(dst_file):
-            self.log.debug("Dst file %s exists, will not save new one.", dst_file)
+            self.log.debug(
+                "Dst file %s exists, will not save new one.", dst_file)
             return
         if isinstance(src_file, str):
             data = np.load(src_file, allow_pickle=True)
@@ -345,7 +391,8 @@ class Util(object):
         else:
             raise PrecisionToolException("invalid src_file: %s", src_file)
         if data.dtype == 'object':
-            raise PrecisionToolException("Invalid source data, data is object.")
+            raise PrecisionToolException(
+                "Invalid source data, data is object.")
         shape = data.shape
         data = data.flatten()
         if align == 0:
@@ -356,7 +403,8 @@ class Util(object):
         elif data.size % align != 0:
             pad_array = np.zeros((align - data.size % align,))
             data = np.append(data, pad_array)
-        np.savetxt(dst_file, data.reshape((-1, align)), delimiter=' ', fmt='%g')
+        np.savetxt(dst_file, data.reshape(
+            (-1, align)), delimiter=' ', fmt='%g')
 
     def read_csv(self, path):
         """Read csv file to list.
@@ -429,7 +477,8 @@ class Util(object):
         self.log.info("Try to auto detect file with name: %s.", target_file)
         res = self._detect_file(target_file, cfg.CMD_ROOT_PATH)
         if len(res) == 0:
-            raise PrecisionToolException("Cannot find any file named %s in dir %s" % (target_file, cfg.CMD_ROOT_PATH))
+            raise PrecisionToolException(
+                "Cannot find any file named %s in dir %s" % (target_file, cfg.CMD_ROOT_PATH))
         self.log.info("Detect [%s] success. %s", target_file, res)
         return res[0]
 
@@ -457,7 +506,8 @@ class Util(object):
             self.log.debug("Path [%s] has no timestamp dirs.", path)
             return ''
         newest_sub_path = sorted(sub_paths)[-1]
-        self.log.info("Sub path num:[%d]. Dirs[%s], choose[%s]", len(sub_paths), str(sub_paths), newest_sub_path)
+        self.log.info("Sub path num:[%d]. Dirs[%s], choose[%s]", len(
+            sub_paths), str(sub_paths), newest_sub_path)
         return newest_sub_path
 
     @staticmethod

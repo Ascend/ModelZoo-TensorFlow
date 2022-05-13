@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 import os
 import time
@@ -19,7 +47,8 @@ class MsQuickCmpAdapter(object):
         if self.output_path is None or not os.path.isdir(self.output_path):
             raise PrecisionToolException("Invalid output path.")
         if os.path.exists(cfg.DATA_ROOT_DIR):
-            raise PrecisionToolException("Precision data dir exist, can not adapt msquickcmp result.")
+            raise PrecisionToolException(
+                "Precision data dir exist, can not adapt msquickcmp result.")
 
         for dir_path, dir_names, file_names in os.walk(self.output_path, followlinks=True):
             if 'model' in dir_names:
@@ -28,7 +57,8 @@ class MsQuickCmpAdapter(object):
                 self._adapt_dump(os.path.join(dir_path, 'dump_data'))
             for file_name in file_names:
                 if str(file_name).endswith(Constant.Suffix.CSV):
-                    self._adapt_vector_compare_result(os.path.join(dir_path, file_name))
+                    self._adapt_vector_compare_result(
+                        os.path.join(dir_path, file_name))
 
     def _adapt_model(self, path):
         file_names = os.listdir(path)
@@ -37,11 +67,14 @@ class MsQuickCmpAdapter(object):
             if str(file_name).endswith(Constant.Suffix.JSON):
                 self.log.info("Find msquickcmp model json: %s", file_name)
                 util.create_dir(cfg.DEFAULT_NPU_GRAPH_DIR)
-                graph_file_name = 'ge_proto_%d_%s.txt' % (graph_id, cfg.BUILD_JSON_GRAPH_NAME)
+                graph_file_name = 'ge_proto_%d_%s.txt' % (
+                    graph_id, cfg.BUILD_JSON_GRAPH_NAME)
                 graph_json_file_name = graph_file_name + Constant.Suffix.JSON
-                pathlib.Path(os.path.join(cfg.DEFAULT_NPU_GRAPH_DIR, graph_file_name)).touch()
+                pathlib.Path(os.path.join(
+                    cfg.DEFAULT_NPU_GRAPH_DIR, graph_file_name)).touch()
                 src_path = os.path.join(path, file_name)
-                dst_path = os.path.join(cfg.DEFAULT_NPU_GRAPH_DIR, graph_json_file_name)
+                dst_path = os.path.join(
+                    cfg.DEFAULT_NPU_GRAPH_DIR, graph_json_file_name)
                 self.log.info("Copy graph file: %s->%s", src_path, dst_path)
                 shutil.copy(src_path, dst_path)
                 time.sleep(3)
@@ -76,7 +109,8 @@ class MsQuickCmpAdapter(object):
             util.create_dir(cfg.DEFAULT_NPU_DUMP_DIR)
             src_path = os.path.abspath(os.path.join(path, sub_dir))
             dst_path = os.path.join(cfg.DEFAULT_NPU_DUMP_DIR, sub_dir)
-            self.log.info("Create symbol link file: %s->%s", src_path, dst_path)
+            self.log.info("Create symbol link file: %s->%s",
+                          src_path, dst_path)
             os.symlink(src_path, dst_path)
             self.log.info("Adapt npu dump success.")
 

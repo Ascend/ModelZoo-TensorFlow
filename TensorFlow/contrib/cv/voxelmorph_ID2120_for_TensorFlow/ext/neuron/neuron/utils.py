@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """
 tensorflow/keras utilities for the neuron project
 
@@ -37,6 +65,7 @@ import tensorflow.python.keras.backend as K
 import tensorflow as tf
 reload(pl)
 
+
 def interpn(vol, loc, interp_method='linear'):
     """
     N-D gridded interpolation in tensorflow
@@ -58,7 +87,7 @@ def interpn(vol, loc, interp_method='linear'):
         enable optional orig_grid - the original grid points.
         check out tf.contrib.resampler, only seems to work for 2D data
     """
-    
+
     if isinstance(loc, (list, tuple)):
         loc = tf.stack(loc, -1)
 
@@ -78,7 +107,7 @@ def interpn(vol, loc, interp_method='linear'):
 
     # flatten and float location Tensors
     loc = tf.cast(loc, 'float32')
-    
+
     if isinstance(vol.shape, (tf.Dimension, tf.TensorShape)):
         volshape = vol.shape.as_list()
     else:
@@ -90,27 +119,32 @@ def interpn(vol, loc, interp_method='linear'):
 
         # clip values
         max_loc = [d - 1 for d in vol.get_shape().as_list()]
-        clipped_loc = [tf.clip_by_value(loc[...,d], 0, max_loc[d]) for d in range(nb_dims)]
-        loc0lst = [tf.clip_by_value(loc0[...,d], 0, max_loc[d]) for d in range(nb_dims)]
+        clipped_loc = [tf.clip_by_value(
+            loc[..., d], 0, max_loc[d]) for d in range(nb_dims)]
+        loc0lst = [tf.clip_by_value(loc0[..., d], 0, max_loc[d])
+                   for d in range(nb_dims)]
 
         # get other end of point cube
-        loc1 = [tf.clip_by_value(loc0lst[d] + 1, 0, max_loc[d]) for d in range(nb_dims)]
-        locs = [[tf.cast(f, 'int32') for f in loc0lst], [tf.cast(f, 'int32') for f in loc1]]
+        loc1 = [tf.clip_by_value(loc0lst[d] + 1, 0, max_loc[d])
+                for d in range(nb_dims)]
+        locs = [[tf.cast(f, 'int32') for f in loc0lst], [
+            tf.cast(f, 'int32') for f in loc1]]
 
         # compute the difference between the upper value and the original value
         # differences are basically 1 - (pt - floor(pt))
         #   because: floor(pt) + 1 - pt = 1 + (floor(pt) - pt) = 1 - (pt - floor(pt))
         diff_loc1 = [loc1[d] - clipped_loc[d] for d in range(nb_dims)]
         diff_loc0 = [1 - d for d in diff_loc1]
-        weights_loc = [diff_loc1, diff_loc0] # note reverse ordering since weights are inverse of diff.
+        # note reverse ordering since weights are inverse of diff.
+        weights_loc = [diff_loc1, diff_loc0]
 
-        # go through all the cube corners, indexed by a ND binary vector 
+        # go through all the cube corners, indexed by a ND binary vector
         # e.g. [0, 0] means this "first" corner in a 2-D "cube"
         cube_pts = list(itertools.product([0, 1], repeat=nb_dims))
         interp_vol = 0
-        
+
         for c in cube_pts:
-            
+
             # get nd values
             # note re: indices above volumes via https://github.com/tensorflow/tensorflow/issues/15091
             #   It works on GPU because we do not perform index validation checking on GPU -- it's too
@@ -134,24 +168,25 @@ def interpn(vol, loc, interp_method='linear'):
             # wt = tf.reduce_prod(wlm, axis=0)
             wt = prod_n(wts_lst)
             wt = K.expand_dims(wt, -1)
-            
+
             # compute final weighted value for each cube corner
             interp_vol += wt * vol_val
-        
+
     else:
         assert interp_method == 'nearest'
         roundloc = tf.cast(tf.round(loc), 'int32')
 
         # clip values
         max_loc = [tf.cast(d - 1, 'int32') for d in vol.shape]
-        roundloc = [tf.clip_by_value(roundloc[...,d], 0, max_loc[d]) for d in range(nb_dims)]
+        roundloc = [tf.clip_by_value(
+            roundloc[..., d], 0, max_loc[d]) for d in range(nb_dims)]
 
         # get values
         # tf stacking is slow. replace with gather
         # roundloc = tf.stack(roundloc, axis=-1)
         # interp_vol = tf.gather_nd(vol, roundloc)
         idx = sub2ind(vol.shape[:-1], roundloc)
-        interp_vol = tf.gather(tf.reshape(vol, [-1, vol.shape[-1]]), idx) 
+        interp_vol = tf.gather(tf.reshape(vol, [-1, vol.shape[-1]]), idx)
 
     return interp_vol
 
@@ -167,9 +202,10 @@ def resize(vol, zoom_factor, interp_method='linear'):
     if isinstance(zoom_factor, (list, tuple)):
         ndims = len(zoom_factor)
         vol_shape = vol.shape[:ndims]
-        
+
         assert len(vol_shape) in (ndims, ndims+1), \
-            "zoom_factor length %d does not match ndims %d" % (len(vol_shape), ndims)
+            "zoom_factor length %d does not match ndims %d" % (
+                len(vol_shape), ndims)
 
     else:
         vol_shape = vol.shape[:-1]
@@ -218,14 +254,14 @@ def affine_to_shift(affine_matrix, volshape, shift_center=True, indexing='ij'):
 
     if isinstance(volshape, (tf.Dimension, tf.TensorShape)):
         volshape = volshape.as_list()
-    
+
     if affine_matrix.dtype != 'float32':
         affine_matrix = tf.cast(affine_matrix, 'float32')
 
     nb_dims = len(volshape)
 
     if len(affine_matrix.shape) == 1:
-        if len(affine_matrix) != (nb_dims * (nb_dims + 1)) :
+        if len(affine_matrix) != (nb_dims * (nb_dims + 1)):
             raise ValueError('transform is supposed a vector of len ndims * (ndims + 1).'
                              'Got len %d' % len(affine_matrix))
 
@@ -233,15 +269,15 @@ def affine_to_shift(affine_matrix, volshape, shift_center=True, indexing='ij'):
 
     if not (affine_matrix.shape[0] in [nb_dims, nb_dims + 1] and affine_matrix.shape[1] == (nb_dims + 1)):
         raise Exception('Affine matrix shape should match'
-                        '%d+1 x %d+1 or ' % (nb_dims, nb_dims) + \
-                        '%d x %d+1.' % (nb_dims, nb_dims) + \
+                        '%d+1 x %d+1 or ' % (nb_dims, nb_dims) +
+                        '%d x %d+1.' % (nb_dims, nb_dims) +
                         'Got: ' + str(volshape))
 
     # list of volume ndgrid
     # N-long list, each entry of shape volshape
-    mesh = volshape_to_meshgrid(volshape, indexing=indexing)  
+    mesh = volshape_to_meshgrid(volshape, indexing=indexing)
     mesh = [tf.cast(f, 'float32') for f in mesh]
-    
+
     if shift_center:
         mesh = [mesh[f] - (volshape[f]-1)/2 for f in range(len(volshape))]
 
@@ -274,10 +310,10 @@ def transform(vol, loc_shift, interp_method='linear', indexing='ij'):
         interp_method (default:'linear'): 'linear', 'nearest'
         indexing (default: 'ij'): 'ij' (matrix) or 'xy' (cartesian).
             In general, prefer to leave this 'ij'
-    
+
     Return:
         new interpolated volumes in the same size as loc_shift[0]
-    
+
     Keyworks:
         interpolation, sampler, resampler, linear, bilinear
     """
@@ -291,7 +327,8 @@ def transform(vol, loc_shift, interp_method='linear', indexing='ij'):
 
     # location should be mesh and delta
     mesh = volshape_to_meshgrid(volshape, indexing=indexing)  # volume mesh
-    loc = [tf.cast(mesh[d], 'float32') + loc_shift[..., d] for d in range(nb_dims)]
+    loc = [tf.cast(mesh[d], 'float32') + loc_shift[..., d]
+           for d in range(nb_dims)]
 
     # test single
     return interpn(vol, loc, interp_method=interp_method)
@@ -300,7 +337,7 @@ def transform(vol, loc_shift, interp_method='linear', indexing='ij'):
 def integrate_vec(vec, time_dep=False, method='ss', **kwargs):
     """
     Integrate (stationary of time-dependent) vector field (N-D Tensor) in tensorflow
-    
+
     Aside from directly using tensorflow's numerical integration odeint(), also implements 
     "scaling and squaring", and quadrature. Note that the diff. equation given to odeint
     is the one used in quadrature.   
@@ -313,7 +350,7 @@ def integrate_vec(vec, time_dep=False, method='ss', **kwargs):
             [vol_size, vol_ndim, nb_time_steps] (if time dependent)
         time_dep: bool whether vector is time dependent
         method: 'scaling_and_squaring' or 'ss' or 'ode' or 'quadrature'
-        
+
         if using 'scaling_and_squaring': currently only supports integrating to time point 1.
             nb_steps: int number of steps. Note that this means the vec field gets broken
             down to 2**nb_steps. so nb_steps of 0 means integral = vec.
@@ -337,19 +374,22 @@ def integrate_vec(vec, time_dep=False, method='ss', **kwargs):
     """
 
     if method not in ['ss', 'scaling_and_squaring', 'ode', 'quadrature']:
-        raise ValueError("method has to be 'scaling_and_squaring' or 'ode'. found: %s" % method)
+        raise ValueError(
+            "method has to be 'scaling_and_squaring' or 'ode'. found: %s" % method)
 
     if method in ['ss', 'scaling_and_squaring']:
         nb_steps = kwargs['nb_steps']
         assert nb_steps >= 0, 'nb_steps should be >= 0, found: %d' % nb_steps
 
         if time_dep:
-            svec = K.permute_dimensions(vec, [-1, *range(0, vec.shape[-1] - 1)])
+            svec = K.permute_dimensions(
+                vec, [-1, *range(0, vec.shape[-1] - 1)])
             assert 2**nb_steps == svec.shape[0], "2**nb_steps and vector shape don't match"
 
             svec = svec/(2**nb_steps)
             for _ in range(nb_steps):
-                svec = svec[0::2] + tf.map_fn(transform, svec[1::2,:], svec[0::2,:])
+                svec = svec[0::2] + \
+                    tf.map_fn(transform, svec[1::2, :], svec[0::2, :])
 
             disp = svec[0, :]
 
@@ -367,9 +407,9 @@ def integrate_vec(vec, time_dep=False, method='ss', **kwargs):
         vec = vec/nb_steps
 
         if time_dep:
-            disp = vec[...,0]
+            disp = vec[..., 0]
             for si in range(nb_steps-1):
-                disp += transform(vec[...,si+1], disp)
+                disp += transform(vec[..., si+1], disp)
         else:
             disp = vec
             for _ in range(nb_steps-1):
@@ -377,12 +417,14 @@ def integrate_vec(vec, time_dep=False, method='ss', **kwargs):
 
     else:
         assert not time_dep, "odeint not implemented with time-dependent vector field"
-        fn = lambda disp, _: transform(vec, disp)  
+        def fn(disp, _): return transform(vec, disp)
 
         # process time point.
-        out_time_pt = kwargs['out_time_pt'] if 'out_time_pt' in kwargs.keys() else 1
+        out_time_pt = kwargs['out_time_pt'] if 'out_time_pt' in kwargs.keys(
+        ) else 1
         single_out_time_pt = not isinstance(out_time_pt, (list, tuple))
-        if single_out_time_pt: out_time_pt = [out_time_pt]
+        if single_out_time_pt:
+            out_time_pt = [out_time_pt]
         K_out_time_pt = K.variable([0, *out_time_pt])
 
         # process initialization
@@ -392,13 +434,16 @@ def integrate_vec(vec, time_dep=False, method='ss', **kwargs):
             raise ValueError('non-zero init for ode method not implemented')
 
         # compute integration with tf.contrib.integrate.odeint
-        if 'ode_args' not in kwargs.keys(): kwargs['ode_args'] = {}
-        disp = tf.contrib.integrate.odeint(fn, disp0, K_out_time_pt, **kwargs['ode_args'])
-        disp = K.permute_dimensions(disp[1:len(out_time_pt)+1, :], [*range(1,len(disp.shape)), 0])
+        if 'ode_args' not in kwargs.keys():
+            kwargs['ode_args'] = {}
+        disp = tf.contrib.integrate.odeint(
+            fn, disp0, K_out_time_pt, **kwargs['ode_args'])
+        disp = K.permute_dimensions(
+            disp[1:len(out_time_pt)+1, :], [*range(1, len(disp.shape)), 0])
 
         # return
-        if single_out_time_pt: 
-            disp = disp[...,0]
+        if single_out_time_pt:
+            disp = disp[..., 0]
 
     return disp
 
@@ -417,7 +462,7 @@ def volshape_to_ndgrid(volshape, **kwargs):
     See Also:
         ndgrid
     """
-    
+
     isint = [float(d).is_integer() for d in volshape]
     if not all(isint):
         raise ValueError("volshape needs to be a list of integers")
@@ -440,7 +485,7 @@ def volshape_to_meshgrid(volshape, **kwargs):
     See Also:
         tf.meshgrid, meshgrid, ndgrid, volshape_to_ndgrid
     """
-    
+
     isint = [float(d).is_integer() for d in volshape]
     if not all(isint):
         raise ValueError("volshape needs to be a list of integers")
@@ -460,7 +505,7 @@ def ndgrid(*args, **kwargs):
 
     Returns:
         A list of Tensors
-    
+
     """
     return meshgrid(*args, indexing='ij', **kwargs)
 
@@ -468,10 +513,10 @@ def ndgrid(*args, **kwargs):
 def flatten(v):
     """
     flatten Tensor v
-    
+
     Parameters:
         v: Tensor to be flattened
-    
+
     Returns:
         flat Tensor
     """
@@ -481,11 +526,11 @@ def flatten(v):
 
 def meshgrid(*args, **kwargs):
     """
-    
+
     meshgrid code that builds on (copies) tensorflow's meshgrid but dramatically
     improves runtime by changing the last step to tiling instead of multiplication.
     https://github.com/tensorflow/tensorflow/blob/c19e29306ce1777456b2dbb3a14f511edf7883a8/tensorflow/python/ops/array_ops.py#L1921
-    
+
     Broadcasts parameters for evaluation on an N-D grid.
     Given N one-dimensional coordinate arrays `*args`, returns a list `outputs`
     of N-D coordinate arrays for evaluating expressions on an N-D grid.
@@ -523,7 +568,7 @@ def meshgrid(*args, **kwargs):
     if kwargs:
         key = list(kwargs.keys())[0]
         raise TypeError("'{}' is an invalid keyword argument "
-                    "for this function".format(key))
+                        "for this function".format(key))
 
     if indexing not in ("xy", "ij"):
         raise ValueError("indexing parameter must be either 'xy' or 'ij'")
@@ -548,17 +593,16 @@ def meshgrid(*args, **kwargs):
         shapes[0], shapes[1] = shapes[1], shapes[0]
         sz[0], sz[1] = sz[1], sz[0]
 
-    # This is the part of the implementation from tf that is slow. 
+    # This is the part of the implementation from tf that is slow.
     # We replace it below to get a ~6x speedup (essentially using tile instead of * tf.ones())
-    # TODO(nolivia): improve performance with a broadcast  
+    # TODO(nolivia): improve performance with a broadcast
     # mult_fact = tf.ones(shapes, output_dtype)
     # return [x * mult_fact for x in output]
-    for i in range(len(output)):       
+    for i in range(len(output)):
         output[i] = tf.tile(output[i], tf.stack([*sz[:i], 1, *sz[(i+1):]]))
     return output
-    
 
-    
+
 def prod_n(lst):
     prod = lst[0]
     for p in lst[1:]:
@@ -571,7 +615,8 @@ def sub2ind(siz, subs, **kwargs):
     assumes column-order major
     """
     # subs is a list
-    assert len(siz) == len(subs), 'found inconsistent siz and subs: %d %d' % (len(siz), len(subs))
+    assert len(siz) == len(subs), 'found inconsistent siz and subs: %d %d' % (
+        len(siz), len(subs))
 
     k = np.cumprod(siz[::-1])
 
@@ -580,7 +625,6 @@ def sub2ind(siz, subs, **kwargs):
         ndx = ndx + v * k[i]
 
     return ndx
-
 
 
 def gaussian_kernel(sigma, windowsize=None, indexing='ij'):
@@ -593,7 +637,7 @@ def gaussian_kernel(sigma, windowsize=None, indexing='ij'):
     Parameters:
         sigma: scalar or list of scalars
         windowsize (optional): scalar or list of scalars indicating the shape of the kernel
-    
+
     Returns:
         ND kernel the same dimensiosn as the number of sigmas.
 
@@ -619,13 +663,15 @@ def gaussian_kernel(sigma, windowsize=None, indexing='ij'):
 
     # list of volume ndgrid
     # N-long list, each entry of shape volshape
-    mesh = volshape_to_meshgrid(windowsize, indexing=indexing)  
+    mesh = volshape_to_meshgrid(windowsize, indexing=indexing)
     mesh = [tf.cast(f, 'float32') for f in mesh]
 
     # compute independent gaussians
     diff = [mesh[f] - mid[f] for f in range(len(windowsize))]
-    exp_term = [- K.square(diff[f])/(2 * (sigma[f]**2)) for f in range(nb_dims)]
-    norms = [exp_term[f] - np.log(sigma[f] * np.sqrt(2 * np.pi)) for f in range(nb_dims)]
+    exp_term = [- K.square(diff[f])/(2 * (sigma[f]**2))
+                for f in range(nb_dims)]
+    norms = [exp_term[f] - np.log(sigma[f] * np.sqrt(2 * np.pi))
+             for f in range(nb_dims)]
 
     # add an all-ones entry and transform into a large matrix
     norms_matrix = tf.stack(norms, axis=-1)  # *volshape x N
@@ -634,12 +680,6 @@ def gaussian_kernel(sigma, windowsize=None, indexing='ij'):
     g /= tf.reduce_sum(g)
 
     return g
-
-
-
-
-
-
 
 
 def stack_models(models, connecting_node_ids=None):
@@ -662,12 +702,12 @@ def stack_models(models, connecting_node_ids=None):
 
     # go through models 1 onwards and stack with current graph
     for mi in range(1, len(models)):
-        
-        # prepare input nodes - a combination of 
+
+        # prepare input nodes - a combination of
         new_input_nodes = list(models[mi].inputs)
         stacked_inputs_contrib = list(models[mi].inputs)
 
-        if connecting_node_ids is None: 
+        if connecting_node_ids is None:
             conn_id = list(range(len(new_input_nodes)))
             assert len(new_input_nodes) == len(models[mi-1].outputs), \
                 'argument count does not match'
@@ -677,8 +717,9 @@ def stack_models(models, connecting_node_ids=None):
         for out_idx, ii in enumerate(conn_id):
             new_input_nodes[ii] = output_tensors[out_idx]
             stacked_inputs_contrib[ii] = None
-        
-        output_tensors = mod_submodel(models[mi], new_input_nodes=new_input_nodes)
+
+        output_tensors = mod_submodel(
+            models[mi], new_input_nodes=new_input_nodes)
         stacked_inputs = stacked_inputs + stacked_inputs_contrib
 
     stacked_inputs_ = [i for i in stacked_inputs if i is not None]
@@ -704,7 +745,7 @@ def mod_submodel(orig_model,
     given an original model:
         model stitching: given new input node(s), get output tensors of having pushed these 
         nodes through the model
-        
+
         model cutting: given input layer (pointers) inside the model, the new input nodes
         will match the new input layers, hence allowing cutting the model
 
@@ -712,7 +753,7 @@ def mod_submodel(orig_model,
         orig_model: original keras model pointer
         new_input_nodes: a pointer to a new input node replacement
         input_layers: the name of the layer in the original model to replace input nodes
-    
+
     Returns:
         pointer to modified model
     """
@@ -727,30 +768,33 @@ def mod_submodel(orig_model,
         out_layers = orig_model.output_layers
         out_node_idx = orig_model.output_layers_node_indices
 
-        node_list = [ol._inbound_nodes[out_node_idx[i]] for i, ol in enumerate(out_layers)]
-            
+        node_list = [ol._inbound_nodes[out_node_idx[i]]
+                     for i, ol in enumerate(out_layers)]
+
         dct = {}
         dct_node_idx = {}
         while len(node_list) > 0:
             node = node_list.pop(0)
-                
+
             add = True
             # if not empty. we need to check that we're not adding the same layers through the same node.
             if len(dct.setdefault(node.outbound_layer, [])) > 0:
                 for li, layers in enumerate(dct[node.outbound_layer]):
                     if layers == node.inbound_layers and \
-                        dct_node_idx[node.outbound_layer][li] == node.node_indices:
+                            dct_node_idx[node.outbound_layer][li] == node.node_indices:
                         add = False
                         break
             if add:
                 dct[node.outbound_layer].append(node.inbound_layers)
-                dct_node_idx.setdefault(node.outbound_layer, []).append(node.node_indices)
+                dct_node_idx.setdefault(
+                    node.outbound_layer, []).append(node.node_indices)
             # append is in place
 
             # add new node
             for li, layer in enumerate(node.inbound_layers):
                 if hasattr(layer, '_inbound_nodes'):
-                    node_list.append(layer._inbound_nodes[node.node_indices[li]])
+                    node_list.append(
+                        layer._inbound_nodes[node.node_indices[li]])
 
         return dct
 
@@ -773,8 +817,9 @@ def mod_submodel(orig_model,
                 for li, inp_layer in enumerate(group):
                     if inp_layer in new_layer_outputs:
                         input_nodes[li] = new_layer_outputs[inp_layer]
-                    else: # recursive call
-                        input_nodes[li] = _get_new_layer_output(inp_layer, new_layer_outputs, inp_layers)
+                    else:  # recursive call
+                        input_nodes[li] = _get_new_layer_output(
+                            inp_layer, new_layer_outputs, inp_layers)
 
                 # layer call
                 if len(input_nodes) == 1:
@@ -784,8 +829,6 @@ def mod_submodel(orig_model,
 
         return new_layer_outputs[layer]
 
-
-
     # for each layer create list of input layers
     inp_layers = _layer_dependency_dict(orig_model)
 
@@ -793,9 +836,10 @@ def mod_submodel(orig_model,
     #   These layers will be 'ignored' in that they will not be called!
     #   instead, the outbound nodes of the layers will be the input nodes
     #   computed below or passed in
-    if input_layers is None: # if none provided, search for them
+    if input_layers is None:  # if none provided, search for them
         InputLayerClass = keras.engine.topology.InputLayer
-        input_layers = [l for l in orig_model.layers if isinstance(l, InputLayerClass)]
+        input_layers = [
+            l for l in orig_model.layers if isinstance(l, InputLayerClass)]
 
     else:
         if not isinstance(input_layers, (tuple, list)):
@@ -829,11 +873,13 @@ def mod_submodel(orig_model,
                 if layer.get_output_at(i) in orig_model.outputs:
                     output_layers.append(layer)
                     break
-    assert len(output_layers) == len(orig_model.outputs), "Number of output layers don't match"
+    assert len(output_layers) == len(
+        orig_model.outputs), "Number of output layers don't match"
 
     outputs = [None] * len(output_layers)
     for li, output_layer in enumerate(output_layers):
-        outputs[li] = _get_new_layer_output(output_layer, new_layer_outputs, inp_layers)
+        outputs[li] = _get_new_layer_output(
+            output_layer, new_layer_outputs, inp_layers)
 
     return outputs
 
@@ -855,16 +901,16 @@ def reset_weights(model, session=None):
     if session is None:
         session = K.get_session()
 
-    for layer in model.layers: 
+    for layer in model.layers:
         reset = False
         if hasattr(layer, 'kernel_initializer'):
             layer.kernel.initializer.run(session=session)
             reset = True
-        
+
         if hasattr(layer, 'bias_initializer'):
             layer.bias.initializer.run(session=session)
             reset = True
-        
+
         if not reset:
             print('Could not find initializer for layer %s. skipping', layer.name)
 
@@ -897,7 +943,7 @@ def robust_multi_gpu_model(model, gpus, verbose=True):
             Note: if given int, assume that is the count of gpus, 
             so if you want a single specific gpu, this function will not do that.
         verbose: whether to display what happened (default: True)
-    
+
     Returns:
         keras model
     """
@@ -913,15 +959,13 @@ def robust_multi_gpu_model(model, gpus, verbose=True):
         return model
 
 
-
-
 def logtanh(x, a=1):
     """
     log * tanh
 
     See Also: arcsinh
     """
-    return K.tanh(x) *  K.log(2 + a * abs(x))
+    return K.tanh(x) * K.log(2 + a * abs(x))
 
 
 def arcsinh(x, alpha=1):
@@ -931,11 +975,6 @@ def arcsinh(x, alpha=1):
     See Also: logtanh
     """
     return tf.asinh(x * alpha) / alpha
-
-
-
-
-
 
 
 def predict_volumes(models,
@@ -996,9 +1035,12 @@ def predict_volumes(models,
 
         # quilt volumes and aggregate overlapping patches, if any
         args = [patch_size, grid_size, patch_stride]
-        label_kwargs = {'nan_func_layers':nan_func, 'nan_func_K':nan_func, 'verbose':verbose}
-        vol_true_label = _quilt(all_true_label, *args, **label_kwargs).astype('int')
-        vol_pred_label = _quilt(all_pred_label, *args, **label_kwargs).astype('int')
+        label_kwargs = {'nan_func_layers': nan_func,
+                        'nan_func_K': nan_func, 'verbose': verbose}
+        vol_true_label = _quilt(all_true_label, *args,
+                                **label_kwargs).astype('int')
+        vol_pred_label = _quilt(all_pred_label, *args,
+                                **label_kwargs).astype('int')
 
         ret_set = (vol_true_label, vol_pred_label)
 
@@ -1008,7 +1050,8 @@ def predict_volumes(models,
 
             if do_prior:
                 all_prior_label, = pred_to_label(all_prior)
-                vol_prior_label = _quilt(all_prior_label, *args, **label_kwargs).astype('int')
+                vol_prior_label = _quilt(
+                    all_prior_label, *args, **label_kwargs).astype('int')
                 ret_set += (vol_prior_label, )
 
         # compute the probability of prediction and prior
@@ -1067,7 +1110,7 @@ def predict_volume_stack(models,
     # in order to loop through batches and form full volumes
     nb_patches = np.prod(grid_size)
     # assert np.mod(nb_patches, batch_size) == 0, \
-        # "batch_size %d should be a divisor of nb_patches %d" %(batch_size, nb_patches)
+    # "batch_size %d should be a divisor of nb_patches %d" %(batch_size, nb_patches)
     nb_batches = ((nb_patches - 1) // batch_size) + 1
 
     # go through the patches
@@ -1081,16 +1124,20 @@ def predict_volume_stack(models,
         if batch_idx == 0:
             nb_labels = sample[1].shape[-1]
             all_vol = [np.zeros((nb_patches, nb_vox)) for f in models]
-            all_true = [np.zeros((nb_patches, nb_vox * nb_labels)) for f in models]
-            all_pred = [np.zeros((nb_patches, nb_vox * nb_labels)) for f in models]
-            all_prior = [np.zeros((nb_patches, nb_vox * nb_labels)) for f in models]
+            all_true = [np.zeros((nb_patches, nb_vox * nb_labels))
+                        for f in models]
+            all_pred = [np.zeros((nb_patches, nb_vox * nb_labels))
+                        for f in models]
+            all_prior = [np.zeros((nb_patches, nb_vox * nb_labels))
+                         for f in models]
 
         # get in_vol, y_true, y_pred
         for idx, model in enumerate(models):
             # with timer.Timer('prediction', verbose):
             pred = model.predict(sample[0])
             assert pred.shape[0] == batch_size, \
-                "batch size mismatch. sample has batch size %d, given batch size is %d" %(pred.shape[0], batch_size)
+                "batch size mismatch. sample has batch size %d, given batch size is %d" % (
+                    pred.shape[0], batch_size)
             input_batch = sample[0] if not do_prior else sample[0][0]
 
             # compute batch range
@@ -1100,24 +1147,32 @@ def predict_volume_stack(models,
             batch_vox_idx = batch_end-batch_start
 
             # update stacks
-            all_vol[idx][batch_range, :] = K.batch_flatten(input_batch)[0:batch_vox_idx, :]
-            all_true[idx][batch_range, :] = K.batch_flatten(sample[1])[0:batch_vox_idx, :]
-            all_pred[idx][batch_range, :] = K._batch_flatten(pred)[0:batch_vox_idx, :]
+            all_vol[idx][batch_range, :] = K.batch_flatten(input_batch)[
+                0:batch_vox_idx, :]
+            all_true[idx][batch_range, :] = K.batch_flatten(sample[1])[
+                0:batch_vox_idx, :]
+            all_pred[idx][batch_range, :] = K._batch_flatten(pred)[
+                0:batch_vox_idx, :]
             if do_prior:
-                all_prior[idx][batch_range, :] = K.batch_flatten(sample[0][1])[0:batch_vox_idx, :]
+                all_prior[idx][batch_range, :] = K.batch_flatten(sample[0][1])[
+                    0:batch_vox_idx, :]
 
     # reshape probabilistic answers
     for idx, _ in enumerate(models):
-        all_true[idx] = np.reshape(all_true[idx], [nb_patches, nb_vox, nb_labels])
-        all_pred[idx] = np.reshape(all_pred[idx], [nb_patches, nb_vox, nb_labels])
+        all_true[idx] = np.reshape(
+            all_true[idx], [nb_patches, nb_vox, nb_labels])
+        all_pred[idx] = np.reshape(
+            all_pred[idx], [nb_patches, nb_vox, nb_labels])
         if do_prior:
-            all_prior[idx] = np.reshape(all_prior[idx], [nb_patches, nb_vox, nb_labels])
+            all_prior[idx] = np.reshape(
+                all_prior[idx], [nb_patches, nb_vox, nb_labels])
 
     # prepare output tuple
     ret = ()
     for midx, _ in enumerate(models):
         if do_prior:
-            ret += ((all_true[midx], all_pred[midx], all_vol[midx], all_prior[midx]), )
+            ret += ((all_true[midx], all_pred[midx],
+                    all_vol[midx], all_prior[midx]), )
         else:
             ret += ((all_true[midx], all_pred[midx], all_vol[midx]), )
 
@@ -1140,7 +1195,9 @@ def prob_of_label(vol, labelvol):
 
     # check dimensions
     nb_dims = np.ndim(labelvol)
-    assert np.ndim(vol) == nb_dims + 1, "vol dimensions do not match [%d] vs [%d]" % (np.ndim(vol)-1, nb_dims)
+    assert np.ndim(vol) == nb_dims + \
+        1, "vol dimensions do not match [%d] vs [%d]" % (
+            np.ndim(vol)-1, nb_dims)
     shp = vol.shape
     nb_voxels = np.prod(shp[0:nb_dims])
     nb_labels = shp[-1]
@@ -1166,9 +1223,11 @@ def next_pred_label(model, data_generator, verbose=False):
     sample = next(data_generator)
     with timer.Timer('prediction', verbose):
         pred = model.predict(sample[0])
-    sample_input = sample[0] if not isinstance(sample[0], (list, tuple)) else sample[0][0]
+    sample_input = sample[0] if not isinstance(
+        sample[0], (list, tuple)) else sample[0][0]
     max_labels = pred_to_label(sample_input, pred)
     return (sample, pred) + max_labels
+
 
 def next_label(model, data_generator):
     """
@@ -1177,6 +1236,7 @@ def next_label(model, data_generator):
     """
     batch_proc = next_pred_label(model, data_generator)
     return (batch_proc[2], batch_proc[3])
+
 
 def sample_to_label(model, sample):
     """
@@ -1188,12 +1248,14 @@ def sample_to_label(model, sample):
     # return
     return pred_to_label(sample[1], res)
 
+
 def pred_to_label(*y):
     """
     return the true and predicted labels given true and predicted nD+1 volumes
     """
     # compute resulting volume(s)
     return tuple(np.argmax(f, -1).astype(int) for f in y)
+
 
 def next_vol_pred(model, data_generator, verbose=False):
     """
@@ -1213,9 +1275,6 @@ def next_vol_pred(model, data_generator, verbose=False):
     return data
 
 
-
-
-
 ###############################################################################
 # functions from some external source
 ###############################################################################
@@ -1223,7 +1282,7 @@ def next_vol_pred(model, data_generator, verbose=False):
 def batch_gather(reference, indices):
     """
     C+P From Keras pull request https://github.com/keras-team/keras/pull/6377/files
-    
+
     Batchwise gathering of row indices.
 
     The numpy equivalent is `reference[np.arange(batch_size), indices]`, where
@@ -1264,15 +1323,19 @@ def _concat(lists, dim):
 
     return np.concatenate(lists, dim)
 
+
 def _quilt(patches, patch_size, grid_size, patch_stride, verbose=False, **kwargs):
-    assert len(patches.shape) >= 2, "patches has bad shape %s" % pformat(patches.shape)
+    assert len(patches.shape) >= 2, "patches has bad shape %s" % pformat(
+        patches.shape)
 
     # reshape to be [nb_patches x nb_vox]
     patches = np.reshape(patches, (patches.shape[0], -1, 1))
 
     # quilt
-    quilted_vol = pl.quilt(patches, patch_size, grid_size, patch_stride=patch_stride, **kwargs)
-    assert quilted_vol.ndim == len(patch_size), "problem with dimensions after quilt"
+    quilted_vol = pl.quilt(patches, patch_size, grid_size,
+                           patch_stride=patch_stride, **kwargs)
+    assert quilted_vol.ndim == len(
+        patch_size), "problem with dimensions after quilt"
 
     # return
     return quilted_vol

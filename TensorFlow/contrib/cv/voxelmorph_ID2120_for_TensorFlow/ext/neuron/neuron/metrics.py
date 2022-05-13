@@ -1,3 +1,30 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 """
 tensorflow/keras utilities for the neuron project
 
@@ -20,6 +47,7 @@ import tensorflow as tf
 
 # local
 from . import utils
+
 
 class CategoricalCrossentropy(object):
     """
@@ -57,7 +85,8 @@ class CategoricalCrossentropy(object):
         self.crop_indices = crop_indices
 
         if self.crop_indices is not None and vox_weights is not None:
-            self.vox_weights = utils.batch_gather(self.vox_weights, self.crop_indices)
+            self.vox_weights = utils.batch_gather(
+                self.vox_weights, self.crop_indices)
 
     def loss(self, y_true, y_pred):
         """ categorical crossentropy loss """
@@ -177,7 +206,8 @@ class Dice(object):
 
         self.nb_labels = nb_labels
         self.weights = None if weights is None else K.variable(weights)
-        self.vox_weights = None if vox_weights is None else K.variable(vox_weights)
+        self.vox_weights = None if vox_weights is None else K.variable(
+            vox_weights)
         self.input_type = input_type
         self.dice_type = dice_type
         self.approx_hard_max = approx_hard_max
@@ -185,7 +215,8 @@ class Dice(object):
         self.crop_indices = crop_indices
 
         if self.crop_indices is not None and vox_weights is not None:
-            self.vox_weights = utils.batch_gather(self.vox_weights, self.crop_indices)
+            self.vox_weights = utils.batch_gather(
+                self.vox_weights, self.crop_indices)
 
     def dice(self, y_true, y_pred):
         """
@@ -217,8 +248,10 @@ class Dice(object):
                     y_pred_op = _hard_max(y_pred, axis=-1)
                     y_true_op = _hard_max(y_true, axis=-1)
                 else:
-                    y_pred_op = _label_to_one_hot(K.argmax(y_pred, axis=-1), self.nb_labels)
-                    y_true_op = _label_to_one_hot(K.argmax(y_true, axis=-1), self.nb_labels)
+                    y_pred_op = _label_to_one_hot(
+                        K.argmax(y_pred, axis=-1), self.nb_labels)
+                    y_true_op = _label_to_one_hot(
+                        K.argmax(y_true, axis=-1), self.nb_labels)
 
             # if given predicted label, transform to one hot notation
             else:
@@ -237,7 +270,8 @@ class Dice(object):
         # dice will now be [batch_size, nb_labels]
         sum_dim = 1
         top = 2 * K.sum(y_true_op * y_pred_op, sum_dim)
-        bottom = K.sum(K.square(y_true_op), sum_dim) + K.sum(K.square(y_pred_op), sum_dim)
+        bottom = K.sum(K.square(y_true_op), sum_dim) + \
+            K.sum(K.square(y_pred_op), sum_dim)
         # make sure we have no 0s on the bottom. K.epsilon()
         bottom = K.maximum(bottom, self.area_reg)
         return top / bottom
@@ -258,7 +292,6 @@ class Dice(object):
         mean_dice_metric = K.mean(dice_metric)
         tf.verify_tensor_all_finite(mean_dice_metric, 'metric not finite')
         return mean_dice_metric
-
 
     def loss(self, y_true, y_pred):
         """ the loss. Assumes y_pred is prob (in [0,1] and sum_row = 1) """
@@ -284,7 +317,6 @@ class MeanSquaredError():
     MSE with several weighting options
     """
 
-
     def __init__(self, weights=None, vox_weights=None, crop_indices=None):
         """
         Parameters:
@@ -302,8 +334,9 @@ class MeanSquaredError():
         self.crop_indices = crop_indices
 
         if self.crop_indices is not None and vox_weights is not None:
-            self.vox_weights = utils.batch_gather(self.vox_weights, self.crop_indices)
-        
+            self.vox_weights = utils.batch_gather(
+                self.vox_weights, self.crop_indices)
+
     def loss(self, y_true, y_pred):
 
         if self.crop_indices is not None:
@@ -369,7 +402,8 @@ class WGAN_GP(object):
 
         # take gradient of D(x_hat)
         gradients = K.gradients(self.disc(interp), [interp])[0]
-        grad_pen = K.mean(K.square(K.sqrt(K.sum(K.square(gradients), axis=1))-1))
+        grad_pen = K.mean(
+            K.square(K.sqrt(K.sum(K.square(gradients), axis=1))-1))
 
         # compute loss
         return (K.mean(disc_pred) - K.mean(disc_true)) + self.lambda_gp * grad_pen
@@ -392,7 +426,7 @@ class Nonbg(object):
 
     def loss(self, y_true, y_pred):
         """ prepare a loss of the given metric/loss operating on non-bg data """
-        yt = y_true #.eval()
+        yt = y_true  # .eval()
         ytbg = np.where(yt == 0)
         y_true_fix = K.variable(yt.flat(ytbg))
         y_pred_fix = K.variable(y_pred.flat(ytbg))

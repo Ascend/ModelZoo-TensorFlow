@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 import os
 import re
@@ -39,7 +67,8 @@ class NpuDumpDecodeFile(object):
                 shape, dtype, max_data, min_data, mean, info.file_name))
             for idx in range(1, len(self.input_files)):
                 info = self.input_files[idx]
-                shape, dtype, max_data, min_data, mean = util.npy_info(info.path)
+                shape, dtype, max_data, min_data, mean = util.npy_info(
+                    info.path)
                 txt.append('           [green][%d][/green][yellow][%s][%s][Max:%d][Min:%d][Mean:%d][/yellow] %s' % (
                     idx, shape, dtype, max_data, min_data, mean, info.file_name))
         if len(self.output_files) > 0:
@@ -49,7 +78,8 @@ class NpuDumpDecodeFile(object):
                 shape, dtype, max_data, min_data, mean, info.file_name))
             for idx in range(1, len(self.output_files)):
                 info = self.output_files[idx]
-                shape, dtype, max_data, min_data, mean = util.npy_info(info.path)
+                shape, dtype, max_data, min_data, mean = util.npy_info(
+                    info.path)
                 txt.append('           [green][%d][/green][yellow][%s][%s][Max:%d][Min:%d][Mean:%d][/yellow] %s' % (
                     idx, shape, dtype, max_data, min_data, mean, info.file_name))
         return Constant.NEW_LINE.join(txt)
@@ -98,16 +128,21 @@ class NpuDump(object):
             raise PrecisionToolException("Get None operator")
         # search npu dump file by op name
         npu_dump_files = self.get_npu_dump_decode_files_by_op(op)
-        npu_dump_files = sorted(npu_dump_files.values(), key=lambda x: (x.idx, x.timestamp))
+        npu_dump_files = sorted(npu_dump_files.values(),
+                                key=lambda x: (x.idx, x.timestamp))
         input_txt = ['NpuDumpInput:']
         output_txt = ['NpuDumpOutput:']
         for npu_dump_file in npu_dump_files:
             if npu_dump_file.type == 'input':
-                input_txt.append(' -[green][%s][/green] %s' % (npu_dump_file.idx, npu_dump_file.file_name))
-                input_txt.append('   └─ [yellow]%s[/yellow]' % util.gen_npy_info_txt(npu_dump_file.path))
+                input_txt.append(' -[green][%s][/green] %s' %
+                                 (npu_dump_file.idx, npu_dump_file.file_name))
+                input_txt.append('   └─ [yellow]%s[/yellow]' %
+                                 util.gen_npy_info_txt(npu_dump_file.path))
             else:
-                output_txt.append(' -[green][%s][/green] %s' % (npu_dump_file.idx, npu_dump_file.file_name))
-                output_txt.append('   └─ [yellow]%s[/yellow]' % util.gen_npy_info_txt(npu_dump_file.path))
+                output_txt.append(' -[green][%s][/green] %s' %
+                                  (npu_dump_file.idx, npu_dump_file.file_name))
+                output_txt.append('   └─ [yellow]%s[/yellow]' %
+                                  util.gen_npy_info_txt(npu_dump_file.path))
         input_txt.extend(output_txt)
         return Constant.NEW_LINE.join(input_txt)
 
@@ -119,7 +154,8 @@ class NpuDump(object):
     def _parse_dump_files(self):
         """prepare npu dump, support soft link"""
         sub_dir = util.get_newest_dir(self.dump_root)
-        sub_dir = os.path.join(self.dump_root, sub_dir) if sub_dir != '' else self.dump_root
+        sub_dir = os.path.join(
+            self.dump_root, sub_dir) if sub_dir != '' else self.dump_root
         self.dump_files = util.list_npu_dump_files(sub_dir)
 
     def list_dump(self, dir_path, file_name):
@@ -135,10 +171,12 @@ class NpuDump(object):
         dump_files = self.get_dump_files_by_op(op)
         result = {}
         for dump_file in dump_files.values():
-            dump_decode_files = util.list_npu_dump_decode_files(self.decode_dir, dump_file.file_name)
+            dump_decode_files = util.list_npu_dump_decode_files(
+                self.decode_dir, dump_file.file_name)
             if len(dump_decode_files) == 0:
                 util.convert_dump_to_npy(dump_file.path, self.decode_dir)
-            dump_decode_files = util.list_npu_dump_decode_files(self.decode_dir, dump_file.file_name)
+            dump_decode_files = util.list_npu_dump_decode_files(
+                self.decode_dir, dump_file.file_name)
             result.update(dump_decode_files)
         return result
 
@@ -155,7 +193,8 @@ class NpuDump(object):
             file_name = ''
             file_path = name
         elif self.dump_files is not None and name in self.dump_files:
-            self.log.info("Decode npu dump file: %s in default dump path", name)
+            self.log.info(
+                "Decode npu dump file: %s in default dump path", name)
             file_info = self.dump_files[name]
             file_name = file_info.file_name
             file_path = file_info.path
@@ -163,12 +202,14 @@ class NpuDump(object):
             # maybe op name
             file_info = self._get_file_by_op_name(name)
             if file_info is None:
-                raise PrecisionToolException("Can not find any op/dump file named %s" % name)
+                raise PrecisionToolException(
+                    "Can not find any op/dump file named %s" % name)
             file_name = file_info.file_name
             file_path = file_info.path
         dst_path = cfg.DUMP_CONVERT_DIR if dst_path is None else dst_path
         util.convert_dump_to_npy(file_path, dst_path, data_format)
-        dump_convert_files = util.list_npu_dump_convert_files(dst_path, file_name)
+        dump_convert_files = util.list_npu_dump_convert_files(
+            dst_path, file_name)
         # print result info
 
         summary_txt = ['SrcFile: %s' % name]

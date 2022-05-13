@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 import json
 import re
@@ -35,6 +63,7 @@ class Op(object):
         inputs: list of input descs
         outputs: list of output descs
     """
+
     def __init__(self, op_json, op_list, graph_name):
         """Init"""
         self.op_json = op_json
@@ -98,7 +127,8 @@ class Op(object):
                     elif JSON_KEY_INT in attr[JSON_VALUE]:
                         return attr[JSON_VALUE][JSON_KEY_INT]
                     else:
-                        self.log.warning("Unknown attr format: %s", attr[JSON_VALUE])
+                        self.log.warning(
+                            "Unknown attr format: %s", attr[JSON_VALUE])
         return ''
 
     def compare(self, right_op):
@@ -167,7 +197,8 @@ class Op(object):
         self.input_list = []
         if 'input' not in self.op_json:
             if self.type() not in NO_INPUT_NODES:
-                self.log.warning('Parse Op[%s][%s] inputs error.' % (self.type(), self.name()))
+                self.log.warning('Parse Op[%s][%s] inputs error.' % (
+                    self.type(), self.name()))
             return self.input_list
         desc_index = 0
         for i in range(len(self.op_json['input'])):
@@ -181,7 +212,8 @@ class Op(object):
                 # control edge
                 self.input_list.append(InputDesc(name, [], i))
             else:
-                self.input_list.append(InputDesc(name, self.op_json['input_desc'][desc_index], i))
+                self.input_list.append(
+                    InputDesc(name, self.op_json['input_desc'][desc_index], i))
                 desc_index += 1
         self.input_list.sort(key=lambda x: x.index)
         return self.input_list
@@ -191,7 +223,8 @@ class Op(object):
         self.output_list = []
         if 'dst_index' not in self.op_json:
             if self.type() not in NO_OUTPUT_NODES:
-                self.log.warning('Parse Op[%s][%s] outputs error.' % (self.type(), self.name()))
+                self.log.warning('Parse Op[%s][%s] outputs error.' % (
+                    self.type(), self.name()))
             return self.output_list
         desc_index = 0
         for i in range(len(self.op_json['dst_index'])):
@@ -200,7 +233,8 @@ class Op(object):
                 # control edge
                 self.output_list.append(OutputDesc(dst_name, [], -1))
             else:
-                self.output_list.append(OutputDesc(dst_name, self.op_json['output_desc'][desc_index], desc_index))
+                self.output_list.append(OutputDesc(
+                    dst_name, self.op_json['output_desc'][desc_index], desc_index))
                 desc_index += 1
         self.output_list.sort(key=lambda x: x.index)
         return self.output_list

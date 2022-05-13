@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 """
 Graph Manager
@@ -19,7 +47,7 @@ DANGEROUS_CAST = {
 }
 
 NO_DIG_OPS = ['AtomicAddrClean', 'NetOutput']
-CKPT_META_SHUFFIX='.meta'
+CKPT_META_SHUFFIX = '.meta'
 
 OP_CAST = 'Cast'
 
@@ -36,7 +64,8 @@ class NpuSubGraph(object):
         self.graph_id = self._get_graph_id()
 
     def _prepare(self):
-        self.log.debug("Graph %s operator count: %d" % (self.graph_name, len(self.graph['op'])))
+        self.log.debug("Graph %s operator count: %d" %
+                       (self.graph_name, len(self.graph['op'])))
         for op_json in self.graph['op']:
             op_name = op_json['name']
             op_type = op_json['type']
@@ -59,7 +88,8 @@ class NpuSubGraph(object):
     def compare(self, sub_graph):
         """compare with another sub graph"""
         if not isinstance(sub_graph, NpuSubGraph):
-            raise PrecisionToolException("Should compare with another subgraph.")
+            raise PrecisionToolException(
+                "Should compare with another subgraph.")
         right_ops_list = sub_graph.ops_list
         ignore_ops = ["TransData", "Cast", "Recv", "Send", "Variable", "NetOutput", "NoOp", "Assign", "Constant",
                       "StreamActive"]
@@ -68,9 +98,11 @@ class NpuSubGraph(object):
             if self.ops_list[op_name].type() in ignore_ops:
                 continue
             if op_name not in right_ops_list:
-                self.log.warning("Can not Find [%s] %s in right subgraph.", self.ops_list[op_name].type(), op_name)
+                self.log.warning(
+                    "Can not Find [%s] %s in right subgraph.", self.ops_list[op_name].type(), op_name)
                 continue
-            result, similar = self.ops_list[op_name].compare(right_ops_list[op_name])
+            result, similar = self.ops_list[op_name].compare(
+                right_ops_list[op_name])
             if not similar:
                 util.print_panel(result, title=op_name)
             else:
@@ -79,7 +111,8 @@ class NpuSubGraph(object):
             if right_ops_list[op_name].type() in ignore_ops:
                 continue
             if op_name not in self.ops_list:
-                self.log.warning("Can not Find [%s] %s in left subgraph.", right_ops_list[op_name].type(), op_name)
+                self.log.warning(
+                    "Can not Find [%s] %s in left subgraph.", right_ops_list[op_name].type(), op_name)
         self.log.info("Compare [%s] [%s], similarity is [%s / %s]",
                       self.graph_name, sub_graph.graph_name, similar_count, len(self.ops_list))
 
@@ -110,7 +143,8 @@ class NpuSubGraph(object):
                 cast_list[cast_type].append(op.name())
         for cast_type in cast_list:
             if self._is_dangerous_cast(cast_type):
-                summary_txt = "[green][Cast][/green][red][%s][/red] %s" % (cast_type, cast_list[cast_type])
+                summary_txt = "[green][Cast][/green][red][%s][/red] %s" % (
+                    cast_type, cast_list[cast_type])
                 util.print(summary_txt)
 
     @staticmethod
@@ -169,21 +203,24 @@ class NpuGraph(object):
     def save_sub_graph(self, op, deep=0, dump_manager=None, compare_manager=None):
         """Save sub graph"""
         if op is None:
-            raise PrecisionToolException("Save sub graph failed as root operator is None.")
+            raise PrecisionToolException(
+                "Save sub graph failed as root operator is None.")
         try:
             from graphviz import Digraph
             file_name_list = [self.debug_id, op.graph_name, op.type(), op.name().replace('/', '_').replace('.', '_'),
                               str(deep), 'gv']
             file_name = '.'.join(file_name_list)
             path = os.path.join(cfg.OP_GRAPH_DIR, file_name)
-            dot = Digraph(file_name, filename=path, node_attr={'shape': 'Mrecord'}, format='svg')
+            dot = Digraph(file_name, filename=path, node_attr={
+                          'shape': 'Mrecord'}, format='svg')
             dot_list = []
             edge_list = []
             self._gen_sub_graph(dot, op, deep, dot_list, edge_list, 'red', direction='all',
                                 dump_manager=dump_manager, compare_manager=compare_manager)
             dot.format = 'svg'
             dot.save(path)
-            self.log.info("Sub graph saved to %s" % os.path.abspath(cfg.OP_GRAPH_DIR))
+            self.log.info("Sub graph saved to %s" %
+                          os.path.abspath(cfg.OP_GRAPH_DIR))
             try:
                 dot.view(path)
                 time.sleep(1)
@@ -191,7 +228,8 @@ class NpuGraph(object):
                 raise PrecisionToolException(
                     "graphviz not install, use [yum/apt-get] install graphviz xdg-utils. %s" % err)
         except ImportError as err:
-            raise PrecisionToolException("Save sub graph failed as import graphviz module failed. %s" % err)
+            raise PrecisionToolException(
+                "Save sub graph failed as import graphviz module failed. %s" % err)
 
     def _gen_sub_graph(self, dot, op, deep, dot_list, edge_list, color='black', direction='all',
                        dump_manager=None, compare_manager=None):
@@ -199,7 +237,8 @@ class NpuGraph(object):
         if deep == 0 or op.type() in NO_DIG_OPS:
             return
         if op.name() not in dot_list:
-            dot.node(op.name(), self._gen_sub_graph_label(op), color=color, tooltip=op.summary(True))
+            dot.node(op.name(), self._gen_sub_graph_label(
+                op), color=color, tooltip=op.summary(True))
             dot_list.append(op.name())
         # add input and output
         for desc in op.inputs():
@@ -207,11 +246,13 @@ class NpuGraph(object):
             if len(sub_op) != 0:
                 sub_op = sub_op[0]
                 if direction in ['all', 'input']:
-                    self._gen_sub_graph(dot, sub_op, deep - 1, dot_list, edge_list, direction='input')
+                    self._gen_sub_graph(
+                        dot, sub_op, deep - 1, dot_list, edge_list, direction='input')
                 if sub_op.name() in dot_list:
                     src_edge = '%s:o%d' % (sub_op.name(), desc.peer_idx())
                 else:
-                    dot.node(sub_op.name(), self._gen_sub_graph_label(sub_op), color=color, tooltip=op.summary(True))
+                    dot.node(sub_op.name(), self._gen_sub_graph_label(
+                        sub_op), color=color, tooltip=op.summary(True))
                     src_edge = '%s:o%d' % (sub_op.name(), desc.peer_idx())
                 dst_edge = '%s:i%d' % (op.name(), desc.idx())
                 if src_edge + dst_edge not in edge_list:
@@ -223,7 +264,8 @@ class NpuGraph(object):
                 sub_op = self.get_op(out_node_name, op.graph_name)
                 if len(sub_op) != 0 and direction in ['all', 'output']:
                     sub_op = sub_op[0]
-                    self._gen_sub_graph(dot, sub_op, deep - 1, dot_list, edge_list, direction='output')
+                    self._gen_sub_graph(
+                        dot, sub_op, deep - 1, dot_list, edge_list, direction='output')
 
     def _gen_sub_graph_label(self, op):
         input_labels = []
@@ -239,14 +281,16 @@ class NpuGraph(object):
     @staticmethod
     def _gen_sub_graph_desc(desc, id_prefix):
         desc_str = r'<%s%d> [%d]' % (id_prefix, desc.idx(), desc.idx())
-        desc_str = r'%s [%s]' % (desc_str, desc.dtype()) if desc.dtype() != '' else desc_str
-        desc_str = r'%s\n%s' % (desc_str, desc.shape()) if len(desc.shape()) != 0 else desc_str
+        desc_str = r'%s [%s]' % (
+            desc_str, desc.dtype()) if desc.dtype() != '' else desc_str
+        desc_str = r'%s\n%s' % (desc_str, desc.shape()) if len(
+            desc.shape()) != 0 else desc_str
         return desc_str
 
     def list_ops(self, op_type='', op_name='', pass_name='', kernel_name=''):
         """list ops in graph"""
         return filter(lambda op: op_type in op.type() and op_name in op.name() and pass_name in op.pass_name()
-                                 and kernel_name in op.kernel_name(), self.ops_list)
+                      and kernel_name in op.kernel_name(), self.ops_list)
 
     def get_op(self, name, graph_name=None):
         """get op by name"""
@@ -261,9 +305,12 @@ class NpuGraph(object):
         if len(match_ops) != 0:
             return match_ops
         # return guess operations by name
-        self.log.info("Can not find Operator named %s. You may mean the operator bellow.", name)
-        guess_op_name_list = ['[green][%s][/green] %s' % (x.type(), x.name()) for x in ops]
-        util.print_panel(Constant.NEW_LINE.join(guess_op_name_list), title='Possible Operators')
+        self.log.info(
+            "Can not find Operator named %s. You may mean the operator bellow.", name)
+        guess_op_name_list = ['[green][%s][/green] %s' %
+                              (x.type(), x.name()) for x in ops]
+        util.print_panel(Constant.NEW_LINE.join(
+            guess_op_name_list), title='Possible Operators')
         return ops
 
     def _prepare_npu_graphs(self):
@@ -273,22 +320,26 @@ class NpuGraph(object):
         self.build_files = sorted(filter(lambda x: x.graph_name == cfg.BUILD_JSON_GRAPH_NAME, graph_files.values()),
                                   key=lambda x: x.graph_id)
         if len(self.build_files) == 0:
-            self.log.warning("Can not find any build files in dir: %s", self.graph_root)
+            self.log.warning(
+                "Can not find any build files in dir: %s", self.graph_root)
         self.log.info("Find [%d] GE build files.", len(self.build_files))
 
     @catch_tool_exception
     def _parse_ops(self, build_file):
         """Parse *_Build.txt.json to op objects."""
         build_file_json = build_file.path + '.json'
-        build_file_json = util.convert_proto_to_json(build_file.path, build_file_json)
+        build_file_json = util.convert_proto_to_json(
+            build_file.path, build_file_json)
         if build_file_json is not None:
             self.build_json_files.append(build_file_json)
         with open(build_file_json, 'r') as f:
             graph_json = json.load(f)
             if 'graph' not in graph_json:
-                raise PrecisionToolException("No graph in file: %s" % build_file.file_name)
+                raise PrecisionToolException(
+                    "No graph in file: %s" % build_file.file_name)
             if len(graph_json['graph']) != 1:
-                self.log.warning("There are more then one graph in ge build file, find %d" % len(graph_json['graph']))
+                self.log.warning("There are more then one graph in ge build file, find %d" % len(
+                    graph_json['graph']))
             # sub_graphs = []
             for graph in graph_json['graph']:
                 npu_sub_graph = NpuSubGraph(graph, build_file)

@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 import json
 import os
@@ -45,18 +73,23 @@ class Overflow(object):
         # find right path in DUMP_FILES_NPU_ALL
         util.create_dir(cfg.NPU_OVERFLOW_DUMP_DIR)
         sub_dir = util.get_newest_dir(cfg.NPU_OVERFLOW_DUMP_DIR)
-        overflow_dump_files = util.list_npu_dump_files(os.path.join(cfg.NPU_OVERFLOW_DUMP_DIR, sub_dir))
-        self.debug_files = [item for item in overflow_dump_files.values() if item.op_type == 'Opdebug']
+        overflow_dump_files = util.list_npu_dump_files(
+            os.path.join(cfg.NPU_OVERFLOW_DUMP_DIR, sub_dir))
+        self.debug_files = [
+            item for item in overflow_dump_files.values() if item.op_type == 'Opdebug']
         # sort by timestamp
         self.debug_files = sorted(self.debug_files, key=lambda x: x.timestamp)
-        self.log.info("Find [%d] debug files in overflow dir.", len(self.debug_files))
+        self.log.info(
+            "Find [%d] debug files in overflow dir.", len(self.debug_files))
 
     def check(self, max_num=3):
         """Check overflow info"""
         if len(self.debug_files) == 0:
-            self.log.info("[Overflow] Checked success. find [0] overflow node!")
+            self.log.info(
+                "[Overflow] Checked success. find [0] overflow node!")
             return
-        self.log.info("[Overflow] Find [%s] overflow debug file. Will show top %s ops.", len(self.debug_files), max_num)
+        self.log.info("[Overflow] Find [%s] overflow debug file. Will show top %s ops.", len(
+            self.debug_files), max_num)
         for i, debug_file in enumerate(self.debug_files):
             debug_decode_files = self._decode_file(debug_file, True)
             with open(debug_decode_files[0].path, 'r') as f:
@@ -80,8 +113,10 @@ class Overflow(object):
             detail = json_txt['L2 Atomic Add']
             res.append(' - [L2 Atomic Add][Status:%s][TaskId:%s] %s' % (
                 detail['status'], detail['task_id'], self._decode_l2_atomic_add_status(detail['status'])))
-        dump_file_info = self._find_dump_files_by_task_id(detail['task_id'], debug_file.dir_path)
-        res.append(' - First overflow file timestamp [%s] -' % debug_file.timestamp)
+        dump_file_info = self._find_dump_files_by_task_id(
+            detail['task_id'], debug_file.dir_path)
+        res.append(
+            ' - First overflow file timestamp [%s] -' % debug_file.timestamp)
         if dump_file_info is None:
             self.log.warning("Can not find any dump file for debug file: %s, op task id: %s", debug_file.file_name,
                              detail['task_id'])
@@ -94,7 +129,8 @@ class Overflow(object):
                     if dump_decode_file.type != anchor_type:
                         continue
                     res.append(' ├─ %s' % dump_decode_file.file_name)
-                    res.append('  └─ [yellow]%s[/yellow]' % util.gen_npy_info_txt(dump_decode_file.path))
+                    res.append('  └─ [yellow]%s[/yellow]' %
+                               util.gen_npy_info_txt(dump_decode_file.path))
             res.insert(0, '[green][%s][%s][/green] %s' % (dump_file_info.op_type, dump_file_info.task_id,
                                                           dump_file_info.op_name))
         return Constant.NEW_LINE.join(res)
@@ -103,25 +139,31 @@ class Overflow(object):
     def _decode_file(file_info, debug=False):
         file_name = file_info.file_name
         if debug:
-            decode_files = util.list_debug_decode_files(cfg.OVERFLOW_DECODE_DIR, file_name)
+            decode_files = util.list_debug_decode_files(
+                cfg.OVERFLOW_DECODE_DIR, file_name)
         else:
-            decode_files = util.list_npu_dump_decode_files(cfg.OVERFLOW_DECODE_DIR, file_name)
+            decode_files = util.list_npu_dump_decode_files(
+                cfg.OVERFLOW_DECODE_DIR, file_name)
         if len(decode_files) == 0:
             # decode info file
             util.convert_dump_to_npy(file_info.path, cfg.OVERFLOW_DECODE_DIR)
             if debug:
-                decode_files = util.list_debug_decode_files(cfg.OVERFLOW_DECODE_DIR, file_name)
+                decode_files = util.list_debug_decode_files(
+                    cfg.OVERFLOW_DECODE_DIR, file_name)
             else:
-                decode_files = util.list_npu_dump_decode_files(cfg.OVERFLOW_DECODE_DIR, file_name)
+                decode_files = util.list_npu_dump_decode_files(
+                    cfg.OVERFLOW_DECODE_DIR, file_name)
         if len(decode_files) == 0:
-            raise PrecisionToolException("Decode overflow debug file: %s failed." % file_name)
+            raise PrecisionToolException(
+                "Decode overflow debug file: %s failed." % file_name)
         decode_files = sorted(decode_files.values(), key=lambda x: x.timestamp)
         return decode_files
 
     @staticmethod
     def _find_dump_files_by_task_id(task_id, search_dir):
         dump_files = util.list_npu_dump_files(search_dir)
-        dump_file_list = [item for item in dump_files.values() if item.op_type != 'Opdebug']
+        dump_file_list = [
+            item for item in dump_files.values() if item.op_type != 'Opdebug']
         dump_file_list = sorted(dump_file_list, key=lambda x: x.timestamp)
         for dump_file in dump_file_list:
             if dump_file.task_id == int(task_id):
@@ -137,7 +179,8 @@ class Overflow(object):
         self.log.debug('Decode AI Core Overflow status:[%s]', hex(status))
         for i in range(len(bin_status)):
             if bin_status[i] == '1':
-                error_code.append(AI_CORE_OVERFLOW_STATUS[hex(int('1' + prefix, 2))])
+                error_code.append(
+                    AI_CORE_OVERFLOW_STATUS[hex(int('1' + prefix, 2))])
             prefix += '0'
         return error_code
 
@@ -176,5 +219,3 @@ class Overflow(object):
         bin_start = max(0, bin_start)
         bin_code = bin_code[bin_start: bin_end]
         return bin_code, hex(int(bin_code, 2))
-
-

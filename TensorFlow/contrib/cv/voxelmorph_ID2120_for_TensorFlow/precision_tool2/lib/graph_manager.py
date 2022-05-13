@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 """
 Graph Manager
@@ -51,7 +79,8 @@ class GraphManager(object):
     def _check_npu_graph_similarity(self):
         """Check npu graph similarity"""
         if len(self.npu_graphs) < 2:
-            self.log.debug("Only one npu debug, no need to check npu graph similarity.")
+            self.log.debug(
+                "Only one npu debug, no need to check npu graph similarity.")
             return
         left_graphs = self.npu_graphs[Constant.DEFAULT_DEBUG_ID].sub_graphs
         right_graphs = self.npu_graphs[Constant.NPU_DEBUG_ID_1].sub_graphs
@@ -63,7 +92,8 @@ class GraphManager(object):
 
     def get_graphs(self, debug_id):
         if debug_id not in self.npu_graphs:
-            raise PrecisionToolException("Get graphs failed with no debug_id:%s" % debug_id)
+            raise PrecisionToolException(
+                "Get graphs failed with no debug_id:%s" % debug_id)
         return self.npu_graphs[debug_id].build_json_files
 
     def get_ops(self, op_name, graph_name=None):
@@ -104,7 +134,8 @@ class GraphManager(object):
         for debug_id, op in ops.items():
             npu_summary[debug_id] = collections.OrderedDict()
             for op_detail in op:
-                npu_summary[debug_id][op_detail.graph_name] = op_detail.summary(attr_detail=attr_detail)
+                npu_summary[debug_id][op_detail.graph_name] = op_detail.summary(
+                    attr_detail=attr_detail)
         return npu_summary, None
 
     def save_sub_graph(self, ops, deep):

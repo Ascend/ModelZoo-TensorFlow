@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # coding=utf-8
 import os
 import re
@@ -26,7 +54,8 @@ class TfDump(object):
         tf_files = {}
         for output in op.outputs():
             if output.data_dump_origin_name() != '':
-                tf_files.update(self.get_dump_files_by_name(output.data_dump_origin_name()))
+                tf_files.update(self.get_dump_files_by_name(
+                    output.data_dump_origin_name()))
         if len(tf_files) == 0:
             tf_files.update(self.get_dump_files_by_name(op.name()))
         return tf_files
@@ -48,10 +77,13 @@ class TfDump(object):
             return ''
         cpu_dump_txt = ['TfDumpOutput:']
         cpu_dump_files = self.get_dump_files_by_op(op)
-        cpu_dump_file_list = sorted(cpu_dump_files.values(), key=lambda x: x.timestamp)
+        cpu_dump_file_list = sorted(
+            cpu_dump_files.values(), key=lambda x: x.timestamp)
         for cpu_dump_file in cpu_dump_file_list:
-            cpu_dump_txt.append(' -[green][%s][/green] %s' % (cpu_dump_file.idx, cpu_dump_file.file_name))
-            cpu_dump_txt.append('   └─ [yellow]%s[/yellow]' % util.gen_npy_info_txt(cpu_dump_file.path))
+            cpu_dump_txt.append(' -[green][%s][/green] %s' %
+                                (cpu_dump_file.idx, cpu_dump_file.file_name))
+            cpu_dump_txt.append('   └─ [yellow]%s[/yellow]' %
+                                util.gen_npy_info_txt(cpu_dump_file.path))
         return Constant.NEW_LINE.join(cpu_dump_txt)
 
     def _parse_dump_files(self):
@@ -60,13 +92,15 @@ class TfDump(object):
     def run_tf_dbg_dump(self, cmd_line):
         """Run tf train script to get dump data."""
         if os.path.exists(cfg.TF_DEBUG_DUMP_DIR) and len(os.listdir(cfg.TF_DEBUG_DUMP_DIR)) != 0:
-            self.log.info("TF offline debug path [%s] is not empty, will analyze it directly." % cfg.TF_DEBUG_DUMP_DIR)
+            self.log.info(
+                "TF offline debug path [%s] is not empty, will analyze it directly." % cfg.TF_DEBUG_DUMP_DIR)
         elif cmd_line is not None:
             self.log.info("Run command: %s" % cmd_line)
             util.execute_command(cmd_line)
             self.log.info("Run finish, start analyze TF dump.")
         if not os.path.exists(cfg.TF_DEBUG_DUMP_DIR) or len(os.listdir(cfg.TF_DEBUG_DUMP_DIR)) == 0:
-            raise PrecisionToolException("Empty tf debug dir. %s" % cfg.TF_DEBUG_DUMP_DIR)
+            raise PrecisionToolException(
+                "Empty tf debug dir. %s" % cfg.TF_DEBUG_DUMP_DIR)
         run_dirs = os.listdir(cfg.TF_DEBUG_DUMP_DIR)
         run_dirs.sort()
         # create dirs
@@ -130,7 +164,8 @@ class TfDump(object):
         if not os.path.exists(cfg.TF_TENSOR_NAMES):
             self.log.error("Failed to get tensor name in tf_debug.")
             raise PrecisionToolException("Get tensor name in tf_debug failed.")
-        self.log.info("Save tensor name success. Generate tf dump commands from file: %s", cfg.TF_TENSOR_NAMES)
+        self.log.info(
+            "Save tensor name success. Generate tf dump commands from file: %s", cfg.TF_TENSOR_NAMES)
         pt_commands = self._make_pt_commands(cfg.TF_TENSOR_NAMES)
         self.log.info("Pt %d tensors." % len(pt_commands))
         for cmd in pt_commands:

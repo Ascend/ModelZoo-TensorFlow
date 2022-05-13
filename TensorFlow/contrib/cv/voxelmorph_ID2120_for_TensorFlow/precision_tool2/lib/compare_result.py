@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import collections
 import os
 import numpy as np
@@ -20,6 +48,7 @@ class RowMap(object):
     'KLD': 8,   # KullbackLeiblerDivergence
     'StandardDeviation': 9     # StandardDeviation
     """
+
     def __init__(self, item=None):
         self.index = 0
         self.left = 1
@@ -83,14 +112,17 @@ class CompareItem(object):
             return "[yellow]%s[/yellow]" % data
 
     def summary(self, threshold):
-        content = ["Left:  %s" % self.left, "Right: %s" % self.right, "Input: "]
+        content = ["Left:  %s" % self.left, "Right: %s" %
+                   self.right, "Input: "]
         input_txt = []
         for i, item in enumerate(self.input):
-            input_txt.append(" - [%d]%s" % (i, self._color_data(item[self.row_map.cosine_similarity], threshold)))
+            input_txt.append(
+                " - [%d]%s" % (i, self._color_data(item[self.row_map.cosine_similarity], threshold)))
         content.extend([Constant.TAB_LINE.join(input_txt), "Output:"])
         output_txt = []
         for i, item in enumerate(self.output):
-            output_txt.append(" - [%d]%s" % (i, self._color_data(item[self.row_map.cosine_similarity], threshold)))
+            output_txt.append(
+                " - [%d]%s" % (i, self._color_data(item[self.row_map.cosine_similarity], threshold)))
         content.append(Constant.TAB_LINE.join(output_txt))
         title = "[%d] %s" % (self.index, self.op_name)
         util.print_panel(Constant.NEW_LINE.join(content), title=title)
@@ -105,9 +137,11 @@ class CompareResult(object):
     @catch_tool_exception
     def prepare(self):
         if not str(self.file_path).endswith(Constant.Suffix.CSV):
-            raise PrecisionToolException("Compare result file %s not a csv file." % self.file_path)
+            raise PrecisionToolException(
+                "Compare result file %s not a csv file." % self.file_path)
         if not os.path.isfile(self.file_path):
-            raise PrecisionToolException("Compare result file %s not exist." % self.file_path)
+            raise PrecisionToolException(
+                "Compare result file %s not exist." % self.file_path)
         items = util.read_csv(self.file_path)
         self.ops = collections.OrderedDict()
         row_map = RowMap()
@@ -128,7 +162,8 @@ class CompareResult(object):
         if self.ops is None:
             self.prepare()
         if self.ops is None:
-            raise PrecisionToolException("Invalid compare result file: %s" % self.file_path)
+            raise PrecisionToolException(
+                "Invalid compare result file: %s" % self.file_path)
         if op_name in self.ops:
             return self.ops[op_name]
         return None

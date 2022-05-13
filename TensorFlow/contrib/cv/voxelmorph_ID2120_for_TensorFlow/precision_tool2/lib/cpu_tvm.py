@@ -1,3 +1,31 @@
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import numpy as np
 from tbe import tvm
 
@@ -40,12 +68,12 @@ class CpuTvm():
         schedule = self._load_schedule()
         fusion_op = self._build_tvm(schedule)
 
-        #load data and run cpu tvm
+        # load data and run cpu tvm
         data_tvm_in = self._load_data(self.dump_input_files)
         data_tvm_out = self._load_data(self.dump_output_files)
         data_tvm_in.extend(data_tvm_out)
         fusion_op(*data_tvm_in)
 
-        #tvm format to numpy format
+        # tvm format to numpy format
         data_np_out = [data.asnumpy() for data in data_tvm_out]
         return data_np_out
