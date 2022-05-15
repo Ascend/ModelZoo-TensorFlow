@@ -1,0 +1,6 @@
+Network = vit-ckpt
+RankSize = 1
+BatchSize = 2
+DeviceType = aarch64
+CaseName = vit-ckpt_bs2_1p_acc
+E2ETrainingTime = 584
