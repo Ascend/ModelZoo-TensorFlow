@@ -97,7 +97,7 @@
   - Batch size: 4
   - Learning rate(LR): 0.001
   - Optimizer: Adam
-  - Train epoch: 20
+  - Train epoch: 1
 
 ## 支持特性
 
@@ -139,7 +139,8 @@
 
 
 ## 注意事项 
-本项目是在104机器裸机上完成的，线上的总是报算子错。  
+1. 本项目是在104机器裸机上完成的，线上modelart的总是报算子错。  
+2. vision transformer 需要加载预训练才能达到好的效果，这是是加载了gpu训练的模型。 
 
 <h2 id="快速上手.md">快速上手</h2>
 
