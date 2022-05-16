@@ -90,6 +90,7 @@ FaceBoxes是一个实时人脸检测网络。其主要特点为速度快，可�
 ```
 - 此处提供准备好的位于OBS的数据集供验证
 
+数据集OBS链接
 ```
 obs://faceboxes/data/WIDER/
 ```
@@ -148,6 +149,13 @@ obs://faceboxes/data/WIDER/
     ├── model/run00　　　　　　　　　　　　　　　　　　　　　　　　　        //模型
 ```
 
+
+执行任务OBS链接
+```
+obs://faceboxes/workspace/MA-new-code-04-25-20-39/code/
+```
+
+
 ## 模型训练
 
 - 启动训练之前，首先要配置程序运行相关环境变量。
@@ -177,7 +185,7 @@ python3.7 ${code_dir}/evaluate.py --data_path=${dataset_path} --output_path=${ou
 
 
 
-## 训练结果
+## 执行结果打屏信息
 
 1.FaceBoxes在GPU(TeslaV100)训练的部分日志如下：
 ```
@@ -205,6 +213,7 @@ python3.7 ${code_dir}/evaluate.py --data_path=${dataset_path} --output_path=${ou
 
 
 2.FaceBoxes在昇腾910训练的部分训练日志如下：
+【Ascend NPU INFO NOTICE】
 ```
 
 INFO:tensorflow:global_step/sec: 1.13204
@@ -229,6 +238,7 @@ INFO:tensorflow:loss = 2.186323, step = 220728 (0.953 sec)
 ```
 
 3.默认训练240000step后，可在obs/训练作业/output/model文件夹下得到相应的网络模型
+【Final】性能精度信息
 
    | 迁移模型    | 训练次数  |  NPU final loss  |  GPU final loss  | 
    | ---------- | --------  | --------  |  -------- |
