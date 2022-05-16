@@ -124,8 +124,8 @@ do
     --eval_files_dir=${data_path}/tfrecord/seq_len_512_max_pred_80/wikicorpus_en/test \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
-    --graph_memory_max_size=30064771072 \
-    --variable_memory_max_size=3221225472 \
+    --graph_memory_max_size=28991029248 \
+    --variable_memory_max_size=4294967296 \
     --do_train=True \
     --do_eval=True \
     --num_accumulation_steps=1 \
