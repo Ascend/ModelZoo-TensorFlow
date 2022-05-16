@@ -91,7 +91,7 @@ done
 start_time=$(date +%s)
 
 #进入训练脚本目录，需要模型审视修改
-cd $cur_path/tf-bsrn-sr
+cd $cur_path/
 
 #创建DeviceID输出目录，不需要修改
 if [ -d ${cur_path}/test/output/${ASCEND_DEVICE_ID} ];then
@@ -102,17 +102,7 @@ else
 fi
 
 #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
-python3 train.py \
-    --data_input_path=${data_path}/dataset/DIV2K/DIV2K_train_LR_bicubic\
-    --data_truth_path=${data_path}/dataset/DIV2K/DIV2K_train_HR \
-    --train_path='./train' \
-    --chip='npu' \
-    --model='bsrn' \
-    --dataloader='div2k_loader' \
-    --batch_size=8 \
-    --max_steps=100 \
-    --save_freq=50 \
-    --scales='4' > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+python3 monodepth2.py train ${cur_path}/config/monodepth2_kitti.yml tf_monodepth2_train > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCE    -ND_DEVICE_ID}.log 2>&1
 wait
 
 #训练结束时间，不需要修改
