@@ -31,7 +31,6 @@ from gpu_environment import get_custom_getter
 
 from npu_bridge.estimator.npu_unary_ops import npu_unary_ops
 from npu_bridge.estimator import npu_ops
-#from npu_bridge.estimator.npu_aicore_ops import npu_aicore_ops
 
 class BertConfig(object):
   """Configuration for `BertModel`."""
