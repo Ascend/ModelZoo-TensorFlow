@@ -1,11 +1,11 @@
 #! /bin/bash
 
 #使用ImageNet2012数据集，配置DATA_DIR数据集路径和MODEL_DIR保存checkpoint路径
-DATA_DIR=/home/test_user03/tf_records/
-MODEL_DIR=/home/test_user03/hh
+DATA_DIR=./tf_records/
+MODEL_DIR=./ckpt/
 
 #开发者个人独立预置的数据集、预训练模型、ATC-OM模型等，支持从OBS仓下载
-#obsutil cp obs://obsxxx/xxx/xxx.ckpt ./model/ -f -r
+obsutil cp obs://amoebanet/tf_records_testcase/ ./tf_records/ -f -r
 
 #testcase主体，开发者根据不同模型写作
 python3 amoeba_net.py \
