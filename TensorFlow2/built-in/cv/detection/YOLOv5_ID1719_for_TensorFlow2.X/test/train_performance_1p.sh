@@ -158,7 +158,7 @@ e2e_time=$(( $end_time - $start_time ))
 echo "------------------ Final result ------------------"
 #输出性能FPS。需要模型审视修改
 epoch_duration=`grep epoch_duration $cur_path/output/0/train_0.log | awk '{print $2}'`
-first_step=`grep duration: $cur_path/output/0/train_0.log |head -1| awk 'END{print $17}'`
+first_step=`grep duration: $cur_path/output/0/train_0.log |head -1| awk -F "duration:" '{print $2}'`
 FPS=`awk 'BEGIN{printf "%.2f\n",('$perf'+'$train_worker_num'-2)/('$epoch_duration'-'$first_step')*'$batch_size'*1}'`
 echo "Final Performance imgs/sec : $FPS"
 
