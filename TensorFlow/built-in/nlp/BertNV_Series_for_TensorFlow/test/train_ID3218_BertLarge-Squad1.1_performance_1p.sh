@@ -116,7 +116,7 @@ do
       --init_checkpoint=${model_path}/model.ckpt \
       --do_train=True \
       --train_file=${data_path}/dataset/squad_v1.1_train.tf_record \
-      --do_predict=True \
+      --do_predict=False \
       --predict_file=${data_path}/dataset/dev-v1.1.json \
       --eval_script=${data_path}/dataset/evaluate-v1.1.py \
       --train_batch_size=$train_batch_size \
