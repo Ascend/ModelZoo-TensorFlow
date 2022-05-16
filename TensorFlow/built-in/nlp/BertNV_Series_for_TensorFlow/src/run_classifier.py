@@ -249,7 +249,7 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
       input_mask=input_mask,
       token_type_ids=segment_ids,
       use_one_hot_embeddings=use_one_hot_embeddings,
-      compute_type=tf.float32)
+      compute_type=tf.float16 if FLAGS.precision_mode == "allow_mix_precision" else tf.float32)
 
   # In the demo, we are doing a simple classification task on the entire
   # segment.
