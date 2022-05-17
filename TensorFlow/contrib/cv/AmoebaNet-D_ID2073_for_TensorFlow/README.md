@@ -70,28 +70,6 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
 
-    当前模型支持的镜像列表如[表1](#zh-cn_topic_0000001074498056_table1519011227314)所示。
-
-    **表 1** 镜像列表
-
-    <a name="zh-cn_topic_0000001074498056_table1519011227314"></a>
-    <table><thead align="left"><tr id="zh-cn_topic_0000001074498056_row0190152218319"><th class="cellrowborder" valign="top" width="47.32%" id="mcps1.2.4.1.1"><p id="zh-cn_topic_0000001074498056_p1419132211315"><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><em id="i1522884921219"><a name="i1522884921219"></a><a name="i1522884921219"></a>镜像名称</em></p>
-    </th>
-    <th class="cellrowborder" valign="top" width="25.52%" id="mcps1.2.4.1.2"><p id="zh-cn_topic_0000001074498056_p75071327115313"><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><em id="i1522994919122"><a name="i1522994919122"></a><a name="i1522994919122"></a>镜像版本</em></p>
-    </th>
-    <th class="cellrowborder" valign="top" width="27.16%" id="mcps1.2.4.1.3"><p id="zh-cn_topic_0000001074498056_p1024411406234"><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><em id="i723012493123"><a name="i723012493123"></a><a name="i723012493123"></a>配套CANN版本</em></p>
-    </th>
-    </tr>
-    </thead>
-    <tbody><tr id="zh-cn_topic_0000001074498056_row71915221134"><td class="cellrowborder" valign="top" width="47.32%" headers="mcps1.2.4.1.1 "><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><ul id="zh-cn_topic_0000001074498056_ul81691515131910"><li><em id="i82326495129"><a name="i82326495129"></a><a name="i82326495129"></a>ARM架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-arm" target="_blank" rel="noopener noreferrer">ascend-tensorflow-arm</a></em></li><li><em id="i18233184918125"><a name="i18233184918125"></a><a name="i18233184918125"></a>x86架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-x86" target="_blank" rel="noopener noreferrer">ascend-tensorflow-x86</a></em></li></ul>
-    </td>
-    <td class="cellrowborder" valign="top" width="25.52%" headers="mcps1.2.4.1.2 "><p id="zh-cn_topic_0000001074498056_p1450714271532"><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><em id="i72359495125"><a name="i72359495125"></a><a name="i72359495125"></a>20.2.0</em></p>
-    </td>
-    <td class="cellrowborder" valign="top" width="27.16%" headers="mcps1.2.4.1.3 "><p id="zh-cn_topic_0000001074498056_p18244640152312"><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><em id="i162363492129"><a name="i162363492129"></a><a name="i162363492129"></a><a href="https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373/software" target="_blank" rel="noopener noreferrer">20.2</a></em></p>
-    </td>
-    </tr>
-    </tbody>
-    </table>
 
 
 <h2 id="快速上手.md">快速上手</h2>
@@ -118,18 +96,19 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
   1. 配置训练参数。
 
-     首先在脚本train_performance_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
+     首先在脚本train_full_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
 
      ```
-        DATA_DIR=/home/test_user03/tf_records/
-        MODEL_DIR=/home/test_user03/hh
+        # 路径参数初始化
+data_path="/home/test_user03/tf_records/"
+output_path="/home/test_user03/xx"
       
      ```
 
-  2. 启动训练。（脚本为train_performance_1p.sh） 
+  2. 启动训练。（脚本为train_full_1p.sh） 
 
      ```
-     bash train_performance_1p.sh
+     bash train_full_1p.sh
      ```
 
 
@@ -140,8 +119,9 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
      首先在脚本train_full_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
 
      ```
-        DATA_DIR=/home/test_user03/tf_records/
-        MODEL_DIR=/home/test_user03/hh
+        # 路径参数初始化
+data_path="/home/test_user03/tf_records/"
+output_path="/home/test_user03/xx"
       
      ```
 
@@ -171,10 +151,11 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 ├── inception_preprocessing.py            //图像预处理
 ├── train_testcase.sh                      //训练测试用例
 ├── online_inference_testcase.sh           //在线推理测试用例
-├── train_performance_1p.sh                //训练入口
-├── train_full_1p.sh                       //训练入口，包含准确率评估
 ├── modelzoo_level.txt                     //网络状态描述文件
-├── requirements.txt                       
+├── requirements.txt        
+├── test     
+│    ├──train_performance_1p.sh                //训练性能入口
+│    ├──train_full_1p.sh                       //训练精度入口，包含准确率评估
 ├── common
 │    ├──imagenet.py                         //为ImageNet ILSVRC 2012数据集提供数据帮助程序
 │    ├──inference_warmup.py                //inference warmup实现```
@@ -182,10 +163,10 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 ```
 ## 脚本参数<a name="section6669162441511"></a>
 ```
---use_tpu              是否使用tpu，默认：False（由于该代码从tpu版本迁移过来，在晟腾910上只能是False）
+--use_tpu              是否使用tpu，默认：False（由于该代码从tpu版本迁移过来，在昇腾910上只能是False）
 --mode                 运行模式，可选：train_and_eval，train，eval
 --data_dir             数据集目录
---mmodel_dir           保存checkpoint的目录
+--model_dir           保存checkpoint的目录
 --num_cells             网络结构中cell的数量，默认：6
 --image_size            图像尺寸，默认：224
 --num_epochs           训练迭代次数，默认：35
