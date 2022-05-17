@@ -99,10 +99,9 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
      首先在脚本train_full_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
 
      ```
-        # 路径参数初始化
-data_path="/home/test_user03/tf_records/"
-output_path="/home/test_user03/xx"
-      
+     # 路径参数初始化
+     data_path="/home/test_user03/tf_records/"
+     output_path="/home/test_user03/xx" 
      ```
 
   2. 启动训练。（脚本为train_full_1p.sh） 
@@ -119,10 +118,9 @@ output_path="/home/test_user03/xx"
      首先在脚本train_full_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
 
      ```
-        # 路径参数初始化
-data_path="/home/test_user03/tf_records/"
-output_path="/home/test_user03/xx"
-      
+     # 路径参数初始化
+     data_path="/home/test_user03/tf_records/"
+     output_path="/home/test_user03/xx" 
      ```
 
   2. 启动验证。（脚本为train_full_1p.sh） 
