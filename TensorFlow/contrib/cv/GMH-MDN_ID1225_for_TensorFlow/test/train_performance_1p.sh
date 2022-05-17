@@ -6,7 +6,7 @@ cur_path=`echo $(cd $(dirname $0);pwd)`
 # 判断当前shell是否是performance
 perf_flag=`echo $0 | grep performance | wc -l`
 # 当前执行网络的名称
-Network="GMH—MDN_ID1225_for_TensorFlow"
+Network="GMH-MDN_ID1225_for_TensorFlow"
 #失败用例打屏
 export ASCEND_SLOG_PRINT_TO_STDOUT=1
 #基础参数，需要模型审视修改
