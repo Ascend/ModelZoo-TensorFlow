@@ -21,6 +21,7 @@ export JOB_ID=10087
 # 路径参数初始化
 data_path=''
 output_path=''
+ckpt_path=''
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
@@ -91,7 +92,7 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
-# 训练开始时间记录，不需要修改
+# 训练开始时:间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
 #########第3行 至 100行，请一定不要、不要、不要修改##########
@@ -108,7 +109,7 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-
+batch_size=4
 
 if [ x"${modelarts_flag}" != x ];
 then
@@ -116,44 +117,44 @@ then
                 --no-evaluation --random-transform \
                 --compute-val-loss --freeze-backbone --step1\
                 --batch-size 32 --steps 1000 --epochs=40\
-                --pretrained_model='/home/dingwei/efficientdet/efficientnet-b0_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5'\
-                pascal /home/dataset/VOCdevkit/VOC2007
+                --pretrained_model=${data_path}/dataset/weights_file/efficientnet-b0_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5\
+                pascal ${data_path}/dataset/VOCdevkit/VOC2007 > ${print_log} 2>&1
 
-    python ./train_sess.py --snapshot checkpoints/pascal_ft_10.h5 --phi 0 \
+    python ./train_sess.py --snapshot checkpoints/pascal_10.h5 --phi 0 \
                 --no-evaluation --random-transform \
                 --compute-val-loss --freeze-bn \
                 --batch-size 4 --steps 10000 --epochs=10\
-                pascal /home/dataset/VOCdevkit/VOC2007
+                pascal ${data_path}/dataset/VOCdevkit/VOC2007 >> ${print_log} 2>&1
 
-    python ./common.py --model_path='checkpoints/pascal_ft_10.h5' \
-                --data_path='/home/dataset/VOCdevkit/VOC2007'
+    python ./common.py --model_path='checkpoints/pascal_10.h5' \
+                --data_path=${data_path}/dataset/VOCdevkit/VOC2007 >> ${print_log} 2>&1
 
 else
-    python ./train_sess.py --snapshot imagenet --phi 0 \
-                --no-evaluation --random-transform \
-                --compute-val-loss --freeze-backbone --step1\
-                --batch-size 32 --steps 1000 --epochs=40\
-                --pretrained_model='/home/dingwei/efficientdet/efficientnet-b0_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5'\
-                pascal /home/dataset/VOCdevkit/VOC2007
+   python3 ./train_sess.py --snapshot imagenet --phi 0 \
+               --no-evaluation --random-transform \
+               --compute-val-loss --freeze-backbone --step1\
+               --batch-size 32 --steps 1000 --epochs=40\
+               --pretrained_model=${data_path}/dataset/weights_file/efficientnet-b0_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5\
+               pascal ${data_path}/dataset/VOCdevkit/VOC2007 > ${print_log} 2>&1
 
-    python ./train_sess.py --snapshot checkpoints/pascal_ft_10.h5 --phi 0 \
+    python3 ./train_sess.py --snapshot checkpoints/pascal_10.h5 --phi 0 \
                 --no-evaluation --random-transform \
                 --compute-val-loss --freeze-bn \
-                --batch-size 4 --steps 10000 --epochs=10\
-                pascal /home/dataset/VOCdevkit/VOC2007
+                --batch-size 128 --steps 10000 --epochs=10\
+                pascal ${data_path}/dataset/VOCdevkit/VOC2007 > ${print_log} 2>&1
 
-    python ./common.py --model_path='checkpoints/pascal_ft_10.h5' \
-                --data_path='/home/dataset/VOCdevkit/VOC2007'
+    python3 ./common.py --model_path='checkpoints/pascal_10.h5' \
+                --data_path=${data_path}/dataset/VOCdevkit/VOC2007 >> ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`grep "s/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
-FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+StepTime=`grep "ms/step" ${print_log} | awk '{print $5}' | tail -n 1 | tr -d "ms/step"`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}*1000'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`grep "mAP" ${print_log} | awk '{print $2}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "step - loss:" ${print_log} | awk '{print $8}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
@@ -210,4 +211,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
