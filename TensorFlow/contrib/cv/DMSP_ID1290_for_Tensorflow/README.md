@@ -110,14 +110,16 @@ To train:
 
 1. 数据集准备。
 
-   a.请用户自行准备好数据集，包含训练集和验证集两部分，数据集包括Mnist等，包含train和 	val两部分。以Mnist数据集为例。
+   a.请用户自行准备好数据集，包含训练集和测试集两部分，数据集包括BSDS300，包含train和test两部分
 
-   b.上传数据压缩包到训练环境上,无需解压
+   b.上传数据压缩包到训练环境上,解压
 
    
-   ├── /datasets/imagenet
-   │   ├──imagenet
-   │   ├──Berkeley
+   ├── /src
+   │   ├──BSDS300
+   │   │   ├──images
+   │   │   │   ├──train
+   │   │   │   ├──test
    ```
    
    ```
@@ -126,6 +128,7 @@ To train:
 ```
 ```
 ├── src
+│    ├──BSDS300/                              //数据集
 │    ├──config.py                            //训练定义
 │    ├──DAE.py                               //模型定义
 │    ├──DAE_model.py                         //重载模型
@@ -151,86 +154,37 @@ $ python ./src/demo_DMSP.py
 
 通过“模型训练”中的训练指令启动单卡训练
 ```
-2022-02-23 22:32:03.855277: W tensorflow/core/platform/profile_utils/cpu_utils.cc:98] Failed to find bogomips in /proc/cpuinfo; cannot determine CPU frequency
-2022-02-23 22:32:03.864021: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0xaaaade38ad00 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
-2022-02-23 22:32:03.864068: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
-============start non-blind deblurring on Berkeley segmentation dataset==============
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:37: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
-
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:37: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
-
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:38: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
-
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:38: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
-
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:42: The name tf.variable_scope is deprecated. Please use tf.compat.v1.variable_scope instead.
-
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:42: The name tf.variable_scope is deprecated. Please use tf.compat.v1.variable_scope instead.
-
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:7: calling Constant.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
-Instructions for updating:
-Call initializer instance with the dtype argument instead of passing it to the constructor
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:7: calling Constant.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
-Instructions for updating:
-Call initializer instance with the dtype argument instead of passing it to the constructor
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:8: The name tf.get_variable is deprecated. Please use tf.compat.v1.get_variable instead.
-
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:8: The name tf.get_variable is deprecated. Please use tf.compat.v1.get_variable instead.
-
-====================dae================
-{'layer0': <tf.Tensor 'dae/BiasAdd:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer1': <tf.Tensor 'dae/layer1:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer2': <tf.Tensor 'dae/BiasAdd_1:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer3': <tf.Tensor 'dae/layer3:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer4': <tf.Tensor 'dae/BiasAdd_2:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer5': <tf.Tensor 'dae/layer5:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer6': <tf.Tensor 'dae/BiasAdd_3:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer7': <tf.Tensor 'dae/layer7:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer8': <tf.Tensor 'dae/BiasAdd_4:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer9': <tf.Tensor 'dae/layer9:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer10': <tf.Tensor 'dae/BiasAdd_5:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer11': <tf.Tensor 'dae/layer11:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer12': <tf.Tensor 'dae/BiasAdd_6:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer13': <tf.Tensor 'dae/layer13:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer14': <tf.Tensor 'dae/BiasAdd_7:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer15': <tf.Tensor 'dae/layer15:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer16': <tf.Tensor 'dae/BiasAdd_8:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer17': <tf.Tensor 'dae/layer17:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer18': <tf.Tensor 'dae/BiasAdd_9:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer19': <tf.Tensor 'dae/layer19:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer20': <tf.Tensor 'dae/BiasAdd_10:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer21': <tf.Tensor 'dae/layer21:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer22': <tf.Tensor 'dae/BiasAdd_11:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer23': <tf.Tensor 'dae/layer23:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer24': <tf.Tensor 'dae/BiasAdd_12:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer25': <tf.Tensor 'dae/layer25:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer26': <tf.Tensor 'dae/BiasAdd_13:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer27': <tf.Tensor 'dae/layer27:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer28': <tf.Tensor 'dae/BiasAdd_14:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer29': <tf.Tensor 'dae/layer29:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer30': <tf.Tensor 'dae/BiasAdd_15:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer31': <tf.Tensor 'dae/layer31:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer32': <tf.Tensor 'dae/BiasAdd_16:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer33': <tf.Tensor 'dae/layer33:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer34': <tf.Tensor 'dae/BiasAdd_17:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer35': <tf.Tensor 'dae/layer35:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer36': <tf.Tensor 'dae/BiasAdd_18:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer37': <tf.Tensor 'dae/layer37:0' shape=(?, ?, ?, 64) dtype=float32>, 'layer38': <tf.Tensor 'dae/BiasAdd_19:0' shape=(?, ?, ?, 3) dtype=float32>}
-====================dae output=========
-Tensor("strided_slice_1:0", shape=(?, ?, ?, 3), dtype=float32)
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:51: The name tf.global_variables_initializer is deprecated. Please use tf.compat.v1.global_variables_initializer instead.
-
-WARNING:tensorflow:From /home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/DAE_model.py:51: The name tf.global_variables_initializer is deprecated. Please use tf.compat.v1.global_variables_initializer instead.
-
-2022-02-23 22:32:14.897055: I /home/jenkins/agent/workspace/Compile_GraphEngine_Centos_ARM/tensorflow/tf_adapter/kernels/geop_npu.cc:694] The model has been compiled on the Ascend AI processor, current graph id is:1
-Initialized with PSNR: 17.78958876047073
-2022-02-23 22:32:40.320450: I /home/jenkins/agent/workspace/Compile_GraphEngine_Centos_ARM/tensorflow/tf_adapter/kernels/geop_npu.cc:694] The model has been compiled on the Ascend AI processor, current graph id is:11
-Finished psnr = 27.65 (1.5 examples/sec; 0.646 sec/batch)
-Initialized with PSNR: 21.71935774044799
-Finished psnr = 29.31 (1.4 examples/sec; 0.697 sec/batch)
-Initialized with PSNR: 12.418238314349477
-Finished psnr = 21.70 (1.4 examples/sec; 0.704 sec/batch)
-Initialized with PSNR: 17.761670521195924
-Finished psnr = 27.69 (1.5 examples/sec; 0.672 sec/batch)
-Initialized with PSNR: 23.028104067351563
-Finished psnr = 32.53 (1.4 examples/sec; 0.704 sec/batch)
-Initialized with PSNR: 15.075084013742561
-Finished psnr = 27.08 (1.4 examples/sec; 0.703 sec/batch)
-Initialized with PSNR: 17.302924438930848
-Finished psnr = 24.16 (1.2 examples/sec; 0.824 sec/batch)
-Initialized with PSNR: 17.10059787725738
-Finished psnr = 25.20 (1.3 examples/sec; 0.751 sec/batch)
-Initialized with PSNR: 16.07467978560146
-Finished psnr = 25.66 (1.4 examples/sec; 0.712 sec/batch)
-Initialized with PSNR: 15.523285818788821
-Finished psnr = 25.79 (1.4 examples/sec; 0.718 sec/batch)
-Initialized with PSNR: 20.173765682212093
-Finished psnr = 33.91 (1.5 examples/sec; 0.688 sec/batch)
-Initialized with PSNR: 17.809478987327715
-Finished psnr = 29.48 (1.6 examples/sec; 0.640 sec/batch)
-Initialized with PSNR: 18.0941733503732
-Finished psnr = 33.18 (1.4 examples/sec; 0.702 sec/batch)
-Initialized with PSNR: 17.11170706335929
-Finished psnr = 24.92 (1.4 examples/sec; 0.705 sec/batch)
-Initialized with PSNR: 16.409065638468267
-Finished psnr = 29.45 (1.4 examples/sec; 0.727 sec/batch)
-Initialized with PSNR: 16.58872443970573
-Finished psnr = 26.77 (1.4 examples/sec; 0.702 sec/batch)
-Initialized with PSNR: 16.632015946049982
-Finished psnr = 28.54 (1.2 examples/sec; 0.805 sec/batch)
-Initialized with PSNR: 14.895557404412923
-Finished psnr = 25.84 (1.3 examples/sec; 0.741 sec/batch)
-Initialized with PSNR: 17.557421710572992
-Finished psnr = 25.67 (1.4 examples/sec; 0.702 sec/batch)
-Initialized with PSNR: 23.73822886222646
-Finished psnr = 31.20 (1.1 examples/sec; 0.895 sec/batch)
-Initialized with PSNR: 14.288116614544533
-Finished psnr = 21.96 (1.4 examples/sec; 0.735 sec/batch)
-Initialized with PSNR: 19.533104118880125
-Finished psnr = 28.99 (1.4 examples/sec; 0.710 sec/batch)
+2022-03-21 23:33:35.866972: W /home/jenkins/agent/workspace/Compile_GraphEngine_Centos_X86/tensorflow/tf_adapter/util/ge_plugin.cc:124] [GePlugin] can not find Environment variable : JOB_ID
+2022-03-21 23:33:39.807011: I /home/jenkins/agent/workspace/Compile_GraphEngine_Centos_X86/tensorflow/tf_adapter/kernels/geop_npu.cc:749] The model has been compiled on the Ascend AI processor, current graph id is:1
+Initialized with PSNR: 18.26756789065104
+2022-03-21 23:33:52.281454: I /home/jenkins/agent/workspace/Compile_GraphEngine_Centos_X86/tensorflow/tf_adapter/kernels/geop_npu.cc:749] The model has been compiled on the Ascend AI processor, current graph id is:11
+Finished psnr = 25.43 (20.0 examples/sec; 0.050 sec/batch)
+Initialized with PSNR: 19.61013455418367
+Finished psnr = 29.58 (20.0 examples/sec; 0.050 sec/batch)
+Initialized with PSNR: 16.046844525072277
+Finished psnr = 26.21 (19.3 examples/sec; 0.052 sec/batch)
+Initialized with PSNR: 19.088294082853533
+Finished psnr = 24.01 (20.3 examples/sec; 0.049 sec/batch)
+Initialized with PSNR: 27.903391840839276
+Finished psnr = 33.05 (19.9 examples/sec; 0.050 sec/batch)
+Initialized with PSNR: 17.58393445793693
+Finished psnr = 25.87 (19.3 examples/sec; 0.052 sec/batch)
+Initialized with PSNR: 21.496189549703043
+Finished psnr = 27.39 (20.3 examples/sec; 0.049 sec/batch)
+Initialized with PSNR: 17.183577420828943
+Finished psnr = 24.84 (19.2 examples/sec; 0.052 sec/batch)
+Initialized with PSNR: 18.31449854593027
+Finished psnr = 27.68 (20.2 examples/sec; 0.050 sec/batch)
+Initialized with PSNR: 14.78985085202309
+Finished psnr = 22.40 (19.9 examples/sec; 0.050 sec/batch)
+Initialized with PSNR: 18.795507564810553
+Finished psnr = 27.73 (19.6 examples/sec; 0.051 sec/batch)
+Initialized with PSNR: 16.154563492696358
+Finished psnr = 24.16 (19.9 examples/sec; 0.050 sec/batch)
+Initialized with PSNR: 19.207686742438906
+Finished psnr = 27.37 (19.9 examples/sec; 0.050 sec/batch)
+Initialized with PSNR: 18.436603775139783
+Finished psnr = 27.64 (20.2 examples/sec; 0.050 sec/batch)
 ```
 <h2 id="精度指标.md">精度指标</h2>
 
