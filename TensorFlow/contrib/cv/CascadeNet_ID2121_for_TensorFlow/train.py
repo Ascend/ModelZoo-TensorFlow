@@ -38,11 +38,12 @@ import os
 import time
 from models.pre_input import get_right_images
 import models.model_tf as mm
-#import moxing as mx
-from npu_bridge.npu_init import RewriterConfig
+import moxing as mx
+from npu_bridge.npu_init import NPULossScaleOptimizer, npu_config_proto, RewriterConfig, \
+    ExponentialUpdateLossScaleManager, FixedLossScaleManager
+
 # if not work, please use import *
 # from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
-
 
 
 flags = tf.app.flags
@@ -50,25 +51,38 @@ FLAGS = flags.FLAGS
 flags.DEFINE_integer('batch_size', 16, 'Number of samples per batch')
 flags.DEFINE_integer('image_size', 256, 'Image sample size in pixels')
 flags.DEFINE_integer('random_seed', 0, 'Seed used to initializer rng')
-flags.DEFINE_integer('num_epoch', 500, 'number of epoch')
+flags.DEFINE_integer('num_epoch', 5, 'number of epoch')
 flags.DEFINE_integer('checkpoint_period', 10, 'save the model every time')
+flags.DEFINE_integer(
+    'Dn', 11, ' the number of the convolution layers in one residual block')
+flags.DEFINE_integer('Dc', 5, 'the number of the data consistency layers')
+flags.DEFINE_string('model_name', 'dc', 'model name')
+flags.DEFINE_string('data_url', 'obs://imagenet2012-lp/cascade_re/data/',
+                    'the path of train data in obs')
+flags.DEFINE_string(
+    'data_train_dir', '/home/ma-user/modelarts/inputs/data_url_0/chest_train_acc3.hdf5',
+    'the path of train data')
 flags.DEFINE_float('learning_rate', 1e-3, 'initial learning rate')
 flags.DEFINE_bool('continue_training', False, 'continue training')
-flags.DEFINE_string('data_url', 'obs://imagenet2012-lp/cascade_re/data/','the path of train data in obs')
-flags.DEFINE_string('data_train_dir', '/home/ma-user/modelarts/inputs/data_url_0/chest_train_acc3.hdf5',
-    'the path of train data')
-flags.DEFINE_string('save_ckpt_Dir','./', 'the path of train data')
-flags.DEFINE_integer('Dn', 10, ' the number of the convolution layers in one residual block')
-flags.DEFINE_integer('Dc', 7, 'the number of the data consistency layers')
+flags.DEFINE_string(
+    'train_url', 'obs://imagenet2012-lp/cascade_log/', 'the path of train log in obs')
+flags.DEFINE_string('last_checkpoint_dir',
+                    'obs://imagenet2012-lp/cascade_log/MA-cascade_modelarts-10-19-15-26/output/V0018',
+                    'the path of train data')
+flags.DEFINE_string('last_checkpoint_dir_name',
+                    '/D11-C5-25-19/', 'the path of train data')
 
 print('***************************************************')
 start_time = time.time()
 # creat checkpoint save path
-
-directory = FLAGS.save_ckpt_Dir
+saveDir = '/cache/saveModels'
+cwd = os.getcwd()
+directory = saveDir + '/' + 'D' + \
+            str(FLAGS.Dn) + '-C' + str(FLAGS.Dc) + \
+            '-' + datetime.now().strftime("%d-%H")
 if not os.path.exists(directory):
     os.makedirs(directory)
-    
+sessFileName = directory + '/model'
 image_size = FLAGS.image_size
 # net architecture
 K = FLAGS.Dc
@@ -78,9 +92,10 @@ tf.reset_default_graph()
 config = tf.ConfigProto()
 custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
+custom_op.parameter_map["use_off_line"].b = True
 # set precision mode allow_fp32_to_fp16  allow_mix_precision
 custom_op.parameter_map['precision_mode'].s = tf.compat.as_bytes(
-    'allow_fp32_to_fp16')
+    'allow_mix_precision')
 # # dump path
 # custom_op.parameter_map['dump_path'].s = tf.compat.as_bytes(saveDir + '/')
 # # set dump debug
@@ -102,14 +117,8 @@ feature = tf.placeholder(tf.float32, shape=(
 out = mm.makeModel(feature, mask, train=False, nLayers=numlayers, K=K)
 predTst = out['dc' + str(K)]
 predTst = tf.identity(predTst, name='predTst')
+sessFileNameTst = directory + '/modelTst'
 
-sessFileName = os.path.join(directory + '/model')
-if not os.path.exists(sessFileName):
-    os.makedirs(sessFileName)
-sessFileNameTst = os.path.join(directory + '/modelTst')
-if not os.path.exists(sessFileNameTst):
-    os.makedirs(sessFileNameTst)
-    
 saver = tf.train.Saver()
 with tf.Session(config=config) as sess:
     sess.run(tf.global_variables_initializer())
@@ -121,9 +130,9 @@ print('testing model saved:' + saveFile)
 # mx.file.copy_parallel(FLAGS.data_url, '/cache/data/')  # copy to modelarts
 path_train = FLAGS.data_train_dir
 feature_trn, label_trn, mask_trn = get_right_images(path_train)
-#if FLAGS.continue_training:
-    #mx.file.copy_parallel(FLAGS.last_checkpoint_dir + FLAGS.last_checkpoint_dir_name,
-                          #saveDir + FLAGS.last_checkpoint_dir_name)
+if FLAGS.continue_training:
+    mx.file.copy_parallel(FLAGS.last_checkpoint_dir + FLAGS.last_checkpoint_dir_name,
+                          saveDir + FLAGS.last_checkpoint_dir_name)
 
 tf.reset_default_graph()
 rows = image_size
@@ -163,11 +172,13 @@ global_step = tf.Variable(
 decayed_lr = tf.train.exponential_decay(
     FLAGS.learning_rate, global_step, 1000, 0.98, staircase=True)
 # opti = tf.train.AdamOptimizer(learning_rate=decayed_lr, name='optimizer')
-opti = tf.train.GradientDescentOptimizer(decayed_lr,
-                                         name='optimizer')
+loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2 ** 32, incr_every_n_steps=100,
+                                                       decr_every_n_nan_or_inf=2, decr_ratio=0.5)
+opti_tmp = tf.train.GradientDescentOptimizer(decayed_lr,
+                                             name='optimizer')
 # loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2**32,
 # incr_every_n_steps=1000, decr_every_n_nan_or_inf=2, decr_ratio=0.5)
-# opti = NPULossScaleOptimizer(opt, loss_scale_manager)
+opti = NPULossScaleOptimizer(opti_tmp, loss_scale_manager)
 
 update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 # with tf.control_dependencies(update_ops):
@@ -213,14 +224,16 @@ with tf.Session(config=config) as sess:
             if np.remainder(step + 1, nBatch) == 0:
                 ep += 1
                 avgTrnLoss = np.mean(totalLoss) / nTrn
-                start_time = time.time()
+                step_start_time = time.time()
                 summary = sess.run(merged, feed_dict={lossT: avgTrnLoss})
                 writer.add_summary(summary, ep)
                 saveLoss.append(avgTrnLoss)
                 totalLoss = []
-                step_time=time.time()-start_time
+                step_time = time.time() - step_start_time
+                scale_value = sess.run([loss_scale_manager.get_loss_scale()])
                 print(datetime.now().strftime("%H:%M"),
-                      '---Epoch: ', ep, '---AvgLoss: ', avgTrnLoss, '---steptime:', step_time)
+                      '---Epoch: ', ep, '---AvgLoss: ', avgTrnLoss, '---StepTime:', step_time, '---ScaleValue',
+                      scale_value)
                 # todo
                 if np.remainder(ep, FLAGS.checkpoint_period) == 0:
                     savedfile = saver.save(
@@ -235,5 +248,5 @@ print('Training completed in minutes', ((end_time - start_time) / 60))
 print('training completed at', datetime.now().strftime('%d-%b-%Y %I:%M%p'))
 print('****************************************************')
 # copy results to obs
-#mx.file.copy_parallel('/cache/saveModels', FLAGS.train_url)
-#print('copy saved model to obs.')
+mx.file.copy_parallel('/cache/saveModels', FLAGS.train_url)
+print('copy saved model to obs.')
