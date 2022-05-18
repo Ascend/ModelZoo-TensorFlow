@@ -136,6 +136,8 @@ To train:
 │    ├──DMSPDeblur.py                        //先验去噪
 │    ├──network.py                           //其他功能函数
 │    ├──ops.py                               //算子定义
+├── scripts
+│    ├──train_dmsp.sh                        //训练脚本
 ```
 2. 模型训练。
 
