@@ -40,7 +40,7 @@ import argparse
 from npu_bridge.estimator import npu_ops
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 # import moxing as mox
-import precision_tool.tf_config as npu_tf_config
+# import precision_tool.tf_config as npu_tf_config
 import os
 os.environ['TF_CPP_MIN_VLOG_LEVEL'] = '3'
 from npu_bridge.npu_init import *
@@ -177,12 +177,10 @@ custom_op.parameter_map["precision_mode"].s=tf.compat.as_bytes("allow_mix_precis
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 关闭remap开关
 config.gpu_options.allow_growth = True
 # 混合训练
-custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+# session_config = npu_tf_config.session_dump_config(config, action='overflow|fusion_off') # 新增行
+custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("./fusion_switch.cfg")
 
-session_config = npu_tf_config.session_dump_config(config, action='overflow|fusion_off') # 新增行
-
-
-sess = tf.Session(config=session_config)
+sess = tf.Session(config=config)
 sess.run(tf.global_variables_initializer())
 
 
