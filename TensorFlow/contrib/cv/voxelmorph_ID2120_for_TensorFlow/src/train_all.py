@@ -67,30 +67,25 @@ sys.path.append('..')
 
 def train(train_data_dir,
           atlas_file,
-          model,
           model_dir,
           lr,
           nb_epochs,
           reg_param,
           batch_size,
           load_model_file,
-          data_loss,
           tensorboard_log_dir,
           ):
     """
     model training function
-    :param data_dir: folder with npz files for each subject.
-    :param atlas_file: atlas filename. So far we support npz file with a 'vol' variable
-    :param model: either vm1 or vm2 (based on CVPR 2018 paper)
+    :param train_data_dir: folder with nii files for each subject.
+    :param atlas_file: atlas filename.
     :param model_dir: the model directory to save to
-    :param gpu_id: integer specifying the gpu to use
     :param lr: learning rate
-    :param n_iterations: number of training iterations
+    :param nb_epochs: number of epochs
     :param reg_param: the smoothness/reconstruction tradeoff parameter (lambda in CVPR paper)
-    :param steps_per_epoch: frequency with which to save models
     :param batch_size: Optional, default of 1. can be larger, depends on GPU memory and volume size
-    :param load_model_file: optional h5 model file to initialize with
-    :param data_loss: data_loss: 'mse' or 'ncc
+    :param load_model_file: optional weight file to initialize with
+    :param tensorboard_log_dir: tensorboard log directory
     """
     # load atlas from provided files. The atlas we used is 160x192x224.
     atlas_vol = nib.load(atlas_file).dataobj[np.newaxis, ..., np.newaxis]
@@ -104,18 +99,7 @@ def train(train_data_dir,
     # UNET filters for voxelmorph-1 and voxelmorph-2,
     # these are architectures presented in CVPR 2018
     nf_enc = [16, 32, 32, 32]
-    if model == 'vm1':
-        nf_dec = [32, 32, 32, 32, 8, 8]
-    elif model == 'vm2':
-        nf_dec = [32, 32, 32, 32, 32, 16, 16]
-    else:  # 'vm2double':
-        nf_enc = [f * 2 for f in nf_enc]
-        nf_dec = [f * 2 for f in [32, 32, 32, 32, 32, 16, 16]]
-
-    assert data_loss in [
-        'mse', 'cc', 'ncc'], 'Loss should be one of mse or cc, found %s' % data_loss
-    if data_loss in ['ncc', 'cc']:
-        data_loss = losses.NCC().loss
+    nf_dec = [32, 32, 32, 32, 32, 16, 16]
 
     # prepare model folder
     if not os.path.isdir(model_dir):
@@ -242,9 +226,6 @@ if __name__ == "__main__":
     parser.add_argument("--atlas_file", type=str,
                         dest="atlas_file", default='../../Dataset-ABIDE/atlas_abide_brain_crop.nii.gz',
                         help="gpu id number")
-    parser.add_argument("--model", type=str, dest="model",
-                        choices=['vm1', 'vm2', 'vm2double'], default='vm2',
-                        help="Voxelmorph-1 or 2")
     parser.add_argument("--model_dir", type=str,
                         dest="model_dir", default='../models/',
                         help="models folder")
@@ -262,9 +243,6 @@ if __name__ == "__main__":
     parser.add_argument("--load_model_file", type=str,
                         dest="load_model_file", default=None,
                         help="optional ckpt file to initialize with")
-    parser.add_argument("--data_loss", type=str,
-                        dest="data_loss", default='mse',
-                        help="data_loss: mse of ncc")
     parser.add_argument("--tensorboard_log_dir", type=str,
                         dest="tensorboard_log_dir", default='../log/')
 
