@@ -195,6 +195,8 @@ class LinearModel(object):
 
     # Gradients and update operation for training the model.
     opt = tf.train.AdamOptimizer( self.learning_rate )
+    loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=2, decr_ratio=0.5)
+    opt = NPULossScaleOptimizer(opt, loss_scale_manager)
     update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
 
     with tf.control_dependencies(update_ops):

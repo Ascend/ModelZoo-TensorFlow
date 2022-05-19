@@ -203,10 +203,14 @@ def train():
 
 
   # Avoid using the GPU if requested
-  device_count = {"GPU": 0} if FLAGS.use_cpu else {"GPU": 1}
-  with tf.Session(config=npu_config_proto(config_proto=tf.ConfigProto(
-    device_count=device_count,
-    allow_soft_placement=True ))) as sess:
+  #device_count = {"GPU": 0} if FLAGS.use_cpu else {"GPU": 1}
+  config = tf.ConfigProto(allow_soft_placement=True)
+  custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
+  custom_op.name = "NpuOptimizer"
+  custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+  config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+  config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+  with tf.Session(config=config) as sess:
 
     # === Create the model ===
     print("Creating %d bi-layers of %d units." % (FLAGS.num_layers, FLAGS.linear_size))
@@ -459,10 +463,13 @@ def test():
 
 
   # Avoid using the GPU if requested
-  device_count = {"GPU": 0} if FLAGS.use_cpu else {"GPU": 1}
-  with tf.Session(config=npu_config_proto(config_proto=tf.ConfigProto(
-    device_count=device_count,
-    allow_soft_placement=True ))) as sess:
+  config = tf.ConfigProto(allow_soft_placement=True)
+  custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
+  custom_op.name = "NpuOptimizer"
+  custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+  config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+  config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+  with tf.Session(config=config) as sess:
 
     # === Create the model ===
     print("Creating %d bi-layers of %d units." % (FLAGS.num_layers, FLAGS.linear_size))
@@ -522,8 +529,13 @@ def sample():
   else:
     train_set_2d, test_set_2d, data_mean_2d, data_std_2d, dim_to_ignore_2d, dim_to_use_2d, _ = data_utils.create_2d_data( actions, FLAGS.data_dir, rcams )
 
-  device_count = {"GPU": 0} if FLAGS.use_cpu else {"GPU": 1}
-  with tf.Session(config=npu_config_proto(config_proto=tf.ConfigProto( device_count = device_count ))) as sess:
+  config = tf.ConfigProto(allow_soft_placement=True)
+  custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
+  custom_op.name = "NpuOptimizer"
+  custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+  config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+  config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+  with tf.Session(config=config) as sess:
     # === Create the model ===
 
     batch_size = 128
