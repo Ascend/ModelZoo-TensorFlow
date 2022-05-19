@@ -108,15 +108,15 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-train_epochs=2
-train_steps=100
+#train_epochs=2
+#train_steps=100
 batch_size=8
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py -t --data_dir=${data_path}/v1 --output_dir=${output_path}
+    python3.7 ./train.py --data_dir=${data_path}/v1 --output_dir=${output_path}
 else
-    python3.7 ./train.py -t --data_dir=${data_path}/v1 --output_dir=${output_path} > ${print_log} 2>&1
+    python3.7 ./train.py --data_dir=${data_path}/v1 --output_dir=${output_path} > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
