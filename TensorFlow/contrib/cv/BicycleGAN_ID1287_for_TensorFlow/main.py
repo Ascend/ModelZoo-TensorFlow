@@ -88,7 +88,11 @@ def main():
     # Open New Tensorflow Session
     model = BicycleGAN
     with tf.Session(config=config) as sess:
-        gan = model(sess=sess, args=args)
+        gan = model(sess=sess, output_path=args.output_path,
+                    epoch=args.epoch, batch_size=args.batch_size,
+                    image_size=args.image_size, Z_dim=args.Z_dim,
+                    learning_rate=args.learning_rate, reconst_coeff=args.reconst_coeff,
+                    latent_coeff=args.latent_coeff, kl_coeff=args.kl_coeff)
 
         train_A, train_B, test_A, test_B = load_images(args.data_path, args.image_size)
         assert len(test_A) == len(test_B)
@@ -97,7 +101,7 @@ def main():
         gan.train(train_A=train_A, train_B=train_B)
         print(" [*] Training finished!")
 
-        gan.test(test_A=test_A, test_B=test_B)
+        gan.test(test_A=test_A)
         print(" [*] Testing finished!")
 
         path = os.path.join(args.output_path, "results", "test_results")
