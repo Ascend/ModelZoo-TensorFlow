@@ -33,27 +33,28 @@ from tqdm import trange
 from layers import *
 from folder import check_folder
 from imageio import imwrite
-import random
 
 
 class BicycleGAN(object):
 
-    def __init__(self, sess, args):
+    def __init__(self, sess=None, output_path='',
+                 epoch=20, batch_size=1, image_size=256,
+                 Z_dim=8, learning_rate=0.0002, reconst_coeff=10,
+                 latent_coeff=0.5, kl_coeff=0.01):
         self.sess = sess
-        self.data_path = args.data_path
-        self.checkpoint_dir = os.path.join(args.output_path, 'checkpoints')
-        self.result_dir = os.path.join(args.output_path, 'results')
-        self.log_dir = os.path.join(args.output_path, 'logs')
-        self.epoch = args.epoch
-        self.batch_size = args.batch_size
-        self.image_size = args.image_size
+        self.checkpoint_dir = os.path.join(output_path, 'checkpoints')
+        self.result_dir = os.path.join(output_path, 'results')
+        self.log_dir = os.path.join(output_path, 'logs')
+        self.epoch = epoch
+        self.batch_size = batch_size
+        self.image_size = image_size
 
         # train
-        self.Z_dim = args.Z_dim
-        self.learning_rate = args.learning_rate
-        self.reconst_coeff = args.reconst_coeff
-        self.latent_coeff = args.latent_coeff
-        self.kl_coeff = args.kl_coeff
+        self.Z_dim = Z_dim
+        self.learning_rate = learning_rate
+        self.reconst_coeff = reconst_coeff
+        self.latent_coeff = latent_coeff
+        self.kl_coeff = kl_coeff
 
         # test
         self.sample_num = 20  # how many images will model generates for one input
@@ -127,6 +128,9 @@ class BicycleGAN(object):
         self.g_loss_sum = tf.summary.scalar("g_loss", self.loss_G)
         self.e_loss_sum = tf.summary.scalar("e_loss", self.loss_E)
 
+        # saving the model
+        self.saver = tf.train.Saver()
+
     def Discriminator(self, x, is_training=True, reuse=True):
         with tf.variable_scope("Discriminator", reuse=tf.AUTO_REUSE):
             x = lrelu_layer(conv2d_layer(x, 64, 4, 4, 2, 2, name='d_conv1'))
@@ -199,7 +203,7 @@ class BicycleGAN(object):
             x = tf.concat([x, conv_layer.pop()], axis=3)
             x = lrelu_layer(
                 bn_layer(deconv2d_layer(x, 3, 4, 4, 2, 2, name='g_dconv8'), is_training=is_training, scope='gd_bn8'))
-            x = tf.tanh(x)
+            x = tf.tanh(x, name='output')
 
             return x
 
@@ -237,9 +241,6 @@ class BicycleGAN(object):
         # First initialize all variables
         tf.global_variables_initializer().run()
 
-        # saving the model
-        self.saver = tf.train.Saver()
-
         # summary writer
         self.writer = tf.summary.FileWriter(self.log_dir, self.sess.graph)
 
@@ -267,7 +268,7 @@ class BicycleGAN(object):
                 # get data
                 image_A = np.expand_dims(train_A[idx], axis=0)
                 image_B = np.expand_dims(train_B[idx], axis=0)
-                random_z = np.random.normal(size=(self.batch_size, self.Z_dim))
+                random_z = np.random.normal(size=(self.batch_size, self.Z_dim)).astype(np.float32)
 
                 _, summary_str_d, D_loss_curr = self.sess.run([self.D_solver, self.d_loss_sum, self.loss_D],
                                                               feed_dict={self.image_A: image_A, self.image_B: image_B,
@@ -285,7 +286,7 @@ class BicycleGAN(object):
                 # Saving training results for every 100 examples
                 temp_dir = check_folder(os.path.join(self.result_dir, 'temps'))
                 if counter % 100 == 0:
-                    z_sample = np.random.normal(size=(1, self.Z_dim))
+                    z_sample = np.random.normal(size=(1, self.Z_dim)).astype(np.float32)
                     samples = self.sess.run(self.LR_desired_img,
                                             feed_dict={self.image_A: self.img_sample, self.z: z_sample})
                     # transform from [-1,1] to [0,255]
@@ -305,27 +306,29 @@ class BicycleGAN(object):
         # save model for final step
         self.save(self.checkpoint_dir, counter)
 
-    def test(self, test_A, test_B):  # generate images
+    def test(self, test_A):  # generate images
         self.step = 0
 
         for idx in trange(len(test_A)):
+            start_time = time.time()
             self.step += 1
             save_dir = check_folder(os.path.join(self.result_dir, "test_results", str(self.step)))
 
-            # get input and save groundtruth
+            # get input
             image_A = np.expand_dims(test_A[idx], axis=0)
-            imwrite(os.path.join(save_dir, f'ground_truth.jpg'),
-                    (np.asarray(test_B[idx] + 1) / 2 * 255).astype(np.uint8))
 
             # generate images
             for i in range(0, self.sample_num):
-                z = np.random.normal(size=(1, self.Z_dim))
+                z = np.random.normal(size=(1, self.Z_dim)).astype(np.float32)
                 LR_desired_img = self.sess.run(self.LR_desired_img,
                                                feed_dict={self.image_A: image_A, self.z: z})
                 # transform from [-1,1] to [0,255]
                 LR_desired_img = (np.asarray(LR_desired_img + 1) / 2 * 255).astype(np.uint8)
                 imwrite(os.path.join(save_dir, f'random_{i + 1}.jpg'),
                         np.squeeze(LR_desired_img))
+
+            cost_time = time.time() - start_time
+            print(f"image_index : {idx}----sec/image : {cost_time/self.sample_num}")
 
     def save(self, checkpoint_dir, step):  # save checkpoints
         if not os.path.exists(checkpoint_dir):
