@@ -122,6 +122,10 @@ fi
 StepTime=`grep "sec/step :" ${print_log} | tail -n 7 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
+# 推理速度计算
+Generate_StepTime=`grep "sec/image :" ${print_log} | tail -n 7 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+echo "Model Generate Images Perfomance sec/image:${Generate_StepTime}"
+
 # 精度相关数据计算
 train_accuracy=`grep "Final Average Distances :" ${print_log}  | awk '{print $NF}'`
 # 提取所有loss打印信息
