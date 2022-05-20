@@ -65,7 +65,7 @@ class denoiser(object):
         self.in_image = tf.placeholder(tf.float32, shape=[None, None, None, 3], name="input_image")
 
         image_bgr = self.in_image[..., ::-1]
-        weights = io.loadmat('./DAE_sigma11.mat')
+        weights = io.loadmat('./src/DAE_sigma11.mat')
         with tf.variable_scope("dae", reuse=None):
             dae_net = network(weights=weights, image=image_bgr)
         print('====================dae================')
