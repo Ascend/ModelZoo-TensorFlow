@@ -92,7 +92,7 @@ parser.add_argument("--data_url", type=str, default="./BSDS300/images/train")
 # config = parser.parse_args()
 config, unparsed = parser.parse_known_args()
 # 在ModelArts容器创建数据存放目录
-data_dir =data_url
+data_dir = config.data_url
 # os.makedirs(data_dir)
 # OBS数据拷贝到ModelArts容器内
 # mox.file.copy_parallel(config.data_url, data_dir)
@@ -103,7 +103,7 @@ listdir(data_dir, list_name)
 size = len(list_name)
 # Load data
 sigma_d = 255 * .01
-matFile = io.loadmat('./kernels.mat')
+matFile = io.loadmat('./src/kernels.mat')
 kernel = matFile['kernels'][0,0]
 kernel = kernel / np.sum(kernel[:])
 
@@ -127,7 +127,7 @@ params['num_iter'] = 300
 params['mu'] = 0.9
 params['alpha'] = 0.1
 for image_path in test_set:
-    if(i==51):
+    if(i==21):
         break
     gt = Image.open(image_path)
     gt = gt.resize((180,180))
@@ -158,7 +158,7 @@ test_res = []
 j = 0
 for test_image in test_set:
     j+=1
-    if(j==51):
+    if(j==21):
         break
     gt = Image.open(test_image)
     gt = gt.resize((180, 180))
@@ -180,9 +180,9 @@ for test_image in test_set:
 
 print("noise-blind PSNR is:",np.mean(test_res))
 
-print("========================")
+# print("========================")
 # print(os.listdir(model_dir))
 # print(os.listdir(profiling_dir))
-print("========================")
+# print("========================")
 # mox.file.copy_parallel(model_dir, "obs://train-dmsp/output/model/")
 # mox.file.copy_parallel(profiling_dir, "obs://train-dmsp/output/profiling/")
