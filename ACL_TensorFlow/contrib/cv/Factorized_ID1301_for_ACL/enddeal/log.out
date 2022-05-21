@@ -1,0 +1,10 @@
+nohup: ignoring input
+usage: enddeal.py [-h] [--mode MODE] [--K K] [--batch_size BATCH_SIZE]
+                  [--learning_rate LEARNING_RATE] [--beta1 BETA1] [--M M]
+                  [--weight_decay WEIGHT_DECAY] [--random_seed RANDOM_SEED]
+                  [--diversity_weight DIVERSITY_WEIGHT]
+                  [--align_weight ALIGN_WEIGHT] [--scale_size SCALE_SIZE]
+                  [--crop_size CROP_SIZE] [--max_epochs MAX_EPOCHS]
+                  [--checkpoint CHECKPOINT] [--summary_freq SUMMARY_FREQ]
+                  [--save_freq SAVE_FREQ] [--num_gpus NUM_GPUS]
+enddeal.py: error: unrecognized arguments: params1
