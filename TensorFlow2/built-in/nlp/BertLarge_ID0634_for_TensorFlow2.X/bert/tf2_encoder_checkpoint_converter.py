@@ -31,6 +31,8 @@ from tf2_common.modeling import activations
 import configs
 import tf1_checkpoint_converter_lib
 from modeling import networks
+from modeling.networks import bert_pretrainer
+import tf2_common.modeling.tf_utils as tf_utils
 
 FLAGS = flags.FLAGS
 
@@ -43,6 +45,21 @@ flags.DEFINE_string(
 flags.DEFINE_string("converted_checkpoint_path", None,
                     "Name for the created object-based V2 checkpoint.")
 
+flags.DEFINE_boolean(name='use_packed_model', default=True,
+                    help="whether to enable packed model, default is True.")
+
+flags.DEFINE_integer(
+    "max_sequences_per_pack", 3, 
+    "Maximum number of sequences per sequence. "
+    "Must match data generation.")
+flags.DEFINE_float(
+    "average_sequences_per_sample", 1.999, 
+    "average number of sequences per sample. "
+    "Must match data generation.")
+flags.DEFINE_boolean(name='use_fastgelu', default=True,
+                    help='whether to enable fastgelu, default is True.')
+flags.DEFINE_integer('max_predictions_per_seq', 20, 
+                     'Maximum predictions per sequence_output. ')
 
 def _create_bert_model(cfg):
   """Creates a BERT keras core model from BERT configuration.
@@ -65,8 +82,20 @@ def _create_bert_model(cfg):
       type_vocab_size=cfg.type_vocab_size,
       initializer=tf.keras.initializers.TruncatedNormal(
           stddev=cfg.initializer_range))
+  max_predictions_per_seq = FLAGS.max_predictions_per_seq
 
-  return bert_encoder
+  initializer = tf.keras.initializers.TruncatedNormal(
+        stddev=cfg.initializer_range)
+  pretrainer_model = bert_pretrainer.BertPretrainer(
+      network=bert_encoder,
+      num_classes=2, # The next sentence prediction label has two classes.
+      num_token_predictions=max_predictions_per_seq,
+      activation=tf_utils.get_activation(cfg.hidden_act),
+      initializer=initializer,
+      output='predictions')
+  return pretrainer_model
+
+  #return bert_encoder
 
 
 def convert_checkpoint(bert_config, output_path, v1_checkpoint):
@@ -82,7 +111,7 @@ def convert_checkpoint(bert_config, output_path, v1_checkpoint):
       num_heads=bert_config.num_attention_heads,
       name_replacements=tf1_checkpoint_converter_lib.BERT_V2_NAME_REPLACEMENTS,
       permutations=tf1_checkpoint_converter_lib.BERT_V2_PERMUTATIONS,
-      exclude_patterns=["adam", "Adam"])
+      exclude_patterns=["lamb", "Lamb"])
 
   # Create a V2 checkpoint from the temporary checkpoint.
   model = _create_bert_model(bert_config)

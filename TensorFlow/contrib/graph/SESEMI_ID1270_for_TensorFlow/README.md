@@ -33,11 +33,11 @@ SESEMI的工作属于半监督学习(SSL)的框架，在图像分类的背景下
 
 
     参考实现：
-
+    
     适配昇腾 AI 处理器的实现：
-
+    
     https://gitee.com/zhou-xinyu-HIT/modelzoo/tree/master/contrib/TensorFlow/Research/graph/SESEMI_ID1270_for_TensorFlow
-
+    
     通过Git获取对应commit_id的代码方法如下：
         git clone {repository_url}    # 克隆仓库的代码
         cd {repository_name}    # 切换到模型的代码仓目录
@@ -45,12 +45,13 @@ SESEMI的工作属于半监督学习(SSL)的框架，在图像分类的背景下
         git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
 
-    
+
+​    
 ### 默认配置<a name="section91661242121611"></a >
 
     -   训练数据集：
           -  数据集采用cifar-10数据集
-
+    
     -   测试数据集：
           -  测试数据集与训练数据集相同,使用cifar-10数据集
 
@@ -97,7 +98,7 @@ SESEMI的工作属于半监督学习(SSL)的框架，在图像分类的背景下
         │   |--horse 
         │   |--ship 
         │   |--truck 
-        ``` 
+        ```
 -   模型训练。
     1. 配置训练参数 首先在脚本run_1p.sh中，配置训练数据集--data、选择网络--network、输入训练数据量--labels参数。
 
@@ -134,17 +135,25 @@ SESEMI的工作属于半监督学习(SSL)的框架，在图像分类的背景下
 
 ### 训练精度
 
-以下是各精度对比图
+以下是各精度对比数据。
 
-![输入图片说明](image3.png)
+| 样本数量 | 论文精度   | GPU精度 | NPU精度 |
+| -------- | ---------- | ------- | ------- |
+| 1000     | 29.44±0.24 | 0.2876  | 0.2983  |
+| 2000     | 21.53±0.18 | 0.2186  | 0.2179  |
+
 在训练数据量为1000和2000的条件下，我们复现的GPU和NPU精度都能达到论文指标
 
- 
 ### 训练性能
 
-![输入图片说明](image6.png)
+| 样本数量 | GPU性能   | NPU性能   |
+| -------- | --------- | --------- |
+| 1000     | 75ms/step | 53ms/step |
 
-总结：GPU下绝大部分epoch的运行时间为4.5s/Epoch，其中75ms/step。NPU下绝大部分epoch的运行时间为7s/Epoch，其中115ms/step。总体来看，GPU的运行时间为23分3秒，NPU的运行时间为37分7秒.NPU的总体训练性能略低于GPU。
+备注：使用x86机器本地复现。
+
+总结：GPU下训练性能为75ms/step。NPU下训练性能为53ms/step。总体来看，NPU的训练性能强于GPU。
+
 #### 数据集说明：
 我们提供了CIFAR-10数据集，其他数据集需要修改其中的相对路径才可跑通，我们提供的数据如下：
 URL:

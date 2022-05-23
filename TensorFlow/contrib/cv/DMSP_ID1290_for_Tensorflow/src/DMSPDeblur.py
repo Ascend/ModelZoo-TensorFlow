@@ -25,6 +25,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 import time
 import matplotlib as mpl
 mpl.use('Agg')
@@ -53,7 +54,8 @@ def filter_image(image, kernel, mode='valid'):
     """ Implements color filtering (convolution using a flipped kernel) """
     chs = []
     for d in range(image.shape[2]):
-        channel = sig.convolve2d(image[:,:,d], np.flipud(np.fliplr(kernel)), mode=mode)
+        # channel = sig.convolve2d(image[:,:,d], np.flipud(np.fliplr(kernel)), mode=mode)
+        channel = sig.fftconvolve(image[:, :, d], np.flipud(np.fliplr(kernel)), mode=mode)
         chs.append(channel)
     return np.stack(chs, axis=2)
 
@@ -61,7 +63,8 @@ def convolve_image(image, kernel, mode='valid'):
     """ Implements color image convolution """
     chs = []
     for d in range(image.shape[2]):
-        channel = sig.convolve2d(image[:,:,d], kernel, mode=mode)
+        # channel = sig.convolve2d(image[:,:,d], kernel, mode=mode)
+        channel = sig.fftconvolve(image[:, :, d], kernel, mode=mode)
         chs.append(channel)
     return np.stack(chs, axis=2)
 
@@ -127,7 +130,7 @@ def DMSPDeblur(degraded, kernel, sigma_d, params):
 
         #离线推理
         input_image = res + noise
-        input_image.tofile("/cache/model/dmsp_input_image.bin")  # 处理后的图片保存为bin文件
+        # input_image.tofile("/cache/model/dmsp_input_image.bin")
 
         rec = params['denoiser'].denoise(res + noise,False)
         prior_grad = res - rec

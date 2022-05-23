@@ -29,6 +29,7 @@
 
 **描述（Description）：Wide&Deep是一个同时具有Memorization和Generalization功能的CTR预估模型，该模型主要由广义线性模型（Wide网络）和深度神经网络（Deep网络）组成，对于推荐系统来说，Wide线性模型可以通过交叉特征转换来记忆稀疏特征之间的交互，Deep神经网络可以通过低维嵌入来泛化未出现的特征交互。与单一的线性模型（Wide-only）和深度模型（Deep-only）相比，Wide&Deep可以显著提高CTR预估的效果，从而提高APP的下载量。
 
+<h2 id="概述.md">概述</h2>
 - 参考论文：
    https://arxiv.org/abs/1606.07792
 
@@ -37,7 +38,7 @@
 
 - 适配昇腾 AI 处理器的实现：
 
-    https://gitee.com/chen-yucheng113/research_TF/tree/master/built-in/TensorFlow/Research/debugging_model/WideDeep_ID2712_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/recommendation/WideDeep_ID2712_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
     

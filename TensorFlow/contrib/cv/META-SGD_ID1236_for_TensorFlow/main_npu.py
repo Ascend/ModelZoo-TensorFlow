@@ -269,7 +269,11 @@ def main():
     config = tf.ConfigProto(allow_soft_placement=True)
     custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
-    sess = tf.InteractiveSession(config=npu_config_proto(config_proto=config))
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+    config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+    config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+
+    sess = tf.InteractiveSession(config=config)
 
     if FLAGS.datasource == 'sinusoid':
         if FLAGS.train:

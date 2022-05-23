@@ -105,6 +105,7 @@ def main(args):
     triplet_model = args.triplet_model
     save_dir = args.save_dir
     max_step = args.max_step
+    train_epoch = args.train_epoch
 
     # In[4]:
     batch_X_x = tf.placeholder(tf.float32, [None, 1, max_length, 1])
@@ -144,7 +145,7 @@ def main(args):
 
         cnt = 0
         #
-        for i in range(2000000):
+        for i in range(train_epoch):
             start_time = time.time()
             total_batch_x, total_batch_y = generate_data(feature_size, max_length, batch_size * 10, MAT_folder, img_folder,triplet_model, temp_folder)
             total_batch_x = interp_batch(total_batch_x)
@@ -174,6 +175,9 @@ def main(args):
             # shuffle 4 times
             acc = []
             step_time = 0
+
+            iter_start = time.time()
+
             for kk in range(num_batch):
                 temp_batch_size = batch_size
                 if kk == num_batch - 1:
@@ -239,8 +243,12 @@ def main(args):
                                                   batch_Y: batch_y,
                                                   keep_prob: 0.75})
                     #print('step %d, training accuracy %g' % (cnt, train_accuracy))
-                    step_time = time.time() - start_time
+                    step_time = time.time() - iter_start
                     print("epoch : {}----step : {}----loss : {}----sec/step : {:.3f}".format(i, cnt, 1-train_accuracy,step_time))
+            
+            iter_end = time.time()
+            print("\n ----> iter duration = {} \n".format(iter_end - iter_start), flush=True)
+
             acc = np.array(acc)
             print('accuracy : {}'.format(np.mean(acc)))
 
@@ -917,6 +925,7 @@ def parse_arguments(argv):
     parser.add_argument('--triplet_model', type=str,
                         default='/home/ma-user/modelarts/outputs/train_url_0/model_data/20211209-124102/ ')
     parser.add_argument('--max_step', type=int,default='2000000')
+    parser.add_argument('--train_epoch', type=int,default='2000000')
     parser.add_argument('--save_dir', type=str,
                         default='/home/ma-user/modelarts/outputs/train_url_0/models/result/model.ckpt')
     parser.add_argument('--output_path', type=str,

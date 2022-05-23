@@ -118,6 +118,7 @@ then
           --triplet_model ${data_path}/dataset/model_data/20211209-124102/ \
           --save_dir ${output_path}model_data/traj/ \
           --max_step 15 \
+          --train_epoch=2000000 \
           --output_path ${output_path} >${print_log} 2>&1
 
 
@@ -129,6 +130,7 @@ else
           --triplet_model ${data_path}/dataset/model_data/20211209-124102/ \
           --save_dir ${output_path}model_data/traj/ \
           --max_step 15 \
+          --train_epoch=2000000 \
           --output_path ${output_path} >${print_log} 2>&1
 
 fi

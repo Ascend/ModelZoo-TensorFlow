@@ -123,6 +123,8 @@ do
     --eval_files_dir=${data_path}/tfrecord/seq_len_512_max_pred_80/wikicorpus_en/test \
     --npu_bert_debug=False \
     --npu_bert_use_tdt=True \
+    --npu_bert_npu_dropout=True \
+    --npu_bert_npu_dropout_v3=False \
     --do_train=True \
     --num_accumulation_steps=1 \
     --npu_bert_job_start_file= \

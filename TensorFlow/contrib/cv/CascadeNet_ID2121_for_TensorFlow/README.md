@@ -43,9 +43,8 @@ Cascade模型是论文“A Deep Cascade of Convolutional Neural Networks for Dyn
 # 训练性能
 |                |  GPU | NPU   |
 |----------------|------|--------|
-| Epoch | 2 min | 6 min |
-* 训练性能单个epoch耗时NPU约为GPU3倍，提交ISSUE，分析后主要原因为： 网络涉及大量FFT与IFFT操作，该算子NPU训练时不支持，训练时速度无法提高
-* 但离线推理时，推理性能不受影响，离线推理速度： 重建一组数据耗时0.52s
+| 平均单Step耗时 | ~7.0E-4 s | ~7.7E-4 s |
+* 训练性能平均单个Step耗时NPU略高于GPU，提交ISSUE，分析后主要原因为： 网络涉及大量FFT与IFFT操作，该算子NPU尚不支持，训练时速度无法提高
 # 离线推理命令参考
 * ./out/msame --model="cascade_om.om" --input="./feature/,./mask/" --output="./" --outfmt BIN
 # pb转om命令参考

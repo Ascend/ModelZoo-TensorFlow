@@ -26,6 +26,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
 #npu代码
 from npu_bridge.npu_init import *
 
@@ -52,16 +53,10 @@ from DAE_model import denoiser
 config = tf.ConfigProto()
 
 #=========npu代码==============
-profiling_dir = "/cache/profiling"
-dump_debug_dir = "/cache/dump"
-model_dir = "/cache/model/"
-os.makedirs(profiling_dir)
-os.makedirs(dump_debug_dir)
-os.makedirs(model_dir)
 custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
 #=============关闭融合策略=============
-custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("/home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/fusion_switch.cfg")
+# custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("/home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/fusion_switch.cfg")
 #==============打开混合精度============
 # custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
 #===============溢出检查================
@@ -69,7 +64,7 @@ custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("/home/ma-u
 # custom_op.parameter_map["enable_dump_debug"].b = True
 # custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all")
 
-
+# profiling
 # custom_op.parameter_map["profiling_mode"].b = True
 # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/cache/profiling","task_trace":"on"}')
 #=========npu代码==============
@@ -88,30 +83,27 @@ def listdir(base_dir, list_name):  # 传入存储的list
             listdir(file_path, list_name)
         else:
             list_name.append(file_path)
-
-
 #==============npu代码=========================
 import argparse
-import moxing as mox
 
 # 解析输入参数data_url
 parser = argparse.ArgumentParser()
-parser.add_argument("--data_url", type=str, default="obs://train-dmsp/BSDS300/images/test/")
+parser.add_argument("--data_url", type=str, default="./BSDS300/images/train")
 # config = parser.parse_args()
 config, unparsed = parser.parse_known_args()
 # 在ModelArts容器创建数据存放目录
-data_dir = "cache/dataset"
-os.makedirs(data_dir)
+data_dir = config.data_url
+# os.makedirs(data_dir)
 # OBS数据拷贝到ModelArts容器内
-mox.file.copy_parallel(config.data_url, data_dir)
+# mox.file.copy_parallel(config.data_url, data_dir)
 #========================================================================
 list_name = []
-base_dir = '/home/dataset/ILSVRC/Data/CLS-LOC/test'  # 文件夹路径
+base_dir = './train'  # 文件夹路径
 listdir(data_dir, list_name)
 size = len(list_name)
 # Load data
 sigma_d = 255 * .01
-matFile = io.loadmat('/home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/kernels.mat')
+matFile = io.loadmat('./src/kernels.mat')
 kernel = matFile['kernels'][0,0]
 kernel = kernel / np.sum(kernel[:])
 
@@ -121,12 +113,10 @@ listdir(test_dir, test_set)
 non_blind= []
 i=1
 
-
 # print("==================training DAE=====================")
 # from DAE import DAE_MODEL
 # dncnn = DAE_MODEL()
 # dncnn.train(data_dir)
-
 
 print("============start non-blind deblurring on Berkeley segmentation dataset==============")
 params = {}
@@ -137,7 +127,7 @@ params['num_iter'] = 300
 params['mu'] = 0.9
 params['alpha'] = 0.1
 for image_path in test_set:
-    if(i==51):
+    if(i==21):
         break
     gt = Image.open(image_path)
     gt = gt.resize((180,180))
@@ -147,7 +137,7 @@ for image_path in test_set:
     degraded = degraded + noise
 
     img_degraded = Image.fromarray(np.clip(degraded, 0, 255).astype(dtype=np.uint8))
-    img_degraded.save("/home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/data/degraded.png","png")
+    # img_degraded.save("/home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/data/degraded.png","png")
 
     # non-blind deblurring demo
     # run DMSP
@@ -156,7 +146,7 @@ for image_path in test_set:
     restored,psnr = DMSPDeblur(degraded, kernel, sigma_d, params)
     non_blind.append(psnr)
     img_restored = Image.fromarray(np.clip(restored, 0, 255).astype(dtype=np.uint8))
-    img_restored.save("/home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/data/restored.png","png")
+    # img_restored.save("/home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/data/restored.png","png")
     i+=1
 
 print("non_blind PSNR is:",np.mean(non_blind))
@@ -168,7 +158,7 @@ test_res = []
 j = 0
 for test_image in test_set:
     j+=1
-    if(j==51):
+    if(j==21):
         break
     gt = Image.open(test_image)
     gt = gt.resize((180, 180))
@@ -186,13 +176,13 @@ for test_image in test_set:
     restored_nb,psnr_test = DMSPDeblur(degraded, kernel, -1, params)
     test_res.append(psnr_test)
     img_restored_nb = Image.fromarray(np.clip(restored_nb, 0, 255).astype(dtype=np.uint8))
-    img_restored_nb.save("/home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/restored_noise_blind.png","png")
+    # img_restored_nb.save("/home/ma-user/modelarts/user-job-dir/code/dmsp-tensorflow/restored_noise_blind.png","png")
 
 print("noise-blind PSNR is:",np.mean(test_res))
 
-print("========================")
-print(os.listdir(model_dir))
-print(os.listdir(profiling_dir))
-print("========================")
-mox.file.copy_parallel(model_dir, "obs://train-dmsp/output/model/")
-mox.file.copy_parallel(profiling_dir, "obs://train-dmsp/output/profiling/")
+# print("========================")
+# print(os.listdir(model_dir))
+# print(os.listdir(profiling_dir))
+# print("========================")
+# mox.file.copy_parallel(model_dir, "obs://train-dmsp/output/model/")
+# mox.file.copy_parallel(profiling_dir, "obs://train-dmsp/output/profiling/")
