@@ -42,13 +42,12 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(str(args.precis
 - 精度结果比对
   - 外观分支
 
-![输入图片说明](final_duibi.png)  
+![输入图片说明](../../../../final_appearance.png)  
 
 
   - 语义分支  
 
-![输入图片说明](fianl_senamic.png)
-
+![输入图片说明](../../../../fianl_semanic.png)  
 ### 高级参考
 ├── scripts                                //数据预处理  
 ├── experiments                            //网络训练  
