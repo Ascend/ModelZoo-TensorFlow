@@ -119,8 +119,8 @@ mv -f configs/config.py.bak configs/config.py
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-
-FPS=`grep 'FPS:'  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F ':' '{print $2}' | tail -n 1`
+FPS=`grep 'fps :'  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F' ' '{print $25}' | tail -n 1`
+#FPS=`grep 'FPS:'  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F ':' '{print $2}' | tail -n 1`
 
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
