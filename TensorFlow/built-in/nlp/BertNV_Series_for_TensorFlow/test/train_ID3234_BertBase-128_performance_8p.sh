@@ -21,7 +21,7 @@ train_batch_size=32
 #训练ephch
 num_train_epochs=1.0
 #学习率
-learning_rate=1e-6
+learning_rate=2e-5
 warmup_proportion=0.1
 precision="fp32"
 #维测参数，precision_mode需要模型审视修改
@@ -209,7 +209,7 @@ FPS=`awk 'BEGIN{printf "%d\n",'$step_sec' * '$train_batch_size' * '$RANK_SIZE'}'
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep -a 'eval_accuracy' ${cur_path}/${output_dir}/eval_results.txt|awk '{print $3}'`
+train_accuracy=`grep -a 'MCC' ${cur_path}/${output_dir}/eval_results.txt|awk '{print $3}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
