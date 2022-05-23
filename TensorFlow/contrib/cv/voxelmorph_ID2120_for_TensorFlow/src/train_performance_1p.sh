@@ -112,9 +112,9 @@ batch_size=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train_all.py ${data_path} --atlas_file=${data_path}/Dataset-ABIDE/atlas_abide_brain_crop.nii.gz --model_dir=${output_path} --tensorboard_log_dir=${output_path} --batch_size=batch_size
+    python3.7 ./train_all.py ${data_path}/train/ --atlas_file=${data_path}/atlas_abide_brain_crop.nii.gz --model_dir=${output_path} --tensorboard_log_dir=${output_path} --batch_size=batch_size
 else
-    python3.7 ./train_all.py ${data_path} --atlas_file=${data_path}/Dataset-ABIDE/atlas_abide_brain_crop.nii.gz --model_dir=${output_path} --tensorboard_log_dir=${output_path} --batch_size=batch_size 1>${print_log} 2>&1
+    python3.7 ./train_all.py ${data_path}/train/ --atlas_file=${data_path}/atlas_abide_brain_crop.nii.gz --model_dir=${output_path} --tensorboard_log_dir=${output_path} --batch_size=batch_size 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
