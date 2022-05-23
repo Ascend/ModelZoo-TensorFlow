@@ -38,7 +38,7 @@ import os
 import time
 from models.pre_input import get_right_images
 import models.model_tf as mm
-import moxing as mx
+# import moxing as mx
 from npu_bridge.npu_init import NPULossScaleOptimizer, npu_config_proto, RewriterConfig, \
     ExponentialUpdateLossScaleManager, FixedLossScaleManager
 
@@ -71,11 +71,13 @@ flags.DEFINE_string('last_checkpoint_dir',
                     'the path of train data')
 flags.DEFINE_string('last_checkpoint_dir_name',
                     '/D11-C5-25-19/', 'the path of train data')
+flags.DEFINE_string('save_ckpt_Dir', None, 'checkpoint save path')
 
 print('***************************************************')
 start_time = time.time()
 # creat checkpoint save path
-saveDir = '/cache/saveModels'
+# saveDir = '/cache/saveModels'
+saveDir = FLAGS.save_ckpt_Dir
 cwd = os.getcwd()
 directory = saveDir + '/' + 'D' + \
             str(FLAGS.Dn) + '-C' + str(FLAGS.Dc) + \
@@ -130,9 +132,9 @@ print('testing model saved:' + saveFile)
 # mx.file.copy_parallel(FLAGS.data_url, '/cache/data/')  # copy to modelarts
 path_train = FLAGS.data_train_dir
 feature_trn, label_trn, mask_trn = get_right_images(path_train)
-if FLAGS.continue_training:
-    mx.file.copy_parallel(FLAGS.last_checkpoint_dir + FLAGS.last_checkpoint_dir_name,
-                          saveDir + FLAGS.last_checkpoint_dir_name)
+# if FLAGS.continue_training:
+    # mx.file.copy_parallel(FLAGS.last_checkpoint_dir + FLAGS.last_checkpoint_dir_name,
+                          # saveDir + FLAGS.last_checkpoint_dir_name)
 
 tf.reset_default_graph()
 rows = image_size
@@ -246,7 +248,7 @@ with tf.Session(config=config) as sess:
 end_time = time.time()
 print('Training completed in minutes', ((end_time - start_time) / 60))
 print('training completed at', datetime.now().strftime('%d-%b-%Y %I:%M%p'))
-print('****************************************************')
+# print('****************************************************')
 # copy results to obs
-mx.file.copy_parallel('/cache/saveModels', FLAGS.train_url)
-print('copy saved model to obs.')
+# mx.file.copy_parallel('/cache/saveModels', FLAGS.train_url)
+# print('copy saved model to obs.')
