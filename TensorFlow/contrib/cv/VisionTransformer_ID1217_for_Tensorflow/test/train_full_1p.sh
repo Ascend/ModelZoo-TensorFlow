@@ -114,35 +114,38 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-batch_size=2
+batch_size=4
 
 
-export LD_LIBRARY_PATH=/usr/local/python3.7.5/lib:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=/usr/local/python3.7.5/lib:$LD_LIBRARY_PATH
 #如果用户环境存在多个python3版本，则指定使用python3.7.5版本
 
-export PATH=/usr/local/python3.7.5/bin:$PATH
-export install_path=/usr/local/Ascend/ascend-toolkit/latest   #软件包安装路径，请根据实际情况修改
-export LD_LIBRARY_PATH=${install_path}/fwkacllib/lib64:/usr/lib:$LD_LIBRARY_PATH
-export PATH=${install_path}/fwkacllib/ccec_compiler/bin:${install_path}/fwkacllib/bin:$PATH
-export PYTHONPATH=${install_path}/fwkacllib/python/site-packages:${install_path}/toolkit/python/site-packages:$PYTHONPATH
-export PYTHONPATH=/usr/local/Ascend/tfplugin/latest/tfplugin/python/site-packages:$PYTHONPATH
-export ASCEND_OPP_PATH=${install_path}/opp
-export ASCEND_AICPU_PATH=${install_path}/{arch}-linux    #其中{arch}请根据实际情况替换(arm64或x86_64)
-export TOOLCHAIN_HOME=${install_path}/toolkit
+#export PATH=/usr/local/python3.7.5/bin:$PATH
+#export install_path=/usr/local/Ascend/ascend-toolkit/latest   #软件包安装路径，请根据实际情况修改
+#export LD_LIBRARY_PATH=${install_path}/fwkacllib/lib64:/usr/lib:$LD_LIBRARY_PATH
+#export PATH=${install_path}/fwkacllib/ccec_compiler/bin:${install_path}/fwkacllib/bin:$PATH
+#export PYTHONPATH=${install_path}/fwkacllib/python/site-packages:${install_path}/toolkit/python/site-packages:$PYTHONPATH
+#export PYTHONPATH=/usr/local/Ascend/tfplugin/latest/tfplugin/python/site-packages:$PYTHONPATH
+#export ASCEND_OPP_PATH=${install_path}/opp
+#export ASCEND_AICPU_PATH=${install_path}/{arch}-linux    #其中{arch}请根据实际情况替换(arm64或x86_64)
+#export TOOLCHAIN_HOME=${install_path}/toolkit
 
 if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ./vit_allpipeline_fusion_accelerate.py --data_path=${data_path} --output_path=${output_path} > ${print_log} 2>&1 :
 else
-    python3.7 ./vit_allpipeline_fusion_accelerate.py --data_path=${data_path} --output_path=${output_path} > ${print_log} 2>&1 
+    python3.7 ./vit_allpipeline_fusion_accelerate.py --data_path=${data_path}/dataset --output_path=${output_path} > ${print_log} 2>&1 
 fi
 
 # 性能相关数据计算
-# StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
-# FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+StepTime=`grep "time" ${print_log} | awk '{print $9}' | tail -n +3 | awk '{sum+=$1} END {print sum/NR}'`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Average Distances :" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`grep "Train ACC" ${print_log} | awk '{print $NF}'`
+
+# 提取所有loss打印信息
+grep "loss:" ${print_log} | awk '{print $6}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -179,15 +182,15 @@ e2e_time=$(( $end_time - $start_time ))
 
 echo "------------------ Final result ------------------"
 # 输出性能FPS/单step耗时/端到端耗时
-# echo "Final Performance images/sec : $FPS"
-# echo "Final Performance sec/step : $StepTime"
+echo "Final Performance images/sec : $FPS"
+echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
 # 输出训练精度
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-# ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
+ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -195,7 +198,8 @@ echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}
 echo "BatchSize = ${batch_size}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DeviceType = `uname -m`" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-# echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-# echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-# echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
