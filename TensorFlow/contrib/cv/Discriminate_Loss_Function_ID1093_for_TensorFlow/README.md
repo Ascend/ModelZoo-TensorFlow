@@ -26,7 +26,7 @@ Files
 
 数据集：http://benchmark.tusimple.ai/#/t/1
 
-训练命令：python training.py
+训练命令：npu_train.sh
 
 GPU 训练时间：168小时
 NPU 训练时间：24小时
