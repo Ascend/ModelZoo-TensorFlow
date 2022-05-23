@@ -96,6 +96,7 @@ start_time=$(date +%s)
 
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/
+
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
@@ -128,16 +129,16 @@ do
 	--data_url ${data_path} \
 	--batch_size 16 \
 	--image_size  256 \
-	--num_epoch 4 \
+	--num_epoch 2 \
 	--data_train_dir ${data_path}/chest_train_acc3.hdf5 \
 	--save_ckpt_Dir ./save_ckpt >  ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
 	
-	python3 test.py \
+    python3 test.py \
 	--data_url ${data_path} \
 	--data_test_dir ${data_path}/chest_test_acc3.hdf5 \
 	--batch_size 16 \
 	--image_size  256 \
-	--num_epoch 4 \
+	--num_epoch 2 \
 	--save_ckpt_Dir ./save_ckpt/ >  ${cur_path}test/output/${ASCEND_DEVICE_ID}/val_${ASCEND_DEVICE_ID}.log   2>&1
 
 
@@ -151,15 +152,12 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-grep "steptime:"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log  |awk '{print $7}' > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt
-cat  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt |awk '{sum+=$1} END {print "Avg = ",sum/NR}' > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt
-TrainingTime=`grep 'Avg' $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt |awk '{print $3}'` 
-
+StepTime=`grep "StepTime" ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk '{print $7}' | tail -n +2 | awk '{sum+=$1} END {print sum/NR}'`
 #打印，不需要修改
 #echo "Final Performance image/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_acc=`grep "Avg PSNR" $cur_path/test/output/${ASCEND_DEVICE_ID}/val_${ASCEND_DEVICE_ID}.log|awk  '{print $3}'`
+#train_acc=`grep "Avg PSNR" $cur_path/test/output/${ASCEND_DEVICE_ID}/val_${ASCEND_DEVICE_ID}.log|awk  '{print $3}'`
 #打印，不需要修改
 #echo "Final Train Accuracy : ${train_acc}"
 #echo "E2E Training Duration sec : $e2e_time"
@@ -172,9 +170,11 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 ##获取性能数据，不需要修改
 #吞吐量
-ActualFPS=`awk 'BEGIN{printf "%.3f\n",  16/'${TrainingTime}'}'`
-#单迭代训练时长
+ActualFPS=`awk 'BEGIN{printf "%.3f\n",  16/'${StepTime}'}'`
 
+echo "Final Performance images/sec : $ActualFPS"
+echo "Final Performance sec/step : $StepTime"
+echo "E2E Training Duration sec : $e2e_time"
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep 'AvgLoss:' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $5}'  > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
@@ -189,6 +189,6 @@ echo "BatchSize = ${BatchSize}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${Cas
 echo "DeviceType = ${DeviceType}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainingTime = ${StepTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
