@@ -21,7 +21,7 @@ RankSize=1
 #参数配置
 data_path="/npu/traindata/ID2940_CarPeting_TF_WideDeep_TF"
 train_size=52428800
-display_step=10
+display_step=1
 n_epoches=4
 
 #维持参数，以下不需要修改
