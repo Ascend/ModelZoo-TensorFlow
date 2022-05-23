@@ -119,14 +119,14 @@ else
 fi
 
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "time" ${print_log} | awk '{print $9}' | tail -n +3 | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Average Distances :" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`grep "Train ACC" ${print_log}  | awk '{print $NF}'`
+
 # 提取所有loss打印信息
-#grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-grep "d_loss :" ${print_log} | awk -F "|" '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "loss:" ${print_log} | awk '{print $6}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -136,6 +136,7 @@ grep "d_loss :" ${print_log} | awk -F "|" '{print $2}' > ./test/output/${ASCEND_
 
 # 判断本次执行是否正确使用Ascend NPU
 use_npu_flag=`grep "The model has been compiled on the Ascend AI processor" ${print_log} | wc -l`
+
 if [ x"${use_npu_flag}" == x0 ];
 then
     echo "------------------ ERROR NOTICE START ------------------"
@@ -182,3 +183,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
