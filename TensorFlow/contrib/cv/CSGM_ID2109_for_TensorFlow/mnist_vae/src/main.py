@@ -43,6 +43,13 @@ import time
 from npu_bridge.npu_init import *
 flags = tf.flags
 FLAGS = flags.FLAGS
+config = tf.ConfigProto()
+custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
+custom_op.name = "NpuOptimizer"
+custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+#关闭日志级别
+os.system('export ASCEND_SLOG_PRINT_TO_STDOUT=0')
+os.system('export ASCEND_GLOBAL_LOG_LEVEL=3')
 
 #import argparse
 #import moxing as mox
