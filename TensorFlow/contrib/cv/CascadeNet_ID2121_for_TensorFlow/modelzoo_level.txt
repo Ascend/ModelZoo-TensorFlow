@@ -3,4 +3,4 @@ PerfStatus:POK
 PrecisionStatus:OK
 GPUStatus:OK
 NPUMigrationStatus:POK
-AutoTune:POK 
+AutoTune:OK 
