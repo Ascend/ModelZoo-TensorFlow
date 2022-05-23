@@ -1,5 +1,4 @@
 #!/bin/bash
-#nmon -s0.5 -c 1800 -f -m ./
 #当前路径,不需要修改
 cur_path=`pwd`
 #export ASCEND_SLOG_PRINT_TO_STDOUT=1
