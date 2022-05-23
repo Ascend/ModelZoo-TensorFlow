@@ -34,12 +34,12 @@ SimpleHumanPose模型主要针对人体姿态估计和姿态追踪，提出一�
 ├── README.md                                 //代码说明文档
 ├── LICENSE                                   //许可证
 ├── src
+│    ├── data                                 //包含数据加载代码
+│    ├── lib                                  //包含2D多人姿态估计系统的核心代码                   
+│    ├── main                                 //包含train/test网络、ckpt转pb、数据集转bin等代码
 |    ├── boot_pb_frozen.py                    //ModelArts启动pb固化代码
 |    ├── boot_inference.py                    //ModelArts启动计算精度代码
 |    ├── boot_test.py                         //ModelArts启动测试代码
-|    ├── pip-requirements.txt                 //配置文件，用于指定依赖包的包名及版本号
-│    ├── data                                 //包含数据加载代码
-│    ├── lib                                  //包含2D多人姿态估计系统的核心代码                   
-│    ├── main                                 //包含train/test网络、ckpt转pb、数据集转bin等代码        
+|    ├── pip-requirements.txt                 //配置文件，用于指定依赖包的包名及版本号    
 ```
 
