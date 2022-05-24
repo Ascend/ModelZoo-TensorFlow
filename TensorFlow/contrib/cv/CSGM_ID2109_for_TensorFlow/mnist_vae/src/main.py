@@ -105,11 +105,6 @@ def main(hparams):
         print(var.op.name)
     print ('')
 
-    #npu迁移代码
-    config = tf.ConfigProto()
-    custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
-    custom_op.name = "NpuOptimizer"
-    config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 
     # Get a new session
     sess = tf.Session(config=config)
