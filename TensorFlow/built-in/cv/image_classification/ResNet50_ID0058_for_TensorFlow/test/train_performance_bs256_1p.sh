@@ -96,7 +96,7 @@ fi
 #修改参数
 sed -i "50s|PATH_TO_BE_CONFIGURED|${data_path}|g"  $cur_path/../src/configs/res50_256bs_1p.py
 sed -i "107s|PATH_TO_BE_CONFIGURED|${cur_path}/output/0/d\_solution/ckpt0|g"  $cur_path/../src/configs/res50_256bs_1p.py
-sed -i "112s|./src/trainers/ReduceMeanD.json|${cur_path}/../ReduceMeanD.json|g" $cur_path/../src/trainers/gpu_base_trainer.py
+sed -i "112s|./src/trainers/ReduceMeanD.json|${cur_path}/../src/trainers/ReduceMeanD.json|g" $cur_path/../src/trainers/gpu_base_trainer.py
 
 cp data_loader.py $cur_path/../src/data_loader/resnet50/
 #训练开始时间，不需要修改
@@ -120,7 +120,7 @@ do
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
-    nohup python3.7 ${cur_path}/../src/mains/res50.py --config_file=res50_256bs_1p \
+    nohup python3.7 src/mains/res50.py --config_file=res50_256bs_1p \
     --max_train_steps=${train_steps} \
     --iterations_per_loop=100 \
     --debug=True \
@@ -136,7 +136,7 @@ e2e_time=$(( $end_time - $start_time ))
 #参数改回
 sed -i "50s|${data_path}|PATH_TO_BE_CONFIGURED|g"  $cur_path/../src/configs/res50_256bs_1p.py
 sed -i "107s|${cur_path}/output/0/d\_solution/ckpt0|PATH_TO_BE_CONFIGURED|g"  $cur_path/../src/configs/res50_256bs_1p.py
-sed -i "112s|${cur_path}/../ReduceMeanD.json|./src/trainers/ReduceMeanD.json|g" $cur_path/../src/trainers/gpu_base_trainer.py
+sed -i "112s|${cur_path}/../src/trainers/ReduceMeanD.json|./src/trainers/ReduceMeanD.json|g" $cur_path/../src/trainers/gpu_base_trainer.py
 
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
