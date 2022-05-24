@@ -43,7 +43,7 @@ SimpleHumanPose模型主要针对人体姿态估计和姿态追踪，提出一�
 |    ├── pip-requirements.txt                  //配置文件，用于指定依赖包的包名及版本号    
 ```
 ### ckpt转pb
-在main/pb_frozen.py中，将模型和权重转化为pb，可以使用ModelArts启动pb固化代码，我们提供转换好的pb模型文件:[obs链接，提取码：000000](https://e-share.obs-website.cn-north-1.myhuaweicloud.com?token=0xQYRip2sq0KE/psA/59+BRZKLxwglylSGDkKq9CCOl7T4Nsf80zWftId0Zc+TqRVTMTtR1TiXIDRq+a4W6N5HfkghM5sX1GTCI1T1xyYOLeq6YjcV1RRAHr8/mo/0DjOirO77RhAeQ+32iuuaWzbZU0UkcTvtIBWsYFzQgKOaDkaUUhmut8luIAdb97RhTwk9Xb9YwIvNF70BbD4MIemgJlzCgMIgg41X2PrRKyLa840RwBjNeM/3nRimUVLxPI2w1oFj08R7MPETcc9W5cEHlj8RxzJ2cgr/8F/OEBZQNqTq7fHSnWy2OqCxoD0Vj5QBLMztMGxadgGeuARd1G2Pb2+EXBf3N9mSTofqV6RowjgM5ETuhJuW2HCXEdZSJ6qPqtgwfLE4x6G12qkvA+cxG986L9lTGGrcugfTkTyPnLuSmz78pHBAAXBXiylok4cmRz3IM0BFkNk+C4CEKT30kmKceVYM33inGtR4kKvQk60UiGcRnjJVgDdPN0TtCiDE5Wq7MJ+dc10r8XMctCKVxJuHvt4vliJolTG4HqV9Q=)
+在main/pb_frozen.py中，将模型和权重转化为pb，可以使用ModelArts启动pb固化代码，我们提供转换好的pb模型文件: [obs链接，提取码：000000](https://e-share.obs-website.cn-north-1.myhuaweicloud.com?token=0xQYRip2sq0KE/psA/59+BRZKLxwglylSGDkKq9CCOl7T4Nsf80zWftId0Zc+TqRVTMTtR1TiXIDRq+a4W6N5HfkghM5sX1GTCI1T1xyYOLeq6YjcV1RRAHr8/mo/0DjOirO77RhAeQ+32iuuaWzbZU0UkcTvtIBWsYFzQgKOaDkaUUhmut8luIAdb97RhTwk9Xb9YwIvNF70BbD4MIemgJlzCgMIgg41X2PrRKyLa840RwBjNeM/3nRimUVLxPI2w1oFj08R7MPETcc9W5cEHlj8RxzJ2cgr/8F/OEBZQNqTq7fHSnWy2OqCxoD0Vj5QBLMztMGxadgGeuARd1G2Pb2+EXBf3N9mSTofqV6RowjgM5ETuhJuW2HCXEdZSJ6qPqtgwfLE4x6G12qkvA+cxG986L9lTGGrcugfTkTyPnLuSmz78pHBAAXBXiylok4cmRz3IM0BFkNk+C4CEKT30kmKceVYM33inGtR4kKvQk60UiGcRnjJVgDdPN0TtCiDE5Wq7MJ+dc10r8XMctCKVxJuHvt4vliJolTG4HqV9Q=)
 
 
 pb_frozen.py主要代码如下：
@@ -71,7 +71,7 @@ with tf.Session() as sess:
 ```
 
 ### pb转om
-使用ATC模型转换工具进行模型转换时可以参考如下指令，我们提供转换好的om模型文件:[obs链接，提取码：000000](https://e-share.obs-website.cn-north-1.myhuaweicloud.com?token=0xQYRip2sq0KE/psA/59+BRZKLxwglylSGDkKq9CCOl7T4Nsf80zWftId0Zc+TqRVTMTtR1TiXIDRq+a4W6N5HfkghM5sX1GTCI1T1xyYOLeq6YjcV1RRAHr8/mo/0DjOirO77RhAeQ+32iuuaWzbZU0UkcTvtIBWsYFzQgKOaDkaUUhmut8luIAdb97RhTwk9Xb9YwIvNF70BbD4MIemgJlzCgMIgg41X2PrRKyLa9sod8v7oOewaSzJFh6oPs0VltNRJ66ZKmZ3VwoUB6PPNZOjRT/vTBpMsioMbQkju8iNFs50rY2vHedwUvENXeC16JcpUGKHlsEjP4cp+2byr7TQmi0Rw6oBNj1AalqCEvvJumjhp+WLj32IT9Vl1Fz6d4aGLEPh2BiWxLO8ZvO3uXwjccj5g3jsr+r5Fwi5hE/gXSfjIiF82n1PDh2wVggyKogS+us60Qks6Gw9fGuAKSOURXV875yiYCFqnVfDcJEUB3sSx1WrcTDOMA+mE6aDAujlInC8aRgjP3XMTwkennHqtT9ZF6WRJ7BLx0cJ18=)
+使用ATC模型转换工具进行模型转换时可以参考如下指令，我们提供转换好的om模型文件: [obs链接，提取码：000000](https://e-share.obs-website.cn-north-1.myhuaweicloud.com?token=0xQYRip2sq0KE/psA/59+BRZKLxwglylSGDkKq9CCOl7T4Nsf80zWftId0Zc+TqRVTMTtR1TiXIDRq+a4W6N5HfkghM5sX1GTCI1T1xyYOLeq6YjcV1RRAHr8/mo/0DjOirO77RhAeQ+32iuuaWzbZU0UkcTvtIBWsYFzQgKOaDkaUUhmut8luIAdb97RhTwk9Xb9YwIvNF70BbD4MIemgJlzCgMIgg41X2PrRKyLa9sod8v7oOewaSzJFh6oPs0VltNRJ66ZKmZ3VwoUB6PPNZOjRT/vTBpMsioMbQkju8iNFs50rY2vHedwUvENXeC16JcpUGKHlsEjP4cp+2byr7TQmi0Rw6oBNj1AalqCEvvJumjhp+WLj32IT9Vl1Fz6d4aGLEPh2BiWxLO8ZvO3uXwjccj5g3jsr+r5Fwi5hE/gXSfjIiF82n1PDh2wVggyKogS+us60Qks6Gw9fGuAKSOURXV875yiYCFqnVfDcJEUB3sSx1WrcTDOMA+mE6aDAujlInC8aRgjP3XMTwkennHqtT9ZF6WRJ7BLx0cJ18=)
 
 ```
 atc --model=/home/HwHiAiUser/AscendProjects/pb_model/frozen_model.pb --framework=3 --output=/home/HwHiAiUser/AscendProjects/shp/shp_acc --soc_version=Ascend310 --input_shape="Placeholder:1,256,192,3" --log=info --out_nodes="out/BiasAdd:0" --debug_dir=/home/module/out/debug_info
