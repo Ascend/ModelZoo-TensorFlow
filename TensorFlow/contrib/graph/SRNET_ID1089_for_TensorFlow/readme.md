@@ -85,6 +85,28 @@ NPU平台上每50轮训练平均耗时约59s
 GPU和NPU上训练效果对比如下图：
 ![训练效果](Figure_1.png) 
 不难看出，二者的训练效果相当，且均达到了[复现团队训练时的效果](https://github.com/youdao-ai/SRNet/issues/11)。
+#### 精度对比
+在原文之中，对生成的图片质量进行评估的主要标准为峰值信噪比(PSNR)和结构相似性(SSIM)。两张图像之间的PSNR和SSIM越高，说明越相似。  
+使用训练得到的结果，我们生成了1000张图片，并计算了它们和对应真值之间PSNR和SSIM，最终得到的结果如下：  
+
+<table>
+  <tr>
+    <th></th>
+    <th>PSNR</th>
+    <th>SSIM</th>
+  </tr>
+  <tr>
+    <td>原文数据</td>
+    <td>21.12</td>
+    <td>0.79</td>
+  </tr>
+  <tr>
+    <td>实验数据</td>
+    <td>17.31</td>
+    <td>0.42</td>
+  </tr>
+</table>
+
 ***
 
 ## 数据集与OBS桶
