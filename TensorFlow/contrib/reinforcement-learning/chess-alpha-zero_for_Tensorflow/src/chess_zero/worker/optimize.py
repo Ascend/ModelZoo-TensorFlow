@@ -226,17 +226,6 @@ class OptimizeWorker:
         val_dataset = Dataset.zip((state_val_ds, pv_val_ds)).batch(tc.batch_size,drop_remainder=True)
         return train_dataset, val_dataset, length*0.98
 
-    # def collect_all_loaded_data(self):
-    #     """
-    #     :return: a tuple containing the data in self.dataset, split into
-    #     (state, policy, and value).
-    #     """
-    #     state_ary,policy_ary,value_ary=self.dataset
-    #     state_ary1 = np.asarray(state_ary, dtype=np.float32)
-    #     policy_ary1 = np.asarray(policy_ary, dtype=np.float32)
-    #     value_ary1 = np.asarray(value_ary, dtype=np.float32)
-    #     return state_ary1, policy_ary1, value_ary1
-
     def load_model(self):
         """
         Loads the next generation model from the appropriate directory. If not found, loads
