@@ -94,6 +94,7 @@ function get_casename()
 cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+cp -r ${data_path}/metrics ./
 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
@@ -117,7 +118,7 @@ batch_size=64
 if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ${cur_path}/../train.py \
-              --dataset=${data_path} \
+              --dataset=${data_path}/dataset \
               --output=${output_path} \
               --chip=npu \
               --platform=linux \
@@ -130,7 +131,7 @@ then
 #              --use_fp16
 else
     python3.7 ${cur_path}/../train.py \
-              --dataset=${data_path} \
+              --dataset=${data_path}/dataset \
               --output=${output_path} \
               --chip=npu \
               --platform=linux \
@@ -139,9 +140,9 @@ else
               --img_w=32 \
               --train_img_size=32 \
               --train_itr=100000 \
-              --batch_size=${batch_size} \
-#              --use_fp16
-              1>${print_log} 2>&1
+              --batch_size=${batch_size} > ${print_log} 2>&1
+    python3.7 ./generate_fake_img.py --chip=cpu --output=${output_path} >> ${print_log} 2>&1
+    python3.7 ./calc_IS_FID.py --gpu="" --fake_img_path=${output_path}/test/fake/32 >> ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -150,7 +151,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
 #train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'
-train_accuracy='No Acc'
+train_accuracy=`grep "FID :" ${print_log} | awk '{print $NF}'`
 # 提取所有loss打印信息
 grep "Iteration" ${print_log} | awk '{print $3,$4,$5,$6}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
@@ -209,4 +210,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log

@@ -94,6 +94,7 @@ function get_casename()
 cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+cp -r ${data_path}/metrics ./
 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
@@ -119,7 +120,7 @@ batch_size=64
 if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ${cur_path}/../train.py \
-              --dataset=${data_path} \
+              --dataset=${data_path}/dataset \
               --output=${output_path} \
               --chip=npu \
               --platform=linux \
@@ -132,7 +133,7 @@ then
 #              --use_fp16
 else
     python3.7 ${cur_path}/../train.py \
-              --dataset=${data_path} \
+              --dataset=${data_path}/dataset \
               --output=${output_path} \
               --chip=npu \
               --platform=linux \
@@ -141,9 +142,10 @@ else
               --img_w=32 \
               --train_img_size=32 \
               --train_itr=${train_steps} \
-              --batch_size=${batch_size} \
-#              --use_fp16
-              1>${print_log} 2>&1
+              --batch_size=${batch_size} > ${print_log} 2>&1
+    # python3.7 ./generate_fake_img.py --chip=cpu --output=${output_path} >> ${print_log} 2>&1
+    # python3.7 ./calc_IS_FID.py --gpu="" --fake_img_path=${output_path}/test/fake/32 >> ${print_log} 2>&1
+    
 fi
 
 # 性能相关数据计算
