@@ -1,8 +1,6 @@
 GPUStatus:OK
 NPUMigrationStatus:OK
-ModelConvert:POK
-QuantStatus:POK
+ModelConvert:OK
 FuncStatus:OK
-PrecisionStatus:POK
-AutoTune:POK
-PerfStatus:POK
+PrecisionStatus:OK
+PerfStatus:OK
