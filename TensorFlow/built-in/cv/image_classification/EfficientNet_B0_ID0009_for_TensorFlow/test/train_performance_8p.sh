@@ -99,7 +99,7 @@ if [[ $data_path == "" ]];then
 fi
 
 #修改参数
-sed -i "695s|./efficientnet/ReduceMeanD.json|${cur_path}/../ReduceMeanD.json|g" $cur_path/../efficientnet/main_npu.py
+sed -i "695s|./efficientnet/ReduceMeanD.json|${cur_path}/../efficientnet/ReduceMeanD.json|g" $cur_path/../efficientnet/main_npu.py
 
 #autotune时，先开启autotune执行单P训练，不需要修改
 if [[ $autotune == True ]]; then
@@ -159,7 +159,7 @@ end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
 
 #恢复参数
-sed -i "695s|${cur_path}/../ReduceMeanD.json|./efficientnet/ReduceMeanD.json|g" $cur_path/../efficientnet/main_npu.py
+sed -i "695s|${cur_path}/../efficientnet/ReduceMeanD.json|./efficientnet/ReduceMeanD.json|g" $cur_path/../efficientnet/main_npu.py
 
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
