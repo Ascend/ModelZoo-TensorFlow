@@ -90,10 +90,18 @@ image.tofile(bin_path)
 count += 1
 ```
 ### 推理测试
-使用msame推理工具，参考如下命令，发起推理测试：
+使用msame推理工具，参考如下命令，发起推理测试。我们只使用了测试集中的部分数据进行推理（即如下命令中的data文件夹只包含360个bin文件）。
 
 ```
 ./msame --model "/home/HwHiAiUser/AscendProjects/shp/shp_acc.om" --input "/home/HwHiAiUser/AscendProjects/shp/data" --output "/home/HwHiAiUser/AscendProjects/shp/out/" --outfmt TXT
 ```
 推理结果如下图所示：
 ![输入图片说明](src/assets/acl_result.png)
+
+然后使用获取到的推理结果计算精度，具体代码在main/pb_inference.py中。
+
+### 推理精度
+|Methods|AP|AP.5 |AP.75|AP(M)|AP(L)|AR|AR.5|AR.75|AR(M|AR(L)|
+|--|--|--|--|--|--|--|--|--|--|--|
+|原论文|70.2|89.0|77.6|66.8|76.9|76.0|93.1|82.7|71.7|82.3|
+|离线推理|64.0|86.4|71.9|60.8|71.1|72.5|91.6|79.5|67.5|79.4|
