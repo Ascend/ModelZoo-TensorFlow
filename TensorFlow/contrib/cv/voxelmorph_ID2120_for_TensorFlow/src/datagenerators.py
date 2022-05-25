@@ -34,8 +34,7 @@ inside each folder is a /vols/ and a /asegs/ folder with the volumes
 and segmentations. All of our papers use npz formated data.
 """
 
-import os
-import sys
+import os, sys
 import numpy as np
 import nibabel as nib
 import tensorflow as tf
@@ -130,8 +129,7 @@ def example_gen(vol_names, batch_size=1, return_segs=False, seg_dir=None, np_var
         if return_segs:
             X_data = []
             for idx in idxes:
-                X_seg = load_volfile(vol_names[idx].replace(
-                    'norm', 'aseg'), np_var=np_var)
+                X_seg = load_volfile(vol_names[idx].replace('norm', 'aseg'), np_var=np_var)
                 X_seg = X_seg[np.newaxis, ..., np.newaxis]
                 X_data.append(X_seg)
 
@@ -169,8 +167,7 @@ def load_volfile(datafile, np_var='vol_data'):
     formats: nii, nii.gz, mgz, npz
     if it's a npz (compressed numpy), variable names innp_var (default: 'vol_data')
     """
-    assert datafile.endswith(
-        ('.nii', '.nii.gz', '.mgz', '.npz')), 'Unknown data file'
+    assert datafile.endswith(('.nii', '.nii.gz', '.mgz', '.npz')), 'Unknown data file'
 
     if datafile.endswith(('.nii', '.nii.gz', '.mgz')):
         # import nibabel

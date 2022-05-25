@@ -32,10 +32,6 @@ train atlas-based alignment with CVPR2018 version of VoxelMorph
 """
 
 # python imports
-from npu_bridge.npu_init import *
-import precision_tool2.tf_config as npu_tf_config
-from medipy.metrics import dice
-import neuron.callbacks as nrn_gen
 import os
 import sys
 from argparse import ArgumentParser
@@ -53,14 +49,19 @@ import losses
 
 sys.path.append('../ext/neuron')
 sys.path.append('../ext/medipy-lib')
+import neuron.callbacks as nrn_gen
+from medipy.metrics import dice
 
 sys.path.append('..')
+import precision_tool2.tf_config as npu_tf_config
+
+from npu_bridge.npu_init import *
 
 
 def test_zyh(data_path,
-             label,
-             load_model_file,
-             ):
+          label,
+          load_model_file,
+          ):
     """
     model training function
     :param data_dir: folder with npz files for each subject.
@@ -80,8 +81,7 @@ def test_zyh(data_path,
     # load atlas from provided files. The atlas we used is 160x192x224.
     atlas_vol = nib.load(os.path.join(data_path, 'atlas_abide_brain_crop.nii.gz')).dataobj[
         np.newaxis, ..., np.newaxis]
-    atlas_seg = nib.load(os.path.join(
-        data_path, 'atlas_abide_seg_crop.nii.gz')).dataobj
+    atlas_seg = nib.load(os.path.join(data_path, 'atlas_abide_seg_crop.nii.gz')).dataobj
     vol_size = atlas_vol.shape[1:-1]
     test_path = os.path.join(data_path, 'test/')
     seg_path = os.path.join(data_path, 'seg_affined/')
@@ -99,13 +99,10 @@ def test_zyh(data_path,
 
     # prepare the model
     batch_size = 1
-    src = tf.placeholder(dtype=tf.float32, shape=[
-                         batch_size, 160, 192, 224, 1])
-    tgt = tf.placeholder(dtype=tf.float32, shape=[
-                         batch_size, 160, 192, 224, 1])
-    # vol_size, enc_nf, dec_nf, src, tgt
-    y, flow = networks.cvpr2018_net(vol_size, nf_enc, nf_dec, src, tgt)
-
+    src = tf.placeholder(dtype=tf.float32, shape=[batch_size, 160, 192, 224, 1])
+    tgt = tf.placeholder(dtype=tf.float32, shape=[batch_size, 160, 192, 224, 1])
+    y, flow = networks.cvpr2018_net(vol_size, nf_enc, nf_dec, src, tgt)  # vol_size, enc_nf, dec_nf, src, tgt
+    
     # NN transfer model
     nn_trf_model = networks.nn_trf(vol_size, indexing='ij')
 
@@ -122,8 +119,7 @@ def test_zyh(data_path,
     dice_vals = np.zeros((len(good_labels), n_batches))
 
     with tf.Session(config=config) as sess:
-        init_op = tf.group(tf.local_variables_initializer(),
-                           tf.global_variables_initializer())
+        init_op = tf.group(tf.local_variables_initializer(), tf.global_variables_initializer())
         sess.run(init_op)
 
         # saver is used to save the model
@@ -135,8 +131,7 @@ def test_zyh(data_path,
             vol_name = test_path + file_names[k]
             seg_name = seg_path + file_names[k].replace('brain', 'seg')
             # load subject test
-            X_vol, X_seg = datagenerators.load_example_by_name(
-                vol_name, seg_name)
+            X_vol, X_seg = datagenerators.load_example_by_name(vol_name, seg_name)
 
             pred_flow = sess.run(flow, feed_dict={src: X_vol, tgt: atlas_vol})
 
@@ -144,10 +139,11 @@ def test_zyh(data_path,
             # OrthoSlicer3D(warp_seg).show()
 
             dice_vals[:, k] = dice(warp_seg, atlas_seg, labels=good_labels)
-            print('%3d %5.3f %5.3f' % (k, np.mean(
-                dice_vals[:, k]), np.mean(np.mean(dice_vals[:, :k + 1]))))
+            print('%3d %5.3f %5.3f' % (k, np.mean(dice_vals[:, k]), np.mean(np.mean(dice_vals[:, :k + 1]))))
 
     return np.mean(dice_vals[:]), np.std(dice_vals[:])
+
+
 
 
 if __name__ == "__main__":
@@ -168,6 +164,6 @@ if __name__ == "__main__":
     good_labels = np.array([0, 2, 3, 4, 7, 8, 10, 11, 13, 14, 15, 16, 17, 24, 28, 41, 42, 43, 46,
                             47, 49, 50, 53, 54, 60, 251, 252, 253, 254, 255])
 
-    dice_iter, dice_std_iter = test_zyh(
-        args.data_path,  good_labels, args.model_path)
+    dice_iter, dice_std_iter = test_zyh(args.data_path,  good_labels, args.model_path)
     print('average dice score is %5.3f(%5.3f)' % (dice_iter, dice_std_iter))
+

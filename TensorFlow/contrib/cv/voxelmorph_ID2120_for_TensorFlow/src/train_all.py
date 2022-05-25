@@ -31,14 +31,12 @@ train atlas-based alignment with CVPR2018 version of VoxelMorph
 """
 
 # python imports
-from npu_bridge.npu_init import *
-import precision_tool2.tf_config as npu_tf_config
-import neuron.callbacks as nrn_gen
 import os
 import glob
 import sys
 import random
 from argparse import ArgumentParser
+import time
 
 # third-party imports
 import tensorflow as tf
@@ -61,8 +59,9 @@ import networks
 import losses
 
 sys.path.append('../ext/neuron')
+import neuron.callbacks as nrn_gen
 
-sys.path.append('..')
+from npu_bridge.npu_init import *
 
 
 def train(train_data_dir,
@@ -77,15 +76,18 @@ def train(train_data_dir,
           ):
     """
     model training function
-    :param train_data_dir: folder with nii files for each subject.
-    :param atlas_file: atlas filename.
+    :param data_dir: folder with npz files for each subject.
+    :param atlas_file: atlas filename. So far we support npz file with a 'vol' variable
+    :param model: either vm1 or vm2 (based on CVPR 2018 paper)
     :param model_dir: the model directory to save to
+    :param gpu_id: integer specifying the gpu to use
     :param lr: learning rate
-    :param nb_epochs: number of epochs
+    :param n_iterations: number of training iterations
     :param reg_param: the smoothness/reconstruction tradeoff parameter (lambda in CVPR paper)
+    :param steps_per_epoch: frequency with which to save models
     :param batch_size: Optional, default of 1. can be larger, depends on GPU memory and volume size
-    :param load_model_file: optional weight file to initialize with
-    :param tensorboard_log_dir: tensorboard log directory
+    :param load_model_file: optional h5 model file to initialize with
+    :param data_loss: data_loss: 'mse' or 'ncc
     """
     # load atlas from provided files. The atlas we used is 160x192x224.
     atlas_vol = nib.load(atlas_file).dataobj[np.newaxis, ..., np.newaxis]
@@ -115,12 +117,9 @@ def train(train_data_dir,
     tf.logging.info("**********")
 
     # prepare the model
-    src = tf.placeholder(dtype=tf.float32, shape=[
-                         batch_size, 160, 192, 224, 1])
-    tgt = tf.placeholder(dtype=tf.float32, shape=[
-                         batch_size, 160, 192, 224, 1])
-    # vol_size, enc_nf, dec_nf, src, tgt
-    y, flow = networks.cvpr2018_net(vol_size, nf_enc, nf_dec, src, tgt)
+    src = tf.placeholder(dtype=tf.float32, shape=[batch_size, 160, 192, 224, 1])
+    tgt = tf.placeholder(dtype=tf.float32, shape=[batch_size, 160, 192, 224, 1])
+    y, flow = networks.cvpr2018_net(vol_size, nf_enc, nf_dec, src, tgt)  # vol_size, enc_nf, dec_nf, src, tgt
     residual = y - tgt
     loss_mse = tf.reduce_mean(residual**2)
     loss_flow = losses.Grad('l2').loss(y, flow)
@@ -148,16 +147,15 @@ def train(train_data_dir,
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
     config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
 
-    config = npu_tf_config.session_dump_config(config, action='fusion_switch')
+    custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("./fusion_switch.cfg")
+    # config = npu_tf_config.session_dump_config(config, action='fusion_switch')
     # config = npu_tf_config.session_dump_config(config, action='overflow')
 
     with tf.Session(config=config) as sess:
-        init_op = tf.group(tf.local_variables_initializer(),
-                           tf.global_variables_initializer())
+        init_op = tf.group(tf.local_variables_initializer(), tf.global_variables_initializer())
         sess.run(init_op)
 
-        train_writer = tf.summary.FileWriter(
-            logdir=tensorboard_log_dir, graph=sess.graph)
+        train_writer = tf.summary.FileWriter(logdir=tensorboard_log_dir, graph=sess.graph)
         # saver is used to save the model
         saver = tf.train.Saver(tf.global_variables(), max_to_keep=5)
         # saver.save(sess=sess, save_path=os.path.join(model_dir, "weight_init"))
@@ -173,14 +171,15 @@ def train(train_data_dir,
             train_loss_flow_list = []
             for step, volname in enumerate(train_vol_names):
                 lossScale = tf.get_default_graph().get_tensor_by_name("loss_scale:0")
-                overflow_status_reduce_all = tf.get_default_graph(
-                ).get_tensor_by_name("overflow_status_reduce_all:0")
+                overflow_status_reduce_all = tf.get_default_graph().get_tensor_by_name("overflow_status_reduce_all:0")
 
                 moving = zyh_data_in(volname)
                 feed_dict = {src: moving, tgt: atlas_vol}
 
                 # _, train_loss, train_loss_mse, train_loss_flow, summary = sess.run([optimizer, loss, loss_mse, loss_flow, summary_op], feed_dict=feed_dict)
                 # train_loss_list.append(train_loss)
+
+                t_start = time.time()
 
                 _, train_loss, train_loss_mse, train_loss_flow, summary, l_s, overflow_status_reduce_all, global_steppp = sess.run(
                     [optimizer,
@@ -192,12 +191,13 @@ def train(train_data_dir,
                      overflow_status_reduce_all,
                      global_step
                      ], feed_dict=feed_dict)
+                     
+                t_end = time.time()
 
                 train_loss_list.append(train_loss)
                 train_loss_mse_list.append(train_loss_mse)
                 train_loss_flow_list.append(train_loss_flow)
-                tf.logging.info("step {%d} --->  loss: {%.5f}, loss_mse: {%.5f}, loss_flow: {%.3e}\n",
-                                step, train_loss, train_loss_mse, train_loss_flow)
+                tf.logging.info("step {%d} --->  loss: {%.5f}, loss_mse: {%.5f}, loss_flow: {%.3e}, time: {%.3f}\n", step, train_loss, train_loss_mse, train_loss_flow, t_end-t_start)
 
                 # print('loss_scale is: ', l_s)
                 # print("overflow_status_reduce_all:", overflow_status_reduce_all)
@@ -206,13 +206,12 @@ def train(train_data_dir,
             train_writer.add_summary(summary, epoch)
             tf.logging.info('**************************')
             tf.logging.info("train_loss = %s", np.mean(train_loss_list))
-            tf.logging.info("train_loss_mse = %s",
-                            np.mean(train_loss_mse_list))
-            tf.logging.info("train_loss_flow = %s",
-                            np.mean(train_loss_flow_list))
+            tf.logging.info("train_loss_mse = %s", np.mean(train_loss_mse_list))
+            tf.logging.info("train_loss_flow = %s", np.mean(train_loss_flow_list))
             tf.logging.info('**************************\n')
 
             saver.save(sess=sess, save_path=os.path.join(model_dir, "model"))
+
 
         train_writer.close()
 
@@ -235,7 +234,7 @@ if __name__ == "__main__":
                         dest="nb_epochs", default=50,
                         help="number of iterations")
     parser.add_argument("--lambda", type=float,
-                        dest="reg_param", default=0.01,  # recommend 1.0 for ncc, 0.01 for mse
+                        dest="reg_param", default=0.01,
                         help="regularization parameter")
     parser.add_argument("--batch_size", type=int,
                         dest="batch_size", default=1,

@@ -49,6 +49,8 @@ from imp import reload
 reload(nd)
 
 
+
+
 def quilt(patches,
           patch_size,
           grid_size,
@@ -79,8 +81,7 @@ def quilt(patches,
     # input checks
     assert patches.ndim == 2 or patches.ndim == 3, 'patches should be [NxV] or [NxVxK]'
     assert patches.shape[1] == np.prod(patch_size), \
-        "patches V (%d) does not match patch size V (%d)" % (
-            patches.shape[1], np.prod(patch_size))
+    "patches V (%d) does not match patch size V (%d)" % (patches.shape[1], np.prod(patch_size))
     nb_dims = len(patch_size)
 
     # stack patches
@@ -89,8 +90,7 @@ def quilt(patches,
     # quilt via nan_funs
     quilted_vol_k = nan_func_layers(patch_stack, 0)
     quilted_vol = nan_func_K(quilted_vol_k, nb_dims)
-    assert quilted_vol.ndim == len(
-        patch_size), "patchlib: problem with dimensions after quilt"
+    assert quilted_vol.ndim == len(patch_size), "patchlib: problem with dimensions after quilt"
 
     # done, yey! time to celebrate - maybe visualize the quilted volume?
     return quilted_vol
@@ -144,18 +144,14 @@ def stack(patches, patch_size, grid_size, patch_stride=1, nargout=1):
     K = patches.shape[2] if len(patches.shape) > 2 else 1
 
     # compute the input target_size and target
-    # given the number of patches in the grid
-    if np.prod(grid_size) == patches.shape[0]:
-        target_size = grid2volsize(
-            grid_size, patch_size, patch_stride=patch_stride)
+    if np.prod(grid_size) == patches.shape[0]: # given the number of patches in the grid
+        target_size = grid2volsize(grid_size, patch_size, patch_stride=patch_stride)
     else:
         target_size = grid_size
 
     # compute the grid indexes (and check that the target size matches)
-    [grid_idx, target_size_chk] = grid(
-        target_size, patch_size, patch_stride, nargout=2)
-    assert np.all(
-        target_size == target_size_chk), 'Target does not match the provided target size'
+    [grid_idx, target_size_chk] = grid(target_size, patch_size, patch_stride, nargout=2)
+    assert np.all(target_size == target_size_chk), 'Target does not match the provided target size'
 
     # prepare subscript and index vectors
     grid_sub = nd.ind2sub_entries(grid_idx, target_size)
@@ -165,8 +161,7 @@ def stack(patches, patch_size, grid_size, patch_stride=1, nargout=1):
     # we do this by computing the modulo of the patch start location
     # with respect to the patch size. This won't be optimal yet, but we'll
     # eliminate any layers with no patches after
-    mod_sub = np.array([_mod_base(g, patch_size)
-                       for g in grid_sub]).transpose()
+    mod_sub = np.array([_mod_base(g, patch_size) for g in grid_sub]).transpose()
     patch_payer_idx = nd.sub2ind(mod_sub, patch_size)
 
     # initiate the votes layer structure
@@ -208,13 +203,11 @@ def stack(patches, patch_size, grid_size, patch_stride=1, nargout=1):
             if nargout >= 2:
                 # the linear index of the patch in the grid
                 locidx = np.ones([2, *patch_size, K]) * all_idx[pidx]
-                locidx[1, :] = np.matlib.repmat(
-                    list(range(np.prod(patch_size))), 1, K)
+                locidx[1, :] = np.matlib.repmat(list(range(np.prod(patch_size))), 1, K)
                 layer_idxmat[rge] = locidx
 
         # update layer
-        layers[layer_idx, :] = np.reshape(
-            layer_stack.flatten(), [*target_size, K])
+        layers[layer_idx, :] = np.reshape(layer_stack.flatten(), [*target_size, K])
 
         # update the complete idxmat
         if nargout >= 2:
@@ -312,14 +305,13 @@ def gridsize(vol_size, patch_size, patch_stride=1, start_sub=0, nargout=1):
 
     # modified volume size if starting late
     mod_vol_size = vol_size - start_sub
-    assert np.all(np.array(mod_vol_size) >
-                  0), "New volume size is non-positive"
+    assert np.all(np.array(mod_vol_size) > 0), "New volume size is non-positive"
 
     # compute the number of patches
     # the final volume size will be
     # >> grid_size * patch_stride + patch_overlap
     # thus the part that is a multiplier of patch_stride is vol_size - patch_overlap
-    patch_stride_multiples = mod_vol_size - patch_overlap  # not sure?
+    patch_stride_multiples = mod_vol_size - patch_overlap # not sure?
     grid_size = np.floor(patch_stride_multiples / patch_stride).astype('int')
     assert np.all(np.array(grid_size) > 0), "Grid size is non-positive"
 
@@ -327,8 +319,7 @@ def gridsize(vol_size, patch_size, patch_stride=1, start_sub=0, nargout=1):
         return grid_size
     else:
         # new volume size based on how far the patches can reach
-        new_vol_size = grid2volsize(
-            grid_size, patch_size, patch_stride=patch_stride)
+        new_vol_size = grid2volsize(grid_size, patch_size, patch_stride=patch_stride)
         return (grid_size, new_vol_size)
 
 
@@ -394,8 +385,7 @@ def grid(vol_size, patch_size, patch_stride=1, start_sub=0, nargout=1, grid_type
         volend = new_vol_size[idx] + start_sub[idx] - patch_size[idx] + 1
         locs = list(range(start_sub[idx], volend, patch_stride[idx]))
         xvec += (locs, )
-        assert any((locs[-1] + patch_size - 1) ==
-                   (new_vol_size + start_sub - 1))
+        assert any((locs[-1] + patch_size - 1) == (new_vol_size + start_sub - 1))
 
     # get the nd grid
     # if want subs, this is the faster way to compute in MATLAB (rather than ind -> ind2sub)
@@ -457,9 +447,10 @@ def patch_gen(vol, patch_size, stride=1, nargout=1, rand=False, rand_seed=None):
         if rand_seed is not None:
             random.seed(rand_seed)
         shuffle(rng)
+    
 
     for idx in rng:
-        def slicer(f, g): return slice(f[idx], f[idx] + g)
+        slicer = lambda f, g: slice(f[idx], f[idx] + g)
         patch_sub = [slicer(f, g) for f, g in zip(ndg, patch_size)]
         # print(patch_sub)
         if nargout == 1:

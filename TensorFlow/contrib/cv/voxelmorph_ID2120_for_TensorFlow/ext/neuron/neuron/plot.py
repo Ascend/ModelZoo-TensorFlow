@@ -43,8 +43,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from matplotlib.colors import Normalize
-from mpl_toolkits.axes_grid1 import make_axes_locatable  # plotting
-
+from mpl_toolkits.axes_grid1 import make_axes_locatable # plotting
 
 def slices(slices_in,           # the 2D slices
            titles=None,         # list of titles
@@ -64,6 +63,7 @@ def slices(slices_in,           # the 2D slices
     for si, slice_in in enumerate(slices_in):
         assert len(slice_in.shape) == 2, 'each slice has to be 2d: 2d channels'
         slices_in[si] = slice_in.astype('float')
+        
 
     def input_check(inputs, nb_plots, name):
         ''' change input from None/single-link '''
@@ -116,8 +116,7 @@ def slices(slices_in,           # the 2D slices
             ax.title.set_text(titles[i])
 
         # show figure
-        im_ax = ax.imshow(
-            slices_in[i], cmap=cmaps[i], interpolation="nearest", norm=norms[i], **imshow_args[i])
+        im_ax = ax.imshow(slices_in[i], cmap=cmaps[i], interpolation="nearest", norm=norms[i], **imshow_args[i])
 
         # colorbars
         # http://stackoverflow.com/questions/18195758/set-matplotlib-colorbar-size-to-match-graph
@@ -125,7 +124,7 @@ def slices(slices_in,           # the 2D slices
             divider = make_axes_locatable(ax)
             cax = divider.append_axes("right", size="5%", pad=0.05)
             fig.colorbar(im_ax, cax=cax)
-
+    
     # clear axes that are unnecessary
     for i in range(nb_plots, col*row):
         col = np.remainder(i, cols)
@@ -169,8 +168,7 @@ def flow_legend():
     plt.figure(figsize=(6, 6))
     plt.xlim(-2, 2)
     plt.ylim(-2, 2)
-    plt.quiver(x, y, u, v, color=colormap(norm(colors)),
-               angles='xy', scale_units='xy', scale=1)
+    plt.quiver(x, y, u, v, color=colormap(norm(colors)),  angles='xy', scale_units='xy', scale=1)
     plt.show()
 
 
@@ -245,7 +243,7 @@ def flow(slices_in,           # the 2D slices
         if titles is not None and titles[i] is not None:
             ax.title.set_text(titles[i])
 
-        u, v = slices_in[i][..., 0], slices_in[i][..., 1]
+        u, v = slices_in[i][...,0], slices_in[i][...,1]
         colors = np.arctan2(u, v)
         colors[np.isnan(colors)] = 0
         norm = Normalize()
@@ -253,8 +251,7 @@ def flow(slices_in,           # the 2D slices
         if cmaps[i] is None:
             colormap = cm.winter
         else:
-            raise Exception(
-                "custom cmaps not currently implemented for plt.flow()")
+            raise Exception("custom cmaps not currently implemented for plt.flow()")
 
         # show figure
         ax.quiver(u, v,
@@ -263,7 +260,7 @@ def flow(slices_in,           # the 2D slices
                   units='xy',
                   scale=scale[i])
         ax.axis('equal')
-
+    
     # clear axes that are unnecessary
     for i in range(nb_plots, col*row):
         col = np.remainder(i, cols)

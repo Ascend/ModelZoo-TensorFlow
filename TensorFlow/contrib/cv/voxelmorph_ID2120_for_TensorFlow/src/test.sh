@@ -1,1 +1,1 @@
-python3 test_zyh.py DATAPATH/test/ --model_path ../models/model/
+python test.sh DATAPATH/test/ --model_path ../models/

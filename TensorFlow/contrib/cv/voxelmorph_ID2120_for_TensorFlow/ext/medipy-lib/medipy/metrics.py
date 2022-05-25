@@ -25,6 +25,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 '''
 metrics
 
@@ -76,3 +77,4 @@ def dice(vol1, vol2, labels=None, nargout=1):
         return dicem
     else:
         return (dicem, labels)
+

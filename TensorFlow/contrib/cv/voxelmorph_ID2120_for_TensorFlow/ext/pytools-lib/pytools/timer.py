@@ -30,7 +30,6 @@
 
 import time
 
-
 class Timer(object):
     """
     modified from:
