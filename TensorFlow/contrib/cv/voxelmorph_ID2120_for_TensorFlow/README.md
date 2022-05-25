@@ -214,6 +214,7 @@ voxelmorph是一种基于快速学习的可变形、成对的三维医学图像�
 │    ├── run_1p_all.sh  					//训练入口
 │    ├── test.sh  							//测试入口
 │    ├── loss+perf_npu_all.txt				//打印日志
+│    ├── fusion_switch.json					//融合规则配置文件
 │    ├── train_full_1p.sh					//
 │    ├── train_performance_1p.sh			//
 
