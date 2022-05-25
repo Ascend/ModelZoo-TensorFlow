@@ -22,7 +22,7 @@ export ASCEND_GLOBAL_LOG_LEVEL=3
 #网络名称，同目录名称
 Network="LEARNING-TO-SEE-IN-THE-DARK_ID2069_for_TensorFlow"
 #训练epoch
-train_epochs=200
+train_epochs=50
 #训练batch_size
 batch_size=2
 #训练step
