@@ -94,10 +94,11 @@ do
     elif [[ $para == --devicesnum* ]];then
 	    devicesnum=`echo ${para#*=}`
     fi
-done "$devicesnum  11111"
+done 
+echo "$devicesnum  11111"
 one_node_ip=`find $conf_path -name "server_*0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
 linux_num=`find $conf_path -name "server_*.info" |wc -l`
-echo 
+
 #校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
     echo "[Error] para \"data_path\" must be confing"
