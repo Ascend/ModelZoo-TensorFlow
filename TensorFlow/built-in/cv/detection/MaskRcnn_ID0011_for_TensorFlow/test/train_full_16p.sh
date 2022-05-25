@@ -91,11 +91,11 @@ do
         server_index=`echo ${para#*=}`
     elif [[ $para == --conf_path* ]];then
         conf_path=`echo ${para#*=}`
-    elif [[ $para == --devicesnum* ]];then
-	    devicesnum=`echo ${para#*=}`
+    elif [[ $para == --devices_num* ]];then
+	    devices_num=`echo ${para#*=}`
     fi
 done 
-echo "$devicesnum  11111"
+echo "$devices_num  11111"
 one_node_ip=`find $conf_path -name "server_*0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
 linux_num=`find $conf_path -name "server_*.info" |wc -l`
 
@@ -111,8 +111,8 @@ if [[ $autotune == True ]]; then
     wait
     autotune=False
 fi
-device_num=${#devicesnum}
-export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${device_num}'*'${linux_num}'}'`
+#device_num=${#devicesnum}
+export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
 rank_size=8
 nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
 wait
