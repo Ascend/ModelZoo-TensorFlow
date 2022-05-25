@@ -59,13 +59,13 @@
 
 |       | GPU   | NPU   |
 |-------|-------|-------|
-| LPIPS | 0.8709 | 0.871 |
+| ACC | 0.8709 | 0.871 |
 
 - 性能
 
 | batchsize | image_size | GPU （v100） |  NPU |
 |-----------|------------|---|---|
-| 1         | 384*384  |  |  |
+| 4         | 384*384  | 0.96s | 0.97s |
 
 
 ## 默认配置
@@ -221,6 +221,8 @@ VisionTransformer
   ├─test 用于测试
       ├─output 用于存放测试结果和日志 
   	└─test_1p.sh
+  ├─vit_allpipeline_fusion_accelerate.py 精度测试脚本
+  ├─vit_allpipeline_performance.py 性能测试脚本
 ```
 
 ## 脚本参数
