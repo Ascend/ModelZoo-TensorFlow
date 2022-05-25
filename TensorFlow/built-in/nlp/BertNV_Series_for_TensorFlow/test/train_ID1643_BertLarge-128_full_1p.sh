@@ -20,7 +20,7 @@ train_batch_size=32
 #训练ephch
 num_train_epochs=3.0
 #学习率
-learning_rate=1e-6
+learning_rate=2e-5
 warmup_proportion=0.1
 precision="fp32"
 #维测参数，precision_mode需要模型审视修改
@@ -38,7 +38,7 @@ autotune=False
 
 #其他参数
 task_name=CoLA
-output_dir=ckpt
+output_dir=ckpt_full_1643
 type=official
 use_xla=false
 use_fp16=""
