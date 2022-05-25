@@ -169,6 +169,6 @@ for epoch in range(1, 2):
         label_col += y_in.tolist()
         pred_col += np.argmax(out_, 1).tolist()
         if step!=0:
-            print("epoch:{}  step: {} , loss: {:.4f} ,  sec/step : {:.4f}  acc: {:.4f}".format(
+            print("epoch:{}  step: {} , loss: {:.4f} ,  sec/step : {:.4f}, acc: {:.4f}".format(
                     epoch, step, loss_.item(), time.time() - s, eval(out_, y_in))) 
 
