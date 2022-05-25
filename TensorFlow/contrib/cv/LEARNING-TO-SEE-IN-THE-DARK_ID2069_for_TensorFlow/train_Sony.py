@@ -224,7 +224,7 @@ for epoch in range(lastepoch, FLAGS.epochs):
         gt_exposure = float(gt_fn[9:-5])
         ratio = min(gt_exposure / in_exposure, 300)   #the times need to strength
 
-        st = time.time()
+        
         cnt += 1
 
         if input_images[str(ratio)[0:3]][ind] is None:
@@ -256,14 +256,15 @@ for epoch in range(lastepoch, FLAGS.epochs):
 
         input_patch = np.minimum(input_patch, 1.0)
 
+        st = time.time()
         _, G_current, output = sess.run([G_opt, G_loss, out_image],
                                         feed_dict={in_image: input_patch, gt_image: gt_patch, lr: learning_rate})
         output = np.minimum(np.maximum(output, 0), 1)
         g_loss[ind] = G_current
-
-        if cnt == 160:
+        print("%d %d Loss=%.3f Time=%.3f" % (epoch, cnt, np.mean(g_loss[np.where(g_loss)]), time.time() - st))
+        #if cnt == 160:
          #print("%d %d Loss=%.3f Time=%.3f" % (epoch, cnt, np.mean(g_loss[np.where(g_loss)]), time.time() - st))
-         print("%d Loss= %.3f Time= %.3f" % (epoch, np.mean(g_loss[np.where(g_loss)]), time.time() - st))
+         #print("%d Loss= %.3f Time= %.3f" % (epoch, np.mean(g_loss[np.where(g_loss)]), time.time() - st))
 
 
         if epoch % save_freq == 0:
