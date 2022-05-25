@@ -38,7 +38,7 @@ autotune=False
 
 #其他参数
 task_name=CoLA
-output_dir=ckpt
+output_dir=ckpt_full_3234
 type=official
 use_xla=false
 use_fp16=""
