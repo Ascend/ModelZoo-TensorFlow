@@ -96,7 +96,6 @@ fi
 #修改参数
 sed -i "50s|PATH_TO_BE_CONFIGURED|${data_path}|g"  $cur_path/../src/configs/res50_32bs_1p.py
 sed -i "107s|PATH_TO_BE_CONFIGURED|${cur_path}/output/0/d\_solution/ckpt0|g"  $cur_path/../src/configs/res50_32bs_1p.py
-sed -i "112s|./src/trainers/ReduceMeanD.jsonn|${cur_path}/../ReduceMeanD.json|g" $cur_path/../src/trainers/gpu_base_trainer.py
 
 cp data_loader.py $cur_path/../src/data_loader/resnet50/
 #训练开始时间，不需要修改
@@ -136,7 +135,6 @@ e2e_time=$(( $end_time - $start_time ))
 #参数改回
 sed -i "50s|${data_path}|PATH_TO_BE_CONFIGURED|g"  $cur_path/../src/configs/res50_32bs_1p.py
 sed -i "107s|${cur_path}/output/0/d\_solution/ckpt0|PATH_TO_BE_CONFIGURED|g"  $cur_path/../src/configs/res50_32bs_1p.py
-sed -i "112s|${cur_path}/../ReduceMeanD.json|./src/trainers/ReduceMeanD.json|g" $cur_path/../src/trainers/gpu_base_trainer.py
 
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"

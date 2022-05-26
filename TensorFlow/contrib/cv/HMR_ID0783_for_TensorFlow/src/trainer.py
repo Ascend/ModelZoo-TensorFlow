@@ -565,7 +565,7 @@ class HMRTrainer(object):
         custom_op.name = "NpuOptimizer"
         custom_op.parameter_map["use_off_line"].b = True
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision") # mix precision
-        custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("src/ops_info.json")
+        custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("ops_info.json")
         sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # close remap
         sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 
