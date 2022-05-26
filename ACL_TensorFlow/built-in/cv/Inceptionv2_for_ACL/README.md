@@ -57,7 +57,7 @@ The jpegs pictures will be preprocessed to bin fils.
   [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Inceptionv2_for_ACL/inceptionv2_tf.pb)
 
   ```
-  atc --model=inceptionv2_tf.pb --framework=3 --output=inceptionv3_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --insert_op_conf=inceptionv2_aipp.cfg --enable_small_channel=1 --log=info
+  atc --model=inceptionv2_tf.pb --framework=3 --output=inceptionv2_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --insert_op_conf=inceptionv2_aipp.cfg --enable_small_channel=1 --log=info
   ```
 
 - Build the program
