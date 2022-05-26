@@ -49,18 +49,18 @@ obs://cann-id2365/inference/flow_om.om
 
 深度网络：
 
-原始JPG数据的obs地址：obs://cann-id2365/dataset/KITTI/raw/data/
+原始png数据的obs地址：obs://cann-id2365/dataset/KITTI/raw/data/
 
-设置第10行的dataset_dir，表示原始JPG数据的路径。运行以下命令，在dataset_dir路径下生成bin格式的测试数据。
+设置第10行的dataset_dir，表示原始png数据的路径。运行以下命令，在dataset_dir路径下生成bin格式的测试数据。
 ```
 python3 tobin_depth.py
 ```
 
 光流网络：
 
-原始JPG数据的obs地址：obs://cann-id2365/dataset/data_scene_flow_2015/training/
+原始png数据的obs地址：obs://cann-id2365/dataset/data_scene_flow_2015/training/
 
-设置第61行的dataset_dir，表示原始JPG数据的路径。运行一下命令，在dataset_dir路径下生成bin格式的测试数据。
+设置第61行的dataset_dir，表示原始png数据的路径。运行一下命令，在dataset_dir路径下生成bin格式的测试数据。
 ```
 python3 tobin_flow.py
 ```
@@ -120,8 +120,10 @@ Inference average time without first time: 128.66 ms
 ### 6. om精度测试
 
 深度网络：
+
+计算误差需要用到相机标定文件calib_cam_to_cam.txt等3个文件，已存放在深度网络的原始数据集中，因此设置kitti_dir为原始png数据集路径即可
 ```
-python3 bintoacc_depth.py --kitti_dir $/dataset/KITTI/raw/data/ --pred_bin_file $/depth_output/
+python3 bintoacc_depth.py --kitti_dir $/pngdataset/KITTI/raw/data/ --pred_bin_file $/depth_output/
 ```
 测试结果如下：
 |      | abs_rel | sq_rel | rms    | log_rms | a1     | a2     | a3   |
@@ -133,7 +135,7 @@ python3 bintoacc_depth.py --kitti_dir $/dataset/KITTI/raw/data/ --pred_bin_file 
 
 光流网络：
 
-第13行设置dataset_dir：$/dataset/data_scene_flow_2015/training/
+第13行设置dataset_dir：$/pngdataset/data_scene_flow_2015/training/
 ```
 python3 bintoacc_flow.py
 ```
