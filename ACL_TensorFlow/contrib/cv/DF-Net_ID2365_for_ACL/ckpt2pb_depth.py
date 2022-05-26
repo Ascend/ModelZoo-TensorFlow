@@ -13,7 +13,6 @@ def main():
     tf.reset_default_graph()
     # 定义输入节点
     inputs = tf.placeholder(tf.float32, [1, 160, 576, 3], name='input')
-    # 还需要在tobin添加预处理的代码
 
     # 调用网络模型生成推理图
     pred_disp, _ = disp_net_res50(inputs, is_training=False)
