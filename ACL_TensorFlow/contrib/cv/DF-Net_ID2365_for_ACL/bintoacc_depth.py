@@ -57,20 +57,7 @@ def main():
         pred_depths[i] = [1. / disp for disp in pred_depths[i]]
         i += 1
 
-    '''
-    # 现在的精度不对，去比较pred_depths（离线推理）和npy（GPU）文件
-    pred_depths_GPU = np.load('model-99999.npy') #([121,160,576]) float32
-    #ans = np.sum(pred_depths_GPU[0] - pred_depths[0])
-
-    # 画个图看看，差异大，可以判定是推理输出不一样。
-    output_dir = './pred_depth_bin/'
-    image = (normalize_depth_for_display(pred_depths[0], cmap='plasma'))
-    plt.imsave(os.path.join(output_dir, 'offline_0.jpg'), image)
-    image = (normalize_depth_for_display(pred_depths_GPU[0], cmap='plasma'))
-    plt.imsave(os.path.join(output_dir, 'gpu_0.jpg'), image)
-
-    # 后面是没有改动过的后处理和精度计算
-    '''
+    
     gt_files, gt_calib, im_sizes, im_files, cams = \
         read_file_data(read_text_lines(test_file_list), args.kitti_dir)
     num_test = len(im_files)
