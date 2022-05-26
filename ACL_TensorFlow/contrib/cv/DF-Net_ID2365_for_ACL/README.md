@@ -2,11 +2,18 @@
 ## 离线推理
 ### 1. 原始模型转pb
 
+权重文件obs地址：obs://cann-id2365/inference/ckpt/
+
 深度网络:
+
+设置第10行ckpt_path为以上权重文件下载到的存放地址，运行以下命令即可生成pb文件：depth.pb
 ```
 python3 ckpt2pb_depth.py  
 ```
+
 光流网络:
+
+设置第9行ckpt_path为以上权重文件下载到的存放地址，运行以下命令即可生成pb文件：flow.pb
 ```
 python3 ckpt2pb_flow.py
 ```
@@ -41,15 +48,22 @@ obs://cann-id2365/inference/flow_om.om
 将输入的测试图片做与ckpt测试时相同预处理，再转化为BIN格式。
 
 深度网络：
+
+原始JPG数据的obs地址：obs://cann-id2365/dataset/KITTI/raw/data/
+设置第10行的dataset_dir，表示原始JPG数据的路径。运行以下命令，在dataset_dir路径下生成bin格式的测试数据。
 ```
 python3 tobin_depth.py
 ```
+
 光流网络：
+
+原始JPG数据的obs地址：obs://cann-id2365/dataset/data_scene_flow_2015/training/
+设置第61行的dataset_dir，表示原始JPG数据的路径。运行一下命令，在dataset_dir路径下生成bin格式的测试数据。
 ```
 python3 tobin_flow.py
 ```
 生成的输入数据bin文件，obs地址：
-  
+ 
 obs://cann-id2365/inference/dataset/
 
 ### 4. 准备msame推理
@@ -59,10 +73,11 @@ obs://cann-id2365/inference/dataset/
 
 使用如下命令进行性能测试：
 
-深度网络（以序列2为例）：
+深度网络（以序列0002为例，有多个序列需要运行多次）：
 ```
 ./msame --model /root/DF-Net/depth_om.om --input /root/DF-Net/dataset/depth/bin/data/2011_09_26/2011_09_26_drive_0002_sync/image_02/data/ --output /root/DF-Net/depth_output/0002
 ```
+
 测试结果如下：
 
 ```
@@ -104,7 +119,7 @@ Inference average time without first time: 128.66 ms
 
 深度网络：
 ```
-python3 bintoacc_depth.py
+python3 bintoacc_depth.py --kitti_dir $/dataset/KITTI/raw/data/ --pred_bin_file $/depth_output/
 ```
 测试结果如下：
 |      | abs_rel | sq_rel | rms    | log_rms | a1     | a2     | a3   |
@@ -115,6 +130,7 @@ python3 bintoacc_depth.py
 
 
 光流网络：
+第13行设置dataset_dir：$/dataset/data_scene_flow_2015/training/
 ```
 python3 bintoacc_flow.py
 ```
@@ -127,9 +143,9 @@ python3 bintoacc_flow.py
 | 离线推理 | 7.9371         | 0.2322   |
 
  
- 离线推理精度达标   
- om推理输出bin文件，obs地址： 
- 
+离线推理精度达标   
+om推理输出bin文件，obs地址： 
+
 obs://cann-id2365/inference/depth_output/
 
 obs://cann-id2365/inference/flow_output/
