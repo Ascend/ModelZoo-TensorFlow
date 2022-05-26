@@ -157,11 +157,11 @@ SpineNet是一种具有尺度排列中间特征的骨干网络与采用NAS专为
 
   |精度指标项|论文发布|GPU实测|NPU实测|
   |---|---|---|---|
-  |mAP|xxx|0.198|0.16|
+  |mAP|xxx|0.198|0.164|
 
   |性能指标项|论文发布|GPU实测|NPU实测|
   |---|---|---|---|
-  |FPS|XXX|0.24 sec/batch|1.2 sec/batch|
+  |FPS|XXX|0.24 sec/batch|0.114 sec/batch|
 
 <h2 id="高级参考">高级参考</h2>
 
