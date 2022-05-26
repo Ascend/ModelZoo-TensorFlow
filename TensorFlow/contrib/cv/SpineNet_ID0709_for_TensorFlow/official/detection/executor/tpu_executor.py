@@ -139,16 +139,8 @@ class TpuExecutor(object):
       strategy = npu_strategy.NPUStrategy()
       tf.logging.info('Number of devices: %s', strategy.num_replicas_in_sync)
 
-      #profiling_dir = os.path.join(os.getcwd(), "npu_profiling")
-      profiling_options = '{"output":"/tmp/npu_profiling",' \
-                          '"training_trace":"on",' \
-                          '"fp_point":"spinenet/batch_normalization/FusedBatchNormV3",' \
-                          '"bp_point":"gradients/retinanet/box_net/box-3-3/FusedBatchNormV3_grad/FusedBatchNormGradV3"}'
-      profiling_config = ProfilingConfig(enable_profiling=True,
-                                         profiling_options=profiling_options)
       npu_run_config = NPURunConfig(
-          profiling_config=profiling_config,
-          train_distribute=strategy, model_dir=params.model_dir, log_step_count_steps=100)
+          train_distribute=strategy, model_dir=params.model_dir, log_step_count_steps=1)
       self._estimator = NPUEstimator(
            model_fn=model_fn, config=npu_run_config_init(npu_run_config), params=model_params)
       # run_config = tf.estimator.RunConfig(
