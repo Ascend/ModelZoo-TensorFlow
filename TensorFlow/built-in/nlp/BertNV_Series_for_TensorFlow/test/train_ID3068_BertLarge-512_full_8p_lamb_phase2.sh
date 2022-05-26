@@ -20,7 +20,7 @@ train_epochs=1
 #训练batch_size
 batch_size=24
 #训练step
-train_steps=50000
+train_steps=56000
 #学习率
 learning_rate=
 
@@ -115,7 +115,7 @@ do
     --max_seq_length=512 \
     --max_predictions_per_seq=80 \
     --train_batch_size=${batch_size} \
-    --learning_rate=1e-4 \
+    --learning_rate=2e-4 \
     --init_checkpoint=${ckpt_path}/mlpref_ckpt/bs64k_32k_ckpt_model.ckpt-28252 \
     --num_warmup_steps=1000 \
     --num_train_steps=${train_steps} \
