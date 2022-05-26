@@ -15,7 +15,7 @@ data_path=''
 ckpt_path=''
 
 #设置默认日志级别,不需要修改
-export ASCEND_GLOBAL_LOG_LEVEL=3
+#export ASCEND_GLOBAL_LOG_LEVEL=3
 #export ASCEND_DEVICE_ID=3
 
 #基础参数，需要模型审视修改
@@ -138,7 +138,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep "sec/batch" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | tail -n +2 | awk '{print $17}' | awk '{sum+=$1} END {print"",sum/NR}' | awk '{print $1}'`
+TrainingTime=`grep "INFO:tensorflow:loss =" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | tail -n +5 | awk '{print $7}' | awk -F"(" '{print $2}' | awk '{sum+=$1} END {print"",sum/NR}' | awk '{print $1}'`
 #输出单步耗时
 echo "Final Performance sec/step : $TrainingTime"
 
@@ -146,17 +146,17 @@ echo "Final Performance sec/step : $TrainingTime"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据，不需要修改
 #吞吐量
 ActualFPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
 
 #获取模型精度
-train_accuracy=`grep "acc =" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk 'END {print $12}'|sed 's/,//g'`
+train_accuracy=`grep "Average Precision "  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log  | head -n 1 | awk '{print $NF}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep 'loss =' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $9}'|sed 's/,//g' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep 'INFO:tensorflow:loss =' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $3}' | awk -F"," '{print $1}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
