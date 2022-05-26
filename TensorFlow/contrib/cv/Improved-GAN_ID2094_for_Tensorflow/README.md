@@ -227,12 +227,12 @@ NPU型号：昇腾910
 
 ## 性能
 
-训练和测试阶段根据每秒钟处理的图像数量进行测算模型性能：
+训练和测试阶段根据每秒钟处理的图像数量进行测算，使用本地用X86裸机验证的性能如下：
 
 |  | GPU | NPU |
 |-------|------|------|
-| 训练阶段 |  2701.319 instances/sec   | 1611.993 instances/sec
-| 推理阶段  |   6354.103 instances/sec   | 2818.516 instances/sec 
+| 训练阶段 |  2701.319 instance/sec   | 2976 instance/sec
+| 推理阶段  |   6354.103 instance/sec   | 6663 instance/sec
 
 ## 数据集地址
 OBS地址：
