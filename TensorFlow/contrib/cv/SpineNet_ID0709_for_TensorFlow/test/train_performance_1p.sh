@@ -15,7 +15,7 @@ data_path=''
 ckpt_path=''
 
 #设置默认日志级别,不需要修改
-export ASCEND_GLOBAL_LOG_LEVEL=3
+export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
 #export ASCEND_DEVICE_ID=3
 
 #基础参数，需要模型审视修改
@@ -123,7 +123,7 @@ do
 
 	python3 official/detection/main.py \
 		--model_dir=${cur_path}/result --use_tpu=False \
-		--mode=train --eval_after_training=True \
+		--mode=train --eval_after_training=False \
 		--config_file="official/detection/configs/spinenet/spinenet49S_retinanet.yaml" \
 		--params_override="{ train: { total_steps : ${train_steps}, train_batch_size : ${batch_size}, train_file_pattern: ${data_path}/train-* }, eval: { val_json_file: ${data_path}/annotations/instances_val2017.json, eval_file_pattern: ${data_path}/val-* } }" \
 		> ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
@@ -138,7 +138,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep "sec/batch" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | tail -n +2 | awk '{print $17}' | awk '{sum+=$1} END {print"",sum/NR}' | awk '{print $1}'`
+TrainingTime=`grep "INFO:tensorflow:loss =" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | tail -n +5 | awk '{print $7}' | awk -F"(" '{print $2}' | awk '{sum+=$1} END {print"",sum/NR}' | awk '{print $1}'`
 #输出单步耗时
 echo "Final Performance sec/step : $TrainingTime"
 
@@ -152,11 +152,8 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 #吞吐量
 ActualFPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
 
-#获取模型精度
-train_accuracy=`grep "acc =" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk 'END {print $12}'|sed 's/,//g'`
-
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep 'loss =' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $9}'|sed 's/,//g' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep 'INFO:tensorflow:loss =' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $3}' | awk -F"," '{print $1}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
@@ -170,5 +167,4 @@ echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseN
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
