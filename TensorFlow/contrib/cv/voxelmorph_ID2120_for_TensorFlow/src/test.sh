@@ -1,1 +1,1 @@
-python test.sh DATAPATH/test/ --model_path ../models/
+python test.sh DATAPATH/ --model_path ../models/

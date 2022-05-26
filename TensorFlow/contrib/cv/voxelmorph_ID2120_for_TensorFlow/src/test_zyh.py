@@ -52,9 +52,6 @@ sys.path.append('../ext/medipy-lib')
 import neuron.callbacks as nrn_gen
 from medipy.metrics import dice
 
-sys.path.append('..')
-import precision_tool2.tf_config as npu_tf_config
-
 from npu_bridge.npu_init import *
 
 
@@ -110,7 +107,6 @@ def test_zyh(data_path,
     config = tf.ConfigProto()
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
     config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
-    config = npu_tf_config.session_dump_config(config, action='fusion_switch')
 
     # 获取当前路径下的文件名，返回List
     file_names = os.listdir(test_path)
