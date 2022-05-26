@@ -50,6 +50,7 @@ obs://cann-id2365/inference/flow_om.om
 深度网络：
 
 原始JPG数据的obs地址：obs://cann-id2365/dataset/KITTI/raw/data/
+
 设置第10行的dataset_dir，表示原始JPG数据的路径。运行以下命令，在dataset_dir路径下生成bin格式的测试数据。
 ```
 python3 tobin_depth.py
@@ -58,6 +59,7 @@ python3 tobin_depth.py
 光流网络：
 
 原始JPG数据的obs地址：obs://cann-id2365/dataset/data_scene_flow_2015/training/
+
 设置第61行的dataset_dir，表示原始JPG数据的路径。运行一下命令，在dataset_dir路径下生成bin格式的测试数据。
 ```
 python3 tobin_flow.py
@@ -130,6 +132,7 @@ python3 bintoacc_depth.py --kitti_dir $/dataset/KITTI/raw/data/ --pred_bin_file 
 
 
 光流网络：
+
 第13行设置dataset_dir：$/dataset/data_scene_flow_2015/training/
 ```
 python3 bintoacc_flow.py
@@ -143,7 +146,8 @@ python3 bintoacc_flow.py
 | 离线推理 | 7.9371         | 0.2322   |
 
  
-离线推理精度达标   
+离线推理精度达标  
+ 
 om推理输出bin文件，obs地址： 
 
 obs://cann-id2365/inference/depth_output/
