@@ -356,7 +356,7 @@ def input_fn(is_training,
 
   import npu_device as npu
   dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
-
+  print("batch_size22222222222222222222222222222:",str(batch_size))
   #if input_context:
   #  logging.info(
   #      'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
