@@ -231,7 +231,7 @@ def train(args):
                 # print('Iter: {}, loss_scale g: {}, loss_scale d: {}'.format(total_iter, l_s_g, l_s_d))
                 print('Iter: {}, d_loss: {}, g_loss: {}, recon_loss: {}'. \
                       format(total_iter, d_loss, g_loss, r_loss))
-                if np.mod(total_iter + 1, 500) == 0:
+                if np.mod(total_iter + 1, 100) == 0:
                     saver.save(sess, SAVE_DIR + '/saved_models/model',
                                write_meta_graph=False, global_step=total_iter)
 
