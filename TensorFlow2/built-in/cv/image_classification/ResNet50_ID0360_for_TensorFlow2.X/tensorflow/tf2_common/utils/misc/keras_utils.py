@@ -131,6 +131,7 @@ class TimeHistory(tf.keras.callbacks.Callback):
       now = time.time()
       elapsed_time = now - self.start_time
       steps_per_second = steps_since_last_log / elapsed_time
+      print("elapsed_time111111:",elapsed_time)
       examples_per_second = steps_per_second * self.batch_size
 
       self.timestamp_log.append(BatchTimestamp(self.global_steps, now))
