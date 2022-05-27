@@ -24,7 +24,7 @@ Network="LEARNING-TO-SEE-IN-THE-DARK_ID2069_for_TensorFlow"
 #训练epoch
 train_epochs=20
 #训练batch_size
-batch_size=2
+batch_size=512
 #训练step
 train_steps=
 #学习率
