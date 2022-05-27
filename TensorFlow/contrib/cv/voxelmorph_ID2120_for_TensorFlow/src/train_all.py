@@ -147,7 +147,7 @@ def train(train_data_dir,
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
     config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
 
-    custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("./fusion_switch.cfg")
+    custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("./src/fusion_switch.cfg")
     # config = npu_tf_config.session_dump_config(config, action='fusion_switch')
     # config = npu_tf_config.session_dump_config(config, action='overflow')
 
