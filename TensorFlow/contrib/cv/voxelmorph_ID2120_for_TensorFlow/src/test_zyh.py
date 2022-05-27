@@ -48,7 +48,7 @@ import networks
 import losses
 
 sys.path.append('../ext/neuron')
-sys.path.append('../ext/medipy-lib')
+sys.path.append('../ext/medipy')
 import neuron.callbacks as nrn_gen
 from medipy.metrics import dice
 
