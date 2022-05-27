@@ -76,7 +76,7 @@ $ python3 predict.py
 
 ### 训练结果对比
 模型以同样的数据集、参数在GPU和NPU平台上进行了训练。  
-GPU平台使用的GPU为：NVIDIA T4， 1 * 16G
+GPU平台使用的GPU为：NVIDIA V100， 1 * 16G
 NPU平台使用的NPU为：Ascend 910
 #### 时间（性能）对比
 使用相同的数据集于GPU和NPU上进行了500轮的训练测试，统计测试过程中在GPU及NPU上单轮训练耗时如下：
@@ -86,7 +86,7 @@ NPU平台使用的NPU为：Ascend 910
     <th>NPU单轮训练耗时（s）</th>
   </tr>
   <tr>
-    <td>0.5184</td>
+    <td>0.1993</td>
     <td>1.1971</td>
   </tr>
 </table>
