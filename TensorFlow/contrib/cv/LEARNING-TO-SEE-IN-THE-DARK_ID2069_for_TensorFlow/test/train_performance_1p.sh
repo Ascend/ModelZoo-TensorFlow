@@ -128,7 +128,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep "Time= " $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F "Time= " '{print $2}'|awk -F " " '{print $1}'|tail -n +3|awk '{sum+=$1} END {print"",sum/NR}'|sed 's/ //g'`
+TrainingTime=`grep "Time" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -n +10 | awk '{print $4}' | tr -d "Time=" | awk '{sum+=$1} END {print sum/NR}'`
 
 
 #性能看护结果汇总
@@ -142,10 +142,11 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 ActualFPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep 'Loss= ' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk  '{print $3}'  > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep "Loss=" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $3}' | tr -d "Loss=" > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+
 
 #最后一个迭代loss值，不需要修改
-ActualLoss=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
+ActualLoss=`awk 'END {print $NF}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -156,5 +157,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseN
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = None" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+#echo "TrainAccuracy = None" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
