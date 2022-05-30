@@ -31,14 +31,17 @@ import tensorflow as tf
 import json
 import os
 import argparse
+import sys
 from src.model import model_fn
 from src.input_pipeline import Pipeline
 
 
-current_path = os.path.dirname(__file__)
+
+current_path = sys.path[0]
 tf.logging.set_verbosity('INFO')
 dir_path = os.path.dirname(os.path.abspath(__file__))
-CONFIG = current_path+'/config.json'
+#CONFIG = current_path+'/config.json'
+CONFIG = os.path.join(current_path,'config.json')
 GPU_TO_USE = '0'
 
 
