@@ -8,7 +8,7 @@ export RANK_SIZE=8
 export JOB_ID=99990001
 export RANK_ID=8p
 export SLOG_PRINT_TO_STDOUT=0
-export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
+#export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 export HCCL_CONNECT_TIMEOUT=600
 RANK_ID_START=0
 
