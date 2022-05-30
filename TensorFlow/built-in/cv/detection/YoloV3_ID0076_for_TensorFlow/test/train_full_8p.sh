@@ -86,6 +86,12 @@ do
         bind_core=`echo ${para#*=}`
         name_bind="_bindcore"
     fi
+    if [[ $para == --conda_name* ]];then
+	    conda_name=`echo ${para#*=}`
+        source set_conda.sh --conda_name=$conda_name
+        source activate $conda_name
+        echo "PATH TRAIN AFTER :$PATH"
+    fi
 done
 
 #校验是否传入data_path,不需要修改
@@ -228,3 +234,10 @@ echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${Ca
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy= ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+
+#退出conda环境
+conda deactivate
+if [-n "$conda_name"];then
+    echo "conda $conda_name deactivate"
+    conda deactivate
+fi
