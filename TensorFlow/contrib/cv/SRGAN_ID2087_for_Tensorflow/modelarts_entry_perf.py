@@ -30,7 +30,6 @@ import os
 import argparse
 import sys
 
-# 解析输入参数data_url
 parser = argparse.ArgumentParser()
 parser.add_argument("--data_url", type=str, default="/home/ma-user/modelarts/inputs/data_url_0")
 parser.add_argument("--train_url", type=str, default="/home/ma-user/modelarts/outputs/train_url_0/")
