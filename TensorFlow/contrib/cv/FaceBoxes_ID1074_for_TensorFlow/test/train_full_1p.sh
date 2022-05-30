@@ -127,7 +127,7 @@ do
 	--data_path=${data_path}/WIDER/ \
 	--output_path=./output_path \
 	--log_step_count_steps=1 \
-    --step=240000  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+    --step=240000 >$cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 
     
 done 
