@@ -291,9 +291,7 @@ def train(train_data, test_data=None):
                     format(it, it / steps_per_epoch, train_cost) + \
                 (", batch_time={:.5f} s/step".format(avg_time) if avg_time > 0 else ""))
         st_it = max(100 // FLAGS.iterations_per_loop, 1)
-        print("FLAGS.iterations_per_loop",str(FLAGS.iterations_per_loop))
         if it > st_it:
-            print("it,st_it,time",str(it),str(st_it),str(time.time() - t1))
             avg_time = (avg_time * (it - st_it - 1) * FLAGS.iterations_per_loop + time.time() - t1) / (it - st_it) / FLAGS.iterations_per_loop
         t1 = time.time()
     
