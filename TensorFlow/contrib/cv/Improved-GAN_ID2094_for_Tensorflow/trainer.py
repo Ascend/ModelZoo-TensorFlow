@@ -30,8 +30,8 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-os.system("pip install colorlog")
-os.system("pip install h5py==2.9.0")
+# os.system("pip install colorlog")
+# os.system("pip install h5py==2.9.0")
 
 
 from npu_bridge.npu_init import *
