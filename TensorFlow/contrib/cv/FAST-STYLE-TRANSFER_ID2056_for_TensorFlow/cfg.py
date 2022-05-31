@@ -58,7 +58,8 @@ def make_config(chip):
 
         #if not os.path.exists(dump_dir):
         #    os.makedirs(dump_dir)
-
+        custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+        custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("switch_config.txt")
         #custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
         #custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("/cache/dataset/ops_info.json")
 
