@@ -47,14 +47,9 @@ import distribute_utils
 import common
 import core as flags_core
 import model_helpers
-
 import npu_convert_dropout
-#from hccl.split.api import set_split_strategy_by_size
-#set_split_strategy_by_size([75,20,5], 'hccl_world_group')
-
 
 FLAGS = flags.FLAGS
-from hccl.split.api import set_split_strategy_by_size
 def npu_config():
   FLAGS = flags.FLAGS
   npu_config = {}
@@ -150,7 +145,6 @@ def run(flags_obj, datasets_override=None, strategy_override=None):
   strategy_scope = distribute_utils.get_strategy_scope(strategy)
 
   mnist = tfds.builder('mnist', data_dir=flags_obj.data_dir)
-  #mnist = tf.data.Dataset.from_tensor_slices(mnist)
   if flags_obj.download:
     mnist.download_and_prepare()
   mnist_train, mnist_test = datasets_override or mnist.as_dataset(
