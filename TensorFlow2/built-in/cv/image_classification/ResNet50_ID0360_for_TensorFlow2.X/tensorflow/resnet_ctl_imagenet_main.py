@@ -54,6 +54,7 @@ import resnet_runnable
 import json
 import npu_device
 
+
 flags.DEFINE_boolean(name='use_tf_function', default=True,
                      help='Wrap the train and test step inside a '
                      'tf.function.')
