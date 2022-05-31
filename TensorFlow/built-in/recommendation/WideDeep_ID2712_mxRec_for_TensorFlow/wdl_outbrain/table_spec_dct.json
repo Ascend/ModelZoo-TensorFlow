@@ -1,0 +1,222 @@
+{
+    "deep_doc_event_id_table": {
+        "emb_size": 128,
+        "voc_size": 300000,
+        "optimizer": "Adam"
+    },
+    "wide_doc_event_id_table": {
+        "emb_size": 1,
+        "voc_size": 300000,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_id_table": {
+        "emb_size": 128,
+        "voc_size": 100000,
+        "optimizer": "Adam"
+    },
+    "wide_doc_id_table": {
+        "emb_size": 1,
+        "voc_size": 100000,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_event_source_id_table": {
+        "emb_size": 64,
+        "voc_size": 4000,
+        "optimizer": "Adam"
+    },
+    "wide_doc_event_source_id_table": {
+        "emb_size": 1,
+        "voc_size": 4000,
+        "optimizer": "Ftrl"
+    },
+    "deep_event_geo_location_table": {
+        "emb_size": 64,
+        "voc_size": 2500,
+        "optimizer": "Adam"
+    },
+    "wide_event_geo_location_table": {
+        "emb_size": 1,
+        "voc_size": 2500,
+        "optimizer": "Ftrl"
+    },
+    "deep_event_country_state_table": {
+        "emb_size": 64,
+        "voc_size": 2000,
+        "optimizer": "Adam"
+    },
+    "wide_event_country_state_table": {
+        "emb_size": 1,
+        "voc_size": 2000,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_event_publisher_id_table": {
+        "emb_size": 64,
+        "voc_size": 1000,
+        "optimizer": "Adam"
+    },
+    "wide_doc_event_publisher_id_table": {
+        "emb_size": 1,
+        "voc_size": 1000,
+        "optimizer": "Ftrl"
+    },
+    "deep_event_country_table": {
+        "emb_size": 64,
+        "voc_size": 300,
+        "optimizer": "Adam"
+    },
+    "wide_event_country_table": {
+        "emb_size": 1,
+        "voc_size": 300,
+        "optimizer": "Ftrl"
+    },
+    "deep_event_hour_table": {
+        "emb_size": 64,
+        "voc_size": 6,
+        "optimizer": "Adam"
+    },
+    "wide_event_hour_table": {
+        "emb_size": 1,
+        "voc_size": 6,
+        "optimizer": "Ftrl"
+    },
+    "deep_event_platform_table": {
+        "emb_size": 64,
+        "voc_size": 3,
+        "optimizer": "Adam"
+    },
+    "wide_event_platform_table": {
+        "emb_size": 1,
+        "voc_size": 3,
+        "optimizer": "Ftrl"
+    },
+    "deep_traffic_source_table": {
+        "emb_size": 64,
+        "voc_size": 3,
+        "optimizer": "Adam"
+    },
+    "wide_traffic_source_table": {
+        "emb_size": 1,
+        "voc_size": 3,
+        "optimizer": "Ftrl"
+    },
+    "deep_event_weekend_table": {
+        "emb_size": 64,
+        "voc_size": 2,
+        "optimizer": "Adam"
+    },
+    "wide_event_weekend_table": {
+        "emb_size": 1,
+        "voc_size": 2,
+        "optimizer": "Ftrl"
+    },
+    "deep_user_has_already_viewed_doc_table": {
+        "emb_size": 64,
+        "voc_size": 2,
+        "optimizer": "Adam"
+    },
+    "wide_user_has_already_viewed_doc_table": {
+        "emb_size": 1,
+        "voc_size": 2,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_event_entity_id_table": {
+        "emb_size": 64,
+        "voc_size": 10000,
+        "optimizer": "Adam"
+    },
+    "wide_doc_event_entity_id_table": {
+        "emb_size": 1,
+        "voc_size": 10000,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_event_topic_id_table": {
+        "emb_size": 64,
+        "voc_size": 350,
+        "optimizer": "Adam"
+    },
+    "wide_doc_event_topic_id_table": {
+        "emb_size": 1,
+        "voc_size": 350,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_event_category_id_table": {
+        "emb_size": 64,
+        "voc_size": 100,
+        "optimizer": "Adam"
+    },
+    "wide_doc_event_category_id_table": {
+        "emb_size": 1,
+        "voc_size": 100,
+        "optimizer": "Ftrl"
+    },
+    "deep_ad_id_table": {
+        "emb_size": 128,
+        "voc_size": 250000,
+        "optimizer": "Adam"
+    },
+    "wide_ad_id_table": {
+        "emb_size": 1,
+        "voc_size": 250000,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_ad_source_id_table": {
+        "emb_size": 64,
+        "voc_size": 4000,
+        "optimizer": "Adam"
+    },
+    "wide_doc_ad_source_id_table": {
+        "emb_size": 1,
+        "voc_size": 4000,
+        "optimizer": "Ftrl"
+    },
+    "deep_ad_advertiser_table": {
+        "emb_size": 64,
+        "voc_size": 2500,
+        "optimizer": "Adam"
+    },
+    "wide_ad_advertiser_table": {
+        "emb_size": 1,
+        "voc_size": 2500,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_ad_publisher_id_table": {
+        "emb_size": 64,
+        "voc_size": 1000,
+        "optimizer": "Adam"
+    },
+    "wide_doc_ad_publisher_id_table": {
+        "emb_size": 1,
+        "voc_size": 1000,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_ad_topic_id_table": {
+        "emb_size": 64,
+        "voc_size": 350,
+        "optimizer": "Adam"
+    },
+    "wide_doc_ad_topic_id_table": {
+        "emb_size": 1,
+        "voc_size": 350,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_ad_entity_id_table": {
+        "emb_size": 64,
+        "voc_size": 10000,
+        "optimizer": "Adam"
+    },
+    "wide_doc_ad_entity_id_table": {
+        "emb_size": 1,
+        "voc_size": 10000,
+        "optimizer": "Ftrl"
+    },
+    "deep_doc_ad_category_id_table": {
+        "emb_size": 64,
+        "voc_size": 100,
+        "optimizer": "Adam"
+    },
+    "wide_doc_ad_category_id_table": {
+        "emb_size": 1,
+        "voc_size": 100,
+        "optimizer": "Ftrl"
+    }
+}
