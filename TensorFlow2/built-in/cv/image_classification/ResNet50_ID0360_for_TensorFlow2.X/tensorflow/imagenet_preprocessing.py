@@ -154,7 +154,6 @@ def process_record_dataset(dataset,
       map_fn,
       num_parallel_calls=12)
   dataset = dataset.batch(batch_size, drop_remainder=drop_remainder)
-  print("batch_size1111111111111111111111:",str(batch_size))
   # Operations between the final prefetch and the get_next call to the iterator
   # will happen synchronously during run time. We prefetch here again to
   # background all of the above processing work and keep it out of the
@@ -356,7 +355,6 @@ def input_fn(is_training,
 
   import npu_device as npu
   dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
-  print("batch_size22222222222222222222222222222:",str(batch_size))
   #if input_context:
   #  logging.info(
   #      'Sharding the dataset: input_pipeline_id=%d num_input_pipelines=%d',
