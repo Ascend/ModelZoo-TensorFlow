@@ -53,8 +53,6 @@ import imagenet_preprocessing
 import resnet_runnable
 import json
 import npu_device
-from hccl.split.api import set_split_strategy_by_size
-set_split_strategy_by_size([70,20,10], 'hccl_world_group')
 
 flags.DEFINE_boolean(name='use_tf_function', default=True,
                      help='Wrap the train and test step inside a '
