@@ -119,7 +119,7 @@ then
         --test-dir=${output_path} \
         --content-weight 1.5e1 \
         --checkpoint-iterations 20 \
-        --batch_size 20 \
+        --batch-size 20 \
         --train-path=${data_path}/train_min_2014 \
         --vgg-path=${data_path}/imagenet-vgg-verydeep-19.mat  &> ${print_log}
 else
@@ -130,7 +130,7 @@ else
         --test-dir=${output_path} \
         --content-weight 1.5e1 \
         --checkpoint-iterations 20 \
-        --batch_size 20 \
+        --batch-size 20 \
         --train-path=${data_path}/train_min_2014 \
         --vgg-path=${data_path}/imagenet-vgg-verydeep-19.mat &> ${print_log}
 fi
