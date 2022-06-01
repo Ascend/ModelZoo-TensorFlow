@@ -22,9 +22,9 @@ export JOB_ID=10087
 data_path=""
 output_path=""
 
-pip3 install scikit-image==0.14.5
-pip3 install numpy==1.19.2
-pip3 install pytorch-fid
+#pip3 install scikit-image==0.14.5
+#pip3 install numpy==1.19.2
+#pip3 install pytorch-fid
 
 
 # 帮助信息，不需要修改
