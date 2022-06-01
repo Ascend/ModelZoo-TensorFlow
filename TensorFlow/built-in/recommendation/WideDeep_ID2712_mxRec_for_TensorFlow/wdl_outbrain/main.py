@@ -33,11 +33,11 @@ def run():
     print("Init a dataset instance.")
     data_args_json_file = os.path.join(data_path, 'data_args.json')
     train_dataset = Dataset(data_path, dataset_type,
-                            name="train_dataset_channel", dataset_pattern="train",
-                            batch_size=batch_size) \
+                            name="train_dataset_channel", dataset_pattern="train") \
         .read_parsing_json(data_args_json_file) \
         .file_pattern('tfrecord') \
-        .set_num_parallel(8) \
+        .num_parallel(8) \
+        .set_batch_size(batch_size) \
         .shuffle(shuffle_buffer=1) \
         .prefetch(1) \
         .epoch(10) \
@@ -45,11 +45,11 @@ def run():
         .add_preprocess(function=my_preprocess)
 
     val_dataset = Dataset(data_path, dataset_type,
-                          name="test_dataset_channel", dataset_pattern="eval",
-                          batch_size=batch_size) \
+                          name="test_dataset_channel", dataset_pattern="eval") \
         .read_parsing_json(data_args_json_file) \
         .file_pattern('tfrecord') \
-        .set_num_parallel(8) \
+        .num_parallel(8) \
+        .set_batch_size(batch_size) \
         .shuffle(shuffle_buffer=1) \
         .prefetch(1) \
         .sample_size(test_size) \
