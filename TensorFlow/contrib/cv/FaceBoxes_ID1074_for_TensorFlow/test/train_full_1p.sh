@@ -154,7 +154,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 ##获取性能数据，不需要修改
 #吞吐量
 ActualFPS=`awk 'BEGIN{printf "%.3f\n",  '${batch_size}'/'${TrainingTime}'}'`
-train_accuracy=`grep "Loss for final step" ${print_log} | awk '{print $NF}' | sed 's/.$//'`
+train_accuracy=`grep "Loss for final step" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk '{print $NF}' | sed 's/.$//'`
 
 #最后一个迭代loss值，不需要修改
 grep 'loss =' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk  '{print $3}'  |awk -F',' '{print $1}'  > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
