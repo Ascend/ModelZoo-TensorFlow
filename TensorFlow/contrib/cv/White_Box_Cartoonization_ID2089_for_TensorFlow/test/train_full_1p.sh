@@ -136,7 +136,7 @@ StepTime=`grep "time_per_step" ${print_log} | tail -n 10 | awk '{print $5}' | aw
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy==`grep "FID:" ${print_log}  | awk '{print $NF}'`
+train_accuracy==`grep "FID:" ${print_log} | tail -n 1 | awk '{print $NF}'`
 # 提取所有loss打印信息
 grep "d_loss:" ${print_log} | awk '{print $4}' | awk -F"," '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
