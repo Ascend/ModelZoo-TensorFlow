@@ -322,8 +322,10 @@ def create_pretrain_dataset_bucket(input_patterns,
 
     if is_training:
         dataset = dataset.shuffle(1500)
-
-    dataset = _batch_examples(dataset, seq_len_buckets, max_tockens_num, seq_length)
+        dataset = _batch_examples(dataset, seq_len_buckets, max_tockens_num, seq_length)
+    else:
+        # eval only one bucket
+        dataset = _batch_examples(dataset, [seq_length], max_tockens_num, seq_length)
 
     def _select_data_from_record(record):
         """Filter out features to use for pretraining."""
