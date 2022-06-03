@@ -1,5 +1,7 @@
 #!/bin/bash
-export ASCEND_GLOBAL_LOG_LEVEL=0
+export ASCEND_GLOBAL_LOG_LEVEL=3
+export ASCEND_GLOBAL_EVENT_ENABLE=0
+export TF_CPP_MIN_LOG_LEVEL=3
 export ASCEND_SLOG_PRINT_TO_STDOUT=0
 ##########################################################
 #########第3行 至 100行，请一定不要、不要、不要修改##########
