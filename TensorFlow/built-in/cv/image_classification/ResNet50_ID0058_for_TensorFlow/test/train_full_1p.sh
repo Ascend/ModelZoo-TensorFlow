@@ -127,8 +127,7 @@ do
     fi
 
     #执行训练脚本，需要模型审视修改
-	cd ${cur_path}/../src/mains
-	taskset -c $((ASCEND_DEVICE_ID*${corenum}/8))-$(((ASCEND_DEVICE_ID+1)*${corenum}/8-1)) python3.7 res50.py \
+	taskset -c $((ASCEND_DEVICE_ID*${corenum}/8))-$(((ASCEND_DEVICE_ID+1)*${corenum}/8-1)) python3.7 ${cur_path}/../src/mains/res50.py \
 	    --config_file=$config_file \
         --max_train_steps=$max_train_steps \
 	    --iterations_per_loop=$iterations_per_loop \
