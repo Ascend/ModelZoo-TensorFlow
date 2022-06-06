@@ -85,6 +85,8 @@ fi
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 
+cp -r $data_path/bert $cur_path/
+
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
