@@ -166,9 +166,9 @@ echo "------------------ Final result ------------------"
 cp -f $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log.bak
 sed -i 's/\x0d/\n/g' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log.bak
 single_batch_step_sec=`grep ms/step  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log.bak | awk 'END {print $5}' | awk -F 'm' '{print $1}'`
-batch_size=16
+
 FPS=`echo ${single_batch_step_sec} ${batch_size} | awk '{print $2 * 1000 / $1}'`
-batch_size=128
+
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
