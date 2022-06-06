@@ -47,6 +47,9 @@ os.environ['EXPERIMENTAL_DYNAMIC_PARTITION']='1'
 # os.environ['DUMP_GE_GRAPH'] = '1'
 # os.environ['DUMP_GRAPH_LEVEL'] = '1'
 
+rank_size = int(os.getenv('RANK_SIZE'))
+rank_id = int(os.getenv('ASCEND_DEVICE_ID'))
+
 def read_data(tf_file, is_training):
     def _parse_read(tfrecord_file):
         features = {
@@ -97,6 +100,12 @@ def read_data(tf_file, is_training):
         return image, label, mask
 
     dataset = tf.data.TFRecordDataset(tf_file)
+    
+    if rank_size > 1:
+        print("*****************************")
+        print("rank_size==",rank_size,"rank_id===",rank_id)
+        dataset = dataset.shard(rank_size, rank_id)    
+    
     dataset = dataset.map(_parse_read, num_parallel_calls=2)
     dataset = dataset.shuffle(batch_size * 10)
     dataset = dataset.repeat(epochs)
@@ -121,6 +130,7 @@ def training_op(log, label, mask):
 
     loss = focal_loss(log, label, mask)
     optimizer = tf.contrib.opt.NadamOptimizer(learning_rate=learning_rate_base)
+    optimizer = npu_distributed_optimizer_wrapper(optimizer)
     # update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     # with tf.control_dependencies(update_ops):
     #     op = optimizer.minimize(loss, global_step=global_step)
@@ -204,7 +214,8 @@ epochs = FLAGS.epoch
 batch_size = FLAGS.batch_size
 img_N = FLAGS.image_num
 is_training = True
-learning_rate_base = 0.0001
+#learning_rate_base = 0.0001
+learning_rate_base = 0.00001
 _HEIGHT = 512
 _WIDTH = 512
 
@@ -224,7 +235,13 @@ custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
 custom_op.parameter_map["use_off_line"].b = True  # 在昇腾AI处理器执行训�?
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 关闭remap开�?
+custom_op.parameter_map["hcom_parallel"].b = True
 with tf.Session(config=config) as sess:
+    if rank_size > 1:
+        input = tf.trainable_variables()
+        bcast_global_variables_op = hccl_ops.broadcast(input, 0)
+        sess.run(bcast_global_variables_op)
+    
     with slim.arg_scope(DPN_model.vgg_arg_scope()):
         out = DPN_model.dpn_model(inputx, inputd, is_training=is_training, _HEIGHT=_HEIGHT, _WIDTH=_WIDTH)
     train_op, train_loss = training_op(out, inputy, inputm)
