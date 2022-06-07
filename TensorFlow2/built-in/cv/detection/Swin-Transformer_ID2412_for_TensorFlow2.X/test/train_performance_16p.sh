@@ -7,7 +7,7 @@ export JOB_ID=10087
 #网络名称，同目录名称
 Network="Swin-Transformer_ID2412_for_TensorFlow2.X"
 #Device数量，单卡默认为1
-RankSize=1
+RankSize=16
 #Batch Size
 batch_size=256
 #训练epoch，可选
