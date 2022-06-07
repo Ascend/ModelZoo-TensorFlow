@@ -62,7 +62,7 @@ export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
 rank_size=8
 nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
 wait
-export RANK_TABLE_FILE=$cur_path/rank_table.json
+export RANK_TABLE_FILE=$cur_path/test/rank_table.json
 export JOB_ID=10087
 export DEVICE_INDEX=0
 
