@@ -80,9 +80,10 @@ start=$(date +%s)
 for((RANK_ID=$((rank_size*server_index));RANK_ID<$((((server_index+1))*rank_size));RANK_ID++));
 do
     #设置环境变量
-    export RANK_ID=$i
+    
     export ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
     ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
+    export RANK_ID=$RANK_ID
     echo "Device ID: $ASCEND_DEVICE_ID"
 
     if [ -d $cur_path/test/output/$ASCEND_DEVICE_ID ];then
