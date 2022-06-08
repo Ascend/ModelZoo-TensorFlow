@@ -71,7 +71,8 @@ def load_data():
     x_s = moon_data['x_s']
     y_s = moon_data['y_s']
     x_t = moon_data['x_t']
-    return x_s, y_s, x_t
+    y_t = moon_data['y_t']
+    return x_s, y_s, x_t, y_t
 
 
 def generate_grid_point():
@@ -89,7 +90,7 @@ if __name__ == "__main__":
     opts = parser.parse_args()
 
     # Load data
-    x_s, y_s, x_t = load_data()
+    x_s, y_s, x_t, y_t = load_data()
 
     # set random seed
     tf.set_random_seed(1234)
