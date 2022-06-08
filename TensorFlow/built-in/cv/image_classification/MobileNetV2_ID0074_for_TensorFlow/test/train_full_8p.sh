@@ -130,8 +130,10 @@ do
     else
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
-    
-    
+
+    mkdir -p results/$ASCEND_DEVICE_ID
+
+    sed -i 's|results|results/'$ASCEND_DEVICE_ID'|g' train.py
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
@@ -164,13 +166,14 @@ do
         #--data_dump_path=${data_dump_path} \
         #--profiling=${profiling} \
         #--profiling_dump_path=${profiling_dump_path} \
-        #--autotune=${autotune} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
-
+        #--autotune=${autotune} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+    sleep 1m
+    sed -i 's|results/'$ASCEND_DEVICE_ID'|results|g' train.py
 done 
 wait
     python3.7 eval_image_classifier_mobilenet.py \
         --dataset_dir=${data_path} \
-        --checkpoint_path=${cur_path}/../results/model.ckpt-187500 >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+        --checkpoint_path=${cur_path}/../results/${ASCEND_DEVICE_ID}/model.ckpt-187500 >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 wait
 #训练结束时间，不需要修改
 end_time=$(date +%s)
