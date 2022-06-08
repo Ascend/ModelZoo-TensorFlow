@@ -56,8 +56,6 @@
 ├── moon_data.npz # 存放swd.py使用的demo数据
 ├── README.md
 ├── requirements.txt
-├── svhn2mnist_test_npu.py #测试文件
-├── svhn2mnist_train_npu.py #训练文件
 ├── swd.py
 └── train_1p.sh #模型的启动脚本
 ```
