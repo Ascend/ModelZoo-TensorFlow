@@ -4,7 +4,7 @@ cur_path=`pwd`
 #集合通信参数,不需要修改
 export RANK_SIZE=1
 export JOB_ID=10087
-#RANK_ID_START=0
+RANK_ID_START=0
 # 数据集路径,保持为空,不需要修改
 data_path=""
 #基础参数，需要模型审视修改
