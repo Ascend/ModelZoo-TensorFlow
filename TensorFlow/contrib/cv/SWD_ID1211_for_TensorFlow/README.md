@@ -87,7 +87,7 @@ python swd.py -mode source_only
 |           | SWD   |
 |-----------|---------------|
 | GPU (V100) | 4 ms / epoch |
-| NPU | 35.7 ms / epoch |
+| NPU | 8.6 ms / epoch |
 | NPU (开启混合精度)| 2.5 ms / epoch |
 
 说明：从上表可以看出，由于网络模型规模较小，CPU上的运行速度反而是最快的，而NPU的运行速度与GPU相近。
@@ -139,35 +139,17 @@ source acc:1.00, target acc:1.00
 ```
 -> Perform training with domain adaptation.
 Iteration: 0 / 10000
-loss_s: 1.40980, loss_dis:0.00108
+loss_s: 1.40980 , loss_dis: 0.00108 , step_time: 23.8698
 source acc:0.28, target acc:0.32
 Iteration: 1000 / 10000
-loss_s: 0.68452, loss_dis:0.00450
+loss_s: 0.68454 , loss_dis: 0.00450 , step_time: 0.0086
 source acc:0.87, target acc:0.90
 Iteration: 2000 / 10000
-loss_s: 0.19736, loss_dis:0.00016
+loss_s: 0.19738 , loss_dis: 0.00016 , step_time: 0.0089
 source acc:0.96, target acc:0.91
-Iteration: 3000 / 10000
-loss_s: 0.01766, loss_dis:0.00038
-source acc:1.00, target acc:0.96
-Iteration: 4000 / 10000
-loss_s: 0.00840, loss_dis:0.00287
-source acc:1.00, target acc:0.98
-Iteration: 5000 / 10000
-loss_s: 0.00608, loss_dis:0.00247
-source acc:1.00, target acc:0.99
-Iteration: 6000 / 10000
-loss_s: 0.00353, loss_dis:0.00047
-source acc:1.00, target acc:1.00
-Iteration: 7000 / 10000
-loss_s: 0.00226, loss_dis:0.00026
-source acc:1.00, target acc:1.00
-Iteration: 8000 / 10000
-loss_s: 0.00168, loss_dis:0.00017
-source acc:1.00, target acc:1.00
-Iteration: 9000 / 10000
-loss_s: 0.00128, loss_dis:0.00011
-source acc:1.00, target acc:1.00
+
+...
+
 Iteration: 10000 / 10000
 loss_s: 0.00101, loss_dis:0.00008
 source acc:1.00, target acc:1.00
@@ -175,12 +157,4 @@ source acc:1.00, target acc:1.00
 -> Please see the current folder for outputs.
 
 ```
-## train model in Domain adpatation with svhn 2 mnist
-To Train
-```
-python svhn2mnist_train_npu.py -mode adapt_swd
-```
-To Test
-```
-python svhn2mnist_test_npu.py -mode adapt_swd
-```
+
