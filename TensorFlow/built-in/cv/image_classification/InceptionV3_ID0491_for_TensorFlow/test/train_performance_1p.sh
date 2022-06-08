@@ -4,7 +4,7 @@ cur_path=`pwd`
 #集合通信参数,不需要修改
 export RANK_SIZE=1
 export JOB_ID=10087
-RANK_ID_START=0
+#RANK_ID_START=0
 # 数据集路径,保持为空,不需要修改
 data_path=""
 #基础参数，需要模型审视修改
@@ -86,7 +86,7 @@ start_time=$(date +%s)
 cd $cur_path/../
 #设置环境变量，不需要修改
 echo "Device ID: $ASCEND_DEVICE_ID"
-export RANK_ID=$RANK_ID
+export RANK_ID=$RANK_ID_START
 #创建DeviceID输出目录，不需要修改
 if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
     rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
