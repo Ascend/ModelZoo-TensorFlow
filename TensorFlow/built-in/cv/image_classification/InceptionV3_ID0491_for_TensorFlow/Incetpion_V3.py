@@ -155,7 +155,7 @@ def run():
 #                                print('coord should stop ...')
 #                                break
                             start_time = time.time()
-                            LEARNING_RATE_VAL = calc_lr.calc_lr(step, ITER_NUM, 0.001, 0.12, gamma=0.9998)
+                            LEARNING_RATE_VAL = calc_lr.calc_lr(step, ITER_NUM, 0.012, 0.12, gamma=0.9998)
 
                             batch_train_img, batch_train_label = sess.run(next_iter_train)                            
                             # for npu
