@@ -9,6 +9,7 @@
 https://github.com/ultralytics/yolov3
 
 branch=master
+
 commit_id=166a4d590f08b55cadfebc57a11a52ff2fc2b7d3
 
 yolov3模型文件 :
