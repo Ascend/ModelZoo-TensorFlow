@@ -65,9 +65,9 @@ def discrepancy_mcd(out1, out2):
     return tf.reduce_mean(tf.abs(out1 - out2))
 
 
-def load_data():
+def load_data(data_path):
     # Load inter twinning moons 2D dataset by F. Pedregosa et al. in JMLR 2011
-    moon_data = np.load('moon_data.npz')
+    moon_data = np.load(data_path)
     x_s = moon_data['x_s']
     y_s = moon_data['y_s']
     x_t = moon_data['x_t']
@@ -86,11 +86,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', type=str, default="adapt_swd",
                         choices=["source_only", "adapt_mcd", "adapt_swd"])
+    parser.add_argument('--data_path', type=str, default='./moon_data.npz')
     parser.add_argument('--steps', type=int, default=10001)
     opts = parser.parse_args()
 
     # Load data
-    x_s, y_s, x_t, y_t = load_data()
+    x_s, y_s, x_t, y_t = load_data(opts.data_path)
 
     # set random seed
     tf.set_random_seed(1234)

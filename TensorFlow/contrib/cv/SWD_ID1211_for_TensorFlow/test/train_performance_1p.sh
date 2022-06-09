@@ -24,7 +24,7 @@ Network="SWD_ID1211_for_TensorFlow"
 #训练epoch
 train_epochs=10
 #训练batch_size
-batch_size=1024
+batch_size=300
 #训练step
 train_steps=`expr 1281167 / ${batch_size}`
 #学习率
@@ -125,6 +125,7 @@ do
 		
 	python3  swd.py  \
 	--mode adapt_swd \
+    --data_path=${data_path}/moon_data.npz \
 	--steps 3000 >  ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
 	
 
@@ -154,7 +155,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 ##获取性能数据，不需要修改
 #吞吐量
-ActualFPS=`awk 'BEGIN{printf "%.3f\n",  1/'${TrainingTime}'}'`
+ActualFPS=`awk 'BEGIN{printf "%.2f\n",  '${batch_size}'/'${TrainingTime}'}'`
 
 
 #最后一个迭代loss值，不需要修改
