@@ -3,7 +3,8 @@
 cur_path=`pwd`/../
 
 #设置默认日志级别,不需要修改
-export ASCEND_GLOBAL_LOG_LEVEL=3
+#export ASCEND_GLOBAL_LOG_LEVEL=3
+RANK_ID_START=0
 
 #基础参数，需要模型审视修改
 #Batch Size
@@ -41,6 +42,8 @@ fi
 ##############执行训练##########
 cd $cur_path
 wait
+
+export RANK_ID=$RANK_ID_START
 
 if [ -d $cur_path/test/output ];then
    rm -rf $cur_path/test/output/*
