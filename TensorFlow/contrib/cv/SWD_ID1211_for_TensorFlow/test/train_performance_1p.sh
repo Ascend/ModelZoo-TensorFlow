@@ -125,6 +125,7 @@ do
 		
 	python3  swd.py  \
 	--mode adapt_swd \
+    --data_path=${data_path}/moon_data.npz \
 	--steps 3000 >  ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
 	
 
