@@ -134,7 +134,7 @@ do
     --dataset_dir=${data_path} \
     --char_dict_path=${data_path}/char_dict/char_dict.json \
     --ord_map_dict_path=${data_path}/char_dict/ord_map.json \
-    --save_dir=./ \
+    --save_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
     --momentum=0.95 \
     --lr=0.08 \
     --use_nesterov=True \
@@ -144,7 +144,7 @@ done
 wait
 
 unset RANK_TABLE_FILE
-python3 ${cur_path}/../tools/eval_ckpt.py --weights_path=${cur_path}/../ \
+python3 ${cur_path}/../tools/eval_ckpt.py --weights_path=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
         --device_id=0 \
         --scripts=${cur_path}/../tools/other_dataset_evaluate_shadownet.py \
         --dataset_dir=${data_path}/test/svt1/processed/ \
