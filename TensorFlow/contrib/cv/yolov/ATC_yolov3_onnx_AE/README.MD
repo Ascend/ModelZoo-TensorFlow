@@ -27,8 +27,7 @@ https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/AT
 
 yolov3.om模型下载地址：
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/Yolov3/yolov3_framework_caffe_aipp_1_batch_1_input_int8_output_FP32.om ？？？？？？？？？？？？？ 
-
+https://issue-modelzoo.obs.cn-north-4.myhuaweicloud.com:443/Ayolov3/yolov3.om?AccessKeyId=IFA20XF3LQ8AQTCRWLOP&Expires=1685848537&Signature=M/qI%2BvCrGiwHPs8PqnDfNoACERA%3D
 
 生成yolov3的适配昇腾AI处理器的离线模型文件时可以参考如下指令:
 
@@ -70,5 +69,5 @@ Batch: 1, shape: 624* 416 *3 ，带AIPP，平均推理性能11.81ms
 
 推理效果
 
-![输入图片说明](https://images.gitee.com/uploads/images/2020/1116/160411_c5731771_8113712.jpeg "yolo-caffe.jpg") ？？？？？？？？？？？？？？？？？？
+![输入图片说明](https://issue-modelzoo.obs.cn-north-4.myhuaweicloud.com:443/Ayolov3/device_0_out_pic_12.jpg?AccessKeyId=IFA20XF3LQ8AQTCRWLOP&Expires=1685848659&Signature=ptf/1UYfWjBOjX6vjdvLLur5xrI%3D "device_0_out_pic_12.jpg")
 
