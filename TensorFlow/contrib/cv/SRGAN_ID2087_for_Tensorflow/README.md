@@ -1,145 +1,179 @@
-# Keras-SRGAN
-Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network implemented in Keras
 
-For more about topic check [Single Image Super Resolution Using GANs — Keras](https://medium.com/@birla.deepak26/single-image-super-resolution-using-gans-keras-aca310f33112)
+# SRGAN 介绍
 
-## Problem Statement:
-    Enhancing low resolution images by applying deep network with adversarial network (Generative Adversarial Networks) 
-    to produce high resolutions images.
-    
-## Architecture:
-    
-![Basic Architecture](./Architecture_images/architecture.jpg)
-    
-## Generator and Discriminator Network:
-    
-![Network](./Architecture_images/network.jpg)
-    
-## Network Details:
-    * 16 Residual blocks used.
-    * PixelShuffler x2: This is feature map upscaling. 2 sub-pixel CNN are used in Generator.
-    * PRelu(Parameterized Relu): We are using PRelu in place of Relu or LeakyRelu. It introduces learn-able parameter 
-      that makes it possible to adaptively learn the negative part coefficient.
-    * k3n64s1 this means kernel 3, channels 64 and strides 1.
-    * Loss Function: We are using Perceptual loss. It comprises of Content(Reconstruction) loss and Adversarial loss.
-    
-## How it Works:
-    * We process the HR(High Resolution) images to get down-sampled LR(Low Resolution) images. Now we have both HR 
-      and LR images for training data set.
-    * We pass LR images through Generator which up-samples and gives SR(Super Resolution) images.
-    * We use a discriminator to distinguish the HR images and back-propagate the GAN loss to train the discriminator
-      and the generator.
-    * As a result of this, the generator learns to produce more and more realistic images(High Resolution images) as 
-      it trains.
-    
-## Documentation:
-You can find more about this implementation in my post : [Single Image Super Resolution Using GANs — Keras](https://medium.com/@birla.deepak26/single-image-super-resolution-using-gans-keras-aca310f33112)
-    
+## 基本信息
 
-## Requirements:
+**发布者（Publisher）：Huawei**
 
-    You will need the following to run the above:
-    Python 3.5.4
-    tensorflow 1.11.0
-    keras 2.2.4
-    numpy 1.10.4
-    matplotlib, skimage, scipy
-    
-    For training: Good GPU, I trained my model on NVIDIA Tesla P100
-    
-## Data set:
+**应用领域（Application Domain）：** 目标检测
 
-    * Used COCO data set 2017. It is around 18GB having images of different dimensions.
-    * Used 800 images for training(Very less, You can take more (approx. 350 according to original paper) thousand is you can
-      collect and have very very good GPU). Preprocessing includes cropping images so that we can have same dimension images. 
-      Images with same width and height are preferred. I used images of size 384 for high resolution.
-    * After above step you have High Resolution images. Now you have to get Low Resolution images which you can get by down 
-      scaling HR images. I used down scale = 4. So Low resolution image of size 96 we will get. Sample code for this.
-      
-## File Structure:
+**版本（Version）：1.1**
 
-    Network.py : Contains Generator and Discriminator Network
-    Utils.py   : Contains utilities to process images
-    Utils_model.py : Contains optimizer and content loss code
-    train.py   : Used for training the model
-    test.py    : To test the model
-    Simplified : This folder contains code without Agrparse etc. If you hate commandline arguements just dive in here.
-                 There are just two files. Modify according to requirement and start training.
-      
-## Usage:
-    
-    Note : Image shape and downscale factor you can set in train.py file.Set according to requirement.
-    
-     * Training:
-        Run below command to train model. Set parameters accordingly.
-        > python train.py --input_dir='./data/' --output_dir='./output/' --model_save_dir='./model/' --batch_size=64 --epochs=3000 --number_of_images=1000 --train_test_ratio=0.8
-        
-        All Parameters have default values. For mode help on parameters run:
-        > python train.py -h
-        
-     * Testing:
-        test.py file contains code to test. Testing can be done in two ways using option test_type:
-            1. Test Model- Here you can test the model by providing HR images. It will process to get resulting LR images and then will generate SR images.
-               And then will save output file comprising of all LR, SR and HR images.
-               Run following command to test model:
-               > python test.py --input_high_res='./data_hr/' --output_dir='./output/' --model_dir='./model/gen_model3000.h5' --number_of_images=25 --test_type='test_model'
-               For more help run:
-               > python test.py -h
-               
-            2. Test LR images- This option directly take LR images and give resulting HR images.
-               Run following command to get HR images from LR images:
-               > python test.py --input_low_res='./data_lr/' --output_dir='./output/' --model_dir='./model/gen_model3000.h5' --number_of_images=25 --test_type='test_lr_images'
-               For more help run:
-               > python test.py -h
-          
-     If you hate commandline arguements please reffer Simplified folder. Modify parameters in file like image_shape, input folder
-     etc. according to your need and start training.
-               
-## Things's Learned:
+**修改时间（Modified） ：2021.11.2**2
 
-    * GAN's sometimes are hard to train. Network can be very deep sometimes, but use of residual blocks make it easier.
-    * Once you get to learn about Perceptual loss things get easier. Same Perceptual loss can be usefull for Image Style Transfer and Photo Realistic Style Transfer.
-    * This is one of the problem where i struggled to get data. You need to be carefull while choosing data and also preprossing is little bit tough.
-    * Better to use images with same width and height.
-    * Use GPU for training else it will take months to train(even you can run out of memory).
-    
-## Output:
+**大小（Size）：77M**
 
-Below are few results-
-![Output 1](./output/gan_generated_image_epoch_1110.png)
-![Output 2](./output/gan_generated_image_epoch_2580.png)
-![Output 2](./output/gan_generated_image_epoch_770.png)
-    
-More results are in output folder
+**框架（Framework）：TensorFlow 1.15.0**
 
-## Refrences:
+**模型格式（Model Format）：.h5**
 
-    Paper:
-    Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network: https://arxiv.org/pdf/1609.04802.pdf
-    Perceptual Losses for Real-Time Style Transfer and Super-Resolution: https://cs.stanford.edu/people/jcjohns/papers/eccv16/JohnsonECCV16.pdf
-    
-    Projects doing the same thing:
-    https://github.com/MathiasGruber/SRGAN-Keras
-    https://github.com/titu1994/Super-Resolution-using-Generative-Adversarial-Networks
-    https://github.com/eriklindernoren/Keras-GAN/tree/master/srgan
-    https://github.com/brade31919/SRGAN-tensorflow
-    https://github.com/tensorlayer/srgan
-     
-    Help on GANS:
-    https://github.com/eriklindernoren/Keras-GAN (Various GANS implemented in Keras)
-    https://github.com/JGuillaumin/SuperResGAN-keras
-    https://oshearesearch.com/index.php/2016/07/01/mnist-generative-adversarial-model-in-keras/
-    
-    VGG loss help:
-    https://blog.sicara.com/keras-generative-adversarial-networks-image-deblurring-45e3ab6977b5
-    
-    SubpixelConv2D(Deconvolution) help:
-    Real-Time Single Image and Video Super-Resolution Using an Efficient Sub-Pixel Convolutional Neural Network: https://arxiv.org/abs/1609.05158
-    https://github.com/twairball/keras-subpixel-conv
-    
-    Improved Techniques for Training GANs:
-    https://arxiv.org/abs/1606.03498
-    
+**精度（Precision）：Mixed**
+
+**处理器（Processor）：昇腾910**
+
+**应用级别（Categories）：Research**
+
+**描述（Description）：基于TF1.15+keras2.2.4的SRGAN复现**
+
+##  概述
+
+SRGAN是使用了生成对抗网络来训练SRResNet,使其产生的HR图像看起来更加自然,有更好的视觉效果（SRResNet是生成网络，对抗网络是用来区分真实的HR图像和通过SRResNet还原出来的HR图像。
+
+论文中 并没有说明确的loss，但是可以通过生成图看出效果的好坏。原论文中给出的是三个评分PSNR，SSIM，MOS
+
+本项目 生成图效果较好。
+
++ 参考论文：
+
+  [Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial
+Network](https://arxiv.org/pdf/1609.04802.pdf)
+
+  
+
+
+
+
+## 默认配置
+
++ 训练超参
+        --input_dir=${data_path} \
+        --output_dir=${output_path} \
+        --batch_size=16 \
+        --epochs=500 \
+        --number_of_images=8000 \
+        --train_test_ratio=0.8
+
+
+
+##  支持特性
+
+| 特效列表 | 是否支持 |
+| -------- | -------- |
+| 混合精度 | 是       |
+
+### 混合精度训练
+
+昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
+
+
+
+## Rquirements
+
++ Keras 2.2.4
++ TensorFlow 1.15.0
+numpy 1.10.4
+matplotlib, skimage, scipy
+
+
+
+
+## 模型训练与评测步骤
+
+### For train
+
++ 在modelArts上训练，入口地址为 modelarts_entry_acc.py 文件。
+
++ 通过入口地址文件 执行 训练脚本 train_full_1p.sh。 
+
+  ```python3.7 ./train.py \
+        --input_dir=${data_path} \
+        --output_dir=${output_path} \
+        --batch_size=16 \
+        --epochs=500 \
+        --number_of_images=8000 \
+        --train_test_ratio=0.8 \
+        --model_save_dir='./model/'
+  ```
+
++ 在脚本文件中，执行train代码。 训练使用预训练，训练数据集为reshape后的coco，训练为6400，测试为1600.
+
+  
+
++ 训练的每个阶段的代码保存在 obs 的 model 文件夹中，格式为h5。
+
+
+
+
+
+
+## GPU与NPU 精度与性能比对
+- 精度结果比对
+
+|精度指标项|GPU实测|NPU实测|
+|---|---|---|
+|ganloss1|0.005|0.007|
+|ganloss2|0.003|0.005|
+|ganloss3|2|2|
+|discriminator_loss|0.3|0.35|
+
+- 性能结果比对  
+
+|性能指标项|GPU实测|NPU实测|
+|---|---|---|
+|一秒step个数|2.5it/s|2.37it/s|
+
+
+
+## 迁移学习指导
+
++ 数据集准备
+
+  + 数据集使用的是reshape后的coco数据集，位于：obs://ksgannn/dataset10000/tra/
+
++ 模型参数修改
+
+  + 修改train_full_1p.sh中的内容。
+
++ 需要的预训练模型
+
+  + 需要在根目录中放入./h5/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5,位于：obs://ksgannn/5.29/MA-new-05-29-17-24/code/h5/
+
+
+
+
+
+
+## 训练过程
+
+训练的参数 可以手动在train_performance_1p.sh中调整
+
+```
+ 96%|█████████▋| 385/400 [02:44<00:06,  2.37it/s]
+ 96%|█████████▋| 386/400 [02:45<00:05,  2.34it/s]
+ 97%|█████████▋| 387/400 [02:45<00:05,  2.35it/s]
+ 97%|█████████▋| 388/400 [02:45<00:05,  2.37it/s]
+ 97%|█████████▋| 389/400 [02:46<00:04,  2.37it/s]
+ 98%|█████████▊| 390/400 [02:46<00:04,  2.35it/s]
+ 98%|█████████▊| 391/400 [02:47<00:03,  2.32it/s]
+ 98%|█████████▊| 392/400 [02:47<00:03,  2.34it/s]
+ 98%|█████████▊| 393/400 [02:48<00:02,  2.34it/s]
+ 98%|█████████▊| 394/400 [02:48<00:02,  2.36it/s]
+ 99%|█████████▉| 395/400 [02:48<00:02,  2.37it/s]
+ 99%|█████████▉| 396/400 [02:49<00:01,  2.37it/s]
+ 99%|█████████▉| 397/400 [02:49<00:01,  2.37it/s]
+100%|█████████▉| 398/400 [02:50<00:00,  2.38it/s]
+100%|█████████▉| 399/400 [02:50<00:00,  2.38it/s]
+100%|██████████| 400/400 [02:51<00:00,  2.38it/s]
+100%|██████████| 400/400 [02:51<00:00,  2.34it/s]
+discriminator_loss : 0.283746
+gan_loss : [0.007959357, 0.0059490325, 2.0103247]
+--------------- Epoch 418 ---------------
+
+  0%|          | 0/400 [00:00<?, ?it/s]
+  0%|          | 1/400 [00:00<02:49,  2.36it/s]
+  0%|          | 2/400 [00:00<02:48,  2.37it/s]
+  1%|          | 3/400 [00:01<02:48,  2.36it/s]
+  1%|          | 4/400 [00:01<02:46,  2.37it/s]
 
 
                
