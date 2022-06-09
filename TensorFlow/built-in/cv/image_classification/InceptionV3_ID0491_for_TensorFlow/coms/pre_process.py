@@ -77,11 +77,13 @@ def get_cifar10_batch(is_train, batch_size, num_cls,img_prob):
     if is_train:
         aim_dir = train_dir
         print(aim_dir)
+        FLAGS.do_eval = False
         ds = tfrecords.get_tfrecords_npu(aim_dir, img_prob=img_prob, batch_size=batch_size, num_cls=num_cls)
         return ds
     else:
         aim_dir = test_dir
         print(aim_dir)
+        FLAGS.do_eval = True
         ds = tfrecords.get_tfrecords_npu(aim_dir, img_prob=img_prob, batch_size=batch_size, num_cls=num_cls)
         return ds
     # for npu

@@ -37,7 +37,7 @@ import tensorflow as tf
 import coms.utils as utils
 import coms.pre_process as pre_pro
 import coms.coms as coms
-from coms.tfrecords import get_tfrecords
+# from coms.tfrecords import get_tfrecords
 import net.GoogLeNet.InceptionV3 as InceptionV3
 import coms.learning_rate as LR_Tools
 import time
@@ -48,6 +48,7 @@ tf.app.flags.DEFINE_integer('epoch_num', 1, '')
 tf.app.flags.DEFINE_string('NPU_DEVICE_INDEX', '0', '')
 tf.app.flags.DEFINE_integer('npu_nums', 1, '')
 tf.app.flags.DEFINE_string('precision_mode', 'allow_fp32_to_fp16', '')
+tf.app.flags.DEFINE_bool("do_eval", True, "Whether to run eval on the dev set.")
 FLAGS = tf.app.flags.FLAGS
 
 def broadcast_global_variables(root_rank, index):
@@ -107,19 +108,15 @@ def run():
         custom_op.name = "NpuOptimizer"
         custom_op.parameter_map["use_off_line"].b = True
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+        custom_op.parameter_map["hcom_parallel"].b = True
 
         config.graph_options.optimizer_options.global_jit_level = config_pb2.OptimizerOptions.OFF
         config.graph_options.rewrite_options.remapping = RewriterConfig.OFF 
     if FLAGS.precision_mode == "allow_mix_precision":
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
-    # for npu
-    # config = tf.ConfigProto()
-    # custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
-    # custom_op.name = "NpuOptimizer"
-    # custom_op.parameter_map["use_off_line"].b = True
-    # config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
-     # for npu
+
     broad_op = broadcast_global_variables(0, 1)
+    rank_size = int(os.getenv('RANK_SIZE'))
     with tf.Session(config=config) as sess:
         if utils.isHasGpu():
             dev = '/gpu:0'
@@ -151,16 +148,15 @@ def run():
 #                            print('coord should stop ...')
 #                            break
                         duration = 0
-                        for step in range(1, (ITER_NUM + 1)):
-                            if FLAGS.npu_nums == 8:
+                        for step in range(1, (ITER_NUM+1) // rank_size):
+                            if FLAGS.npu_nums == 8 :
                                 sess.run(broad_op)
 #                            if coord.should_stop():
 #                                print('coord should stop ...')
 #                                break
                             start_time = time.time()
-                            LEARNING_RATE_VAL = calc_lr.calc_lr(step, ITER_NUM, 0.001, 0.01, gamma=0.9998)
-                            # for npu  
-                            #(batch_train_img, batch_train_label) = sess.run([train_img_batch, train_label_batch])
+                            LEARNING_RATE_VAL = calc_lr.calc_lr(step, ITER_NUM, 0.012, 0.12, gamma=0.9998)
+
                             batch_train_img, batch_train_label = sess.run(next_iter_train)                            
                             # for npu
 
@@ -176,7 +172,8 @@ def run():
                                 if (not is_load_model):
                                     if (epoch < 3):
                                         continue
-                            if ((step % 100) == 0):
+                            # if ((step % 100) == 0 ):
+                            if ((step % 100) == 0 or step == ((ITER_NUM // rank_size) - 1)):
                                 print('test sets evaluation start ...')
                                 ac_iter = int((10000 / BATCH_SIZE))
                                 ac_sum = 0.0
