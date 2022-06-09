@@ -129,6 +129,8 @@ flags.DEFINE_float(
     "If >0, the ratio of masked ngrams to unmasked ngrams. Default 0,"
     "for offline masking")
 
+rank_size = int(os.getenv('RANK_SIZE'))
+rank_id = int(os.getenv('RANK_ID'))
 
 def model_fn_builder(albert_config, init_checkpoint, learning_rate,
                      num_train_steps, num_warmup_steps, use_tpu,
@@ -421,7 +423,6 @@ def input_fn_builder(input_files,
       d = tf.data.Dataset.from_tensor_slices(tf.constant(input_files))
       d = d.repeat()
       d = d.shuffle(buffer_size=len(input_files))
-
       # `cycle_length` is the number of parallel files that get read.
       cycle_length = min(num_cpu_threads, len(input_files))
 
@@ -433,6 +434,8 @@ def input_fn_builder(input_files,
               sloppy=is_training,
               cycle_length=cycle_length))
       d = d.shuffle(buffer_size=100)
+      if rank_size > 1 :
+          d = d.shard(rank_size, rank_id)
     else:
       d = tf.data.TFRecordDataset(input_files)
       # Since we evaluate for a fixed number of steps we don't want to encounter
@@ -476,6 +479,7 @@ def main(_):
   custom_op.name = 'NpuOptimizer'
   custom_op.parameter_map["use_off_line"].b = True
   custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+  custom_op.parameter_map["hcom_parallel"].b = True
   config_proto.graph_options.rewrite_options.remapping = RewriterConfig.OFF
   session_config = npu_config_proto(config_proto=config_proto)   
   tf.logging.set_verbosity(tf.logging.INFO)
@@ -542,7 +546,8 @@ def main(_):
         max_seq_length=FLAGS.max_seq_length,
         max_predictions_per_seq=FLAGS.max_predictions_per_seq,
         is_training=True)
-    estimator.train(input_fn=train_input_fn, max_steps=FLAGS.num_train_steps, hooks=npu_hooks_append())
+
+    estimator.train(input_fn=train_input_fn, max_steps=FLAGS.num_train_steps , hooks=npu_hooks_append())
 
   if FLAGS.do_eval:
     tf.logging.info("***** Running evaluation *****")
