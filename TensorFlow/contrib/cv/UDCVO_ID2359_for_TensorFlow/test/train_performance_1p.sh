@@ -16,7 +16,7 @@ data_path=""
 ckpt_path=""
 Network="UDCVO_ID2359_for_TensorFlow"
 batch_size=8
-n_epoch=1
+n_epoch=4
 n_checkpoint=10
 # train_performance_1p.sh perf
 # train_full_1p.sh acc
