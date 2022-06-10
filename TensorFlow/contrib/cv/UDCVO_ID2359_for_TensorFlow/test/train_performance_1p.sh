@@ -7,6 +7,10 @@ export RANK_SIZE=1
 export JOB_ID=10087
 export RANK_ID_START=0
 
+export ASCEND_GLOBAL_LOG_LEVEL=3
+export ASCEND_GLOBAL_EVENT_ENABLE=0
+export TF_CPP_MIN_LOG_LEVEL=3
+export ASCEND_SLOG_PRINT_TO_STDOUT=0
 
 data_path=""
 ckpt_path=""
