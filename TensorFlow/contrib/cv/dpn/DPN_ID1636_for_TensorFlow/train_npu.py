@@ -130,7 +130,8 @@ def training_op(log, label, mask):
 
     loss = focal_loss(log, label, mask)
     optimizer = tf.contrib.opt.NadamOptimizer(learning_rate=learning_rate_base)
-    optimizer = npu_distributed_optimizer_wrapper(optimizer)
+    if rank_size > 1:
+        optimizer = npu_distributed_optimizer_wrapper(optimizer)
     # update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
     # with tf.control_dependencies(update_ops):
     #     op = optimizer.minimize(loss, global_step=global_step)
@@ -214,8 +215,9 @@ epochs = FLAGS.epoch
 batch_size = FLAGS.batch_size
 img_N = FLAGS.image_num
 is_training = True
-#learning_rate_base = 0.0001
-learning_rate_base = 0.00001
+learning_rate_base = 0.0001
+if rank_size > 1:
+    learning_rate_base = 0.00001
 _HEIGHT = 512
 _WIDTH = 512
 
@@ -235,7 +237,8 @@ custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
 custom_op.parameter_map["use_off_line"].b = True  # 在昇腾AI处理器执行训�?
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 关闭remap开�?
-custom_op.parameter_map["hcom_parallel"].b = True
+if rank_size > 1:
+    custom_op.parameter_map["hcom_parallel"].b = True
 with tf.Session(config=config) as sess:
     if rank_size > 1:
         input = tf.trainable_variables()
