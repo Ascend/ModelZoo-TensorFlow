@@ -422,7 +422,8 @@ print('-------------------------------------------------------------------TTTTTT
 #print(train_dataset.shape)
 print(type(train_dataset))
 if args.static==1:
-    train_dataset=(np.array(train_dataset[0][:4096]),[np.array(train_dataset[1][:4096]), np.array(train_dataset[2][:4096]), np.array(train_dataset[3][:4096])])
+    print('static')
+    #train_dataset=(np.array(train_dataset[0][:4096]),[np.array(train_dataset[1][:4096]), np.array(train_dataset[2][:4096]), np.array(train_dataset[3][:4096])])
 validation_dataset = KeyPointsDataset(validation_keys, test_aug, train=False)
 
 print(f"Total batches in training set: {len(train_dataset)}")
