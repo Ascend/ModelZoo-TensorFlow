@@ -133,7 +133,7 @@ do
         --data_path=${data_path}/train.tfrecords \
         --epoch=1 \
         --model_path=${ckpt_path}/dpn.ckpt \
-        --model_save=${cur_path}test/output/$ASCEND_DEVICE_ID/ckpt  |tee ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
+        --model_save=${cur_path}test/output/$ASCEND_DEVICE_ID/ckpt  >> ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
     
 done 
 wait
