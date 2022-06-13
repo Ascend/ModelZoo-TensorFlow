@@ -79,7 +79,7 @@ export RANK_SIZE=16
 export JOB_ID=10087
 rank_size=8
 #export RANK_TABLE_FILE=$cur_path/../scripts/rank_table_16p.json
-nohup python3 $cur_path/set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
+nohup python3 $cur_path/test/set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
 export RANK_TABLE_FILE=${cur_path}/test/rank_table.json
 export HCCL_CONNECT_TIMEOUT=600
 export RANK_INDEX=0
