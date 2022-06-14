@@ -25,14 +25,33 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+from npu_bridge.npu_init import *
 import tensorflow as tf
-a = tf.constant([1, 2, 3, 4], dtype = tf.float64) 
-def reducelogsumexp(x):
-    x = tf.math.exp(x)
-    x = tf.math.reduce_sum(x)
-    x = tf.math.log(x)
-    return x
-res=reducelogsumexp(a)
-apires=tf.math.reduce_logsumexp(a)
-with tf.Session() as sess:
-    print(sess.run([res,apires]))
+import numpy as np
+import tensorflow.compat.v1 as tf
+tf.disable_eager_execution()
+
+
+def circle_loss(y_true,
+               y_pred,
+               gamma = 256,
+               margin = 0.25,
+               batch_size=None):
+  O_p = 1 + margin
+  O_n = -margin
+  Delta_p = 1 - margin
+  Delta_n = margin
+  if batch_size:
+    batch_size = batch_size
+    batch_idxs = tf.expand_dims(
+  tf.range(0, batch_size, dtype=tf.int32), 1)  # shape [batch,1]
+  alpha_p = tf.nn.relu(O_p - tf.stop_gradient(y_pred))
+  alpha_n = tf.nn.relu(tf.stop_gradient(y_pred) - O_n)
+  # yapf: disable
+  y_true = tf.cast(y_true, tf.float32)
+  y_pred = (y_true * (alpha_p * (y_pred - Delta_p)) +
+            (1 - y_true) * (alpha_n * (y_pred - Delta_n))) * gamma
+  # yapf: enable
+  return tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y_true, logits=y_pred))
+
