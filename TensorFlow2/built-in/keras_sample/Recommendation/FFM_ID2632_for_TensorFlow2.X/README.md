@@ -46,7 +46,7 @@
 
 - 适配昇腾 AI 处理器的实现：
   
-  skip
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/Recommendation/FFM_ID2632_for_TensorFlow2.X
 
 - 通过Git获取对应commit\_id的代码方法如下：
   
