@@ -43,7 +43,7 @@
 
 - 适配昇腾 AI 处理器的实现：
     
-    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/PointNet_ID2913_for_TensorFlow2.X
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/autoencoder_ID2495_for_TensorFlow2.X
 
 - 通过Git获取对应commit\_id的代码方法如下：
 
