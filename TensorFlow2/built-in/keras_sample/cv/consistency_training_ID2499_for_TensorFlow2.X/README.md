@@ -41,7 +41,7 @@
 
    [https://github.com/keras-team/keras-io/blob/master/examples/vision/consistency_training.py](https://github.com/keras-team/keras-io/blob/master/examples/vision/consistency_training.py)
 
-- 适配昇腾 AI 处理器的实现：skip
+- 适配昇腾 AI 处理器的实现：
     
    [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/consistency_training_ID2499_for_TensorFlow2.X](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/consistency_training_ID2499_for_TensorFlow2.X)
 
