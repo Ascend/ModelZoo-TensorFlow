@@ -6,7 +6,7 @@
 
 原始模型下载地址 :
 
-https://modelzoo-train-atc.obs.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_carColor_sample/data/color.pb
+https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_carColor_sample/data/color.pb
 
 对应的cfg文件下载地址：
 
@@ -16,7 +16,7 @@ https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/AT
 
 om模型下载地址：
 
-https://modelzoo-train-atc.obs.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_carColor_sample/data/color.om
+https://issue-modelzoo.obs.cn-north-4.myhuaweicloud.com/Ayolov3/color_dvpp_10batch.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 
