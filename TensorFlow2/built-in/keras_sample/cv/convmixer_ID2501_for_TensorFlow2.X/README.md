@@ -43,7 +43,7 @@
 
 - 适配昇腾 AI 处理器的实现：skip
     
-   [https://gitee.com/jelly_111/research_tf2/tree/master/convmixer_ID2501_for_TensorFlow2.X](https://gitee.com/jelly_111/research_tf2/tree/master/convmixer_ID2501_for_TensorFlow2.X)
+   [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/convmixer_ID2501_for_TensorFlow2.X](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/convmixer_ID2501_for_TensorFlow2.X)
 
 - 通过Git获取对应commit\_id的代码方法如下：
     ```
