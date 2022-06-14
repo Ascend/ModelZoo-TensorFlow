@@ -118,7 +118,7 @@ pip3 install requirements.txt
     
     2. 单卡训练 
 
-        2.1 配置train_full_1p.sh脚本中`data_path`（脚本路径convmixer_ID2501_for_TensorFlow2.X/test/train_full_1p.sh）,请用户根据实际路径配置，数据集参数如下所示：
+        2.1 配置train_full_1p.sh脚本中`data_path`（脚本路径cutmix_ID2502_for_TensorFlow2.X/test/train_full_1p.sh）,请用户根据实际路径配置，数据集参数如下所示：
 
             --data_path=/home/cifar10
             
