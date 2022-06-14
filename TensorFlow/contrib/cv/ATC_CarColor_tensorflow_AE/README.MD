@@ -56,4 +56,4 @@ Batch: 10, shape: 10 * 224* 224，平均推理性能7.570687ms
 
 推理效果:
 
-![输入图片说明](https://issue-modelzoo.obs.cn-north-4.myhuaweicloud.com/Ayolov3/color.jpg)
+![输入图片说明](https://issue-modelzoo.obs.cn-north-4.myhuaweicloud.com/Ayolov3/color.jpg "color.jpg")
