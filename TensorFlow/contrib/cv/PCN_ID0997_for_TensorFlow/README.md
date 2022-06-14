@@ -48,13 +48,17 @@ To generate your own data from ShapeNet, first Download [ShapeNetCore.v1](https:
 
 ### 复现精度
 GPU复现精度：loss 0.0877  CD_distance 0.0877
+
 NPU复现精度：loss 0.0207
 
 
 ### 复现代码和数据集
 pr提交用的data：obs://pcn-run/pcn_pr/data/data_npu/
+
 源数据集：obs://pcn-run/pcn_pr/data/data_origin/
+
 其他：obs://pcn-run/pcn_pr/npu_etc/
+
 npu训练用到的所有内容：obs://pcn-run/pcn_npu/
 
 ### License
