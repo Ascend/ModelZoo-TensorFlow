@@ -42,11 +42,12 @@
     https://arxiv.org/abs/1609.05158(https://arxiv.org/abs/1609.05158)
 
   - 参考实现：
-    https://github.com/keras-team/keras-io/blob/master/examples/vision/super_resolution_sub_pixel.py(https://github.com/keras-team/keras-io/blob/master/examples/vision/super_resolution_sub_pixel.py)
+    https://github.com/keras-team/keras-io/blob/master/examples/vision/super_resolution_sub_pixel.py
 
 
   - 适配昇腾 AI 处理器的实现：
-    skip
+
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/subclassing_conv_layers_ID2615_for_TensorFlow2.X
 
   - 通过Git获取对应commit\_id的代码方法如下：
     ```
