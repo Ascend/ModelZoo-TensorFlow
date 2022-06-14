@@ -47,7 +47,7 @@
 
   - 适配昇腾 AI 处理器的实现：
 
-    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/subclassing_conv_layers_ID2615_for_TensorFlow2.X
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/super_resolution_sub_pixel_ID2541_for_TensorFlow2.X
 
   - 通过Git获取对应commit\_id的代码方法如下：
     ```
