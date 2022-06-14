@@ -46,5 +46,16 @@ Run `python3 demo.py`. Use `--input_path` option to switch between the input exa
 #### 7) Data Generation
 To generate your own data from ShapeNet, first Download [ShapeNetCore.v1](https://shapenet.org). Then, create partial point clouds from depth images (see instructions in `render`) and corresponding ground truths by sampling from CAD models (see instructions in `sample`). Finally, serialize the data using `lmdb_writer.py`.
 
+### 复现精度
+GPU复现精度：loss 0.0877  CD_distance 0.0877
+NPU复现精度：loss 0.0207
+
+
+### 复现代码和数据集
+pr提交用的data：obs://pcn-run/pcn_pr/data/data_npu/
+源数据集：obs://pcn-run/pcn_pr/data/data_origin/
+其他：obs://pcn-run/pcn_pr/npu_etc/
+npu训练用到的所有内容：obs://pcn-run/pcn_npu/
+
 ### License
 This project Code is released under the MIT License (refer to the LICENSE file for details).
