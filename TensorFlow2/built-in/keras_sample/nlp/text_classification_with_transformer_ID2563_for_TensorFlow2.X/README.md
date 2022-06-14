@@ -42,7 +42,7 @@
 
 - 适配昇腾 AI 处理器的实现：    
     
-   https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow2/Research/nlp/text_classification_with_transformer_ID2563_for_TensorFlow2.X
+   https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/nlp/text_classification_with_transformer_ID2563_for_TensorFlow2.X
 
 - 通过Git获取对应commit_id的代码方法如下:
     
