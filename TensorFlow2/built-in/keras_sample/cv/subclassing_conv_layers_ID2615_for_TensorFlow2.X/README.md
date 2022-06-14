@@ -41,7 +41,7 @@
     https://arxiv.org/abs/1903.10520(https://arxiv.org/abs/1903.10520)
 
   - 参考实现：
-    https://github.com/keras-team/keras-io/blob/master/examples/keras_recipes/subclassing_conv_layers.py(https://github.com/keras-team/keras-io/blob/master/examples/keras_recipes/subclassing_conv_layers.py)
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/subclassing_conv_layers_ID2615_for_TensorFlow2.X(https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/subclassing_conv_layers_ID2615_for_TensorFlow2.X)
 
 
   - 适配昇腾 AI 处理器的实现：
