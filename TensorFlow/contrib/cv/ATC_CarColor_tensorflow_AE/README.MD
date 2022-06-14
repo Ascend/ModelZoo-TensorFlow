@@ -6,18 +6,22 @@
 
 原始模型下载地址 :
 
-https://modelzoo-train-atc.obs.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_carColor_sample/data/color.pb
+https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_carColor_sample/data/color.pb
+
+对应的cfg文件下载地址：
+
+https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_carColor_sample/data/aipp.cfg
 
 ## om模型
 
 om模型下载地址：
 
-https://modelzoo-train-atc.obs.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_carColor_sample/data/color.om
+https://issue-modelzoo.obs.cn-north-4.myhuaweicloud.com/Ayolov3/color_dvpp_10batch.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 
 ```shell
-atc --model=./color.pb --framework=3 --output=./color --soc_version=Ascend310 --input_shape='input_1:10,224,224,3'
+atc --input_shape="input_1:10,224,224,3" --output=./color_dvpp_10batch --soc_version=Ascend310 --framework=3 --model=./color.pb --insert_op_conf=./aipp.cfg
 ```
 
 ## 使用msame工具推理
@@ -52,5 +56,4 @@ Batch: 10, shape: 10 * 224* 224，平均推理性能7.570687ms
 
 推理效果:
 
-![输入图片说明](car.jpg)
-![输入图片说明](out_car.jpg)
+![输入图片说明](https://issue-modelzoo.obs.cn-north-4.myhuaweicloud.com/Ayolov3/color.jpg "color.jpg")
