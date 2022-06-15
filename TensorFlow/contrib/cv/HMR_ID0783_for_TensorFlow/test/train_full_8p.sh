@@ -5,11 +5,13 @@ cur_path=`pwd`/../
 
 #集合通信参数,不需要修改
 
-export RANK_SIZE=1
+export RANK_SIZE=8
+export RANK_TABLE_FILE=$cur_path/test/8p.json
 export JOB_ID=10087
 RANK_ID_START=0
+ASCEND_DEVICE_ID_START=0
 
-export LD_PRELOAD=/usr/lib64/libglapi.so.0
+#export LD_PRELOAD=/usr/lib64/libglapi.so.0
 # 数据集路径,保持为空,不需要修改
 data_path=''
 #预训练模型地址
@@ -92,41 +94,57 @@ start_time=$(date +%s)
 
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/src
-export RANK_ID=$RANK_ID_START
 
-#创建DeviceID输出目录，不需要修改
-if [ -d ${cur_path}/test/output/${ASCEND_DEVICE_ID} ];then
-    rm -rf ${cur_path}/test/output/${ASCEND_DEVICE_ID}
-    mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
-else
-    mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
-fi
+for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+do
+    #设置环境变量，不需要修改
+    echo "Device ID: $RANK_ID"
+    export RANK_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=$RANK_ID
+    ASCEND_DEVICE_ID=$RANK_ID
 
-#执行训练脚本，以下传参不需要修改，其他需要模型审视修改
-PRETRAINED=/home/data/zhanghy/hmr_models/resnet_v2_50.ckpt
-# TODO: Replace with where you downloaded the smpl model.
-SMPL=/home/data/zhanghy/hmr_models/neutral_smpl_with_cocoplus_reg.pkl
-# TODO: Replace with where you downloaded the smpl mesh faces.
-SMPL_FACE=/home/data/zhanghy/hmr_models/smpl_faces.npy
-# TODO: Replace with where you downloaded the preprocessed data.
-DATA_DIR=/home/data/zhanghy/hmr_datasets
+    #创建DeviceID输出目录，不需要修改
+    if [ -d ${cur_path}/test/output/${ASCEND_DEVICE_ID} ];then
+        rm -rf ${cur_path}/test/output/${ASCEND_DEVICE_ID}
+        mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
+    else
+        mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID/ckpt
+    fi
 
-nohup python3 main.py \
-    --d_lr 1e-4 \
-    --e_lr 1e-5 \
-    --log_img_step 100 \
-    --pretrained_model_path=${ckpt_path}/resnet_v2_50.ckpt \
-    --smpl_model_path=${ckpt_path}/neutral_smpl_with_cocoplus_reg.pkl \
-    --smpl_face_path=${ckpt_path}/smpl_faces.npy \
-    --data_dir ${data_path} \
-    --e_loss_weight 60. \
-    --batch_size=64 \
-    --use_3d_label True \
-    --e_3d_weight 60. \
-    --datasets lsp,lsp_ext,mpii,coco,mpi_inf_3dhp \
-    --epoch 1 \
-    --log_dir ${cur_path}/logs \
-    --num_itr_per_epoch_config  4000 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+#--d_lr 0.0008 1e-4
+#--e_lr 0.00008 1e-5
+    nohup python3.7.5 main.py \
+        --d_lr 0.0008 \
+        --e_lr 0.00008 \
+        --log_img_step 100 \
+        --pretrained_model_path=${ckpt_path}/resnet_v2_50.ckpt \
+        --smpl_model_path=${ckpt_path}/neutral_smpl_with_cocoplus_reg.pkl \
+        --smpl_face_path=${ckpt_path}/smpl_faces.npy \
+        --data_dir ${data_path} \
+        --e_loss_weight 60. \
+        --batch_size=64 \
+        --use_3d_label True \
+        --e_3d_weight 60. \
+        --datasets lsp,lsp_ext,mpii,coco,mpi_inf_3dhp \
+        --epoch 50 \
+        --log_dir ${cur_path}/logs/${ASCEND_DEVICE_ID} \
+        --num_itr_per_epoch_config  0 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+done
+wait
+
+for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+do
+    #设置环境变量，不需要修改
+    echo "Device ID: $RANK_ID"
+    export RANK_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=$RANK_ID
+    ASCEND_DEVICE_ID=$RANK_ID
+
+    nohup python3.7.5  eval.py \
+        --load_path=${cur_path}/logs/${ASCEND_DEVICE_ID}/model.ckpt-25000 \
+        --smpl_model_path=${ckpt_path}/neutral_smpl_with_cocoplus_reg.pkl \
+        --eval_data_dir=${data_path}/mpi_inf_3dhp/test  > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/test_${ASCEND_DEVICE_ID}.log 2>&1 &
+done
 wait
 
 #训练结束时间，不需要修改
@@ -143,17 +161,17 @@ echo "Final Performance TrainingTime : $TrainingTime"
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-#train_accuracy=`grep val_loss $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|grep step|grep -v ETA|awk 'END {print}'|awk '{print $11}'`
+train_accuracy=`grep Metrics: $cur_path/test/output/${ASCEND_DEVICE_ID}/test_${ASCEND_DEVICE_ID}.log|awk '{print $3}'`
 
 #打印，不需要修改
-#echo "Final Train Accuracy : ${train_accuracy}"
+echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据，不需要修改
 #吞吐量
@@ -176,4 +194,4 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${Cas
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "Accuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log

@@ -32,6 +32,7 @@ Data loader with data augmentation.
 Only used for training.
 """
 from __future__ import absolute_import
+from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
@@ -42,6 +43,7 @@ import tensorflow as tf
 
 from tf_smpl.batch_lbs import batch_rodrigues
 from util import data_utils
+import os
 
 _3D_DATASETS = ['h36m', 'up', 'mpi_inf_3dhp']
 
@@ -88,6 +90,8 @@ class DataLoader(object):
         self.scale_range = [config.scale_min, config.scale_max]
 
         self.image_normalizing_fn = data_utils.rescale_image
+        self.rank_size = int(os.getenv('RANK_SIZE'))
+        self.rank_id = int(os.getenv('RANK_ID'))
 
     def load(self):
         if self.use_3d_label:
@@ -448,6 +452,7 @@ class DataLoader(object):
         files_no3d = data_utils.get_all_files(self.dataset_dir, datasets_no3d)
         files_yes3d = data_utils.get_all_files(self.dataset_dir, datasets_yes3d)
 
+
         if len(files_yes3d) == 0:
             print("Dont run this without any datasets with gt 3d")
             import ipdb; ipdb.set_trace()
@@ -460,6 +465,8 @@ class DataLoader(object):
             cycle_length=10,
             block_length=1,
             num_parallel_calls = tf.data.experimental.AUTOTUNE)
+        if self.rank_size > 1 :
+            ds_yes3d = ds_yes3d.shard(self.rank_size, self.rank_id)
         options = tf.data.Options()
         options.experimental_threading.max_intra_op_parallelism = 1
         ds_yes3d = ds_yes3d.with_options(options)
@@ -480,6 +487,8 @@ class DataLoader(object):
                 cycle_length=10,
                 block_length=1,
                 num_parallel_calls = tf.data.experimental.AUTOTUNE)
+            if self.rank_size > 1:
+                ds_no3d = ds_no3d.shard(self.rank_size, self.rank_id)
             options = tf.data.Options()
             options.experimental_threading.max_intra_op_parallelism = 1
             ds_no3d = ds_no3d.with_options(options)
@@ -559,6 +568,8 @@ class DataLoader(object):
             cycle_length=10,
             block_length=1,
             num_parallel_calls = tf.data.experimental.AUTOTUNE)
+        if self.rank_size > 1 :
+            ds_smpl = ds_smpl.shard(self.rank_size, self.rank_id)
         options = tf.data.Options()
         options.experimental_threading.max_intra_op_parallelism = 1
         ds_smpl = ds_smpl.with_options(options)
