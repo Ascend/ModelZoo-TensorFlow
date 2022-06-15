@@ -12,7 +12,7 @@
 
 **版本（Version）：**
 
-**修改时间（Modified） ：2022.2.14**
+**修改时间（Modified） ：2022.6.15**
 
 **大小（Size）：160k**
 
@@ -152,7 +152,7 @@
 
 论文无明确的精度指标，具体情况可以看二者输出的图片：
 GPU：obs://cann-id2068/gpu/1-output.jpg
-NPU：obs://cann-id2068/npu/MA-new-pr1-02-14-15-24/output/11.jpg
+NPU：obs://cann-id2068/npu/MA-new-neural-style-third-2-06-14-16-52/
 
 若要用数据体现，可以看迭代1000次后的损失，也就是输出图片与内容图风格图之间的差距
 
