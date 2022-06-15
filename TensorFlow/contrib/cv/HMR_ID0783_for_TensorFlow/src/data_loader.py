@@ -466,7 +466,7 @@ class DataLoader(object):
             block_length=1,
             num_parallel_calls = tf.data.experimental.AUTOTUNE)
         if self.rank_size > 1 :
-            ds_yes3d = ds_yes3d.shard(self.rank_size, rank_id)
+            ds_yes3d = ds_yes3d.shard(self.rank_size, self.rank_id)
         options = tf.data.Options()
         options.experimental_threading.max_intra_op_parallelism = 1
         ds_yes3d = ds_yes3d.with_options(options)
@@ -488,7 +488,7 @@ class DataLoader(object):
                 block_length=1,
                 num_parallel_calls = tf.data.experimental.AUTOTUNE)
             if self.rank_size > 1:
-                ds_no3d = ds_no3d.shard(self.rank_size, rank_id)
+                ds_no3d = ds_no3d.shard(self.rank_size, self.rank_id)
             options = tf.data.Options()
             options.experimental_threading.max_intra_op_parallelism = 1
             ds_no3d = ds_no3d.with_options(options)
@@ -569,7 +569,7 @@ class DataLoader(object):
             block_length=1,
             num_parallel_calls = tf.data.experimental.AUTOTUNE)
         if self.rank_size > 1 :
-            ds_smpl = ds_smpl.shard(self.rank_size, rank_id)
+            ds_smpl = ds_smpl.shard(self.rank_size, self.rank_id)
         options = tf.data.Options()
         options.experimental_threading.max_intra_op_parallelism = 1
         ds_smpl = ds_smpl.with_options(options)
