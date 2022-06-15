@@ -43,7 +43,7 @@
 
 - 适配昇腾 AI 处理器的实现：skip
     
-   [https://gitee.com/jelly_111/research_tf2/tree/master/debug_model/text_classification_with_switch_transformer_ID2562_for_TensorFlow2.X](https://gitee.com/jelly_111/research_tf2/tree/master/debug_model/text_classification_with_switch_transformer_ID2562_for_TensorFlow2.X)
+   https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/nlp/text_classification_with_switch_transformer_ID2562_for_TensorFlow2.X
 
 - 通过Git获取对应commit\_id的代码方法如下：
     ```
