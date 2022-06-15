@@ -1,0 +1,72 @@
+#
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+"""
+Created on May 24, 2020
+
+json ---> pd --->pkl
+meta只保留reviews文件中出现过的商品
+
+@author: Ziyao Geng
+"""
+
+import pickle
+import pandas as pd
+
+
+def to_df(file_path):
+    """
+    转化为DataFrame结构
+    :param file_path: 文件路径
+    :return:
+    """
+    with open(file_path, 'r') as fin:
+        df = {}
+        i = 0
+        for line in fin:
+            df[i] = eval(line)
+            i += 1
+        df = pd.DataFrame.from_dict(df, orient='index')
+        return df
+
+
+reviews_df = to_df('reviews_Electronics_5.json')
+
+# 改变列的顺序
+# reviews2_df = pd.read_json('reviews_Electronics_5.json', lines=True)
+
+
+with open('reviews.pkl', 'wb') as f:
+    pickle.dump(reviews_df, f, pickle.HIGHEST_PROTOCOL)
+
+meta_df = to_df('meta_Electronics.json')
+meta_df = meta_df[meta_df['asin'].isin(reviews_df['asin'].unique())]
+meta_df = meta_df.reset_index(drop=True)
+with open('meta.pkl', 'wb') as f:
+    pickle.dump(meta_df, f, pickle.HIGHEST_PROTOCOL)
