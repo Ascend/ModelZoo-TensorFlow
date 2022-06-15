@@ -46,7 +46,7 @@ ALBERT，一种轻量级BERT，用于语言表征的自监督学习。
 
 - 适配昇腾 AI 处理器的实现：
   
-  skip
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/nlp/albert-FineTune_Series_for_TensorFlow2.X
 
 - 通过Git获取对应commit\_id的代码方法如下：
   
