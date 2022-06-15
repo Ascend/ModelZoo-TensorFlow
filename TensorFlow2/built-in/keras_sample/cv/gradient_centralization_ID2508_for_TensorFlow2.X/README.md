@@ -41,9 +41,9 @@
 
    [https://github.com/keras-team/keras-io/blob/master/examples/vision/gradient_centralization.py](https://github.com/keras-team/keras-io/blob/master/examples/vision/gradient_centralization.py)
 
-- 适配昇腾 AI 处理器的实现：skip
+- 适配昇腾 AI 处理器的实现：
     
-   [https://gitee.com/jelly_111/research_tf2/tree/master/debug_model/gradient_centralization_ID2508_for_TensorFlow2.X](https://gitee.com/jelly_111/research_tf2/tree/master/debug_model/gradient_centralization_ID2508_for_TensorFlow2.X)
+   https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/gradient_centralization_ID2508_for_TensorFlow2.X
 
 - 通过Git获取对应commit\_id的代码方法如下：
     ```
