@@ -68,6 +68,8 @@ python train.py --problem cifar10 --image_size 32 --n_level 3 --depth 32 --flow_
 #### 性能分析
 
 
-#### 精度分析
+#### 精度达标
+bits_x NPU：3.289 
+bits_x GPU: 3.213
 
 
