@@ -44,7 +44,7 @@
 
 - 适配昇腾 AI 处理器的实现：
   
-  https://gitee.com/jelly_111/research_tf2/tree/master/release/nlp/BERT_ID2478_for_TensorFlow2.X
+  https://gitee.com/ascend/ModelZoo-TensorFlow/blob/master/TensorFlow2/built-in/nlp/BERT_ID2478_for_TensorFlow2.X
 
 - 通过Git获取对应commit\_id的代码方法如下：
   
