@@ -113,7 +113,7 @@ if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ./main_protoattend.py --data_url=${data_path} --train_url=${output_path}
 else
-    python3.7 ./main_protoattend.py --data_url=${data_path} --train_url=${output_path} &> ${print_log}
+    python3.7 ./main_protoattend.py --data_url=${data_path}/dataset --train_url=${output_path} >${print_log} 2>&1
 fi
 
 # 性能相关数据计算

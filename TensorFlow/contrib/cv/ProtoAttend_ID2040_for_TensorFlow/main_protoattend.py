@@ -364,7 +364,15 @@ def main(unused_argv):
         print("min loss = " + "{:.4f}".format(min_loss))
         print('End Training')
     # 由于使用npu运行验证精度的代码有问题，因此采用gpu来验证精度。
-    with tf.Session() as sess2:
+    npuConfig = tf.ConfigProto()
+    # NPU相关配置
+    custom_op = npuConfig.graph_options.rewrite_options.custom_optimizers.add()
+    custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["use_off_line"].b = False  # 在昇腾AI处理器执行训练
+    npuConfig.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
+    npuConfig.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
+    # 使用NPU配置开启sess
+    with tf.Session(config=npuConfig) as sess2:
         # 修改summary保存路径
         summary_writer = tf.summary.FileWriter(os.path.join(FLAGS.train_url, "train") + '/' + model_name, sess.graph)
         sess2.run(init)
