@@ -46,7 +46,7 @@
 
 - 适配昇腾 AI 处理器的实现：
   
-  skip
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/nlp/text_extraction_with_bert_ID2564_for_TensorFlow2.X
 
 - 通过Git获取对应commit\_id的代码方法如下：
   
