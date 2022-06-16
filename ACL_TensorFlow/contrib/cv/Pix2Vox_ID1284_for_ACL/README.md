@@ -91,11 +91,11 @@ $HOME/AscendProjects/msame/out/msame  --model "/root/om_model.om"  --input "/roo
 
 展示的案例输入的三张图片如下所示：
 
-![00](https://gitee.com/zhangwx21/ModelZoo-TensorFlow/blob/master/ACL_TensorFlow/contrib/cv/Pix2Vox_ID1284_for_ACL/image/00.png)![01](E:\Desktop\ShapeNetRendering\1111\test\rendering\01.png)![02](E:\Desktop\ShapeNetRendering\1111\test\rendering\02.png)
+![00](https://gitee.com/zhangwx21/ModelZoo-TensorFlow/blob/master/ACL_TensorFlow/contrib/cv/Pix2Vox_ID1284_for_ACL/image/00.png)![01](https://gitee.com/zhangwx21/ModelZoo-TensorFlow/blob/master/ACL_TensorFlow/contrib/cv/Pix2Vox_ID1284_for_ACL/image/01.png)![02](https://gitee.com/zhangwx21/ModelZoo-TensorFlow/blob/master/ACL_TensorFlow/contrib/cv/Pix2Vox_ID1284_for_ACL/image/02.png)
 
 神经网络模型三维重建结果如图所示：
 
-![image-20220616203111652](C:\Users\57239\AppData\Roaming\Typora\typora-user-images\image-20220616203111652.png)
+![image-20220616203111652](https://gitee.com/zhangwx21/ModelZoo-TensorFlow/blob/master/ACL_TensorFlow/contrib/cv/Pix2Vox_ID1284_for_ACL/image/output.png)
 
 
 
