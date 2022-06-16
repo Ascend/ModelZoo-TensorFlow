@@ -447,7 +447,7 @@ aclError DVPP_GoogleNet(std::string fileLocation, char *&ptr)
     
     //2.0 Prepare the ouputDesc of decode
     GetImageHW(buff, fileSize, fileLocation, W, H);
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     W_Aligned = (W + 63) / 64 * 64;
     H_Aligned = (H + 15) / 16 * 16;
     int32_t components = 0;
@@ -497,7 +497,7 @@ aclError DVPP_GoogleNet(std::string fileLocation, char *&ptr)
         return ret;
     }
 
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     decodeOutputDesc = createDvppPicDesc(decodeOutput, acldvppPixelFormat(aclformat), W, H, W_Aligned, H_Aligned, outputBuffSize);
     LOG("file[%s] jpeg picDesc info: W=%d, H=%d, W_Aligned=%d, H_Aligned=%d, outBufSize=%d, format=%d\n", \ 
                 fileLocation.c_str(),W, H, W_Aligned, H_Aligned, outputBuffSize, aclformat);
@@ -526,7 +526,7 @@ aclError DVPP_GoogleNet(std::string fileLocation, char *&ptr)
     /**************************Center crop**************************/
     acldvppRoiConfig *centralcropConfig = nullptr;
     acldvppPicDesc *centralcropOutputDesc = nullptr; // resize output desc
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     uint32_t w_new = acldvppGetPicDescWidth(decodeOutputDesc);
     uint32_t h_new = acldvppGetPicDescHeight(decodeOutputDesc);
     W = w_new;

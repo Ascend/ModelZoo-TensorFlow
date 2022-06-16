@@ -379,7 +379,7 @@ acldvppRoiConfig *InitCropRoiConfig(uint32_t width, uint32_t height)
     uint32_t right = 0;
     uint32_t bottom = 0;
     acldvppRoiConfig *cropConfig;
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     right = width - 1;
     bottom =  height - 1;
 #else
@@ -512,7 +512,7 @@ aclError DVPP_Densenet121(std::string fileLocation, char *&ptr)
     
     //2.0 Prepare the ouputDesc of decode
     GetImageHW(buff, fileSize, fileLocation, W, H);
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     W_Aligned = (W + 63) / 64 * 64;
     H_Aligned = (H + 15) / 16 * 16;
     
@@ -568,7 +568,7 @@ aclError DVPP_Densenet121(std::string fileLocation, char *&ptr)
         LOG("Malloc decodeOutput buff failed[%d]\n", ret);
         return ret;
     }
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     decodeOutputDesc = createDvppPicDesc(decodeOutput, acldvppPixelFormat(aclformat), W, H, W_Aligned, H_Aligned, outputBuffSize);
     LOG("file[%s] jpeg picDesc info: W=%d, H=%d, W_Aligned=%d, H_Aligned=%d, outBufSize=%d, format=%d\n", \ 
                 fileLocation.c_str(),W, H, W_Aligned, H_Aligned, outputBuffSize, acldvppPixelFormat(aclformat));
@@ -600,7 +600,7 @@ aclError DVPP_Densenet121(std::string fileLocation, char *&ptr)
     }
     
     //Crop original image and Resize [256, 256]
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     uint32_t w_new = acldvppGetPicDescWidth(decodeOutputDesc);
     uint32_t h_new = acldvppGetPicDescHeight(decodeOutputDesc);
     uint32_t format = acldvppGetPicDescFormat(decodeOutputDesc);
@@ -627,7 +627,7 @@ aclError DVPP_Densenet121(std::string fileLocation, char *&ptr)
         return ret;
     }
 
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     acldvppResizeConfig *resizeConfig = acldvppCreateResizeConfig();
 	ret = acldvppSetResizeConfigInterpolation(resizeConfig, 1);
 	if (ret != ACL_ERROR_NONE)
@@ -661,7 +661,7 @@ aclError DVPP_Densenet121(std::string fileLocation, char *&ptr)
     }
     ptr += resizedOutputBufferSize;
 
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
 	ret = acldvppSetResizeConfigInterpolation(resizeConfig, 1);
 	if (ret != ACL_ERROR_NONE)
     {

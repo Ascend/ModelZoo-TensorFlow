@@ -376,7 +376,7 @@ acldvppRoiConfig *InitCropRoiConfig(uint32_t width, uint32_t height)
     uint32_t right = 0;
     uint32_t bottom = 0;
     acldvppRoiConfig *cropConfig;
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     right = width - 1;
     bottom = height - 1;
 #else
@@ -477,7 +477,7 @@ aclError DvppInitInput(std::vector<std::string> files)
 
         uint32_t W = imgSizes[files[i]].first;
         uint32_t H = imgSizes[files[i]].second;
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         uint32_t W_Aligned = (W + 63) / 64 * 64;
         uint32_t H_Aligned = (H + 15) / 16 * 16;
         if(W_Aligned > 4096 || H_Aligned > 4096){
@@ -513,7 +513,7 @@ aclError DvppInitInput(std::vector<std::string> files)
         rewind(pFile);
         fread(buff, sizeof(char), fileSize, pFile);
         fclose(pFile);
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         int32_t components = 0;
         acldvppJpegFormat realformat;
         int aclformat;
@@ -583,7 +583,7 @@ aclError DvppInitInput(std::vector<std::string> files)
         funcName = "DvppPicDescCreate_output";
         gettimeofday(&func_start, NULL);
 
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         jpeg_output_desc = createDvppPicDesc(jpeg_dev_mem_out_ptr, acldvppPixelFormat(aclformat), W, H, W_Aligned, H_Aligned, outputBuffSize);
         LOG("file[%s] jpeg picDesc info: W=%d, H=%d, W_Aligned=%d, H_Aligned=%d, outBufSize=%d, format=%d\n", \ 
                 files[i].c_str(),W, H, W_Aligned, H_Aligned, outputBuffSize, acldvppPixelFormat(aclformat));
@@ -629,7 +629,7 @@ aclError DvppInitInput(std::vector<std::string> files)
             return ret;
         }
 
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         uint32_t w_new = acldvppGetPicDescWidth(jpeg_output_desc);
         uint32_t h_new = acldvppGetPicDescHeight(jpeg_output_desc);
         uint32_t format = acldvppGetPicDescFormat(jpeg_output_desc);
@@ -655,7 +655,7 @@ aclError DvppInitInput(std::vector<std::string> files)
             LOG("create cropOutputDesc failed\n");
             return ret;
         }
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         acldvppResizeConfig *resizeConfig = acldvppCreateResizeConfig();
 	    ret = acldvppSetResizeConfigInterpolation(resizeConfig, 1);
 	    if (ret != ACL_ERROR_NONE)
@@ -689,7 +689,7 @@ aclError DvppInitInput(std::vector<std::string> files)
             return ret;
         }
         ptr += centralcropOutBufferSize;
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         ret = acldvppVpcCropResizeAsync(dvpp_channel_desc, cropOutputDesc, centralcropOutputDesc, centralcropConfig, resizeConfig, stream);
     #else
         ret = acldvppVpcCropAsync(dvpp_channel_desc, cropOutputDesc, centralcropOutputDesc, centralcropConfig, stream);

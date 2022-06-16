@@ -45,7 +45,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/PSPNet101_for_ACL
 - convert pb to om
 
   ```
-  atc --model=model/PSPNet101.pb --framework=3 --output=model/pspnet101_1batch --soc_version=Ascend710 --input_shape=input_image:1,1024,2048,3 --enable_small_channel=1 --insert_op_conf=pspnet_aipp.cfg
+  atc --model=model/PSPNet101.pb --framework=3 --output=model/pspnet101_1batch --soc_version=Ascend310P3 --input_shape=input_image:1,1024,2048,3 --enable_small_channel=1 --insert_op_conf=pspnet_aipp.cfg
   ```
 
 - Build the program

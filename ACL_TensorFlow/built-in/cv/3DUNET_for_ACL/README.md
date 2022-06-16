@@ -10,7 +10,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 | Conditions | Need |
 | --- | --- |
 | CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend710 |
+| Chip Platform| Ascend310/Ascend310P3 |
 | 3rd Party Requirements| Please follow the 'requirements.txt' |
 
 ## Quick Start Guide
@@ -53,9 +53,9 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/3DUNET_for_Tensorflow
   export ASCEND_OPP_PATH=${install_path}/opp
   ```
 
-- convert pb to om(Ascend710)  
+- convert pb to om(Ascend310P3)  
   ```
-  atc --model=model/unet3d.pb --framework=3 --output=model/unet3d_1batch --soc_version=Ascend710 --input_shape=input:1,224,224,160,4 --enable_small_channel=1
+  atc --model=model/unet3d.pb --framework=3 --output=model/unet3d_1batch --soc_version=Ascend310P3 --input_shape=input:1,224,224,160,4 --enable_small_channel=1
   ```
 
 - convert pb to om(Ascend310)

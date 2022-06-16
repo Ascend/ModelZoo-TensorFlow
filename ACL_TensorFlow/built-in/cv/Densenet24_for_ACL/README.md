@@ -73,7 +73,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Densenet24_for_ACL
 
   ```
   cd ..
-  atc --model=model/densenet24.pb --framework=3 --output=model/densenet24_1batch --soc_version=Ascend710 --input_shape="Placeholder:1,38,38,38,2;Placeholder_1:1,38,38,38,2"
+  atc --model=model/densenet24.pb --framework=3 --output=model/densenet24_1batch --soc_version=Ascend310P3 --input_shape="Placeholder:1,38,38,38,2;Placeholder_1:1,38,38,38,2"
   ```
 
 - Build the program

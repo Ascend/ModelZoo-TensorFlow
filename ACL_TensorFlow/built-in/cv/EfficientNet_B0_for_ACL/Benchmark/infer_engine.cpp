@@ -271,7 +271,7 @@ acldvppRoiConfig *InitCropRoiConfig(uint32_t width, uint32_t height)
     uint32_t right = 0;
     uint32_t bottom = 0;
     acldvppRoiConfig *cropConfig;
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     right = width - 1;
     bottom =  height - 1;
 #else
@@ -368,7 +368,7 @@ aclError DVPP_EfficientNetB0(std::string fileLocation, char *&ptr)
 
     //2.0 Prepare the ouputDesc of decode
     GetImageHW(buff, fileSize, fileLocation, W, H);
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     W_Aligned = (W + 63) / 64* 64;
     H_Aligned = (H + 15) / 16 * 16;
 	int32_t components = 0;
@@ -417,7 +417,7 @@ aclError DVPP_EfficientNetB0(std::string fileLocation, char *&ptr)
     ret = acldvppMalloc(&decodeOutput, outputBuffSize);
     CHECK_ACL_RET("malloc decode buff failed", ret);
 
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     decodeOutputDesc = createDvppPicDesc(decodeOutput, acldvppPixelFormat(aclformat), W, H, W_Aligned, H_Aligned, outputBuffSize);
     std::cout << "file[" << fileLocation << "] jpeg picDesc info: W=" << W 
               << ", H=" << H << ", W_Aligned=" << W_Aligned << ", H_Aligned=" << H_Aligned
@@ -450,7 +450,7 @@ aclError DVPP_EfficientNetB0(std::string fileLocation, char *&ptr)
     }
 
     /**************************Center crop**************************/
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     uint32_t w_new = acldvppGetPicDescWidth(decodeOutputDesc);
     uint32_t h_new = acldvppGetPicDescHeight(decodeOutputDesc);
     uint32_t format = acldvppGetPicDescFormat(decodeOutputDesc);
@@ -475,7 +475,7 @@ aclError DVPP_EfficientNetB0(std::string fileLocation, char *&ptr)
         std::cout << "create cropOutputDesc failed" << std::endl;
         return 1;
     }
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     acldvppResizeConfig *resizeConfig = acldvppCreateResizeConfig();
 	ret = acldvppSetResizeConfigInterpolation(resizeConfig, 1);
 	if (ret != ACL_ERROR_NONE)

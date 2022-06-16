@@ -10,7 +10,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 | Conditions | Need |
 | --- | --- |
 | CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend710 |
+| Chip Platform| Ascend310/Ascend310P3 |
 | 3rd Party Requirements| Please follow the 'requirements.txt' |
 
 ## Quick Start Guide
@@ -55,7 +55,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/SSD_Resnet50_FPN_for_ACL
   [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/SSD_Resnet50_FPN_for_ACL.zip)
 
   ```
-  atc --model=model/ssd-resnet50fpn_tf.pb --framework=3 --output=model/ssd_resnet50_fpn --output_type=FP16 --soc_version=Ascend710 --input_shape="image_tensor:1,640,640,3" "input_name1:image_tensor" --enable_scope_fusion_passes=ScopeBatchMultiClassNMSPass,ScopeDecodeBboxV2Pass,ScopeNormalizeBBoxPass,ScopeToAbsoluteBBoxPass
+  atc --model=model/ssd-resnet50fpn_tf.pb --framework=3 --output=model/ssd_resnet50_fpn --output_type=FP16 --soc_version=Ascend310P3 --input_shape="image_tensor:1,640,640,3" "input_name1:image_tensor" --enable_scope_fusion_passes=ScopeBatchMultiClassNMSPass,ScopeDecodeBboxV2Pass,ScopeNormalizeBBoxPass,ScopeToAbsoluteBBoxPass
   ```
 
 - Build the program
