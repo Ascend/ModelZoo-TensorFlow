@@ -10,7 +10,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 | Conditions | Need |
 | --- | --- |
 | CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend710 |
+| Chip Platform| Ascend310/Ascend310P3 |
 | 3rd Party Requirements| Please follow the 'requirements.txt' |
 
 ## Quick Start Guide
@@ -51,7 +51,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/MobileNetv3_Large_for_ACL
 - convert pb to om
 
   ```
-  atc --model=model/mobilenetv3large_tf.pb --framework=3 --output=model/mobilenetv3_large_aipp --output_type=FP32 --insert_op_conf=./mobilenetv3_tensorflow.cfg --input_shape=input:1,224,224,3 --soc_version=Ascend710 --fusion_switch_file=./mobilenetv3_fusion_config.json
+  atc --model=model/mobilenetv3large_tf.pb --framework=3 --output=model/mobilenetv3_large_aipp --output_type=FP32 --insert_op_conf=./mobilenetv3_tensorflow.cfg --input_shape=input:1,224,224,3 --soc_version=Ascend310P3 --fusion_switch_file=./mobilenetv3_fusion_config.json
   ```
 
 - Build the program

@@ -10,7 +10,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 | Conditions | Need |
 | --- | --- |
 | CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend710 |
+| Chip Platform| Ascend310/Ascend310P3 |
 | 3rd Party Requirements| Please follow the 'requirements.txt' |
 
 ## Quick Start Guide
@@ -60,7 +60,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/CTPN_for_ACL
 - convert pb to om
 
   ```
-  atc --model=model/ctpn_tf.pb --framework=3 --output=model/ctpn_model --input_shape=input_image:1,608,1072,3 --soc_version=Ascend710 --enable_scope_fusion_passes=ScopeDynamicRNNPass --enable_small_channel=1
+  atc --model=model/ctpn_tf.pb --framework=3 --output=model/ctpn_model --input_shape=input_image:1,608,1072,3 --soc_version=Ascend310P3 --enable_scope_fusion_passes=ScopeDynamicRNNPass --enable_small_channel=1
   ```
 
 - Build the program 

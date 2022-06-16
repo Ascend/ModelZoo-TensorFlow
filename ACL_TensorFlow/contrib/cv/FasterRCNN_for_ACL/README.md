@@ -12,7 +12,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 | Conditions | Need |
 | --- | --- |
 | CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend710 |
+| Chip Platform| Ascend310/Ascend310P3 |
 | 3rd Party Requirements| Please follow the 'requirements.txt' |
 
 ## Quick Start Guide
@@ -65,7 +65,7 @@ Notes: Replace the values of install_path.
 - Convert pb to om
 
   ```
-  atc --model=/your/pb/path/your_fast_pb_name.pb --framework=3  --output=your_fastom_name--output_type=FP32 --soc_version=Ascend710 --input_shape="image:1,1024,1024,3;image_info:1,5" --keep_dtype=./keeptype.cfg  --precision_mode=force_fp16  --out_nodes="generate_detections/combined_non_max_suppression/CombinedNonMaxSuppression:3;generate_detections/denormalize_box/concat:0;generate_detections/add:0;generate_detections/combined_non_max_suppression/CombinedNonMaxSuppression:1"
+  atc --model=/your/pb/path/your_fast_pb_name.pb --framework=3  --output=your_fastom_name--output_type=FP32 --soc_version=Ascend310P3 --input_shape="image:1,1024,1024,3;image_info:1,5" --keep_dtype=./keeptype.cfg  --precision_mode=force_fp16  --out_nodes="generate_detections/combined_non_max_suppression/CombinedNonMaxSuppression:3;generate_detections/denormalize_box/concat:0;generate_detections/add:0;generate_detections/combined_non_max_suppression/CombinedNonMaxSuppression:1"
   ```
 Notes: Replace the values of model, output, soc_version
 

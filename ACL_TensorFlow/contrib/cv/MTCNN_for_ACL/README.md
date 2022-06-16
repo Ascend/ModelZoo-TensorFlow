@@ -12,7 +12,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 | Conditions | Need |
 | --- | --- |
 | CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend710 |
+| Chip Platform| Ascend310/Ascend310P3 |
 | 3rd Party Requirements| Please follow the 'requirements.txt' |
 
 ## Quick Start Guide
@@ -52,7 +52,7 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/MTCNN_for_ACL
 
   ```
   cd ..
-  python3 acltest.py ompath data_in_om data_out_om Ascend710 ./mtc_pnet.pb ./mtc_rnet.pb ./mtc_onet.pb
+  python3 acltest.py ompath data_in_om data_out_om Ascend310P3 ./mtc_pnet.pb ./mtc_rnet.pb ./mtc_onet.pb
   ```
   Notes: 
   By default， image in the "picture" directory are inferred. If you want to replace image, replace the image in the "picture" directory. 

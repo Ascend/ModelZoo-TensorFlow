@@ -13,9 +13,9 @@ set(CMAKE_OUTPUT_DIR "out")
 set(CMAKE_CXX_FLAGS_RELEASE "-fPIC -O2 -g -Wall")
 
 ADD_DEFINITIONS("-DENABLE_DVPP_INTERFACE -D_GLIBCXX_USE_CXX11_ABI=0")
-if(DEFINED ENV{ASCEND710_DVPP})
-        add_definitions(-DASCEND710_DVPP)
-        message("set ASCEND710_DVPP=true")
+if(DEFINED ENV{ASCEND310P3_DVPP})
+        add_definitions(-DASCEND310P3_DVPP)
+        message("set ASCEND310P3_DVPP=true")
 endif()
 # Header path
 include_directories(

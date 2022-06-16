@@ -10,7 +10,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 | Conditions | Need |
 | --- | --- |
 | CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend710 |
+| Chip Platform| Ascend310/Ascend310P3 |
 | 3rd Party Requirements| Please follow the 'requirements.txt' |
 
 ## Quick Start Guide
@@ -57,7 +57,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/SSD_MobileNetV1_FPN_for_ACL
   [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/SSD_for_ACL/ssd_mobilenetv1_fpn_tf.pb)
 
   ```
-  atc --model=model/ssd_mobilenetv1_fpn_tf.pb --framework=3 --output=model/ssd_mobilenetv1_fpn --output_type=FP16 --soc_version=Ascend710 --input_shape="image_tensor:1,640,640,3" --out_nodes="detection_boxes:0;detection_scores:0;num_detections:0;detection_classes:0"
+  atc --model=model/ssd_mobilenetv1_fpn_tf.pb --framework=3 --output=model/ssd_mobilenetv1_fpn --output_type=FP16 --soc_version=Ascend310P3 --input_shape="image_tensor:1,640,640,3" --out_nodes="detection_boxes:0;detection_scores:0;num_detections:0;detection_classes:0"
   ```
 
 - Build the program

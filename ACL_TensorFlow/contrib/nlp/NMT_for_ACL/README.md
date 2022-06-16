@@ -5,7 +5,7 @@
 - 参考《驱动和开发环境安装指南》安装NPU环境
 - python依赖库：numpy six
 - TensorFlow:1.15
-- 适用于Ascend310/Ascend710 
+- 适用于Ascend310/Ascend310P3 
 ## 数据集及模型准备
 NMT训练、推理代码参考如下：
 

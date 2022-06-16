@@ -376,7 +376,7 @@ acldvppRoiConfig *InitCropRoiConfig(uint32_t width, uint32_t height)
     uint32_t right = 0;
     uint32_t bottom = 0;
     acldvppRoiConfig *cropConfig;
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     right = width - 1;
     bottom =  height - 1;
 #else
@@ -476,7 +476,7 @@ aclError DvppInitInput(std::vector<std::string> files)
 
         uint32_t W = imgSizes[files[i]].first;
         uint32_t H = imgSizes[files[i]].second;
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         uint32_t W_Aligned = (W + 63) / 64 * 64;
         uint32_t H_Aligned = (H + 15) / 16 * 16;
         
@@ -533,7 +533,7 @@ aclError DvppInitInput(std::vector<std::string> files)
             LOG("copy host to device failed[%d]\n", ret);
             return ret;
         }
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         uint32_t outputBuffSize=0;
         int32_t components = 0;
         acldvppJpegFormat realformat;
@@ -585,7 +585,7 @@ aclError DvppInitInput(std::vector<std::string> files)
 
         funcName = "DvppPicDescCreate_output";
         gettimeofday(&func_start, NULL);
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         jpeg_output_desc = createDvppPicDesc(jpeg_dev_mem_out_ptr, acldvppPixelFormat(aclformat), W, H, W_Aligned, H_Aligned, outputBuffSize);
         LOG("file[%s] jpeg picDesc info: W=%d, H=%d, W_Aligned=%d, H_Aligned=%d, outBufSize=%d, format=%d\n", \ 
                 files[i].c_str(),W, H, W_Aligned, H_Aligned, outputBuffSize, aclformat);
@@ -639,7 +639,7 @@ aclError DvppInitInput(std::vector<std::string> files)
         }
         acldvppRoiConfig *cropConfig = nullptr;
         acldvppPicDesc *cropOutputDesc = nullptr;       // resize output desc
-    #ifdef ASCEND710_DVPP
+    #ifdef ASCEND310P3_DVPP
         uint32_t w_new = acldvppGetPicDescWidth(jpeg_output_desc);
         uint32_t h_new = acldvppGetPicDescHeight(jpeg_output_desc);
         uint32_t format = acldvppGetPicDescFormat(jpeg_output_desc);
