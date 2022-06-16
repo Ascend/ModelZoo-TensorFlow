@@ -205,17 +205,6 @@ Loss Scale方法通过在前向计算所得的loss乘以loss scale系数S，起�
 --max_number_of_steps  训练轮数
 --log_interval_steps   保存checkpoints的频率
 
---mode                 运行模式，可选：train_and_eval，train，eval
---data_dir             数据集目录
---model_dir           保存checkpoint的目录
---num_cells             网络结构中cell的数量，默认：6
---image_size            图像尺寸，默认：224
---num_epochs           训练迭代次数，默认：35
---train_batch_size     训练的batch size，默认：64
---eval_batch_size      验证的batch size， 默认：64    
---lr                     初始学习率，默认：2.56
---lr_decay_value        学习率指数衰减 默认：0.88
---lr_warmup_epochs      初始学习率从0增长到指定学习率的迭代数，默认：0.35
 ```
 
 ## 训练过程<a name="section1589455252218"></a>
