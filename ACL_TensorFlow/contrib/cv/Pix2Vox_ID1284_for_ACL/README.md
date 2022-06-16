@@ -37,6 +37,7 @@ A Novel Hybrid Ensemble Approach For 3D Object Reconstruction from Multi-View Mo
 ### 文件结构
   ```
   |- combinefloat32.bin                      # 离线推理数据数据，由三张图片拼接转化成
+  |- image                                   # 案例输入图片与输出可视化结果
   |- my_tools.py                             # 本地工具集
   |- pb.py                                   # ckpt模型转pb模型代码
   |- README                                  # 项目说明
