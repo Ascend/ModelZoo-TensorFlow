@@ -139,8 +139,11 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(FLAGS.precision
 <h2 id="快速上手.md">快速上手</h2>
 ## 数据集准备 <a name="section361114841316"></a>
 
-1、下载数据集：deepfm
-
+1、下载数据集criteo，转换为tfrecord格式，数据集下载及格式处理参考
+   
+   ```
+   https://github.com/mindspore-ai/models/tree/master/official/recommend/wide_and_deep
+   ```
 ## 模型训练 <a name="section715881518135"></a>
 - 单击“立即下载”，并选择合适的下载方式下载源码包
 - 开始训练。

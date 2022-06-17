@@ -86,7 +86,7 @@ start_time=$(date +%s)
 cd $cur_path/../
 #设置环境变量，不需要修改
 echo "Device ID: $ASCEND_DEVICE_ID"
-export RANK_ID=$RANK_ID
+export RANK_ID=$RANK_ID_START
 #创建DeviceID输出目录，不需要修改
 if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
     rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}

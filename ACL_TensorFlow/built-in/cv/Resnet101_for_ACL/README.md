@@ -12,7 +12,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 | Conditions | Need |
 | --- | --- |
 | CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend710 |
+| Chip Platform| Ascend310/Ascend310P3 |
 | 3rd Party Requirements| Please follow the 'requirements.txt' |
 
 ## Quick Start Guide
@@ -53,21 +53,21 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Resnet101_for_ACL
   ```
   atc --model=resnet101_tf.pb --framework=3 --output=resnet101_tf_aipp --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=resnet101_tf_aipp.cfg
   ```
-  For Ascend710:
+  For Ascend310P3:
   ```
-  atc --model=resnet101_tf.pb --framework=3 --output=resnet101_tf_aipp --output_type=FP32 --soc_version=Ascend710 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=resnet101_tf_aipp.cfg
+  atc --model=resnet101_tf.pb --framework=3 --output=resnet101_tf_aipp --output_type=FP32 --soc_version=Ascend310P3 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=resnet101_tf_aipp.cfg
   ```
 
 - Build the program
 
   For Ascend310:
   ```
-  unset ASCEND710_DVPP
+  unset ASCEND310P3_DVPP
   bash build.sh
   ```
-  For Ascend710:
+  For Ascend310P3:
   ```
-  export ASCEND710_DVPP=1
+  export ASCEND310P3_DVPP=1
   bash build.sh
   ```
 
@@ -91,4 +91,4 @@ Our result were obtained by running the applicable inference script. To achieve 
 |       model     |  SOC  | **data**  |    Top1/Top5    |
 | :---------------:|:-------:|:-------: | :-------------: |
 | offline Inference| Ascend310     | 50K images | 78.51 %/ 94.28% |
-| offline Inference| Ascend710     | 50K images | 78.7 %/ 94.4% |
+| offline Inference| Ascend310P3     | 50K images | 78.7 %/ 94.4% |

@@ -97,7 +97,7 @@ def train():
             beta1=FLAGS.beta1,
             ngf=FLAGS.ngf
         )
-        G_loss, D_Y_loss, F_loss, D_X_loss, fake_y, fake_x = cycle_gan.model()
+        G_loss, D_Y_loss, F_loss, D_X_loss, fake_y, fake_x , y_initializer ,x_initializer= cycle_gan.model()
         optimizers = cycle_gan.optimize(G_loss, D_Y_loss, F_loss, D_X_loss)
 
         summary_op = tf.summary.merge_all()
@@ -116,20 +116,24 @@ def train():
         else:
             sess.run(tf.global_variables_initializer())
             step = 0
+        sess.run(y_initializer)
+        sess.run(x_initializer)
 
         fake_Y_pool = ImagePool(FLAGS.pool_size)
         fake_X_pool = ImagePool(FLAGS.pool_size)
 
+        train_op = util.set_iteration_per_loop(sess, optimizers, 10)
+
         while step <= FLAGS.train_epochs * FLAGS.step_per_epoch:
-            fake_y_val, fake_x_val = sess.run([fake_y, fake_x])
+            #fake_y_val, fake_x_val = sess.run([fake_y, fake_x])
 
             # train
             start_time = time.time()
             _, G_loss_val, D_Y_loss_val, F_loss_val, D_X_loss_val, summary = (
                 sess.run(
-                    [optimizers, G_loss, D_Y_loss, F_loss, D_X_loss, summary_op],
-                    feed_dict={cycle_gan.fake_y: fake_Y_pool.query(fake_y_val),
-                               cycle_gan.fake_x: fake_X_pool.query(fake_x_val)}
+                    [optimizers, G_loss, D_Y_loss, F_loss, D_X_loss, summary_op]
+                    #feed_dict={cycle_gan.fake_y: fake_Y_pool.query(fake_y_val),
+                               #cycle_gan.fake_x: fake_X_pool.query(fake_x_val)}
                 )
             )
             train_writer.add_summary(summary, step)
@@ -141,7 +145,7 @@ def train():
                 logging.info('  D_Y_loss : {}'.format(D_Y_loss_val))
                 logging.info('  F_loss   : {}'.format(F_loss_val))
                 logging.info('  D_X_loss : {}'.format(D_X_loss_val))
-                logging.info('  Perf     : {}'.format(time.time()-start_time))
+                logging.info('  Perf     : {}'.format((time.time()-start_time)/10))
 
             if step % (10 * FLAGS.step_per_epoch) == 0:
                 save_path = saver.save(sess, checkpoints_dir + "/model.ckpt", global_step=step)

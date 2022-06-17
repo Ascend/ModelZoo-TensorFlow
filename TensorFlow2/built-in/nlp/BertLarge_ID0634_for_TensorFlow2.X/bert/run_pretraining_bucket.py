@@ -126,6 +126,20 @@ flags.DEFINE_multi_integer("seq_len_buckets", [64,128,192,256,320,384,448,512],
 
 flags.DEFINE_integer('max_tockens_num', 12288, 'max_tockens_num = bs * seq_len')
 
+flags.DEFINE_boolean(name='use_packed_model', default=False, help='whether to enable packed model, default is True.')
+flags.DEFINE_integer(
+    "max_sequences_per_pack", 3, 
+    "Maximum number of sequences per sequence. "
+    "Must match data generation.")
+flags.DEFINE_float(
+    "average_sequences_per_sample", 1.999, 
+    "average number of sequences per sample. "
+    "Must match data generation.")
+flags.DEFINE_float(
+    "average_sequences_per_eval_sample", 1.73, 
+    "average number of sequences per sample. "
+    "Must match data generation.")
+
 common_flags.define_common_bert_flags()
 
 FLAGS = flags.FLAGS

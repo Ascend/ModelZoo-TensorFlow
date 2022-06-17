@@ -375,7 +375,7 @@ aclError DVPP_Resnet50(std::string fileLocation, char *&ptr)
 
     // 2 获取解码输出描述信息
     GetImageHW(buff, fileSize, fileLocation, W, H);
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     W_Aligned = (W + 63) / NUM_64 * NUM_64;
     H_Aligned = (H + 15) / NUM_16 * NUM_16;
     if(W_Aligned > 4096 || H_Aligned > 4096)
@@ -426,7 +426,7 @@ aclError DVPP_Resnet50(std::string fileLocation, char *&ptr)
         return ret;
     }
 
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     decodeOutputDesc = createDvppPicDesc(decodeOutput, acldvppPixelFormat(aclformat), W, H, W_Aligned, H_Aligned, outputBuffSize);
     LOG("file[%s] jpeg picDesc info: W=%d, H=%d, W_Aligned=%d, H_Aligned=%d, outBufSize=%d, format=%d\n", \ 
                 fileLocation.c_str(),W, H, W_Aligned, H_Aligned, outputBuffSize, aclformat);
@@ -453,7 +453,7 @@ aclError DVPP_Resnet50(std::string fileLocation, char *&ptr)
     aclrtSynchronizeStream(stream);
 
     // 4 对jpegd解码的图片进行原分辨率抠图及短边256等比例缩放
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     uint32_t w_new = acldvppGetPicDescWidth(decodeOutputDesc);
     uint32_t h_new = acldvppGetPicDescHeight(decodeOutputDesc);
     W = w_new;
@@ -600,7 +600,7 @@ acldvppRoiConfig *InitCropRoiConfig(uint32_t width, uint32_t height)
     uint32_t bottom = 0;
     acldvppRoiConfig *cropConfig;
 
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     right = width - 1;
     bottom = height - 1;
 #else
@@ -678,7 +678,7 @@ void SmallSizeAtLeast(uint32_t width, uint32_t height, uint32_t &newInputWidth, 
     if (minWidthFlag == true) {
         newInputWidth = resizeMin;
         newInputHeight = (resizeMin / width) * inputHeight;
-        #ifdef ASCEND710_DVPP
+        #ifdef ASCEND310P3_DVPP
             newInputHeight = (newInputHeight + 1) / 2 * 2;
         #endif
         std::cout << "[INFO]scaleRatio: " << resizeMin / width << " inputWidth_: " << width << " newInputWidth: " <<
@@ -686,7 +686,7 @@ void SmallSizeAtLeast(uint32_t width, uint32_t height, uint32_t &newInputWidth, 
     } else {
         newInputWidth = (resizeMin / height) * width;
         newInputHeight = resizeMin;
-        #ifdef ASCEND710_DVPP
+        #ifdef ASCEND310P3_DVPP
             newInputWidth = (newInputWidth + 15) / 16 * 16;
         #endif
         std::cout << "[INFO]scaleRatio: " << resizeMin / height << " width: " << width << " newInputWidth: " <<

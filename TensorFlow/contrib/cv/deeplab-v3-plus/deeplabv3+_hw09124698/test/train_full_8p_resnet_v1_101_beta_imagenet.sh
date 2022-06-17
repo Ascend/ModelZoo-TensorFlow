@@ -21,7 +21,7 @@ ckpt_path=""
 
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
-Network="deeplabv3+_hw09124698"
+Network="deeplabv3+_hw09124698_for_TensorFlow"
 #训练epoch
 #train_epochs=42
 #训练batch_size

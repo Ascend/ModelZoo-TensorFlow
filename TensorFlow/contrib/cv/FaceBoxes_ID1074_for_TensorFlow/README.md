@@ -5,9 +5,9 @@
 
 **版本（Version）：1.2**
 
-**修改时间（Modified） ：2021.12.21**
+**修改时间（Modified） ：2022.5.13**
 
-**大小（Size）：7M**
+**大小（Size）：8M**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
@@ -29,22 +29,6 @@ FaceBoxes是一个实时人脸检测网络。其主要特点为速度快，可�
 [FaceBoxes-tensorflow](https://gitee.com/majunfu0519/FaceBoxes-tensorflow)
 
 
-## 默认配置
-
-- 训练超参
-
-```
-    -    batch size: 16
-    -    weight_decay: 1e-3
-    -    score_threshold: 0.05
-    -    iou_threshold: 0.3
-    -    localization_loss_weight: 1.0
-    -    classification_loss_weight: 1.0
-    -    lr_boundaries: [160000, 200000]
-    -    lr_values: [0.004, 0.0004, 0.00004]
-    -    nms_threshold: 0.99
-```
-
 
 
 ## 支持特性
@@ -54,23 +38,42 @@ FaceBoxes是一个实时人脸检测网络。其主要特点为速度快，可�
 | 混合精度  | 否    |
 | 并行数据  | 否    |
 
-## 使用方式
-下载至本地->数据集准备->使用modelarts训练
+## 训练环境准备
 
-## 环境
+1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
+2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
 
-    CANN镜像：ascend-share/5.0.4.alpha002_tensorflow-ascend910-cp37-euleros2.8-aarch64-training:1.15.0-21.0.2_1207
-```
-    opencv-python
-    Pillow
-    tqdm
-    numpy==1.19.5
+    当前模型支持的镜像列表如[表1](#zh-cn_topic_0000001074498056_table1519011227314)所示。
 
-```
+    **表 1** 镜像列表
+
+    <a name="zh-cn_topic_0000001074498056_table1519011227314"></a>
+    <table><thead align="left"><tr id="zh-cn_topic_0000001074498056_row0190152218319"><th class="cellrowborder" valign="top" width="47.32%" id="mcps1.2.4.1.1"><p id="zh-cn_topic_0000001074498056_p1419132211315"><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><em id="i1522884921219"><a name="i1522884921219"></a><a name="i1522884921219"></a>镜像名称</em></p>
+    </th>
+    <th class="cellrowborder" valign="top" width="25.52%" id="mcps1.2.4.1.2"><p id="zh-cn_topic_0000001074498056_p75071327115313"><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><em id="i1522994919122"><a name="i1522994919122"></a><a name="i1522994919122"></a>镜像版本</em></p>
+    </th>
+    <th class="cellrowborder" valign="top" width="27.16%" id="mcps1.2.4.1.3"><p id="zh-cn_topic_0000001074498056_p1024411406234"><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><em id="i723012493123"><a name="i723012493123"></a><a name="i723012493123"></a>配套CANN版本</em></p>
+    </th>
+    </tr>
+    </thead>
+    <tbody><tr id="zh-cn_topic_0000001074498056_row71915221134"><td class="cellrowborder" valign="top" width="47.32%" headers="mcps1.2.4.1.1 "><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><ul id="zh-cn_topic_0000001074498056_ul81691515131910"><li><em id="i82326495129"><a name="i82326495129"></a><a name="i82326495129"></a>ARM架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-arm" target="_blank" rel="noopener noreferrer">ascend-tensorflow-arm</a></em></li><li><em id="i18233184918125"><a name="i18233184918125"></a><a name="i18233184918125"></a>x86架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-x86" target="_blank" rel="noopener noreferrer">ascend-tensorflow-x86</a></em></li></ul>
+    </td>
+    <td class="cellrowborder" valign="top" width="25.52%" headers="mcps1.2.4.1.2 "><p id="zh-cn_topic_0000001074498056_p1450714271532"><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><em id="i72359495125"><a name="i72359495125"></a><a name="i72359495125"></a>20.2.0</em></p>
+    </td>
+    <td class="cellrowborder" valign="top" width="27.16%" headers="mcps1.2.4.1.3 "><p id="zh-cn_topic_0000001074498056_p18244640152312"><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><em id="i162363492129"><a name="i162363492129"></a><a name="i162363492129"></a><a href="https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373/software" target="_blank" rel="noopener noreferrer">20.2</a></em></p>
+    </td>
+    </tr>
+    </tbody>
+    </table>
 
 
+## 源码准备
+
+
+
+  单击“立即下载”，并选择合适的下载方式下载源码包，并解压到合适的工作路径。
 ## 数据集准备
-- 模型训练使用[WIDAR数据集](http://shuoyang1213.me/WIDERFACE/)进行训练，可以使用src/preparedata/preparedata.py生成训练所需要的tfrecords文件，其中的数据源路径和数据生成路径请自行按需修改
+- 模型训练使用[WIDAR数据集](http://shuoyang1213.me/WIDERFACE/)进行训练，下载WIDAR数据集后，可以使用src/preparedata/preparedata.py生成训练所需要的tfrecords文件，其中的数据源路径和数据生成路径请自行按需修改
 
 - 生成的数据集文件目录结构：
 
@@ -87,24 +90,29 @@ FaceBoxes是一个实时人脸检测网络。其主要特点为速度快，可�
 ```
 - 此处提供准备好的位于OBS的数据集供验证
 
+数据集OBS链接
 ```
-URL:
-https://e-share.obs-website.cn-north-1.myhuaweicloud.com?token=uBkmRmRznP5F3QkyOs67o8NfWi7yA58V3Wr2x/OQFu0fKMA74TI0tzzjHFbAanCs90HupbwZu/XcrEBu4khSLI7pTwxnpiDvuHzZnKiWvDNbCfeipENFdB16SukE2mrKGJt3ZK+82+JkgitwFf74KbImvclQyLBxMusBm2aU6udMqJbGzKz/fc7MoY3+fCKJNMnk7u3+huqwUxl/etMraUEi+G2VkXhWm6mEdf1QcWBRaw5SxR45cIYzKOz4LQAYmmUL41VO78R7woTTSJrlEg7SUSSkz4d+9xpJHhMA2092Q+uWuB77FULovt4j/8DvHvKKuAKjU/h984S61xkX3LwfBKqCSiMvc/ZCzBFTmUpchXqULcFJyLu7ISqzD/sNZ9isEYhDSuTFCmGy3wYW+0xOMW7xwQ3VZR7q5seGrnV8x4ziwktKEH5f/UP0DDX2iDPeR1ajlMb4LD0WXYql0V04CIadsycpPHbreup2cGI77S157JP2RyF8a7yYPdouyskV+XAxxEZkP37CZlzTas4P4D5mFjzXIz4y0Ux73bJ/zFV1qxkOa1TawtMa2NFD
-
-提取码:
-123456
-
-*有效期至: 2022/12/17 16:03:42 GMT+08:00
-
 obs://faceboxes/data/WIDER/
 ```
 
+## 超参设置
+在训练中，需要在本仓库根目录中的config.json文件中设定相应的超参，文件中已经给出了超参的默认设置
 
-## 训练
+- 默认超参
 
-->在pycharm中使用modelarts插件训练，将modelarts_entry.py作为启动文件。（启动文件中使用的为根目录下的train_testcase.sh命令）
+```
+    -    batch size: 16
+    -    weight_decay: 1e-3
+    -    score_threshold: 0.05
+    -    iou_threshold: 0.3
+    -    localization_loss_weight: 1.0
+    -    classification_loss_weight: 1.0
+    -    lr_boundaries: [160000, 200000]
+    -    lr_values: [0.004, 0.0004, 0.00004]
+    -    nms_threshold: 0.99
+```
 
-- 代码目录结构
+## 代码目录结构
 
 ```
 
@@ -138,153 +146,106 @@ obs://faceboxes/data/WIDER/
     │    ├──network.py　　　　　　　　　　　　　　　　　　　　　　　　　　　　//网络定义   
     │    ├──training_target_creation.py　　　　　　　　　　　　　　　　　　//训练目标转化  
 
+    ├── model/run00　　　　　　　　　　　　　　　　　　　　　　　　　        //模型
 ```
 
-## 训练日志
 
-在GPU(TeslaV100)训练的部分日志如下：
+执行任务OBS链接
 ```
-2021-12-23 18:32:08,363 - tensorflow - INFO - loss = 4.5040317, step = 8115 (0.283 sec)
-2021-12-23 18:32:08,634 - tensorflow - INFO - global_step/sec: 3.69221
-2021-12-23 18:32:08,634 - tensorflow - INFO - loss = 4.5335054, step = 8116 (0.271 sec)
-2021-12-23 18:32:08,841 - tensorflow - INFO - global_step/sec: 4.83184
-2021-12-23 18:32:08,841 - tensorflow - INFO - loss = 4.82244, step = 8117 (0.207 sec)
-2021-12-23 18:32:09,092 - tensorflow - INFO - global_step/sec: 3.97911
-2021-12-23 18:32:09,093 - tensorflow - INFO - loss = 4.9045005, step = 8118 (0.251 sec)
-2021-12-23 18:32:09,336 - tensorflow - INFO - global_step/sec: 4.10673
-2021-12-23 18:32:09,336 - tensorflow - INFO - loss = 4.113819, step = 8119 (0.244 sec)
-2021-12-23 18:32:09,611 - tensorflow - INFO - global_step/sec: 3.62871
-2021-12-23 18:32:09,612 - tensorflow - INFO - loss = 4.9714694, step = 8120 (0.276 sec)
-2021-12-23 18:32:09,875 - tensorflow - INFO - global_step/sec: 3.79396
-2021-12-23 18:32:09,875 - tensorflow - INFO - loss = 4.4656787, step = 8121 (0.264 sec)
-2021-12-23 18:32:10,128 - tensorflow - INFO - global_step/sec: 3.95086
-2021-12-23 18:32:10,128 - tensorflow - INFO - loss = 4.4792333, step = 8122 (0.253 sec)
-2021-12-23 18:32:10,348 - tensorflow - INFO - global_step/sec: 4.54943
-2021-12-23 18:32:10,348 - tensorflow - INFO - loss = 4.1617427, step = 8123 (0.220 sec)
-2021-12-23 18:32:10,598 - tensorflow - INFO - global_step/sec: 3.99275
-2021-12-23 18:32:10,599 - tensorflow - INFO - loss = 4.222328, step = 8124 (0.250 sec)
-2021-12-23 18:32:10,865 - tensorflow - INFO - global_step/sec: 3.74715
-2021-12-23 18:32:10,866 - tensorflow - INFO - loss = 3.948519, step = 8125 (0.267 sec)
-2021-12-23 18:32:11,121 - tensorflow - INFO - global_step/sec: 3.91349
-2021-12-23 18:32:11,121 - tensorflow - INFO - loss = 3.1790533, step = 8126 (0.256 sec)
-2021-12-23 18:32:11,388 - tensorflow - INFO - global_step/sec: 3.73329
-2021-12-23 18:32:11,389 - tensorflow - INFO - loss = 5.00976, step = 8127 (0.268 sec)
-2021-12-23 18:32:11,641 - tensorflow - INFO - global_step/sec: 3.95447
-2021-12-23 18:32:11,642 - tensorflow - INFO - loss = 3.6191146, step = 8128 (0.253 sec)
-2021-12-23 18:32:11,860 - tensorflow - INFO - global_step/sec: 4.58014
-2021-12-23 18:32:11,860 - tensorflow - INFO - loss = 3.7436574, step = 8129 (0.218 sec)
-2021-12-23 18:32:12,093 - tensorflow - INFO - global_step/sec: 4.29105
-2021-12-23 18:32:12,093 - tensorflow - INFO - loss = 4.023516, step = 8130 (0.233 sec)
-2021-12-23 18:32:12,346 - tensorflow - INFO - global_step/sec: 3.94978
-2021-12-23 18:32:12,346 - tensorflow - INFO - loss = 2.7456815, step = 8131 (0.253 sec)
-2021-12-23 18:32:12,626 - tensorflow - INFO - global_step/sec: 3.56556
-2021-12-23 18:32:12,627 - tensorflow - INFO - loss = 3.3784707, step = 8132 (0.281 sec)
-2021-12-23 18:32:12,849 - tensorflow - INFO - global_step/sec: 4.48467
-2021-12-23 18:32:12,850 - tensorflow - INFO - loss = 4.5038557, step = 8133 (0.223 sec)
-2021-12-23 18:32:13,148 - tensorflow - INFO - global_step/sec: 3.34926
-2021-12-23 18:32:13,148 - tensorflow - INFO - loss = 3.7825577, step = 8134 (0.299 sec)
-2021-12-23 18:32:13,392 - tensorflow - INFO - global_step/sec: 4.08948
-2021-12-23 18:32:13,393 - tensorflow - INFO - loss = 4.7722354, step = 8135 (0.244 sec)
-2021-12-23 18:32:13,665 - tensorflow - INFO - global_step/sec: 3.67414
-2021-12-23 18:32:13,665 - tensorflow - INFO - loss = 4.6426964, step = 8136 (0.272 sec)
-2021-12-23 18:32:13,912 - tensorflow - INFO - global_step/sec: 4.04654
-2021-12-23 18:32:13,912 - tensorflow - INFO - loss = 4.6764326, step = 8137 (0.247 sec)
-2021-12-23 18:32:14,125 - tensorflow - INFO - global_step/sec: 4.68194
-2021-12-23 18:32:14,126 - tensorflow - INFO - loss = 4.2825456, step = 8138 (0.214 sec)
-2021-12-23 18:32:14,372 - tensorflow - INFO - global_step/sec: 4.04804
-2021-12-23 18:32:14,373 - tensorflow - INFO - loss = 5.8155127, step = 8139 (0.247 sec)
-2021-12-23 18:32:14,644 - tensorflow - INFO - global_step/sec: 3.68788
-2021-12-23 18:32:14,644 - tensorflow - INFO - loss = 4.5302157, step = 8140 (0.271 sec)
-2021-12-23 18:32:14,867 - tensorflow - INFO - global_step/sec: 4.47345
-2021-12-23 18:32:14,868 - tensorflow - INFO - loss = 3.046206, step = 8141 (0.224 sec)
-2021-12-23 18:32:15,124 - tensorflow - INFO - global_step/sec: 3.88845
-2021-12-23 18:32:15,125 - tensorflow - INFO - loss = 4.4650183, step = 8142 (0.257 sec)
-2021-12-23 18:32:15,371 - tensorflow - INFO - global_step/sec: 4.05365
-2021-12-23 18:32:15,371 - tensorflow - INFO - loss = 4.321868, step = 8143 (0.247 sec)
-2021-12-23 18:32:15,623 - tensorflow - INFO - global_step/sec: 3.96703
-2021-12-23 18:32:15,623 - tensorflow - INFO - loss = 4.0855937, step = 8144 (0.252 sec)
-2021-12-23 18:32:15,849 - tensorflow - INFO - global_step/sec: 4.42165
-2021-12-23 18:32:15,850 - tensorflow - INFO - loss = 4.2479753, step = 8145 (0.226 sec)
-2021-12-23 18:32:16,112 - tensorflow - INFO - global_step/sec: 3.80205
+obs://faceboxes/workspace/MA-new-code-04-25-20-39/code/
 ```
 
-在昇腾910训练的部分训练日志如下：
+
+## 模型训练
+
+- 启动训练之前，首先要配置程序运行相关环境变量。
+
+  环境变量配置信息参见：
+
+  [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend 910训练平台环境变量设置?sort_id=3148819)
+
+  模型测试所需数据集：  使用src/preparedata/preparedata.py所生成的WIDER/train_shards中的tfrecords文件。
+
+  以及参数文件：`config.json`。
+
+  你可以通过训练来验证模型的正确性，执行命令：
+
+  ```
+  python3.7 ${code_dir}/train.py --data_path=${dataset_path} --output_path=${output_path} --step=100
+  ```
+  输出为位于model文件夹下的ckpt文件
+
+
+## 模型测试
+  模型测试所需数据集：使用src/preparedata/preparedata.py所生成的WIDER/val_shards中的tfrecords文件。
+
+ ```
+python3.7 ${code_dir}/evaluate.py --data_path=${dataset_path} --output_path=${output_path}
+ ```
+
+
+
+## 执行结果打屏信息
+
+1.FaceBoxes在GPU(TeslaV100)训练的部分日志如下：
+```
+2021-12-23 11:14:36,327 - tensorflow - INFO - global_step/sec: 3.98735
+2021-12-23 11:14:36,327 - tensorflow - INFO - loss = 2.3544056, step = 212600 (50.158 sec)
+2021-12-23 11:15:26,352 - tensorflow - INFO - global_step/sec: 3.99802
+2021-12-23 11:15:26,352 - tensorflow - INFO - loss = 3.1948407, step = 212800 (50.025 sec)
+2021-12-23 11:16:16,443 - tensorflow - INFO - global_step/sec: 3.99272
+2021-12-23 11:16:16,444 - tensorflow - INFO - loss = 2.8203194, step = 213000 (50.092 sec)
+2021-12-23 11:17:06,369 - tensorflow - INFO - global_step/sec: 4.00593
+2021-12-23 11:17:06,369 - tensorflow - INFO - loss = 2.8895893, step = 213200 (49.925 sec)
+2021-12-23 11:17:56,151 - tensorflow - INFO - global_step/sec: 4.01751
+2021-12-23 11:17:56,151 - tensorflow - INFO - loss = 3.014898, step = 213400 (49.782 sec)
+2021-12-23 11:18:46,356 - tensorflow - INFO - global_step/sec: 3.98364
+2021-12-23 11:18:46,357 - tensorflow - INFO - loss = 2.5961294, step = 213600 (50.205 sec)
+2021-12-23 11:19:36,267 - tensorflow - INFO - global_step/sec: 4.00716
+2021-12-23 11:19:36,267 - tensorflow - INFO - loss = 1.9023525, step = 213800 (49.910 sec)
+2021-12-23 11:20:25,957 - tensorflow - INFO - global_step/sec: 4.02491
+2021-12-23 11:20:25,958 - tensorflow - INFO - loss = 3.02169, step = 214000 (49.691 sec)
+2021-12-23 11:21:15,638 - tensorflow - INFO - global_step/sec: 4.02573
+2021-12-23 11:21:15,638 - tensorflow - INFO - loss = 3.2040527, step = 214200 (49.680 sec)
+2021-12-23 11:22:05,567 - tensorflow - INFO - global_step/sec: 4.00565
+2021-12-23 11:22:05,568 - tensorflow - INFO - loss = 3.0034096, step = 214400 (49.929 sec)
+```
+
+
+2.FaceBoxes在昇腾910训练的部分训练日志如下：
+【Ascend NPU INFO NOTICE】
+```
+
+INFO:tensorflow:global_step/sec: 1.13204
+INFO:tensorflow:loss = 2.0918577, step = 220720 (0.883 sec)
+INFO:tensorflow:global_step/sec: 1.00185
+INFO:tensorflow:loss = 2.2461889, step = 220721 (0.998 sec)
+INFO:tensorflow:global_step/sec: 1.03824
+INFO:tensorflow:loss = 2.5442588, step = 220722 (0.963 sec)
+INFO:tensorflow:global_step/sec: 1.06501
+INFO:tensorflow:loss = 2.4318302, step = 220723 (0.939 sec)
+INFO:tensorflow:global_step/sec: 1.31278
+INFO:tensorflow:loss = 2.220363, step = 220724 (0.762 sec)
+INFO:tensorflow:global_step/sec: 0.696667
+INFO:tensorflow:loss = 2.5294564, step = 220725 (1.435 sec)
+INFO:tensorflow:global_step/sec: 1.11117
+INFO:tensorflow:loss = 2.8285213, step = 220726 (0.900 sec)
+INFO:tensorflow:global_step/sec: 1.08999
+INFO:tensorflow:loss = 3.3644197, step = 220727 (0.917 sec)
+INFO:tensorflow:global_step/sec: 1.04899
+INFO:tensorflow:loss = 2.186323, step = 220728 (0.953 sec)
 
 ```
-[WARNING] TBE:2021-12-20-10:30:31 [cce_api_pass.cc:181] O0 mode fails to be compiled, the O2 mode is used
-[WARNING] TBE:2021-12-20-10:30:31 [cce_api_pass.cc:181] O0 mode fails to be compiled, the O2 mode is used
-[WARNING] TBE:2021-12-20-10:30:31 [cce_api_pass.cc:181] O0 mode fails to be compiled, the O2 mode is used
-[WARNING] TBE:2021-12-20-10:30:37 [cce_api_pass.cc:181] O0 mode fails to be compiled, the O2 mode is used
-[WARNING] TBE:2021-12-20-10:30:40 [cce_api_pass.cc:181] O0 mode fails to be compiled, the O2 mode is used
-[WARNING] TBE:2021-12-20-10:30:59 [cce_api_pass.cc:181] O0 mode fails to be compiled, the O2 mode is used
-[WARNING] TBE:2021-12-20-10:30:59 [cce_api_pass.cc:181] O0 mode fails to be compiled, the O2 mode is used
-[WARNING] TBE:2021-12-20-10:30:59 [cce_api_pass.cc:181] O0 mode fails to be compiled, the O2 mode is used
-INFO:tensorflow:loss = 11.475177, step = 1
-2021-12-20 10:36:27.732359: W /home/jenkins/agent/workspace/Compile_GraphEngine_Centos_ARM/tensorflow/tf_adapter/optimizers/om_partition_subgraphs_pass.cc:2009] Dataset outputs have string output_type, please set enable_data_pre_proc=True.
-2021-12-20 10:36:36.019027: I /home/jenkins/agent/workspace/Compile_GraphEngine_Centos_ARM/tensorflow/tf_adapter/kernels/geop_npu.cc:769] The model has been compiled on the Ascend AI processor, current graph id is:61
-INFO:tensorflow:global_step/sec: 0.00232038
-INFO:tensorflow:loss = 11.101694, step = 2 (430.852 sec)
-INFO:tensorflow:global_step/sec: 0.798945
-INFO:tensorflow:loss = 10.547352, step = 3 (1.249 sec)
-INFO:tensorflow:global_step/sec: 0.810831
-INFO:tensorflow:loss = 10.256687, step = 4 (1.233 sec)
-INFO:tensorflow:global_step/sec: 0.699996
-INFO:tensorflow:loss = 9.732241, step = 5 (1.429 sec)
-INFO:tensorflow:global_step/sec: 0.857714
-INFO:tensorflow:loss = 10.958122, step = 6 (1.166 sec)
-INFO:tensorflow:global_step/sec: 0.880095
-INFO:tensorflow:loss = 10.192037, step = 7 (1.136 sec)
-INFO:tensorflow:global_step/sec: 0.791271
-INFO:tensorflow:loss = 6.5856256, step = 8 (1.264 sec)
-INFO:tensorflow:global_step/sec: 0.936172
-INFO:tensorflow:loss = 9.7751045, step = 9 (1.068 sec)
-INFO:tensorflow:global_step/sec: 0.910114
-INFO:tensorflow:loss = 9.638695, step = 10 (1.098 sec)
-INFO:tensorflow:global_step/sec: 0.866138
-INFO:tensorflow:loss = 9.386629, step = 11 (1.155 sec)
-INFO:tensorflow:global_step/sec: 0.474886
-INFO:tensorflow:loss = 9.6329155, step = 12 (2.106 sec)
-INFO:tensorflow:global_step/sec: 0.746687
-INFO:tensorflow:loss = 10.039507, step = 13 (1.339 sec)
-INFO:tensorflow:global_step/sec: 0.967915
-INFO:tensorflow:loss = 9.833056, step = 14 (1.033 sec)
-INFO:tensorflow:global_step/sec: 1.00899
-INFO:tensorflow:loss = 5.5052996, step = 15 (0.991 sec)
-INFO:tensorflow:global_step/sec: 1.0907
-INFO:tensorflow:loss = 8.810926, step = 16 (0.917 sec)
-INFO:tensorflow:global_step/sec: 0.818234
-```
 
-在昇腾910训练的部分训练日志如下：
-```
-INFO:tensorflow:loss = 4.859055, step = 8119 (1.307 sec)
-INFO:tensorflow:global_step/sec: 0.870497
-INFO:tensorflow:loss = 4.303714, step = 8120 (1.149 sec)
-INFO:tensorflow:global_step/sec: 0.732091
-INFO:tensorflow:loss = 4.519011, step = 8121 (1.366 sec)
-INFO:tensorflow:global_step/sec: 0.811873
-INFO:tensorflow:loss = 4.290802, step = 8122 (1.232 sec)
-INFO:tensorflow:global_step/sec: 0.822713
-INFO:tensorflow:loss = 4.555306, step = 8123 (1.216 sec)
-INFO:tensorflow:global_step/sec: 0.842209
-INFO:tensorflow:loss = 4.9782867, step = 8124 (1.187 sec)
-INFO:tensorflow:global_step/sec: 0.826567
-INFO:tensorflow:loss = 4.95797, step = 8125 (1.210 sec)
-INFO:tensorflow:global_step/sec: 0.754938
-INFO:tensorflow:loss = 4.736808, step = 8126 (1.325 sec)
-INFO:tensorflow:global_step/sec: 0.835863
-INFO:tensorflow:loss = 5.679203, step = 8127 (1.196 sec)
-INFO:tensorflow:global_step/sec: 0.908829
-INFO:tensorflow:loss = 5.56386, step = 8128 (1.100 sec)
-INFO:tensorflow:global_step/sec: 0.801428
-INFO:tensorflow:loss = 5.19129, step = 8129 (1.248 sec)
-INFO:tensorflow:global_step/sec: 0.792093
-INFO:tensorflow:loss = 5.604544, step = 8130 (1.262 sec)
-INFO:tensorflow:global_step/sec: 0.861541
-INFO:tensorflow:loss = 4.867715, step = 8131 (1.161 sec)
-INFO:tensorflow:global_step/sec: 0.619856
-INFO:tensorflow:loss = 3.6766508, step = 8132 (1.613 sec)
-INFO:tensorflow:global_step/sec: 0.77682
-INFO:tensorflow:loss = 3.7182162, step = 8133 (1.287 sec)
-```
+3.默认训练240000step后，可在obs/训练作业/output/model文件夹下得到相应的网络模型
+【Final】性能精度信息
+
+   | 迁移模型    | 训练次数  |  NPU final loss  |  GPU final loss  | 
+   | ---------- | --------  | --------  |  -------- |
+   |FaceBoxes   | 240000   | 2.2218564      |2.480684    |
+
+    | AP | FN| FP | mean_iou | precision | recall | threshold |
+    | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- | ---------- |
+    | 0.34621242 | 23307.0 | 628810.0 | 0.033031974 | 0.60916406 | 0.3432753 | 0.26472586 |
+
 

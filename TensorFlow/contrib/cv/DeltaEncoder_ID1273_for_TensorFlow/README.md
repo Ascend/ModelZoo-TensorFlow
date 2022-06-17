@@ -99,6 +99,9 @@ num_ways: ways number. In the original paper, it was 5
 |--|--|
 |  GPU(V100)| 5.18s/epoch |
 |  NPU(Ascend910)| 10s/epoch |
+|  NPU(Ascend910)-开启混合精度| 7s/epoch |
+|  NPU(Ascend910)-关闭日志| 3.5s/epoch |
+
 ####  1-shot 5-way 精度结果
 ##### GPU结果
 ```

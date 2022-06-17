@@ -35,6 +35,7 @@ from src.model import model_fn
 from src.input_pipeline import Pipeline
 
 
+
 current_path = os.path.dirname(__file__)
 tf.logging.set_verbosity('INFO')
 dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -43,18 +44,18 @@ GPU_TO_USE = '0'
 
 
 params = json.load(open(CONFIG))
+# params = json.load(open(r'./config.json'))
 model_params = params['model_params']
 input_params = params['input_pipeline_params']
 parser = argparse.ArgumentParser()
+parser.add_argument("--step", type=int, default=input_params['num_steps'])
 parser.add_argument("--data_path", type=str, help="add data_file")
 parser.add_argument("--output_path", type=str, help="add output_file")
+parser.add_argument("--log_step_count_steps", type=int, default=10 ,help="add output_file")
 iconfig = parser.parse_args()
 train_datafile=iconfig.data_path+"train_shards/"
 val_datafile=iconfig.data_path+"val_shards/"
 output_infofile=iconfig.output_path
-print(train_datafile)
-print(output_infofile)
-
 
 def get_input_fn_(is_training=True):
 
@@ -69,7 +70,7 @@ def get_input_fn_(is_training=True):
     filenames = [os.path.join(dataset_path, n) for n in sorted(filenames)]
 
     def input_fn():
-        with tf.device('/cpu:0'), tf.name_scope('input_pipeline'):
+        with tf.name_scope('input_pipeline'):
             pipeline = Pipeline(
                 filenames,
                 batch_size=batch_size, image_size=image_size,
@@ -77,23 +78,27 @@ def get_input_fn_(is_training=True):
                 augmentation=is_training
             )
             features, labels = pipeline.get_batch()
-            features['images'] = util.set_graph_exec_config(features['images'], dynamic_input=True, dynamic_graph_execute_mode="dynamic_execute", dynamic_inputs_shape_range='data:[1~16,1024,1024,3],[1~16,0~2048,4],[1~16]')
-
         return features, labels
     features, labels=input_fn()
     return features, labels
 
-config = tf.ConfigProto()
-config.gpu_options.visible_device_list = GPU_TO_USE
-run_config = tf.estimator.RunConfig()
-run_config = run_config.replace(
+
+
+config_proto = tf.ConfigProto()
+custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
+custom_op.name = "NpuOptimizer"
+config_proto.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+config_proto.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+custom_op.parameter_map["dynamic_input"].b = True
+custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("dynamic_execute")
+custom_op.parameter_map["dynamic_inputs_shape_range"].s = tf.compat.as_bytes("getnext:[1,1024,1024,3],[1,1~2048,4],[1]")
+npu_config=NPURunConfig(
     model_dir=output_infofile,
-    session_config=config,
-    save_summary_steps=5000,
     save_checkpoints_steps=5000,
-    log_step_count_steps=10
+    log_step_count_steps=1,
+    session_config=config_proto,
 )
 
 
-estimator = tf.estimator.Estimator(model_fn, params=model_params, config=npu_run_config_init(run_config=run_config))
-estimator.evaluate(input_fn=lambda :get_input_fn_(is_training=False),  hooks=npu_hooks_append())
+estimator = tf.estimator.Estimator(model_fn, params=model_params, config=npu_config)
+estimator.evaluate(input_fn=lambda :get_input_fn_(is_training=False))

@@ -1,0 +1,42 @@
+{
+  "black-list": {
+    "to-add": [
+      "Add",
+      "AddN",
+      "ApplyAdamD",
+      "ArgMaxD",
+      "ConfusionSoftmaxGrad",
+      "ConfusionTransposeD",
+      "DivNoNan",
+      "Equal",
+      "Gather",
+      "L2Loss",
+      "LabelGotoEx",
+      "LabelSet",
+      "LabelSwitchByIndex",
+      "LayerNorm",
+      "LayerNormBetaGammaBackpropV2",
+      "LayerNormXBackpropV2",
+      "Less",
+      "LogSoftmaxGrad",
+      "LogSoftmaxV2",
+      "Minimum",
+      "Mul",
+      "Muls",
+      "Neg",
+      "Pack",
+      "Pow",
+      "RealDiv",
+      "Recv",
+      "ReduceMeanD",
+      "ReduceSumD",
+      "ScatterAdd",
+      "SoftmaxV2",
+      "Square",
+      "StridedSliceD",
+      "StridedSliceGrad",
+      "TanhGrad",
+      "UnsortedSegmentSum"
+    ]
+  }
+}

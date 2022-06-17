@@ -127,7 +127,6 @@ do
     fi
 
     #执行训练脚本，需要模型审视修改
-	cd ${cur_path}/../src/mains
     corenum=`cat /proc/cpuinfo |grep 'processor' |wc -l`
     #let a=RANK_ID*${corenum}/8
     #let b=RANK_ID+1
@@ -136,7 +135,7 @@ do
     #    bind_core="taskset -c $a-$c"
     #fi
     #--max_train_steps=$max_train_steps \
-	python3.7 res50.py \
+	python3.7 ${cur_path}/../src/mains/res50.py \
 	    --config_file=$config_file \
 	    --iterations_per_loop=$iterations_per_loop \
 	    --debug=$debug \
@@ -206,4 +205,4 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "E2ETrainingTime= ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log

@@ -107,8 +107,8 @@ do
         --do_predict=True \
         --do_train=True \
         --predict_file=$predict_file \
-        --train_batch_size=32 \
-        --num_train_epochs=1 \
+        --train_batch_size=${batch_size} \
+        --num_train_epochs=${epoch} \
         --num_train_steps=1000 \
         --learning_rate=3e-5 \
         --max_seq_length=384 \

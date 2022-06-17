@@ -1,16 +1,8 @@
------仅限训练-----
-
 GPUStatus:OK
 NPUMigrationStatus:OK
-
------仅限推理-----
-
 ModelConvert:OK 
 QuantStatus:OK 
-
------通用部分-----
-
 FuncStatus:OK 
 PrecisionStatus:OK
 AutoTune:OK 
-PerfStatus:OK
+PerfStatus:PERFECT

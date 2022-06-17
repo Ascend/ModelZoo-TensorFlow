@@ -79,7 +79,7 @@ class LogTrainRunHook(tf.estimator.SessionRunHook):
   def before_run(self, run_context):
     self.t0 = time.time()
     return tf.estimator.SessionRunArgs(
-        fetches=['step_update:0'])
+        fetches=['global_step:0'])
 
   def after_run(self, run_context, run_values):
     elapsed_secs = time.time() - self.t0

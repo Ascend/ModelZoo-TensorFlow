@@ -9,12 +9,14 @@ export RANK_TABLE_FILE=$cur_path/${RANK_SIZE}p.json
 export JOB_ID=10087
 RANK_ID_START=0
 
-data_path="/npu/traindata/cifar10_tfrecords"
+# 数据集路径,保持为空,不需要修改
+data_path=""
+
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
 Network="InceptionV3_ID0491_for_TensorFlow"
 #训练epoch
-train_epochs=1
+train_epochs=150
 #训练batch_size
 batch_size=32
 #训练step
@@ -107,11 +109,8 @@ do
     fi
   
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
-    cd $cur_path/../
     python3 Incetpion_V3.py --dataset_dir=$data_path --epoch_num=$train_epochs --NPU_DEVICE_INDEX=$ASCEND_DEVICE_ID --npu_nums=8 > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
-
-
 
 wait
 end_time=$(date +%s)
@@ -126,7 +125,8 @@ FPS=`awk 'BEGIN{printf "%.2f\n",'${RANK_SIZE}'*'${batch_size}'/'${train_time}'}'
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep -a 'epoch' $cur_path/output/$ASCEND_DEVICE_ID/train_${ASCEND_DEVICE_ID}.log |awk 'END {print $11}'`
+#train_accuracy=`grep -a 'accuracy is' $cur_path/output/$ASCEND_DEVICE_ID/train_${ASCEND_DEVICE_ID}.log |awk 'END {print $9}'`
+train_accuracy=`grep -a 'accuracy is' $cur_path/output/$ASCEND_DEVICE_ID/train_${ASCEND_DEVICE_ID}.log | awk -F "accuracy is " '{print $2}'| awk -F "," 'END {print $1}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
@@ -134,7 +134,7 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'accu'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 ##获取性能数据
 #吞吐量，不需要修改
 ActualFPS=${FPS}
@@ -153,15 +153,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-
-
-
-
-
-
-
-
-
-
-

@@ -91,7 +91,8 @@ if [[ $data_path == "" ]];then
 	echo "[Error] para \"data_path\" must be config"
 	exit 1
 fi
-model_path=${data_path}/uncased_L-24_H-1024_A-16
+#model_path=${data_path}/uncased_L-24_H-1024_A-16
+model_path=${data_path}/bert_tf_ckpt_large_pretraining_amp_lamb_19.03.1
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
@@ -115,7 +116,7 @@ do
       --precision_mode=$precision_mode \
       --vocab_file=${model_path}/vocab.txt \
       --bert_config_file=${model_path}/bert_config.json \
-      --init_checkpoint=${model_path}/bert_model.ckpt \
+      --init_checkpoint=${model_path}/model.ckpt \
       --do_train=True \
       --train_file=${data_path}/dataset/squad_v1.1_train.tf_record \
       --do_predict=False \
@@ -144,12 +145,12 @@ e2e_time=$(( $end_time - $start_time ))
 
 #############结果处理#########################
 #输出性能FPS，需要模型审视修改
-FPS=`grep "tensorflow:examples/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk 'END {print $2}'`
+FPS=`grep "tensorflow:examples/sec" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk 'END {print $2}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-#train_accuracy=`grep "f1 =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $3}'`
+#train_accuracy=`grep "f1 =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $3}'`
 #打印，不需要修改
 #echo "Final Train Accuracy : ${train_accuracy}"
 
@@ -166,9 +167,9 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 ##获取Loss
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep "tensorflow:loss =" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F  " " '{print $3}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep "tensorflow:loss =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F  " " '{print $3}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改'
-ActualLoss=(`awk 'END {print $NF}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`)
+ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`)
 
 #关键性息打印到CaseName.log中
 echo "Network = ${Network}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -180,7 +181,7 @@ echo "ActualFPS = ${ActualFPS}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "TrainingTime = ${TrainingTime}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 #echo "TrainAccuracy = ${Accuracy}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}">>$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "E2ETrainingTime = ${e2etime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 
 
 

@@ -164,7 +164,16 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
 4、数据集pack (仅在使用pack策略进行训练时执行)
 
-若训练时使用pack策略 （参看“模型训练” - 开始训练 - 4.pack策略）， 须将数据集进行处理，生成为pack后的数据集。再使用pack后的数据集进行训练。 数据集转换脚本在bert/data_pack/目录下，具体可参看该文件夹内README文件。 数据集pack过后，在指定的目录下生成“strategy_record”开头的一系列文件。
+若训练时使用pack策略（参看“模型训练” - 开始训练- 4. pack策略），须将数据集进行处理，生成为pack后的数据集。再使用pack后的数据集进行训练。数据集转换脚本在bert/data_pack/目录下。数据集pack过后，在指定的目录下生成“strategy_record”开头的一系列文件。
+进行数据集pack时，需要将训练（train）的数据集与验证（eval）的数据集分别进行pack，生成在新的目录中。未pack的数据集为tfrecord格式，需先使用bert/data_pack目录下 "bert_data/record_to_binary.py" 将其批量转换为bin文件：
+
+python3 bert_data/record_to_binary.py --tf-record-glob="path/to/your/unpacked/data/part*.tfrecord" --output-path="path/to/store/binery/files"
+
+然后再使用bert/data_pack目录下 "pack_pretraining_data.py" ,将bin文件转化为pack后的数据集。
+
+python3 pack_pretraining_data.py --input-glob="path/to/store/binery/files" --output-dir="packed/data/folder"
+
+文件夹路径需要自己创建。
 
 ## 模型训练<a name="section715881518135"></a>
 - 下载训练脚本。
@@ -249,8 +258,8 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
     4. pack策略
     
-        4.1 含pack策略的训练脚本（./test/目录下名字带有“_pack”的shell脚本即为包含pack策略的训练脚本）
-        使用pack策略进行训练时，需使用pack过后的数据集（train, eval）及对应的预训练模型。若无对应的tensorflow-v2版本packed预训练模型。可由tensorflow-v1版本进行转换得来。模型转换相关脚本为bert/tf2_encoder_checkpoint_converter.py, 详见：“迁移学习指导” - 脚本和事例代码 - 模型转换脚本
+        4.1 含pack策略的训练脚本（./test/目录下名字带有"_packed"的脚本即为相应包含pack策略的训练脚本）
+        使用pack策略进行训练时，需使用pack过后的数据集（train、eval）及对应的预训练模型。若无对应tensorflow-v2版本packed预训练模型，可由tensorflow-v1版本进行转换得来。模型转换相关脚本为bert/tf2_encoder_checkpoint_converter.py，详见：脚本和事例代码 - 模型转换脚本
 
 <h2 id="迁移学习指导.md">高级参考</h2>
 

@@ -1,0 +1,13 @@
+{
+    "black-list":{
+        "to-add":[
+            "SquaredDifference",
+            "AddN",
+            "Add",
+            "ConfusionSoftmaxGrad",
+            "ReduceSumD",
+            "SoftmaxCrossEntropyWithLogits",
+            "StridedSliceD"
+        ]
+    }
+}

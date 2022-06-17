@@ -367,6 +367,7 @@ class Model(tf.keras.Model):
         kernel_initializer=dense_kernel_initializer)
 
     if self._global_params.dropout_rate > 0:
+      from npu_bridge.estimator.npu import npu_convert_dropout
       self._dropout = tf.keras.layers.Dropout(self._global_params.dropout_rate)
     else:
       self._dropout = None

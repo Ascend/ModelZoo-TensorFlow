@@ -138,7 +138,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 ##获取性能数据，不需要修改
 #吞吐量
 ActualFPS=`grep "examples/sec;" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk 'END {print $6}'|sed 's/(//g'`
-
+Train_accuracy=`grep "min_reconstruct_error_in_epoch" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | tr -d "=" | awk -F "," '{print $2}' | tr -d "reis"`
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep 'loss =' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $5}'  > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
@@ -154,5 +154,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseN
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = None" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${Train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log

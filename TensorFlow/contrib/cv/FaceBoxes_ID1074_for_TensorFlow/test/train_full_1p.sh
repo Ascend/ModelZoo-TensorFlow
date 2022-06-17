@@ -127,7 +127,7 @@ do
 	--data_path=${data_path}/WIDER/ \
 	--output_path=./output_path \
 	--log_step_count_steps=1 \
-	--step=8  >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
+    --step=240000 >$cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 
     
 done 
@@ -149,19 +149,19 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据，不需要修改
 #吞吐量
 ActualFPS=`awk 'BEGIN{printf "%.3f\n",  '${batch_size}'/'${TrainingTime}'}'`
-
+train_accuracy=`grep "Loss for final step" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk '{print $NF}' | sed 's/.$//'`
 
 #最后一个迭代loss值，不需要修改
 grep 'loss =' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk  '{print $3}'  |awk -F',' '{print $1}'  > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
-
+echo "Trainaccuracy : ${train_accuracy}"
 echo "ActualLoss : $ActualLoss"
 
 #关键信息打印到${CaseName}.log中，不需要修改
@@ -173,4 +173,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseN
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "Trainaccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log

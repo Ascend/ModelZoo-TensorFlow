@@ -1,5 +1,10 @@
 #!/bin/bash
 
+export ASCEND_GLOBAL_LOG_LEVEL=3
+export ASCEND_GLOBAL_EVENT_ENABLE=0
+export TF_CPP_MIN_LOG_LEVEL=3
+export ASCEND_SLOG_PRINT_TO_STDOUT=0
+
 python src/train_voiced.py \
 --train_image_path training/testcase_image_1500.txt \
 --train_interp_depth_path training/testcase_interp_depth_1500.txt \

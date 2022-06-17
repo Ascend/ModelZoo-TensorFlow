@@ -56,9 +56,10 @@ class Reader():
         dataset = tf.data.TFRecordDataset(self.tfrecords_file, buffer_size=256 << 20)
         data_ = dataset.map(self.parse_function, num_parallel_calls=tf.data.experimental.AUTOTUNE).shuffle(
             self.min_queue_examples + 3 * self.batch_size).repeat().batch(self.batch_size, drop_remainder=True)
-        data = data_.make_one_shot_iterator()
-        return data.get_next()
-
+        #data = data_.make_one_shot_iterator()
+        #return data.get_next()
+        data = data_.make_initializable_iterator()
+        return data.get_next(),data.initializer
     def parse_function(self, example_proto):
         dics = {
             'image/file_name': tf.FixedLenFeature([], tf.string),

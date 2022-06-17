@@ -20,7 +20,7 @@ train_epochs=
 #训练batch_size
 batch_size=64
 #训练step
-train_steps=50000
+train_steps=75000
 #学习率
 learning_rate=
 
@@ -71,6 +71,8 @@ do
         mkdir -p ${profiling_dump_path}
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
+    elif [[ $para == --ckpt_path* ]];then
+        ckpt_path=`echo ${para#*=}`
     fi
 done
 
@@ -113,8 +115,9 @@ do
     --max_seq_length=512 \
     --max_predictions_per_seq=80 \
     --train_batch_size=${batch_size} \
-    --learning_rate=7e-4 \
-    --num_warmup_steps=0 \
+    --learning_rate=2e-4 \
+    --init_checkpoint=${ckpt_path}/bertbase_phase1_npu_ckpt/model.ckpt-660497 \
+    --num_warmup_steps=1000 \
     --num_train_steps=${train_steps} \
     --optimizer_type=lamb \
     --manual_fp16=True \

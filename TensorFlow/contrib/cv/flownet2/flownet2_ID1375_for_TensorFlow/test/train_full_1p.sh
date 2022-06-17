@@ -148,7 +148,7 @@ echo "Final Performance TrainingTime : $TrainingTime"
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-train_accuracy=`grep test_loss $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $NF}'
+train_accuracy=`grep test_loss $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $NF}'`
 
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"

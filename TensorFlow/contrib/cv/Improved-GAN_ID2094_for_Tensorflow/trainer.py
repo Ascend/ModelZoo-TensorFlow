@@ -30,8 +30,8 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-os.system("pip install colorlog")
-os.system("pip install h5py==2.9.0")
+# os.system("pip install colorlog")
+# os.system("pip install h5py==2.9.0")
 
 
 from npu_bridge.npu_init import *
@@ -47,7 +47,7 @@ import tensorflow.contrib.slim as slim
 from input_ops import create_input_ops,my_create_input_ops,hdf2tfrecord
 from util import log
 from config import argparser
-import moxing as mox
+# import moxing as mox
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 
 class Trainer(object):
@@ -268,12 +268,14 @@ class Trainer(object):
 def main():
     # obs://improvedgan/datasets/datasets/
 
-    mox.file.copy_parallel(
-        'obs://improvedgan/datasets/datasets',
-        '/cache/data')
+    # mox.file.copy_parallel(
+        # 'obs://improvedgan/datasets/datasets',
+        # '/cache/data')
 
     # store
-    os.mkdir("/cache/train_dir")
+    filename = "/cache/train_dir"
+    if not os.path.exists(filename):
+    	os.mkdir(filename)
 
     config, model, dataset_train, dataset_test = argparser(is_train=True)
 
@@ -293,9 +295,8 @@ def main():
     # FLAGS = FLAG()
     # modelarts_result2obs(FLAGS)
 
-    mox.file.copy_parallel('/cache/train_dir',
-        'obs://improvedgan/train_dir')
+    # mox.file.copy_parallel('/cache/train_dir',
+        # 'obs://improvedgan/train_dir')
 
 if __name__ == '__main__':
     main()
-

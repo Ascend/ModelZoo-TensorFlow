@@ -1,0 +1,2 @@
+﻿h5py
+tensorflow==1.15.0

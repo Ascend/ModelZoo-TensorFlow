@@ -1,0 +1,7 @@
+tensorflow-gpu==1.12.0
+numpy==1.19.2
+opencv-python
+tqdm
+joblib
+scikit-image==0.14.5
+pt_inception-2015-12-05-6726825d.pth 存放路径：/root/.cache/torch/checkpoints

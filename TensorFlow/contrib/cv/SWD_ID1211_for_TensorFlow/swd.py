@@ -65,13 +65,14 @@ def discrepancy_mcd(out1, out2):
     return tf.reduce_mean(tf.abs(out1 - out2))
 
 
-def load_data():
+def load_data(data_path):
     # Load inter twinning moons 2D dataset by F. Pedregosa et al. in JMLR 2011
-    moon_data = np.load('moon_data.npz')
+    moon_data = np.load(data_path)
     x_s = moon_data['x_s']
     y_s = moon_data['y_s']
     x_t = moon_data['x_t']
-    return x_s, y_s, x_t
+    y_t = moon_data['y_t']
+    return x_s, y_s, x_t, y_t
 
 
 def generate_grid_point():
@@ -85,11 +86,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--mode', type=str, default="adapt_swd",
                         choices=["source_only", "adapt_mcd", "adapt_swd"])
+    parser.add_argument('--data_path', type=str, default='./moon_data.npz')
     parser.add_argument('--steps', type=int, default=10001)
     opts = parser.parse_args()
 
     # Load data
-    x_s, y_s, x_t = load_data()
+    x_s, y_s, x_t, y_t = load_data(opts.data_path)
 
     # set random seed
     tf.set_random_seed(1234)
@@ -160,31 +162,27 @@ if __name__ == "__main__":
         for step in range(opts.steps):
             if step % 1000 == 0:
                 print("Iteration: %d / %d" % (step, 10000))
+                #### loss 计算 ########
                 start_time = time.time()
                 loss_s_step, loss_dis_step = sess.run([loss_s, loss_dis], feed_dict={X: x_s, Y: y_s, X_target: x_t})
                 print("loss_s: %.5f , loss_dis: %.5f , step_time: %.4f" % (loss_s_step, loss_dis_step, (time.time()-start_time)))
-
-                Z = sess.run(predicted1, feed_dict={X: np.c_[xx.ravel(), yy.ravel()]})
-                Z = Z.reshape(xx.shape)
-                f = plt.figure()
-                plt.contourf(xx, yy, Z, cmap=plt.cm.copper_r, alpha=0.9)
-                plt.scatter(x_s[:, 0], x_s[:, 1], c=y_s.reshape((len(x_s))),
-                            cmap=plt.cm.coolwarm, alpha=0.8)
-                plt.scatter(x_t[:, 0], x_t[:, 1], color='green', alpha=0.7)
-                plt.text(1.6, -0.9, 'Iter: ' + str(step), fontsize=14, color='#FFD700',
-                         bbox=dict(facecolor='dimgray', alpha=0.7))
-                plt.axis('off')
-                f.savefig(opts.mode + '_iter' + str(step) + ".png", bbox_inches='tight',
-                          pad_inches=0, dpi=100, transparent=True)
-                gif_images.append(imageio.imread(
-                                  opts.mode + '_iter' + str(step) + ".png"))
-                plt.close()
-
+                ####### acc 计算 #########
+                logits1_step, logits1_target_step = sess.run(
+                    [logits1, logits1_target], feed_dict={X: x_s, Y: y_s, X_target: x_t})
+            
+                pred1_step = (logits1_step > 0.5).astype(int)
+                pred1_target_step = (logits1_target_step > 0.5).astype(int)
+            
+                acc_source = (pred1_step == y_s.reshape(-1, 1)).sum() / y_s.shape[0]
+                acc_target = (pred1_target_step ==  y_t.reshape(-1, 1)).sum() / y_t.shape[0]
+            
+                print("source acc:%.2f, target acc:%.2f" % (acc_source, acc_target))
+            
             # Forward and backward propagation
             _ = sess.run([train], feed_dict={X: x_s, Y: y_s, X_target: x_t}) 
 
         # Save GIF
         saver.save(sess, save_dir) 
-        imageio.mimsave(opts.mode + '.gif', gif_images, duration=0.8)
+        # imageio.mimsave(opts.mode + '.gif', gif_images, duration=0.8)
         print("[Finished]\n-> Please see the current folder for outputs.")
 

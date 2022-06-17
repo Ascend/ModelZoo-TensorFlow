@@ -12,7 +12,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 | Conditions | Need |
 | --- | --- |
 | CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend710 |
+| Chip Platform| Ascend310/Ascend310P3 |
 | 3rd Party Requirements| Please follow the 'requirements.txt' |
 
 ## Quick Start Guide
@@ -82,21 +82,21 @@ opencv-python==4.2.0.34
   ```
   atc --model=yolov3_tf.pb --framework=3 --output=yolov3_tf_aipp --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,416,416,3" --log=info --insert_op_conf=yolov3_tf_aipp.cfg
   ```
-  For Ascend710:
+  For Ascend310P3:
   ```
-  atc --model=yolov3_tf.pb --framework=3 --output=yolov3_tf_aipp --output_type=FP32 --soc_version=Ascend710 --input_shape="input:1,416,416,3" --log=info --insert_op_conf=yolov3_tf_aipp.cfg
+  atc --model=yolov3_tf.pb --framework=3 --output=yolov3_tf_aipp --output_type=FP32 --soc_version=Ascend310P3 --input_shape="input:1,416,416,3" --log=info --insert_op_conf=yolov3_tf_aipp.cfg
   ```
 
 - Build the program
 
   For Ascend310:
   ```
-  unset ASCEND710_DVPP
+  unset ASCEND310P3_DVPP
   bash build.sh
   ```
-  For Ascend710:
+  For Ascend310P3:
   ```
-  export ASCEND710_DVPP=1
+  export ASCEND310P3_DVPP=1
   bash build.sh
   ```
 

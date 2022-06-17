@@ -1,0 +1,222 @@
+{
+	"doc_event_id": [{
+		"table_name": "deep_doc_event_id_table",
+		"emb_name": "deep_doc_event_id_emb",
+		"unique_feat_cnt": 30001
+	},
+	{
+		"table_name": "wide_doc_event_id_table",
+		"emb_name": "wide_doc_event_id_emb",
+		"unique_feat_cnt": 30001
+	}],
+	"doc_id": [{
+		"table_name": "deep_doc_id_table",
+		"emb_name": "deep_doc_id_emb",
+		"unique_feat_cnt": 16000
+	},
+	{
+		"table_name": "wide_doc_id_table",
+		"emb_name": "wide_doc_id_emb",
+		"unique_feat_cnt": 16000
+	}],
+	"doc_event_source_id": [{
+		"table_name": "deep_doc_event_source_id_table",
+		"emb_name": "deep_doc_event_source_id_emb",
+		"unique_feat_cnt": 4000
+	},
+	{
+		"table_name": "wide_doc_event_source_id_table",
+		"emb_name": "wide_doc_event_source_id_emb",
+		"unique_feat_cnt": 4000
+	}],
+	"event_geo_location": [{
+		"table_name": "deep_event_geo_location_table",
+		"emb_name": "deep_event_geo_location_emb",
+		"unique_feat_cnt": 2500
+	},
+	{
+		"table_name": "wide_event_geo_location_table",
+		"emb_name": "wide_event_geo_location_emb",
+		"unique_feat_cnt": 2500
+	}],
+	"event_country_state": [{
+		"table_name": "deep_event_country_state_table",
+		"emb_name": "deep_event_country_state_emb",
+		"unique_feat_cnt": 2000
+	},
+	{
+		"table_name": "wide_event_country_state_table",
+		"emb_name": "wide_event_country_state_emb",
+		"unique_feat_cnt": 2000
+	}],
+	"doc_event_publisher_id": [{
+		"table_name": "deep_doc_event_publisher_id_table",
+		"emb_name": "deep_doc_event_publisher_id_emb",
+		"unique_feat_cnt": 1000
+	},
+	{
+		"table_name": "wide_doc_event_publisher_id_table",
+		"emb_name": "wide_doc_event_publisher_id_emb",
+		"unique_feat_cnt": 1000
+	}],
+	"event_country": [{
+		"table_name": "deep_event_country_table",
+		"emb_name": "deep_event_country_emb",
+		"unique_feat_cnt": 300
+	},
+	{
+		"table_name": "wide_event_country_table",
+		"emb_name": "wide_event_country_emb",
+		"unique_feat_cnt": 300
+	}],
+	"event_hour": [{
+		"table_name": "deep_event_hour_table",
+		"emb_name": "deep_event_hour_emb",
+		"unique_feat_cnt": 6
+	},
+	{
+		"table_name": "wide_event_hour_table",
+		"emb_name": "wide_event_hour_emb",
+		"unique_feat_cnt": 6
+	}],
+	"event_platform": [{
+		"table_name": "deep_event_platform_table",
+		"emb_name": "deep_event_platform_emb",
+		"unique_feat_cnt": 3
+	},
+	{
+		"table_name": "wide_event_platform_table",
+		"emb_name": "wide_event_platform_emb",
+		"unique_feat_cnt": 3
+	}],
+	"traffic_source": [{
+		"table_name": "deep_traffic_source_table",
+		"emb_name": "deep_traffic_source_emb",
+		"unique_feat_cnt": 3
+	},
+	{
+		"table_name": "wide_traffic_source_table",
+		"emb_name": "wide_traffic_source_emb",
+		"unique_feat_cnt": 3
+	}],
+	"event_weekend": [{
+		"table_name": "deep_event_weekend_table",
+		"emb_name": "deep_event_weekend_emb",
+		"unique_feat_cnt": 2
+	},
+	{
+		"table_name": "wide_event_weekend_table",
+		"emb_name": "wide_event_weekend_emb",
+		"unique_feat_cnt": 2
+	}],
+	"user_has_already_viewed_doc": [{
+		"table_name": "deep_user_has_already_viewed_doc_table",
+		"emb_name": "deep_user_has_already_viewed_doc_emb",
+		"unique_feat_cnt": 2
+	},
+	{
+		"table_name": "wide_user_has_already_viewed_doc_table",
+		"emb_name": "wide_user_has_already_viewed_doc_emb",
+		"unique_feat_cnt": 2
+	}],
+	"doc_event_entity_id": [{
+		"table_name": "deep_doc_event_entity_id_table",
+		"emb_name": "deep_doc_event_entity_id_emb",
+		"unique_feat_cnt": 1100
+	},
+	{
+		"table_name": "wide_doc_event_entity_id_table",
+		"emb_name": "wide_doc_event_entity_id_emb",
+		"unique_feat_cnt": 1100
+	}],
+	"doc_event_topic_id": [{
+		"table_name": "deep_doc_event_topic_id_table",
+		"emb_name": "deep_doc_event_topic_id_emb",
+		"unique_feat_cnt": 350
+	},
+	{
+		"table_name": "wide_doc_event_topic_id_table",
+		"emb_name": "wide_doc_event_topic_id_emb",
+		"unique_feat_cnt": 350
+	}],
+	"doc_event_category_id": [{
+		"table_name": "deep_doc_event_category_id_table",
+		"emb_name": "deep_doc_event_category_id_emb",
+		"unique_feat_cnt": 100
+	},
+	{
+		"table_name": "wide_doc_event_category_id_table",
+		"emb_name": "wide_doc_event_category_id_emb",
+		"unique_feat_cnt": 100
+	}],
+	"ad_id": [{
+		"table_name": "deep_ad_id_table",
+		"emb_name": "deep_ad_id_emb",
+		"unique_feat_cnt": 29000
+	},
+	{
+		"table_name": "wide_ad_id_table",
+		"emb_name": "wide_ad_id_emb",
+		"unique_feat_cnt": 29000
+	}],
+	"doc_ad_source_id": [{
+		"table_name": "deep_doc_ad_source_id_table",
+		"emb_name": "deep_doc_ad_source_id_emb",
+		"unique_feat_cnt": 4000
+	},
+	{
+		"table_name": "wide_doc_ad_source_id_table",
+		"emb_name": "wide_doc_ad_source_id_emb",
+		"unique_feat_cnt": 4000
+	}],
+	"ad_advertiser": [{
+		"table_name": "deep_ad_advertiser_table",
+		"emb_name": "deep_ad_advertiser_emb",
+		"unique_feat_cnt": 2500
+	},
+	{
+		"table_name": "wide_ad_advertiser_table",
+		"emb_name": "wide_ad_advertiser_emb",
+		"unique_feat_cnt": 2500
+	}],
+	"doc_ad_publisher_id": [{
+		"table_name": "deep_doc_ad_publisher_id_table",
+		"emb_name": "deep_doc_ad_publisher_id_emb",
+		"unique_feat_cnt": 1000
+	},
+	{
+		"table_name": "wide_doc_ad_publisher_id_table",
+		"emb_name": "wide_doc_ad_publisher_id_emb",
+		"unique_feat_cnt": 1000
+	}],
+	"doc_ad_topic_id": [{
+		"table_name": "deep_doc_ad_topic_id_table",
+		"emb_name": "deep_doc_ad_topic_id_emb",
+		"unique_feat_cnt": 350
+	},
+	{
+		"table_name": "wide_doc_ad_topic_id_table",
+		"emb_name": "wide_doc_ad_topic_id_emb",
+		"unique_feat_cnt": 350
+	}],
+	"doc_ad_entity_id": [{
+		"table_name": "deep_doc_ad_entity_id_table",
+		"emb_name": "deep_doc_ad_entity_id_emb",
+		"unique_feat_cnt": 1100
+	},
+	{
+		"table_name": "wide_doc_ad_entity_id_table",
+		"emb_name": "wide_doc_ad_entity_id_emb",
+		"unique_feat_cnt": 1100
+	}],
+	"doc_ad_category_id": [{
+		"table_name": "deep_doc_ad_category_id_table",
+		"emb_name": "deep_doc_ad_category_id_emb",
+		"unique_feat_cnt": 100
+	},
+	{
+		"table_name": "wide_doc_ad_category_id_table",
+		"emb_name": "wide_doc_ad_category_id_emb",
+		"unique_feat_cnt": 100
+	}]
+}

@@ -20,7 +20,7 @@ ASCEND_DEVICE_ID_START=0
 #Batch Size
 batch_size=131072
 #网络名称，同目录名称
-Network="WideDeep_TF_ID2712_for_TensorFlow"
+Network="WideDeep_ID2712_for_TensorFlow"
 #Device数量，单卡默认为1
 RankSize=1
 

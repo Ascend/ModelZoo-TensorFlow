@@ -1,0 +1,1 @@
+python3 train_all.py DATAPATH/train/ --atlas_file DATAPATH/atlas_abide_brain_crop.nii.gz

@@ -450,7 +450,7 @@ aclError DVPP_Yolo(std::string fileLocation, char *&ptr)
         cout << "acldvppJpegGetImageInfo failed, ret " << ret << "filename: " << fileLocation.c_str() << endl;
     }
 
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     W_Aligned = (W + 63) / 64 * 64;
     H_Aligned = (H + 15) / 16 * 16;
     if(W_Aligned > 4096 || H_Aligned > 4096){
@@ -566,7 +566,7 @@ aclError DVPP_Yolo(std::string fileLocation, char *&ptr)
     acldvppPicDesc *cropOutputDesc = nullptr;
     acldvppRoiConfig *cropConfig = nullptr;
     // 设置对解码后的图片进行原图裁剪，目的是为了减少因jpegd解码后对齐的无效数据对图像精度的影响
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
 	uint32_t w_new = acldvppGetPicDescWidth(jpeg_output_desc);
     uint32_t h_new = acldvppGetPicDescHeight(jpeg_output_desc);
     uint32_t format = acldvppGetPicDescFormat(jpeg_output_desc);
@@ -600,7 +600,7 @@ aclError DVPP_Yolo(std::string fileLocation, char *&ptr)
     }
 
     // 原格式抠图以及长边等比例缩放可以在一个接口中完成
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     acldvppResizeConfig *resizeConfig = acldvppCreateResizeConfig();
 	ret = acldvppSetResizeConfigInterpolation(resizeConfig, 1);
 	if (ret != ACL_ERROR_NONE)
@@ -639,7 +639,7 @@ aclError DVPP_Yolo(std::string fileLocation, char *&ptr)
     cropConfig = InitCropRoiConfig(newInputWidth, newInputHeight);
     // 设置贴图区域以及贴图目标区域
     pasteConfig = InitVpcOutConfig(newInputWidth, newInputHeight, 416, 416);
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     ret = acldvppVpcCropResizePasteAsync(dvpp_channel_desc, cropOutputDesc, cropAndPasteOutputDesc, cropConfig, pasteConfig, resizeConfig, stream);
 #else
     ret = acldvppVpcCropAndPasteAsync(dvpp_channel_desc, cropOutputDesc, cropAndPasteOutputDesc, cropConfig,pasteConfig, stream);
@@ -758,7 +758,7 @@ acldvppRoiConfig *InitCropRoiConfig(uint32_t width, uint32_t height)
     uint32_t right = 0;
     uint32_t bottom = 0;
     acldvppRoiConfig *cropConfig;
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     right = width - 1;
     bottom = height - 1;
 #else

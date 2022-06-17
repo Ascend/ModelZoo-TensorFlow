@@ -53,6 +53,8 @@ def make_config(FLAGS):
         custom_op.name = "NpuOptimizer"
         # custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
         config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
+        custom_op.parameter_map["enable_data_pre_proc"].b = True
+        custom_op.parameter_map["iterations_per_loop"].i = 10
         # Performance Profiling
         # refer to link:https://support.huaweicloud.com/Development-tg-cann202training1/atlasprofilingtrain_16_0003.html
         if FLAGS.profiling:

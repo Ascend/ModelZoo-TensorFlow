@@ -90,6 +90,7 @@ def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, use_tpu,
         beta_2=0.999,
         epsilon=1e-6,
         exclude_from_weight_decay=["LayerNorm", "layer_norm", "bias"])
+    optimizer = npu_distributed_optimizer_wrapper(optimizer)
   else:
     raise ValueError("Not supported optimizer: ", optimizer)
 

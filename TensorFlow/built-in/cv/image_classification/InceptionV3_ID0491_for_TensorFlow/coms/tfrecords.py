@@ -37,12 +37,12 @@
 import tensorflow as tf
 import numpy as np
 import cv2
-from imgaug import augmenters as iaa
+# from imgaug import augmenters as iaa
 import random
 import coms.utils as utils
 import os
 from PIL import Image
-
+FLAGS = tf.app.flags.FLAGS
 
 def _int64_feature(value):
     return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
@@ -96,6 +96,10 @@ def tfrecords_parse_func(serialized, img_prob, num_cls):
 
 def get_tfrecords_npu(file,img_prob,batch_size,num_cls):
     ds = tf.data.TFRecordDataset(filenames=file)
+    rank_size = int(os.getenv('RANK_SIZE'))
+    rank_id = int(os.getenv('RANK_ID'))
+    if rank_size > 1 and not FLAGS.do_eval:
+        ds = ds.shard(rank_size, rank_id)
     ds = ds.cache()
     ds = ds.shuffle(buffer_size=batch_size * 8, seed=0)
     ds = ds.repeat()

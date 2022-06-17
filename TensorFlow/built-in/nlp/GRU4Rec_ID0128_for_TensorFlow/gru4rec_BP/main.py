@@ -51,6 +51,7 @@ def npu_session_config_init(session_config=None):
         custom_op.name = 'NpuOptimizer'
         session_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+        custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("./ops_info.json")
         # modify for npu op overflow start
         if command_line.over_dump is True:
             custom_op.parameter_map["enable_dump_debug"].b = True

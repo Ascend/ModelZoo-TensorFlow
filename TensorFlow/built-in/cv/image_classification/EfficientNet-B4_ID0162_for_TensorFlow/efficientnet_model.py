@@ -37,6 +37,8 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+from npu_bridge.estimator.npu import npu_convert_dropout
+
 import collections
 import math
 import numpy as np

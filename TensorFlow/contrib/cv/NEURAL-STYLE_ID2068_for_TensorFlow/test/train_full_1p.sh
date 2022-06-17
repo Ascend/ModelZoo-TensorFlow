@@ -91,6 +91,9 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+#修改路径
+sed -i "s#/home/ma-user/modelarts/inputs/data_url_0#${data_path}#" ./stylize.py
+
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################

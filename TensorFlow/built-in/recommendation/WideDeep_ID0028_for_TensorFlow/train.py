@@ -91,7 +91,7 @@ train_para = {
     'test_per_epoch': config.test_size,
     'batch_size': data_para['batch_size'],
     'early_stop_epochs': 50,
-    # 'iterations_per_loop': config.iterations_per_loop
+    'iterations_per_loop': config.iterations_per_loop
 }
 
 # set PIN model param
@@ -383,6 +383,7 @@ if __name__ == '__main__':
     custom_op.parameter_map["min_group_size"].b = 1
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     custom_op.parameter_map["hcom_parallel"].b = True
+    custom_op.parameter_map["iterations_per_loop"].i = config.iterations_per_loop 
 
     if args.over_dump is True:
         print("NPU overflow dump is enabled")

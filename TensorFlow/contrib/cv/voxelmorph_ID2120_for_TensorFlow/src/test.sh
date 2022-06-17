@@ -1,0 +1,1 @@
+python test.sh DATAPATH/ --model_path ../models/

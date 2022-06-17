@@ -262,7 +262,7 @@ if args.save_optimizer:
 config = tf.ConfigProto()
 custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
-custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+#custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
 custom_op.parameter_map["use_off_line"].b = True  # training on Ascend chips
 custom_op.parameter_map["enable_data_pre_proc"].b = True
 custom_op.parameter_map["iterations_per_loop"].i = args.iterations_per_loop

@@ -135,7 +135,8 @@ echo "Final Performance images/sec : $FPS"
 # 输出训练精度,需要模型审视修改
 # 用指标rms代替，输出最小的rms值
 train_accuracy='None'
-train_accuracy=`grep 'rms' ${test_path_dir}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'BEGIN {rms = 1} {if($(10) < rms) rms = $(10)} END {print rms}'`
+#train_accuracy=`grep 'rms' ${test_path_dir}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'BEGIN {rms = 1} {if($(10) < rms) rms = $(10)} END {print rms}'`
+train_accuracy=`grep 'rms' ${test_path_dir}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk  -F 'rms' '{print $2}' |awk -F ' ' 'END {print $1}'`
 # 打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"

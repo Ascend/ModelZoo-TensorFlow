@@ -282,13 +282,40 @@ class MAML:
 
             if FLAGS.chip == 'npu':
                 if self.classification:
-                    out_dtype.extend([tf.float32, [tf.float32] * num_updates])
-                result = tf.map_fn(task_metalearn, elems=(self.inputa, self.inputb, self.labela, self.labelb),
-                                   dtype=out_dtype, parallel_iterations=FLAGS.meta_batch_size)
-                if self.classification:
-                    outputas, outputbs, lossesa, lossesb, accuraciesa, accuraciesb = result
+                    outputas, outputbs, lossesa, lossesb, accuraciesa, accuraciesb = [], [], [], [], [], []
+                    for i in range(FLAGS.meta_batch_size):
+                        each_input = self.inputa[i], self.inputb[i], self.labela[i], self.labelb[i]
+                        each_outputas, each_outputbs, each_lossesa, each_lossesb, each_accuraciesa, each_accuraciesb = task_metalearn(
+                            each_input)
+                        outputas.append(each_outputas)
+                        outputbs.append(each_outputbs)
+                        lossesa.append(each_lossesa)
+                        lossesb.append(each_lossesb)
+                        accuraciesa.append(each_accuraciesa)
+                        accuraciesb.append(each_accuraciesb)
+                    outputas = tf.stack(outputas)
+                    outputbs = tf.unstack(tf.stack(outputbs), axis=1)
+                    lossesa = tf.stack(lossesa)
+                    lossesb = tf.unstack(tf.stack(lossesb), axis=1)
+                    accuraciesa = tf.stack(accuraciesa)
+                    accuraciesb = tf.unstack(tf.stack(accuraciesb), axis=1)
                 else:
-                    outputas, outputbs, lossesa, lossesb = result
+                    outputas, outputbs, lossesa, lossesb = [], [], [], []
+                    for i in range(FLAGS.meta_batch_size):
+                        each_input = self.inputa[i], self.inputb[i], self.labela[i], self.labelb[i]
+                        each_outputas, each_outputbs, each_lossesa, each_lossesb = task_metalearn(
+                            each_input)
+                        outputas.append(each_outputas)
+                        outputbs.append(each_outputbs)
+                        lossesa.append(each_lossesa)
+                        lossesb.append(each_lossesb)
+                    outputas = tf.stack(outputas)
+                    tmp = []
+                    for i in outputbs:
+                        for j in i:
+                            outputbs = tmp.append(i)
+                    lossesa = tf.stack(lossesa)
+                    lossesb = tf.unstack(tf.stack(lossesb), axis=1)            
 
         logit_keys = sorted([k for k in weights.keys() if 'prob' in k])
         logit_weights = [-weights[k] for k in logit_keys]

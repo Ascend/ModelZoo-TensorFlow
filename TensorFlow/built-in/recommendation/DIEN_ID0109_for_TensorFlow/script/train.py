@@ -37,9 +37,9 @@ import random
 import sys
 from utils import *
 
-EMBEDDING_DIM = 64
-HIDDEN_SIZE = 16 * 2
-ATTENTION_SIZE = 16 * 2
+EMBEDDING_DIM = 18
+HIDDEN_SIZE = 18 * 2
+ATTENTION_SIZE = 18 * 2
 best_auc = 0.0
 
 def prepare_data(input, target, maxlen = None, return_neg = False):
@@ -158,6 +158,8 @@ def train(
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["enable_data_pre_proc"].b = True
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+    ### 配置mm16进32出
+    custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("switch_config.txt")
     sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
     sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 

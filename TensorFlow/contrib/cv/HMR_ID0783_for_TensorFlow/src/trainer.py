@@ -53,6 +53,7 @@ import numpy as np
 
 from os.path import join, dirname
 import deepdish as dd
+import os
 
 # For drawing
 from util import renderer as vis_util
@@ -95,9 +96,8 @@ class HMRTrainer(object):
         # Data
         num_images = num_examples(config.datasets)
         num_mocap = num_examples(config.mocap_datasets)
-
         self.num_itr_per_epoch = num_images / self.batch_size
-        self.num_itr_per_epoch_config = config.num_itr_per_epoch_config  #add
+        self.num_itr_per_epoch_config = config.num_itr_per_epoch_config  # add
         self.num_mocap_itr_per_epoch = num_mocap / self.batch_size
 
         # First make sure data_format is right
@@ -316,7 +316,7 @@ class HMRTrainer(object):
         if not self.encoder_only:
             with tf.name_scope("gather_d_loss"):
                 self.d_loss = self.d_loss_weight * (
-                    self.d_loss_real + self.d_loss_fake)
+                        self.d_loss_real + self.d_loss_fake)
 
         # For visualizations, only save selected few into:
         # B x T x ...
@@ -337,6 +337,8 @@ class HMRTrainer(object):
         print('Setting up optimizer..')
         d_optimizer = self.optimizer(self.d_lr)
         e_optimizer = self.optimizer(self.e_lr)
+        d_optimizer = npu_distributed_optimizer_wrapper(d_optimizer)
+        e_optimizer = npu_distributed_optimizer_wrapper(e_optimizer)
 
         self.e_opt = e_optimizer.minimize(
             self.e_loss, global_step=self.global_step, var_list=self.E_var)
@@ -435,12 +437,12 @@ class HMRTrainer(object):
         # Compute losses:
         with tf.name_scope("comp_d_loss"):
             self.d_loss_real = tf.reduce_mean(
-                tf.reduce_sum((self.d_out_real - 1)**2, axis=1))
+                tf.reduce_sum((self.d_out_real - 1) ** 2, axis=1))
             self.d_loss_fake = tf.reduce_mean(
-                tf.reduce_sum((self.d_out_fake)**2, axis=1))
+                tf.reduce_sum((self.d_out_fake) ** 2, axis=1))
             # Encoder loss
             self.e_loss_disc = tf.reduce_mean(
-                tf.reduce_sum((self.d_out_fake - 1)**2, axis=1))
+                tf.reduce_sum((self.d_out_fake - 1) ** 2, axis=1))
 
     def get_3d_loss(self, Rs, shape, Js):
         """
@@ -484,7 +486,7 @@ class HMRTrainer(object):
         Renderer is an instance of SMPLRenderer.
         """
         gt_vis = gt_kp[:, 2].astype(bool)
-        loss = np.sum((gt_kp[gt_vis, :2] - pred_kp[gt_vis])**2)
+        loss = np.sum((gt_kp[gt_vis, :2] - pred_kp[gt_vis]) ** 2)
         debug_text = {"sc": cam[0], "tx": cam[1], "ty": cam[2], "kpl": loss}
         # Fix a flength so i can render this with persp correct scale
         f = 5.
@@ -557,19 +559,27 @@ class HMRTrainer(object):
             face_path=self.config.smpl_face_path)
 
         step = 0
-        perf_list=[]
-        fps_list=[]
+        perf_list = []
+        fps_list = []
         # define sess config
         sess_config = tf.ConfigProto()
         custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
         custom_op.parameter_map["use_off_line"].b = True
-        custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision") # mix precision
-        custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("src/ops_info.json")
+        custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")  # mix precision
+        custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("./ops_info.json")
+        custom_op.parameter_map["hcom_parallel"].b = True
         sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # close remap
         sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 
         with self.sv.managed_session(config=sess_config) as sess:
+
+            sess.graph._unsafe_unfinalize()  # 取消最终确定Graph
+            rank_size = int(os.environ.get('RANK_SIZE', ''))
+            if rank_size > 1:
+                input = tf.trainable_variables()
+                bcast_global_variables_op = hccl_ops.broadcast(input, 0)
+                sess.run(bcast_global_variables_op)
             # Save graph.
             tf.io.write_graph(sess.graph, self.model_dir, 'graph.pbtxt', as_text=True)
             while not self.sv.should_stop():
@@ -607,61 +617,65 @@ class HMRTrainer(object):
                     })
                     if not self.encoder_only:
                         fetch_dict.update({
-                            "summary_occasional":
-                            self.summary_op_occ
+                            "summary_occasional": self.summary_op_occ
                         })
-
                 t0 = time()
                 result = sess.run(fetch_dict)
+
                 # compute metrics MPJPE and PA_MPJPE
                 MPJPE, PA_MPJPE = compute_errors_w_mask(
                     result["gt_joints"] * 1000.,
                     result["pred_joints"] * 1000.,
                     result["has_gt3d_joints"])
                 t1 = time()
-                
+
                 self.summary_writer.add_summary(
                     result['summary'], global_step=result['step'])
 
                 e_loss = result['e_loss']
                 step = result['step']
 
-                epoch = float(step) / (self.num_itr_per_epoch - self.num_itr_per_epoch_config)  #add  4031
+
+                # epoch = float(step) / (self.num_itr_per_epoch - self.num_itr_per_epoch_config)  #add  4031
+                epoch = float(step) / ((self.num_itr_per_epoch - self.num_itr_per_epoch_config) // rank_size)  # add  4031
                 if self.encoder_only:
                     print("itr %d/(epoch %.1f): time %g, Enc_loss: %.4f, MPJPE: %.1f, PA_MPJPE: %.1f" %
                           (step, epoch, t1 - t0, e_loss, MPJPE, PA_MPJPE))
                 else:
                     d_loss = result['d_loss']
                     if step > 2:
-                        perf = t1 - t0    #add
-                        fps = self.batch_size / perf   #add
+                        perf = t1 - t0  # add
+                        # fps = self.batch_size / perf   #add
+                        fps = rank_size * self.batch_size / perf  # add
                         perf_list.append(perf)
                         avg_perf = np.mean(perf_list)
                         fps_list.append(fps)
                         avg_fps = np.mean(fps_list)
-                        print(
-                            "itr %d/(epoch %.1f): time %g fps %.4f avg_perf %.4f avg_fps %.4f Enc_loss: %.4f  Disc_loss: %.4f  MPJPE: %.1f, PA_MPJPE: %.1f"
-                            % (step, epoch, perf, fps, avg_perf, avg_fps, e_loss, d_loss, MPJPE, PA_MPJPE))   #add
+                        print("itr %d/(epoch %.1f): time %g fps %.4f avg_perf %.4f avg_fps %.4f Enc_loss: %.4f  Disc_loss: %.4f  MPJPE: %.1f, PA_MPJPE: %.1f"
+                                % (step, epoch, perf, fps, avg_perf, avg_fps, e_loss, d_loss, MPJPE, PA_MPJPE))  # add
 
                 if step % self.log_img_step == 0:
                     if not self.encoder_only:
                         self.summary_writer.add_summary(
                             result['summary_occasional'],
                             global_step=result['step'])
-                    #self.draw_results(result)          #add
-                
-                if step % 5000 == 0:      #(5000)----------------------------------------
-                    print("******************model_dir************",self.model_dir)
+                    # self.draw_results(result)          #add
+
+                if step % 5000 == 0:  # (5000)----------------------------------------
+                    print("******************model_dir************", self.model_dir)
                     self.saver.save(
                         sess,
                         join(self.model_dir, 'model.ckpt'),
                         global_step=step
                     )
 
+                # print("d_lr=== %.4f , e_lr== %.4f " % (self.d_lr, self.e_lr))
+
                 self.summary_writer.flush()
                 if epoch > self.max_epoch:
                     self.sv.request_stop()
 
                 step += 1
+
 
         print('Finish training on %s' % self.model_dir)

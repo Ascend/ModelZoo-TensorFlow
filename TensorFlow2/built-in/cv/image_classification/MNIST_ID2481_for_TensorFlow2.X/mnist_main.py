@@ -47,15 +47,13 @@ import distribute_utils
 import common
 import core as flags_core
 import model_helpers
-
 import npu_convert_dropout
 
 FLAGS = flags.FLAGS
-
 def npu_config():
   FLAGS = flags.FLAGS
   npu_config = {}
-
+  npu_device.global_options().hcom_parallel=True
   if FLAGS.data_dump_flag:
     npu_device.global_options().dump_config.enable_dump = True
     npu_device.global_options().dump_config.dump_path = FLAGS.data_dump_path
@@ -135,6 +133,8 @@ def run(flags_obj, datasets_override=None, strategy_override=None):
     Dictionary of training and eval stats.
   """
   # Start TF profiler server.
+
+
   tf.profiler.experimental.server.start(flags_obj.profiler_port)
 
   strategy = strategy_override or distribute_utils.get_distribution_strategy(
@@ -147,31 +147,44 @@ def run(flags_obj, datasets_override=None, strategy_override=None):
   mnist = tfds.builder('mnist', data_dir=flags_obj.data_dir)
   if flags_obj.download:
     mnist.download_and_prepare()
-
   mnist_train, mnist_test = datasets_override or mnist.as_dataset(
       split=['train', 'test'],
       decoders={'image': decode_image()},  # pylint: disable=no-value-for-parameter
       as_supervised=True)
-  train_input_dataset = mnist_train.cache().repeat().shuffle(
-      buffer_size=50000).batch(flags_obj.batch_size, drop_remainder = flags_obj.eval_static)
-  eval_input_dataset = mnist_test.cache().repeat().batch(flags_obj.batch_size, drop_remainder = flags_obj.eval_static)
 
+
+  if flags_obj.mul_rank_size != 1:
+      mnist_train, flags_obj.batch_size = npu_device.distribute.shard_and_rebatch_dataset(mnist_train, flags_obj.batch_size*flags_obj.mul_rank_size)
+  
+  train_input_dataset = mnist_train.cache().repeat().shuffle(buffer_size=50000).batch(flags_obj.batch_size, drop_remainder = flags_obj.eval_static)
+  eval_input_dataset = mnist_test.cache().repeat().batch(flags_obj.batch_size, drop_remainder = flags_obj.eval_static)
   with strategy_scope:
     lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
         0.05, decay_steps=100000, decay_rate=0.96)
     optimizer = tf.keras.optimizers.SGD(learning_rate=lr_schedule)
+    # npu分布式梯度聚合的优化器封装
+    if flags_obj.mul_rank_size != 1:
+        optimizer = npu_device.distribute.npu_distributed_keras_optimizer_wrapper(optimizer)
 
     model = build_model()
     model.compile(
         optimizer=optimizer,
         loss='sparse_categorical_crossentropy',
         metrics=['sparse_categorical_accuracy'])
+  # work变量初始值同步
+  if flags_obj.mul_rank_size != 1:
+    training_vars = model.trainable_variables
+    npu_device.distribute.broadcast(training_vars, root_rank=0)
 
   num_train_examples = mnist.info.splits['train'].num_examples
   train_steps = num_train_examples // flags_obj.batch_size
   train_epochs = flags_obj.train_epochs
 
-  ckpt_full_path = os.path.join(flags_obj.model_dir, 'model.ckpt-{epoch:04d}')
+  if flags_obj.mul_rank_size != 1:
+      print("Show device used %s ." % flags_obj.mul_device_id)
+      ckpt_full_path = os.path.join(flags_obj.model_dir, str(flags_obj.mul_device_id), 'model.ckpt-{epoch:04d}')
+  else:
+      ckpt_full_path = os.path.join(flags_obj.model_dir, 'model.ckpt-{epoch:04d}')
   callbacks = [
       tf.keras.callbacks.ModelCheckpoint(
           ckpt_full_path, save_weights_only=True),
@@ -181,7 +194,6 @@ def run(flags_obj, datasets_override=None, strategy_override=None):
 
   num_eval_examples = mnist.info.splits['test'].num_examples
   num_eval_steps = num_eval_examples // flags_obj.batch_size
-
   history = model.fit(
       train_input_dataset,
       epochs=train_epochs,
@@ -242,6 +254,8 @@ def define_mnist_flags():
                       help='mixlist file name, default is ops_info.json')
   flags.DEFINE_string(name='fusion_off_file', default='fusion_switch.cfg',
                       help='fusion_off file name, default is fusion_switch.cfg')
+  flags.DEFINE_integer(name="mul_rank_size", default=1, help="number of npu device")
+  flags.DEFINE_integer(name="mul_device_id", default=0, help="indicator of npu device")
   FLAGS.set_default('batch_size', 1024)
 
 

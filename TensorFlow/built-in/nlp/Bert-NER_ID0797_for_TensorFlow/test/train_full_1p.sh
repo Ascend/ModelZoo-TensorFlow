@@ -82,8 +82,13 @@ if [[ $data_path == "" ]];then
     exit 1
 fi
 
+mkdir -p $cur_path/../output
+cp -r $data_path/result_dir $cur_path/../output/
+
 #训练开始时间，不需要修改
 start_time=$(date +%s)
+
+cp -r $data_path/bert $cur_path/
 
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../
@@ -112,6 +117,7 @@ do
            --do_eval=True   \
            --do_predict=True \
            --data_dir=$data_path/data   \
+           --middle_output=$data_path/middle_data    \
            --vocab_file=$data_path/cased_L-12_H-768_A-12/vocab.txt  \
            --bert_config_file=$data_path/cased_L-12_H-768_A-12/bert_config.json \
            --init_checkpoint=$data_path/cased_L-12_H-768_A-12/bert_model.ckpt   \

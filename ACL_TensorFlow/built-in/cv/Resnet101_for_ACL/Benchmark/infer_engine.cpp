@@ -378,7 +378,7 @@ aclError DVPP_Resnet101(std::string fileLocation, char *&ptr)
     //2.0 Prepare the ouputDesc of decode
     GetImageHW(buff, fileSize, fileLocation, W, H);
     H_Aligned = (H + 15) / 16 * 16;
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
 	W_Aligned = (W + 63) / 64 * 64;
     if(W_Aligned > 4096 || H_Aligned > 4096)
     {
@@ -429,7 +429,7 @@ aclError DVPP_Resnet101(std::string fileLocation, char *&ptr)
         LOG("Malloc decodeOutput buff failed[%d]\n", ret);
         return ret;
     }
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     decodeOutputDesc = createDvppPicDesc(decodeOutput, acldvppPixelFormat(aclformat), W, H, W_Aligned, H_Aligned, outputBuffSize);
     LOG("file[%s] jpeg picDesc info: W=%d, H=%d, W_Aligned=%d, H_Aligned=%d, outBufSize=%d, format=%d\n", \ 
                 fileLocation.c_str(),W, H, W_Aligned, H_Aligned, outputBuffSize, acldvppPixelFormat(aclformat));
@@ -466,7 +466,7 @@ aclError DVPP_Resnet101(std::string fileLocation, char *&ptr)
 
 
     /*********************************Crop and resize*************************************/
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
 	 uint32_t w_new = acldvppGetPicDescWidth(decodeOutputDesc);
      uint32_t h_new = acldvppGetPicDescHeight(decodeOutputDesc);
      uint32_t format = acldvppGetPicDescFormat(decodeOutputDesc);
@@ -501,7 +501,7 @@ aclError DVPP_Resnet101(std::string fileLocation, char *&ptr)
         return ret;
     }
     //3.0 crop
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
 	acldvppResizeConfig *resizeConfig = acldvppCreateResizeConfig();
 	ret = acldvppSetResizeConfigInterpolation(resizeConfig, 1);
 	if (ret != ACL_ERROR_NONE)
@@ -542,7 +542,7 @@ aclError DVPP_Resnet101(std::string fileLocation, char *&ptr)
         LOG("create centerCropOutputDesc failed\n");
         return ret;
     }
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     ret = acldvppVpcCropResizeAsync(dvpp_channel_desc, cropOutputDesc, centerCropOutputDesc, centerCropConfig, resizeConfig, stream);
 #else
     ret = acldvppVpcCropAsync(dvpp_channel_desc, cropOutputDesc, centerCropOutputDesc, centerCropConfig, stream);
@@ -642,7 +642,7 @@ acldvppRoiConfig *InitCropRoiConfig(uint32_t width, uint32_t height)
     uint32_t bottom = 0;
     acldvppRoiConfig *cropConfig;
 
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
     right = width - 1;
     bottom = height - 1;
 #else
@@ -736,7 +736,7 @@ void SmallSizeAtLeast(uint32_t width, uint32_t height, uint32_t &newInputWidth, 
         newInputHeight = resizeMin;
         std::cout << "[INFO]scaleRatio: " << resizeMin / height << " width: " << width << " newInputWidth: " << newInputWidth << " height: " << height << " newInputHeight:" << newInputHeight << std::endl;
     }
-#ifdef ASCEND710_DVPP
+#ifdef ASCEND310P3_DVPP
 	if(newInputWidth % 2 != 0)
 	{
 	  newInputWidth= newInputWidth-1;

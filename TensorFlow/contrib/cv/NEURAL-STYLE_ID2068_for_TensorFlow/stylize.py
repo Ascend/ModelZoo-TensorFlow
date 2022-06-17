@@ -103,6 +103,11 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
     config = tf.ConfigProto()
     custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("/home/ma-user/modelarts/inputs/data_url_0/switch_config.txt")
+    custom_op.parameter_map["mix_compile_mode"].b = True
+    custom_op.parameter_map["use_off_line"].b = True
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+    #custom_op.parameter_map["auto_tune_mode"].s = tf.compat.as_bytes("RL,GA")
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
     config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
     with g.as_default(), tf.Session(config=config) as sess:
@@ -118,6 +123,9 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
         config = tf.ConfigProto()
         custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
+        custom_op.parameter_map["mix_compile_mode"].b = True
+        custom_op.parameter_map["use_off_line"].b = True
+        custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
         config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
         config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
         with g.as_default(), tf.Session(config=config) as sess:
@@ -207,12 +215,32 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
         train_step = tf.train.AdamOptimizer(learning_rate, beta1, beta2, epsilon).minimize(loss)
 
 
+
+        # opt = tf.train.AdamOptimizer(learning_rate, beta1, beta2, epsilon)#.minimize(loss)
+        # loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=2, decr_ratio=0.5)
+        # opt = NPULossScaleOptimizer(opt, loss_scale_manager, is_distributed=False)
+        # train_step = opt.minimize(loss)
+        # #
+        # #
+        # lossScale = tf.get_default_graph().get_tensor_by_name("loss_scale:0")
+        # overflow_status_reduce_all = tf.get_default_graph().get_tensor_by_name("overflow_status_reduce_all:0")
+
+
+
         # optimization
         best_loss = float('inf')
         best = None
         config = tf.ConfigProto()
         custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
+        custom_op.parameter_map["use_off_line"].b = True
+        custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+        #custom_op.parameter_map["profiling_mode"].b = True
+        #custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes(
+        #    '{"output":"/home/ma-user/modelarts/outputs/train_url_0/","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"resnet_model/conv2d/Conv2Dresnet_model/batch_normalization/FusedBatchNormV3_Reduce","bp_point":"gradients/AddN_70"}')
+        #custom_op.parameter_map["enable_data_pre_proc"].b = True  # getnext算子下沉是迭代循环下沉的必要条件
+        #custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+        #custom_op.parameter_map["iterations_per_loop"].i = 1 # 此处设置的值和set_iteration_per_loop设置的iterations_per_loop值保持一致，用于判断是否进行训练迭代下沉
         config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
         config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
         with tf.Session(config=config) as sess:
@@ -240,8 +268,6 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
 
                 else:
                     print('Iteration %4d/%4d' % (i + 1, iterations))
-                #train_step.run()
-                train_op = util.set_iteration_per_loop(sess, train_step, 10)
                 train_step.run()
 
                 last_step = (i == iterations - 1)
@@ -291,6 +317,11 @@ def stylize(network, initial, initial_noiseblend, content, styles, preserve_colo
                         img_out = np.array(Image.fromarray(combined_yuv, 'YCbCr').convert('RGB'))
                 else:
                     img_out = None
+
+                #ls= sess.run([lossScale])
+                #overflow_status_reduce_all=sess.run([overflow_status_reduce_all])
+                #print("lossscale:",ls)
+                #print("overflow_status_reduce_all:", overflow_status_reduce_all)
 
                 yield i+1 if last_step else i, img_out, loss_vals
 
