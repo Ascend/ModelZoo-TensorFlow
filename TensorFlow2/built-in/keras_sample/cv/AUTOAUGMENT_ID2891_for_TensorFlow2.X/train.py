@@ -105,7 +105,7 @@ def parse_args():
     parser.add_argument('--profiling', dest='profiling', type=ast.literal_eval,
                         help='if or not profiling for performance debug, default is False')
     parser.add_argument('--profiling_dump_path', default="/home/data", type=str, help='the path to save profiling data')
-    parser.add_argument('--over_dump_path', default="/home/zwx1138188/tools-master/precision_tool/npu/debug_0/graph/dump", type=str, help='the path to save over dump data')
+    parser.add_argument('--over_dump_path', default="/home/data", type=str, help='the path to save over dump data')
     parser.add_argument('--data_dump_path', default="/home/data", type=str, help='the path to save dump data')
     parser.add_argument('--use_mixlist', dest='use_mixlist', type=ast.literal_eval,
                         help='use_mixlist flag, default is False')
