@@ -34,7 +34,7 @@
       
       2.3 再运行bash ./eval_inference.sh, 推理结果设置存放在bin_out中
       
-      2.4 运行 python3 ./eval_acc_310.py ,即可得到验证集的推理精度。
+      2.4 运行 python3 ./eval_acc.py ,即可得到验证集的推理精度。
 
    ```
 
