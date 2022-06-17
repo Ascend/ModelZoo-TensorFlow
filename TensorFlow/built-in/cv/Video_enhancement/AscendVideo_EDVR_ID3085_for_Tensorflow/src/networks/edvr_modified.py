@@ -20,7 +20,7 @@ import tensorflow as tf
 
 from src.layers import Conv2D, ActLayer
 from src.modules import Conv2DNormAct, ResBlockNoBN
-from src.ops import depth_to_space, resize, split
+from src.ops import depth_to_space, resize, split, get_tensor_shape
 from src.modules.edvr_submodules import PCDAlign, TSAFusion, PCWoDCN
 from src.networks.base_model import Base
 from src.runner.common import name_space
@@ -31,8 +31,9 @@ class EDVRVariant(Base):
     """EDVR video super-resolution network.
 
     Args:
-        cfg: yacs node. EDVR configures configured in edvr_config.py. 
+        cfg: yacs node. EDVR configures configured in edvr_config.py.
     """
+
     def __init__(self, cfg):
         super().__init__(cfg)
         self.with_tsa = cfg.edvr.with_tsa
@@ -52,16 +53,15 @@ class EDVRVariant(Base):
                                         upsample_method=self.cfg.edvr.upsampling,
                                         align_corners=self.cfg.edvr.align_corners)
 
-        self.tsa_fusion_module = TSAFusion(self.num_net_input_frames, 
-                                           self.mid_channels, 
+        self.tsa_fusion_module = TSAFusion(self.num_net_input_frames,
+                                           self.mid_channels,
                                            self.cfg.edvr.upsampling,
                                            align_corners=self.cfg.edvr.align_corners)
-        
+
     def feature_extraction(self, x, act_cfg=dict(type='LeakyRelu', alpha=0.1)):
         # extract LR features
         with tf.variable_scope('extraction', reuse=tf.AUTO_REUSE):
             # L1
-            # l1_feat = tf.reshape(x, [-1, x.shape[2], x.shape[3], x.shape[4]])
             l1_feat = Conv2D(self.mid_channels, name='conv_first')(x)
             l1_feat = ActLayer(act_cfg)(l1_feat)
             l1_feat = ResBlockNoBN(num_blocks=self.num_blocks_extraction, mid_channels=self.mid_channels)(l1_feat)
@@ -76,20 +76,21 @@ class EDVRVariant(Base):
 
     def reconstruction(self, feat, x_center, act_cfg=dict(type='LeakyRelu', alpha=0.1)):
         # reconstruction
-        out_channel = x_center.get_shape().as_list()[-1]
+        out_channel = get_tensor_shape(x_center, dim=-1)
         with tf.variable_scope('reconstruction', reuse=tf.AUTO_REUSE):
             out = ResBlockNoBN(num_blocks=self.num_blocks_reconstruction, mid_channels=self.mid_channels)(feat)
 
             out = Conv2D(self.mid_channels * (self.scale ** 2), name='upsample')(out)
             out = depth_to_space(out, self.scale)
 
-            out = Conv2D(self.mid_channels, name='conv_hr')(out)
+            out = Conv2D(self.mid_channels, name='conv_hr', input_channels=self.mid_channels)(out)
             out = ActLayer(act_cfg)(out)
             out = Conv2D(out_channel, name='conv_last')(out)
-            
+
+            x_center_shape = get_tensor_shape(x_center)
             base = resize(
                 x_center,
-                size=[x_center.shape[1] * self.scale, x_center.shape[2] * self.scale],
+                size=[x_center_shape[1] * self.scale, x_center_shape[2] * self.scale],
                 align_corners=self.cfg.edvr.align_corners,
                 name='img_upsample', method=self.cfg.edvr.upsampling)
             base = tf.cast(base, tf.float32)
@@ -103,11 +104,12 @@ class EDVRVariant(Base):
         # shape of x: [B,T_in,H,W,C]
         with tf.variable_scope(self.generative_model_scope, reuse=tf.AUTO_REUSE):
             if self.cfg.model.input_format_dimension == 4:
-                x_shape = x.get_shape().as_list()
-                x = tf.reshape(x, [-1, self.num_net_input_frames, *x_shape[1:]])
+                x_shape = get_tensor_shape(x)
+                batch = x_shape[0] // self.num_net_input_frames
+                x = tf.reshape(x, [batch, self.num_net_input_frames, *x_shape[1:]])
 
             x_list = split(x, self.num_net_input_frames, axis=1, keep_dims=False)
-            x_center = x_list[self.num_net_input_frames//2]
+            x_center = x_list[self.num_net_input_frames // 2]
 
             l1_feat_list = []
             l2_feat_list = []
@@ -118,10 +120,10 @@ class EDVRVariant(Base):
                 l2_feat_list.append(l2_feat)
                 l3_feat_list.append(l3_feat)
 
-            ref_feats = [  
-                l1_feat_list[self.num_net_input_frames//2],
-                l2_feat_list[self.num_net_input_frames//2],
-                l3_feat_list[self.num_net_input_frames//2]
+            ref_feats = [
+                l1_feat_list[self.num_net_input_frames // 2],
+                l2_feat_list[self.num_net_input_frames // 2],
+                l3_feat_list[self.num_net_input_frames // 2]
             ]
             aligned_feat = []
 
@@ -139,9 +141,10 @@ class EDVRVariant(Base):
                 feat = self.tsa_fusion_module(aligned_feat)
             else:
                 aligned_feat = tf.stack(aligned_feat, axis=3)
-                aligned_feat_shape = aligned_feat.shape
+                aligned_feat_shape = get_tensor_shape(aligned_feat)
                 aligned_feat = tf.reshape(aligned_feat, [*aligned_feat_shape[:3], -1])
-                feat = Conv2D(self.mid_channels, kernel_size=[1, 1], name='fusion')(aligned_feat)
+                feat = Conv2D(self.mid_channels, kernel_size=[1, 1], name='fusion',
+                              input_channels=self.mid_channels * 3)(aligned_feat)
 
             # reconstruction
             out = self.reconstruction(feat, x_center)
@@ -157,7 +160,7 @@ class EDVRVariant(Base):
         os.makedirs(os.path.join(self.output_dir, 'intermediate'), exist_ok=True)
 
         output_file = os.path.join(self.output_dir, 'intermediate', f'step{step:06d}_lr.png')
-        imwrite(output_file, np.squeeze(lr[0, self.num_net_input_frames//2]),
+        imwrite(output_file, np.squeeze(lr[0, self.num_net_input_frames // 2]),
                 source_color_space=self.cfg.data.color_space)
 
         output_file = os.path.join(self.output_dir, 'intermediate', f'step{step:06d}_hr.png')
