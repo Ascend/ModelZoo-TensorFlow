@@ -129,7 +129,7 @@ def loose_loading(sess, scope, directory, checkpoint):
         loading_cond = v.name.split(':')[0] in var_dic and (scope in v.name.split(':')[0])
         if loading_cond:
             var_restore.append(v)
-            logger.info('Match: {} {} Expect {} / Get {}'.format(v.name, v.dtype, v.shape, var_dic[v.name.split(':')[0]]))
+            logger.info('Match: {} {} {}/{}'.format(v.name, v.dtype, v.shape, var_dic[v.name.split(':')[0]]))
         else:
             logger.info('Miss: {} {}'.format(v.name, v.shape))
             var_missing.append(v.name)

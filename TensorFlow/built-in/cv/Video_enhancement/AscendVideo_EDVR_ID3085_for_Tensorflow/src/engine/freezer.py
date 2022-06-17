@@ -35,15 +35,18 @@ class _Freezer:
     def __init__(self, dataloader, network, cfg, **kwargs):
         self.cfg = cfg
         self.network = network
-        self.adapter = NetworkIOAdapter(cfg)   # do not register_raw_size. Use the setting value
+        # self.adapter = NetworkIOAdapter(cfg)   # do not register_raw_size. Use the setting value
 
         # Different from the inference, we'll fix the input size.
         # The fixed input size is given by:
         #   cfg.data.inference.best_patch_size[0] + pads_h + cfg.data.inference.patch_pad_size[0]
         #   cfg.data.inference.best_patch_size[1] + pads_w + cfg.data.inference.patch_pad_size[1]
-        self.adapter.register_raw_size(cfg.data.inference.input_size)
+        # pads_h, pads_w = self.adapter.cal_adapted_size(self.adapter.best_in_size)
+        # self.adapter.limited_in_size = [self.adapter.best_in_size[0] + pads_h + self.adapter.eval_pad_size*2,
+        #                                 self.adapter.best_in_size[1] + pads_w + self.adapter.eval_pad_size*2]
+        # self.adapter.register_raw_size(self.adapter.limited_in_size)
 
-        self.network.build_graph(input_size=(1, self.adapter.input_size))
+        self.network.build_graph(input_size=(cfg.data.inference.batch_size, (None, None)))
 
     def restore(self):
         """

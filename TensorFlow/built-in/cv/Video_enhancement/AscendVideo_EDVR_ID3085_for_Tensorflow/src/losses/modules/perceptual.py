@@ -18,6 +18,7 @@ import tensorflow as tf
 
 from src.runner.common import name_space
 from src.utils.logger import logger
+from src.ops import get_tensor_shape
 
 from .vgg import VGG19_slim
 
@@ -83,11 +84,11 @@ def build_perceptual_loss(generated, targets, module_cfg):
     module = module_cfg.get('module', 'vgg_19')
 
     # Convert to 4D shape.
-    gen_shape = generated.get_shape().as_list()
+    gen_shape = get_tensor_shape(generated)
     if len(gen_shape) == 5:
         generated = tf.reshape(generated, shape=(-1, *gen_shape[2:]))
 
-    tar_shape = targets.get_shape().as_list()
+    tar_shape = get_tensor_shape(targets)
     if len(tar_shape) == 5:
         targets = tf.reshape(targets, shape=(-1, *tar_shape[2:]))
 
@@ -134,11 +135,11 @@ def build_content_style_loss(generated, targets, module_cfg):
     """
     module = module_cfg.get('module', 'vgg_19')
 
-    gen_shape = generated.get_shape().as_list()
+    gen_shape = get_tensor_shape(generated)
     if len(gen_shape) == 5:
         generated = tf.reshape(generated, shape=(-1, *gen_shape[2:]))
 
-    tar_shape = targets.get_shape().as_list()
+    tar_shape = get_tensor_shape(targets)
     if len(tar_shape) == 5:
         targets = tf.reshape(targets, shape=(-1, *tar_shape[2:]))
 

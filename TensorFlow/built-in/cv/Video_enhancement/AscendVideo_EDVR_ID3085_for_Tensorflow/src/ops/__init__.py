@@ -15,3 +15,4 @@
 from .upsample import *
 from .edge import *
 from .slicing import *
+from .shape import *

@@ -15,6 +15,7 @@
 import tensorflow as tf
 
 from src.utils.utils import to_pair
+from src.ops.shape import get_tensor_shape
 
 __all__ = [
     'resize', 'depth_to_space', 'space_to_depth', 
@@ -42,13 +43,13 @@ def depth_to_space(x, scale, use_default=False, data_format='NHWC'):
     if use_default:
         out = tf.nn.depth_to_space(x, scale, data_format=data_format)
     elif data_format == 'NHWC':
-        b, h, w, c = x.get_shape().as_list()
+        b, h, w, c = get_tensor_shape(x)
         c_scaled = c // (scale**2)
         out = tf.reshape(x, [-1, h, w, scale, scale, c_scaled])
         out = tf.transpose(out, [0, 1, 3, 2, 4, 5])
         out = tf.reshape(out, [-1, h * scale, w * scale, c_scaled])
     elif data_format == 'NCHW':
-        b, c, h, w = x.get_shape().as_list()
+        b, c, h, w = get_tensor_shape(x)
         c_scaled = c // (scale**2)
         out = tf.reshape(x, [-1, scale, scale, c_scaled, h, w])
         out = tf.transpose(out, [0, 3, 4, 1, 5, 2])
@@ -78,13 +79,13 @@ def space_to_depth(x, scale, use_default=False, data_format='NHWC'):
     if use_default:
         out = tf.nn.space_to_depth(x, scale, data_format=data_format)
     elif data_format == 'NHWC':
-        b, h, w, c = x.get_shape().as_list()
+        b, h, w, c = get_tensor_shape(x)
         c_scaled = c * (scale**2)
         out = tf.reshape(x, [-1, h//scale, scale, w//scale, scale, c])
         out = tf.transpose(out, [0, 1, 3, 2, 4, 5])
         out = tf.reshape(out, [-1, h//scale, w//scale, c_scaled])
     elif data_format == 'NCHW':
-        b, c, h, w = x.get_shape().as_list()
+        b, c, h, w = get_tensor_shape(x)
         c_scaled = c * (scale**2)
         out = tf.reshape(x, [-1, c, h//scale, scale, w//scale, scale])
         out = tf.transpose(out, [0, 3, 5, 1, 2, 4])
@@ -147,7 +148,7 @@ def decimation_up(x, scale, data_format='NHWC'):
     Returns:
         tensor, which has the shape [N, H*scale, W*scale, C].
     """
-    x_shape = x.get_shape().as_list()
+    x_shape = get_tensor_shape(x)
 
     scale = to_pair(scale, 2)
     sh, sw = scale
@@ -195,7 +196,7 @@ def decimation_down(x, scale, data_format='NCHW'):
     Returns:
         tensor, which has the shape [N, H/scale, W/scale, C]
     """
-    x_shape = x.get_shape().as_list()
+    x_shape = get_tensor_shape(x)
 
     scale = to_pair(scale, 2)
     sh, sw = scale
