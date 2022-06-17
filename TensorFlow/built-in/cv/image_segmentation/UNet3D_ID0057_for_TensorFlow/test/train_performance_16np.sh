@@ -70,7 +70,6 @@ wait
 export RANK_TABLE_FILE=$cur_path/rank_table.json
 export HCCL_CONNECT_TIMEOUT=600
 RANK_ID_START=0
-RANK_SIZE=16
 
 #设置默认日志级别,不需要修改
 #export ASCEND_GLOBAL_LOG_LEVEL_ETP=1
