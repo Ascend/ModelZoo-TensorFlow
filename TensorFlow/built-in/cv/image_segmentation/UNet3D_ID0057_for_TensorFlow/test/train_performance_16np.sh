@@ -3,7 +3,7 @@
 cur_path=`pwd`
 #集合通信参数,不需要修改
 source /usr/local/Ascend/CANN-1.81/bin/setenv.bash
-
+export JOB_ID=10087
 # 数据集路径,保持为空,不需要修改
 data_path=""
 
