@@ -85,3 +85,5 @@ Our result was obtained by running the applicable inference script. To achieve t
 | :---------------: | :-------: | :-------------: |
 | offline Inference | 50000 images | 71.0 %/ 89.8% |
 
+## Reference
+[1] https://github.com/tensorflow/models/tree/master/research/slim
