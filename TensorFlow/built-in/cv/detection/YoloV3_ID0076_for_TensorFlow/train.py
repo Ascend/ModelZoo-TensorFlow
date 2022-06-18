@@ -107,8 +107,8 @@ if args_input.train_file:
     args.train_file = args_input.train_file
 if args_input.save_dir:
     args.save_dir = args_input.save_dir
-if args_input.batch_size:
-    args.batch_size = args_input.batch_size
+#if args_input.batch_size:
+#    args.batch_size = args_input.batch_size
 if args_input.total_epoches:
     args.total_epoches = args_input.total_epoches
 print('setting train mode %s.' % args_input.mode)
