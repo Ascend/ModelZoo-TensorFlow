@@ -92,3 +92,6 @@ Our result were obtained by running the applicable inference script. To achieve 
 | :---------------:|:-------:|:-------: | :-------------: |
 | offline Inference| Ascend310     | 50K images | 72.82 %/ 91.24% |
 | offline Inference| Ascend310P3     | 50K images | 73.4 %/ 91.7% |
+
+## Reference
+[1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/VGG16_ID0068_for_TensorFlow
