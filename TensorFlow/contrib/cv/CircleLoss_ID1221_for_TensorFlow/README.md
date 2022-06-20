@@ -1,5 +1,3 @@
-![TensorFlow Requirement: 1.x](https://img.shields.io/badge/TensorFlow%20Requirement-1.x-brightgreen)
-
 # CircleLoss
 
 **Circle Loss: A Unified Perspective of Pair Similarity Optimization**
@@ -14,57 +12,67 @@ ArXiv: [https://arxiv.org/abs/2002.10857](https://arxiv.org/abs/2002.10857)
 
 ![image-20210906114857004](https://picbed-1301760901.cos.ap-guangzhou.myqcloud.com/image-20210906114857004.png)
 
+
+- 适配昇腾 AI 处理器的实现：
+    
+        
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/CircleLoss_ID1221_for_TensorFlow
+        
+
+
+
+
+- 精度
+
+| -   | 论文    | GPU （v100） | NPU   |
+|-----|-------|------------|-------|
+| acc | 0.997 | 0.948      | 0.951 |
+
+- 性能
+
+| batchsize  |image_size| GPU （v100）   | NPU          |
+|---|---|--------------|--------------|
+| 30  | 112 x 112| 0.076 s/step | 0.046 s/step |
+
+
+- ## 5.Loss曲线
+
+![loss曲线](loss曲线.png)
+
+- 训练超参
+
+  - Batch size: 30
+  - Learning rate(LR): 0.1
+  - Optimizer: Adam
+  - Loss: Circle loss
+
+## 支持特性
+
+| 特性列表  | 是否支持 |
+|-------|------|
+| 分布式训练 | 否    |
+| 混合精度  | 是    |
+| 并行数据  | 否    |
+
+   
 ## 1. 依赖库安装
 
-见Requirements.txt， 需要安装 numpy， scikit-image， tensorflow等库。
+见requirements.txt， 需要安装 numpy， scikit-image， tensorflow等库。
 
-## 2.  数据集
+## 2. 模型运行
 
-模型训练采用MARKET1501数据集，将文件夹解压到 /Data/ 下
+- 模型精度评估
 
-https://www.kaggle.com/pengcw1/market-1501/data
+  1.启动模型精度评估。
 
-## 3. 训练
+     ```
+     python modelarts_entry_acc.py --data_url obs://cann-id1221/dataset/ --train_url obs://cann-id1221/npu/
+     ```
 
-将模型预训练权重放置到 /checkpoint/ 下
+- 模型性能评估。
 
-训练脚本为`train_npu.py`，跳转至项目根目录下，直接执行以下命令即可：
+  1启动模型性能评估。
 
-```bash
-bash script/train.sh
-```
-
-
-
-## 4. NPU性能
-
-
-
-## 5.Loss曲线
-
-![image-20211206125601106](https://picbed-1301760901.cos.ap-guangzhou.myqcloud.com/image-20211206125601106.png)
-
-## 6. 精度对比
-
-论文中的测试精度如下所示
-
-![image-20211206124710842](https://picbed-1301760901.cos.ap-guangzhou.myqcloud.com/image-20211206124710842.png)
-
-使用NPU训练后得到的测试集精度如下所示：
-
-表格：Market-1501数据集上Circle loss 应用于ResNet50训练的测试结果，其中包括了R-1准确率（%）和mAP（%）
-
-| Method      | R-1  | mAP  |
-| ----------- | ---- | ---- |
-| 原论文精度  | 94.2 | 84.9 |
-| GPU复现精度 | 81.0 | 62.1 |
-| NPU复现精度 |  80.9 |  61.5 |
-
-## Contact
-
-Please assign issues to [@louis-yx](https://gitee.com/louis-yx) if you have any question.
-
-## Credits
-
-This implementation is derived from [Person_reID_baseline_pytorch](https://github.com/layumi/Person_reID_baseline_pytorch) by [layumi](https://github.com/layumi).
-
+     ```
+     python modelarts_entry_acc.py --data_url obs://cann-id1221/dataset/ --train_url obs://cann-id1221/npu/
+     ```
