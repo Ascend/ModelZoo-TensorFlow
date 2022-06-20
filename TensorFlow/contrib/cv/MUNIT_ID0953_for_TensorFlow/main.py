@@ -32,7 +32,7 @@ from MUNIT import MUNIT
 import argparse
 from utils import *
 # from help_modelarts import modelarts_result2obs
-import precision_tool.tf_config as npu_tf_config
+# import precision_tool.tf_config as npu_tf_config
 
 """parsing and configuration"""
 def parse_args():
