@@ -53,7 +53,7 @@ LOG_DIR = osp.join(WORKSPACE, 'Logs6/SA-Siam')  # where checkpoints, logs are sa
 DATA_DIR = osp.join(WORKSPACE_DIR, 'data')
 RUN_NAME = ''  # identifier of the experiment
 OTB_DATA_DIR = '/data/anfeng/tracking/data/OTB/'
-caffenet_dir = '/home/ysp/data/kong'
+caffenet_dir = '/kong'
 MODEL_CONFIG = {
   'z_image_size': 127,  # Exemplar image size
 
