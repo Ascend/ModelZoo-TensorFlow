@@ -92,8 +92,15 @@ rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
 tar -xvf ${data_path}/ILSVRC2015-VID-Curation.tar
+#判定是否新建ysp/data/ILSVRC2015-VID-Curation/Data/VID/train
+if [ -d /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train ];
+then
+    rm -rf /home/ysp
+    mkdir -p /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train
+else
+    mkdir -p /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train
+fi
 
-mkdir -p /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train
 cp -r ${cur_path}/../ILSVRC2015-VID-Curation/Data/VID/train/a /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train/
 cp -r ${cur_path}/../ILSVRC2015-VID-Curation/Data/VID/train/b /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train/
 cp -r ${cur_path}/../ILSVRC2015-VID-Curation/Data/VID/train/c /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train/
