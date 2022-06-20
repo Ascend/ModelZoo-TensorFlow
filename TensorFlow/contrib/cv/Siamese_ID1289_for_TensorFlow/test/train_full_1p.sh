@@ -7,7 +7,7 @@
 ##########################################################
 # shell脚本所在路径
 cur_path=`echo $(cd $(dirname $0);pwd)`
-
+echo "${cur_path}"
 # 判断当前shell是否是performance
 perf_flag=`echo $0 | grep performance | wc -l`
 
@@ -91,6 +91,22 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+tar -xvf ${data_path}/ILSVRC2015-VID-Curation.tar
+#判定是否新建ysp/data/ILSVRC2015-VID-Curation/Data/VID/train
+if [ -d /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train ];
+then
+    rm -rf /home/ysp
+    mkdir -p /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train
+else
+    mkdir -p /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train
+fi
+
+cp -r ${cur_path}/../ILSVRC2015-VID-Curation/Data/VID/train/a /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train/
+cp -r ${cur_path}/../ILSVRC2015-VID-Curation/Data/VID/train/b /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train/
+cp -r ${cur_path}/../ILSVRC2015-VID-Curation/Data/VID/train/c /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train/
+cp -r ${cur_path}/../ILSVRC2015-VID-Curation/Data/VID/train/d /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train/
+cp -r ${cur_path}/../ILSVRC2015-VID-Curation/Data/VID/train/e /home/ysp/data/ILSVRC2015-VID-Curation/Data/VID/train/
+
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -117,8 +133,9 @@ then
     sed -i s#/home/ysp/output/#${data_path}#g configuration.py
     python3.7 ./experiments/train-appearance-network.py --data_path=${data_path} --output_path=${output_path} --steps=${steps_num}
 else
-    sed -i s#/home/ysp/data/#${data_path}#g configuration.py
-    sed -i s#/home/ysp/output/#${data_path}#g configuration.py
+    sed -i "s#/home/ysp/data/#${output_path}#g" configuration.py
+    sed -i "s#/home/ysp/output/#${output_path}#g" configuration.py
+    sed -i "s#/kong#${cur_path}/../ILSVRC2015-VID-Curation/Data/VID/train#g" configuration.py
     python3.7 ./experiments/train-appearance-network.py --data_path=${data_path} --output_path=${output_path} --steps=${steps_num} 1>${print_log} 2>&1
 fi
 
@@ -188,4 +205,5 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+rm -rf ${cur_path}/../ILSVRC2015-VID-Curation
