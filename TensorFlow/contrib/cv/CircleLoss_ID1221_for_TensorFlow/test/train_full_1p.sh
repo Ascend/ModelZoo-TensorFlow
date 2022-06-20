@@ -13,7 +13,7 @@ perf_flag=`echo $0 | grep performance | wc -l`
 
 # 当前执行网络的名称
 Network=`echo $(cd $(dirname $0);pwd) | awk -F"/" '{print $(NF-1)}'`
-
+export LD_PRELOAD=/usr/lib64/libgomp.so.1
 export RANK_SIZE=1
 export RANK_ID=0
 export JOB_ID=10087
@@ -69,7 +69,7 @@ print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
 modelarts_flag=`cat /etc/passwd |grep ma-user`
 if [ x"${modelarts_flag}" != x ];
 then
-    echo "running with modelarts_flag..."
+    echo "running with modelarts..."
     print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
     print_log="/home/ma-user/modelarts/log/${print_log_name}"
 fi
@@ -90,7 +90,7 @@ function get_casename()
 cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
-
+tar -xvf ${data_path}/dataset.tar 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -109,17 +109,27 @@ start_time=$(date +%s)
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
 batch_size=30
-
+train_epoch=500
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train_acc.py --data_url=${data_path} --train_url=${output_path}
+    python3.7 ./train_acc.py \
+        --data_url=${cur_path}/../dataset \
+        --train_url=${output_path} \
+        --max_nrof_epochs=${train_epoch} \
+        --data_dir=${cur_path}/../MS-Celeb-1M_clean_align \
+        --lfw_dir=${cur_path}/../lfw-deepfunneled_align 1>${print_log} 2>&1
 else
-    python3.7 ./train_acc.py --data_url=${data_path} --train_url=${output_path} 1>${print_log} 2>&1
-fi
+    python3.7 ./train_acc.py  \
+        --data_url=${cur_path}/../dataset \
+        --train_url=${output_path} \
+        --max_nrof_epochs=${train_epoch} \
+        --data_dir=${cur_path}/../dataset/MS-Celeb-1M_clean_align \
+        --lfw_dir=${cur_path}/../dataset/lfw-deepfunneled_align 1>${print_log} 2>&1
 
+fi
+#rm -rf ${cur_path}/../dataset
 # 性能相关数据计算
-StepTime=$(cat StepTime.txt)
-#StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "sec/step" ${print_log} | tail -n 10 | awk '{print $9}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
@@ -129,7 +139,6 @@ train_accuracy=$(cat train_accuracy.txt)
 #cp ./my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}
 # 提取所有loss打印信息
 grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -174,7 +183,7 @@ echo "E2E Training Duration sec : $e2e_time"
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt`)
+ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -186,4 +195,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+rm -rf ${cur_path}/../dataset

@@ -47,7 +47,7 @@ import lfw
 import h5py
 import math
 from circle_loss import *
-import moxing as mox
+#import moxing as mox
 
 def fully_connected(x, units, activation_fn=None,reuse=False):
     out=tf.layers.dense(inputs=x,units=units,activation=activation_fn,reuse=reuse)
@@ -277,7 +277,7 @@ def main(args):
                 with h5py.File(stat_file_name, 'w') as f:
                     for key, value in stat.items():
                         f.create_dataset(key, data=value)
-                saveResultToOBS(args.train_url)
+                #saveResultToOBS(args.train_url)
 
             fout=open("StepTime.txt","w")
             fout.write(str(getStepTime())+"\n")
@@ -572,57 +572,57 @@ def parse_arguments(argv):
                         help='Subtract feature mean before calculating distance.', action='store_true')
     return parser.parse_args(argv)
 
-def unzip_file(zip_src, dst_dir):
-    r = zipfile.is_zipfile(zip_src)
-    if r:
-        fz = zipfile.ZipFile(zip_src, 'r')
-        for file in fz.namelist():
-            fz.extract(file, dst_dir)
-    else:
-        print('This is not zip')
-
-def saveResultToOBS(train_url):
-    print("save result to obs........")
-    print("train_url:",train_url)
-    dst_url=os.path.join(train_url,str(datetime.now()))
-    path="./output"
-    mox.file.copy_parallel(path, dst_url)
-    print("finish saving.....")
-
-def getDatasetFromOBS(args):
-    src_url=os.path.join(args.data_url,"dataset.zip")
-    dst_url=os.getcwd()+"/dataset.zip"
-    if os.path.exists(dst_url):
-        print("dataset.zip has existed")
-    else:
-        print("Getting dataset from obs.........")
-        mox.file.copy(src_url=src_url, dst_url=dst_url)
-    if os.path.exists(os.getcwd()+"/dataset"):
-        print("dataset has existed")
-    else:
-        print("Unzip dataset.zip.......")
-        unzip_file(dst_url,os.getcwd())
-    print("Finish get dataset......")
-
-    print("get data.zip....")
-    src_url=os.path.join(args.data_url,"data.zip")
-    dst_url=os.getcwd()+"/data.zip"
-    if os.path.exists(dst_url):
-        print("data.zip has existed")
-    else:
-        mox.file.copy(src_url=src_url, dst_url=dst_url)
-    if os.path.exists(os.getcwd()+"/data"):
-        print("data has existed")
-    else:
-        unzip_file(dst_url, os.getcwd())
-    print("finish get data")
-
-def getTrain_url(args):
-    args.train_url=os.path.join(args.train_url,str(datetime.now()))
-    if not mox.file.exists(args.train_url):
-        mox.file.mk_dir(args.train_url)
+#def unzip_file(zip_src, dst_dir):
+#    r = zipfile.is_zipfile(zip_src)
+#    if r:
+#        fz = zipfile.ZipFile(zip_src, 'r')
+#        for file in fz.namelist():
+#            fz.extract(file, dst_dir)
+#    else:
+#        print('This is not zip')
+#
+#def saveResultToOBS(train_url):
+#    print("save result to obs........")
+#    print("train_url:",train_url)
+#    dst_url=os.path.join(train_url,str(datetime.now()))
+#    path="./output"
+#    mox.file.copy_parallel(path, dst_url)
+#    print("finish saving.....")
+#
+#def getDatasetFromOBS(args):
+#    src_url=os.path.join(args.data_url,"dataset.zip")
+#    dst_url=os.getcwd()+"/dataset.zip"
+#    if os.path.exists(dst_url):
+#        print("dataset.zip has existed")
+#    else:
+#        print("Getting dataset from obs.........")
+#        mox.file.copy(src_url=src_url, dst_url=dst_url)
+#    if os.path.exists(os.getcwd()+"/dataset"):
+#        print("dataset has existed")
+#    else:
+#        print("Unzip dataset.zip.......")
+#        unzip_file(dst_url,os.getcwd())
+#    print("Finish get dataset......")
+#
+#    print("get data.zip....")
+#    src_url=os.path.join(args.data_url,"data.zip")
+#    dst_url=os.getcwd()+"/data.zip"
+#    if os.path.exists(dst_url):
+#        print("data.zip has existed")
+#    else:
+#        mox.file.copy(src_url=src_url, dst_url=dst_url)
+#    if os.path.exists(os.getcwd()+"/data"):
+#        print("data has existed")
+#    else:
+#        unzip_file(dst_url, os.getcwd())
+#    print("finish get data")
+#
+#def getTrain_url(args):
+#    args.train_url=os.path.join(args.train_url,str(datetime.now()))
+#    if not mox.file.exists(args.train_url):
+#        mox.file.mk_dir(args.train_url)
 
 if __name__ == '__main__':
     args=parse_arguments(sys.argv[1:])
-    getDatasetFromOBS(args)
+    #getDatasetFromOBS(args)
     main(args)
