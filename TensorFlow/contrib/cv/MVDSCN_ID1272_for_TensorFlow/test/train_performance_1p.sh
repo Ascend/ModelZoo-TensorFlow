@@ -120,7 +120,7 @@ then
            --data_url=${data_path} \
            --train_url=${data_path} \
            --epochs=1 \
-	   --ft > ${print_log} 2>&1
+	       --ft > ${print_log} 2>&1
 
 else
     python3.7 ./main.py \
@@ -128,7 +128,7 @@ else
            --data_url=${data_path} \
            --train_url=${data_path} \
            --epochs=1 \
-	   --ft > ${print_log} 2>&1
+	       --ft > ${print_log} 2>&1
 
 fi
 
