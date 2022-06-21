@@ -1,7 +1,11 @@
- **- 论文内容简介
+ 
+
+###  ****- 论文内容简介
 - 训练精度
 - 训练性能** 
+
 1. 论文内容简介
+** 
 # MvDSCN
 :game_die: Tensorflow Repo for "Multi-view Deep Subspace Clustering Networks"
 
@@ -68,12 +72,18 @@ Please star :star2: this repo and cite :page_facing_up: this paper if you want t
 # License
 MIT License
 
-2. 训练精度
+ **### 2. 训练精度** 
+
 epoch = 10000；
 | NPU | 0.1700 |
+
 |-----|--------|
+
 | GPU | 0.1660 |
+
 epoch = 150;
 | NPU | 0.3780 |
+
 |-----|--------|
+
 | GPU | 0.3700 |
