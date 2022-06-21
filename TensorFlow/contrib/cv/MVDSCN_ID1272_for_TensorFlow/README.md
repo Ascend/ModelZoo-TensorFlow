@@ -1,10 +1,11 @@
  
 
-###  ****- 论文内容简介
+###   
+ **- 论文内容简介
 - 训练精度
-- 训练性能** 
-
-1. 论文内容简介
+- 训练性能
+** 
+ **1. 论文内容简介
 ** 
 # MvDSCN
 :game_die: Tensorflow Repo for "Multi-view Deep Subspace Clustering Networks"
