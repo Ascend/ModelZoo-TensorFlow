@@ -72,7 +72,7 @@ Please star :star2: this repo and cite :page_facing_up: this paper if you want t
 MIT License
 
 
-### 2. 训练精度(ACC)
+# 2. 训练精度(ACC)
 epoch = 10000；
 | NPU | 0.1700 |
 |-----|--------|
