@@ -9,7 +9,7 @@ Network="pointnet_ID2531_for_TensorFlow2.X"
 #Device数量，单卡默认为1
 RANK_SIZE=1
 #训练epoch，可选
-train_epochs=3
+train_epochs=2
 #训练step
 train_steps=60000
 #学习率
@@ -94,7 +94,6 @@ nohup python3 pointnet.py --data_path=$data_path \
         --epochs=$train_epochs \
         --batch_size=$batch_size \
         --drop_remainder=False \
-        --part_steps=True \
         --precision_mode=${precision_mode} \
         --over_dump=${over_dump} \
         --over_dump_path=${over_dump_path} \
