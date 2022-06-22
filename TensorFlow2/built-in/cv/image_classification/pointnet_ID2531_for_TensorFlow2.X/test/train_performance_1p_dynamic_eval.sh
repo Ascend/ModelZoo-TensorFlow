@@ -94,6 +94,7 @@ nohup python3 pointnet.py --data_path=$data_path \
         --epochs=$train_epochs \
         --batch_size=$batch_size \
         --drop_remainder=False \
+        --part_steps=True \
         --precision_mode=${precision_mode} \
         --over_dump=${over_dump} \
         --over_dump_path=${over_dump_path} \
