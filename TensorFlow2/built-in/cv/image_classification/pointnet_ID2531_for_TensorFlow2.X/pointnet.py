@@ -368,7 +368,7 @@ model.compile(
     metrics=["sparse_categorical_accuracy"],
 )
 if args.part_steps:
-    model.fit(train_dataset, epochs=EPOCHS, validation_data=test_dataset, steps_per_epoch=50)
+    model.fit(train_dataset, epochs=EPOCHS, validation_data=test_dataset, steps_per_epoch=10)
 else:
     model.fit(train_dataset, epochs=EPOCHS, validation_data=test_dataset)
 model.save_weights(filepath="pointnet", save_format="tf")
