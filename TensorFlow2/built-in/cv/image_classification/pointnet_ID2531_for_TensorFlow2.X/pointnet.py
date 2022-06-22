@@ -78,6 +78,7 @@ def parse_args():
                         help="""batch size for 1p""")
     parser.add_argument('--epochs', default=20, type=int,
                         help="""epochs""")
+    parser.add_argument('--part_steps', default=False, type=bool, help='part step, default is Fasle')
     parser.add_argument('--drop_remainder', default="True", type=ast.literal_eval,
     help="""drop_remainder True or False remote dynamic or static input""")
     parser.add_argument('--precision_mode', default="allow_mix_precision", type=str,help='the path to save over dump data')
@@ -366,8 +367,10 @@ model.compile(
     optimizer=npu_device.train.optimizer.NpuLossScaleOptimizer(keras.optimizers.Adam(learning_rate=0.001)),
     metrics=["sparse_categorical_accuracy"],
 )
-
-model.fit(train_dataset, epochs=EPOCHS, validation_data=test_dataset, verbose=2)
+if args.part_steps:
+    model.fit(train_dataset, epochs=EPOCHS, validation_data=test_dataset, verbose=2, steps_per_epoch=50)
+else:
+    model.fit(train_dataset, epochs=EPOCHS, validation_data=test_dataset, verbose=2)
 model.save_weights(filepath="pointnet", save_format="tf")
 """
 ## Visualize predictions
