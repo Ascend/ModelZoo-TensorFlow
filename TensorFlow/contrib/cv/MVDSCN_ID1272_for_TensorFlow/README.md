@@ -83,7 +83,7 @@ epoch = 150;
 |-----|--------|
 |  **GPU**  |  **0.3700**  |
 
-# 3、训练性能
+# 3.训练性能
 GPU和NPU下的训练性能结果
 npu性能：
 Final Performance images/sec : 258.80
