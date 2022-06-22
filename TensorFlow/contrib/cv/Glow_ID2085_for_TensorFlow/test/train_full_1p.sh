@@ -112,9 +112,9 @@ batch_size=50
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} --problem cifar10 --image_size 32 --n_level 3 --depth 32 --flow_permutation 2 --seed 0 --lr 0.001 --epochs 300 --n_bits_x 8
+    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} --problem cifar10 --n_train 500000  --image_size 32 --n_level 3 --depth 32 --flow_permutation 2 --seed 0 --lr 0.001 --epochs 300 --n_bits_x 8 
 else
-    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} --problem cifar10 --image_size 32 --n_level 3 --depth 32 --flow_permutation 2 --seed 0 --lr 0.001 --epochs 300 --n_bits_x 8 1>${print_log} 2>&1
+    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} --problem cifar10 --n_train 500000  --image_size 32 --n_level 3 --depth 32 --flow_permutation 2 --seed 0 --lr 0.001 --epochs 300 --n_bits_x 8 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
