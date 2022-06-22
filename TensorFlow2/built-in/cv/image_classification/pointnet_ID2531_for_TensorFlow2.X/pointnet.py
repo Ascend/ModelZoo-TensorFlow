@@ -367,7 +367,7 @@ model.compile(
     metrics=["sparse_categorical_accuracy"],
 )
 
-model.fit(train_dataset, epochs=EPOCHS, validation_data=test_dataset)
+model.fit(train_dataset, epochs=EPOCHS, validation_data=test_dataset, verbose=2)
 model.save_weights(filepath="pointnet", save_format="tf")
 """
 ## Visualize predictions
