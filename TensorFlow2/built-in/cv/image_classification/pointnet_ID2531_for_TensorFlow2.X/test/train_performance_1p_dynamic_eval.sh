@@ -118,9 +118,13 @@ echo "Final Training Duration sec : $e2e_time"
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep "ms/step" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F " " 'END {print$5}' | tr -cd "[0-9]"`
-wait
-FPS=`awk 'BEGIN{printf "%.2f\n",'1000'*'${batch_size}'/'${TrainingTime}'}'`
+#TrainingTime=`grep "val_sparse_categorical_accuracy" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F " " 'END {print$5}' | tr -cd "[0-9]"`
+#wait
+#FPS=`awk 'BEGIN{printf "%.2f\n",'1000'*'${batch_size}'/'${TrainingTime}'}'`
+Step=`grep val_sparse_categorical_accuracy $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -n +2 | awk '{print $1}' | awk -F "/" '{print $1}' |awk '{sum+=$1} END {print sum/NR}'`
+Time=`grep val_sparse_categorical_accuracy $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -n +2 | awk '{print $4}' | tr -d s | awk '{sum+=$1} END {print sum/NR}'`
+TrainingTime=`awk 'BEGIN{printf "%.6f\n",'${Time}'/'${Step}'}'`
+FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${TrainingTime}'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
