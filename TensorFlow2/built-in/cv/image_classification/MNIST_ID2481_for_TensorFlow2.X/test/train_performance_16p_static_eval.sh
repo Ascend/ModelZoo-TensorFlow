@@ -178,7 +178,7 @@ TrainingTime=${TrainingTime}
 grep ,loss: $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $3}' >> $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print $1}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
-
+ActualFPS=`echo "${ActualFPS}"|awk '{printf("%.1f",$1)}'`
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "RankSize = ${RANK_SIZE}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
