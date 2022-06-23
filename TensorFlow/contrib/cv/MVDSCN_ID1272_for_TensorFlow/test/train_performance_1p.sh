@@ -119,16 +119,16 @@ then
 	   --path=${data_path}/rgbd_mtv.mat \
            --data_url=${data_path} \
            --train_url=${data_path} \
-           --epochs=1 \
-	       --ft > ${print_log} 2>&1
+           --epochs=150 \
+	   --ft > ${print_log} 2>&1
 
 else
     python3.7 ./main.py \
            --path=${data_path}/rgbd_mtv.mat \
            --data_url=${data_path} \
            --train_url=${data_path} \
-           --epochs=1 \
-	       --ft > ${print_log} 2>&1
+           --epochs=150 \
+	   --ft > ${print_log} 2>&1
 
 fi
 
@@ -136,7 +136,7 @@ fi
 sed -i "s#${data_path}#/home/ma-user/modelarts/inputs/data_url_0#" ./model/rgbd.py
 
 # 性能相关数据计算
-StepTime=`grep "sec/step" ${print_log} | awk '{print $3}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "sec/step" ${print_log} | awk '{print $3}' | tail -n +2 | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
