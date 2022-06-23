@@ -113,11 +113,11 @@ batch_size=32
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./NPU_train.py --dataset_dir=${data_path} --train_log_dir=${output_path} --checkpoint_inception=${ckpt_path} --max_number_of_steps=500 --log_interval_steps=500
-    python3.7 ./eval.py --dataset_dir=${data_path} --train_log_dir=${output_path} --Not_on_modelart=False --num_batches=10
+    python3.7 ./NPU_train.py --dataset_dir=${data_path}/data/fsns --train_log_dir=${output_path} --checkpoint_inception=${ckpt_path} --max_number_of_steps=500 --log_interval_steps=500
+    python3.7 ./eval.py --dataset_dir=${data_path}/data/fsns --train_log_dir=${output_path} --Not_on_modelart=False --num_batches=10
 else
-    python3.7 ./NPU_train.py --dataset_dir=${data_path} --train_log_dir=${output_path} --checkpoint_inception=${ckpt_path} --max_number_of_steps=500 --log_interval_steps=500 1>${print_log} 2>&1
-    python3.7 ./eval.py --dataset_dir=${data_path} --train_log_dir=${output_path} --Not_on_modelart=False --num_batches=10 1>>${print_log} 2>&1
+    python3.7 ./NPU_train.py --dataset_dir=${data_path}/data/fsns --train_log_dir=${output_path} --checkpoint_inception=${ckpt_path} --max_number_of_steps=500 --log_interval_steps=500 1>${print_log} 2>&1
+    python3.7 ./eval.py --dataset_dir=${data_path}/data/fsns --train_log_dir=${output_path} --Not_on_modelart=False --num_batches=10 1>>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -125,7 +125,7 @@ StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk 
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F "=" '{print $2}' | awk '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "loss =" ${print_log} |  awk '{print $6}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 # 精度相关数据计算
 train_accuracy=`grep "eval/SequenceAccuracy" ${print_log} | awk -F "eval/SequenceAccuracy" '{print $2}'| awk -F "[" '{print $2}'| awk -F "]" '{print $1}'`
