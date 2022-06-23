@@ -82,3 +82,22 @@ epoch = 150;
 | NPU | 0.3780 |
 |-----|--------|
 |  **GPU**  |  **0.3700**  |
+
+# 3.训练性能
+ **GPU和NPU下的训练性能结果**
+
+**npu性能：** 
+
+ Final Performance images/sec : 258.80.
+
+ Final Performance sec/step : 1.93202.
+
+ E2E Training Duration sec : 372.
+
+ **gpu性能：** （使用ECS V100 GPU)
+
+INFO:tensorflow: Final Performance images/sec: 2684.05 , batch_size:500.
+
+INFO:tensorflow: Final Performance sec/step: 0.19 , batch_size:500.
+
+E2E Training Duration sec : 298.
