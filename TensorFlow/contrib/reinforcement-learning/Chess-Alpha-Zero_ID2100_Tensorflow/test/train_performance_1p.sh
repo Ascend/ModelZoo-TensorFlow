@@ -118,25 +118,27 @@ ls -al
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./src/chess_zero/run.py --cmd opt --npu --epochs 5
+    python3.7 ./src/chess_zero/run.py --cmd opt --npu --epochs 10
 else
-    python3.7 ./src/chess_zero/run.py --cmd opt --npu --epochs 5 1>${print_log} 2>&1
+    python3.7 ./src/chess_zero/run.py --cmd opt --npu --epochs 10 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
 # StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
 # FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
-StepTime=`grep "Performance :" ${print_log} | tail -n 10 | awk '{print $4}' | awk '{sum+=$1} END {print sum/NR}'`
+
+StepTime=`grep "Performance:" ${print_log} | tail -n 10 | awk '{print $4}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
 # train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
-echo "reinforcement's accuracy can not be measured by 'accuracy', because there is nothing can be recognised as accuracy"
-echo "So we use loss as measures to measure accuracy"
+
 # 提取所有loss打印信息
 # grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-grep "loss :" ${print_log} | awk -F " " '{print $8}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "step - loss" ${print_log} | awk -F " " '{print $8}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
+echo "reinforcement's accuracy can not be measured by 'accuracy', because there is nothing can be recognised as accuracy"
+echo "So we use loss as measures to measure accuracy"
 ###########################################################
 #########后面的所有内容请不要修改###########################
 #########后面的所有内容请不要修改###########################

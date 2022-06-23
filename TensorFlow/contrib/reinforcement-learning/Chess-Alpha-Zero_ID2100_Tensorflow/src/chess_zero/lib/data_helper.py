@@ -60,13 +60,13 @@ def find_pgn_files(directory, pattern='*.pgn'):
     return files
 
 
-def get_game_data_filenames(rc: ResourceConfig):
+def get_game_data_filenames(rc):
     pattern = os.path.join(rc.play_data_dir, rc.play_data_filename_tmpl % "*")
     files = list(sorted(glob(pattern)))
     return files
 
 
-def get_next_generation_model_dirs(rc: ResourceConfig):
+def get_next_generation_model_dirs(rc):
     dir_pattern = os.path.join(rc.next_generation_model_dir, rc.next_generation_model_dirname_tmpl % "*")
     dirs = list(sorted(glob(dir_pattern)))
     return dirs

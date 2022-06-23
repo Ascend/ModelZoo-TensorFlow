@@ -52,7 +52,7 @@ import tensorflow
 logger = getLogger(__name__)
 
 
-def start(config: Config):
+def start(config):
     """
     Helper method which just kicks off the optimization using the specified config
     :param Config config: config to use
@@ -73,7 +73,7 @@ class OptimizeWorker:
                     who actually won the game after that state)
         :ivar ProcessPoolExecutor executor: executor for running all of the training processes
     """
-    def __init__(self, config: Config):
+    def __init__(self, config):
         self.config = config
         self.model = None  # type: ChessModel
         self.dataset = deque(),deque(),deque()

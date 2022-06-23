@@ -49,7 +49,7 @@ from chess_zero.lib.model_helper import load_best_model_weight, save_as_best_mod
 logger = getLogger(__name__)
 
 
-def start(config: Config):
+def start(config):
     return SelfPlayWorker(config).start()
 
 
@@ -68,7 +68,7 @@ class SelfPlayWorker:
             then the list of prior probabilities for each action, given by the visit count of each of the states
             reached by the action (actions indexed according to how they are ordered in the uci move list).
     """
-    def __init__(self, config: Config):
+    def __init__(self, config):
         self.config = config
         self.current_model = self.load_model()
         self.m = Manager()

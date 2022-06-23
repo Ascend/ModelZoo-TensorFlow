@@ -57,7 +57,7 @@ def create_parser():
     return parser
 
 
-def setup(config: Config, args):
+def setup(config, args):
     """
     Sets up a new config by creating the required directories and setting up logging.
 

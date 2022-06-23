@@ -104,7 +104,7 @@ class ChessEnv:
     def white_to_move(self):
         return self.board.turn == chess.WHITE
 
-    def step(self, action: str, check_over = True):
+    def step(self, action, check_over = True):
         """
 
         Takes an action and updates the game state
