@@ -3,46 +3,46 @@ from npu_bridge.npu_init import *
 import os
 import argparse
 import datetime
-import moxing as mox
+#import moxing as mox
 
-## Code dir: /home/work/user-job-dir/code # ÔÚModelArtsÉÏµÄ´úÂë´æ´¢Ä¿Â¼£¨¸¸Ä¿Â¼¾ù»á±»ÖØÃüÃûÎªcode£©¡£
-## Work dir: /home/work/workspace/device2 # device idÒòjob¶øÒì
+## Code dir: /home/work/user-job-dir/code # åœ¨ModelArtsä¸Šçš„ä»£ç å­˜å‚¨ç›®å½•ï¼ˆçˆ¶ç›®å½•å‡ä¼šè¢«é‡å‘½åä¸ºcodeï¼‰ã€‚
+## Work dir: /home/work/workspace/device2 # device idå› jobè€Œå¼‚
 print("===>>>{}".format(os.getcwd()))
 print(os.system('env'))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--train_url", type=str, default="../output")  # PyCharm²å¼þ´«ÈëµÄ OBS PathÂ·¾¶
-    parser.add_argument("--data_url", type=str, default="../dataset")  # PyCharm²å¼þ´«ÈëµÄ Data Path in OBSÂ·¾¶
+    parser.add_argument("--train_url", type=str, default="../output")  # PyCharmæ’ä»¶ä¼ å…¥çš„ OBS Pathè·¯å¾„
+    parser.add_argument("--data_url", type=str, default="../dataset")  # PyCharmæ’ä»¶ä¼ å…¥çš„ Data Path in OBSè·¯å¾„
     config = parser.parse_args()
 
-    # ÎªÁË·½±ã£¬ÎÒÃÇ»á½«ÑµÁ·Ê±ÓÃµÄÊý¾Ý¼¯¿½±´µ½±¾µØ /cache Ä¿Â¼ÏÂ£¬ImageNet TFRecord¸ñÊ½148GÐèÒªÔ¼280s£¬ÈçÎªÆäËû´óÁ¿Ð¡ÎÄ¼þÊý¾Ý¼¯½¨Òé´ò°üÎªtarÎÄ¼þºó¿½±´¹ýÈ¥ÔÙ½âÑ¹
+    # ä¸ºäº†æ–¹ä¾¿ï¼Œæˆ‘ä»¬ä¼šå°†è®­ç»ƒæ—¶ç”¨çš„æ•°æ®é›†æ‹·è´åˆ°æœ¬åœ° /cache ç›®å½•ä¸‹ï¼ŒImageNet TFRecordæ ¼å¼148Géœ€è¦çº¦280sï¼Œå¦‚ä¸ºå…¶ä»–å¤§é‡å°æ–‡ä»¶æ•°æ®é›†å»ºè®®æ‰“åŒ…ä¸ºtaræ–‡ä»¶åŽæ‹·è´è¿‡åŽ»å†è§£åŽ‹
     # copy dataset from obs to local
     # dataset will be saved under /cache/ilsvrc2012_tfrecord while the results will be saved under /cache/results
     local_dir = '/cache/ilsvrc2012_tfrecord'
     start = datetime.datetime.now()
     print("===>>>Copy files from obs:{} to local dir:{}".format(config.data_url, local_dir))
-    mox.file.copy_parallel(src_url=config.data_url, dst_url=local_dir)
+    #mox.file.copy_parallel(src_url=config.data_url, dst_url=local_dir)
     end = datetime.datetime.now()
     print("===>>>Copy from obs to local, time use:{}(s)".format((end - start).seconds))
     files = os.listdir(local_dir)
     print("===>>>Files number:", len(files))
 
-    # ¿ªÊ¼ÑµÁ·½Å±¾£¬ÎÒÃÇÖ»ÐèÒª½«ÑµÁ·½Å±¾ÖÐµÄdataset pathÄ¬ÈÏÖ¸¶¨Îª/cacheÖÐµÄÏàÓ¦Êý¾Ý¼¯Â·¾¶¼´¿É£»Í¬Ê±ÑµÁ·µÄlog, snapshotµÈÎÄ¼þÒ²¿ÉÒÔÐ´Èë/cacheÏÂµÄÄ³Ò»ÌØ¶¨ÎÄ¼þ¼Ð£¬±¾µØ¹ÌÌ¬Ð´Èë±ÈÃ¿´Î·ÃÎÊobsÒª¿ì£¬²»ÐèÒªÔÚ´úÂëÀïµ÷ÓÃmox£¬È±µã¾ÍÊÇÈç¹ûÊÖ¶¯killµôÈÎÎñ¾Í²»»á±£ÁôÖÐ¼ä½á¹û£¬½¨Òé¿ÉÒÔ¶¨Ê±copyÒ»ÏÂ¡£
+    # å¼€å§‹è®­ç»ƒè„šæœ¬ï¼Œæˆ‘ä»¬åªéœ€è¦å°†è®­ç»ƒè„šæœ¬ä¸­çš„dataset pathé»˜è®¤æŒ‡å®šä¸º/cacheä¸­çš„ç›¸åº”æ•°æ®é›†è·¯å¾„å³å¯ï¼›åŒæ—¶è®­ç»ƒçš„log, snapshotç­‰æ–‡ä»¶ä¹Ÿå¯ä»¥å†™å…¥/cacheä¸‹çš„æŸä¸€ç‰¹å®šæ–‡ä»¶å¤¹ï¼Œæœ¬åœ°å›ºæ€å†™å…¥æ¯”æ¯æ¬¡è®¿é—®obsè¦å¿«ï¼Œä¸éœ€è¦åœ¨ä»£ç é‡Œè°ƒç”¨moxï¼Œç¼ºç‚¹å°±æ˜¯å¦‚æžœæ‰‹åŠ¨killæŽ‰ä»»åŠ¡å°±ä¸ä¼šä¿ç•™ä¸­é—´ç»“æžœï¼Œå»ºè®®å¯ä»¥å®šæ—¶copyä¸€ä¸‹ã€‚
     #  run training
     print("===>>>Begin training:")
-    os.system('bash /home/work/user-job-dir/code/run_1p.sh')  # ±¾Ê¾ÀýµÄ¾ßÌåÑµÁ·½Å±¾Îªrun_1p.sh
+    os.system('bash /home/work/user-job-dir/code/run_1p.sh')  # æœ¬ç¤ºä¾‹çš„å…·ä½“è®­ç»ƒè„šæœ¬ä¸ºrun_1p.sh
     print("===>>>Training finished:")
 
-    # Íê³ÉÑµÁ·ºó½«ÎÒÃÇÐèÒª±£ÁôµÄÖÐ¼ä½á¹û¿½±´µ½obs£¬Ä¿µÄobsÂ·¾¶ÎªÎÒÃÇÖ®Ç°´«ÈëµÄ--train_url
+    # å®Œæˆè®­ç»ƒåŽå°†æˆ‘ä»¬éœ€è¦ä¿ç•™çš„ä¸­é—´ç»“æžœæ‹·è´åˆ°obsï¼Œç›®çš„obsè·¯å¾„ä¸ºæˆ‘ä»¬ä¹‹å‰ä¼ å…¥çš„--train_url
     #  copy results from local to obs
     local_dir = '/cache/result'
     remote_dir = os.path.join(config.train_url, 'result')
-    if not mox.file.exists(remote_dir):
-        mox.file.make_dirs(remote_dir)
+    #if not mox.file.exists(remote_dir):
+        #mox.file.make_dirs(remote_dir)
     start = datetime.datetime.now()
     print("===>>>Copy files from local dir:{} to obs:{}".format(local_dir, remote_dir))
-    mox.file.copy_parallel(src_url=local_dir, dst_url=remote_dir)
+    #mox.file.copy_parallel(src_url=local_dir, dst_url=remote_dir)
     end = datetime.datetime.now()
     print("===>>>Copy from local to obs, time use:{}(s)".format((end - start).seconds))
     files = os.listdir(local_dir)

@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
     #args = parser.parse_args()
     args, unkown = parser.parse_known_args()
-    mox.file.copy_parallel(args.srcdir, local_dir)
+    #mox.file.copy_parallel(args.srcdir, local_dir)
 
     print('node2')
     '''
@@ -135,6 +135,6 @@ if __name__ == '__main__':
     #opdir = 's3://cann001/dataset/dataset/'
     '''
     #local_dir = os.path.join(local_dir, 'images')
-    mox.file.copy_parallel(local_dir2, args.train_url0)
+    #mox.file.copy_parallel(local_dir2, args.train_url0)
     print('123456')
     #mox.file.copy_parallel(local_dir2, args.train_url0)

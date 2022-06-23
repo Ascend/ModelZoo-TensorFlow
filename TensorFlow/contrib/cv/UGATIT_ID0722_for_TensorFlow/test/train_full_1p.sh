@@ -113,11 +113,11 @@ batch_size=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./main.py --data_path=${data_path} --output_path=${output_path} \
-        --epochs=${train_epochs} --batch_size=${batch_size}
+    python3.7 ./main.py --data_path=${data_path}/dataset/selfie2anime --output_path=${output_path} \
+        --epoch=${train_epochs} --batch_size=${batch_size}
 else
-    python3.7 ./main.py --data_path=${data_path} --output_path=${output_path} \
-        --epochs=${train_epochs} --batch_size=${batch_size} 1>${print_log} 2>&1
+    python3.7 ./main.py --data_path=${data_path}/dataset/selfie2anime --output_path=${output_path} \
+        --epoch=${train_epochs} --batch_size=${batch_size} 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -130,9 +130,9 @@ FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 
 # 精度相关数据计算
-train_accuracy=``
+train_accuracy=`grep "d_loss" ${print_log}| tail -n +2 | awk '{print $9}' | awk '{sum+=$1} END {print sum/NR}'`
 # 提取所有loss打印信息
-grep "loss" ${print_log} | awk -F " " '{print $8 $9 $10 $11}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "d_loss" ${print_log} | awk '{print $9}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
