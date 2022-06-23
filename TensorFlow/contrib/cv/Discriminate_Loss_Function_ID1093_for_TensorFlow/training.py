@@ -8,7 +8,7 @@ import warnings
 import copy
 from glob import glob
 import argparse
-
+import time
 import numpy as np
 import cv2
 #import tensorflow as tf
@@ -33,7 +33,7 @@ import clustering
 from npu_bridge.npu_init import *
 
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
-import moxing as mox
+#import moxing as mox
 
 def run():
     parser = argparse.ArgumentParser()
@@ -52,20 +52,20 @@ def run():
 
     #args = parser.parse_args()
     args, unkown = parser.parse_known_args()
-    local_dir1 = '/cache/11'
-    mox.file.copy_parallel(args.srcdir, local_dir1)
-    local_dir2 = '/cache/22'
-    mox.file.copy_parallel(args.modeldir, local_dir2)
+    #local_dir1 = '/cache/11'
+    #mox.file.copy_parallel(args.srcdir, local_dir1)
+    #local_dir2 = '/cache/22'
+    #mox.file.copy_parallel(args.modeldir, local_dir2)
 
-    if not os.path.isdir(local_dir1):
-        raise IOError('Directory does not exist')
-    if not os.path.isdir(local_dir2):
-        raise IOError('Directory does not exist')
-    if not os.path.isdir(args.logdir):
-        os.mkdir(args.logdir)
-    args.srcdir = local_dir1
-    args.modeldir = local_dir2
-    print('ccc')
+    #if not os.path.isdir(local_dir1):
+        #raise IOError('Directory does not exist')
+    #if not os.path.isdir(local_dir2):
+        #raise IOError('Directory does not exist')
+    #if not os.path.isdir(args.logdir):
+        #os.mkdir(args.logdir)
+    #args.srcdir = local_dir1
+    #args.modeldir = local_dir2
+    #print('ccc')
 
     image_shape = (512, 512)
     data_dir = args.srcdir #os.path.join('.', 'data')
@@ -183,9 +183,9 @@ def run():
             
             train_loss = 0
             for image, label in datagenerator.get_batches_fn(batch_size, image_shape, X_train, y_train):
-
-                lr = sess.run(learning_rate)
                 
+                lr = sess.run(learning_rate)
+                start_time = time.time()
                 if (step_train%eval_cycle!=0):
                     ### Training
                     _, step_prediction, step_loss, step_l_var, step_l_dist, step_l_reg = sess.run([
@@ -223,7 +223,7 @@ def run():
                                 cv2.imwrite(os.path.join(log_dir, param_string, 'cluster_{}_{}.png'.format(str(step_train).zfill(6), str(img_id)) ), mask)
 
                 step_train += 1
-                
+                end_time = time.time() - start_time
                 ### Save intermediate model
                 if (step_train%save_cycle==(save_cycle-1)):
                     try:
@@ -232,7 +232,8 @@ def run():
                     except:
                         print ('FAILED saving model')
                 #print 'gradient', step_gradient
-                print ('step', step_train, '\tloss', step_loss, '\tl_var', step_l_var, '\tl_dist', step_l_dist, '\tl_reg', step_l_reg, '\tcurrent lr', lr)
+                print ('step', step_train, '\tsec/step', end_time, '\tloss', step_loss, '\tl_var', step_l_var, '\tl_dist', step_l_dist, '\tl_reg', step_l_reg, '\tcurrent lr', lr)
+                #print ('step:{}, sec/step:{}, loss:{} l_var:{}, l_dist:{}, l_reg:{}, current lr:{}'.formant(step_train, time, step_loss, step_l_var, step_l_dist, step_l_reg, lr))
 
 
             ### Regular validation
@@ -268,4 +269,3 @@ def run():
 
 if __name__ == '__main__':
     run()
-
