@@ -21,6 +21,7 @@ from .base_layer import BaseLayer
 from src.runner.initializer import get_initializer, calculate_fan
 from src.utils.utils import to_pair
 from src.ops.weight_regularzation import spectral_norm
+from src.ops import get_tensor_shape
 
 __all__ = ["Conv2D", "Conv3D", "Conv2DTranspose", "Conv3DTranspose"]
 
@@ -42,6 +43,7 @@ class _ConvBaseLayer(BaseLayer):
                  use_spectral_norm=False,
                  padding='same',
                  padding_mode='CONSTANT',
+                 input_channels=None,
                  name='_conv_base'):
         """
         Initialization function of convolution base class.
@@ -71,6 +73,8 @@ class _ConvBaseLayer(BaseLayer):
         self.padding = padding
         self.padding_mode = padding_mode
 
+        self.in_channels = input_channels
+
     def __call__(self, x):
         """
         Execute function of forward.
@@ -84,7 +88,8 @@ class _ConvBaseLayer(BaseLayer):
 
         # Get the data type of the input.
         self.dtype = x.dtype
-        self.in_channels = x.get_shape().as_list()[-1]
+        if self.in_channels is None:
+            self.in_channels = get_tensor_shape(x, dim=-1)
 
         # Get the weight and bias initializers.
         self.kernel_initializer = self.get_kernel_init(x)
@@ -110,9 +115,9 @@ class _ConvBaseLayer(BaseLayer):
         """
         # padding_mode for conv2d
         if isinstance(self.padding, (list, tuple)):
-            if len(padding_mode) != 2:
+            if len(self.padding_mode) != 2:
                 raise ValueError('Invalid padding_mode')
-            padding_h, padding_w = padding_mode
+            padding_h, padding_w = self.padding_mode
             padding_new = ((0,0), 
                            (padding_h, padding_h), 
                            (padding_w, padding_w),
@@ -198,6 +203,7 @@ class Conv2D(_ConvBaseLayer):
                  use_spectral_norm=False,
                  padding='same',
                  padding_mode='CONSTANT',
+                 input_channels=None,
                  name='Conv2D'):
         super().__init__(num_filters, 
                          kernel_size, 
@@ -207,6 +213,7 @@ class Conv2D(_ConvBaseLayer):
                          use_spectral_norm,
                          padding,
                          padding_mode,
+                         input_channels,
                          name)
 
     def forward(self, x):
@@ -241,6 +248,7 @@ class Conv2DTranspose(Conv2D):
                  use_spectral_norm=False,
                  padding='same',
                  padding_mode='CONSTANT',
+                 input_channels=None,
                  name='Conv2DTranspose'):
         super().__init__(num_filters, 
                          kernel_size, 
@@ -250,6 +258,7 @@ class Conv2DTranspose(Conv2D):
                          use_spectral_norm,
                          padding,
                          padding_mode,
+                         input_channels,
                          name)
 
     @property
@@ -272,7 +281,7 @@ class Conv2DTranspose(Conv2D):
         Args:
             x: tensor, input feature map.
         """
-        n, h, w, c = x.shape.as_list()
+        n, h, w, c = get_tensor_shape(x)
         output_shape = [n, 
                         h * self.strides[0], 
                         w * self.strides[1], 
@@ -300,6 +309,7 @@ class Conv3D(_ConvBaseLayer):
                  use_spectral_norm=False,
                  padding='same',
                  padding_mode='CONSTANT',
+                 input_channels=None,
                  name='Conv3D'):
         super().__init__(num_filters, 
                          kernel_size, 
@@ -309,6 +319,7 @@ class Conv3D(_ConvBaseLayer):
                          use_spectral_norm,
                          padding,
                          padding_mode,
+                         input_channels,
                          name)
         self.kernel_size = to_pair(kernel_size, 3)
         self.strides = to_pair(strides, 3)
@@ -373,6 +384,7 @@ class Conv3DTranspose(Conv3D):
                  use_spectral_norm=False,
                  padding='same',
                  padding_mode='CONSTANT',
+                 input_channels=None,
                  name='Conv3DTranspose'):
         super().__init__(num_filters, 
                          kernel_size, 
@@ -382,6 +394,7 @@ class Conv3DTranspose(Conv3D):
                          use_spectral_norm,
                          padding,
                          padding_mode,
+                         input_channels,
                          name)
 
     @property
@@ -404,7 +417,7 @@ class Conv3DTranspose(Conv3D):
         Args:
             x: tensor, input feature map.
         """
-        n, h, w, c = x.shape.as_list()
+        n, h, w, c = get_tensor_shape(x)
         output_shape = [n, 
                         h * self.strides[0], 
                         w * self.strides[1], 

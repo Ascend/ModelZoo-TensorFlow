@@ -17,7 +17,7 @@ import numpy as np
 import tensorflow as tf
 
 from src.layers import Conv2D, Conv3D, ActLayer, DCNPack
-from src.ops import resize
+from src.ops import resize, get_tensor_shape
 
 from .conv_module import Conv2DNormAct
 
@@ -93,12 +93,15 @@ class PCDAlign(object):
 
                     if i > 1:
                         # upsample offset and features
+                        offset_h, offset_w = get_tensor_shape(offset, dim=[1,2])
                         upsampled_offset = resize(
-                            offset, size=[offset.shape[1] * 2, offset.shape[2] * 2], align_corners=self.align_corners,
+                            offset, size=[offset_h * 2, offset_w * 2], align_corners=self.align_corners,
                             name='upsample_offset{}'.format(i), method=self.upsample_method)
                         upsampled_offset = upsampled_offset * 2
+
+                        feat_h, feat_w = get_tensor_shape(feat, dim=[1, 2])
                         upsampled_feat = resize(
-                            feat, size=[feat.shape[1] * 2, feat.shape[2] * 2], align_corners=self.align_corners,
+                            feat, size=[feat_h * 2, feat_w * 2], align_corners=self.align_corners,
                             name='upsample_feat{}'.format(i), method=self.upsample_method)
 
             # Cascading
@@ -168,15 +171,18 @@ class PCWoDCN(object):
                                              name='feat_conv')(feat)
 
                     if i > 1:
+                        feat_h, feat_w = get_tensor_shape(feat, dim=[1, 2])
                         upsampled_feat = resize(
-                            feat, size=[feat.shape[1] * 2, feat.shape[2] * 2],
+                            feat, size=[feat_h * 2, feat_w * 2],
                             align_corners=self.align_corners,
                             name='upsample_feat{}'.format(i),
                             method=self.upsample_method)
 
             # Cascading
+            # feat = Conv2DNormAct(self.mid_channels, kernel_size=[3, 3],
+            #                padding='same', name='dcn_cas')(feat)
             feat = Conv2DNormAct(self.mid_channels, kernel_size=[3, 3],
-                           padding='same', name='dcn_cas')(feat)
+                                 padding='same', name=f'pc_final_conv{i}')(feat)
             feat = ActLayer(act_cfg)(feat)
 
             return feat
@@ -240,16 +246,18 @@ class TSAFusion(object):
                                    (tf.concat([attn_max, attn_avg], axis=-1))
             attn_level = Conv2DNormAct(self.num_feat, act_cfg=act_cfg, name='spatial_attn_l3')(attn_level)
 
+            attn_level_shape = get_tensor_shape(attn_level)
             attn_level = resize(
-                attn_level, size=[attn_level.shape[1] * 2, attn_level.shape[2] * 2],
+                attn_level, size=[attn_level_shape[1] * 2, attn_level_shape[2] * 2],
                 align_corners=self.align_corners,
                 name='upsample1', method=self.upsample_method)
 
             attn = Conv2DNormAct(self.num_feat, act_cfg=act_cfg, name='spatial_attn3')(attn) + attn_level
             attn = Conv2DNormAct(self.num_feat, kernel_size=(1, 1), act_cfg=act_cfg, name='spatial_attn4')(attn)
 
+            attn_shape = get_tensor_shape(attn)
             attn = resize(
-                attn, size=[attn.shape[1] * 2, attn.shape[2] * 2],
+                attn, size=[attn_shape[1] * 2, attn_shape[2] * 2],
                 align_corners=self.align_corners,
                 name='upsample2', method=self.upsample_method)
             attn = Conv2D(self.num_feat, name='spatial_attn5')(attn)
