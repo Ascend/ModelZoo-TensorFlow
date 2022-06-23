@@ -123,10 +123,12 @@ sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
 sess = tf.Session(config=sess_config)
 K.set_session(sess)
 ################################
-model.fit_generator(train_generator(batchsize=batchsize),
+train_generator = train_generator(batchsize=batchsize)
+validation_generator = val_generator(batchsize=batchsize)
+model.fit_generator(train_generator,
                     steps_per_epoch=(250000. // batchsize),
                     epochs=epochs, verbose=1, callbacks=callbacks,
-                    validation_data=val_generator(batchsize=batchsize),
+                    validation_data=validation_generator,
                     validation_steps=(5000. // batchsize))
 ###### add for run on npu #####
 sess.close()
