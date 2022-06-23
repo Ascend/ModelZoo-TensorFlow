@@ -140,7 +140,7 @@ Alpha Zero是一个经典的强化学习的实例，主要特点是减少先验�
 
 - 以下步骤可以选择性进行执行
 
-  - 自动数据预处理和监督学习
+  - 自动数据预处理
 
     ```bash
     python3 src/chess_zero/run.py --cmd sl

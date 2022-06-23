@@ -37,7 +37,7 @@ from logging import getLogger
 from random import shuffle
 import numpy as np
 import time
-
+# import precision_tool.tf_config as npu_tf_config
 from chess_zero.agent.model_chess import ChessModel
 from chess_zero.config import Config
 from chess_zero.env.chess_env import canon_input_planes, is_black_turn, testeval
@@ -98,7 +98,7 @@ class OptimizeWorker:
             custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
             sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
             sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
-            sess_config = npu_tf_config.session_dump_config(sess_config, action='fusion_off')
+            custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("/home/ma-user/modelarts/user-job-dir/code/fusion_switch.cfg")
             keras_sess = set_keras_session_npu_config(config = sess_config)
             K.set_session(keras_sess)
         else:
@@ -153,7 +153,7 @@ class OptimizeWorker:
                              steps_per_epoch=int(length // tc.batch_size))
         endTime = time.time()
         steps = (int(length // tc.batch_size)) * epochs
-        print(f"Model Train Performance: {((endTime - startTime) * 1000) / steps}ms/step")
+        print(f"Model Train Performance: {((endTime - startTime) * 1000) / steps} ms/step")
         return steps
 
     def compile_model(self):

@@ -52,7 +52,7 @@ def create_parser():
     parser.add_argument("--new", help="run from new best model", action="store_true")
     parser.add_argument("--type", help="use normal setting", default="mini")
     parser.add_argument("--total-step", help="set TrainerConfig.start_total_steps", type=int)
-    parser.add_argument("--epochs", help="how many epochs to run", default=-1)
+    parser.add_argument("--epochs", help="how many epochs to run", default=-1, type=int)
     parser.add_argument("--npu", help="use npu or not, default not", default=False, action="store_true")
     return parser
 
@@ -84,7 +84,7 @@ def start():
     if args.cmd == 'uci':
         disable(999999) # plz don't interfere with uci
 
-    config = Config(config_type=config_type, args.epochs, args.npu)
+    config = Config(config_type=config_type, total_epochs=args.epochs, use_npu=args.npu)
     setup(config, args)
 
     logger.info(f"config type: {config_type}")
