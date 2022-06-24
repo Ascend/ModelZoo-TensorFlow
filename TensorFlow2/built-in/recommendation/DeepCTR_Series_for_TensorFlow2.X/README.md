@@ -8,7 +8,7 @@
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：recommendation**
+**应用领域（Application Domain）：Recommendation**
 
 **版本（Version）：1.1**
 
