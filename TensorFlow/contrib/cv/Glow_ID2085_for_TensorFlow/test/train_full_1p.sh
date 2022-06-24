@@ -13,7 +13,8 @@ perf_flag=`echo $0 | grep performance | wc -l`
 
 # 当前执行网络的名称
 Network=`echo $(cd $(dirname $0);pwd) | awk -F"/" '{print $(NF-1)}'`
-
+sed -i "10 s/0/${ASCEND_DEVICE_ID}/" ${cur_path}/../glow.json
+export RANK_TABLE_FILE=${cur_path}/../glow.json
 export RANK_SIZE=1
 export RANK_ID=0
 export JOB_ID=10087
@@ -66,10 +67,10 @@ fi
 
 # 设置打屏日志文件名，请保留，文件名为${print_log}
 print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
-modelarts_flag=${MODELARTS_MODEL_PATH}
+modelarts_flag=`cat /etc/passwd |grep ma-user`
 if [ x"${modelarts_flag}" != x ];
 then
-    echo "running without etp..."
+    echo "running with modelarts_flag..."
     print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
     print_log="/home/ma-user/modelarts/log/${print_log_name}"
 fi
@@ -109,22 +110,23 @@ start_time=$(date +%s)
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
 batch_size=50
-
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} --problem cifar10 --n_train 500000  --image_size 32 --n_level 3 --depth 32 --flow_permutation 2 --seed 0 --lr 0.001 --epochs 300 --n_bits_x 8 
+    python3.7 ./train.py --data_url=${data_path}/datasets --train_url=${output_path} --epochs=100 1>${print_log} 2>&1
 else
-    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} --problem cifar10 --n_train 500000  --image_size 32 --n_level 3 --depth 32 --flow_permutation 2 --seed 0 --lr 0.001 --epochs 300 --n_bits_x 8 1>${print_log} 2>&1
+    python3.7 ./train.py --data_url=${data_path}/datasets --train_url=${output_path} --epochs=100 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+Time=`cat ${print_log} | tail -n 10 | grep -v "Finished!" | awk '{print $8}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`awk 'BEGIN{printf "%.2f\n", '${Time}'/'250000'}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`cat ${print_log} | tail -n 10 | grep -v "Finished!"| awk '{print $9}' | tr -d "[" | awk 'END {print}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+cat ${print_log} | tail -n 10 | grep -v "Finished!"| awk '{print $9}' | tr -d "["  > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+
 
 
 ###########################################################
@@ -134,8 +136,9 @@ grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' >
 ###########################################################
 
 # 判断本次执行是否正确使用Ascend NPU
+tf_flag=`echo ${Network} | grep TensorFlow | wc -l`
 use_npu_flag=`grep "The model has been compiled on the Ascend AI processor" ${print_log} | wc -l`
-if [ x"${use_npu_flag}" == x0 ];
+if [ x"${use_npu_flag}" == x0 -a x"${tf_flag}" == x1 ];
 then
     echo "------------------ ERROR NOTICE START ------------------"
     echo "ERROR, your task haven't used Ascend NPU, please check your npu Migration."
@@ -181,4 +184,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
