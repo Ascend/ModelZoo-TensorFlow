@@ -54,12 +54,13 @@ python train.py --problem cifar10 --image_size 32 --n_level 3 --depth 32 --flow_
 - NPU:
 ````
 参数：
-Namespace(anchor_size=32, beta1=0.9, category='', dal=1, data_dir=None, data_url='/home/ma-user/modelarts/inputs/data_url_0/', depth=32, direct_iterator=False, epochs=300, epochs_full_sample=50, epochs_full_valid=5, epochs_warmup=10, flow_coupling=0, flow_permutation=2, fmap=1, full_test_its=200, gradient_checkpointing=1, image_size=32, inference=False, learntop=False, local_batch_init=1, local_batch_test=50, local_batch_train=50, logdir='./logs', lr=0.001, n_batch_init=1, n_batch_test=50, n_batch_train=50, n_bins=256.0, n_bits_x=8, n_levels=3, n_sample=1, n_test=10000, n_train=500, n_y=10, optimizer='adamax', pmap=16, polyak_epochs=1, problem='cifar10', restore_path='', rnd_crop=False, seed=0, test_its=200, top_shape=[4, 4, 48], train_its=10, train_url='/home/ma-user/modelarts/outputs/train_url_0/', verbose=False, weight_decay=1.0, weight_y=0.0, width=512, ycond=False)
+Namespace(anchor_size=32, beta1=0.9, category='', dal=1, data_dir=None, data_url='/home/ma-user/modelarts/inputs/data_url_0/', depth=32, direct_iterator=False, epochs=300, epochs_full_sample=50, epochs_full_valid=5, epochs_warmup=10, flow_coupling=0, flow_permutation=2, fmap=1, full_test_its=200, gradient_checkpointing=1, image_size=32, inference=False, learntop=False, local_batch_init=1, local_batch_test=50, local_batch_train=50, logdir='./logs', lr=0.001, n_batch_init=1, n_batch_test=50, n_batch_train=50, n_bins=256.0, n_bits_x=8, n_levels=3, n_sample=1, n_test=10000, n_train=50000, n_y=10, optimizer='adamax', pmap=16, polyak_epochs=1, problem='cifar10', restore_path='', rnd_crop=False, seed=0, test_its=200, top_shape=[4, 4, 48], train_its=10, train_url='/home/ma-user/modelarts/outputs/train_url_0/', verbose=False, weight_decay=1.0, weight_y=0.0, width=512, ycond=False)
 epoch n_processed n_images ips dtrain dtest dsample dtot train_results test_results msg
-1 500 500 0.1 5307.6 0.0 430.7 5738.3 [16.123318 16.123318 0. 1. ] []
-2 1000 1000 44.8 11.2 0.0 0.0 11.2 [7.507518 7.507518 0. 1. ] []
-3 1500 1500 45.0 11.1 0.0 0.0 11.1 [6.3911085 6.3911085 0. 1. ] []
-4 2000 2000 45.1 11.1 0.0 0.0 11.1 [11.038368 11.038368 0. 1. ] []
+1 50000 50000 8.4 5975.1 0.0 439.5 6414.6 [6.2762194 6.2762194 0.        1.       ] [] 
+2 100000 100000 54.9 910.7 0.0 0.0 910.7 [4.081265 4.081265 0.       1.      ] [] 
+3 150000 150000 55.0 909.1 0.0 0.0 909.1 [3.8218997 3.8218997 0.        1.       ] [] 
+4 200000 200000 54.9 911.6 0.0 0.0 911.6 [3.6507013 3.6507013 0.        1.       ] [] 
+5 250000 250000 54.8 911.8 1216.4 0.0 2128.1 [3.5184724 3.5184724 0.        1.       ] [3.9819248 3.9819248 0.        1.       ]
 
 ...
 
