@@ -133,7 +133,7 @@ echo "Final Train Accuracy : ${train_accuracy}"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'dynamic'_'eval'_'perf'
 
 ##获取性能数据，不需要修改
 #吞吐量
