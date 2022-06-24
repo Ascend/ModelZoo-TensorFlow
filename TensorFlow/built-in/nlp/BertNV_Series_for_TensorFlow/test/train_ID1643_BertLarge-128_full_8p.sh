@@ -21,7 +21,7 @@ train_batch_size=32
 #训练ephch
 num_train_epochs=3.0
 #学习率
-learning_rate=2e-5
+learning_rate=2e-6
 warmup_proportion=0.1
 precision="fp32"
 #维测参数，precision_mode需要模型审视修改
