@@ -53,21 +53,31 @@ python train.py --problem cifar10 --image_size 32 --n_level 3 --depth 32 --flow_
 ````
 - NPU:
 ````
-参数：{"data_url": "/home/ma-user/modelarts/inputs/data_url_0/", "train_url": "/home/ma-user/modelarts/outputs/train_url_0/", "verbose": false, "restore_path": "", "inference": false, "logdir": "./logs", "problem": "cifar10", "category": "", "data_dir": null, "dal": 1, "fmap": 1, "pmap": 16, "n_train": 500, "n_test": 10000, "n_batch_train": 50, "n_batch_test": 50, "n_batch_init": 1, "optimizer": "adamax", "lr": 0.001, "beta1": 0.9, "polyak_epochs": 1, "weight_decay": 1.0, "epochs": 300, "epochs_warmup": 10, "epochs_full_valid": 5, "gradient_checkpointing": 1, "image_size": 32, "anchor_size": 32, "width": 512, "depth": 32, "weight_y": 0.0, "n_bits_x": 8, "n_levels": 3, "n_sample": 1, "epochs_full_sample": 50, "learntop": false, "ycond": false, "seed": 0, "flow_permutation": 2, "flow_coupling": 0, "n_y": 10, "rnd_crop": false, "local_batch_train": 50, "local_batch_test": 50, "local_batch_init": 1, "direct_iterator": false, "train_its": 10, "test_its": 200, "full_test_its": 200, "n_bins": 256.0, "top_shape": [4, 4, 48]}
+参数：
+Namespace(anchor_size=32, beta1=0.9, category='', dal=1, data_dir=None, data_url='/home/ma-user/modelarts/inputs/data_url_0/', depth=32, direct_iterator=False, epochs=300, epochs_full_sample=50, epochs_full_valid=5, epochs_warmup=10, flow_coupling=0, flow_permutation=2, fmap=1, full_test_its=200, gradient_checkpointing=1, image_size=32, inference=False, learntop=False, local_batch_init=1, local_batch_test=50, local_batch_train=50, logdir='./logs', lr=0.001, n_batch_init=1, n_batch_test=50, n_batch_train=50, n_bins=256.0, n_bits_x=8, n_levels=3, n_sample=1, n_test=10000, n_train=50000, n_y=10, optimizer='adamax', pmap=16, polyak_epochs=1, problem='cifar10', restore_path='', rnd_crop=False, seed=0, test_its=200, top_shape=[4, 4, 48], train_its=10, train_url='/home/ma-user/modelarts/outputs/train_url_0/', verbose=False, weight_decay=1.0, weight_y=0.0, width=512, ycond=False)
+epoch n_processed n_images ips dtrain dtest dsample dtot train_results test_results msg
+1 50000 50000 8.4 5975.1 0.0 439.5 6414.6 [6.2762194 6.2762194 0.        1.       ] [] 
+2 100000 100000 54.9 910.7 0.0 0.0 910.7 [4.081265 4.081265 0.       1.      ] [] 
+3 150000 150000 55.0 909.1 0.0 0.0 909.1 [3.8218997 3.8218997 0.        1.       ] [] 
+4 200000 200000 54.9 911.6 0.0 0.0 911.6 [3.6507013 3.6507013 0.        1.       ] [] 
+5 250000 250000 54.8 911.8 1216.4 0.0 2128.1 [3.5184724 3.5184724 0.        1.       ] [3.9819248 3.9819248 0.        1.       ]
 
-{"epoch": 1, "n_processed": 500, "n_images": 500, "train_time": 3786, "loss": "15.6115", "bits_x": "15.6115", "bits_y": "0.0000", "pred_loss": "1.0000"}
-{"epoch": 2, "n_processed": 1000, "n_images": 1000, "train_time": 3796, "loss": "7.3706", "bits_x": "7.3706", "bits_y": "0.0000", "pred_loss": "1.0000"}
-{"epoch": 3, "n_processed": 1500, "n_images": 1500, "train_time": 3806, "loss": "6.3911", "bits_x": "6.3911", "bits_y": "0.0000", "pred_loss": "1.0000"}
-……
-{"epoch": 297, "n_processed": 148500, "n_images": 148500, "train_time": 6726, "loss": "3.2871", "bits_x": "3.2871", "bits_y": "0.0000", "pred_loss": "1.0000"}
-{"epoch": 298, "n_processed": 149000, "n_images": 149000, "train_time": 6736, "loss": "3.2421", "bits_x": "3.2421", "bits_y": "0.0000", "pred_loss": "1.0000"}
-{"epoch": 299, "n_processed": 149500, "n_images": 149500, "train_time": 6746, "loss": "3.2897", "bits_x": "3.2897", "bits_y": "0.0000", "pred_loss": "1.0000"}
+...
+
+70 3500000 3500000 165.3 302.4 14.6 0.0 1527.6 [2.9541063 2.9541063 0. 1. ] [3.5134225 3.5134225 0. 1. ] *
+75 3750000 3750000 165.1 302.8 14.5 0.0 1527.7 [2.949904 2.949904 0. 1. ] [3.5093305 3.5093305 0. 1. ] *
+80 4000000 4000000 165.4 302.4 14.2 0.0 1527.2 [2.9465308 2.9465308 0. 1. ] [3.5025241 3.5025241 0. 1. ] *
+85 4250000 4250000 165.2 302.7 12.2 0.0 1526.1 [2.9442344 2.9442344 0. 1. ] [3.5053678 3.5053678 0. 1. ]
+90 4500000 4500000 164.9 303.2 14.7 0.0 1529.7 [2.9408553 2.9408553 0. 1. ] [3.4954607 3.4954607 0. 1. ] *
+95 4750000 4750000 165.0 303.0 12.2 0.0 1527.0 [2.9360971 2.9360971 0. 1. ] [3.496417 3.496417 0. 1. ]
 
 ````
 
 #### 性能分析
 
 
-#### 精度分析
+#### 精度达标
+bits_x NPU：2.9
+bits_x GPU: 3.213
 
 
