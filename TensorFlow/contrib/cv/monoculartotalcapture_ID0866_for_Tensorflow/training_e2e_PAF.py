@@ -153,6 +153,9 @@ with tf.Graph().as_default(), tf.device('/cpu:0'):
     apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.6)
     config_proto = tf.ConfigProto(gpu_options=gpu_options, allow_soft_placement=True)
+    custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
+    custom_op.name = 'NpuOptimizer'
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes('allow_mix_precision')
     config = npu_config_proto(config_proto=config_proto)
     sess = tf.Session(config=config)
     sess.run(tf.global_variables_initializer())
