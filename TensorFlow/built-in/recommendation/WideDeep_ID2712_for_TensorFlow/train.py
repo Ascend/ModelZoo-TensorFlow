@@ -66,6 +66,8 @@ from npu_bridge.estimator.npu.npu_optimizer import NPUDistributedOptimizer
 ###end
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 from npu_bridge.npu_init import *
+from hccl.split.api import set_split_strategy_by_idx
+set_split_strategy_by_idx([2,64,67,88])
 
 rank_size = os.getenv('RANK_SIZE')
 rank_size = 1 if not rank_size else int(rank_size)
