@@ -33,6 +33,8 @@ import numpy as np
 from matplotlib import pyplot as plt
 #from kaggle_datasets import KaggleDatasets
 from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix
+from hccl.split.api import set_split_strategy_by_size
+set_split_strategy_by_size([20,20,20,20,20])
 print("Tensorflow version " + tf.__version__)
 AUTO = tf.data.experimental.AUTOTUNE
 _NUM_TRAIN_FILES=15
