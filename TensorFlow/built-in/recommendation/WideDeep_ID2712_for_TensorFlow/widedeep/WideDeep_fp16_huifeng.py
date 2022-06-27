@@ -137,7 +137,7 @@ class WideDeep:
                     ############## for hccl ###################
                     #self.wide_ptmzr = npu_distributed_optimizer_wrapper(self.wide_ptmzr)
                     ############## for hccl ###################
-                    self.wide_ptmzr = NPULossScaleOptimizer(self.wide_ptmzr, loss_scale_manager, is_distributed=True)
+                    #self.wide_ptmzr = NPULossScaleOptimizer(self.wide_ptmzr, loss_scale_manager, is_distributed=True)
                     grads_w = self.wide_ptmzr.compute_gradients(self.wide_loss, var_list=tf.get_collection('wide'))
                 else:
                     self.wide_ptmzr = NPULossScaleOptimizer(self.wide_ptmzr, loss_scale_manager)
@@ -148,7 +148,7 @@ class WideDeep:
                     ############## for hccl ###################
                     #self.deep_optimzer = npu_distributed_optimizer_wrapper(self.deep_optimzer)
                     ############## for hccl ###################
-                    self.deep_optimzer = NPULossScaleOptimizer(self.deep_optimzer, loss_scale_manager2, is_distributed=True)
+                    #self.deep_optimzer = NPULossScaleOptimizer(self.deep_optimzer, loss_scale_manager2, is_distributed=True)
                     grads_d = self.deep_optimzer.compute_gradients(self.deep_loss, var_list=tf.get_collection('deep'))
                 else:
                     self.deep_optimzer = NPULossScaleOptimizer(self.deep_optimzer, loss_scale_manager2)
