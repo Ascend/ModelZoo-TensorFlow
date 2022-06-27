@@ -66,7 +66,7 @@ flags.DEFINE_integer('number_of_steps', 1,
 
 flags.DEFINE_bool('my_eval', False,
                      'use my eval.')
-flags.DEFINE_bool('Not_on_modelart', True,
+flags.DEFINE_bool('not_on_modelart', True,
                      'use my eval.')
 
 # yapf: enable
