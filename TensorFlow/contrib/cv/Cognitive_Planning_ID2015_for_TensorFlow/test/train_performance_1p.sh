@@ -111,12 +111,12 @@ batch_size=8
 train_epochs=2
 train_steps=100
 
-python3 -m pip install --upgrade pip
-pip3 install gin-config
-pip3 install gym
-pip3 install embedders
-pip3 install policies
-pip3 install tasks
+#python3 -m pip install --upgrade pip
+#pip3 install gin-config
+#pip3 install gym
+#pip3 install embedders
+#pip3 install policies
+#pip3 install tasks
 
 if [ x"${etp_flag}" != xtrue ];
 then
@@ -124,18 +124,17 @@ then
     python3.7 ./train_supervised_active_vision.py --mode='train'   --logdir=${output_path}/checkpoint   --modality_types='det'   --batch_size=8   --train_iters=200   --lstm_cell_size=2048   --policy_fc_size=2048   --sequence_length=20   --max_eval_episode_length=100   --test_iters=194   --gin_config=envs/configs/active_vision_config.gin   --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"   --logtostderr
 else
     echo -------1234567-------
-    python3.7 ./train_supervised_active_vision.py --mode='train'   --logdir=${output_path}/checkpoint   --modality_types='det'   --batch_size=8   --train_iters=200  --lstm_cell_size=2048   --policy_fc_size=2048   --sequence_length=20   --max_eval_episode_length=100   --test_iters=194   --gin_config=envs/configs/active_vision_config.gin   --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"   --logtostderr > ${print_log}
+    python3.7 ./train_supervised_active_vision.py --mode='train'   --logdir=${output_path}/checkpoint   --modality_types='det'   --batch_size=8   --train_iters=200  --lstm_cell_size=2048   --policy_fc_size=2048   --sequence_length=20   --max_eval_episode_length=100   --test_iters=194   --gin_config=envs/configs/active_vision_config.gin   --gin_params="ActiveVisionDatasetEnv.dataset_root='${data_path}'"   --logtostderr >${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "tensorflow:global step" ${print_log} | awk '{print $7}' | tr -d "(" | tail -n +3 | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+#train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-
+grep "loss" ${print_log} | awk -F "=" '{print $2}' | awk -F "(" '{print $1}' | tr -d " " > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -176,7 +175,7 @@ echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
 # 输出训练精度
-echo "Final Train Accuracy : ${train_accuracy}"
+#echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
 ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)

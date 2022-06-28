@@ -66,7 +66,7 @@ python train_supervised_active_vision.py
   --logtostderr
 """
 from npu_bridge.npu_init import *
-import moxing as mox
+#import moxing as mox
 
 import collections
 import os
@@ -93,7 +93,7 @@ logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(leve
 
 
 
-os.mkdir("/cache/profiling")
+os.mkdir("./test/output/profiling")
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 
 config = tf.ConfigProto()
@@ -102,7 +102,7 @@ custom_op.name = "NpuOptimizer"
 custom_op.parameter_map["use_off_line"].b = True
 custom_op.parameter_map["profiling_mode"].b = True  # 打开profiling
 custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
-custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/cache/profiling",'
+custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"./test/output/profiling",'
                                                                     '"training_trace":"on",'
                                                                     '"task_trace":"on",'
                                                                     '"aicpu":"on",'
@@ -538,7 +538,7 @@ def train():
             save_interval_secs=FLAGS.save_interval_secs,
             session_config=npu_config_proto(config_proto=config),
         )
-    mox.file.copy_parallel("/cache/profiling", 'obs://cognitive-planning/profiling')
+    #mox.file.copy_parallel("/cache/profiling", 'obs://cognitive-planning/profiling')
     # sess.close()
 
 def main(_):
