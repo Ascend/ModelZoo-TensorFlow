@@ -13,7 +13,7 @@ Network="WDL_ID2633_for_TensorFlow2.X"
 RankSize=1
 #训练epoch，可选
 #train_epochs=5
-train_epochs=2
+train_epochs=4
 #训练step
 # train_steps=5
 #学习率
