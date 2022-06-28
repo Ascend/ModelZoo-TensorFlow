@@ -269,7 +269,7 @@ def resnet_bottleneck_v1(builder, inputs, depth, depth_bottleneck, stride, filte
 
 
 def resnext_bottleneck(builder, inputs, depth, depth_bottleneck, stride, filters, arch_type,
-                         basic=False):
+                         basic=False, name=""):
     num_inputs = inputs.get_shape().as_list()[3]
     x = inputs
     with tf.name_scope('resnet_v1'):
@@ -289,17 +289,17 @@ def resnext_bottleneck(builder, inputs, depth, depth_bottleneck, stride, filters
             #----- split layer ------
             x = builder.conv2d( x, depth_bottleneck, 1, 1, 'SAME' )   
 
-            group_inputs = tf.split( x, _Cardi, axis=3 )
+            group_filter = tf.get_variable(
+                name=name,
+                shape=[3, 3, depth_bottleneck // _Cardi, depth_bottleneck],
+                trainable=True,
+                dtype=tf.float32)
+            x = tf.nn.conv2d(x,
+                             group_filter,
+                             strides=stride,
+                             padding='SAME',
+                             data_format="NHWC")
 
-            layers_split=[]
-            tmp = x
-            for i in range(_Cardi):
-                with tf.name_scope('cardi_' + str(i)):
-                    split = builder.conv2d_no_act_no_bn(group_inputs[i], depth_bottleneck / _Cardi,
-                                                        3, stride, 'SAME')
-                    layers_split.append(split)
-
-            x = tf.concat(layers_split, axis=3)
             x = builder.batch_norm(x)
             x = tf.nn.relu(x)
 
@@ -385,16 +385,16 @@ def inference_resnext_impl(builder, inputs, layer_counts, arch_type='C1+D', num_
     #x, argmax = tf.nn.max_pool_with_argmax(input=x, ksize=(1,3,3,1), strides=(1,2,2,1), padding='SAME')
 
     for i in range(layer_counts[0]):
-        x = resnext_bottleneck(builder, x, 256, 128, 1, num_filters, arch_type, basic)
+        x = resnext_bottleneck(builder, x, 256, 128, 1, num_filters, arch_type, basic, name=("bottleneck_0_" + str(i)))
     for i in range(layer_counts[1]):
         num_filters = num_filters * 2
-        x = resnext_bottleneck(builder, x, 512, 256, 2 if i == 0 else 1, num_filters, arch_type, basic)
+        x = resnext_bottleneck(builder, x, 512, 256, 2 if i == 0 else 1, num_filters, arch_type, basic, name=("bottleneck_1_" + str(i)))
     for i in range(layer_counts[2]):
         num_filters = num_filters * 2
-        x = resnext_bottleneck(builder, x, 1024, 512, 2 if i == 0 else 1, num_filters, arch_type, basic)
+        x = resnext_bottleneck(builder, x, 1024, 512, 2 if i == 0 else 1, num_filters, arch_type, basic, name=("bottleneck_2_" + str(i)))
     for i in range(layer_counts[3]):
         num_filters = num_filters * 2
-        x = resnext_bottleneck(builder, x, 2048, 1024, 2 if i == 0 else 1, num_filters, arch_type, basic)
+        x = resnext_bottleneck(builder, x, 2048, 1024, 2 if i == 0 else 1, num_filters, arch_type, basic, name=("bottleneck_3_" + str(i)))
     print('====================Final x:', x)
 
     axes = [1, 2]
