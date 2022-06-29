@@ -132,9 +132,7 @@ else
 fi
 
 # 性能相关数据计算
-step0=`grep time ${print_log} | awk -F"time: " '{print $2}' | awk -F" " 'END{print $1}'`
-step1=`grep time ${print_log} | awk -F"time: " '{print $2}' | awk -F" " '{print $1}' | tail -2 | head -1`
-StepTime=`awk 'BEGIN{printf "%.4f",('${step0}'-'${step1}')}'`
+StepTime=`grep "time:" ${print_log} | tail -n +3 | awk '{print $8}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 #提取精度
