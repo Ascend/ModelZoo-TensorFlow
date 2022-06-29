@@ -113,7 +113,7 @@ train_steps=100
 batch_size=384
 
 # 复制文件
-cp -r ${data_path} ./data/
+cp -r ${data_path}/data ./
 ls -al
 
 if [ x"${modelarts_flag}" != x ];
@@ -127,7 +127,7 @@ fi
 # StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
 # FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
-StepTime=`grep "Performance:" ${print_log} | tail -n 10 | awk '{print $4}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "Performance:" ${print_log} | tail -n +3 | awk '{print $4}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
@@ -135,7 +135,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 提取所有loss打印信息
 # grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-grep "step - loss" ${print_log} | awk -F " " '{print $8}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+cat ${print_log} | tr -d '\b\r' | grep -Eo "step - loss: [0-9]*\.[0-9]*" | awk '{print $4}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 echo "reinforcement's accuracy can not be measured by 'accuracy', because there is nothing can be recognised as accuracy"
 echo "So we use loss as measures to measure accuracy"
