@@ -104,7 +104,7 @@ class ChessPlayer:
             during the running of the AGZ algorithm
     """
     # dot = False
-    def __init__(self, config: Config, pipes=None, play_config=None, dummy=False):
+    def __init__(self, config, pipes=None, play_config=None, dummy=False):
         self.moves = []
 
         self.tree = defaultdict(VisitStats)
@@ -189,7 +189,7 @@ class ChessPlayer:
 
         return np.max(vals), vals[0] # vals[0] is kind of racy
 
-    def search_my_move(self, env: ChessEnv, is_root_node=False) -> float:
+    def search_my_move(self, env, is_root_node=False) -> float:
         """
         Q, V is value for this Player(always white).
         P is value for the player of next_player (black or white)
@@ -389,7 +389,7 @@ class ChessPlayer:
             move += [z]
 
 
-def state_key(env: ChessEnv) -> str:
+def state_key(env) -> str:
     """
     :param ChessEnv env: env to encode
     :return str: a str representation of the game state

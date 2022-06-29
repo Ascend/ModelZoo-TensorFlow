@@ -172,8 +172,10 @@ class Config:
     n_labels = int(len(labels))
     flipped_labels = flipped_uci_labels()
     unflipped_index = None
+    total_epochs = -1
+    use_npu = False
 
-    def __init__(self, config_type="mini"):
+    def __init__(self, config_type="mini", total_epochs=-1, use_npu=False):
         """
 
         :param str config_type: one of "mini", "normal", or "distributed", representing the set of
@@ -199,6 +201,8 @@ class Config:
         self.labels = Config.labels
         self.n_labels = Config.n_labels
         self.flipped_labels = Config.flipped_labels
+        self.total_epochs = total_epochs
+        self.use_npu = use_npu
 
     @staticmethod
     def flip_policy(pol):

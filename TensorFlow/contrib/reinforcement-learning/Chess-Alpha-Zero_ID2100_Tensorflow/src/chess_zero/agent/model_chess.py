@@ -70,7 +70,7 @@ class ChessModel:
         :ivar digest: basically just a hash of the file containing the weights being used by this model
         :ivar ChessModelAPI api: the api to use to listen for and then return this models predictions (on a pipe).
     """
-    def __init__(self, config: Config):
+    def __init__(self, config):
         self.config = config
         self.model = None  # type: Model
         self.digest = None

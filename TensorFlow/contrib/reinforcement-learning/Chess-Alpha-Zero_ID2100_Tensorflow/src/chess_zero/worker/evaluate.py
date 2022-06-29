@@ -46,7 +46,7 @@ from chess_zero.lib.model_helper import save_as_best_model, load_best_model_weig
 logger = getLogger(__name__)
 
 
-def start(config: Config):
+def start(config):
     return EvaluateWorker(config).start()
 
 class EvaluateWorker:
@@ -61,7 +61,7 @@ class EvaluateWorker:
         :ivar list(Connection) cur_pipes: pipes on which the current best ChessModel is listening which will be used to
             make predictions while playing a game.
     """
-    def __init__(self, config: Config):
+    def __init__(self, config):
         """
         :param config: Config to use to control how evaluation should work
         """
@@ -168,7 +168,7 @@ class EvaluateWorker:
         return model, model_dir
 
 
-def play_game(config, cur, ng, current_white: bool) -> (float, ChessEnv, bool):
+def play_game(config, cur, ng, current_white) -> (float, ChessEnv, bool):
     """
     Plays a game against models cur and ng and reports the results.
 

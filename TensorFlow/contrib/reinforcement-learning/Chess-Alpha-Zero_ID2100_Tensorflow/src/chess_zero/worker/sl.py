@@ -49,7 +49,7 @@ logger = getLogger(__name__)
 TAG_REGEX = re.compile(r"^\[([A-Za-z0-9_]+)\s+\"(.*)\"\]\s*$")
 
 
-def start(config: Config):
+def start(config):
     return SupervisedLearningWorker(config).start()
 
 
@@ -64,7 +64,7 @@ class SupervisedLearningWorker:
             to a chess move. The move that was taken in the actual game is given a value (based on
             the player elo), all other moves are given a 0.
     """
-    def __init__(self, config: Config):
+    def __init__(self, config):
         """
         :param config:
         """

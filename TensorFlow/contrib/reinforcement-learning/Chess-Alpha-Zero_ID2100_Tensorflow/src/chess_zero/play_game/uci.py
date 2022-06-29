@@ -40,7 +40,7 @@ from chess_zero.env.chess_env import ChessEnv
 logger = getLogger(__name__)
 
 # noinspection SpellCheckingInspection,SpellCheckingInspection,SpellCheckingInspection,SpellCheckingInspection,SpellCheckingInspection,SpellCheckingInspection
-def start(config: Config):
+def start(config):
 
     PlayWithHumanConfig().update_play_config(config.play)
 
