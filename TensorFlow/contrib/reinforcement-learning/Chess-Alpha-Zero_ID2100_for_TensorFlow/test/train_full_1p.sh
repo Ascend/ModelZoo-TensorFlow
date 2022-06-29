@@ -109,22 +109,20 @@ start_time=$(date +%s)
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
 batch_size=384
-print_log="./logs/train_full_1p.log"
 
 # 复制文件
-cp -r ${data_path} ./data/
+cp -r ${data_path}/data ./
 ls -al
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./src/chess_zero/run.py --cmd opt --npu --epochs 100
+    python3.7 ./src/chess_zero/run.py --cmd opt --npu --epochs 10
 else
-    python3.7 ./src/chess_zero/run.py --cmd opt --npu --epochs 100 1>${print_log} 2>&1
+    python3.7 ./src/chess_zero/run.py --cmd opt --npu --epochs 10 1>${print_log} 2>&1
 fi
 
-print_log="./logs/main.log"
 # 性能相关数据计算
-StepTime=`grep "Performance :" ${print_log} | tail -n 10 | awk '{print $4}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "Performance:" ${print_log} | tail -n +3 | awk '{print $4}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
@@ -132,7 +130,7 @@ echo "reinforcement's accuracy can not be measured by 'accuracy', because there 
 echo "So we use loss as measures to measure accuracy"
 # train_accuracy=`grep "loss :" ${print_log} | tail -n 300 | awk '{print $NF}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F " " '{print $8}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+cat ${print_log} | tr -d '\b\r'| grep -Eo "step - loss: [0-9]*\.[0-9]*" | awk '{print $4}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
@@ -178,7 +176,7 @@ echo "E2E Training Duration sec : $e2e_time"
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt`)
+ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -190,4 +188,3 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
