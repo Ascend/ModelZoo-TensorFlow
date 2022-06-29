@@ -98,7 +98,7 @@ class OptimizeWorker:
             custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
             sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
             sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
-            custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("/home/ma-user/modelarts/user-job-dir/code/fusion_switch.cfg")
+            custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("./fusion_switch.cfg")
             keras_sess = set_keras_session_npu_config(config = sess_config)
             K.set_session(keras_sess)
         else:
