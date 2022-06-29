@@ -42,8 +42,8 @@ if _PATH_ not in sys.path:
 
 
 if __name__ == "__main__":
-    os.system('pip install chess')
-    os.system('pip install pyperclip')
+    # os.system('pip install chess')
+    # os.system('pip install pyperclip')
     mp.set_start_method('spawn')
     sys.setrecursionlimit(10000)
     from chess_zero import manager
