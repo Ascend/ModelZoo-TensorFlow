@@ -32,6 +32,9 @@ import tensorflow as tf
 import numpy as np
 from matplotlib import pyplot as plt
 #from kaggle_datasets import KaggleDatasets
+from hccl.split.api import set_split_strategy_by_size
+set_split_strategy_by_size([20,20,20,20,20])
+
 from sklearn.metrics import f1_score, precision_score, recall_score, confusion_matrix
 from hccl.split.api import set_split_strategy_by_size
 set_split_strategy_by_size([20,20,20,20,20])
