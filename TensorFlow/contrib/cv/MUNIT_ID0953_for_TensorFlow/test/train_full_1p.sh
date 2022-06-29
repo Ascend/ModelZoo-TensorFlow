@@ -110,24 +110,6 @@ start_time=$(date +%s)
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
 
-# batch_size=64
-
-# if [ x"${modelarts_flag}" != x ];
-# then
-#     python3.7 ./LeNet.py --data_path=${data_path} --output_path=${output_path}
-# else
-#     python3.7 ./LeNet.py --data_path=${data_path} --output_path=${output_path} 1>${print_log} 2>&1
-# fi
-
-# # 性能相关数据计算
-# StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
-# FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
-
-# # 精度相关数据计算
-# train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
-# # 提取所有loss打印信息
-# grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-train_epochs=1
 train_steps=100000
 batch_size=1
 epoch=1
@@ -140,31 +122,24 @@ then
     --result=${output_path} \
     --batch_size ${batch_size}
 else
-    ASCEND_VISIBLE_DEVICES=0 python3.7 ./main.py --data_path=${data_path} --phase train \
-    --epoch ${epoch} \
-    --iteration ${train_steps} \
-    --result=${output_path} \
-    --batch_size ${batch_size} 1>${print_log} 2>&1
+    python3.7 ./main.py \
+        --data_path=${data_path}/dataset/edges2shoes/train \
+        --phase train \
+        --epoch=${epoch} \
+        --iteration ${train_steps} \
+        --result=${output_path} \
+        --batch_size=${batch_size} 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-#StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
-step0=`grep time ${print_log} | awk -F"time: " '{print $2}' | awk -F" " 'END{print $1}'`
-step1=`grep time ${print_log} | awk -F"time: " '{print $2}' | awk -F" " '{print $1}' | tail -2 | head -1`
-StepTime=`awk 'BEGIN{printf "%.4f",('${step0}'-'${step1}')}'`
+StepTime=`grep "time:" ${print_log} | tail -n +3 | awk '{print $8}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
-# # 精度相关数据计算
-# train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
-# # 提取所有loss打印信息
-# grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-# 精度相关数据计算
-# train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
-train_accuracy="None"
+#提取精度
+train_accuracy=`grep "d_loss" ${print_log} | awk '{print $9}' | tail -n 50 | awk '{sum+=$1} END {print sum/NR}'`
 # 提取所有loss打印信息
-#grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 grep d_loss ${print_log} | awk -F"d_loss: " '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-grep g_loss ${print_log} | awk -F"g_loss: " '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+#grep g_loss ${print_log} | awk -F"g_loss: " '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
