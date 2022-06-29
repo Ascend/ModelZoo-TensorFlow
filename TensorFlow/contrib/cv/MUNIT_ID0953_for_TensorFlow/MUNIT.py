@@ -458,7 +458,7 @@ class MUNIT(object) :
             print(" [!] Load failed...")
 
         # loop for epoch
-        start_time = time.time()
+        #start_time = time.time()
         for epoch in range(start_epoch, self.epoch):
 
             lr = self.init_lr * pow(0.5, epoch)
@@ -478,6 +478,7 @@ class MUNIT(object) :
                 #     self.sess.run([self.D_optim, self.Discriminator_loss, self.D_loss], feed_dict = train_feed_dict)
                 
                 # 保存scale value，并打印到日志里，来观察整网的溢出情况
+                start_time = time.time()
                 _, d_loss, summary_str, d_scale = \
                     self.sess.run([self.D_optim, self.Discriminator_loss, self.D_loss, self.mmgr['D'].get_loss_scale()],
                                   feed_dict=train_feed_dict)
