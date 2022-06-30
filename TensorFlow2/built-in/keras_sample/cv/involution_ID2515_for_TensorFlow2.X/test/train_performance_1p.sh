@@ -12,7 +12,7 @@ Network="involution_ID2515_for_TensorFlow2.X"
 #Device数量，单卡默认为1
 RANK_SIZE=1
 #训练epoch，可选
-train_epochs=20
+train_epochs=10
 #训练step
 #train_steps=50000
 #学习率
