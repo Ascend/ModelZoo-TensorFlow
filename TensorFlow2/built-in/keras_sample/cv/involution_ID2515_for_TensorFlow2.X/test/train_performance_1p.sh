@@ -69,22 +69,19 @@ e2etime=$(( $end - $start ))
 #echo "Final Performance ms/step : $average_perf"
 echo "Final Training Duration sec : $e2e_time"
 
-#参数回改
-#sed -i "s|${datth}/th}//io//tfrecord|../data/tfrecord|g" ${cur_path}/data/io/read_tfrecord.py
-#sed -i "s|PRETRAINED_C'/|g" ${cur_paath}/|PRETRAINED_CKPT = ROOT_PATH + '/|g" ${cur_path}/libs/configs/cfgs.py
-
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-#由于loss和性能取值不连续，所以每次只取每个Epoch的最后一个loss和性能值
-#StepTime=`grep loss $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | grep -v 'ETA' | awk '{print $5}' | tr -d ms/step |  awk '{sum+=$1} END {print sum/NR}'`
+Time=`grep "loss:" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -n +2 | awk '{print $3}' |  awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`awk 'BEGIN{printf "%.2f\n",'${Time}'/'50'}'`
 #FPS计算
-#FPS=`awk 'BEGIN{printf "%.2f\n",'1000'*'${batch_size}'/'${StepTime}'}'`
+FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${StepTime}'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
+echo "Final Performance sec/step : $StepTime"
 
 #输出训练精度,需要模型审视修改
-#train_accuracy=`grep accuracy $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | grep -v 'ETA' | awk '{print $11}' |  awk '{sum+=$1} END {print sum/NR}'`
+train_accuracy=`grep "accuracy:" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -n +2 | awk '{print $15}' | awk ' END {print $NF}'`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 
@@ -98,26 +95,11 @@ DeviceType=`uname -m`
 #用例名称，自动获取
 CaseName=${Network}_bs${BatchSize}_${RankSize}'p'_'perf'
 
-##获取性能数据，不需要修改
-#吞吐量
-#ActualFPS=${FPS}
-#单迭代训练时长
-#TrainingTime=`grep loss $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | grep -v 'ETA' | awk '{print $4}' | tr -d s |  awk '{sum+=$1} END {print sum}'`
-
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep loss: $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | grep -Eo " loss: [0-9]*\.[0-9]*"| awk '{print $2}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep "loss:" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -n +2 | awk '{print $12}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改
-ActualLoss=`awk 'END {print $1}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
+ActualLoss=`awk 'END {print $NF}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
-##获取错误信息
-#系统错误信息
-ModelStatus="图执行FAIL"
-error_msg="EZ3002"
-#判断错误信息是否和历史状态一致，此处无需修改
-error_msg="Graph engine process graph failed: EZ3002: Optype \[Conv2DBackpropFilter\] of Ops kernel"
-Status=`grep "${error_msg}" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|wc -l`
-#DTS单号或者issue链接
-DTS_Number="DTS2021090622224"
 
 #关键信息打印到CaseName.log中，此处无需修改
 echo "Network = ${Network}" > $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -125,12 +107,8 @@ echo "RankSize = ${RANK_SIZE}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${Case
 echo "BatchSize = ${BatchSize}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DeviceType = ${DeviceType}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "ModelStatus = ${ModelStatus}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "DTS_Number = ${DTS_Number}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "Status = ${Status}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "error_msg = ${error_msg}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "E2ETrainingTime = ${e2etime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualFPS = ${FPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainingTime = ${StepTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "E2ETrainingTime = ${e2etime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
