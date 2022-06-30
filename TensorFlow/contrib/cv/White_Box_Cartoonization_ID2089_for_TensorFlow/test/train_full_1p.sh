@@ -8,6 +8,17 @@
 # shell脚本所在路径
 cur_path=`echo $(cd $(dirname $0);pwd)`
 
+for para in $*
+do
+	if [[ $para == --data_path* ]];then
+		data_path=`echo ${para#*=}`
+    elif [[ $para == --conda_name* ]];then
+        conda_name=`echo ${para#*=}`
+        source set_conda.sh
+        source activate $conda_name
+	fi
+done
+
 # 判断当前shell是否是performance
 perf_flag=`echo $0 | grep performance | wc -l`
 
@@ -130,6 +141,9 @@ else
     python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_photo 1>>${print_log} 2>&1
     python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_cartoon 1>>${print_log} 2>&1
 fi
+
+#退出conda环境
+conda deactivate
 
 # 性能相关数据计算
 StepTime=`grep "time_per_step" ${print_log} | tail -n 10 | awk '{print $5}' | awk '{sum+=$1} END {print sum/NR}'`
