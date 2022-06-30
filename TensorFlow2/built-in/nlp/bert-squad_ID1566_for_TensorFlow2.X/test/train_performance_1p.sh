@@ -149,7 +149,8 @@ echo "Final Training Duration sec : $e2e_time"
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`grep TimeHistory $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk 'END{print $8}'`
+FPS=`grep TimeHistory $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |tail -n +2|head -n -1|awk '{print $8}'|awk '{sum+=$1} END {print"",sum/NR}'|sed s/[[:space:]]//g`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${FPS}'}'`
 wait
 
 #打印，不需要修改
@@ -169,15 +170,12 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 ##获取性能数据，不需要修改
 #吞吐量
 ActualFPS=${FPS}
-#单迭代训练时长
-trainingTime=`grep TimeHistory $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk 'END{print $6}'`
-TrainingTime=`awk 'BEGIN{printf "%.2f",'$trainingTime'/10}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep 'Train Step' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $11}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep 'Train Step' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |tail -n +2|head -n -1| awk '{print $11}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改
-ActualLoss=`awk '{print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt|tail -n 1`
-
+ActualLoss=`awk 'END {print}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
+#关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "RankSize = ${RANK_SIZE}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "BatchSize = ${BatchSize}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
