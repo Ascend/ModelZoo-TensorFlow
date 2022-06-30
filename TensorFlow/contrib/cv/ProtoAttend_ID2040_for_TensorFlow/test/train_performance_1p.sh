@@ -113,7 +113,7 @@ if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ./main_protoattend.py --data_url=${data_path} --train_url=${output_path} --num_steps=500 --val_step=50
 else
-    python3.7 ./main_protoattend.py --data_url=${data_path} --train_url=${output_path} --num_steps=500 --val_step=50 &> ${print_log}
+    python3.7 ./main_protoattend.py --data_url=${data_path}/dataset --train_url=${output_path} --num_steps=500 --val_step=50  > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -121,7 +121,7 @@ StepTime=`grep "cost_time" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Val Accuracy" ${print_log} | awk '{print $5}'`
+#train_accuracy=`grep "Final Val Accuracy" ${print_log} | awk '{print $5}'`
 # 提取所有loss打印信息
 grep "loss :" ${print_log} | awk -F ":" '{print $3}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
