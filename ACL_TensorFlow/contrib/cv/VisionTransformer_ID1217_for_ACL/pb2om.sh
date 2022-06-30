@@ -1,0 +1,1 @@
+atc --model=./vit.pb --framework=3 --output=./vit --soc_version=Ascend310

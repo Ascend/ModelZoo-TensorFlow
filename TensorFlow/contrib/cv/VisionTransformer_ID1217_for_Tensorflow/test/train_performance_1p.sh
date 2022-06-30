@@ -1,5 +1,10 @@
 #!/bin/bash
-
+export RANK_INDEX=0
+export RANK_SIZE=1
+export RANK_ID=0
+export DEVICE_ID=0
+export DEVICE_INDEX=0
+export ASCEND_DEVICE_ID=0
 ##########################################################
 #########第3行 至 100行，请一定不要、不要、不要修改##########
 #########第3行 至 100行，请一定不要、不要、不要修改##########
@@ -108,25 +113,25 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-batch_size=1
+batch_size=4
 epoch=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./vit_allpipeline_fusion_accelerate.py --data_path=${data_path} --output_path=${output_path}
+    python3.7 ./vit_allpipeline_fusion_performance.py --data_path=${data_path} --output_path=${output_path} > ${print_log} 2>&1 :
 else
-    python3.7 ./vit_allpipeline_fusion_accelerate.py --data_path=${data_path} --output_path=${output_path}  > ${print_log}
+    python3.7 ./vit_allpipeline_fusion_performance.py --data_path=${data_path} --output_path=${output_path} > ${print_log} 2>&1 
 fi
 
 # 性能相关数据计算
-StepTime=`grep "time" ${print_log} | awk '{print $9}' | tail -n +3 | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Train ACC" ${print_log}  | awk '{print $NF}'`
-
+train_accuracy=`grep "Final Average Distances :" ${print_log}  | awk '{print $NF}'`
 # 提取所有loss打印信息
-grep "loss:" ${print_log} | awk '{print $6}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+#grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "loss: " ${print_log} | awk -F "," '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -136,7 +141,6 @@ grep "loss:" ${print_log} | awk '{print $6}' > ./test/output/${ASCEND_DEVICE_ID}
 
 # 判断本次执行是否正确使用Ascend NPU
 use_npu_flag=`grep "The model has been compiled on the Ascend AI processor" ${print_log} | wc -l`
-
 if [ x"${use_npu_flag}" == x0 ];
 then
     echo "------------------ ERROR NOTICE START ------------------"
@@ -183,4 +187,3 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
