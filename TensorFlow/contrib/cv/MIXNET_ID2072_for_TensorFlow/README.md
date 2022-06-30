@@ -46,7 +46,7 @@ Ascend精度：
 
 | GPU V100  | Ascend 910 | 
 | :--------: | --------| 
-|   2.0global_step/s  | 0.54global_step/s   | 
+|   5.2global_step/s  | 11.0global_step/s   | 
 
 
 
