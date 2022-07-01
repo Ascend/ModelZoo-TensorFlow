@@ -20,7 +20,7 @@ Network="efficientnet-condconv_ID2074_for_TensorFlow"
 #训练epoch
 train_epochs=1
 #训练batch_size
-batch_size=128
+batch_size=32
 #训练step
 #train_steps=`expr 1281167 / ${batch_size}`
 #学习率
@@ -132,14 +132,15 @@ do
         --data_dir=$data_path \
         --model_dir=./result \
         --model_name='efficientnet-condconv-b0-8e' \
+        --batch_size=32 \
         --obs_dir=${obs_url} \
         --npu_dump_data=True \
         --npu_profiling=True \
         --npu_dump_graph=False \
         --use_async_checkpointing=False \
         --mode=train \
-	--log_step_count_steps=1 \
-	--train_steps=100 \
+	    --log_step_count_steps=1 \
+	    --train_steps=100 \
         --npu_auto_tune=False  > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
