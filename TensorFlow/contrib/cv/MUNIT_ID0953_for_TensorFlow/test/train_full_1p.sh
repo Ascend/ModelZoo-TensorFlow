@@ -132,14 +132,15 @@ else
 fi
 
 # 性能相关数据计算
-StepTime=`grep "time:" ${print_log} | tail -n +3 | awk '{print $8}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "time:" ${print_log} | tail -n +3 | awk '{print $7}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
-#提取精度
-train_accuracy=`grep "d_loss" ${print_log} | awk '{print $9}' | tail -n 50 | awk '{sum+=$1} END {print sum/NR}'`
+#提取精度，去最后50行值
+train_accuracy=`grep "d_loss" ${print_log} | awk '{print $9}' | tail -n +3 | awk '{sum+=$1} END {print sum/NR}'`
+
 # 提取所有loss打印信息
-grep d_loss ${print_log} | awk -F"d_loss: " '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-#grep g_loss ${print_log} | awk -F"g_loss: " '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "d_loss" ${print_log} | awk '{print $9}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+
 
 
 ###########################################################
