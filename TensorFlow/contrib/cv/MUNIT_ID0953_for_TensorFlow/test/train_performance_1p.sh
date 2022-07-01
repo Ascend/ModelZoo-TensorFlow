@@ -136,7 +136,7 @@ StepTime=`grep "time:" ${print_log} | tail -n +3 | awk '{print $8}' | awk '{sum+
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 #提取精度，去最后50行值
-train_accuracy=`grep "d_loss" ${print_log} | awk '{print $10}' | tail -n 50 | awk '{sum+=$1} END {print sum/NR}'`
+#train_accuracy=`grep "d_loss" ${print_log} | awk '{print $10}' | tail -n 50 | awk '{sum+=$1} END {print sum/NR}'`
 
 # 提取所有loss打印信息
 grep "d_loss" ${print_log} | awk '{print $10}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
@@ -182,7 +182,7 @@ echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
 # 输出训练精度
-echo "Final Train Accuracy : ${train_accuracy}"
+#echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
 ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
