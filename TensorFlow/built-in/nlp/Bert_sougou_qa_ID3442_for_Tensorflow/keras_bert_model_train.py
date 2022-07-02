@@ -2,7 +2,7 @@
 import json
 import numpy as np
 from tokenizers import BertWordPieceTokenizer
-from keras_bert import load_trained_model_from_checkpoint
+from loader import load_trained_model_from_checkpoint
 from tensorflow.keras.layers import Dense, Input, Flatten, Activation, Lambda
 from tensorflow.keras.activations import softmax
 from tensorflow.keras import Model
