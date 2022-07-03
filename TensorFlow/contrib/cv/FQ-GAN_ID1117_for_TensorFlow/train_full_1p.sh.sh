@@ -8,7 +8,7 @@ python3.7 ${1}/main.py \
         --test_train=True \
         --quant=True \
         --epoch=100 \
-        ----iteration=10000
+        --iteration=10000
 
        ###--epoch=5 \
         ###--iteration=100
