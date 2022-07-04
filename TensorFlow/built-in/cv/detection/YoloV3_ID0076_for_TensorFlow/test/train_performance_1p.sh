@@ -94,7 +94,7 @@ if [[ $data_path == "" ]];then
 fi
 
 cp -r $data_path/data/* ${cur_path}/../data/
-sed -i "s/total_epoches = 200/total_epoches = 1/g" ${cur_path}/../args_single.py
+#sed -i "s/total_epoches = 200/total_epoches = 1/g" ${cur_path}/../args_single.py
 
 #训练开始时间，不需要修改 
 start_time=$(date +%s)
@@ -131,11 +131,10 @@ do
     
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    python3 train.py \
+    python3 train_performance.py \
         --mode single \
 		--data_url $data_path/coco \
 		--train_url ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
-		--total_epoches 1 \
         --over_dump ${over_dump} \
         --over_dump_path ${over_dump_path} \
 		> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
