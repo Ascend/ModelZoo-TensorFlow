@@ -210,9 +210,6 @@ with tf.Graph().as_default(), tf.device('/cpu:0'):
     fig_loss = np.zeros([10000])
     fig_loss_2d = np.zeros([10000])
     for i in range(start_iter, train_para['max_iter']):
-        # V = sess.run([resized_PAF, mask_PAF, PAF_x2y2, PAF_normed_x, PAF_normed_y, PAF_normed_z, normed_PAF, final_PAF, mean_over_pixel, loss_PAF_ig])
-        # import pdb
-        # pdb.set_trace()
         import time
         start_time = time.time()
         summary, _, loss_v, loss_2d_v, loss_PAF_v = sess.run([merged, apply_gradient_op, total_loss, total_loss_2d, total_loss_PAF])
@@ -221,7 +218,7 @@ with tf.Graph().as_default(), tf.device('/cpu:0'):
         fig_loss_2d[i - start_iter-1] = loss_2d_v
         duration += time.time()-start_time
         if (i % train_para['show_loss_freq']) == 0:
-            print('Iteration %d\t Loss %.1e, Loss_2d %.1e, Loss_PAF %.1e, MPJPE %f, duration %f' % (i, loss_v, loss_2d_v, loss_PAF_v, (loss_2d_v*135424/6), duration))
+            print('Iteration %d\t Loss %.1e, Loss_2d %.1e, Loss_PAF %.1e, duration %f' % (i, loss_v, loss_2d_v, loss_PAF_v, duration))
             sys.stdout.flush()
             duration=0
 
