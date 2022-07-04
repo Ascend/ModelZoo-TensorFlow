@@ -6,7 +6,7 @@ cur_path=`pwd`
 #集合通信参数,不需要修改
 #保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
 RANK_SIZE=8
-batch_size=16
+batch_size=32
 RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 RANK_ID_START=0
 
@@ -103,7 +103,7 @@ if [[ $autotune == True ]]; then
 fi
 
 cp -r $data_path/data/* ${cur_path}/../data/
-sed -i "s/total_epoches = 200/total_epoches = 1/g" ${cur_path}/../args_single.py
+#sed -i "s/total_epoches = 200/total_epoches = 1/g" ${cur_path}/../args_single.py
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
@@ -148,11 +148,10 @@ do
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-    ${bind_core} python3 train.py \
+    ${bind_core} python3 train_performance.py \
         --mode single \
 		--data_url $data_path/coco \
 		--train_url ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
-        --total_epoches 1 \
         --over_dump ${over_dump} \
         --over_dump_path ${over_dump_path} \
 		> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
