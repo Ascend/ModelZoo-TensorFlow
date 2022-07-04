@@ -49,10 +49,10 @@ NPU（使用modelArts训练）每个iteration耗时2.70s。
 
 导致性能较低的算子是resize正反向和stridedslicegrad，尚待开发后解决。
 
-## 6、精度比较
-| 精度指标项 | GPU   | NPU   |
+## 6、Loss比较
+| 指标项 | GPU   | NPU   |
 |-----------|-------|-------|
-|   MPJPE   | 63.12 | 65.68 |
+|   最后10个Loss的平均值   | 0.0038 | 0.0043 |
 
 
 
