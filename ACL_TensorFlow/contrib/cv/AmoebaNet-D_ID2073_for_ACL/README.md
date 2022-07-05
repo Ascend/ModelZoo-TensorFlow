@@ -41,8 +41,11 @@ ImageNet-1k
 
 ## 制作验证集bin文件<a name="section168064817164"></a>
 - 直接获取
+
 直接下载获取，输入bin文件obs链接：obs://amoebanet/bin_299/bin/
+
 - 通过脚本文件制作
+
 运行data_make.py脚本（需要修改data_make.py脚本中的路径）。<br />
 
  python data_make.py
