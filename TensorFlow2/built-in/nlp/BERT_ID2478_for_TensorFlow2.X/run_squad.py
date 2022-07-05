@@ -46,7 +46,7 @@ from absl import app
 from absl import flags
 from absl import logging
 import tensorflow as tf
-import horovod.tensorflow as hvd
+# import horovod.tensorflow as hvd
 import numpy as np
 from dllogger import Verbosity
 
@@ -406,8 +406,8 @@ def train_squad(strategy,
   num_train_examples = input_meta_data['train_data_size']
   max_seq_length = input_meta_data['max_seq_length']
   global_batch_size = FLAGS.train_batch_size * FLAGS.num_accumulation_steps
-  if FLAGS.use_horovod:
-    global_batch_size *= hvd.size()
+  # if FLAGS.use_horovod:
+  #   global_batch_size *= hvd.size()
   steps_per_epoch = int(num_train_examples / global_batch_size)
   warmup_steps = int(epochs * num_train_examples * 0.1 / global_batch_size)
   train_input_fn = get_dataset_fn(
@@ -428,7 +428,7 @@ def train_squad(strategy,
         max_seq_length,
         float_type=tf.float16 if FLAGS.use_fp16 else tf.float32,
         hub_module_url=FLAGS.hub_module_url)
-    learning_rate = FLAGS.learning_rate * hvd.size() if FLAGS.use_horovod else FLAGS.learning_rate
+    # learning_rate = FLAGS.learning_rate * hvd.size() if FLAGS.use_horovod else FLAGS.learning_rate
     squad_model.optimizer = optimization.create_optimizer(
         learning_rate, steps_per_epoch * epochs, warmup_steps, FLAGS.optimizer_type)
     if FLAGS.use_fp16:
