@@ -22,16 +22,16 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
 - 训练获取
 
-  1. 从头训练或使用已有的checkpoint运行训练脚本将模型保存为saved_model格式文件（需要在amoeba_net.py脚本中修改保存路径）。//
+  1. 从头训练或使用已有的checkpoint运行训练脚本将模型保存为saved_model格式文件（需要在amoeba_net.py脚本中修改保存路径）。<br />
        python amoeba_net.py
 
-  2. 将saved_model格式文件冻结为pb文件（需要在freeze.py文件中修改路径）。
+  2. 将saved_model格式文件冻结为pb文件（需要在freeze.py文件中修改路径）。<br />
        python freeze.py
 
 
 ## 使用ATC工具将pb文件转为离线模型<a name="section20779114113713"></a>
 
-命令行示例：
+命令行示例：<br />
     atc --model=/home/test_user03/tpu-3/models/official/amoeba_net/test_299.pb --framework=3 --output=/home/test_user03/tpu-3/models/official/amoeba_net/test_om --soc_version=Ascend310 --input_shape="input_ids:64,299,299,3" --precision_mode=allow_fp32_to_fp16
 
 
@@ -39,20 +39,20 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
 ## 制作验证集bin文件<a name="section168064817164"></a>
 
-运行data_make.py脚本（需要修改data_make.py脚本中的路径）。
+运行data_make.py脚本（需要修改data_make.py脚本中的路径）。<br />
 
  python data_make.py
 
 ## 使用msame工具进行离线推理获取输出bin文件<a name="section168064817164"></a>
 
-命令行示例：
+命令行示例：<br />
     ./msame --model  "/home/test_user03/tpu-3/models/official/amoeba_net/test_om.om" --output "/home/test_user03/tools/msame/out" --input "/home/test_user03/tpu-3/models/official/amoeba_net/bin"  --outfmt bin
 
 
 ## 使用输出bin文件验证推理精度<a name="section168064817164"></a>
 
-运行inference.py脚本（需要修改inference.py脚本中的路径）
- python inference.py
+运行inference.py脚本（需要修改inference.py脚本中的路径）<br />
+ python inference.py<br />
 
 参考top1精度：76.12%
 
