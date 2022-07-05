@@ -49,13 +49,16 @@ NPU（使用modelArts训练）每个iteration耗时2.70s。
 
 导致性能较低的算子是resize正反向和stridedslicegrad，尚待开发后解决。
 
-## 6、Loss收敛曲线
+## 6、Loss比较
+| 指标项 | GPU   | NPU   |
+|-----------|-------|-------|
+|   最后10个Loss的平均值   | 0.0038 | 0.0043 |
 
-![loss曲线](https://gitee.com/wwxgitee/pictures/raw/master/loss_drop.png)
 
-## 7、Loss比较
 
-训练过程中，只有loss值没有精度值。GPU和NPU训练下的loss值均收敛至0.005附近。
+## 7、训练日志
+
+训练过程中，部分日志如图所示。
 gpu训练过程回显
 ![gpu训练过程回显](https://gitee.com/wwxgitee/pictures/raw/master/gpu_training.png)
 npu训练过程回显

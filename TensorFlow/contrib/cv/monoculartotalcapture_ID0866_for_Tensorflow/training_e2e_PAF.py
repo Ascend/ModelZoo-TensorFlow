@@ -153,6 +153,9 @@ with tf.Graph().as_default(), tf.device('/cpu:0'):
     apply_gradient_op = opt.apply_gradients(grads, global_step=global_step)
     gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=0.6)
     config_proto = tf.ConfigProto(gpu_options=gpu_options, allow_soft_placement=True)
+    custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
+    custom_op.name = 'NpuOptimizer'
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes('allow_mix_precision')
     config = npu_config_proto(config_proto=config_proto)
     sess = tf.Session(config=config)
     sess.run(tf.global_variables_initializer())
@@ -207,9 +210,6 @@ with tf.Graph().as_default(), tf.device('/cpu:0'):
     fig_loss = np.zeros([10000])
     fig_loss_2d = np.zeros([10000])
     for i in range(start_iter, train_para['max_iter']):
-        # V = sess.run([resized_PAF, mask_PAF, PAF_x2y2, PAF_normed_x, PAF_normed_y, PAF_normed_z, normed_PAF, final_PAF, mean_over_pixel, loss_PAF_ig])
-        # import pdb
-        # pdb.set_trace()
         import time
         start_time = time.time()
         summary, _, loss_v, loss_2d_v, loss_PAF_v = sess.run([merged, apply_gradient_op, total_loss, total_loss_2d, total_loss_PAF])
