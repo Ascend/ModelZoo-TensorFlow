@@ -700,11 +700,13 @@ def main(_):
   if FLAGS.use_horovod:
     if strategy:
       raise ValueError('Should not run horovod with distribution strategy')
-
+    
+    '''
     hvd.init()
     if gpus:
       tf.config.experimental.set_visible_devices(gpus[hvd.local_rank()], 'GPU')
       gpu_affinity.set_affinity(hvd.local_rank())
+    '''
 
   if FLAGS.use_fp16:
     policy = tf.keras.mixed_precision.experimental.Policy("mixed_float16")
