@@ -67,7 +67,6 @@ import time
 from absl import flags, app
 import npu_convert_dropout
 
-# npu_device.open().as_default()
 
 flags.DEFINE_string(name='data_path', default='/home/hzh/involution/cifar-10-batches-py',
                     help='dataset path(local)')
