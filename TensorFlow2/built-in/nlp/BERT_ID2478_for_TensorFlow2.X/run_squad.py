@@ -429,6 +429,7 @@ def train_squad(strategy,
         float_type=tf.float16 if FLAGS.use_fp16 else tf.float32,
         hub_module_url=FLAGS.hub_module_url)
     # learning_rate = FLAGS.learning_rate * hvd.size() if FLAGS.use_horovod else FLAGS.learning_rate
+    learning_rate = FLAGS.learning_rate
     squad_model.optimizer = optimization.create_optimizer(
         learning_rate, steps_per_epoch * epochs, warmup_steps, FLAGS.optimizer_type)
     if FLAGS.use_fp16:
