@@ -19,8 +19,8 @@ export RANK_ID=0
 export JOB_ID=10087
 
 # 路径参数初始化
-data_path="/home/test_user03/tf_records/"
-output_path="/home/test_user03/xx"
+data_path=""
+output_path=""
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
@@ -148,7 +148,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 # 精度相关数据计算
 train_accuracy=`grep "top_5_accuracy = " ${print_log}  | tail -n 1 |awk '{print $NF}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "loss =" ${print_log} | grep -v "INFO" | awk '{print $7}' | tr -d "," > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
