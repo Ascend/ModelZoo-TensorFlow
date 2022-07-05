@@ -12,7 +12,9 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
   [https://gitee.com/zero167/ModelZoo-TensorFlow/edit/master/ACL_TensorFlow/contrib/cv/AmoebaNet-D_ID2073_for_ACL]
 (https://gitee.com/zero167/ModelZoo-TensorFlow/edit/master/ACL_TensorFlow/contrib/cv/AmoebaNet-D_ID2073_for_ACL)      
 
+<h2 id="数据集.md">数据集</h2>
 
+ImageNet-1k
 
 ## 模型固化<a name="section168064817164"></a>
 
@@ -38,7 +40,9 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
 
 ## 制作验证集bin文件<a name="section168064817164"></a>
-
+- 直接获取
+直接下载获取，输入bin文件obs链接：obs://amoebanet/bin_299/bin/
+- 通过脚本文件制作
 运行data_make.py脚本（需要修改data_make.py脚本中的路径）。<br />
 
  python data_make.py
