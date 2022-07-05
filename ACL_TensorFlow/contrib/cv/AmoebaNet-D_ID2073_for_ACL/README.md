@@ -1,13 +1,10 @@
 <h2 id="概述.md">概述</h2>
 
-AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像分类神经网络。
+AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像分类神经网络，本项目用于该模型的离线推理。
 
 - 参考论文：
 
     [Real, E., Aggarwal, A., Huang, Y., & Le, Q. V. (2019, July). Regularized evolution for image classifier architecture search. In Proceedings of the aaai conference on artificial intelligence (Vol. 33, No. 01, pp. 4780-4789).](https://arxiv.org/pdf/1802.01548.pdf) 
-
-
-- 参考实现：
 
 
 - 适配昇腾 AI 处理器的实现：
@@ -16,7 +13,15 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
 
 
-## 混合精度训练<a name="section168064817164"></a>
+## 模型固化<a name="section168064817164"></a>
+
+<h2 id="快速上手.md">快速上手</h2>
+
+1:直接下载获取，固化模型obs链接：obs://amoebanet/test_299.pb
+
+2:也可以从头训练或使用已有的checkpoint运行训练脚本
+
+
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
