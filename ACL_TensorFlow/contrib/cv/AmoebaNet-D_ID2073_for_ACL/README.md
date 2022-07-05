@@ -1,28 +1,3 @@
--   [基本信息](#基本信息.md)
--   [概述](#概述.md)
--   [训练环境准备](#训练环境准备.md)
--   [快速上手](#快速上手.md)
--   [高级参考](#高级参考.md)
-<h2 id="基本信息.md">基本信息</h2>
-
-**发布者（Publisher）：Huawei**
-
-**应用领域（Application Domain）： Image Classification**
-
-**修改时间（Modified） ：2022.5.9**
-
-**框架（Framework）：TensorFlow 1.15.0**
-
-**模型格式（Model Format）：ckpt**
-
-**精度（Precision）：Mixed**
-
-**处理器（Processor）：昇腾910**
-
-**应用级别（Categories）：Official**
-
-**描述（Description）：基于TensorFlow框架的AmoebaNet-D图像分类网络训练代码** 
-
 <h2 id="概述.md">概述</h2>
 
 AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像分类神经网络。
@@ -34,7 +9,6 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
 - 参考实现：
 
-    
 
 - 适配昇腾 AI 处理器的实现：
   
