@@ -28,7 +28,6 @@
 # limitations under the License.
 #
 # import npu_device
-# npu_device.open().as_default()
 
 import tensorflow.compat.v1 as tf
 # tf.disable_v2_behavior()
