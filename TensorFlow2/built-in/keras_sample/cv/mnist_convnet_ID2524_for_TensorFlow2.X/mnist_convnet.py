@@ -48,7 +48,6 @@ from tensorflow.keras import layers
 import npu_convert_dropout
 import npu_device
 import time
-# npu_device.open().as_default()
 
 """
 ## Prepare the data
