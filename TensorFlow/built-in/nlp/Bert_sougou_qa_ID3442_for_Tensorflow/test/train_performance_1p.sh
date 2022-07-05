@@ -90,7 +90,7 @@ else
 fi
 #拷贝数据集
 cp -r $data_path/*  $cur_path/
-sed -i 's/sogou_qa_train/sogou_qa_test/g'  keras_bert_model_train.py
+
 #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
 python3 keras_bert_model_train.py > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1
 
