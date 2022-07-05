@@ -19,8 +19,8 @@ export RANK_ID=0
 export JOB_ID=10087
 
 # 路径参数初始化
-data_path="/home/test_user03/tf_records/"
-output_path="/home/test_user03/xx"
+data_path=""
+output_path=""
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
