@@ -22,7 +22,7 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
 - 训练获取
 
-  1. 从头训练或使用已有的checkpoint运行训练脚本将模型保存为saved_model格式文件（需要在amoeba_net.py脚本中修改保存路径）。
+  1. 从头训练或使用已有的checkpoint运行训练脚本将模型保存为saved_model格式文件（需要在amoeba_net.py脚本中修改保存路径）。//
        python amoeba_net.py
 
   2. 将saved_model格式文件冻结为pb文件（需要在freeze.py文件中修改路径）。
