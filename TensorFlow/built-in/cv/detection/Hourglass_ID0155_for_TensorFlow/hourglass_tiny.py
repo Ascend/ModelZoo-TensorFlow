@@ -429,7 +429,7 @@ class HourglassModel():
 		# custom_op.parameter_map["enable_small_channel"].i = 1
 		#################### 循环迭代下沉 ##########################
 		config_proto.graph_options.rewrite_options.remapping = RewriterConfig.OFF
-        config_proto.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+		config_proto.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 		self.Session = tf.Session(config=npu_config_proto(config_proto=config_proto))
 		t_start = time.time()
 		self.init = tf.global_variables_initializer()
