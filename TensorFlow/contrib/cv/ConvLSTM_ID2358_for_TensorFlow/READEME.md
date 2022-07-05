@@ -116,13 +116,13 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
      训练参数已经默认在脚本中设置，需要在启动训练时指定数据集路径和输出路径
 
      ```
-    parser.add_argument('--datapath')
-    parser.add_argument('--outputpath')
-    parser.add_argument('--bsize', default=32)
-    parser.add_argument('--trajectory_length', default=4)
-    parser.add_argument('--lr', default=0.0001)
-    parser.add_argument('--train_iter', default=240)
-    parser.add_argument('--time_steps', default=1)
+      parser.add_argument('--datapath')
+      parser.add_argument('--outputpath')
+      parser.add_argument('--bsize', default=32)
+      parser.add_argument('--trajectory_length', default=4)
+      parser.add_argument('--lr', default=0.0001)
+      parser.add_argument('--train_iter', default=240)
+      parser.add_argument('--time_steps', default=1)
      ```
 
   2. 启动训练。
@@ -130,7 +130,7 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
      启动单卡训练  
 
      ```
-     python Truemain.py --datapath '你的数据集路径' --outputpath '你的输出路径'
+      python Truemain.py --datapath '你的数据集路径' --outputpath '你的输出路径'
      ```
 
 <h2 id="训练结果.md">训练结果</h2>
