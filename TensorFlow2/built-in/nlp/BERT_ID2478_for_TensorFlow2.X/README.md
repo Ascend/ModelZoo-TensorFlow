@@ -32,7 +32,7 @@
 
 ## 简述<a name="section194554031510"></a>
 
-模型利用了self-attention机制，通过用户历史行为来预测item-item关系。self-attention能够预测用户行为轨迹上每个item的相关权重，从而学习更好的用户短期兴趣表示。模型最终在度量学习框架上训练，且同时考虑了长短期意图。
+BERT模型的全称是：BidirectionalEncoder Representations from Transformer。BERT模型的目标是利用大规模无标注语料训练、获得文本的包含丰富语义信息的Representation，即：文本的语义表示，然后将文本的语义表示在特定NLP任务中作微调，最终应用于该NLP任务。
 
 - 参考论文：
 
