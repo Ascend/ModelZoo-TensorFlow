@@ -75,7 +75,6 @@ import ast
 import argparse
 import npu_device
 
-# npu_device.open().as_default()
 
 def parse_args():
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
