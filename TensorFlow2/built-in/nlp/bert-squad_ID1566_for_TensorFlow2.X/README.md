@@ -32,8 +32,7 @@
 
 ## 简述<a name="section194554031510"></a>
 
-模型利用了self-attention机制，通过用户历史行为来预测item-item关系。self-attention能够预测用户行为轨迹上每个item的相关权重，从而学习更好的用户短期兴趣表示。模型最终在度量学习框架上训练，且同时考虑了长短期意图。
-
+BERT是一种预训练语言表示方法,是第一种用于预训练NLP的无监督、深度双向系统。这里我们介绍了BERT的Fine-tuning任务,通过对BERT进行微调,在squad数据集上进行预测和问答。
 - 参考论文：
 
   [https://arxiv.org/abs/1810.04805](https://gitee.com/link?target=https%3A%2F%2Farxiv.org%2Fabs%2F1810.04805)
