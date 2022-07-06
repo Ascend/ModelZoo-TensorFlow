@@ -94,7 +94,7 @@ cd $cur_path/../
 sed -i "s|/tmp/COCO_data/train2017/|$data_path/COCO_data/train2017/|g" data/COCOReader.py
 sed -i "s|/tmp/COCO_data/mask2017/|$data_path/COCO_data/mask2017/|g" data/COCOReader.py
 sed -i "s|/tmp/COCO_data/COCO.json|$data_path/COCO_data/COCO.json|g" data/COCOReader.py
-sed -i "s|'max_iter': 400000|'max_iter': 390200|g" training_e2e_PAF.py
+# sed -i "s|'max_iter': 400000|'max_iter': 390200|g" training_e2e_PAF.py
 
 cp -r $data_path/Final_qual_domeCOCO_chest_noPAF2D snapshots/
 
@@ -136,7 +136,7 @@ wait
 sed -i "s|$data_path/COCO_data/train2017/|/tmp/COCO_data/train2017/|g" data/COCOReader.py
 sed -i "s|$data_path/COCO_data/mask2017/|/tmp/COCO_data/mask2017/|g" data/COCOReader.py
 sed -i "s|$data_path/COCO_data/COCO.json|/tmp/COCO_data/COCO.json|g" data/COCOReader.py
-sed -i "s|'max_iter': 390200|'max_iter': 400000|g" training_e2e_PAF.py
+# sed -i "s|'max_iter': 390200|'max_iter': 400000|g" training_e2e_PAF.py
 #conda deactivate
 #训练结束时间，不需要修改
 end_time=$(date +%s)
@@ -145,36 +145,34 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-perf=`grep Iteration  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $10}'| awk 'NR>2{print p}{p=$0} END{print p}'|awk '{sum+=$1} END {print"",sum/NR}'|sed s/[[:space:]]//g`
-FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${perf}'}'`
+TrainingTime=`grep Iteration $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk '{print $12}' | awk 'NR>2{print p}{p=$0} END{print p}' | awk '{sum+=$1} END {print"",sum/NR}' | sed s/[[:space:]]//g`
+FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${TrainingTime}'}'`
 
 
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
-#输出训练精度,需要模型审视修改
-#train_accuracy=`grep eval_accuracy $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|grep -v mlp_log|awk 'END {print $5}'| sed 's/,//g' |cut -c 1-5`
 #打印，不需要修改
-#echo "Final Train Accuracy : ${train_accuracy}"
-#echo "E2E Training Duration sec : $e2e_time"
+echo "Final Train Accuracy : ${train_accuracy}"
+echo "E2E Training Duration sec : $e2e_time"
 
 #稳定性精度看护结果汇总
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据
 #吞吐量，不需要修改
 ActualFPS=${FPS}
 #单迭代训练时长，不需要修改
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*1000/'${FPS}'}'`
+#TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*1000/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep Iteration $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $4}'|awk -F "," '{print $1}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
-ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
+ActualLoss=`cat $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt | tail -n 10 | awk '{sum+=$1} END {print"",sum/NR}' | sed s/[[:space:]]//g`
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -184,6 +182,5 @@ echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseNa
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
