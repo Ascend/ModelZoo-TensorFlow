@@ -79,7 +79,7 @@ export RANK_SIZE=16
 export JOB_ID=10087
 rank_size=8
 #export RANK_TABLE_FILE=$cur_path/../scripts/rank_table_16p.json
-nohup python3 $cur_path/set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
+nohup python3 $cur_path/test/set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
 export RANK_TABLE_FILE=${cur_path}/test/rank_table.json
 export HCCL_CONNECT_TIMEOUT=600
 export RANK_INDEX=0
@@ -166,7 +166,7 @@ echo "Final Train Accuracy : ${train_accuracy}"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_static_eval_'perf' 
 
 ##获取性能数据，不需要修改
 #吞吐量
@@ -178,7 +178,7 @@ TrainingTime=${TrainingTime}
 grep ,loss: $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $3}' >> $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print $1}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
-
+ActualFPS=`echo "${ActualFPS}"|awk '{printf("%.1f",$1)}'`
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "RankSize = ${RANK_SIZE}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
