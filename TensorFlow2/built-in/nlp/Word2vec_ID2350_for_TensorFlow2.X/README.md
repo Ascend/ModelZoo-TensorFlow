@@ -18,7 +18,7 @@
 
 **框架（Framework）：TensorFlow_2.6.2**
 
-**模型格式（Model Format）：pb**
+**模型格式（Model Format）：ckpt**
 
 **精度（Precision）：Mixed**
 
