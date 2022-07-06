@@ -12,7 +12,7 @@ function check_directory(){
     do
 	if [ -f "$dir_name" ]; then
 	    echo "warning: ${dir_name} is a file!"
-    	elif [ ! -d "$dir_name" ]; then
+    elif [ ! -d "$dir_name" ]; then
 	    mkdir "$dir_name"
 	fi
     done	
@@ -25,8 +25,8 @@ if [ ! -f "$MODEL"]; then
     source atc.sh
 fi
 
-python3.6 img2bin.py -i "$I_S_DIR" -h 64 -w 128 -f RGB -t float32 -m [127.5,127.5,127.5] -c [127.5,127.5,127.5] -o "$I_S_BIN_DIR"
-python3.6 img2bin.py -i "$I_T_DIR" -h 64 -w 128 -f RGB -t float32 -m [127.5,127.5,127.5] -c [127.5,127.5,127.5] -o "$I_T_BIN_DIR"
+python3 img2bin.py -i "$I_S_DIR" -h 64 -w 128 -f RGB -t float32 -m [127.5,127.5,127.5] -c [127.5,127.5,127.5] -o "$I_S_BIN_DIR"
+python3 img2bin.py -i "$I_T_DIR" -h 64 -w 128 -f RGB -t float32 -m [127.5,127.5,127.5] -c [127.5,127.5,127.5] -o "$I_T_BIN_DIR"
 
 wait
 
@@ -41,4 +41,4 @@ for filename in `ls $OUTPUT_BIN_DIR` ; do
 	mv "${OUTPUT_BIN_DIR}/${filename}" "$(echo "${OUTPUT_BIN_DIR}/${filename}" | sed 's/_output_0//')"
 done
 
-"python3.6" bin2img.py -s "$OUTPUT_BIN_DIR" -d "$OUTPUT_IMG_DIR"
+python3 bin2img.py -s "$OUTPUT_BIN_DIR" -d "$OUTPUT_IMG_DIR"
