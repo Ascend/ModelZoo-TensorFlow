@@ -37,6 +37,8 @@ from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 # File names
 
 model_name = os.path.basename(__file__).split(".")[0]
+print("************************")
+print(model_name)
 # 修改检查点保存路径
 checkpoint_name = os.path.join(FLAGS.train_url, "model") + '/' + model_name + ".ckpt"
 if not os.path.exists(os.path.join(FLAGS.train_url, "model")):
@@ -350,7 +352,7 @@ def main(unused_argv):
             # 为了提高训练性能，只对loss<0.05的step进行保存，并且当前是min_loss时才保存。
             if train_loss < 0.05 and train_loss < min_loss:
                 print("Step " + str(step) + " , Saving checkpoint to " + checkpoint_name + " with loss {:.4f} ".format(train_loss))
-                saver_all.save(sess, checkpoint_name)
+                #saver_all.save(sess, checkpoint_name)
             if train_loss < min_loss:
                 min_loss = train_loss
             # # 由于NPU兼容性原因，以下注释代码无法运行。
@@ -362,8 +364,8 @@ def main(unused_argv):
             cost_time = time.time() - start_time
             print("Step : {}----loss : {:.4f}----cost_time : {}".format(step, train_loss, cost_time))
         print("min loss = " + "{:.4f}".format(min_loss))
+        saver_all.save(sess, checkpoint_name)
         print('End Training')
-    # 由于使用npu运行验证精度的代码有问题，因此采用gpu来验证精度。
     npuConfig = tf.ConfigProto()
     # NPU相关配置
     custom_op = npuConfig.graph_options.rewrite_options.custom_optimizers.add()
@@ -371,9 +373,9 @@ def main(unused_argv):
     custom_op.parameter_map["use_off_line"].b = False  # 在昇腾AI处理器执行训练
     npuConfig.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
     npuConfig.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
-    # 使用NPU配置开启sess
+    # 由于使用npu运行验证精度的代码有问题，因此采用gpu来验证精度。
     with tf.Session(config=npuConfig) as sess2:
-        # 修改summary保存路径
+    # 修改summary保存路径
         summary_writer = tf.summary.FileWriter(os.path.join(FLAGS.train_url, "train") + '/' + model_name, sess.graph)
         sess2.run(init)
         sess2.run(iter_train.initializer)
