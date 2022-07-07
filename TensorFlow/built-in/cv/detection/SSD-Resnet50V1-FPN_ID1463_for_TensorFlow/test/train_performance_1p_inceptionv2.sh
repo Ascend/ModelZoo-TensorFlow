@@ -111,7 +111,7 @@ echo "-----------------------Final result------------------------"
 #FPS=`grep -a 'INFO:tensorflow:global_step/sec: ' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $2}'` 
 FPS=`grep -a 'INFO:tensorflow:global_step/sec: ' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'NR==2{print $2}'` 
 
-FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${FPS}'*'${RANK_SIZE}'}'`
+FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${RANK_SIZE}'*'${FPS}'}'`
 echo "Final Performance images/sec : $FPS"
 
 ################################E2E训练时长##########################

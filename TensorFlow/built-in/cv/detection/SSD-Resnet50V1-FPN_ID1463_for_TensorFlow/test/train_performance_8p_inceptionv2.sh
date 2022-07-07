@@ -110,7 +110,7 @@ echo "-----------------------Final result------------------------"
 #性能FPS计算，需要根据网络修改
 #FPS=`grep -a 'INFO:tensorflow:global_step/sec: ' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $2}'` 
 FPS=`grep -a 'INFO:tensorflow:global_step/sec: ' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'NR==2{print $2}'`
-FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${FPS}'*'${RANK_SIZE}'}'`
+FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${RANK_SIZE}'*'${FPS}'}'`
 echo "Final Performance images/sec : $FPS"
 ################################精度结果处理#########################
 #精度计算，需要根据网络修改
