@@ -117,11 +117,11 @@ else
 fi
 
 # 性能相关数据计算
-StepTime=`grep "cost_time" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "cost_time" ${print_log} | head -n -3| tail -n 20 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-#train_accuracy=`grep "Final Val Accuracy" ${print_log} | awk '{print $5}'`
+train_accuracy=`grep "Final Val Accuracy" ${print_log} | awk '{print $5}'`
 # 提取所有loss打印信息
 grep "loss :" ${print_log} | awk -F ":" '{print $3}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
