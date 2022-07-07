@@ -153,6 +153,9 @@ wait
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
 
+#删掉ckpt文件，大约11个G
+find ../ -name checkpoint | xargs -i rm -rf {}
+
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
