@@ -94,7 +94,7 @@ pip3 install requirements.txt
 
 ## 数据集准备<a name="section361114841316"></a>
 
-1. 用户需自行下载ml-1m训练数据集，应有如下结构
+1. 用户需自行下载MNIST训练数据集，应有如下结构
    ```
    dataset/
    ├── mnist
