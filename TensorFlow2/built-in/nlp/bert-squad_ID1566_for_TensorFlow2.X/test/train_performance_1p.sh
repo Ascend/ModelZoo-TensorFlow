@@ -16,7 +16,8 @@ export NPU_LOOP_SIZE=1
 #训练epoch，可选
 train_epochs=1
 #训练step
-train_steps=300
+#train_steps=300
+train_steps=50
 #学习率
 learning_rate=5e-5
 ckpt_path=""
