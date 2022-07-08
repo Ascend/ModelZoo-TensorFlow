@@ -33,8 +33,6 @@
 # @Email : gzlishouxian@gmail.com
 # @File : main.py
 # @Software: PyCharm
-# import npu_device
-# npu_device.open().as_default()
 from engines.data import DataManager
 from engines.utils.logger import get_logger
 from engines.train import train
