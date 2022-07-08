@@ -139,7 +139,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 train_accuracy=`grep "d_loss" ${print_log} | awk '{print $9}' | tail -n +3 | awk '{sum+=$1} END {print sum/NR}'`
 
 # 提取所有loss打印信息
-grep "d_loss" ${print_log} | awk '{print $9}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "d_loss" ${print_log} | awk '{print $9}' | tr -d "," > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 
