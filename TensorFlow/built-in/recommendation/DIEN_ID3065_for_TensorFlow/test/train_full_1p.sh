@@ -132,7 +132,7 @@ echo "Final Performance item/sec : $FPS"
 train_accuracy=`grep "train_accuracy" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F "train_accuracy:" 'END{print $2}' | awk -F ' ' '{print $1}' |sed s/[[:space:]]//g`
 test_accuracy=`grep "test_accuracy" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F "test_accuracy:" 'END{print $2}' | awk -F '----' '{print $1}' |sed s/[[:space:]]//g`
 #打印，不需要修改
-echo "Final Train Accuracy : ${train_accuracy}"
+echo "Final Train Accuracy : ${test_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
 
 #性能看护结果汇总
