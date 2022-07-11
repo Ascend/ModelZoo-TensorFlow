@@ -115,7 +115,7 @@ echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
 
 #FPS=`grep 'fps :'  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F' ' '{print $25}' | tail -n 1`
-time=`grep -rn 'epoch 2 total time ='  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F '=' '{print $2}'`
+time=`grep -rn 'epoch 2 total time ='  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F '=' '{print $2}'|sed s/[[:space:]]//g`
 FPS=`awk 'BEGIN{printf "%.2f\n",'100'*'${batch_size}'/'${time}'}'`
 
 #打印，不需要修改
@@ -138,7 +138,7 @@ echo "CaseName : $CaseName"
 #吞吐量，不需要修改
 ActualFPS=${FPS}
 #单迭代训练时长，不需要修改
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*1000/'${FPS}'}'`
+TrainingTime=$time
 echo "TrainingTime(ms/step) : $TrainingTime"
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
