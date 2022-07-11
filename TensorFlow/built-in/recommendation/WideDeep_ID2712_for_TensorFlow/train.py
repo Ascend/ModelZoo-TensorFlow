@@ -340,6 +340,7 @@ if __name__ == '__main__':
     custom_op.parameter_map["hcom_parallel"].b = True
     custom_op.parameter_map["iterations_per_loop"].i = config.iterations_per_loop
     custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("ops_info.json")
+    custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("fusion_switch.cfg")
     #aic err debug
    # custom_op.parameter_map["enable_exception_dump"].i = 1 
    # custom_op.parameter_map["op_debug_level"].i = 2 
