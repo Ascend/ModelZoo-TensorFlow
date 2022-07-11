@@ -112,17 +112,13 @@ do
     
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    nohup python3 script/train.py train DIEN > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+    nohup python3 script/train.py train DIEN 1 eval > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
-
-#### eval
-python3 script/train.py test DIEN > ${cur_path}/output/${ASCEND_DEVICE_ID}/test_${ASCEND_DEVICE_ID}.log 2>&1 &
 
 #训练结束时间，不需要修改
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
-
 
 
 #结果打印，不需要修改
@@ -134,7 +130,7 @@ echo "Final Performance item/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
 train_accuracy=`grep "train_accuracy" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F "train_accuracy:" 'END{print $2}' | awk -F ' ' '{print $1}' |sed s/[[:space:]]//g`
-test_accuracy=`grep "test_accuracy" $cur_path/output/$ASCEND_DEVICE_ID/test_$ASCEND_DEVICE_ID.log | awk -F "test_accuracy:" 'END{print $2}' | awk -F '----' '{print $1}' |sed s/[[:space:]]//g`
+test_accuracy=`grep "test_accuracy" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F "test_accuracy:" 'END{print $2}' | awk -F '----' '{print $1}' |sed s/[[:space:]]//g`
 #打印，不需要修改
 echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
