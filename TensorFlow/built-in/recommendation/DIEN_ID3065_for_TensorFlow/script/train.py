@@ -237,7 +237,8 @@ def train(
                     print("avg_examples_per_second: ", avg_examples_per_second)
                     print('iter: %d ----> train_loss: %.4f ---- train_accuracy: %.4f ---- train_aux_loss: %.4f ---- perf: %.4f' % \
                                           (iter, loss_sum / test_iter, accuracy_sum / test_iter, aux_loss_sum / test_iter, end_time-start_time))
-                    #print('                                                                                          test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
+                    if is_eval is True:
+                        print('test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
                     loss_sum = 0.0
                     accuracy_sum = 0.0
                     aux_loss_sum = 0.0
@@ -296,6 +297,8 @@ if __name__ == '__main__':
     tf.set_random_seed(SEED)
     numpy.random.seed(SEED)
     random.seed(SEED)
+    if sys.argv[5] == "eval":
+        is_eval = True
     if sys.argv[1] == 'train':
         train(model_type=sys.argv[2], seed=SEED)
     elif sys.argv[1] == 'test':
