@@ -297,7 +297,7 @@ if __name__ == '__main__':
     tf.set_random_seed(SEED)
     numpy.random.seed(SEED)
     random.seed(SEED)
-    if sys.argv[5] == "eval":
+    if sys.argv[4] == "eval":
         is_eval = True
     if sys.argv[1] == 'train':
         train(model_type=sys.argv[2], seed=SEED)
