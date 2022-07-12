@@ -237,7 +237,8 @@ def train(
                     print("avg_examples_per_second: ", avg_examples_per_second)
                     print('iter: %d ----> train_loss: %.4f ---- train_accuracy: %.4f ---- train_aux_loss: %.4f ---- perf: %.4f' % \
                                           (iter, loss_sum / test_iter, accuracy_sum / test_iter, aux_loss_sum / test_iter, end_time-start_time))
-                    #print('                                                                                          test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
+                    if is_eval is True:
+                        print('test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path))
                     loss_sum = 0.0
                     accuracy_sum = 0.0
                     aux_loss_sum = 0.0
@@ -258,7 +259,7 @@ def test(
 	    seed = 2
 ):
 
-    model_path = "dnn_best_model/ckpt_noshuff" + model_type + str(seed)
+    model_path = "dnn_save_path/ckpt_noshuff" + model_type + str(seed) + "--25000"
     gpu_options = tf.GPUOptions(allow_growth=True)
     with tf.Session(config=npu_config_proto(config_proto=tf.ConfigProto(gpu_options=gpu_options))) as sess:
         train_data = DataIterator(train_file, uid_voc, mid_voc, cat_voc, batch_size, maxlen)
@@ -281,7 +282,7 @@ def test(
         elif model_type == 'DIN-V2-gru-vec-attGru':
             model = Model_DIN_V2_Gru_Vec_attGru(n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
         elif model_type == 'DIEN':
-            model = Model_DIN_V2_Gru_Vec_attGru_Neg(None, maxlen, n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
+            model = Model_DIN_V2_Gru_Vec_attGru_Neg(batch_size, maxlen, n_uid, n_mid, n_cat, EMBEDDING_DIM, HIDDEN_SIZE, ATTENTION_SIZE)
         else:
             print ("Invalid model_type : %s", model_type)
             return
@@ -296,6 +297,8 @@ if __name__ == '__main__':
     tf.set_random_seed(SEED)
     numpy.random.seed(SEED)
     random.seed(SEED)
+    if sys.argv[4] == "eval":
+        is_eval = True
     if sys.argv[1] == 'train':
         train(model_type=sys.argv[2], seed=SEED)
     elif sys.argv[1] == 'test':
