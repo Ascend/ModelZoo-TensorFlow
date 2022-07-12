@@ -19,7 +19,8 @@ export RANK_INDEX=0
 export SLOG_PRINT_TO_STDOUT=0
 
 device_group="0 1 2 3 4 5 6 7"
-
+mkdir -p ${currentDir}/result/8p/
+touch ${currentDir}/result/8p/main.log
 for device_phy_id in ${device_group}
 do
     echo "[`date +%Y%m%d-%H:%M:%S`] [INFO] start: train.sh ${device_phy_id} & " >> ${currentDir}/result/8p/main.log

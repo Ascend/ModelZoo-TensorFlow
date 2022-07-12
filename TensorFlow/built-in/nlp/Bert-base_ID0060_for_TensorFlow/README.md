@@ -157,16 +157,28 @@
 运行如下命令，将数据集转换为tfrecord格式。
 
 ```
-      python src/pretrain/create_pretraining_data.py \   
-      --input_file=<path to your testdata> \   
-      --output_file=<tfrecord dir>/some_output_data.tfrecord \   
-      --vocab_file=<path to vocab.txt> \   
-      --do_lower_case=True \   
-      --max_seq_length=128 \   
-      --max_predictions_per_seq=20 \   
-      --masked_lm_prob=0.15 \   
-      --random_seed=12345 \   
-      --dupe_factor=5
+      python3.7 $cur_path/../src/pretrain/run_pretraining.py --bert_config_file=${cur_path}/../configs/bert_base_config.json \
+    --max_seq_length=128 \
+    --max_predictions_per_seq=20 \
+    --train_batch_size=${batch_size} \
+    --learning_rate=1e-4 \
+    --num_warmup_steps=100 \
+    --num_train_steps=${train_steps} \
+    --optimizer_type=adam \
+    --manual_fp16=True \
+    --use_fp16_cls=True \
+    --input_files_dir=${data_path}/../wikipedia_128 \
+    --eval_files_dir=${data_path} \
+    --npu_bert_debug=False \
+    --npu_bert_use_tdt=True \
+    --do_train=True \
+    --num_accumulation_steps=1 \
+    --npu_bert_job_start_file= \
+    --iterations_per_loop=100 \
+    --save_checkpoints_steps=1000 \
+    --npu_bert_clip_by_global_norm=False \
+    --distributed=False \
+    --npu_bert_loss_scale=0 \
 ```
 
 - 模型训练
@@ -182,30 +194,30 @@
 
  - 单卡训练
    
-    1. 在`scripts`路径下的`run_pretraining.sh`中配置参数，确保 `--input_files_dir` 和 `--eval_files_dir` 配置为用户数据集具体路径，如下：
+    1. 在`test`路径下的`train_full_1p.sh`中配置参数，确保 `--input_files_dir` 和 `--eval_files_dir` 配置为用户数据集具体路径，如下：
        
 ```
-        --input_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \      #训练数据集路径
-        --eval_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \       #验证数据集路径
+        --input_files_dir=${data_path}/../wikipedia_128 \      #训练数据集路径
+        --eval_files_dir=${data_path} \       #验证数据集路径
 ```
 
-      2. 单卡训练指令，在ModelZoo_BertBase_TF目录下，执行如下命令：
+      2. 单卡训练指令，在Bert-base_ID0060_for_TensorFlow/test目录下，执行如下命令：
             
-            bash scripts/run_pretraining.sh
+            bash train_full_1p.sh --data_path=XXX(数据集的绝对路径)
 
    
 
 
 - 8卡训练
-    1. 在`scripts`路径下的`train_8p.sh`中配置参数，确保 `--input_files_dir` 和 `--eval_files_dir` 配置为用户数据集具体路径，如下：
+    1. 在`test`路径下的`train_full_8p.sh`中配置参数，确保 `--input_files_dir` 和 `--eval_files_dir` 配置为用户数据集具体路径，如下：
         ```
-         --input_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \      #训练数据集路径
-         --eval_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \       #验证数据集路径  
+         --input_files_dir=${data_path}/../wikipedia_128 \      #训练数据集路径
+         --eval_files_dir=${data_path} \      #验证数据集路径  
         ```
-    2. 8卡训练指令，在ModelZoo_BertBase_TF目录下，执行如下命令： 
+    2. 8卡训练指令，在Bert-base_ID0060_for_TensorFlow/test目录下，执行如下命令： 
 
         ```
-        bash scripts/run_8p.sh
+        bash train_full_8p.sh --data_path=XXX(数据集的绝对路径)
         ```
 
 - 注意说明：当前Bert-base网络的下游任务（src/downstream）暂未调测
