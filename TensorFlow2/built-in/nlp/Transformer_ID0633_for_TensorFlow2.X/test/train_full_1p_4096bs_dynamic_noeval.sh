@@ -120,7 +120,7 @@ do
 	--param_set=big \
 	--train_steps=${train_steps} \
 	--batch_size=${batch_size} \
-	--steps_between_evals=10000 \
+	--steps_between_evals=1000 \
 	--max_length=64 \
 	--mode=train \
 	--decode_batch_size=32 \
