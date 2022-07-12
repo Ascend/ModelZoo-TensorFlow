@@ -22,7 +22,7 @@ Network="Transformer_ID0633_for_TensorFlow2.X"
 #训练batch_size
 batch_size=4096
 #训练step
-train_steps=500
+train_steps=300
 
 #TF2.X独有，不需要修改
 #export NPU_ENABLE_PERF=true
