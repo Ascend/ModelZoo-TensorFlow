@@ -4,7 +4,8 @@
 cur_path=`pwd`
 
 #集合通信参数,不需要修改
-
+export DUMP_GE_GRAPH=2
+export DUMP_GRAPH_LEVEL=3
 export RANK_SIZE=1
 export JOB_ID=10087
 export RANK_ID_START=0
@@ -30,7 +31,7 @@ train_steps=10000
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
-over_dump=False
+over_dump=True
 data_dump_flag=False
 data_dump_step="10"
 profiling=False
@@ -120,7 +121,7 @@ do
 	--param_set=big \
 	--train_steps=${train_steps} \
 	--batch_size=${batch_size} \
-	--steps_between_evals=1000 \
+	--steps_between_evals=10000 \
 	--max_length=64 \
 	--mode=train \
 	--decode_batch_size=32 \
