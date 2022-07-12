@@ -31,7 +31,7 @@ train_steps=10000
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
-over_dump=True
+over_dump=False
 data_dump_flag=False
 data_dump_step="10"
 profiling=False
