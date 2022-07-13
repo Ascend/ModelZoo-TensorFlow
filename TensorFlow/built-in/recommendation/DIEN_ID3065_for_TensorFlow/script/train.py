@@ -299,6 +299,8 @@ if __name__ == '__main__':
     random.seed(SEED)
     if sys.argv[4] == "eval":
         is_eval = True
+    else:
+        is_eval = False
     if sys.argv[1] == 'train':
         train(model_type=sys.argv[2], seed=SEED)
     elif sys.argv[1] == 'test':
