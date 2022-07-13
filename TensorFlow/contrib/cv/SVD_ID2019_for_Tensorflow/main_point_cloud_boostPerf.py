@@ -403,7 +403,7 @@ def train_and_eval():
             precision_mode = "allow_mix_precision",
             profiling_config=profiling_config,
             session_config=session_config,
-            customize_dtypes="/home/ma-user/modelarts/user-job-dir/code/switch_config.txt")
+            customize_dtypes="./switch_config.txt")
   # if FLAGS.Dump == True:
   #   config = NPURunConfig(
   #         save_summary_steps=save_summary_steps,
@@ -419,7 +419,7 @@ def train_and_eval():
       log_step_count_steps=log_step_count,
       keep_checkpoint_max=None,
       precision_mode="allow_mix_precision",
-      customize_dtypes="/home/ma-user/modelarts/user-job-dir/code/switch_config.txt")
+      customize_dtypes="./switch_config.txt")
 
   params = {'dummy': 0}
   estimator = NPUEstimator(
