@@ -37,7 +37,6 @@ import os
 import sys
 
 import argparse
-import moxing as mox
 
 import gin.tf
 from absl import app
@@ -117,7 +116,6 @@ def main(_):
   if FLAGS.sample_distance_pairs:
     grid.sample_distance_pairs(num_samples_per_cell=FLAGS.num_samples_per_cell,
                                verbose=FLAGS.verbose)
-  mox.file.copy_parallel('/var/log/npu/', FLAGS.train_url)
 
 if __name__ == '__main__':
     root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -148,20 +146,6 @@ if __name__ == '__main__':
     current_path = os.getcwd()
     print('>>>>>>>>>>>>>>current_path11111:{}<<<<<<<<'.format(current_path))
     config = parser.parse_args()
-    data_dir = "/cache/dataset"
-    os.makedirs(data_dir)
-    model_dir = "/cache/result"
-    os.makedirs(model_dir)
-    dump_graph_dir = "/cache/dump_graph"
-    dump_data_dir = "/cache/dump_data"
-    os.makedirs(dump_data_dir)
-    os.environ["DUMP_GE_GRAPH"] = "2"
-    os.makedirs(dump_graph_dir)
-    os.environ["DUMP_GRAPH_PATH"] = dump_graph_dir
-    mox.file.copy_parallel(config.data_url, data_dir)
-    mox.file.copy_parallel(model_dir, config.train_url)
-    mox.file.copy_parallel(dump_data_dir, config.train_url)
-    mox.file.copy_parallel(dump_graph_dir, config.train_url)
     app.run(main)
 
 
