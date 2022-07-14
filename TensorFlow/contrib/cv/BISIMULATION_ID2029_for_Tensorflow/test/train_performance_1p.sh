@@ -113,13 +113,13 @@ epoch=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./main.py --data_path=${data_path}/maps --output_path=${output_path} --epoch=${epoch}
+    python3.7 -m compute_metric --base_dir=/tmp/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms.gin
 else
-    python3.7 ./main.py --data_path=${data_path}/maps --output_path=${output_path} --epoch=${epoch} > ${print_log} 2>&1
+    python3.7 -m compute_metric --base_dir=/tmp/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms.gin > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_log} | tail -n 7 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "ONE_ITER_TIME:" ${print_log} | tail -n 7 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 推理速度计算
@@ -127,10 +127,10 @@ Generate_StepTime=`grep "sec/image :" ${print_log} | tail -n 7 | awk '{print $NF
 echo "Model Generate Images Perfomance sec/image:${Generate_StepTime}"
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Average Distances :" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`grep "Normalized metric difference:" ${print_log}  | awk '{print $NF}'`
 # 提取所有loss打印信息
 #grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-grep "d_loss :" ${print_log} | awk -F "|" '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "Normalized metric difference:" ${print_log} | awk -F "|" '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
