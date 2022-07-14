@@ -139,7 +139,7 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 
 |精度指标项|论文发布|GPU实测|NPU实测|
 |---|---|---|---|
-|ACC|xxx|yyy|zzz|
+|RMSE|14.16|16.05|6.38|
 
 - 性能结果比对  
 
@@ -156,7 +156,9 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 ├── Truemain.py                               //网络训练与测试代码
 ├── README.md                                 //代码说明文档
 ├── cell.py                                   //convlstm核
-├── test
+├── NPUTruemain.py                            //NPU裸机上的网络训练代码
+├── NPUTrueTest.py                            //NPU裸机上的网络测试代码
+├── pose_process.py                           //相对位姿转绝对位姿代码
 ├── requirements.txt                          //训练python依赖列表
 │    ├──modelarts_entry_acc.py                //modelarts训练验证精度脚本
 │    ├──modelarts_entry_perf.py               //modelarts训练验证性能脚本
@@ -170,7 +172,7 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 --batch_size             每个NPU的batch size，默认：32
 --learing_rata           初始学习率，默认：0.0001
 --steps                  数据集图片跨越步数，默认：1
---train_iter             训练epcoh数量，默认：240
+--train_iter             训练epcoh数量，默认：300
 ```
 
 ## 训练过程<a name="section1589455252218"></a>
