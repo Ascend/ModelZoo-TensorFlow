@@ -9,7 +9,7 @@ Network="siamese_network_ID2539_for_TensorFlow2.X"
 #Device数量，单卡默认为1
 RankSize=1
 #训练epoch，可选
-train_epochs=2
+train_epochs=1
 #训练step
 #train_steps=5
 #学习率
