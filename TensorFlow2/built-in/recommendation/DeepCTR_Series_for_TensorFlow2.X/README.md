@@ -50,7 +50,7 @@ DeepCTR 是一个**易于使用**、**模块化**和**可扩展**的基于深度
 
 - 适配昇腾 AI 处理器的实现：
   
-  https://gitee.com/jieliang-cai/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/recommendation/DeepCTR_Series_for_TensorFlow2.X
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/recommendation/DeepCTR_Series_for_TensorFlow2.X
 
 - 通过Git获取对应commit\_id的代码方法如下：
   
