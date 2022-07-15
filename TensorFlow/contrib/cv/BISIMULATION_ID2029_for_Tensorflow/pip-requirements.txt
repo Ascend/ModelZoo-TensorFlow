@@ -1,2 +1,10 @@
 absl-py
-gin-config==0.2.0
+atari_py
+dopamine-rl
+gin-config >= 0.1
+matplotlib
+numpy >= 1.14
+pillow
+pygame
+scipy == 1.1.0
+tensorflow == 1.15.0
