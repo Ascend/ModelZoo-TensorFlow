@@ -1,0 +1,4 @@
+python 3.6
+tensorflow-gpu-1.15.0
+opencv-python
+tensorboardX
