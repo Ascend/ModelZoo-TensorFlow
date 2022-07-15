@@ -114,8 +114,8 @@ class UGATIT(object) :
         # self.trainA, self.trainB = prepare_data(dataset_name=self.dataset_name, size=self.img_size
         #self.trainA_dataset = glob('./dataset/{}/*.*'.format(self.dataset_name + '/trainA'))
         #self.trainB_dataset = glob('./dataset/{}/*.*'.format(self.dataset_name + '/trainB'))
-        self.trainA_dataset = glob('/cache/data/{}/*.*'.format(self.dataset_name + '/trainA'))
-        self.trainB_dataset = glob('/cache/data/{}/*.*'.format(self.dataset_name + '/trainB'))
+        self.trainA_dataset = glob('{}/*.*'.format(self.dataset_name + '/trainA'))
+        self.trainB_dataset = glob('{}/*.*'.format(self.dataset_name + '/trainB'))
 
         self.dataset_num = max(len(self.trainA_dataset), len(self.trainB_dataset))
 
@@ -729,12 +729,12 @@ class UGATIT(object) :
             else :
                 print(" [!] Load failed...")
 
-        test_A_root = './dataset/{}'.format(self.dataset_name+'/testA')
-        test_B_root = './dataset/{}'.format(self.dataset_name+'/testB')
-        train_A_root = './dataset/{}'.format(self.dataset_name + '/trainA')
-        train_B_root = './dataset/{}'.format(self.dataset_name + '/trainB')
-        test_A_files = glob('./dataset/{}/*.*'.format(self.dataset_name + '/testA'))
-        test_B_files = glob('./dataset/{}/*.*'.format(self.dataset_name + '/testB'))
+        test_A_root = '{}'.format(self.dataset_name+'/testA')
+        test_B_root = '{}'.format(self.dataset_name+'/testB')
+        train_A_root = '{}'.format(self.dataset_name + '/trainA')
+        train_B_root = '{}'.format(self.dataset_name + '/trainB')
+        test_A_files = glob('{}/*.*'.format(self.dataset_name + '/testA'))
+        test_B_files = glob('{}/*.*'.format(self.dataset_name + '/testB'))
         A2B_root = os.path.join(self.result_dir, '{:03d}-{}'.format(epoch, 'A-B'))
         B2A_root = os.path.join(self.result_dir, '{:03d}-{}'.format(epoch, 'B-A'))
         # check_folder(self.result_dir)
