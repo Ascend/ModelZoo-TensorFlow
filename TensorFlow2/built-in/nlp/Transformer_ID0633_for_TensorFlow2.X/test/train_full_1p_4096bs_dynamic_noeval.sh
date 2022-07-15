@@ -4,8 +4,7 @@
 cur_path=`pwd`
 
 #集合通信参数,不需要修改
-export DUMP_GE_GRAPH=2
-export DUMP_GRAPH_LEVEL=3
+
 export RANK_SIZE=1
 export JOB_ID=10087
 export RANK_ID_START=0
