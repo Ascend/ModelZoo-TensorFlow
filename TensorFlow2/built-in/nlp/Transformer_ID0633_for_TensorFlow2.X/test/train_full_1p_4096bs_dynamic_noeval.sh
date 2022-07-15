@@ -22,7 +22,7 @@ Network="Transformer_ID0633_for_TensorFlow2.X"
 #训练batch_size
 batch_size=4096
 #训练step
-train_steps=300
+train_steps=400000
 
 #TF2.X独有，不需要修改
 #export NPU_ENABLE_PERF=true
@@ -120,7 +120,7 @@ do
 	--param_set=big \
 	--train_steps=${train_steps} \
 	--batch_size=${batch_size} \
-	--steps_between_evals=100 \
+	--steps_between_evals=10000 \
 	--max_length=64 \
 	--mode=train \
 	--decode_batch_size=32 \
@@ -130,7 +130,7 @@ do
 	--dtype=fp16 \
 	--distribution_strategy='one_device' \
 	--enable_time_history=true \
-  --log_steps=100 \
+  --log_steps=1000 \
   --loss_scale='dynamic' \
 	--precision_mode=${precision_mode} \
         --over_dump=${over_dump} \
