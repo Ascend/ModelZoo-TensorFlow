@@ -115,8 +115,8 @@ echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
 
 #FPS=`grep 'fps :'  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F' ' '{print $25}' | tail -n 1`
-time=`grep -rn 'epoch 2 total time ='  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F '=' '{print $2}'|sed s/[[:space:]]//g`
-FPS=`awk 'BEGIN{printf "%.2f\n",'100'*'${batch_size}'/'${time}'}'`
+time=`grep -rn 'epoch 4 total time ='  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F '=' '{print $2}'|sed s/[[:space:]]//g`
+FPS=`awk 'BEGIN{printf "%.2f\n",'${RANK_SIZE}'*'50'*'${batch_size}'/'${time}'}'`
 
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
