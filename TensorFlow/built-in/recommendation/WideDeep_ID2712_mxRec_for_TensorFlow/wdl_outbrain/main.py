@@ -19,7 +19,8 @@ def run():
     train_size = 59761827
     test_size = 1048576
 
-    data_path = '/data/local/outbrain/tf_record'
+    train_data_path = '/data/local/outbrain/tf_record_part/train'
+    eval_data_path = '/data/local/outbrain/tf_record_part/eval'
 
     dataset_type = "tf_dataset"
 
@@ -31,9 +32,9 @@ def run():
     label_op_name = "label"
 
     print("Init a dataset instance.")
-    data_args_json_file = os.path.join(data_path, 'data_args.json')
-    train_dataset = Dataset(data_path, dataset_type,
-                            name="train_dataset_channel", dataset_pattern="train") \
+    data_args_json_file = '/data/local/outbrain/tf_record_part/data_args.json'
+    train_dataset = Dataset(train_data_path, dataset_type,
+                            name="train_dataset_channel") \
         .read_parsing_json(data_args_json_file) \
         .file_pattern('tfrecord') \
         .num_parallel(8) \
@@ -44,8 +45,8 @@ def run():
         .sample_size(train_size) \
         .add_preprocess(function=my_preprocess)
 
-    val_dataset = Dataset(data_path, dataset_type,
-                          name="test_dataset_channel", dataset_pattern="eval") \
+    val_dataset = Dataset(eval_data_path, dataset_type,
+                          name="test_dataset_channel") \
         .read_parsing_json(data_args_json_file) \
         .file_pattern('tfrecord') \
         .num_parallel(8) \

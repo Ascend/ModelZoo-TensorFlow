@@ -12,12 +12,12 @@
 	"doc_id": [{
 		"table_name": "deep_doc_id_table",
 		"emb_name": "deep_doc_id_emb",
-		"unique_feat_cnt": 16000
+		"unique_feat_cnt": 17000
 	},
 	{
 		"table_name": "wide_doc_id_table",
 		"emb_name": "wide_doc_id_emb",
-		"unique_feat_cnt": 16000
+		"unique_feat_cnt": 17000
 	}],
 	"doc_event_source_id": [{
 		"table_name": "deep_doc_event_source_id_table",
@@ -122,12 +122,12 @@
 	"doc_event_entity_id": [{
 		"table_name": "deep_doc_event_entity_id_table",
 		"emb_name": "deep_doc_event_entity_id_emb",
-		"unique_feat_cnt": 1100
+		"unique_feat_cnt": 1200
 	},
 	{
 		"table_name": "wide_doc_event_entity_id_table",
 		"emb_name": "wide_doc_event_entity_id_emb",
-		"unique_feat_cnt": 1100
+		"unique_feat_cnt": 1200
 	}],
 	"doc_event_topic_id": [{
 		"table_name": "deep_doc_event_topic_id_table",
@@ -152,12 +152,12 @@
 	"ad_id": [{
 		"table_name": "deep_ad_id_table",
 		"emb_name": "deep_ad_id_emb",
-		"unique_feat_cnt": 29000
+		"unique_feat_cnt": 31000
 	},
 	{
 		"table_name": "wide_ad_id_table",
 		"emb_name": "wide_ad_id_emb",
-		"unique_feat_cnt": 29000
+		"unique_feat_cnt": 31000
 	}],
 	"doc_ad_source_id": [{
 		"table_name": "deep_doc_ad_source_id_table",
@@ -202,12 +202,12 @@
 	"doc_ad_entity_id": [{
 		"table_name": "deep_doc_ad_entity_id_table",
 		"emb_name": "deep_doc_ad_entity_id_emb",
-		"unique_feat_cnt": 1100
+		"unique_feat_cnt": 1200
 	},
 	{
 		"table_name": "wide_doc_ad_entity_id_table",
 		"emb_name": "wide_doc_ad_entity_id_emb",
-		"unique_feat_cnt": 1100
+		"unique_feat_cnt": 1200
 	}],
 	"doc_ad_category_id": [{
 		"table_name": "deep_doc_ad_category_id_table",
