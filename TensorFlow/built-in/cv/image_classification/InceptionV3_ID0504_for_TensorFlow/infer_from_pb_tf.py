@@ -36,7 +36,7 @@ def parse_args():
                         help="""label file""")
     parser.add_argument('--input_tensor_name', default = 'input:0',
                         help = """input_tensor_name""")
-    parser.add_argument('--output_tensor_name', default='InceptionV4/Logits/Logits/BiasAdd:0',
+    parser.add_argument('--output_tensor_name', default='InceptionV3/Logits/SpatialSqueeze:0',
                         help="""output_tensor_name""")
     args, unknown_args = parser.parse_known_args()
     if len(unknown_args) > 0:

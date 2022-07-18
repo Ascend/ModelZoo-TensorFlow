@@ -51,7 +51,7 @@ def main():
 		        input_saver='',
 		        input_binary=False, 
 		        input_checkpoint=args.ckpt_path,
-		        output_node_names='InceptionV4/Logits/Logits/BiasAdd',  # output node
+		        output_node_names='InceptionV3/Logits/SpatialSqueeze',  # output node
 		        restore_op_name='save/restore_all',
 		        filename_tensor_name='save/Const:0',
 		        output_graph='inception_v3_tf.pb',   #saved pb name
