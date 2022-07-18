@@ -39,11 +39,12 @@ import common_flags
 from tensorflow.python.framework import ops
 from npu_device.npu_device import gen_npu_ops as npu_aicore_ops
 from absl import flags
+import npu_device
 
 FLAGS=flags.FLAGS
 
 
-@ops.RegisterGradient("FastGelu")
+# @ops.RegisterGradient("FastGelu")
 def _fast_gelu_grad(op,grad):
   """ The gradient for fastgelu
 
@@ -55,6 +56,10 @@ def _fast_gelu_grad(op,grad):
     Gradient with respect to the input of fast_gelu
   """
   return [npu_aicore_ops.fast_gelu_grad(grad,op.inputs[0])]
+
+grad_registry_list = ops.grad_registry.list()
+if not hasattr(npu_device.ops, 'gelu') and "FastGelu" not in grad_registry_list:
+  ops.RegisterGradient("FastGelu")(_fast_gelu_grad)
 
 @tf.keras.utils.register_keras_serializable(package='Text')
 def gelu(x):
@@ -70,7 +75,11 @@ def gelu(x):
     `x` with the GELU activation applied.
   """
   if FLAGS.use_fastgelu:
-    return npu_aicore_ops.fast_gelu(x)
+    if not hasattr(npu_device.ops, 'gelu'):
+      return npu_device.gen_npu_ops.fast_gelu(x)
+    else:
+      fast_gelu = getattr(npu_device.ops, 'gelu')
+      return fast_gelu(x)
   else:
     cdf = 0.5 * (1.0 + tf.tanh(
         (math.sqrt(2 / math.pi) * (x + 0.044715 * tf.pow(x, 3)))))
