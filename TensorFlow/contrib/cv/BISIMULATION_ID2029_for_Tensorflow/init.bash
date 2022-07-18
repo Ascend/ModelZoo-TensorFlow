@@ -1,0 +1,1 @@
+export ASCEND_GLOBAL_LOG_LEVEL = 0;
