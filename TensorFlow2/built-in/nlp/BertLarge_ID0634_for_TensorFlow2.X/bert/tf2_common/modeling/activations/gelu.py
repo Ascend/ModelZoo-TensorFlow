@@ -57,7 +57,7 @@ def _fast_gelu_grad(op,grad):
   """
   return [npu_aicore_ops.fast_gelu_grad(grad,op.inputs[0])]
 
-grad_registry_list = ops.grad_registry.list()
+grad_registry_list = ops.gradient_registry.list()
 if not hasattr(npu_device.ops, 'gelu') and "FastGelu" not in grad_registry_list:
   ops.RegisterGradient("FastGelu")(_fast_gelu_grad)
 
