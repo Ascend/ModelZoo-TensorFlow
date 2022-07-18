@@ -127,8 +127,7 @@ do
 	--decode_max_length=97 \
 	--padded_decode=False \
 	--num_gpus=1 \
-	--dtype=fp32 \
-	--enable_metrics_in_training=true \
+	--dtype=fp16 \
 	--distribution_strategy='one_device' \
 	--enable_time_history=true \
   --log_steps=1000 \
