@@ -155,6 +155,7 @@ do
   	--verbosity=0 \
   	--warmup_steps=0 \
 	--precision_mode=${precision_mode} \
+    --attention_with_dropout_v3=True \
         --over_dump=${over_dump} \
         --over_dump_path=${over_dump_path} \
         --data_dump_flag=${data_dump_flag} \
