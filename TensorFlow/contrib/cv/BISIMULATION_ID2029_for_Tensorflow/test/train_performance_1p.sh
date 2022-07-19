@@ -113,9 +113,9 @@ epoch=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 -m compute_metric --base_dir=/tmp/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms.gin
+    python3.7 -m compute_metric --base_dir=/tmp/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms_profiling.gin
 else
-    python3.7 -m compute_metric --base_dir=/tmp/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms.gin > ${print_log} 2>&1
+    python3.7 -m compute_metric --base_dir=/tmp/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms_profiling.gin > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
