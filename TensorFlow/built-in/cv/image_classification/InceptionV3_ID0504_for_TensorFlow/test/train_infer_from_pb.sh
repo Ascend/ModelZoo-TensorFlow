@@ -142,7 +142,7 @@ do
     cd ${cur_path}/../
     python3 infer_from_pb_tf.py \
         --model_path=${ckpt_path}/dataset/inception_v3_tf.pb \
-        --image_path=${ckpt_path}/dataset/photo \
+        --image_path=${ckpt_path}/dataset/photo_3000 \
         --label_file=${ckpt_path}/dataset/val_lable.txt \
         > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 
