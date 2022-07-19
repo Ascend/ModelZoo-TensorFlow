@@ -24,6 +24,9 @@ import tensorflow as tf
 from modeling.layers import dense_einsum
 from modeling.layers import masked_softmax
 from modeling.layers import bert_dropout
+from modeling.layers import bert_dropout_v1
+from absl import flags
+FLAGS=flags.FLAGS
 
 
 @tf.keras.utils.register_keras_serializable(package="Text")
