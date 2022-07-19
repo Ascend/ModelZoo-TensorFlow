@@ -170,6 +170,8 @@ def npu_config():
   npu_device.global_options().variable_memory_max_size=4*1024*1024*1024
   #npu_device.global_options().graph_memory_max_size=str("27*1024*1024*1024")
   npu_device.global_options().graph_memory_max_size=29205777612
+  npu_device.global_options().is_tailing_optimization = True
+
   if FLAGS.use_mixlist and FLAGS.precision_mode=='allow_mix_precision':
     logging.info('start to set op blacklist according to %s',FLAGS.mixlist_file)
     npu_device.global_options().modify_mixlist="../configs/"+FLAGS.mixlist_file
