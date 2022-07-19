@@ -120,9 +120,12 @@ class Attention(tf.keras.layers.Layer):
     self._masked_softmax = masked_softmax.MaskedSoftmax(mask_expansion_axes=[1])
 
     #self._dropout = tf.keras.layers.Dropout(rate=self._dropout_rate)
-    self._dropout = bert_dropout.Dropout(rate=self._dropout_rate)
+    if FLAGS.attention_with_dropout_v3 == True:
+        self._dropout = bert_dropout.Dropout(rate=self._dropout_rate)
+    else:
+        self._dropout = bert_dropout_v1.Dropout_v1(rate=self._dropout_rate)
 
-  def get_config(self):
+    def get_config(self):
     config = {
         "num_heads":
             self._num_heads,
