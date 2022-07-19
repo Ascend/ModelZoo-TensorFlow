@@ -365,6 +365,7 @@ class LAMBOptimizer(optimizer_v2modified.OptimizerV2Modified):
 
       var_update = var - ratio * coefficients['lr_t'] * update
     else:
+      assignments = []
       var_name=self._get_variable_name(var.name)
       do_use_weight = self._do_use_weight_decay(var_name)
       do_use_weight = tf.cast(do_use_weight,tf.float32)
@@ -375,7 +376,8 @@ class LAMBOptimizer(optimizer_v2modified.OptimizerV2Modified):
       g_norm = linalg_ops.norm(update,ord=2)
 
       var_update = npu_ops.lamb_apply_weight_assign(w_norm, g_norm, coefficients['lr_t'],update,var)
-
+      assignments.extend([var_update,])
+      return tf.group(*assignments)
     return state_ops.assign(var, var_update, use_locking=self._use_locking).op
 
   def _resource_apply_sparse(self, grad, var, indices, apply_state=None):
