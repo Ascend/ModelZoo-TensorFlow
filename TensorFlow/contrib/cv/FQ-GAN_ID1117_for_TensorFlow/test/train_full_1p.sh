@@ -133,8 +133,8 @@ else
 fi
 
 # 性能相关数据计算
-Time1=`grep "time" ${print_log} | awk '{print $7}' | head -n 1`
-Time2=`grep "time" ${print_log} | awk '{print $7}' | awk '{sum+=$1} END {print sum}'`
+Time1=`grep "time:" ${print_log} | awk '{print $7}' | head -n 1`
+Time2=`grep "time:" ${print_log} | awk '{print $7}' | awk '{sum+=$1} END {print sum}'`
 TrainingTime=`awk 'BEGIN{printf "%.2f\n", '(${Time2}-${Time1})'/'10000'}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
 
@@ -143,6 +143,8 @@ train_accuracy==`grep "d_loss:" ${print_log} | tail -n +2 | awk '{print $9}' | t
 # 提取所有loss打印信息
 grep "d_loss:" ${print_log} | tail -n +2 | awk '{print $9}' | tr -d "," > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
+#获取最终的casename，请保留，case文件名为${CaseName}
+get_casename
 
 # 重命名loss文件
 if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
