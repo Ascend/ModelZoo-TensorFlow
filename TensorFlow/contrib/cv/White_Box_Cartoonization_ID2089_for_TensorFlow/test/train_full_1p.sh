@@ -138,12 +138,9 @@ else
     #python3 ./train_code/pretrain.py --data_path=${data_path}/dataset/
     python3 ./train_code/train.py --data_path=${data_path}/dataset/ --REAL_PATH=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
     python3 ./test_code/cartoonize.py --data_path=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
-    python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_photo 1>>${print_log} 2>&1
-    python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_cartoon 1>>${print_log} 2>&1
+    python3 -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_photo 1>>${print_log} 2>&1
+    python3 -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_cartoon 1>>${print_log} 2>&1
 fi
-
-#退出conda环境
-conda deactivate
 
 # 性能相关数据计算
 StepTime=`grep "time_per_step" ${print_log} | tail -n 10 | awk '{print $5}' | awk '{sum+=$1} END {print sum/NR}'`
@@ -209,3 +206,5 @@ echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseNa
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+#退出conda环境
+conda deactivate
