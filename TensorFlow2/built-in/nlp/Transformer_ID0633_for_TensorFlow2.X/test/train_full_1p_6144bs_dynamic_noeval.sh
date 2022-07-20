@@ -22,7 +22,7 @@ Network="Transformer_ID0633_for_TensorFlow2.X"
 #训练batch_size
 batch_size=6144
 #训练step
-train_steps=250000
+train_steps=20000
 
 #TF2.X独有，不需要修改
 #export NPU_ENABLE_PERF=true
@@ -152,7 +152,7 @@ BatchSize=${batch_size}
 #设备类型
 DeviceType=`uname -m`
 #用例名称
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
