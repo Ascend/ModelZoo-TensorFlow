@@ -138,8 +138,8 @@ else
     #python3 ./train_code/pretrain.py --data_path=${data_path}/dataset/
     python3 ./train_code/train.py --data_path=${data_path}/dataset/ --REAL_PATH=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
     python3 ./test_code/cartoonize.py --data_path=${data_path}/dataset/ --output_path=${output_path} 1>>${print_log} 2>&1
-    python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_photo 1>>${print_log} 2>&1
-    python -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_cartoon 1>>${print_log} 2>&1
+    python3 -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_photo 1>>${print_log} 2>&1
+    python3 -m pytorch_fid ${output_path}/cartoonized_scenery/ ${data_path}/dataset/scenery_cartoon 1>>${print_log} 2>&1
 fi
 
 #退出conda环境
