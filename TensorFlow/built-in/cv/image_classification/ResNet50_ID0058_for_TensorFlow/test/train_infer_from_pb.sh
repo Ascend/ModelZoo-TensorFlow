@@ -7,7 +7,7 @@ cur_path=`pwd`
 export RANK_SIZE=1
 export RANK_TABLE_FILE=${cur_path}/../configs/8p.json
 export JOB_ID=10087
-RANK_ID_START=0
+RANK_ID_START=${ASCEND_DEVICE_ID}
 
 # 数据集路径,保持为空,不需要修改
 data_path=""
