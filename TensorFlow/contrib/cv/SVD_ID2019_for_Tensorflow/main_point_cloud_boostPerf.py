@@ -383,27 +383,26 @@ def train_and_eval():
 
   # dump_config = npu_tf_config.estimator_dump_config(action='overflow')
   #
-  profilingPath=os.path.join(FLAGS.checkpoint_dir,'npu_profiling')
-  if not os.path.exists(profilingPath):
-      os.makedirs(profilingPath)
-
-  profiling_options= '{"output":"%s",\
-                         "task_trace":"on",\
-                         "aicpu":"on"}'%(profilingPath)
-
-  profiling_config=ProfilingConfig(enable_profiling=True,profiling_options=profiling_options)
-  session_config=tf.ConfigProto()
-
-  if FLAGS.Profiling:
-    config = NPURunConfig(
-            save_summary_steps=save_summary_steps,
-            save_checkpoints_steps=save_checkpoints_steps,
-            log_step_count_steps=log_step_count,
-            keep_checkpoint_max=None,
-            precision_mode = "allow_mix_precision",
-            profiling_config=profiling_config,
-            session_config=session_config,
-            customize_dtypes="./switch_config.txt")
+  # profilingPath=os.path.join(FLAGS.checkpoint_dir,'npu_profiling')
+  # if not os.path.exists(profilingPath):
+  #     os.makedirs(profilingPath)
+  #
+  # profiling_options= '{"output":"%s",\
+  #                       "task_trace":"on",\
+  #                       "aicpu":"on"}'%(profilingPath)
+  #
+  # profiling_config=ProfilingConfig(enable_profiling=True,profiling_options=profiling_options)
+  # session_config=tf.ConfigProto()
+  #
+  # if FLAGS.Profiling:
+  #   config = NPURunConfig(
+  #           save_summary_steps=save_summary_steps,
+  #           save_checkpoints_steps=save_checkpoints_steps,
+  #           log_step_count_steps=log_step_count,
+  #           keep_checkpoint_max=None,
+  #           precision_mode = "allow_mix_precision",
+  #           profiling_config=profiling_config,
+  #           session_config=session_config)
   # if FLAGS.Dump == True:
   #   config = NPURunConfig(
   #         save_summary_steps=save_summary_steps,
@@ -412,8 +411,8 @@ def train_and_eval():
   #         keep_checkpoint_max=None,
   #         precision_mode="allow_mix_precision",
   #         dump_config=dump_config)
-  else:
-    config = NPURunConfig(
+
+  config = NPURunConfig(
       save_summary_steps=save_summary_steps,
       save_checkpoints_steps=save_checkpoints_steps,
       log_step_count_steps=log_step_count,
