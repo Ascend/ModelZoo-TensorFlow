@@ -160,6 +160,7 @@ def train(
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     ### 配置mm16进32出
     custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("switch_config.txt")
+    custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("fusion_config.txt")
 
     if False:
         custom_op.parameter_map["enable_dump"].b = True
