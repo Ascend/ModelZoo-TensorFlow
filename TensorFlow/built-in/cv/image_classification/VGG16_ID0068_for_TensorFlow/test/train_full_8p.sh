@@ -18,7 +18,7 @@ data_path=""
 Network="VGG16_ID0068_for_TensorFlow"
 
 #训练batch_size
-batch_size=256
+batch_size=32
 
 
 #维测参数，precision_mode需要模型审视修改
@@ -142,7 +142,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`grep -a 'FPS' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $6}'| awk -F "." '{print $1}'`
+FPS=`grep -a 'FPS' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $4}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
