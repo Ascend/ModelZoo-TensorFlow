@@ -28,7 +28,6 @@ from modeling.layers import bert_dropout_v1
 from absl import flags
 FLAGS=flags.FLAGS
 
-
 @tf.keras.utils.register_keras_serializable(package="Text")
 class Attention(tf.keras.layers.Layer):
   """Attention layer.
@@ -61,7 +60,7 @@ class Attention(tf.keras.layers.Layer):
     bias_constraint: Constraint for dense layer kernels.
   """
 
- def __init__(self,
+  def __init__(self,
                num_heads,
                head_size,
                dropout_rate=0.0,
@@ -125,7 +124,7 @@ class Attention(tf.keras.layers.Layer):
     else:
         self._dropout = bert_dropout_v1.Dropout_v1(rate=self._dropout_rate)
 
- def get_config(self):
+  def get_config(self):
     config = {
         "num_heads":
             self._num_heads,
@@ -151,7 +150,7 @@ class Attention(tf.keras.layers.Layer):
     base_config = super(Attention, self).get_config()
     return dict(list(base_config.items()) + list(config.items()))
 
- def call(self, inputs):
+  def call(self, inputs):
     from_tensor = inputs[0]
     to_tensor = inputs[1]
     attention_mask = inputs[2] if len(inputs) == 4 else None
