@@ -74,11 +74,15 @@ epoch n_processed n_images ips dtrain dtest dsample dtot train_results test_resu
 ````
 
 #### 精度达标
+
 bits_x NPU：2.9
+
 bits_x GPU: 3.213
 
 #### 性能达标
+
 NPU Ascend910： 0.84 s / step
+
 GPU v100： 0.85 s / step
 
 
