@@ -582,7 +582,8 @@ class GridWorld(object):
     config_proto = tf.ConfigProto()
     custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = 'NpuOptimizer'
-    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_fp32_to_fp16")
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+    custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("./matmul_setting.cfg")
     config = npu_config_proto(config_proto=config_proto)
     with tf.Session(config=config) as sess:
       summary_writer.add_graph(graph=tf.get_default_graph())
