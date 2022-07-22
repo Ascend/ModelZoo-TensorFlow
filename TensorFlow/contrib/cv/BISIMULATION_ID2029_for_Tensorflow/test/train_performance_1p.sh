@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -89,7 +89,12 @@ function get_casename()
 # 跳转到code目录
 cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
-mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+mkdir -p ./test/output/${ASCEND_DEVICE_ID}/grid_world
+
+# 修改参数
+sed -i 's/num_iterations=10000/num_iterations=100/' grid_world.py
+sed -i 's/i > self.num_iterations/i > 100/' grid_world.py
+sed -i 's/range(self.num_iterations)/range(100)/' grid_world.py
 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
@@ -113,9 +118,9 @@ epoch=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 -m compute_metric --base_dir=/tmp/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms_profiling.gin
+    python3.7 -m compute_metric --base_dir=${output_path}/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms.gin
 else
-    python3.7 -m compute_metric --base_dir=/tmp/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms_profiling.gin > ${print_log} 2>&1
+    python3.7 -m compute_metric --base_dir=${output_path}/grid_world --grid_file=configs/mirrored_rooms.grid --gin_files=configs/mirrored_rooms.gin > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -127,10 +132,8 @@ Generate_StepTime=`grep "sec/image :" ${print_log} | tail -n 7 | awk '{print $NF
 echo "Model Generate Images Perfomance sec/image:${Generate_StepTime}"
 
 # 精度相关数据计算
-train_accuracy=`grep "Normalized metric difference:" ${print_log}  | awk '{print $NF}'`
-# 提取所有loss打印信息
-#grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
-grep "Normalized metric difference:" ${print_log} | awk -F "|" '{print $2}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+train_accuracy=`grep "Normalized metric difference:" ${print_log}  | awk '{print $NF}' | tail -n 1`
+
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -173,9 +176,6 @@ echo "E2E Training Duration sec : $e2e_time"
 # 输出训练精度
 echo "Final Train Accuracy : ${train_accuracy}"
 
-# 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
-
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -184,5 +184,4 @@ echo "DeviceType = `uname -m`" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
