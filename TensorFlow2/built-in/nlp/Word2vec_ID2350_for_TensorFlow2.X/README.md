@@ -32,7 +32,8 @@
 
 ## 简述<a name="section194554031510"></a>
 
-本项目是基于TensorFlow2.X的文本分类任务，通过直接配置可以支持：TextCNN/TextRNN/TextRCNN/Transformer/Bert/Albert/DistilBert基本分类模型；TextCNN/TextRNN/TextRCNN/Transformer的token可选用词粒度/子粒度；Word2Vec特征增强后接TextCNN/TextRNN/TextRCNN/Transformer；支持Attention-TextCNN/TextRNN；FGM和PGD两种对抗方法的引入训练；对比学习方法R-drop引入；支持二分类和多分类，支持FocalLoss；保存为pb文件可供部署；项目代码支持交互式测试和批量测试。
+本项目是基于TensorFlow2.X的文本分类任务，使用Word2vec词向量训练模型进行文本分类。Word2vec是一种将词转化成向量的方法，其中包含两种算法，分别是skip-gram和CBOW，它们最大的区别是skip-gram是通过中心词去预测中心词周围的词，而CBOW是通过周围的词去预测中心词。
+
 
 - 参考论文：
 
