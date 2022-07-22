@@ -24,7 +24,9 @@ import tensorflow as tf
 from modeling.layers import dense_einsum
 from modeling.layers import masked_softmax
 from modeling.layers import bert_dropout
-
+from modeling.layers import bert_dropout_v1
+from absl import flags
+FLAGS=flags.FLAGS
 
 @tf.keras.utils.register_keras_serializable(package="Text")
 class Attention(tf.keras.layers.Layer):
@@ -117,7 +119,10 @@ class Attention(tf.keras.layers.Layer):
     self._masked_softmax = masked_softmax.MaskedSoftmax(mask_expansion_axes=[1])
 
     #self._dropout = tf.keras.layers.Dropout(rate=self._dropout_rate)
-    self._dropout = bert_dropout.Dropout(rate=self._dropout_rate)
+    if FLAGS.attention_with_dropout_v3 == True:
+        self._dropout = bert_dropout.Dropout(rate=self._dropout_rate)
+    else:
+        self._dropout = bert_dropout_v1.Dropout_v1(rate=self._dropout_rate)
 
   def get_config(self):
     config = {

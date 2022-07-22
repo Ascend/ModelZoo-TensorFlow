@@ -604,16 +604,14 @@ def run_customized_training_loop(
       _run_callbacks_on_batch_begin(current_step)
       # Runs several steps in the host while loop.
 
-      start_time=time.time()
       steps = steps_to_run(current_step, steps_per_epoch, steps_per_loop)
-
+      start_time=time.time()
       train_steps(train_iterator,
                   tf.convert_to_tensor(steps, dtype=tf.int32))
+      end_time=time.time()
       train_loss = _float_metric_value(train_loss_metric)
       train_batch_size = _float_metric_value(batch_size_metric)
       # train_loss_ave = npu.distribute.all_reduce(train_loss.astype(np.float32),"mean")
-
-      end_time=time.time()
       timeHistory=(steps / (end_time - start_time))
       time_status="Train TimeHistory is %s " % (timeHistory)
       logging.info(time_status)

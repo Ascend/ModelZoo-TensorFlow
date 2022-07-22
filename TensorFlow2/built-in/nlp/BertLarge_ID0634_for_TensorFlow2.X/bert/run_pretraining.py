@@ -54,6 +54,8 @@ from hccl.split.api import set_split_strategy_by_idx
 flags.DEFINE_string(name='precision_mode', default= 'allow_fp32_to_fp16',
                     help='allow_fp32_to_fp16/force_fp16/ ' 
                     'must_keep_origin_dtype/allow_mix_precision.')
+flags.DEFINE_bool(name='attention_with_dropout_v3', default=True,
+                    help='for more performance, set False, for more accuracy, set True')
 flags.DEFINE_boolean(name='over_dump', default=False,
                     help='if or not over detection, default is False')
 flags.DEFINE_boolean(name='data_dump_flag', default=False,
@@ -168,6 +170,8 @@ def npu_config():
   npu_device.global_options().variable_memory_max_size=4*1024*1024*1024
   #npu_device.global_options().graph_memory_max_size=str("27*1024*1024*1024")
   npu_device.global_options().graph_memory_max_size=29205777612
+  npu_device.global_options().is_tailing_optimization = True
+
   if FLAGS.use_mixlist and FLAGS.precision_mode=='allow_mix_precision':
     logging.info('start to set op blacklist according to %s',FLAGS.mixlist_file)
     npu_device.global_options().modify_mixlist="../configs/"+FLAGS.mixlist_file
