@@ -145,7 +145,7 @@ def dropout(x, keep_prob, noise_shape=None, seed=None, name=None):
     result = gen_npu_ops.drop_out_do_mask(x, gen_out, keep_prob, name)
     return result
 
-@ops.RegisterGradient("DropOutDoMask")
+# @ops.RegisterGradient("DropOutDoMask")
 def _DropOutDoMaskGrad(op, grad):
     result = gen_npu_ops.drop_out_do_mask(grad, op.inputs[1],  op.inputs[2])
     return [result, None, None]
