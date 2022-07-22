@@ -377,13 +377,13 @@ class Model_DIN_V2_Gru_Vec_attGru_Neg(Model):
         with tf.name_scope('rnn_1'):
             from npu_bridge.estimator.npu.npu_dynamic_rnn import DynamicGRUV2
             from npu_bridge.estimator.npu.npu_dynamic_rnn import DynamicAUGRU
-            item_his_eb_fp16 = tf.cast(self.item_his_eb, tf.float16, name="cast_fp16")
+            item_his_eb_fp16 = self.item_his_eb
             item_his_eb_time_major = tf.transpose(item_his_eb_fp16, [1, 0, 2], name="transpose_time_major")
-            gruv2 = DynamicGRUV2(HIDDEN_SIZE, dtype=tf.float16)
+            gruv2 = DynamicGRUV2(HIDDEN_SIZE, dtype=tf.float32)
             rnn_outputs, _, _, _, _, _ = gruv2(item_his_eb_time_major)
             # rnn_outputs, _, _, _, _, _ = gruv2(item_his_eb_time_major,  seq_length=self.seq_len_ph)
             rnn_outputs_time_major = tf.transpose(rnn_outputs, [1, 0, 2], name="rnn_outputs_transpose_time_major")
-            rnn_outputs = tf.cast(rnn_outputs_time_major, tf.float32)
+            rnn_outputs = rnn_outputs_time_major
 
             tf.summary.histogram('GRU_outputs', rnn_outputs)
 
@@ -399,17 +399,17 @@ class Model_DIN_V2_Gru_Vec_attGru_Neg(Model):
             tf.summary.histogram('alpha_outputs', alphas)
 
         with tf.name_scope('rnn_2'):
-            rnn_outputs_fp16 = tf.cast(rnn_outputs, tf.float16)
-            alphas_fp16 = tf.cast(alphas, tf.float16)
+            rnn_outputs_fp16 = rnn_outputs
+            alphas_fp16 = alphas
             rnn_outputs_time_major = tf.transpose(rnn_outputs_fp16, [1, 0, 2], name="gru2_transpose_time_major")
             alphas_fp16_time_major = tf.transpose(alphas_fp16, [1, 0], name="att_transpose_time_major")
 
-            augru = DynamicAUGRU(HIDDEN_SIZE, dtype=tf.float16)
+            augru = DynamicAUGRU(HIDDEN_SIZE, dtype=tf.float32)
             rnn_outputs2, _, _, _, _, _, _ = augru(rnn_outputs_time_major, alphas_fp16_time_major,
                                                    seq_length=self.seq_len_ph)
             rnn_outputs2 = rnn_outputs2[-1]
             print('wxz wxz rnn output2 .shape is {}'.format(rnn_outputs2.shape))
-            final_state2 = tf.cast(rnn_outputs2, tf.float32)
+            final_state2 = rnn_outputs2
             print('wxz wxz fina shape is {}'.format(final_state2.shape), flush=True)
             tf.summary.histogram('GRU2_Final_State', final_state2)
 
