@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -91,6 +91,7 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -108,13 +109,12 @@ start_time=$(date +%s)
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
 batch_size=64
-pip install tensorboardX
 
 if [ x"${etp_flag}" != xtrue ];
 then
     python3.7 ./sequence_gan.py --data_path=${data_path} --output_path=${output_path}
 else
-    python3.7 ./sequence_gan.py --data_path=${data_path} --output_path=${output_path} > ${print_log}
+    python3.7 ./sequence_gan.py --data_path=${data_path} --output_path=${output_path} > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
@@ -122,7 +122,7 @@ StepTime=`grep "total_batch:" ${print_log} | tail -n 10 | awk '{print $NF}' | aw
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "total_batch:" ${print_log}  | awk -F ":" '{print $3}' | awk '{print $1}'`
+train_accuracy=`grep "total_batch:" ${print_log}  | awk -F ":" '{print $3}' | awk 'END {print $1}'`
 # 提取所有loss打印信息
 grep "total_batch_loss:" ${print_log} | awk -F ":" '{print $3}' | awk '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
@@ -181,3 +181,4 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
