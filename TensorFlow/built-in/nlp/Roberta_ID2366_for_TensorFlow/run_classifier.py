@@ -559,6 +559,11 @@ def file_based_input_fn_builder(input_file, seq_length, is_training,
     if is_training:
       d = d.repeat()
       d = d.shuffle(buffer_size=100)
+      
+    rank_size = int(os.getenv("RANK_SIZE"))
+    rank_id = int(os.getenv("RANK_ID"))
+    if rank_size > 1 and is_training:
+      d = d.shard(rank_size, rank_id)
 
     d = d.apply(
         tf.contrib.data.map_and_batch(
@@ -849,6 +854,7 @@ def main(_):
   custom_op.name = 'NpuOptimizer'
   custom_op.parameter_map["use_off_line"].b = True
   custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+  custom_op.parameter_map["hcom_parallel"].b = True
   session_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
   session_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 
@@ -869,8 +875,9 @@ def main(_):
   num_warmup_steps = None
   if FLAGS.do_train:
     train_examples = processor.get_train_examples(FLAGS.data_dir)
+    rank_size = int(os.getenv("RANK_SIZE"))
     num_train_steps = int(
-        len(train_examples) / FLAGS.train_batch_size * FLAGS.num_train_epochs)
+        len(train_examples) / FLAGS.train_batch_size / rank_size * FLAGS.num_train_epochs)
     num_warmup_steps = int(num_train_steps * FLAGS.warmup_proportion)
 
   model_fn = model_fn_builder(
@@ -908,7 +915,12 @@ def main(_):
         seq_length=FLAGS.max_seq_length,
         is_training=True,
         drop_remainder=True)
-    estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
+    rank_size = int(os.getenv("RANK_SIZE"))
+    if rank_size > 1:
+        set_split_strategy_by_idx([61,118,173,227,275,319,359,391,])
+        estimator.train(input_fn=train_input_fn, max_steps=num_train_steps, hooks=npu_hooks_append())
+    else:
+        estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
 
   if FLAGS.do_eval:
     eval_examples = processor.get_dev_examples(FLAGS.data_dir)

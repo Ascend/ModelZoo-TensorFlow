@@ -85,7 +85,11 @@ def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, use_tpu):
     optimizer = tf.contrib.tpu.CrossShardOptimizer(optimizer)
 
   tvars = tf.trainable_variables()
-  grads = tf.gradients(loss, tvars)
+  rank_size = int(os.getenv("RANK_SIZE"))
+  if rank_size > 1:
+      grads = npu_allreduce(tf.gradients(loss, tvars))
+  else:
+      grads = tf.gradients(loss, tvars)
 
   # This is how the model was pre-trained.
   (grads, _) = tf.clip_by_global_norm(grads, clip_norm=1.0)
