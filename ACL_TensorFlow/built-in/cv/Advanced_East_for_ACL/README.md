@@ -94,5 +94,5 @@ Our result were obtained by running the applicable inference script. To achieve 
 
 |       model       | **data**   |    precision    |    recall       |    heamn        |
 | :---------------: | :-------:  | :-------------: | :-------------: | :-------------: |
-| offline Inference | 233 images |    74.73%       |    70.26%       |    72.43%       |
+| offline Inference | 1000 images |    84.91%       |    55.54%       |    63.57%       |
 ## 
