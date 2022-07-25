@@ -20,9 +20,9 @@ data_path=""
 #网络名称，同目录名称
 Network="Resnet50v1.5_ID1721_for_TensorFlow"
 #训练epochs
-train_epochs=1
+train_epochs=90
 #训练steps
-train_steps=112700
+train_steps=1260
 #训练batch_size
 batch_size=128
 
