@@ -32,11 +32,11 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Advanced_East_for_ACL
 2. Executing the Preprocessing Script
   
    ```
-   python3. preprocess.py
+   python3 script/preprocess.py
 
    ```
    ```
-   python3.7.5 image2bin.py
+   python3 script/image2bin.py
 
    ```
 
@@ -55,7 +55,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Advanced_East_for_ACL
 - Convert h5 to pb
 
   ```
-  python3.7.5 h5_to_pb.py
+  python3 h5_to_pb.py
 
   ```
 2. Convert pb to om
@@ -86,7 +86,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Advanced_East_for_ACL
 
 Our result were obtained by running the applicable inference script. To achieve the same results, follow the steps in the Quick Start Guide.
   ```
-   python3.7.5 predict.py
+   python3 predict.py
 
   ```
 
