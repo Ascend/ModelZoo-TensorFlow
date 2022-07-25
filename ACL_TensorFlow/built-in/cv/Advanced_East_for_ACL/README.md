@@ -1,4 +1,4 @@
-# ID0130_AdvancedEAST
+# Advanced_Ease_for_ACL
 AdvancedEAST 是一种用于场景图像文本检测的算法，主要基于 EAST:An Efficient and Accurate Scene Text Detector，并进行了重大改进，使长文本预测更加准确。
 ## 训练环境
 
