@@ -42,15 +42,6 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Advanced_East_for_ACL
 
 
 ### 3. Offline Inference
-**Convert h5 to pb.**
-   ```
-   python3.7.5 h5_to_pb.py
-
-   ```
-**Convert pb to om.**
-
-  [pb download link]()
-
 
 - configure the env
 
@@ -61,13 +52,21 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Advanced_East_for_ACL
   export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64:$LD_LIBRARY_PATH
   export ASCEND_OPP_PATH=${install_path}/opp
   ```
+- Convert h5 to pb
 
-- convert pb to om
+  ```
+  python3.7.5 h5_to_pb.py
+
+  ```
+2. Convert pb to om
+
+  [pb download link]()
 
   ```
   atc --model=model.pb --input_shape="input_img:1,736,736,3" --framework=3 --output=Advanced_East --soc_version=Ascend310 --input_format=NHWC 
   
   ```
+
 
 - Build the program 
 
