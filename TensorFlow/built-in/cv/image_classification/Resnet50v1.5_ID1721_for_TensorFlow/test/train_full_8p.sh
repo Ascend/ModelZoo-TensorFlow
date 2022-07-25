@@ -119,11 +119,13 @@ do
     nohup python3 imagenet_main.py \
         --resnet_size=50 \
         --resnet_version=1 \
+        --data_format 'channels_last' \
         --max_train_steps=$train_steps \
         --hooks=ExamplesPerSecondHook \
         --data_dir=$data_path \
         --train_epochs=$train_epochs \
 		--batch_size=$batch_size \
+        --epochs_between_evals 1 \
         --data_dir=$data_path \
         --model_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/   > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
