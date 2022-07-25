@@ -33,9 +33,9 @@
     在自然语言处理领域中，预训练语言模型（Pre-trained Language Models）已成为非常重要的基础技术。
     为了进一步促进中文信息处理的研究发展，基于全词遮罩（Whole Word Masking）技术的中文预训练模型BERT-wwm应运而生，
     以及与此技术密切相关的模型：BERT-wwm-ext，RoBERTa-wwm-ext，RoBERTa-wwm-ext-large, RBT3, RBTL3。
-  
+
 - 参考论文：
-    
+  
     https://arxiv.org/abs/1906.08101
 
 - 参考实现：
@@ -43,11 +43,11 @@
     https://github.com/ymcui/Chinese-BERT-wwm
 
 - 适配昇腾 AI 处理器的实现：    
-    
+  
     https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/Roberta_ID2366_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
-    
+  
       git clone {repository_url}    # 克隆仓库的代码
       cd {repository_name}    # 切换到模型的代码仓目录
       git checkout  {branch}    # 切换到对应分支
@@ -111,14 +111,14 @@ pip3 install requirements.txt
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练    
-   
+
     1. 启动训练之前，首先要配置程序运行相关环境变量。
 
        环境变量配置信息参见：
 
           [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
-    
-    2. 单卡训练 
+
+    2. 开始训练 
 
         2.1 配置train_full_1p.sh脚本中`data_path`和`ckpt_path`（脚本路径Roberta_ID2366_for_TensorFlow/test/train_full_1p.sh）,请用户根据实际路径配置，数据集和预训练模型参数如下所示：
 
@@ -126,10 +126,16 @@ pip3 install requirements.txt
             --vocab_file=${ckpt_path}/vocab.txt \
             --bert_config_file=${ckpt_path}/bert_config.json \
             --init_checkpoint=${ckpt_path}/bert_model.ckpt \
-            
+
         2.2 单p指令如下:
 
-            bash train_full_1p.sh --data_path=./XNLI --ckpt_path=RoBERTa-wwm-ext-large
+        bash train_full_1p.sh --data_path=./XNLI --ckpt_path=RoBERTa-wwm-ext-large
+
+        
+
+        2.3 8p指令如下:
+
+            bash train_full_8p.sh --data_path=./XNLI --ckpt_path=RoBERTa-wwm-ext-large
 
 - 验证。
 
@@ -138,7 +144,7 @@ pip3 install requirements.txt
        ```
        --do_eval=true
 
-        ```
+       ```
 
 <h2 id="迁移学习指导.md">迁移学习指导</h2>
 
