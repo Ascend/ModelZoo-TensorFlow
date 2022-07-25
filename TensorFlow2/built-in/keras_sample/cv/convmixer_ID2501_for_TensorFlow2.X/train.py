@@ -297,7 +297,11 @@ if not hasattr(npu_device.ops, 'gelu') and "FastGelu" not in grad_registry_list:
 
 def activation_block(x):
     #x = layers.Activation("gelu")(x)
-    x=npu_device.gen_npu_ops.fast_gelu(x)
+     if not hasattr(npu_device.ops, 'gelu'):
+      x = npu_device.gen_npu_ops.fast_gelu(x)
+    else:
+      x = getattr(npu_device.ops, 'gelu')
+    #x=npu_device.gen_npu_ops.fast_gelu(x)
     return layers.BatchNormalization()(x)
 
 
