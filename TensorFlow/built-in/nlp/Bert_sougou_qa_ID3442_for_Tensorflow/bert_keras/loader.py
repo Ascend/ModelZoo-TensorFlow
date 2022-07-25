@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 from tensorflow import keras
 
-from bert import get_model
+from .bert import get_model
 
 __all__ = [
     'build_model_from_config',

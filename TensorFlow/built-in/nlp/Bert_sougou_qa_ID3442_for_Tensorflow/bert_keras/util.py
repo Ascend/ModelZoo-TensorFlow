@@ -5,9 +5,9 @@ import numpy as np
 from tensorflow import keras
 from tensorflow.keras import backend as K
 
-from layers import Extract, MaskedGlobalMaxPool1D
-from loader import load_trained_model_from_checkpoint, load_vocabulary
-from tokenizer import Tokenizer
+from .layers import Extract, MaskedGlobalMaxPool1D
+from .loader import load_trained_model_from_checkpoint, load_vocabulary
+from .tokenizer import Tokenizer
 
 __all__ = [
     'POOL_NSP', 'POOL_MAX', 'POOL_AVE',

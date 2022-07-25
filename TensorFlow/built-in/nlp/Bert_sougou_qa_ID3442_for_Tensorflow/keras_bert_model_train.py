@@ -2,7 +2,7 @@
 import json
 import numpy as np
 from tokenizers import BertWordPieceTokenizer
-from loader import load_trained_model_from_checkpoint
+from bert_keras import load_trained_model_from_checkpoint
 from tensorflow.keras.layers import Dense, Input, Flatten, Activation, Lambda
 from tensorflow.keras.activations import softmax
 from tensorflow.keras import Model
@@ -14,7 +14,7 @@ from npu_bridge.npu_init import *
 from npu_bridge.estimator.npu import npu_convert_dropout
 
 max_len = 300
-
+batch_size =8
 # Load the fast tokenizer from saved file
 tokenizer = BertWordPieceTokenizer("chinese_L-12_H-768_A-12/vocab.txt", lowercase=True)
 
@@ -148,6 +148,12 @@ def create_inputs_targets(squad_examples):
                 dataset_dict[key].append(getattr(item, key))
     for key in dataset_dict:
         dataset_dict[key] = np.array(dataset_dict[key])
+        
+    array_len = len(dataset_dict["input_ids"])
+    dataset_dict["input_ids"] = dataset_dict["input_ids"][:(array_len - array_len % batch_size)]
+    dataset_dict["token_type_ids"] = dataset_dict["token_type_ids"][:(array_len - array_len % batch_size)]
+    dataset_dict["start_token_idx"] = dataset_dict["start_token_idx"][:(array_len - array_len % batch_size)]
+    dataset_dict["end_token_idx"] = dataset_dict["end_token_idx"][:(array_len - array_len % batch_size)]
 
     x = [dataset_dict["input_ids"], dataset_dict["token_type_ids"]]
     y = [dataset_dict["start_token_idx"], dataset_dict["end_token_idx"]]
@@ -219,7 +225,7 @@ class ExactMatch(Callback):
         self.y_eval = y_eval
 
     def on_epoch_end(self, epoch, logs=None):
-        pred_start, pred_end = self.model.predict(self.x_eval)
+        pred_start, pred_end = self.model.predict(self.x_eval, batch_size=batch_size)
         count = 0
         eval_examples_no_skip = [_ for _ in eval_squad_examples if not _.skip]
         for idx, (start, end) in enumerate(zip(pred_start, pred_end)):
@@ -250,7 +256,7 @@ model.fit(
     y_train,
     epochs=1,
     verbose=1,
-    batch_size=8,
+    batch_size=batch_size,
     callbacks=[exact_match_callback],
 )
 
