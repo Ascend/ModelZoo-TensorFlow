@@ -411,7 +411,12 @@ if not hasattr(npu_device.ops, 'gelu') and "FastGelu" not in grad_registry_list:
 
 @tf.keras.utils.register_keras_serializable(package='Text')
 def gelu(x):
-    return npu_aicore_ops.fast_gelu(x)
+    if not hasattr(npu_device.ops, 'gelu'):
+      return npu_device.gen_npu_ops.fast_gelu(x)
+    else:
+      fast_gelu = getattr(npu_device.ops, 'gelu')
+      return fast_gelu(x)
+    #return npu_aicore_ops.fast_gelu(x)
 
 class SwinTransformer(layers.Layer):
     def __init__(
