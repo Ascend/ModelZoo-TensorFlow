@@ -145,7 +145,7 @@ echo "Final Performance images/sec : $FPS"
 echo "E2E Training Duration sec : $e2e_time"
 
 #精度计算，需要根据网络修改
-train_accuracy=`grep "name': 'accuracy'" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $6}'|tr -d ','`
+train_accuracy=`grep "name': 'accuracy'" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $6}'|tr -d ','|tail -1`
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
