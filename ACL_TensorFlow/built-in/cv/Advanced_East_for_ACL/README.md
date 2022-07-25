@@ -60,12 +60,12 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Advanced_East_for_ACL
   ```
 2. Convert pb to om
 
-  [pb download link]()
+   [pb download link]()
 
-  ```
-  atc --model=model.pb --input_shape="input_img:1,736,736,3" --framework=3 --output=Advanced_East --soc_version=Ascend310 --input_format=NHWC 
+    ```
+   atc --model=model.pb --input_shape="input_img:1,736,736,3" --framework=3 --output=Advanced_East --soc_version=Ascend310 --input_format=NHWC 
   
-  ```
+    ```
 
 
 - Build the program 
