@@ -135,7 +135,7 @@ fi
 # 性能相关数据计算
 Time1=`grep "time:" ${print_log} | awk '{print $7}' | head -n 1`
 Time2=`grep "time:" ${print_log} | awk '{print $7}' | awk '{sum+=$1} END {print sum}'`
-TrainingTime=`awk 'BEGIN{printf "%.2f\n", '(${Time2}-${Time1})'/'10000'}'`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n", '\(${Time2}-${Time1}\)'/'10000'}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
 
 # 精度相关数据计算
