@@ -278,7 +278,7 @@ for mixing spatial locations of the images, **(2)**: Pointwise convolutions (whi
 the depthwise convolutions), for mixing channel-wise information across the patches.
 Another keypoint is the use of *larger kernel sizes* to allow a larger receptive field.
 """
-@ops.RegisterGradient("FastGelu")
+#@ops.RegisterGradient("FastGelu")
 def _fast_gelu_grad(op,grad):
   """ The gradient for fastgelu
 
@@ -290,6 +290,10 @@ def _fast_gelu_grad(op,grad):
     Gradient with respect to the input of fast_gelu
   """
   return [npu_device.gen_npu_ops.fast_gelu_grad(grad,op.inputs[0])]
+
+grad_registry_list = ops.gradient_registry.list()
+if not hasattr(npu_device.ops, 'gelu') and "FastGelu" not in grad_registry_list:
+  ops.RegisterGradient("FastGelu")(_fast_gelu_grad)
 
 def activation_block(x):
     #x = layers.Activation("gelu")(x)
