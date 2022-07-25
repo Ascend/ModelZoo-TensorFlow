@@ -43,10 +43,10 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Advanced_East_for_ACL
 
 ### 3. Offline Inference
 **Convert h5 to pb.**
-  ```
-  python3.7.5 h5_to_pb.py
+   ```
+   python3.7.5 h5_to_pb.py
 
-  ```
+   ```
 **Convert pb to om.**
 
   [pb download link]()
@@ -77,10 +77,10 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Advanced_East_for_ACL
 
 - Run the program:
 
-```
-bash benchmark_tf.sh --batchSize=1 --modelPath=../../model/Advanced_East.om --dataPath=../../datasets/ --modelType=Advanced_East  --imgType=rgb 
+  ```
+  bash benchmark_tf.sh --batchSize=1 --modelPath=../../model/Advanced_East.om --dataPath=../../datasets/ --modelType=Advanced_East  --imgType=rgb 
 
-```
+  ```
 ## Performance
 
 ### Result
