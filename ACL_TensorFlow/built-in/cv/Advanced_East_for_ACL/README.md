@@ -1,4 +1,4 @@
-# Advanced_Ease_for_ACL
+# Advanced_East_for_ACL
 AdvancedEAST 是一种用于场景图像文本检测的算法，主要基于 EAST:An Efficient and Accurate Scene Text Detector，并进行了重大改进，使长文本预测更加准确。
 ## 训练环境
 
@@ -8,7 +8,7 @@ AdvancedEAST 是一种用于场景图像文本检测的算法，主要基于 EAS
 ## 代码及路径解释
 
 ```
-AdvancedEAST_ID0130_for_ACL
+Advanced_EAST_for_ACL
 ├── nms.py                  预测用到的一个函数
 ├── cfg.py			        参数配置
 ├── cfg_bank.py			    参数配置
