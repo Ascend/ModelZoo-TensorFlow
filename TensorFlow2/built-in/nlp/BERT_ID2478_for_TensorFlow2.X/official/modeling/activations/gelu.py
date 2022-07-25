@@ -75,6 +75,11 @@ def gelu(x):
   cdf = 0.5 * (1.0 + tf.tanh(
       (math.sqrt(2 / math.pi) * (x + 0.044715 * tf.pow(x, 3)))))
   if FLAGS.use_fastgelu:
-    return npu_device.gen_npu_ops.fast_gelu(x)
+    if not hasattr(npu_device.ops, 'gelu'):
+      return npu_device.gen_npu_ops.fast_gelu(x)
+    else:
+      fast_gelu = getattr(npu_device.ops, 'gelu')
+      return fast_gelu(x)    
+    #return npu_device.gen_npu_ops.fast_gelu(x)
   else:
     return x * cdf
