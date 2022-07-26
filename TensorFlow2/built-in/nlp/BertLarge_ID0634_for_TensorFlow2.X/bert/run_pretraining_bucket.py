@@ -54,6 +54,8 @@ from hccl.split.api import set_split_strategy_by_idx
 flags.DEFINE_string(name='precision_mode', default= 'allow_fp32_to_fp16',
                     help='allow_fp32_to_fp16/force_fp16/ ' 
                     'must_keep_origin_dtype/allow_mix_precision.')
+flags.DEFINE_bool(name='attention_with_dropout_v3', default=True,
+                    help='for more performance, set False, for more accuracy, set True')
 flags.DEFINE_boolean(name='over_dump', default=False,
                     help='if or not over detection, default is False')
 flags.DEFINE_boolean(name='data_dump_flag', default=False,
