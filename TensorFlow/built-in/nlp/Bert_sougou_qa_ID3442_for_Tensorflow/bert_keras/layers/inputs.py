@@ -11,5 +11,6 @@ def get_inputs(seq_len):
     names = ['Token', 'Segment', 'Masked']
     return [keras.layers.Input(
         shape=(seq_len,),
+        batch_size=8,
         name='Input-%s' % name,
     ) for name in names]

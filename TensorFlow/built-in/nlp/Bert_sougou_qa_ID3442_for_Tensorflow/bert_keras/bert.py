@@ -3,11 +3,12 @@ from tensorflow import keras
 
 from keras_pos_embd import PositionEmbedding
 from keras_layer_normalization import LayerNormalization
-from keras_transformer import get_encoders
-from keras_transformer import get_custom_objects as get_encoder_custom_objects
-from layers import get_inputs, get_embedding, TokenEmbedding, EmbeddingSimilarity, Masked, Extract, TaskEmbedding
-from optimizers import AdamWarmup
+from transformer_keras import get_encoders
+from transformer_keras import get_custom_objects as get_encoder_custom_objects
+from .layers import get_inputs, get_embedding, TokenEmbedding, EmbeddingSimilarity, Masked, Extract, TaskEmbedding
+from .optimizers import AdamWarmup
 from npu_bridge.npu_init import *
+import tensorflow as tf
 
 
 __all__ = [
@@ -100,10 +101,9 @@ def get_model(token_num,
         )([embed_layer, task_input])
         inputs = inputs[:2] + [task_input, inputs[-1]]
     if dropout_rate > 0.0:
-        dropout_layer = keras.layers.Dropout(
-            rate=dropout_rate,
-            name='Embedding-Dropout',
-        )(embed_layer)
+        input_shape = embed_layer.get_shape().as_list()
+        noise_shape = tf.constant(value=[input_shape[0], 300, input_shape[2]])
+        dropout_layer = npu_ops.dropout(embed_layer, 1 - dropout_rate, noise_shape)
     else:
         dropout_layer = embed_layer
     embed_layer = LayerNormalization(

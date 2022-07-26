@@ -1,5 +1,5 @@
 import unicodedata
-from keras_bert.bert import TOKEN_CLS, TOKEN_SEP, TOKEN_UNK
+from .bert import TOKEN_CLS, TOKEN_SEP, TOKEN_UNK
 
 
 class Tokenizer(object):
