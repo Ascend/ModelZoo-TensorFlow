@@ -124,7 +124,7 @@ do
 	--max_epochs=${max_epochs} \
     --epochs_between_evals=149 \
 	--lr=${learning_rate} \
-	--log_dir=./model_8p \
+	--log_dir=./model_8p/${ASCEND_DEVICE_ID} \
     --log_name=densenet121_8p.log > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
