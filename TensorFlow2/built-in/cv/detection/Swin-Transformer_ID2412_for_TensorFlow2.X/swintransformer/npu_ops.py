@@ -145,10 +145,14 @@ def dropout(x, keep_prob, noise_shape=None, seed=None, name=None):
     result = gen_npu_ops.drop_out_do_mask(x, gen_out, keep_prob, name)
     return result
 
-@ops.RegisterGradient("DropOutDoMask")
+#@ops.RegisterGradient("DropOutDoMask")
 def _DropOutDoMaskGrad(op, grad):
     result = gen_npu_ops.drop_out_do_mask(grad, op.inputs[1],  op.inputs[2])
     return [result, None, None]
+
+grad_registry_list = ops.gradient_registry.list()
+if "DropOutDoMask" not in grad_registry_list:
+    ops.RegisterGradient("DropOutDoMask")(_DropOutDoMaskGrad)
 
 def basic_lstm_cell(x, h, c, w, b, keep_prob, forget_bias, state_is_tuple,
                     activation, name=None):

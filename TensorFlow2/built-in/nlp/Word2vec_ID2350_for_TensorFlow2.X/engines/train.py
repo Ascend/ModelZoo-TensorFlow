@@ -124,7 +124,7 @@ def train(data_manager, logger):
     for i in range(epoch):
         start_time = time.time()
         logger.info('epoch:{}/{}'.format(i + 1, epoch))
-        for step, batch in train_dataset.shuffle(len(train_dataset)).batch(batch_size, drop_remainder=static).enumerate():
+        for step, batch in train_dataset.shuffle(len(train_dataset)).batch(batch_size, drop_remainder=False).enumerate():
             if embedding_method == 'Bert':
                 X_train_batch, y_train_batch = batch
                 X_train_batch = bert_model(X_train_batch)[0]

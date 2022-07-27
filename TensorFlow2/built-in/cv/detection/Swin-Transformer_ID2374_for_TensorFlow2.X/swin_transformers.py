@@ -401,13 +401,22 @@ Notice that we only create a simple MLP with 2 Dense and
 quite standard in the literature. However in this paper the authors use a
 2-layer MLP with GELU nonlinearity in between.
 """
-@ops.RegisterGradient("FastGelu")
+#@ops.RegisterGradient("FastGelu")
 def _fast_gelu_grad(op,grad):
     return [npu_aicore_ops.fast_gelu_grad(grad,op.inputs[0])]
 
+grad_registry_list = ops.gradient_registry.list()
+if not hasattr(npu_device.ops, 'gelu') and "FastGelu" not in grad_registry_list:
+  ops.RegisterGradient("FastGelu")(_fast_gelu_grad)
+
 @tf.keras.utils.register_keras_serializable(package='Text')
 def gelu(x):
-    return npu_aicore_ops.fast_gelu(x)
+    if not hasattr(npu_device.ops, 'gelu'):
+      return npu_device.gen_npu_ops.fast_gelu(x)
+    else:
+      fast_gelu = getattr(npu_device.ops, 'gelu')
+      return fast_gelu(x)
+    #return npu_aicore_ops.fast_gelu(x)
 
 class SwinTransformer(layers.Layer):
     def __init__(
