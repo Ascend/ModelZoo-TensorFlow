@@ -65,7 +65,7 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 - 训练超参
 
   - Batch size： 32
-  - Train epoch: 240
+  - Train epoch: 300
   - learing_rata: 0.0001
 
 
@@ -74,7 +74,7 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 | 特性列表  | 是否支持 |
 |-------|------|
 | 分布式训练 | 否    |
-| 混合精度  | 是    |
+| 混合精度  | 否    |
 | 并行数据  | 是    |
 
 ## 混合精度训练<a name="section168064817164"></a>
@@ -105,6 +105,8 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 
 - 启动训练之前，首先要配置程序运行相关环境变量。
 
+- 训练代码中saver.restore（）语句可以选择加载预训练100epoch模型进行训练，若不使用，则共训练400epoch。
+
   环境变量配置信息参见：
 
      [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
@@ -121,7 +123,7 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
       parser.add_argument('--bsize', default=32)
       parser.add_argument('--trajectory_length', default=4)
       parser.add_argument('--lr', default=0.0001)
-      parser.add_argument('--train_iter', default=240)
+      parser.add_argument('--train_iter', default=300)
       parser.add_argument('--time_steps', default=1)
      ```
 
@@ -130,7 +132,24 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
      启动单卡训练  
 
      ```
-      python Truemain.py --datapath '你的数据集路径' --outputpath '你的输出路径'
+      python3 Truemain.py --datapath '你的数据集路径' --outputpath '你的输出路径'
+     ```
+  3. 启动测试。
+    
+     生成测试初始相对位姿文件
+
+     ```
+      python3 NPUTrueTest.py
+     ```
+     转化测试绝对位姿文件
+
+     ```
+      python3 pose_process.py
+     ```
+     利用evo工具进行误差计算绘制
+
+     ```
+      evo_ape kitti  output_12D_file.txt  estimated_12D_file.txt  -r full -va --plot --plot_mode xz --save_results results/ConvLSTM.zip
      ```
 
 <h2 id="训练结果.md">训练结果</h2>
@@ -139,7 +158,7 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 
 |精度指标项|论文发布|GPU实测|NPU实测|
 |---|---|---|---|
-|ACC|xxx|yyy|zzz|
+|Final Train Accuracy|XXX|9.11671|7.38712|
 
 - 性能结果比对  
 
@@ -156,7 +175,9 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 ├── Truemain.py                               //网络训练与测试代码
 ├── README.md                                 //代码说明文档
 ├── cell.py                                   //convlstm核
-├── test
+├── NPUTruemain.py                            //NPU裸机上的网络训练代码
+├── NPUTrueTest.py                            //NPU裸机上的网络测试代码
+├── pose_process.py                           //相对位姿转绝对位姿代码
 ├── requirements.txt                          //训练python依赖列表
 │    ├──modelarts_entry_acc.py                //modelarts训练验证精度脚本
 │    ├──modelarts_entry_perf.py               //modelarts训练验证性能脚本
@@ -170,7 +191,7 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 --batch_size             每个NPU的batch size，默认：32
 --learing_rata           初始学习率，默认：0.0001
 --steps                  数据集图片跨越步数，默认：1
---train_iter             训练epcoh数量，默认：240
+--train_iter             训练epcoh数量，默认：300
 ```
 
 ## 训练过程<a name="section1589455252218"></a>
