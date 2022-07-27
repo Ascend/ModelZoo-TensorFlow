@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -89,7 +89,15 @@ function get_casename()
 # 跳转到code目录
 cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
-mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+mkdir -p ./test/output/${ASCEND_DEVICE_ID}/ckpt
+
+# 修改路径
+sed -i "1s#/root/convlstm/DeepVO/data/color/dataset/output6#${data_path}/model100#" ${data_path}/model100/checkpoint
+sed -i "s#/home/TestUser06/convlstm/npu1_4/outputs/GPUoutput6/#${data_path}/model100#" NPUTruemain.py
+# sed -i "s#/home/TestUser06/convlstm/dataset/#${data_path}#" NPUTrueTest.py
+# sed -i "s#/home/TestUser06/convlstm/npu1_4/outputs/output1/#${output_path}/ckpt#" NPUTrueTest.py
+# sed -i "s#/home/TestUser06/convlstm/npu1_4#${output_path}/txtcsv#" NPUTrueTest.py
+# sed -i "s#/home/TestUser06/convlstm/npu1_4/txtcsv#${output_path}/txtcsv#" pose_process.py
 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
@@ -112,19 +120,19 @@ batch_size=32
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./Truemain.py --datapath=${data_path} --outputpath=${output_path}
+    python3.7 ./NPUTruemain.py --datapath=${data_path} --outputpath=${output_path}
 else
-    python3.7 ./Truemain.py --datapath=${data_path} --outputpath=${output_path}  > ${print_log}
+    python3.7 ./NPUTruemain.py --datapath=${data_path} --outputpath=${output_path}/ckpt/  > ${print_log} 2>&1
 fi
 
 ## 性能相关数据计算
-#StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
-#FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+StepTime=`grep "time at step" ${print_log} | awk -F ":0" '{print $3}' | awk '{sum+=$1} END {print sum/NR}'`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算，此处可以计算最后10行的精度平均值
-train_accuracy=`grep "Train_error :" ${print_log} | tail -n 10 |awk -F ":" '{print $4}' | awk -F "-" '{print $1}' | awk '{sum+=$1} END {print sum/NR}'`
+# train_accuracy=`grep "Train_error :" ${print_log} | tail -n 10 |awk -F ":" '{print $4}' | awk -F "-" '{print $1}' | awk '{sum+=$1} END {print sum/NR}'`
 # 提取所有loss打印信息
-grep "Train_error :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "Train_error at step" ${print_log} | awk '{print $NF}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
@@ -169,7 +177,7 @@ echo "E2E Training Duration sec : $e2e_time"
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
+ActualLoss=(`tail -n 100 $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt | awk '{sum+=$1} END {print sum/NR}'`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
