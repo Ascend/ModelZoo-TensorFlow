@@ -40,26 +40,18 @@ import cv2
 import math
 import warnings
 import argparse
-import logging
 import datetime
 from cell import ConvLSTMCell  # added
-#precision_tool/tf_config.py
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
-import precision_tool.tf_config as npu_tf_config
-import precision_tool.config as CONFIG
 
 USE_CUDA = True
 
 LSTM_HIDDEN_SIZE = 550
+
 # TIME_STEPS = 1  changed
 TIME_STEPS = 1
 K = 100
-#打印到GPU.log文件
-logging.basicConfig(format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s',
-                    level=logging.DEBUG,
-                    filename='GPU.log',
-                    filemode='a')
-logger = logging.getLogger(__name__)
+
 # Build Model
 class DeepVONet(object):
     def __init__(self, args, data):
@@ -188,14 +180,14 @@ def initialize_uninitialized(sess):
 
 
 def train_model(data_loader, sess, merged, loss_op, train_op, input_data, labels_, i, test_writer, train_writer):
-    logger.debug('Current epoch : %d' % data_loader.current_epoch)
-    logger.debug('step : %d' % i)
+    print('Current epoch : %d' % data_loader.current_epoch)
+    print('step : %d' % i)
     if i % 10 == 0:  # Record summaries and test-set accuracy
         batch_x, batch_y = data_loader.get_next_batch()
         summary, acc = sess.run(
             [merged, loss_op], feed_dict={input_data: batch_x, labels_: batch_y})
         test_writer.add_summary(summary, i)
-        logger.debug('Accuracy at step %s: %s' % (i, acc))
+        print('Accuracy at step %s: %s' % (i, acc))
     else:  # Record train set summaries, and train
         batch_x, batch_y = data_loader.get_next_batch()
         summary, _ = sess.run(
@@ -203,7 +195,7 @@ def train_model(data_loader, sess, merged, loss_op, train_op, input_data, labels
         train_writer.add_summary(summary, i)
         train_loss = sess.run(loss_op,
                               feed_dict={input_data: batch_x, labels_: batch_y})
-        logger.debug('Train_error at step %s: %s' % (i, train_loss))
+        print('Train_error at step %s: %s' % (i, train_loss))
 
 
 def train(args, datapath, epoches, trajectory_length):
@@ -308,6 +300,7 @@ def train(args, datapath, epoches, trajectory_length):
     saver = tf.train.Saver()
     saver.restore(sess, tf.train.latest_checkpoint('/home/TestUser06/convlstm/npu1_4/outputs/GPUoutput6/'))
     print("restore  success!!!!!")
+    
     # Merge all the summeries and write them out to args.datapath
     # by default ./args.datapath
     merged = tf.summary.merge_all()
@@ -330,7 +323,7 @@ def train(args, datapath, epoches, trajectory_length):
         train_model(data_loader, sess, merged, loss_op, train_op, input_data, labels_, i, test_writer, train_writer)
         i += 1
         end = datetime.datetime.now()
-        logger.debug('time at step %s: %s' % (i-1, end - start))
+        print('time at step %s: %s' % (i-1, end - start))
         
         #lossScale = tf.get_default_graph().get_tensor_by_name("train/loss_scale:0")
         #l_s = sess.run(lossScale)
