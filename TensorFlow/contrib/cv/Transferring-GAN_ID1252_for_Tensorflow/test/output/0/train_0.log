@@ -1,0 +1,120 @@
+WARNING:tensorflow:From /usr/local/Ascend/tfplugin/latest/tfplugin/python/site-packages/npu_bridge/estimator/npu/npu_optimizer.py:127: The name tf.train.Optimizer is deprecated. Please use tf.compat.v1.train.Optimizer instead.
+
+WARNING:tensorflow:From /home/HwHiAiUser/zhegongda/transfergan/tflib/inception_score.py:105: FastGFile.__init__ (from tensorflow.python.platform.gfile) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.gfile.GFile.
+WARNING:tensorflow:From /home/HwHiAiUser/zhegongda/transfergan/tflib/inception_score.py:106: The name tf.GraphDef is deprecated. Please use tf.compat.v1.GraphDef instead.
+
+2022-05-25 16:35:06.086633: W tensorflow/core/framework/op_def_util.cc:357] Op BatchNormWithGlobalNormalization is deprecated. It will cease to work in GraphDef version 9. Use tf.nn.batch_normalization().
+WARNING:tensorflow:From /home/HwHiAiUser/zhegongda/transfergan/tflib/inception_score.py:110: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.
+
+WARNING:tensorflow:From /home/HwHiAiUser/zhegongda/transfergan/tflib/inception_score.py:110: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto instead.
+
+2022-05-25 16:35:06.227879: W tensorflow/core/platform/profile_utils/cpu_utils.cc:98] Failed to find bogomips in /proc/cpuinfo; cannot determine CPU frequency
+2022-05-25 16:35:06.234186: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x35ec8db0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2022-05-25 16:35:06.234250: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+WARNING:tensorflow:From ./gan_cifar_resnet_acc.py:241: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.
+
+WARNING:tensorflow:From ./gan_cifar_resnet_acc.py:211: The name tf.random_normal is deprecated. Please use tf.random.normal instead.
+
+WARNING:tensorflow:From ./gan_cifar_resnet_acc.py:153: The name tf.depth_to_space is deprecated. Please use tf.compat.v1.depth_to_space instead.
+
+WARNING:tensorflow:From /home/HwHiAiUser/zhegongda/transfergan/tflib/ops/batchnorm.py:59: The name tf.nn.fused_batch_norm is deprecated. Please use tf.compat.v1.nn.fused_batch_norm instead.
+
+WARNING:tensorflow:From ./gan_cifar_resnet_acc.py:250: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.
+
+WARNING:tensorflow:From ./gan_cifar_resnet_acc.py:280: calling argmax (from tensorflow.python.ops.math_ops) with dimension is deprecated and will be removed in a future version.
+Instructions for updating:
+Use the `axis` argument instead
+WARNING:tensorflow:From ./gan_cifar_resnet_acc.py:280: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.cast` instead.
+WARNING:tensorflow:From ./gan_cifar_resnet_acc.py:349: The name tf.train.AdamOptimizer is deprecated. Please use tf.compat.v1.train.AdamOptimizer instead.
+
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/ops/math_grad.py:1375: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/util/tf_should_use.py:198: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+MODEL_DIR ./dataset/inception
+2022-05-25 16:35:17.428571: I /home/phisik3/jenkins/workspace/work_code/tmp/host-prefix/src/host-build/asl/tfadaptor/CMakeFiles/tf_adapter.dir/compiler_depend.ts:805] The model has been compiled on the Ascend AI processor, current graph id is: 1
+WARNING:tensorflow:From ./gan_cifar_resnet_acc.py:425: The name tf.train.Saver is deprecated. Please use tf.compat.v1.train.Saver instead.
+
+2022-05-25 16:35:20.882110: I /home/phisik3/jenkins/workspace/work_code/tmp/host-prefix/src/host-build/asl/tfadaptor/CMakeFiles/tf_adapter.dir/compiler_depend.ts:805] The model has been compiled on the Ascend AI processor, current graph id is: 11
+2022-05-25 16:35:22.814407: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 0, topological sort failed with message: The graph couldn't be sorted in topological order.
+2022-05-25 16:35:22.823707: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 1, topological sort failed with message: The graph couldn't be sorted in topological order.
+2022-05-25 16:35:22.841248: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] model_pruner failed: Invalid argument: MutableGraphView::MutableGraphView error: node 'concat_1' has self cycle fanin 'concat_1'.
+2022-05-25 16:35:22.868489: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] arithmetic_optimizer failed: Invalid argument: The graph couldn't be sorted in topological order.
+2022-05-25 16:35:22.873418: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 0, topological sort failed with message: The graph couldn't be sorted in topological order.
+2022-05-25 16:35:22.878045: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 1, topological sort failed with message: The graph couldn't be sorted in topological order.
+2022-05-25 16:35:23.483409: I /home/phisik3/jenkins/workspace/work_code/tmp/host-prefix/src/host-build/asl/tfadaptor/CMakeFiles/tf_adapter.dir/compiler_depend.ts:805] The model has been compiled on the Ascend AI processor, current graph id is: 21
+2022-05-25 16:36:23.155158: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 0, topological sort failed with message: The graph couldn't be sorted in topological order.
+2022-05-25 16:36:23.155995: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 1, topological sort failed with message: The graph couldn't be sorted in topological order.
+2022-05-25 16:36:23.158745: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] model_pruner failed: Invalid argument: MutableGraphView::MutableGraphView error: node 'concat_26' has self cycle fanin 'concat_26'.
+2022-05-25 16:36:23.163985: E tensorflow/core/grappler/optimizers/meta_optimizer.cc:533] arithmetic_optimizer failed: Invalid argument: The graph couldn't be sorted in topological order.
+2022-05-25 16:36:23.164867: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 0, topological sort failed with message: The graph couldn't be sorted in topological order.
+2022-05-25 16:36:23.165555: E tensorflow/core/grappler/optimizers/dependency_optimizer.cc:697] Iteration = 1, topological sort failed with message: The graph couldn't be sorted in topological order.
+2022-05-25 16:36:23.291612: I /home/phisik3/jenkins/workspace/work_code/tmp/host-prefix/src/host-build/asl/tfadaptor/CMakeFiles/tf_adapter.dir/compiler_depend.ts:805] The model has been compiled on the Ascend AI processor, current graph id is: 31
+load pretrained model  time cost: 1.7679479122161865
+start
+time: 53.9875271320343
+time: 1.7220752239227295
+time: 1.720189094543457
+time: 1.7213492393493652
+time: 1.7206108570098877
+step iteration 0 sec/step : 60.87186002731323
+wgan :-1.1674960851669312 , acgan: 0.4269545376300812 acc_real: 0.875 acc_fake:0.875
+start evaluation 
+get_inception_score
+0.1998 time:  0.1140   999/50000
+0.3998 time:  0.1145   1999/50000
+0.5998 time:  0.1128   2999/50000
+0.7998 time:  0.1156   3999/50000
+0.9998 time:  0.1145   4999/50000
+1.1998 time:  0.1117   5999/50000
+1.3998 time:  0.1123   6999/50000
+1.5998 time:  0.1172   7999/50000
+1.7998 time:  0.1136   8999/50000
+1.9998 time:  0.1170   9999/50000
+2.1998 time:  0.1061   10999/50000
+2.3998 time:  0.1102   11999/50000
+2.5998 time:  0.1166   12999/50000
+2.7998 time:  0.1105   13999/50000
+2.9998 time:  0.1172   14999/50000
+3.1998 time:  0.1126   15999/50000
+3.3998 time:  0.1108   16999/50000
+3.5998 time:  0.1109   17999/50000
+3.7998 time:  0.1183   18999/50000
+3.9998 time:  0.1127   19999/50000
+4.1998 time:  0.1166   20999/50000
+4.3998 time:  0.1136   21999/50000
+4.5998 time:  0.1136   22999/50000
+4.7998 time:  0.1142   23999/50000
+4.9998 time:  0.1129   24999/50000
+5.1998 time:  0.1123   25999/50000
+5.3998 time:  0.1109   26999/50000
+5.5998 time:  0.1138   27999/50000
+5.7998 time:  0.1108   28999/50000
+5.9998 time:  0.1070   29999/50000
+6.1998 time:  0.1085   30999/50000
+6.3998 time:  0.1148   31999/50000
+6.5998 time:  0.1136   32999/50000
+6.7998 time:  0.1110   33999/50000
+6.9998 time:  0.1143   34999/50000
+7.1998 time:  0.1145   35999/50000
+7.3998 time:  0.1139   36999/50000
+7.5998 time:  0.1151   37999/50000
+7.7998 time:  0.1167   38999/50000
+7.9998 time:  0.1120   39999/50000
+8.1998 time:  0.1153   40999/50000
+8.3998 time:  0.1103   41999/50000
+8.5998 time:  0.1174   42999/50000
+8.7998 time:  0.1102   43999/50000
+8.9998 time:  0.1095   44999/50000
+9.1998 time:  0.1104   45999/50000
+9.3998 time:  0.1141   46999/50000
+9.5998 time:  0.1160   47999/50000
+9.7998 time:  0.1103   48999/50000
+9.9998 time:  0.1167   49999/50000
+Final Average Distances : inception_50k score : 7.96793270111084 inception_50k_std: 0.08190692216157913

@@ -1,0 +1,6 @@
+Network = transfergan
+RankSize = 1
+BatchSize = 64
+DeviceType = aarch64
+CaseName = transfergan_bs64_1p_acc
+E2ETrainingTime = 5789
