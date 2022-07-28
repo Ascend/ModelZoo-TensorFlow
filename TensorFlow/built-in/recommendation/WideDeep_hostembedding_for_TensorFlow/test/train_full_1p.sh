@@ -19,7 +19,7 @@ export Batch_Size=16000
 export ASCEND_GLOBAL_LOG_LEVEL_ETP_ETP=3
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
-Network="WideDeep_hostembedding_for_TensorFlow"
+Network="WideDeep_hostembedding_ID0090_for_TensorFlow"
 
 max_steps=15000
 
