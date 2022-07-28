@@ -1,0 +1,2 @@
+export ASCEND_SLOG_PRINT_TO_STDOUT=1
+/usr/local/Ascend/ascend-toolkit/latest/atc/bin/atc --model=/home/TestUser08/zhegongda/transfergan/inference/transfergan2.pb --framework=3  --input_shape="label:100;noise:100,128" --output=/home/TestUser08/zhegongda/transfergan/inference/transfergan5  --soc_version=Ascend910  --precision_mode=allow_fp32_to_fp16 --log=error 
