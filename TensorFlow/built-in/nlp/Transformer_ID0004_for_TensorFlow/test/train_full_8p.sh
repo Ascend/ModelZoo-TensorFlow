@@ -17,7 +17,7 @@ export ASCEND_GLOBAL_LOG_LEVEL=3
 
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
-Network="Transformer_for_TensorFlow"
+Network="Transformer_ID0004_for_TensorFlow"
 #训练step
 train_steps=300000
 #训练batch_size
