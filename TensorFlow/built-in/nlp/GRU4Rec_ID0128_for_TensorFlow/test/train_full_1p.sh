@@ -12,7 +12,7 @@ data_file="/rsc15_train_full.txt"
 export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="GRU4Rec_for_TensorFlow"
+Network="GRU4Rec_ID0128_for_TensorFlow"
 #训练epoch
 train_epochs=10
 #TF2.X独有，不需要修改
