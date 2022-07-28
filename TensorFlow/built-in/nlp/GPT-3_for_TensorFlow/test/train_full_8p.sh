@@ -18,7 +18,7 @@ data_path=""
 
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
-Network="GPT-3_for_TensorFlow"
+Network="GPT-3_ID0052_for_TensorFlow"
 #训练epoch
 #train_epochs=42
 #训练batch_size
