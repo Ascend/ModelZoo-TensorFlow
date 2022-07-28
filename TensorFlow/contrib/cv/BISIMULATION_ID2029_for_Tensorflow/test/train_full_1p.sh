@@ -121,9 +121,8 @@ fi
 StepTime=`grep "ONE_ITER_TIME:" ${print_log} | tail -n 7 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
-# 精度相关数据计算
-train_accuracy=`grep "Normalized metric difference:" ${print_log}  | awk '{print $NF}' | tail -n 1`
-
+# 提取所有loss打印信息
+grep "Normalized metric difference:" ${print_log}  | awk '{print $NF}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -163,8 +162,8 @@ echo "Final Performance images/sec : $FPS"
 echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
-# 输出训练精度
-echo "Final Train Accuracy : ${train_accuracy}"
+# 最后一个迭代loss值，不需要修改
+ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -174,5 +173,5 @@ echo "DeviceType = `uname -m`" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
