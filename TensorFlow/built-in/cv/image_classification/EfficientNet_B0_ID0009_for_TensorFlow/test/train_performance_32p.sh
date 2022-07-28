@@ -1,7 +1,7 @@
 #!/bin/bash
 #当前路径,不需要修改
 cur_path=`pwd`
-#export ASCEND_HOST_LOG_FILE_NUM=1000 
+export ASCEND_HOST_LOG_FILE_NUM=1000 
 #集合通信参数,不需要修改
 #保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
 #export RANK_SIZE=8
