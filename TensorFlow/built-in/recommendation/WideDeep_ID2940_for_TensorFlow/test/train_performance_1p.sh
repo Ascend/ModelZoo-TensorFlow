@@ -109,7 +109,6 @@ wait
 cd $cur_path/../
 start=$(date +%s)
 python3 -m trainer.task  \
- --Adam \
  --iteration_per_loop=$iteration_per_loop \
  --train_data_pattern=$data_path/outbrain/tfrecords/train/part* \
  --eval_data_pattern=$data_path/outbrain/tfrecords/eval/part* \
