@@ -300,7 +300,8 @@ def activation_block(x):
     if not hasattr(npu_device.ops, 'gelu'):
       x = npu_device.gen_npu_ops.fast_gelu(x)
     else:
-      x = getattr(npu_device.ops, 'gelu')
+      fast_gelu = getattr(npu_device.ops, 'gelu')
+      x = fast_gelu(x)
     #x=npu_device.gen_npu_ops.fast_gelu(x)
     return layers.BatchNormalization()(x)
 
