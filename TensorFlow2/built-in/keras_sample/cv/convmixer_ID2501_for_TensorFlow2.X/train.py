@@ -303,7 +303,11 @@ def activation_block(x):
     else:
       print('*******************else********************')
       fast_gelu = getattr(npu_device.ops, 'gelu')
-      x = tf.function(fast_gelu)(x)
+      @tf.function
+      def foo():
+          return fast_gelu(x)
+      x = foo()
+      #x = tf.function(fast_gelu)(x)
     #x=npu_device.gen_npu_ops.fast_gelu(x)
     return layers.BatchNormalization()(x)
 
