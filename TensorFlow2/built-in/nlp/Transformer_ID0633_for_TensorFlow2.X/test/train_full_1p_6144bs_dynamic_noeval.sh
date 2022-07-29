@@ -18,7 +18,7 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="Transformer_ID0633_for_TensorFlow2.X"
+Network="Transformer_ID3215_for_TensorFlow2.X"
 #训练batch_size
 batch_size=6144
 #训练step
