@@ -297,7 +297,7 @@ if not hasattr(npu_device.ops, 'gelu') and "FastGelu" not in grad_registry_list:
 
 def activation_block(x):
     #x = layers.Activation("gelu")(x)
-    if not hasattr(npu_device.ops, 'gelu') or tf.keras.backend.is_keras_tensor(x):
+    if not hasattr(npu_device.ops, 'gelu'):
       x = npu_device.gen_npu_ops.fast_gelu(x)
       print('*******************if********************')
     else:
