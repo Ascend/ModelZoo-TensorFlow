@@ -261,14 +261,14 @@ I0521 19:45:05.733291 281473385623568 basic_session_run_hooks.py:260] global_ste
 
 ```
 
-## 多机脚本训练步骤<a name="section1589455252298"></a>
+## 多机训练过程<a name="section1589455252298"></a>
 
-以 test/train_ID3067_BertLarge-128_full_32p.sh为例，此脚本适用于32p多机集群场景（32p多机集群场景为每台服务器使用8个device，总共4台服务器）
+以 test/train_ID3067_BertLarge-128_full_32p.sh为例，此脚本适用于32p（4*8）多机集群场景
 
 ```
 1.修改脚本 test/train_ID3067_BertLarge-128_full_32p.sh
-    注释第98行脚本，修改后如下
-    #nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+    注释如下脚本
+    nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
     自行配置rank_table.json路径，如下
     export RANK_TABLE_FILE=$cur_path/rank_table.json
 
@@ -277,12 +277,10 @@ I0521 19:45:05.733291 281473385623568 basic_session_run_hooks.py:260] global_ste
 3.多机环境分别拉起脚本,如下格式，server_index为服务器顺序标识，32p场景值为0-3，servers_num为服务器数量，32p场景值为4，devices_num为单台服务器使用卡数，默认为8，$data_path为数据集路径
     bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=$server_index  --servers_num=4 --devices_num=8 --data_path=$data_path
 
-    具体为第1台服务器在test目录下，执行如下命令，rank_table.json文件中rank_id 为0-7的服务器为第1台服务器
-    bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=0  --servers_num=4 --devices_num=8 --data_path=$data_path
-
-    ......
-
-    第4台服务器在test目录下执行如下命令，rank_table.json文件中rank_id 为24-31的服务器为第4台服务器
-    bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=3  --servers_num=4 --devices_num=8 --data_path=$data_path
+    example：
+    服务器1 :bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=0  --servers_num=4 --devices_num=8 --data_path=$data_path
+    服务器2 :bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=1  --servers_num=4 --devices_num=8 --data_path=$data_path
+    服务器3 :bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=2  --servers_num=4 --devices_num=8 --data_path=$data_path
+    服务器4 :bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=3  --servers_num=4 --devices_num=8 --data_path=$data_path 
     
  ```
