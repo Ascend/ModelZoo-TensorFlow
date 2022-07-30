@@ -1,0 +1,26 @@
+dataset:
+    root_dir: '/home/ma-user/modelarts/inputs/data_url_0/'
+    image_height: 192
+    image_width: 640
+    min_depth: 0.1
+    max_depth: 100.
+    preprocess: True
+model:
+    root_dir: '/home/ma-user/modelarts/outputs/train_url_0/'
+    learning_rate: 1e-4
+    batch_size: 16
+    num_source: 3
+    num_scales: 4
+    epoch: 80
+    beta1: 0.9
+    reproj_alpha: 0.85
+    smooth_alpha: 1e-3
+    batch_norm_decay: 0.95
+    batch_norm_epsilon: 1e-5
+    pose_scale: 1e-2
+    auto_mask: True
+    continue_ckpt: ''
+    #torch_res18_ckpt: ''
+    torch_res18_ckpt: '/home/ma-user/modelarts/user-job-dir/code/res_model_extractor/resnet18.npy'
+    summary_freq: 200
+    pose_type: 'seperate' # seperate or shared
