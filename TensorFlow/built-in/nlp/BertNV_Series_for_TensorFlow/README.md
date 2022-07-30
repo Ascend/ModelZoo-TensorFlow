@@ -261,4 +261,18 @@ I0521 19:45:05.733291 281473385623568 basic_session_run_hooks.py:260] global_ste
 
 ```
 
-
+## 3067网络多机脚本训练<a name="section1589455252218"></a>
+1.修改脚本 test/train_ID3067_BertLarge-128_full_32p.sh
+    注释第98行脚本，修改后如下
+    #nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+    自行配置rank_table.json路径，如下
+    export RANK_TABLE_FILE=$cur_path/rank_table.json
+2.多机环境同步代码及数据集，保证集群环境各服务器代码及数据集一致
+3.多机环境分别拉起脚本,如下格式，$server_index为0-3，$data_path为数据集路径
+    bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=$server_index  --servers_num=4 --devices_num=8 --data_path=$data_path
+    具体为第1台服务器在test目录下，执行如下命令，rank_table.json文件中rank_id 为0-7的服务器为第1台服务器
+    bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=0  --servers_num=4 --devices_num=8 --data_path=$data_path
+    ......
+    第4台服务器在test目录下执行如下命令，rank_table.json文件中rank_id 为24-31的服务器为第4台服务器
+    bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=3  --servers_num=4 --devices_num=8 --data_path=$data_path
+    
