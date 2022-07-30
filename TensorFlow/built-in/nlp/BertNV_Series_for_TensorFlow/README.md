@@ -265,7 +265,7 @@ I0521 19:45:05.733291 281473385623568 basic_session_run_hooks.py:260] global_ste
 
 以 test/train_ID3067_BertLarge-128_full_32p.sh为例
 
-
+```
 1.修改脚本 test/train_ID3067_BertLarge-128_full_32p.sh
     注释第98行脚本，修改后如下
     #nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
