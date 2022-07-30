@@ -78,11 +78,13 @@ do
         conf_path=`echo ${para#*=}`
     elif [[ $para == --devices_num* ]];then
         devices_num=`echo ${para#*=}`
+    elif [[ $para == --servers_num* ]];then
+        servers_num=`echo ${para#*=}`
     fi
 done
 
-one_node_ip=`find $conf_path -name "server_*0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
-linux_num=`find $conf_path -name "server_*.info" |wc -l`
+
+linux_num=$servers_num
 
 
 #校验是否传入data_path,不需要修改
