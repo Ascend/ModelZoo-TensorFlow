@@ -274,7 +274,7 @@ I0521 19:45:05.733291 281473385623568 basic_session_run_hooks.py:260] global_ste
 
 2.多机集群环境同步代码及数据集，保证集群环境各服务器代码及数据集一致
 
-3.多机环境分别拉起脚本,如下格式， $server_index为0-3，$data_path为数据集路径
+3.多机环境分别拉起脚本,如下格式，server_index为服务器顺序标识，32p场景值为0-3，servers_num为服务器数量，devices_num为单台服务器使用卡数，$data_path为数据集路径，
     bash train_ID3067_BertLarge-128_full_32p.sh  --server_index=$server_index  --servers_num=4 --devices_num=8 --data_path=$data_path
 
     具体为第1台服务器在test目录下，执行如下命令，rank_table.json文件中rank_id 为0-7的服务器为第1台服务器
