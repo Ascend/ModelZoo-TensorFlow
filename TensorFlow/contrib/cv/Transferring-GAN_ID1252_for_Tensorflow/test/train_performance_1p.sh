@@ -113,9 +113,9 @@ epoch=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./vit_allpipeline_fusion_accelerate.py --data_path=${data_path} --output_path=${output_path}
+    python3.7 ./gan_cifar_resnet_acc.py --data_path=${data_path} --output_path=${output_path}
 else
-    python3.7 ./vit_allpipeline_fusion_accelerate.py --data_path=${data_path} --output_path=${output_path}  > ${print_log}
+    python3.7 ./gan_cifar_resnet_acc.py --data_path=${data_path} --output_path=${output_path}  > ${print_log}
 fi
 
 # 性能相关数据计算

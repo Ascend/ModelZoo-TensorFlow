@@ -182,4 +182,3 @@ class MultiModel(CNN13, ConvNet, ResNet, ShakeNet):
 
 
 flags.DEFINE_enum('arch', MultiModel.MODEL_RESNET, MultiModel.MODELS, 'Architecture.')
-

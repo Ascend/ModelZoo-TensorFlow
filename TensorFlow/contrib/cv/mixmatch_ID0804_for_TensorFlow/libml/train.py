@@ -26,7 +26,6 @@ from tensorflow.python.platform import flags
 from easydict import EasyDict
 from tqdm import trange
 from libml import data, utils
-import moxing as mox
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string('train_dir', '/cache/result',
@@ -40,18 +39,6 @@ flags.DEFINE_integer('keep_ckpt', 50, 'Number of checkpoints to keep.')
 flags.DEFINE_string('eval_ckpt', '', 'Checkpoint to evaluate. If provided, do not do training, just do eval.')
 flags.DEFINE_string('data_url', './dataset', 'data path')
 flags.DEFINE_string('train_url', './output', 'result path')
-
-# 在ModelArts容器创建数据存放目录
-data_dir = "/cache/dataset"
-os.makedirs(data_dir)
-
-# OBS数据拷贝到ModelArts容器内
-mox.file.copy_parallel(FLAGS.data_url, data_dir)
-print("yes")
-# 在ModelArts容器创建训练输出目录
-model_dir = "/cache/result"
-os.makedirs(model_dir)
-
 
 class Model:
     def __init__(self, train_dir: str, dataset: data.DataSet, **kwargs):
@@ -192,8 +179,6 @@ class ClassifySemi(Model):
                     # print(self.train_step)
                     while self.tmp.print_queue:
                         loop.write(self.tmp.print_queue.pop(0))
-                        # 训练结束后，将ModelArts容器内的训练输出拷贝到OBS
-                        mox.file.copy_parallel(model_dir, FLAGS.train_url)
             while self.tmp.print_queue:
                 print(self.tmp.print_queue.pop(0))
 
@@ -282,4 +267,3 @@ class ClassifySemi(Model):
         tf.summary.scalar('accuracy/train_labeled', accuracies[0])
         tf.summary.scalar('accuracy/valid', accuracies[1])
         tf.summary.scalar('accuracy', accuracies[2])
-

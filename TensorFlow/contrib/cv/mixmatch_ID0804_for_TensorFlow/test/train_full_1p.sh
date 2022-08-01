@@ -7,6 +7,7 @@
 ##########################################################
 # shell脚本所在路径
 cur_path=`echo $(cd $(dirname $0);pwd)`
+
 # 判断当前shell是否是performance
 perf_flag=`echo $0 | grep performance | wc -l`
 
@@ -64,14 +65,14 @@ fi
 
 # 设置打屏日志文件名，请保留，文件名为${print_log}
 print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
-modelarts_flag=${MODELARTS_MODEL_PATH}
+modelarts_flag=`cat /etc/passwd |grep ma-user`
 if [ x"${modelarts_flag}" != x ];
 then
-    echo "running without etp..."
+    echo "running with modelarts_flag..."
     print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
     print_log="/home/ma-user/modelarts/log/${print_log_name}"
 fi
-  echo "### get your log here : ${print_log}"
+echo "### get your log here : ${print_log}"
 
 CaseName=""
 function get_casename()
@@ -87,7 +88,11 @@ function get_casename()
 # 跳转到code目录
 cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
-mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+mkdir -p ./test/output/${ASCEND_DEVICE_ID}/ckpt
+
+# 修改路径
+sed -i "s#/cache/dataset#${data_path}/ML_DATA#" ./libml/data.py
+sed -i "s#/cache/result#${output_path}/ckpt#" ./libml/train.py
 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
@@ -106,51 +111,50 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-batch_size=1
+batch_size=64
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 main.py \
-        --dataset=${data_path}/dataset/selfie2anime \
-        --phase='train' \
-        --test_train=True \
-        --quant=True \
-        --epoch=100 \
-        --iteration=10000 >${print_log} 2>&1
-
+    python3.7 mixmatch.py  1>${print_log} 2>&1
 else
-    python3.7 main.py \
-        --dataset=${data_path}/dataset/selfie2anime \
-        --phase='train' \
-        --test_train=True \
-        --quant=True \
-        --checkpoint_dir=${output_path}/checkpoint \
-        --result_dir=${output_path}/results \
-        --log_dir=${output_path}/logs \
-        --sample_dir=${output_path}/samples \
-        --epoch=1 \
-        --iteration=10000 >${print_log} 2>&1
+    python3.7 mixmatch.py  1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-Time1=`grep "time:" ${print_log} | awk '{print $7}' | head -n 1`
-Time2=`grep "time:" ${print_log} | awk '{print $7}' | awk '{sum+=$1} END {print sum}'`
-TrainingTime=`awk 'BEGIN{printf "%.2f\n", '\(${Time2}-${Time1}\)'/'10000'}'`
-FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
+FPS=`grep -Eo "[0-9]*.[0-9]*img/s" ${print_log} | tail -n 10 | head -n 5 | awk '{sum+=$1} END {print"",sum/NR}' | awk '{print $1}'`
+StepTime=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${FPS}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "d_loss:" ${print_log} | tail -n +2 | awk '{print $9}' | tr -d "," | awk '{sum+=$1} END {print sum/NR}'`
-# 提取所有loss打印信息
-grep "d_loss:" ${print_log} | tail -n +2 | awk '{print $9}' | tr -d "," > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+train_accuracy=`grep "accuracy" ${print_log} | awk '{print $NF}' | awk 'NR==1{max=$1;next}{max=max>$1?max:$1}END{print max}'`
 
-#获取最终的casename，请保留，case文件名为${CaseName}
+###########################################################
+#########后面的所有内容请不要修改###########################
+#########后面的所有内容请不要修改###########################
+#########后面的所有内容请不要修改###########################
+###########################################################
+
+# 判断本次执行是否正确使用Ascend NPU
+tf_flag=`echo ${Network} | grep TensorFlow | wc -l`
+use_npu_flag=`grep "The model has been compiled on the Ascend AI processor" ${print_log} | wc -l`
+if [ x"${use_npu_flag}" == x0 -a x"${tf_flag}" == x1 ];
+then
+    echo "------------------ ERROR NOTICE START ------------------"
+    echo "ERROR, your task haven't used Ascend NPU, please check your npu Migration."
+    echo "------------------ ERROR NOTICE END------------------"
+else
+    echo "------------------ INFO NOTICE START------------------"
+    echo "INFO, your task have used Ascend NPU, please check your result."
+    echo "------------------ INFO NOTICE END------------------"
+fi
+
+# 获取最终的casename，请保留，case文件名为${CaseName}
 get_casename
 
 # 重命名loss文件
-if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
-then
-    mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
-fi
+# if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
+# then
+#     mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
+# fi
 
 # 训练端到端耗时
 end_time=$(date +%s)
@@ -159,14 +163,14 @@ e2e_time=$(( $end_time - $start_time ))
 echo "------------------ Final result ------------------"
 # 输出性能FPS/单step耗时/端到端耗时
 echo "Final Performance images/sec : $FPS"
-echo "Final Performance sec/step : $TrainingTime"
+echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
 # 输出训练精度
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
+# ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -175,7 +179,8 @@ echo "BatchSize = ${batch_size}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseNam
 echo "DeviceType = `uname -m`" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+# echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+

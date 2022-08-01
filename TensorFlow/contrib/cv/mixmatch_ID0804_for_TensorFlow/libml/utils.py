@@ -18,7 +18,7 @@ from npu_bridge.npu_init import *
 import glob
 import os
 import re
-import precision_tool.tf_config as npu_tf_config
+# import precision_tool.tf_config as npu_tf_config
 
 # from absl import flags
 from tensorflow.python.platform import flags
@@ -230,4 +230,3 @@ def para_cat(fn, *args):
     if isinstance(outputs[0], (tuple, list)):
         return [tf.concat(x, axis=0) for x in zip(*outputs)]
     return tf.concat(outputs, axis=0)
-
