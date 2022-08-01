@@ -23,7 +23,7 @@ import functools
 import os
 
 
-os.system('pip install easydict')
+# os.system('pip install easydict')
 from absl import app
 from tensorflow.python.platform import flags
 # from absl import flags
@@ -35,7 +35,6 @@ from libml.data_pair import DATASETS
 from libml.layers import MixMode
 import tensorflow as tf
 import sys
-import precision_tool.config as CONFIG
 
 
 FLAGS = flags.FLAGS
