@@ -13,9 +13,6 @@ from MNISTModel_DANN import MNISTModel_DANN
 import imageloader as dataloader
 import utils
 
-# import moxing as mox
-import precision_tool.tf_config as npu_tf_config
-import precision_tool.lib.config as CONFIG
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'  #0、1使用GPU的编号  此处由0改为1
 
