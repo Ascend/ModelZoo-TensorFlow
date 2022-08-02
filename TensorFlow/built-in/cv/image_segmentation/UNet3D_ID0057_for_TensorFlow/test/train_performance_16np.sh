@@ -67,7 +67,10 @@ linux_num=$servers_num
 #export ASCEND_SLOG_PRINT_TO_STDOUT=1
 export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
 rank_size=8
-nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+if [[ $conf_path != "" ]];then
+    nohup python3 $cur_path/set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
+fi
+
 wait
 export RANK_TABLE_FILE=$cur_path/rank_table.json
 export HCCL_CONNECT_TIMEOUT=600
