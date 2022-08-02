@@ -107,7 +107,11 @@ fi
 export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
 # 自动生成ranktable的脚本
 rank_size=8
-nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+
+if [[ $conf_path != "" ]];then
+     nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+fi
+
 wait
 export RANK_TABLE_FILE=${cur_path}/rank_table.json
 
