@@ -68,7 +68,8 @@ linux_num=$servers_num
 export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
 rank_size=8
 if [[ $conf_path != "" ]];then
-    nohup python3 $cur_path/set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
+    nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+    
 fi
 
 wait
