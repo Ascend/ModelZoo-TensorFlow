@@ -32,7 +32,7 @@ export NPU_LOOP_SIZE=100
 export GE_USE_STATIC_MEMORY=1
 
 #维测参数，precision_mode需要模型审视修改
-precision_mode="allow_fp32_to_fp16"
+precision_mode="allow_mix_precision"
 #维持参数，不需要修改
 over_dump=False
 data_dump_flag=False
