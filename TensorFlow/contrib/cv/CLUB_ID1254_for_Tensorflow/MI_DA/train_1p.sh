@@ -1,0 +1,1 @@
+python main_DANN.py --data_path /path/to/data_folder/ --save_path /path/to/save_dir/ --source svhn --target mnist
