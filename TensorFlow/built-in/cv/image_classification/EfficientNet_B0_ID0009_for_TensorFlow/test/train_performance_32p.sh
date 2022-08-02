@@ -113,7 +113,11 @@ fi
 start_time=$(date +%s)
 export RANK_SIZE=32
 rank_size=8
-nohup python3 set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
+
+if [[ $conf_path != "" ]];then
+    nohup python3 set_ranktable.py --npu_nums=$((RANK_SIZE/rank_size)) --conf_path=$conf_path
+fi
+
 wait
 export RANK_TABLE_FILE=${cur_path}/rank_table.json
 export JOB_ID=10087
