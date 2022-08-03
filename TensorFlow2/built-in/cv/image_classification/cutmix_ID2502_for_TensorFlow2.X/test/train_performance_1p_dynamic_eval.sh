@@ -12,7 +12,7 @@ Network="cutmix_ID2502_for_TensorFlow2.X"
 #Device数量，单卡默认为1
 RANK_SIZE=1
 #训练epoch，可选
-train_epochs=5
+train_epochs=2
 #训练step
 #train_steps=50000
 #学习率
