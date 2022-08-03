@@ -34,7 +34,8 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 
 ## 5、精度
 
-![输入图片说明](https://images.gitee.com/uploads/images/2021/0918/115655_f1c59afb_8376014.png "acc.PNG")
+![输入图片说明](time.png)
+
 
 ## 6、性能
-![输入图片说明](../../../../6af8b9b7bf0f4b0f0e4ab5eab71db34.png)
+![输入图片说明](roc.png)
