@@ -61,7 +61,19 @@ def conv(x, channels, kernel=4, stride=2, pad=0, pad_type='zero', use_bias=True,
             if pad_type == 'zero':
                 x = tf.pad(x, [[0, 0], [pad_top, pad_bottom], [pad_left, pad_right], [0, 0]])
             if pad_type == 'reflect':
-                x = tf.pad(x, [[0, 0], [pad_top, pad_bottom], [pad_left, pad_right], [0, 0]], mode='REFLECT')
+                # x = tf.pad(x, [[0, 0], [pad_top, pad_bottom], [pad_left, pad_right], [0, 0]], mode='REFLECT')
+                for i in range(pad_top):
+                    j = (i << 1) + 1
+                    x = tf.concat([x[:, j:j+1, :, :], x], axis=1)
+                for i in range(pad_bottom):
+                    j = -((i << 1) + 1)
+                    x = tf.concat([x, x[:, j-1:j, :, :]], axis=1)
+                for i in range(pad_left):
+                    j = (i << 1) + 1
+                    x = tf.concat([x[:, :, j:j+1, :], x], axis=2)
+                for i in range(pad_right):
+                    j = -((i << 1) + 1)
+                    x = tf.concat([x, x[:, :, j-1:j, :]], axis=2)
 
         x = tf.layers.conv2d(inputs=x, filters=channels,
                              kernel_size=kernel, kernel_initializer=weight_init,
