@@ -243,11 +243,11 @@ def create_clones(batch_queue):
 
         optimizer = tf.train.MomentumOptimizer(learning_rate,
                                                momentum=FLAGS.momentum, name='Momentum')
-		loss_scale_manager = lsm_lib.ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=1, decr_ratio=0.5)
-		optimizer = NPUOptimizer(optimizer, loss_scale_manager, is_distributed=False,
+        loss_scale_manager = lsm_lib.ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=1, decr_ratio=0.5)
+        optimizer = NPUOptimizer(optimizer, loss_scale_manager, is_distributed=False,
                              is_loss_scale=True, is_tailing_optimization=False)
         tf.summary.scalar('learning_rate', learning_rate)
-		scaled_loss = loss_scale_manager.get_loss_scale()
+        scaled_loss = loss_scale_manager.get_loss_scale()
     # place clones
     pixel_link_loss = 0;  # for summary only
     gradients = []
