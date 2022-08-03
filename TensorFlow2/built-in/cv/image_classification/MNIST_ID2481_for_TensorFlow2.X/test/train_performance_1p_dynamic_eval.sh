@@ -2,10 +2,8 @@
 
 cur_path=`pwd`/../
 
-export RANK_SIZE=8
-export JOB_ID=10087
-export RANK_TABLE_FILE=$cur_path/test/${RANK_SIZE}p.json
-export ASCEND_GLOBAL_LOG_LEVEL_ETP_ETP_ETP=3
+export RANK_SIZE=1
+export ASCEND_GLOBAL_LOG_LEVEL=3
 
 #基础参数，需要模型审视修改
 #Batch Size
@@ -15,7 +13,7 @@ Network="MNIST_ID2481_for_TensorFlow2.X"
 #训练epoch，可选
 train_epochs=10
 #参数配置
-data_path="/npu/traindata/ID2481_CarPeting_TF2.X_MNIST"
+data_path=""
 
 ############维测参数##############
 precision_mode="allow_mix_precision"
@@ -72,52 +70,38 @@ if [[ $data_path  == "" ]];then
    exit 1
 fi
 
+cd $cur_path
 
-start=$(date +%s)
 ##############执行训练##########
-RANK_ID_START=0
-for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
-do
-    cd $cur_path
-    #设置环境变量，不需要修改
-    export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=$RANK_ID
-    echo "Device ID: $ASCEND_DEVICE_ID"
-
-    #创建DeviceID输出目录，不需要修改
-    if [ -d ${cur_path}/test/output/${ASCEND_DEVICE_ID} ];then
-        rm -rf ${cur_path}/test/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID
-    else
-        mkdir -p ${cur_path}/test/output/$ASCEND_DEVICE_ID
-    fi
-    cpucount=`lscpu | grep "CPU(s):" | head -n 1 | awk '{print $2}'`
-    cpustep=`expr $cpucount / 8`
-    python3 mnist_main.py --precision_mode=${precision_mode} \
-             --over_dump=${over_dump} \
-             --over_dump_path=${over_dump_path} \
-             --data_dump_flag=${data_dump_flag} \
-             --data_dump_step=${data_dump_step} \
-             --data_dump_path=${data_dump_path} \
-             --profiling=${profiling} \
-             --use_mixlist=${use_mixlist} \
-             --fusion_off_flag=${fusion_off_flag} \
-             --mixlist_file=${mixlist_file} \
-             --fusion_off_file=${fusion_off_file} \
-             --profiling_dump_path=${profiling_dump_path} \
-             --model_dir=./ckpt \
-             --train_epochs=10 \
-             --distribution_strategy=one_device \
-             --num_gpus=1 \
-             --download=False \
-             --eval_static=False \
-             --mul_rank_size=${RANK_SIZE} \
-             --mul_device_id=${RANK_ID} \
-             --data_dir=$data_path >$cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
-done
+if [ -d $cur_path/test/output ];then
+   rm -rf $cur_path/test/output/*
+   mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
+else
+   mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
+fi
 wait
 
-##############结束训练##########
+start=$(date +%s)
+nohup python3 mnist_main.py --precision_mode=${precision_mode} \
+         --over_dump=${over_dump} \
+         --over_dump_path=${over_dump_path} \
+         --data_dump_flag=${data_dump_flag} \
+         --data_dump_step=${data_dump_step} \
+         --data_dump_path=${data_dump_path} \
+         --profiling=${profiling} \
+         --use_mixlist=${use_mixlist} \
+         --fusion_off_flag=${fusion_off_flag} \
+         --mixlist_file=${mixlist_file} \
+         --fusion_off_file=${fusion_off_file} \
+         --profiling_dump_path=${profiling_dump_path} \
+         --model_dir=./ckpt \
+         --train_epochs=10 \
+         --distribution_strategy=one_device \
+         --num_gpus=1 \
+         --download=False \
+         --eval_static=False \
+         --data_dir=$data_path >$cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+wait
 end=$(date +%s)
 e2etime=$(( $end - $start ))
 
@@ -131,7 +115,7 @@ echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
 TrainingTime=`grep ,time: $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $4}' | awk -F ':' '{print $2}' | tail -n 1`
 wait
-FPS=`grep imgs/s $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print '${RANK_SIZE}'*$2}'`
+FPS=`grep imgs/s $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $2}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
@@ -145,7 +129,7 @@ echo "Final Train Accuracy : ${train_accuracy}"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_dynamic_eval_'perf' 
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'dynamic'
 
 ##获取性能数据，不需要修改
 #吞吐量
