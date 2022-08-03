@@ -75,9 +75,36 @@ class MonoDepth2Learner(object):
         C1 = 0.01 ** 2
         C2 = 0.03 ** 2
 
-        x = tf.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]], mode='REFLECT')
-        y = tf.pad(y, [[0, 0], [1, 1], [1, 1], [0, 0]], mode='REFLECT')
+        # x = tf.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]], mode='REFLECT')
+        # y = tf.pad(y, [[0, 0], [1, 1], [1, 1], [0, 0]], mode='REFLECT')
 
+        pad_size = 1
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            x = tf.concat([x[:, j:j+1, :, :], x], axis=1)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            x = tf.concat([x, x[:, j-1:j, :, :]], axis=1)
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            x = tf.concat([x[:, :, j:j+1, :], x], axis=2)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            x = tf.concat([x, x[:, :, j-1:j, :]], axis=2)
+        
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            y = tf.concat([y[:, j:j+1, :, :], y], axis=1)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            y = tf.concat([y, y[:, j-1:j, :, :]], axis=1)
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            y = tf.concat([y[:, :, j:j+1, :], y], axis=2)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            y = tf.concat([y, y[:, :, j-1:j, :]], axis=2)
+    
         mu_x = slim.avg_pool2d(x, 3, 1, 'VALID')
         mu_y = slim.avg_pool2d(y, 3, 1, 'VALID')
 
