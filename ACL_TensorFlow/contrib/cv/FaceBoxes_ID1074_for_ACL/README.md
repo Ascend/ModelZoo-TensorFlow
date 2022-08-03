@@ -18,10 +18,10 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 
 
 ## 4、数据集准备
+运行img2bin.py将FDDB数据库中的图片转换为bin文件
 
 
-
-### 4.1 执行推理和精度计算
+## 5 执行推理与精度计算
 
   
 执行命令 
@@ -32,10 +32,10 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 最后执行python3  inference.py 
 得到最后推理精度\
 
-## 5、精度
+## 5、性能
 
 ![输入图片说明](time.png)
 
 
-## 6、性能
+## 6、精度
 ![输入图片说明](roc.png)
