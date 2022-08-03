@@ -112,7 +112,7 @@ do
         --train=1 \
         --epoch=${train_epochs} \
         --train_dataset_file=${data_file} \
-        > ${cur_path}/output/${ASCEND_DEVICE_ID}/train.log 2>&1 &
+        > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 
     #python3 main.py --train=1 --epoch=${train_epochs} \
      #   --over_dump=${over_dump} \
