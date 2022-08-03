@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 #当前路径,不需要修改
 cur_path=`pwd`
 export PYTHONPATH=${cur_path}/../pylib/src:$PYTHONPATH
@@ -35,7 +35,7 @@ profiling=False
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
-    echo"usage:./train_full_1P.sh <args>"
+    echo"usage:./train_performance_1P.sh <args>"
     echo " "
     echo "parameter explain:
     --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
@@ -104,7 +104,7 @@ do
     nohup python3 train_pixel_link.py \
             --train_dir=./models/pixel_link \
             --num_gpus=1 \
-            --learning_rate=1e-4 \
+            --learning_rate=1e-3 \
             --gpu_memory_fraction=-1 \
             --train_image_width=512 \
             --train_image_height=512 \
@@ -124,10 +124,11 @@ e2e_time=$(( $end_time - $start_time ))
 
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
-# #输出性能FPS，需要模型审视修改
 
-Time=`grep 'loss =' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk -F "(" '{print $2}' |awk -F " " '{print $1}' |tail -10|awk '{sum+=$1}END {print"",sum/NR}'|sed s/[[:space:]]//g`
-FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${Time}'}'`
+#单迭代训练时长
+TrainingTime=`grep 'loss =' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk -F "(" '{print $2}' |awk -F " " '{print $1}' |tail -10|awk '{sum+=$1}END {print"",sum/NR}'|sed s/[[:space:]]//g`
+# #输出性能FPS，需要模型审视修改
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
 #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
 
@@ -144,18 +145,15 @@ BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
-##获取性能数据，不需要修改
 #吞吐量
-
 ActualFPS=${FPS}
-#单迭代训练时长
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep 'loss =' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F " " '{print $6}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
+
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -168,4 +166,3 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-

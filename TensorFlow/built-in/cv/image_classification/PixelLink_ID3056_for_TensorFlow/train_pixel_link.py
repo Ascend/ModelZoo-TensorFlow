@@ -35,7 +35,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import numpy as np
 import tensorflow as tf  # test
 from tensorflow.python.ops import control_flow_ops
-
+from npu_bridge.estimator.npu import npu_loss_scale_manager as lsm_lib
 from datasets import dataset_factory
 
 from nets import pixel_link_symbol
@@ -205,7 +205,7 @@ def create_dataset_batch_queue(dataset):
         b_pixel_link_weight=b_pixel_link_weight), iterator
 
 
-def sum_gradients(clone_grads):
+def sum_gradients(clone_grads, scaled_loss):
     averaged_grads = []
     for grad_and_vars in zip(*clone_grads):
         grads = []
@@ -213,7 +213,7 @@ def sum_gradients(clone_grads):
         try:
             for g, v in grad_and_vars:
                 assert v == var
-                grads.append(g)
+                grads.append(g/scaled_loss)
             grad = tf.add_n(grads, name=v.op.name + '_summed_gradients')
         except:
             import pdb
@@ -243,8 +243,11 @@ def create_clones(batch_queue):
 
         optimizer = tf.train.MomentumOptimizer(learning_rate,
                                                momentum=FLAGS.momentum, name='Momentum')
-
+		loss_scale_manager = lsm_lib.ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=1, decr_ratio=0.5)
+		optimizer = NPUOptimizer(optimizer, loss_scale_manager, is_distributed=False,
+                             is_loss_scale=True, is_tailing_optimization=False)
         tf.summary.scalar('learning_rate', learning_rate)
+		scaled_loss = loss_scale_manager.get_loss_scale()
     # place clones
     pixel_link_loss = 0;  # for summary only
     gradients = []
@@ -281,7 +284,7 @@ def create_clones(batch_queue):
                         total_clone_loss = total_clone_loss + regularization_loss
 
                     # compute clone gradients
-                    clone_gradients = optimizer.compute_gradients(total_clone_loss)
+                    clone_gradients = optimizer.compute_gradients(total_clone_loss * scaled_loss)
                     gradients.append(clone_gradients)
 
     tf.summary.scalar('pixel_link_loss', pixel_link_loss)
@@ -289,7 +292,7 @@ def create_clones(batch_queue):
 
     # add all gradients together
     # note that the gradients do not need to be averaged, because the average operation has been done on loss.
-    averaged_gradients = sum_gradients(gradients)
+    averaged_gradients = sum_gradients(gradients, scaled_loss)
 
     apply_grad_op = optimizer.apply_gradients(averaged_gradients, global_step=global_step)
 
