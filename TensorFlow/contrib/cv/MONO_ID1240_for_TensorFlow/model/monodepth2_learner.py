@@ -395,9 +395,14 @@ class MonoDepth2Learner(object):
         var_list += tf.trainable_variables()
         self.saver = tf.train.Saver(var_list + [self.global_step],max_to_keep=10)
         sv = tf.train.Supervisor(logdir=ckpt_dir,save_summaries_secs=0,saver=None)
-        config = tf.ConfigProto()
-        config.gpu_options.allow_growth = True
-        with sv.managed_session(config=npu_config_proto(config_proto=config)) as sess:
+        
+        npu_config = tf.ConfigProto(log_device_placement=False, allow_soft_placement=True)
+        custom_op = npu_config.graph_options.rewrite_options.custom_optimizers.add()
+        custom_op.name = "NpuOptimizer"
+        custom_op.parameter_map["use_off_line"].b = True
+        custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("./switch_config.txt")
+
+        with sv.managed_session(config=npu_config) as sess:
             sess.run(ds_image_iterator.initializer)
             sess.run(ds_cam_iterator.initializer)
 
