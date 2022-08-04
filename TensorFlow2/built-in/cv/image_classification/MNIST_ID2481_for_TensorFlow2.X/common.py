@@ -61,7 +61,7 @@ class LossHistory(tf.keras.callbacks.Callback):
         dura = time.time() - self.start
         if dura < 1:
           self.epoch_perf.append(dura)
-        print('step:%d ,loss: %f ,time:%f'%(batch, loss, dura), flush=True)
+        print('step:%d ,loss: %f ,time: %f'%(batch, loss, dura), flush=True)
     def on_epoch_begin(self, epoch, logs={}):
         self.epoch_perf = []
         self.epochstart = time.time()
