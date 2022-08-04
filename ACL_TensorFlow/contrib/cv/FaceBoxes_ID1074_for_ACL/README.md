@@ -19,8 +19,10 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 
 ## 4、数据集准备
 测试使用的是[FDDB数据集](http://vis-www.cs.umass.edu/fddb/index.html#download)，将数据集下载后解压
-运行img2bin.py将FDDB数据库中的图片转换为bin文件
-运行createellipselist.py生成ellipseList.txt和faceList.txt
+
+运行img2bin.py将FDDB数据库中的图片转换为bin文件，需要自行调整文件路径。
+
+运行createellipselist.py生成ellipseList.txt和faceList.txt，需要自行调整文件路径。
 
 
 ## 5、执行推理
