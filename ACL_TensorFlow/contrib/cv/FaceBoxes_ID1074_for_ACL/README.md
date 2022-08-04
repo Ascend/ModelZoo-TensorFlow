@@ -32,6 +32,9 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 ```sh
 ./msame --model "/home/test_user04/model_base310.om" --input "/home/test_user04/inference_data" --output "/home/test_user04/" --outfmt TXT  --outputSize "10000,10000,10000"
 ```
+将会生成如下形式的文件：
+
+![输入图片说明](output.png)
 
 
 ## 5、性能
@@ -40,4 +43,7 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 
 
 ## 6、精度计算
+运行.py 将推理生成的*_output.txt文件生成为detections.txt文件
+
+精度计算使用[FDDB数据库的精度计算工具evaluation](http://vis-www.cs.umass.edu/fddb/results.html)，其中要求opencv版本为3.2，在使用make生成evaluation运行文件时，需要手动[修改一些evaluation文件的参数](http://vis-www.cs.umass.edu/fddb/faq.html)，详见连接中的
 ![输入图片说明](roc.png)
