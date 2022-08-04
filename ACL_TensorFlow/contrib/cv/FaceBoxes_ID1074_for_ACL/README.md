@@ -51,11 +51,11 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 
 
 ## 6、精度计算
-运行.py 将推理生成的*_output.txt文件生成为detections.txt文件
+运行createdetections.py 将推理生成的*_output_0.txt文件生成为detections.txt文件
 
-精度计算使用[FDDB数据库的精度计算工具evaluation](http://vis-www.cs.umass.edu/fddb/results.html)，其中要求opencv版本为3.2，在使用make生成evaluation运行文件时，需要手动修改一些evaluation文件的参数，详见[连接](http://vis-www.cs.umass.edu/fddb/faq.html)中的QA最后两项
+使用[FDDB数据库的精度计算工具evaluation](http://vis-www.cs.umass.edu/fddb/results.html)进行精度计算，其中要求opencv版本为3.2，在使用make生成evaluation运行文件时，需要手动修改一些evaluation文件的参数，详见[连接](http://vis-www.cs.umass.edu/fddb/faq.html)中的QA最后两项
 
-执行如下命令进行精度计算，其中result/images/为数据集图片所在文件夹,命令会生成DiscROC.txt,运行plot_roc.py可以绘制roc图,roc如图所示，roc=0.96与论文中相同
+执行如下命令进行精度计算，其中result/images/为原始图片数据集所在文件夹,命令会生成DiscROC.txt,运行plot_roc.py可以绘制roc图,roc如图所示，roc=0.96与论文中相同
 ```sh
 ./evaluate -a result/ellipseList.txt -d result/detections.txt -i result/images/ -l result/faceList.txt -z .jpg -f 0
 ```
