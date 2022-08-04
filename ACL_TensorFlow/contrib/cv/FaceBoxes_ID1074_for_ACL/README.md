@@ -52,4 +52,4 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 ./evaluate -a result/ellipseList.txt -d result/detections.txt -i result/images/ -l result/faceList.txt -z .jpg -f 0
 ```
 
-![输入图片说明](roc.png)
+![输入图片说明](myplot.png)
