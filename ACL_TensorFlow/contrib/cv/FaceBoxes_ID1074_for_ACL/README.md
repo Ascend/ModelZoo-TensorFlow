@@ -1,6 +1,14 @@
 
 ## 1、原始模型
 运行ck2pb.py将训练好的ckpt模型转换为pb模型，其中modelfile用于指定ckpt模型的位置
+这里提供ckpt模型、pb模型、om模型、以及使用msame工具运行模型的输出供参考
+
+```
+链接：https://pan.baidu.com/s/1oF9sgxrHou7HRXcaYPESnQ 
+提取码：kxu4
+```
+
+
 
 ## 2、转om模型
 
