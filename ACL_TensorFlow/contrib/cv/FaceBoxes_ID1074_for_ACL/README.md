@@ -1,6 +1,6 @@
 
 ## 1、原始模型
-运行ck2pb.py将训练好的ckpt模型转换为pb模型，这里提供已经转化好的pb模型
+运行ck2pb.py将训练好的ckpt模型转换为pb模型，其中modelfile用于指定ckpt模型的位置
 
 ## 2、转om模型
 
@@ -21,7 +21,7 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 运行img2bin.py将FDDB数据库中的图片转换为bin文件
 
 
-## 5 执行推理与精度计算
+## 5、执行推理
 
   
 执行命令 
@@ -29,13 +29,11 @@ atc --model=./faceboxes.pb --framework=3 --output=./faceboxes_base310 --soc_vers
 ./msame --model "/home/test_user04/model_base310.om" --input "/home/test_user04/inference_data" --output "/home/test_user04/" --outfmt TXT  --outputSize "10000,10000,10000"
 ```
 
-最后执行python3  inference.py 
-得到最后推理精度\
 
 ## 5、性能
 
 ![输入图片说明](time.png)
 
 
-## 6、精度
+## 6、精度计算
 ![输入图片说明](roc.png)
