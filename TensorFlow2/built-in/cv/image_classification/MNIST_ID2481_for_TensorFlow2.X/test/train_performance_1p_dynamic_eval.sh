@@ -115,7 +115,8 @@ echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
 TrainingTime=`grep ,time: $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $4}' | awk -F ':' '{print $2}' | tail -n 1`
 wait
-FPS=`grep imgs/s $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $2}'`
+#FPS=`grep imgs/s $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $2}'`
+FPS=`awk 'BEGIN{printf "%.4f\n",'${batch_size}'/'${TrainingTime}'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
