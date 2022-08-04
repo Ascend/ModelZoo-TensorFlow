@@ -11,7 +11,7 @@ batch_size=1024
 #网络名称，同目录名称
 Network="MNIST_ID2481_for_TensorFlow2.X"
 #训练epoch，可选
-train_epochs=10
+train_epochs=5
 #参数配置
 data_path=""
 
