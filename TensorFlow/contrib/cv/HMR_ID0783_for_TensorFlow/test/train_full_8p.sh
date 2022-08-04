@@ -113,7 +113,7 @@ do
 
 #--d_lr 0.0008 1e-4
 #--e_lr 0.00008 1e-5
-    nohup python3.7.5 main.py \
+    nohup python3 main.py \
         --d_lr 0.0008 \
         --e_lr 0.00008 \
         --log_img_step 100 \
