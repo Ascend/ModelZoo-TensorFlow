@@ -228,7 +228,21 @@ class Net(object):
 
     def _conv_reflect(self, x, filter_size, out_channel, stride, name='conv', activation_fn=tf.nn.elu):
         pad_size = np.int(filter_size // 2)
-        pad_x = tf.pad(x,[[0,0], [pad_size, pad_size], [pad_size, pad_size], [0,0]], mode='REFLECT')
+        # pad_x = tf.pad(x,[[0,0], [pad_size, pad_size], [pad_size, pad_size], [0,0]], mode='REFLECT')
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            x = tf.concat([x[:, j:j+1, :, :], x], axis=1)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            x = tf.concat([x, x[:, j-1:j, :, :]], axis=1)
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            x = tf.concat([x[:, :, j:j+1, :], x], axis=2)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            x = tf.concat([x, x[:, :, j-1:j, :]], axis=2)
+        pad_x = x
+
         x = slim.conv2d(pad_x, out_channel, [filter_size, filter_size], stride, padding='VALID', scope=name, activation_fn=activation_fn)
         return x
 

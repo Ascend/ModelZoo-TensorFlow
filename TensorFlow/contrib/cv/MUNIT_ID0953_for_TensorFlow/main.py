@@ -139,6 +139,7 @@ def main():
     custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
+    custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("./switch_config.txt")
     # # 混合精度
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_fp32_to_fp16")
     #custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("force_fp32")

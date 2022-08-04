@@ -139,11 +139,9 @@ def main():
     custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
-    custom_op.parameter_map["profiling_mode"].b = True  # 打开profiling
-    custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes(
-        '{"output":"/cache/profiling","training_trace":"on","task_trace":"on","aicpu":"on"}')
-    custom_op.parameter_map["variable_memory_max_size"].s = tf.compat.as_bytes(str(21 * 1024 * 1024 * 1024))
-    custom_op.parameter_map["graph_memory_max_size"].s = tf.compat.as_bytes(str(10 * 1024 * 1024 * 1024))
+    custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("./switch_config.txt")
+    custom_op.parameter_map["variable_memory_max_size"].s = tf.compat.as_bytes(str(16 * 1024 * 1024 * 1024))
+    custom_op.parameter_map["graph_memory_max_size"].s = tf.compat.as_bytes(str(15 * 1024 * 1024 * 1024))
     config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
     config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
     with tf.Session(config=config) as sess:

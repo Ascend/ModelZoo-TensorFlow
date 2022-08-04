@@ -75,9 +75,36 @@ class MonoDepth2Learner(object):
         C1 = 0.01 ** 2
         C2 = 0.03 ** 2
 
-        x = tf.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]], mode='REFLECT')
-        y = tf.pad(y, [[0, 0], [1, 1], [1, 1], [0, 0]], mode='REFLECT')
+        # x = tf.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]], mode='REFLECT')
+        # y = tf.pad(y, [[0, 0], [1, 1], [1, 1], [0, 0]], mode='REFLECT')
 
+        pad_size = 1
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            x = tf.concat([x[:, j:j+1, :, :], x], axis=1)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            x = tf.concat([x, x[:, j-1:j, :, :]], axis=1)
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            x = tf.concat([x[:, :, j:j+1, :], x], axis=2)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            x = tf.concat([x, x[:, :, j-1:j, :]], axis=2)
+        
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            y = tf.concat([y[:, j:j+1, :, :], y], axis=1)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            y = tf.concat([y, y[:, j-1:j, :, :]], axis=1)
+        for i in range(pad_size):
+            j = (i << 1) + 1
+            y = tf.concat([y[:, :, j:j+1, :], y], axis=2)
+        for i in range(pad_size):
+            j = -((i << 1) + 1)
+            y = tf.concat([y, y[:, :, j-1:j, :]], axis=2)
+    
         mu_x = slim.avg_pool2d(x, 3, 1, 'VALID')
         mu_y = slim.avg_pool2d(y, 3, 1, 'VALID')
 
@@ -368,9 +395,14 @@ class MonoDepth2Learner(object):
         var_list += tf.trainable_variables()
         self.saver = tf.train.Saver(var_list + [self.global_step],max_to_keep=10)
         sv = tf.train.Supervisor(logdir=ckpt_dir,save_summaries_secs=0,saver=None)
-        config = tf.ConfigProto()
-        config.gpu_options.allow_growth = True
-        with sv.managed_session(config=npu_config_proto(config_proto=config)) as sess:
+        
+        npu_config = tf.ConfigProto(log_device_placement=False, allow_soft_placement=True)
+        custom_op = npu_config.graph_options.rewrite_options.custom_optimizers.add()
+        custom_op.name = "NpuOptimizer"
+        custom_op.parameter_map["use_off_line"].b = True
+        custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("./switch_config.txt")
+
+        with sv.managed_session(config=npu_config) as sess:
             sess.run(ds_image_iterator.initializer)
             sess.run(ds_cam_iterator.initializer)
 
