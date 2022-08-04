@@ -51,4 +51,4 @@ def dropout_call(self, inputs, training=None):
 
     return output
 
-# Dropout.call = dropout_call
+Dropout.call = dropout_call
