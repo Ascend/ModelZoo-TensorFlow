@@ -1,0 +1,1 @@
+atc --model=/home/HwHiAiUser/Ascend_Project/pyramidbox.pb --output=/home/HwHiAiUser/Ascend_Project/out_290000 --input_shape="input:640,640,3" --framework=3 --soc_version=Ascend310
