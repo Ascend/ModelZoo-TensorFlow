@@ -137,7 +137,7 @@ class Decoder(object):
 def conv2d(x, kernel, bias, dense=False, use_relu=True, Scope=None, BN=True):
 	# padding image with reflection mode
 	# x_padded = tf.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]], mode = 'REFLECT')
-    pad_size = 1
+	pad_size = 1
 	x_padded = x
 	for i in range(pad_size):
 		j = (i << 1) + 1
