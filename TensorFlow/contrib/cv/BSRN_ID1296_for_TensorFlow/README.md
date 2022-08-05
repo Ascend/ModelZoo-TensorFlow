@@ -58,18 +58,18 @@ BSRN模型的全称是：Block State-based Recursive Network。BSRN模型基于T
 ## 默认配置<a name="section91661242121611"></a>
 
 -   网络结构
-    - 24-layer, 1024-hidden, 16-heads, 340M parameters
+    Super-resolution of the training dataset image、Verifying the Super Resolution of Dataset Images
 -   训练超参（单卡）：
-    - data_input_path=${data_path}${relative_path_LR}
-    - data_truth_path=${data_path}${relative_path_HR} 
-    - train_path=./checkpoints 
-    - chip='npu' 
-    - model='bsrn' 
-    - dataloader='div2k_loader' 
-    - batch_size=8 
-    - max_steps=300000
-    - save_freq=50000 
-    - scales='4' 
+    - data_input_path：DIV2K/DIV2K_train_LR_bicubic
+    - data_truth_path：DIV2K/DIV2K_train_HR
+    - train_path：./checkpoints 
+    - chip:'npu' 
+    - model:'bsrn' 
+    - dataloader:'div2k_loader' 
+    - batch_size:8 
+    - max_steps:300000
+    - save_freq:50000 
+    - scales:'4' 
 
 
 ## 支持特性<a name="section1899153513554"></a>
