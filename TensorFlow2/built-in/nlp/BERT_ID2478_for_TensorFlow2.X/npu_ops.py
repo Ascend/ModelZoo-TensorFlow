@@ -149,6 +149,10 @@ def dropout(x, keep_prob, noise_shape=None, seed=None, name=None):
 def _DropOutDoMaskGrad(op, grad):
     result = gen_npu_ops.drop_out_do_mask(grad, op.inputs[1],  op.inputs[2])
     return [result, None, None]
+
+grad_registry_list = ops.gradient_registry.list()
+if "DropOutDoMask" not in grad_registry_list:
+    ops.RegisterGradient("DropOutDoMask")(_DropOutDoMaskGrad)
     
 grad_registry_list = ops.gradient_registry.list()
 if "DropOutDoMask" not in grad_registry_list:
