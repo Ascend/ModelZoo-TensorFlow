@@ -8,7 +8,7 @@
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：Lightweight and Efficient Image Super-Resolution **
+**应用领域（Application Domain）：Block State-based Recursive Network**
 
 **版本（Version）：1.1**
 
