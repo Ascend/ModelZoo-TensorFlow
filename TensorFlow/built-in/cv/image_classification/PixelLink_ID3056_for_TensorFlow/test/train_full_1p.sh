@@ -111,6 +111,7 @@ do
             --batch_size=${batch_size}\
             --dataset_dir=${data_path} \
             --dataset_name=icdar2015 \
+            --dynamic_loss_scale=True \
             --dataset_split_name=train \
             --max_number_of_steps=${train_steps} \
             --checkpoint_path=${CKPT_PATH} \

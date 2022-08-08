@@ -68,6 +68,7 @@ tf.app.flags.DEFINE_integer('max_number_of_steps', 60000, 'The maximum number of
 tf.app.flags.DEFINE_integer('log_every_n_steps', 1, 'log frequency')
 tf.app.flags.DEFINE_integer('log_interval_steps', 10000, 'ckpt save frequency')
 tf.app.flags.DEFINE_bool("ignore_missing_vars", False, '')
+tf.app.flags.DEFINE_bool("dynamic_loss_scale", False, '')
 tf.app.flags.DEFINE_string('checkpoint_exclude_scopes', None, 'checkpoint_exclude_scopes')
 
 # =========================================================================== #
@@ -213,7 +214,10 @@ def sum_gradients(clone_grads, scaled_loss):
         try:
             for g, v in grad_and_vars:
                 assert v == var
-                grads.append(g/scaled_loss)
+                if FLAGS.dynamic_loss_scale:
+                    grads.append(g/scaled_loss)
+                else:
+                    grads.append(g)
             grad = tf.add_n(grads, name=v.op.name + '_summed_gradients')
         except:
             import pdb
@@ -243,11 +247,15 @@ def create_clones(batch_queue):
 
         optimizer = tf.train.MomentumOptimizer(learning_rate,
                                                momentum=FLAGS.momentum, name='Momentum')
-        loss_scale_manager = lsm_lib.ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=1, decr_ratio=0.5)
-        optimizer = NPUOptimizer(optimizer, loss_scale_manager, is_distributed=False,
-                             is_loss_scale=True, is_tailing_optimization=False)
+
+        if FLAGS.dynamic_loss_scale:
+            loss_scale_manager = lsm_lib.ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=1, decr_ratio=0.5)
+            optimizer = NPUOptimizer(optimizer, loss_scale_manager, is_distributed=False,
+                                 is_loss_scale=True, is_tailing_optimization=False)
+            scaled_loss = loss_scale_manager.get_loss_scale()
+        else:
+            scaled_loss = None
         tf.summary.scalar('learning_rate', learning_rate)
-        scaled_loss = loss_scale_manager.get_loss_scale()
     # place clones
     pixel_link_loss = 0;  # for summary only
     gradients = []
@@ -284,7 +292,10 @@ def create_clones(batch_queue):
                         total_clone_loss = total_clone_loss + regularization_loss
 
                     # compute clone gradients
-                    clone_gradients = optimizer.compute_gradients(total_clone_loss * scaled_loss)
+                    if FLAGS.dynamic_loss_scale:
+                        clone_gradients = optimizer.compute_gradients(total_clone_loss * scaled_loss)
+                    else:
+                        clone_gradients = optimizer.compute_gradients(total_clone_loss)
                     gradients.append(clone_gradients)
 
     tf.summary.scalar('pixel_link_loss', pixel_link_loss)
