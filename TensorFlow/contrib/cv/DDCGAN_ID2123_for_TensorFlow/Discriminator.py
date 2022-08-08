@@ -84,7 +84,21 @@ class Discriminator1(object):
 """ conv2d_1 """ 
 def conv2d_1(x, kernel, bias, strides, use_relu=True, use_BN=True, Scope=None, Reuse=None):
 	# padding image with reflection mode
-	x_padded = tf.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]], mode = 'REFLECT')
+	# x_padded = tf.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]], mode = 'REFLECT')
+	pad_size = 1
+	x_padded = x
+	for i in range(pad_size):
+		j = (i << 1) + 1
+		x_padded = tf.concat([x_padded[:, j:j+1, :, :], x_padded], axis=1)
+	for i in range(pad_size):
+		j = -((i << 1) + 1)
+		x_padded = tf.concat([x_padded, x_padded[:, j-1:j, :, :]], axis=1)
+	for i in range(pad_size):
+		j = (i << 1) + 1
+		x_padded = tf.concat([x_padded[:, :, j:j+1, :], x_padded], axis=2)
+	for i in range(pad_size):
+		j = -((i << 1) + 1)
+		x_padded = tf.concat([x_padded, x_padded[:, :, j-1:j, :]], axis=2)
 	# conv and add bias
 	out = tf.nn.conv2d(x_padded, kernel, strides, padding = 'VALID')
 	out = tf.nn.bias_add(out, bias)
@@ -139,7 +153,21 @@ class Discriminator2(object):
 """ conv2d_2 """ 
 def conv2d_2(x, kernel, bias, strides, use_relu=True, use_BN=True, Scope=None, Reuse=None):
 	# padding image with reflection mode
-	x_padded = tf.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]], mode = 'REFLECT')
+	# x_padded = tf.pad(x, [[0, 0], [1, 1], [1, 1], [0, 0]], mode = 'REFLECT')
+	pad_size = 1
+	x_padded = x
+	for i in range(pad_size):
+		j = (i << 1) + 1
+		x_padded = tf.concat([x_padded[:, j:j+1, :, :], x_padded], axis=1)
+	for i in range(pad_size):
+		j = -((i << 1) + 1)
+		x_padded = tf.concat([x_padded, x_padded[:, j-1:j, :, :]], axis=1)
+	for i in range(pad_size):
+		j = (i << 1) + 1
+		x_padded = tf.concat([x_padded[:, :, j:j+1, :], x_padded], axis=2)
+	for i in range(pad_size):
+		j = -((i << 1) + 1)
+		x_padded = tf.concat([x_padded, x_padded[:, :, j-1:j, :]], axis=2)
 	# conv and add bias
 	out = tf.nn.conv2d(x_padded, kernel, strides, padding = 'VALID')
 	out = tf.nn.bias_add(out, bias)
@@ -149,4 +177,3 @@ def conv2d_2(x, kernel, bias, strides, use_relu=True, use_BN=True, Scope=None, R
 	if use_relu:
 		out = tf.nn.relu(out)
 	return out
-
