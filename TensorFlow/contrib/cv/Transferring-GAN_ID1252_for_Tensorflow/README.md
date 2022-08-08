@@ -124,7 +124,7 @@ pip3 install requirements.txt
 
 1、用户自行准备好数据集lsun-bedroom( http://lsun.cs.princeton.edu/2017/ )
 
-2、Bert训练的模型及数据集可以参考"简述 -> 参考实现"
+2、Transferring-GAN训练的模型及数据集可以参考"简述 -> 参考实现"
 
 
 ## 模型训练<a name="section715881518135"></a>
