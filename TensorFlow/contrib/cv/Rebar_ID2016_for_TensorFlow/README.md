@@ -1,132 +1,200 @@
-![TensorFlow Requirement: 1.x](https://img.shields.io/badge/TensorFlow%20Requirement-1.x-brightgreen)
-![TensorFlow 2 Not Supported](https://img.shields.io/badge/TensorFlow%202%20Not%20Supported-%E2%9C%95-red.svg)
+-   [基本信息](#基本信息.md)
+-   [概述](#概述.md)
+-   [训练环境准备](#训练环境准备.md)
+-   [快速上手](#快速上手.md)
+-   [迁移学习指导](#迁移学习指导.md)
+-   [高级参考](#高级参考.md)
 
-# REINFORCing Concrete with REBAR
-*Implemention of REBAR (and other closely related methods) as described
-in "REBAR: Low-variance, unbiased gradient estimates for discrete latent variable models" by
-George Tucker, Andriy Mnih, Chris J. Maddison, Dieterich Lawson, Jascha Sohl-Dickstein [(https://arxiv.org/abs/1703.07370)](https://arxiv.org/abs/1703.07370).*
+<h2 id="基本信息.md">基本信息</h2>
 
-Learning in models with discrete latent variables is challenging due to high variance gradient estimators. Generally, approaches have relied on control variates to reduce the variance of the REINFORCE estimator. Recent work ([Jang et al. 2016](https://arxiv.org/abs/1611.01144); [Maddison et al. 2016](https://arxiv.org/abs/1611.00712)) has taken a different approach, introducing a continuous relaxation of discrete variables to produce low-variance, but biased, gradient estimates. In this work, we combine the two approaches through a novel control variate that produces low-variance, unbiased gradient estimates. Then, we introduce a novel continuous relaxation and show that the tightness of the relaxation can be adapted online, removing it as a hyperparameter. We show state-of-the-art variance reduction on several benchmark generative modeling tasks, generally leading to faster convergence to a better final log likelihood.
+**发布者（Publisher）：Huawei**
 
-REBAR applied to multilayer sigmoid belief networks is implemented in rebar.py and rebar_train.py provides a training/evaluation setup. As a comparison, we also implemented the following methods:
-* [NVIL](https://arxiv.org/abs/1402.0030)
-* [MuProp](https://arxiv.org/abs/1511.05176)
-* [Gumbel-Softmax](https://arxiv.org/abs/1611.01144)
+**应用领域（Application Domain）：** 3D point cloud segmentation 
 
-The code is not optimized and some computation is repeated for ease of
-implementation. We hope that this code will be a useful starting point for future research in this area.
+**版本（Version）：1.2**
 
-## Errata
-11/27/2019
+**修改时间（Modified） ：2021.11.3**
 
-The _generator_network function has separate paths for the unconditional and conditional generative models. In the conditional generative models code path, the generative model does not have multiple stochastic layers even when n_layers is > 1. My intention was to have multiple stochastic layers in the conditional generative model, however, due to a bug this is not how it was implemented. As the code is currently, with the conditional generative model and n_layers > 1, the recognition network has multiple stochastic layers, but the generative model has a single stochastic layer. 
+**大小（Size）：6.91MB**
 
-Hai-Tao Yu (yuhaitao@slis.tsukuba.ac.jp) discovered this issue.
+**框架（Framework）：TensorFlow 1.15.0**
 
-## Quick Start:
+**模型格式（Model Format）：ckpt**
 
-Requirements:
-* TensorFlow (see tensorflow.org for how to install)
-* MNIST dataset
-* Omniglot dataset
+**精度（Precision）：**
 
-First download datasets by selecting URLs to download the data from. Then
-fill in the download_data.py script like so:
+**处理器（Processor）：昇腾910**
 
-```
-MNIST_URL = 'http://yann.lecun.com/exdb/mnist'
-MNIST_BINARIZED_URL = 'http://www.cs.toronto.edu/~larocheh/public/datasets/binarized_mnist'
-OMNIGLOT_URL = 'https://github.com/yburda/iwae/raw/master/datasets/OMNIGLOT/chardata.mat'
-```
+**应用级别（Categories）：Official**
 
-Then run the script to download the data:
+**描述（Description）：基于TensorFlow框架的squeezeseg三维点云实例和语义分割网络训练代码** 
 
-```
-python download_data.py
-```
+<h2 id="概述.md">概述</h2>
 
-Then run the training script:
+提出了一个相对简单且通用的3d点云实例分割网路3D-Bonet，此网络是一个单阶段、无锚的端到端网络，不需要做后处理步骤，运行效率大大提高。
 
-```
-python rebar_train.py --hparams="model=SBNDynamicRebar,learning_rate=0.0003,n_layer=2,task=sbn"
-```
+- 参考论文：
+    [https://arxiv.org/abs/1906.01140)
 
-and you should see something like:
+- 参考实现：
 
-```
-Step 2084: [-231.026474      0.3711713     1.            1.06934261    1.07023323
-    1.02173257    1.02171052    1.            1.            1.            1.        ]
--3.6465678215
-Step 4168: [-156.86795044    0.3097114     1.            1.03964758    1.03936625
-    1.02627242    1.02629256    1.            1.            1.            1.        ]
--4.42727231979
-Step 6252: [-143.4650116     0.26153237    1.            1.03633797    1.03600132
-    1.02639604    1.02639794    1.            1.            1.            1.        ]
--4.85577583313
-Step 8336: [-137.65275574    0.22313026    1.            1.03467286    1.03428006
-    1.02336085    1.02335203    0.99999988    1.            0.99999988
-    1.        ]
--4.95563364029
-```
+    [[Yang7879/3D-BoNet: 🔥3D-BoNet in Tensorflow (NeurIPS 2019, Spotlight) (github.com)](https://github.com/Yang7879/3D-BoNet))
 
-The first number in the list is the log likelihood lower bound and the number
-after the list is the log of the variance of the gradient estimator. The rest of
-the numbers are for debugging.
+- 适配昇腾 AI 处理器的实现：
 
-We can also compare the variance between methods:
+  
 
-```
-python rebar_train.py \
-  --hparams="model=SBNTrackGradVariances,learning_rate=0.0003,n_layer=2,task=omni"
-```
+  ​    
 
-and you should see something like:
 
-```
-Step 959: [ -2.60478699e+02   3.84281784e-01   6.31126612e-02   3.27319391e-02
-   6.13379292e-03   1.98278503e-04   1.96425783e-04   8.83973844e-04
-   8.70995224e-04             -inf]
-('DynamicREBAR', -3.725339889526367)
-('MuProp', -0.033569782972335815)
-('NVIL', 2.7640280723571777)
-('REBAR', -3.539274215698242)
-('SimpleMuProp', -0.040744658559560776)
-Step 1918: [ -2.06948471e+02   3.35904926e-01   5.20901568e-03   7.81541676e-05
-   2.06885766e-03   1.08521657e-04   1.07351625e-04   2.30646547e-04
-   2.26554010e-04  -8.22885323e+00]
-('DynamicREBAR', -3.864381790161133)
-('MuProp', -0.7183765172958374)
-('NVIL', 2.266523599624634)
-('REBAR', -3.662022113800049)
-('SimpleMuProp', -0.7071359157562256)
-```
-where the tuples show the log of the variance of the gradient estimators.
+- 通过Git获取对应commit\_id的代码方法如下：
 
-The training script has a number of hyperparameter configuration flags:
-* task (sbn): one of {sbn, sp, omni} which correspond to MNIST generative
-  modeling, structured prediction on MNIST, and Omniglot generative modeling,
-  respectively
-* model (SBNGumbel) : one of {SBN, SBNNVIL, SBNMuProp, SBNSimpleMuProp,
-  SBNRebar, SBNDynamicRebar, SBNGumbel SBNTrackGradVariances}. DynamicRebar automatically
-  adjusts the temperature, whereas Rebar and Gumbel-Softmax require tuning the
-  temperature. The ones named after
-  methods uses that method to estimate the gradients (SBN refers to
-  REINFORCE). SBNTrackGradVariances runs multiple methods and follows a single
-  optimization trajectory
-* n_hidden (200): number of hidden nodes per layer
-* n_layer (1): number of layers in the model
-* nonlinear (false): if true use 2 x tanh layers between each stochastic layer,
-  otherwise use a linear layer
-* learning_rate (0.001): learning rate
-* temperature (0.5): temperature hyperparameter (for DynamicRebar, this is the initial
-  value of the temperature)
-* n_samples (1): number of samples used to compute the gradient estimator (for the
-  experiments in the paper, set to 1)
-* batch_size (24): batch size
-* muprop_relaxation (true): if true use the new relaxation described in the paper,
-  otherwise use the Concrete/Gumbel softmax relaxation
-* dynamic_b (false): if true dynamically binarize the training set. This
-  increases the effective training dataset size and reduces overfitting, though
-  it is not a standard dataset
+  ```
+  git clone {repository_url}    # 克隆仓库的代码
+  cd {repository_name}    # 切换到模型的代码仓目录
+  git checkout  {branch}    # 切换到对应分支
+  git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
+  cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+  ```
 
-Maintained by George Tucker (gjt@google.com, github user: gjtucker).
+## 默认配置<a name="section91661242121611"></a>
+
+- 训练超参
+
+  - Batch size: 4
+  - Train epoches: 50
+
+
+## 支持特性<a name="section1899153513554"></a>
+
+| 特性列表   | 是否支持 |
+| ---------- | -------- |
+| 分布式训练 | 否     |
+| 混合精度   | 是       |
+| 并行数据   | 是       |
+
+## 混合精度训练<a name="section168064817164"></a>
+
+昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
+
+## 开启混合精度<a name="section20779114113713"></a>
+
+脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
+
+  ```
+在train.py中添加改行代码：
+custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+  ```
+
+
+<h2 id="训练环境准备.md">训练环境准备</h2>
+
+1. 硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
+
+2. 宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
+
+   当前模型支持的镜像列表如[表1](#zh-cn_topic_0000001074498056_table1519011227314)所示。
+
+   **表 1** 镜像列表
+
+   <a name="zh-cn_topic_0000001074498056_table1519011227314"></a>
+
+   <table><thead align="left"><tr id="zh-cn_topic_0000001074498056_row0190152218319"><th class="cellrowborder" valign="top" width="47.32%" id="mcps1.2.4.1.1"><p id="zh-cn_topic_0000001074498056_p1419132211315"><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><em id="i1522884921219"><a name="i1522884921219"></a><a name="i1522884921219"></a>镜像名称</em></p>
+   </th>
+   <th class="cellrowborder" valign="top" width="25.52%" id="mcps1.2.4.1.2"><p id="zh-cn_topic_0000001074498056_p75071327115313"><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><em id="i1522994919122"><a name="i1522994919122"></a><a name="i1522994919122"></a>镜像版本</em></p>
+   </th>
+   <th class="cellrowborder" valign="top" width="27.16%" id="mcps1.2.4.1.3"><p id="zh-cn_topic_0000001074498056_p1024411406234"><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><em id="i723012493123"><a name="i723012493123"></a><a name="i723012493123"></a>配套CANN版本</em></p>
+   </th>
+   </tr>
+   </thead>
+   <tbody><tr id="zh-cn_topic_0000001074498056_row71915221134"><td class="cellrowborder" valign="top" width="47.32%" headers="mcps1.2.4.1.1 "><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><ul id="zh-cn_topic_0000001074498056_ul81691515131910"><li><em id="i82326495129"><a name="i82326495129"></a><a name="i82326495129"></a>ARM架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-arm" target="_blank" rel="noopener noreferrer">ascend-tensorflow-arm</a></em></li><li><em id="i18233184918125"><a name="i18233184918125"></a><a name="i18233184918125"></a>x86架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-x86" target="_blank" rel="noopener noreferrer">ascend-tensorflow-x86</a></em></li></ul>
+   </td>
+   <td class="cellrowborder" valign="top" width="25.52%" headers="mcps1.2.4.1.2 "><p id="zh-cn_topic_0000001074498056_p1450714271532"><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><em id="i72359495125"><a name="i72359495125"></a><a name="i72359495125"></a>20.2.0</em></p>
+   </td>
+   <td class="cellrowborder" valign="top" width="27.16%" headers="mcps1.2.4.1.3 "><p id="zh-cn_topic_0000001074498056_p18244640152312"><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><em id="i162363492129"><a name="i162363492129"></a><a name="i162363492129"></a><a href="https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373/software" target="_blank" rel="noopener noreferrer">20.2</a></em></p>
+   </td>
+   </tr>
+   </tbody>
+   </table>
+
+
+<h2 id="快速上手.md">快速上手</h2>
+
+- 数据集准备
+
+
+
+1. 百度盘: https://pan.baidu.com/s/1ww_Fs2D9h7_bA2HfNIa2ig 密码:qpt7
+
+
+## 模型训练<a name="section715881518135"></a>
+
+- 单击“立即下载”，并选择合适的下载方式下载源码包。
+
+- 启动训练之前，首先要配置程序运行相关环境变量。
+
+  环境变量配置信息参见：
+
+     [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
+
+- 单卡训练 
+
+  1. 配置训练参数。
+
+     首先在脚本train.py中，配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
+
+     ```
+     #在train.py中修改FLAGS中的信息：
+     
+     #将data_path改成对应的数据集存放位置（若在modelarts上运行则无需修改此路径）
+     tf.app.flags.DEFINE_string('data_path', '/home/ma-user/modelarts/inputs/data_url_0/', """Root directory of data""")
+     
+     #将output_path改成对应的模型存放位置（若在modelarts上运行则无需修改此路径）
+     tf.app.flags.DEFINE_string('output_path', '/home/ma-user/modelarts/outputs/train_url_0/',
+                                """Directory where to write event logs and checkpoint. """)
+     #需要训练的最大epoch数：
+     tf.app.flags.DEFINE_integer("epochs",50,""" epochs of training""")
+     ```
+  
+  2.启动训练，运行run_train_sh.py
+  
+- 验证。
+
+  1.测试的时候，运行run_eval_sh.py。
+
+<h2 id="迁移学习指导.md">迁移学习指导</h2>
+
+- 数据集准备。
+
+  数据集要求如下：
+
+  1. 获取数据。
+
+     如果要使用自己的数据集，需要将数据集放到data_url对应目录下。参考代码中的数据集存放路径如下：
+
+     - 训练集：'/3d-bonet-training/3d-bonet/data_s3dis/'
+     - 测试集：'/3d-bonet-training/3d-bonet/data_s3dis/'
+     
+  2. 准确标注类别标签的数据集。
+  
+  3. 数据集每个类别所占比例大致相同。
+
+- 模型训练。
+
+  参考“模型训练”中训练步骤。
+
+- 模型评估。
+
+  参考“模型训练”中验证步骤。
+
+<h2 id="高级参考.md">高级参考</h2>
+
+## 训练过程<a name="section1589455252218"></a>
+
+1. 通过“模型训练”中的训练指令启动网络训练。
+
+2. 参考脚本的模型存储路径为
+
+3. NPU训练过程打屏信息如下，性能与GPU训练性能持平
+
+4. 
