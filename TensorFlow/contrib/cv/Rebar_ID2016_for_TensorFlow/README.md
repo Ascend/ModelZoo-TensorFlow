@@ -2,46 +2,45 @@
 -   [概述](#概述.md)
 -   [训练环境准备](#训练环境准备.md)
 -   [快速上手](#快速上手.md)
--   [迁移学习指导](#迁移学习指导.md)
 -   [高级参考](#高级参考.md)
 
 <h2 id="基本信息.md">基本信息</h2>
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：** 3D point cloud segmentation 
+**应用领域（Application Domain）：** 深度学习 
 
-**版本（Version）：1.2**
+**版本（Version）：1.0**
 
-**修改时间（Modified） ：2021.11.3**
+**修改时间（Modified） ：2022.08.08**
 
-**大小（Size）：6.91MB**
+**大小（Size）：4.58MB**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
-**模型格式（Model Format）：ckpt**
+**模型格式（Model Format）：ckpt、pbtxt、meta**
 
 **精度（Precision）：**
 
 **处理器（Processor）：昇腾910**
 
-**应用级别（Categories）：Official**
+**应用级别（Categories）：Research**
 
-**描述（Description）：基于TensorFlow框架的squeezeseg三维点云实例和语义分割网络训练代码** 
+**描述（Description）：基于TensorFlow框架验证提出的concrete random variables – continuous relaxations of discrete random
+variables** 
 
 <h2 id="概述.md">概述</h2>
 
-提出了一个相对简单且通用的3d点云实例分割网路3D-Bonet，此网络是一个单阶段、无锚的端到端网络，不需要做后处理步骤，运行效率大大提高。
-
+引入了具体的随机变量——离散随机变量的连续松弛。具体分布是一个新的分布族，具有闭合形式密度和简单的重新参数化。
 - 参考论文：
-    [https://arxiv.org/abs/1906.01140)
+    [https://arxiv.org/abs/1611.00712
 
 - 参考实现：
 
-    [[Yang7879/3D-BoNet: 🔥3D-BoNet in Tensorflow (NeurIPS 2019, Spotlight) (github.com)](https://github.com/Yang7879/3D-BoNet))
+    [Rebar-Tensorflow](https://github.com/clvrai/SSGAN-Tensorflow) 
 
 - 适配昇腾 AI 处理器的实现：
-
+    [https://gitee.com/yuanshuo111/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/Rebar_ID2016_for_TensorFlow]
   
 
   ​    
@@ -61,8 +60,11 @@
 
 - 训练超参
 
-  - Batch size: 4
-  - Train epoches: 50
+  - Batch size: 24
+  - Learning rate:0.0003
+  - model: SBNDynamicRebar
+  - n_layer:2
+  - task: sbn
 
 
 ## 支持特性<a name="section1899153513554"></a>
@@ -70,62 +72,27 @@
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
 | 分布式训练 | 否     |
-| 混合精度   | 是       |
+| 混合精度   | 否       |
 | 并行数据   | 是       |
 
-## 混合精度训练<a name="section168064817164"></a>
-
-昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
-
-## 开启混合精度<a name="section20779114113713"></a>
-
-脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
-
-  ```
-在train.py中添加改行代码：
-custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
-  ```
 
 
 <h2 id="训练环境准备.md">训练环境准备</h2>
 
 1. 硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 
-2. 宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
-
-   当前模型支持的镜像列表如[表1](#zh-cn_topic_0000001074498056_table1519011227314)所示。
-
-   **表 1** 镜像列表
-
-   <a name="zh-cn_topic_0000001074498056_table1519011227314"></a>
-
-   <table><thead align="left"><tr id="zh-cn_topic_0000001074498056_row0190152218319"><th class="cellrowborder" valign="top" width="47.32%" id="mcps1.2.4.1.1"><p id="zh-cn_topic_0000001074498056_p1419132211315"><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><em id="i1522884921219"><a name="i1522884921219"></a><a name="i1522884921219"></a>镜像名称</em></p>
-   </th>
-   <th class="cellrowborder" valign="top" width="25.52%" id="mcps1.2.4.1.2"><p id="zh-cn_topic_0000001074498056_p75071327115313"><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><em id="i1522994919122"><a name="i1522994919122"></a><a name="i1522994919122"></a>镜像版本</em></p>
-   </th>
-   <th class="cellrowborder" valign="top" width="27.16%" id="mcps1.2.4.1.3"><p id="zh-cn_topic_0000001074498056_p1024411406234"><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><em id="i723012493123"><a name="i723012493123"></a><a name="i723012493123"></a>配套CANN版本</em></p>
-   </th>
-   </tr>
-   </thead>
-   <tbody><tr id="zh-cn_topic_0000001074498056_row71915221134"><td class="cellrowborder" valign="top" width="47.32%" headers="mcps1.2.4.1.1 "><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><ul id="zh-cn_topic_0000001074498056_ul81691515131910"><li><em id="i82326495129"><a name="i82326495129"></a><a name="i82326495129"></a>ARM架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-arm" target="_blank" rel="noopener noreferrer">ascend-tensorflow-arm</a></em></li><li><em id="i18233184918125"><a name="i18233184918125"></a><a name="i18233184918125"></a>x86架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-x86" target="_blank" rel="noopener noreferrer">ascend-tensorflow-x86</a></em></li></ul>
-   </td>
-   <td class="cellrowborder" valign="top" width="25.52%" headers="mcps1.2.4.1.2 "><p id="zh-cn_topic_0000001074498056_p1450714271532"><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><em id="i72359495125"><a name="i72359495125"></a><a name="i72359495125"></a>20.2.0</em></p>
-   </td>
-   <td class="cellrowborder" valign="top" width="27.16%" headers="mcps1.2.4.1.3 "><p id="zh-cn_topic_0000001074498056_p18244640152312"><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><em id="i162363492129"><a name="i162363492129"></a><a name="i162363492129"></a><a href="https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373/software" target="_blank" rel="noopener noreferrer">20.2</a></em></p>
-   </td>
-   </tr>
-   </tbody>
-   </table>
-
-
-<h2 id="快速上手.md">快速上手</h2>
+2. 
 
 - 数据集准备
 
 
 
-1. 百度盘: https://pan.baidu.com/s/1ww_Fs2D9h7_bA2HfNIa2ig 密码:qpt7
+1, 模型训练使用MNIST数据集，数据集请用户自行获取，也可通过如下命令行获取。
 
+```bash
+$ python download.py --dataset MNIST
+
+2, 放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
 ## 模型训练<a name="section715881518135"></a>
 
@@ -139,30 +106,36 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 - 单卡训练 
 
-  1. 配置训练参数。
+  1. 在Pycharm当中使用Modelarts插件进行配置。
 
-     首先在脚本train.py中，配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
-
-     ```
-     #在train.py中修改FLAGS中的信息：
+     在Pycharm当中使用Modelarts插件进行配置，具体配置如下所示:
      
-     #将data_path改成对应的数据集存放位置（若在modelarts上运行则无需修改此路径）
-     tf.app.flags.DEFINE_string('data_path', '/home/ma-user/modelarts/inputs/data_url_0/', """Root directory of data""")
-     
-     #将output_path改成对应的模型存放位置（若在modelarts上运行则无需修改此路径）
-     tf.app.flags.DEFINE_string('output_path', '/home/ma-user/modelarts/outputs/train_url_0/',
-                                """Directory where to write event logs and checkpoint. """)
-     #需要训练的最大epoch数：
-     tf.app.flags.DEFINE_integer("epochs",50,""" epochs of training""")
+     Ai engine: Ascend-Powered-Engine   tensorflow_1.15-cann_5.0.2-py_37-euler_2.8.3-aarch64
+     Boot file path设置为: D:\REBAR\rebarnpu\rebar_npu_20220103120007\acc.py
+     Code Directory设置为: D:\REBAR\rebarnpu\rebar_npu_20220103120007
+     OBS Path设置为对应项目的工作目录，此项目为：/rebar-ysnpu/train_dir/
+     Data Path in OBS设置为OBS当中存放数据的目录,此项目为：/rebar-ysnpu/data/
+     其中.代表当前工作目录。
      ```
   
-  2.启动训练，运行run_train_sh.py
+     启动训练，在Modelarts当中单击Apply and Run即可进行训练。
+ 
+  2. 在TestUser01裸机上进行训练：
+
+    
+    
+    环境准备：export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/acllib/lib64/:$LD_LIBRARY_PATH
+             source /usr/local/Ascend/ascend-toolkit/set_env.sh
+             export LD_LIBRARY_PATH=/usr/local/Ascend/nnae/5.0.4.alpha002/fwkacllib/lib64/:$LD_LIBRARY_PATH
+             source   /usr/local/Ascend/tfplugin/set_env.sh
+             source /usr/local/Ascend/nnae/set_env.sh
+ 
+    训练步骤：cd Pycode/rebar_npu   python3.7 rebar_train.py --hparams="model=SBNDynamicRebar,learning_rate=0.001,n_layer=2,task=sbn"
+
   
 - 验证。
 
-  1.测试的时候，运行run_eval_sh.py。
-
-<h2 id="迁移学习指导.md">迁移学习指导</h2>
+  本代码验证和测试阶段都在训练脚本中。
 
 - 数据集准备。
 
@@ -172,8 +145,8 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
      如果要使用自己的数据集，需要将数据集放到data_url对应目录下。参考代码中的数据集存放路径如下：
 
-     - 训练集：'/3d-bonet-training/3d-bonet/data_s3dis/'
-     - 测试集：'/3d-bonet-training/3d-bonet/data_s3dis/'
+     - 训练集：'/data/MNIST'
+     - 测试集：'/data/MNIST'
      
   2. 准确标注类别标签的数据集。
   
@@ -187,14 +160,15 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
   参考“模型训练”中验证步骤。
 
-<h2 id="高级参考.md">高级参考</h2>
 
 ## 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动网络训练。
 
-2. 参考脚本的模型存储路径为
+2. 参考脚本的模型存储路径为:/home/TestUser01/Pycode/rebar_npu/root/rebar/data/output (裸机TestUser01）
 
-3. NPU训练过程打屏信息如下，性能与GPU训练性能持平
+3. NPU训练过程打屏信息如下，性能与GPU训练性能持平：
+![输入图片说明](../../../../image.png)
 
-4. 
+
+
