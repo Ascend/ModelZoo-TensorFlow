@@ -37,7 +37,7 @@ variables**
 
 - 参考实现：
 
-    [Rebar-Tensorflow](https://github.com/clvrai/SSGAN-Tensorflow) 
+    [Rebar-Tensorflow](https://github.com/tensorflow/models/tree/master/research/rebar) 
 
 - 适配昇腾 AI 处理器的实现：
     [https://gitee.com/yuanshuo111/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/Rebar_ID2016_for_TensorFlow]
