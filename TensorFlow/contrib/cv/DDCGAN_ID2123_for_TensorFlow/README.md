@@ -140,9 +140,8 @@ pip3 install requirements.txt
 
         1.首先修改DDcGAN-master/same-resolution-vis-ir-image-fusion/main.py 中IS_TRAINING参数为True，输入数据为数据集、输出数据为训练模型
 
-        2.首先在脚本test/train_full_1p.sh中，输入数据为训练模型以及红外图形和可见光图像，输出文件为图片文件。 训练需要根据安装教程，配置输入与输出的路径。
 
-          配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
+        2.首先在脚本test/train_full_1p.sh中，输入数据为训练模型以及红外图形和可见光图像，输出文件为图片文件。 训练需要根据安装教程，配置输入与输出的路径。配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
 
              ```
 
