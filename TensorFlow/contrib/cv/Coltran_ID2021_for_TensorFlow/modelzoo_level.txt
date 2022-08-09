@@ -1,0 +1,7 @@
+FuncStatus:OK
+PerfStatus:PERFECT
+PrecisionStatus:OK
+GPUStatus:OK
+NPUMigrationStatus:POK
+AutoTune:OK
+ModelConvert:NOK
