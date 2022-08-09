@@ -20,7 +20,7 @@
 
 **模型格式（Model Format）：ckpt**
 
-**精度（Precision）：Unmixed**
+**精度（Precision）：FP32**
 
 **处理器（Processor）：昇腾910**
 
