@@ -127,7 +127,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`grep TimeHistory  $cur_path/output/${ASCEND_DEVICE_ID}/train.log|awk 'END {print $2}'`
+FPS=`grep TimeHistory  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $2}'`
 #打印，不需要修改
 #echo "Final Performance images/sec : $FPS"
 
@@ -148,10 +148,10 @@ DeviceType=`uname -m`
 ActualFPS=${FPS}
 #单迭代训练时长，不需要修改
 #TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*1000/'${FPS}'}'`
-grep Each $cur_path/output/${ASCEND_DEVICE_ID}/train.log|awk '{print $6}'>>$cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_time.txt
+grep Each $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $6}'>>$cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_time.txt
 TrainingTime=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_time.txt`
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep Epoch $cur_path/output/$ASCEND_DEVICE_ID/train.log|awk '{print $8}'> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep Epoch $cur_path/output/$ASCEND_DEVICE_ID/train_${ASCEND_DEVICE_ID}.log|awk '{print $8}'> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
