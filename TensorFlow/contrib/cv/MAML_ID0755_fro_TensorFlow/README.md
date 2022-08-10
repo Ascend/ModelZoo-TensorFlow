@@ -31,6 +31,10 @@ Iteration 59900: 0.15, 1.0
 执行任务OBS链接：
 
 npu训练在裸机上执行，无obs链接
+裸机日志链接：
+```
+https://gitee.com/lwg0452/ModelZoo-TensorFlow/blob/master/TensorFlow/contrib/cv/MAML_ID0755_fro_TensorFlow/train_log_0804.log
+```
 
 数据集OBS链接：
 
@@ -58,5 +62,6 @@ gpu训练日志文件gpu_log.log，精度为23.7%；npu训练日志文件train_l
 | mini imagenet | 23.7% | 24.0% |
 
 启动命令：
-
+```
 python3 main.py --datasource=miniimagenet --metatrain_iterations=60000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=logs/miniimagenet1shot/ --num_filters=32 --max_pool=True
+```
