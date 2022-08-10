@@ -38,7 +38,7 @@ npu训练在裸机上执行，无obs链接
 obs://mamlnpu/data/
 ```
 
-Ascend NPU INFO NOTICE：
+Ascend NPU INFO NOTICE：INFO, your task have used Ascend NPU, please check your result.
 
 ```
 2022-08-10 16:18:39.920619: I tf_adapter/kernels/geop_npu.cc:805] The model has been compiled on the Ascend AI processor, current graph id is: 1
