@@ -123,14 +123,14 @@ pip3 install requirements.txt
 <h2 id="快速上手.md">快速上手</h2>
 
 ## 数据集准备<a name="section361114841316"></a>
-
+```
 1、SVHN链接：https://pan.baidu.com/s/1Zi-wIc2588gmG5FZ27mMCA,提取码：vmob
 
 2、MNIST链接：https://pan.baidu.com/s/1Dpfq--sqpqCm0qEtJALd-Q,提取码：5c9d
 
 3、CLUB训练的模型及数据集可以参考"简述 -> 参考实现"
 
-
+```
 ## 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
