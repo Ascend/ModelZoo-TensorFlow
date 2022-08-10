@@ -51,11 +51,11 @@ Restoring model weights from logs/miniimagenet1shot//cls_5.mbs_4.ubs_1.numstep5.
 
 Final：
 
-gpu训练日志文件gpu_log.log，精度为23.7%；npu训练日志文件train_log0804.log，精度为24。0%。
+gpu训练日志文件gpu_log.log，精度为23.7%；npu训练日志文件train_log0804.log，精度为24.0%。
 
-|               | GPU  | NPU   |
-| ------------- | ---- | ----- |
-| mini imagenet | 26.3% | 24.0% |
+|               | GPU   | NPU   |
+| ------------- | ----- | ----- |
+| mini imagenet | 23.7% | 24.0% |
 
 启动命令：
 
