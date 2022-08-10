@@ -58,17 +58,15 @@ CLUB 是一种基于样本的互信息 (MI) 估计器。
 ## 默认配置<a name="section91661242121611"></a>
 
 -   训练超参（单卡）：
-    -data_path
-    -save_path
-    -train_url
-    -source
-    -target
-    -batch_size = 64  #64
-    -num_steps = 15000   
-    -epsilon = 0.5
-    -M = 0.1
-    -num_test_steps = 5000
-    -valid_steps = 100
+    - data_path
+    - save_path
+    - train_url
+    - source
+    - target
+    - batch_size = 64  #64
+    - num_steps = 15000
+    - num_test_steps = 5000
+    - valid_steps = 10
 
 
 ## 支持特性<a name="section1899153513554"></a>
