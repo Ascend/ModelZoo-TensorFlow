@@ -1,88 +1,206 @@
-**Status:** Archive (code is provided as-is, no updates expected)
+- [基本信息](#基本信息.md)
+- [概述](#概述.md)
+- [训练环境准备](#训练环境准备.md)
+- [快速上手](#快速上手.md)
+- [迁移学习指导](#迁移学习指导.md)
+- [高级参考](#高级参考.md)
+<h2 id="基本信息.md">基本信息</h2>
 
-# Glow
+**发布者（Publisher）：Huawei**
 
-- Code for reproducing results in ["Glow: Generative Flow with Invertible 1x1 Convolutions"](https://d4mucfpksywv.cloudfront.net/research-covers/glow/paper/glow.pdf)
-- Official Source Code [openai/glow: Code for reproducing results in "Glow: Generative Flow with Invertible 1x1 Convolutions"](https://github.com/openai/glow)
+**应用领域（Application Domain）：Object Detection**
 
-## Requirements
+**版本（Version）：1.1**
 
- - python 3.7.5
- - Tensorflow (tested with v1.15.0)
- - Huawei Ascend
+**修改时间（Modified） ：2022.8.10**
 
-Run
+**大小（Size）：359616KB**
+
+**框架（Framework）：TensorFlow_1.15**
+
+**模型格式（Model Format）：ckpt**
+
+**精度（Precision）：FP32**
+
+**处理器（Processor）：昇腾910**
+
+**应用级别（Categories）：Official**
+
+**描述（Description）：基于TensorFlow框架Glow处理网络训练代码**
+
+<h2 id="概述.md">概述</h2>
+
+## 简述<a name="section194554031510"></a>
+
+基于流的生成模型（Dinh等人，2014）在概念上具有吸引力，因为精确对数似然的可操作性，精确潜在变量推理的可操作性，以及训练和综合的并行性。在本文中，我们提出了发光，使用可逆1×1卷积的简单生成流。我们证明了对数似然性在标准上的显著改善，也许最引人注目的是，我们证明了一个生成模型针对普通对数似然目标进行优化，能够有效地进行逼真的合成和操作大图像。
+
+- 参考论文：
+  
+  [https://d4mucfpksywv.cloudfront.net/research-covers/glow/paper/glow.pdf](Glow: Generative Flow with Invertible 1x1 Convolutions)
+
+- 参考实现：
+
+  https://github.com/openai/glow
+
+- 适配昇腾 AI 处理器的实现：
+  
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/Glow_ID2085_for_TensorFlow
+
+- 通过Git获取对应commit\_id的代码方法如下：
+  
+        git clone {repository_url}    # 克隆仓库的代码
+        cd {repository_name}    # 切换到模型的代码仓目录
+        git checkout  {branch}    # 切换到对应分支
+        git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
+        cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+    
+
+## 默认配置<a name="section91661242121611"></a>
+
+-   训练超参（单卡）：
+    - Batch size: 50
+    - n_batches
+    - data_url 
+    - train_url
+    - verbose：store_true
+    - n_batch_train：50
+    - n_train：50000
+    - epochs：100
+
+
+## 支持特性<a name="section1899153513554"></a>
+
+| 特性列表   | 是否支持 |
+| ---------- | -------- |
+| 分布式训练 | 是       |
+| 混合精度   | 否      |
+| 数据并行   | 是       |
+
+
+## 混合精度训练<a name="section168064817164"></a>
+
+昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
+
+## 开启混合精度<a name="section20779114113713"></a>
+
+拉起脚本中，
+
 ```
-pip install -r requirements.txt
+ ./train_full_1p.sh --help
+
+parameter explain:
+    --precision_mode         #precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
+    --data_path              # dataset of training
+    --output_path            # output of training
+    --train_steps            # max_step for training
+    --train_epochs           # max_epoch for training
+    --batch_size             # batch size
+    -h/--help                show help message
 ```
 
-## Download datasets
-- MNIST
-- cifar-10
+混合精度相关代码示例:
 
+ ```
+    precision_mode="allow_mix_precision"
 
-## Simple Train with 1 GPU
+ ```
 
-Run wtih small depth to test
+<h2 id="训练环境准备.md">训练环境准备</h2>
+
+-  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
+-  运行以下命令安装依赖。
 ```
-CUDA_VISIBLE_DEVICES=0 python train.py --depth 1
+pip3 install requirements.txt
+```
+说明：依赖配置文件requirements.txt文件位于模型的根目录
+
+<h2 id="快速上手.md">快速上手</h2>
+
+## 数据集准备<a name="section361114841316"></a>
+
+1、数据集链接ttps://e-share.obs-website.cn-north-1.myhuaweicloud.com?token=dbviVeGq04cERsFrsux7Ctga7HCRO3Z1ucGAnMOBjZncpWkEX1jPl+MFK6jS5O4F7f+kvCP59S1vIcR9aTeBAnH0SPZT8F4Cw0uZlmkg+bHmsP0r2DCGqNejFCAp0A9rbW7ABl5nPV2JIcn+dSo2K0wQwc065KkccIUciDveKFpF/YL1wvS9xVDiH9xbJxTuFFVjffcbQ/jsZKuJmbGqMGmTZiWXlDAXVBM6Sj8PS5OXoJwahqp4VupvwRiJHlSLzZqEnqtRyOMz6R+/XOETclL3sgiafw+9ZcG5yeWp2US5TfJVYmL5cKEUkdczNb706C2AILI+cUtU5FwJEiHhG/dIpe3QCEAXQguyvbtAWc8BKSGeyqECFPQGXfaJbuCDIOkc/2IZHhdG8kKaO0YLu80r3fyxIexoxL826ozQ1v25llusdyS66dZ4Fhop6ss0T33VepElJFh7so+uQiYXEJ9y2FT5BWz7wTrFPkXTlZLSnRpvefxpP8J4F4QlZ7t7emllXLwb7LqcOedPjaoCUIcexjnz/2zsxy1w3kgVSFw= 提取码:123456
+
+2、数据集分俩部分MNIST和cifar-10
+
+3、GLOW训练的模型及数据集可以参考"简述 -> 参考实现"
+
+
+## 模型训练<a name="section715881518135"></a>
+
+- 单击“立即下载”，并选择合适的下载方式下载源码包。
+- 开始训练。
+
+    - 启动训练之前，首先要配置程序运行相关环境变量。
+
+      环境变量配置信息参见：
+
+      [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
+
+    - 单卡训练
+
+
+        1.首先在脚本test/train_full_1p.sh中, 训练需要根据安装教程，配置输入与输出的路径。配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
+
+             ```
+
+             python3 train.py --problem cifar10 --image_size 32 --n_level 3 --depth 32 --flow_permutation 2 --flow_coupling 1 --seed 0 --learntop --lr 0.001 --n_bits_x 8 --data_url=${data_path}/datasets --train_url=${output_path} --epochs=100
+
+             ```
+
+        2.启动训练
+        
+             启动单卡训练 （脚本为train.py） 
+        
+             ```
+             python3 train.py
+
+             ```
+           
+
+
+<h2 id="高级参考.md">高级参考</h2>
+
+## 脚本和示例代码
+
+```
+|--LICENSE
+|--README.md                                                      #说明文档									
+|--glow.json                                             
+|--graphics.py
+|--memory_saving_gradients.py
+|--model.py									
+|--requirements.txt                                               #所需依赖
+|--modelzoo_level.txt
+|--optim.py
+|--tfops.py                                                       
+|--train.py                                                       #训练代码
+|--modelzoo_level.txt
+|--train.py		   						
+|--utils.py                                                     
+|--test			           	                          #训练脚本目录
+|	|--train_full_1p.sh
+|	|--train_performance_1p.sh
 ```
 
-
-## CIFAR-10 Quantitative result
+## 脚本参数<a name="section6669162441511"></a>
 
 ```
-python train.py --problem cifar10 --image_size 32 --n_level 3 --depth 32 --flow_permutation 2 --flow_coupling 1 --seed 0 --learntop --lr 0.001 --n_bits_x 8
+--problem cifar10 
+--image_size 32 
+--n_level 3 
+--depth 32 
+--flow_permutation 2 
+--seed 0 
+--lr 0.001 
+--epochs 300 
+--n_bits_x 8
+--data_url
+--train_url
+--n_train 50000
+--n_batch_train 50
+--epochs 100
 ```
 
-### Training Log
+## 训练过程<a name="section1589455252218"></a>
 
-
-- GPU：
-````
-参数：{"verbose": false, "debug": false, "debug_init": false, "restore_path": "", "problem": "cifar10", "data_dir": null, "dal": 1, "check_test_iterator": false, "fmap": 1, "pmap": 16, "n_train": 50000, "n_test": 10000, "n_batch_train": 64, "n_batch_test": 50, "n_batch_init": 256, "optimizer": "adamax", "lr": 0.001, "lr_scalemode": 0, "beta1": 0.9, "polyak_epochs": 1, "beta3": 1.0, "epochs": 1000000, "epochs_warmup": 10, "epochs_full_valid": 50, "gradient_checkpointing": 1, "shift": 1, "image_size": 32, "anchor_size": 32, "width": 512, "depth": 32, "weight_y": 0.0, "n_bits_x": 8, "n_levels": 3, "n_sample": 1, "epochs_full_sample": 50, "eps_beta": 0.95, "learntop": true, "ycond": false, "seed": 0, "flow_permutation": 2, "flow_coupling": 0, "n_y": 10, "local_batch_train": 64, "local_batch_test": 50, "local_batch_init": 256, "direct_iterator": false, "train_its": 196, "test_its": 40, "full_test_its": 50, "debug_logdir": "/root/results/zeus/2018-06-05_ckpt/ours-0000/", "n_bins": 256.0, "top_shape": [4, 4, 48]}
-
-{"epoch": 1, "n_processed": 50176, "n_images": 50176, "train_time": 238, "local_loss": "5.0522", "bits_x": "5.0522", "bits_y": "0.0000", "pred_loss": "1.0000"}
-{"epoch": 2, "n_processed": 100352, "n_images": 100352, "train_time": 439, "local_loss": "4.4926", "bits_x": "4.4926", "bits_y": "0.0000", "pred_loss": "1.0000"}
-{"epoch": 3, "n_processed": 150528, "n_images": 150528, "train_time": 640, "local_loss": "4.3506", "bits_x": "4.3506", "bits_y": "0.0000", "pred_loss": "1.0000"}
-……
-{"epoch": 298, "n_processed": 14952448, "n_images": 14952448, "train_time": 58669, "local_loss": "3.2133", "bits_x": "3.2133", "bits_y": "0.0000", "pred_loss": "1.0000"}
-{"epoch": 299, "n_processed": 15002624, "n_images": 15002624, "train_time": 58865, "local_loss": "3.2146", "bits_x": "3.2146", "bits_y": "0.0000", "pred_loss": "1.0000"}
-{"epoch": 300, "n_processed": 15052800, "n_images": 15052800, "train_time": 59061, "local_loss": "3.2138", "bits_x": "3.2138", "bits_y": "0.0000", "pred_loss": "1.0000"}
-
-````
-- NPU:
-````
-参数：
-Namespace(anchor_size=32, beta1=0.9, category='', dal=1, data_dir=None, data_url='/home/ma-user/modelarts/inputs/data_url_0/', depth=32, direct_iterator=False, epochs=300, epochs_full_sample=50, epochs_full_valid=5, epochs_warmup=10, flow_coupling=0, flow_permutation=2, fmap=1, full_test_its=200, gradient_checkpointing=1, image_size=32, inference=False, learntop=False, local_batch_init=1, local_batch_test=50, local_batch_train=50, logdir='./logs', lr=0.001, n_batch_init=1, n_batch_test=50, n_batch_train=50, n_bins=256.0, n_bits_x=8, n_levels=3, n_sample=1, n_test=10000, n_train=50000, n_y=10, optimizer='adamax', pmap=16, polyak_epochs=1, problem='cifar10', restore_path='', rnd_crop=False, seed=0, test_its=200, top_shape=[4, 4, 48], train_its=10, train_url='/home/ma-user/modelarts/outputs/train_url_0/', verbose=False, weight_decay=1.0, weight_y=0.0, width=512, ycond=False)
-epoch n_processed n_images ips dtrain dtest dsample dtot train_results test_results msg
-1 50000 50000 8.4 5975.1 0.0 439.5 6414.6 [6.2762194 6.2762194 0.        1.       ] [] 
-2 100000 100000 54.9 910.7 0.0 0.0 910.7 [4.081265 4.081265 0.       1.      ] [] 
-3 150000 150000 55.0 909.1 0.0 0.0 909.1 [3.8218997 3.8218997 0.        1.       ] [] 
-4 200000 200000 54.9 911.6 0.0 0.0 911.6 [3.6507013 3.6507013 0.        1.       ] [] 
-5 250000 250000 54.8 911.8 1216.4 0.0 2128.1 [3.5184724 3.5184724 0.        1.       ] [3.9819248 3.9819248 0.        1.       ]
-
-...
-
-70 3500000 3500000 165.3 302.4 14.6 0.0 1527.6 [2.9541063 2.9541063 0. 1. ] [3.5134225 3.5134225 0. 1. ] *
-75 3750000 3750000 165.1 302.8 14.5 0.0 1527.7 [2.949904 2.949904 0. 1. ] [3.5093305 3.5093305 0. 1. ] *
-80 4000000 4000000 165.4 302.4 14.2 0.0 1527.2 [2.9465308 2.9465308 0. 1. ] [3.5025241 3.5025241 0. 1. ] *
-85 4250000 4250000 165.2 302.7 12.2 0.0 1526.1 [2.9442344 2.9442344 0. 1. ] [3.5053678 3.5053678 0. 1. ]
-90 4500000 4500000 164.9 303.2 14.7 0.0 1529.7 [2.9408553 2.9408553 0. 1. ] [3.4954607 3.4954607 0. 1. ] *
-95 4750000 4750000 165.0 303.0 12.2 0.0 1527.0 [2.9360971 2.9360971 0. 1. ] [3.496417 3.496417 0. 1. ]
-
-````
-
-#### 精度达标
-
-bits_x NPU：2.9
-
-bits_x GPU: 3.213
-
-#### 性能达标
-
-NPU Ascend910： 0.84 s / step
-
-GPU v100： 0.85 s / step
-
-
+通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以1卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
