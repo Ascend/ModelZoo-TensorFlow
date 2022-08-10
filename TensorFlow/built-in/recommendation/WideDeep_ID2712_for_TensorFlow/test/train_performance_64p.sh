@@ -123,6 +123,7 @@ echo "------------------ Final result ------------------"
 #FPS=`grep 'FPS:'  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F ':' '{print $2}' | tail -n 1`
 time=`grep -rn 'epoch 4 total time ='  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| awk -F '=' '{print $2}'|sed s/[[:space:]]//g`
 FPS=`awk 'BEGIN{printf "%.2f\n",'${RANK_SIZE}'*'12'*'${batch_size}'/'${time}'}'`
+
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
