@@ -159,6 +159,9 @@ $ python download.py --dataset MNIST
 - 模型评估。
 
   参考“模型训练”中验证步骤。
+
+<h2 id="训练结果.md">训练结果</h2>
+
 - 精度结果比对:
 
 GPU型号：Tesla V100-SXM2-16GB
@@ -173,10 +176,20 @@ NPU型号：昇腾910
 |---|---|---|---|
 |密度估计|102.1|101.83852|103.31268|
 
-备注：论文与NPU实测learningrate：0.0003
-      GPU实测learningrate:0.001
+
+## 脚本参数<a name="section6669162441511"></a>
+
+```
+--data_path              数据集路径，默认：path/data
+--batch_size             每个NPU的batch size，默认：24
+--learing_rata           初始学习率，默认：0.0003
+--steps                  2000000
+```
+
+
 
 ## 训练过程<a name="section1589455252218"></a>
+
 
 1. 通过“模型训练”中的训练指令启动网络训练。
 
