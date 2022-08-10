@@ -30,10 +30,13 @@ Iteration 59900: 0.15, 1.0
 
 执行任务OBS链接：
 
-npu训练在裸机上执行，无obs链接
-裸机日志链接：
+npu训练在裸机上执行，无obs链接,裸机输出已上传至obs：
 ```
-https://gitee.com/lwg0452/ModelZoo-TensorFlow/blob/master/TensorFlow/contrib/cv/MAML_ID0755_fro_TensorFlow/train_log_0804.log
+obs://mamlnpu/logs_0804/logs/
+```
+裸机屏幕输出：
+```
+obs://mamlnpu/logs_0804/train_log_0804.log
 ```
 
 数据集OBS链接：
