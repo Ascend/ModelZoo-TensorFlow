@@ -65,6 +65,11 @@ import tensorflow.python.keras.backend as K
 import tensorflow as tf
 reload(pl)
 
+def cbv(val, min_val, max_val):
+    val = tf.where(tf.greater(val, max_val), tf.ones_like(val)* max_val, val)
+    val = tf.where(tf.less(val, min_val), tf.ones_like(val) * min_val, val)
+    return val
+
 def interpn(vol, loc, interp_method='linear'):
     """
     N-D gridded interpolation in tensorflow
@@ -118,11 +123,11 @@ def interpn(vol, loc, interp_method='linear'):
 
         # clip values
         max_loc = [d - 1 for d in vol.get_shape().as_list()]
-        clipped_loc = [tf.clip_by_value(loc[...,d], 0, max_loc[d]) for d in range(nb_dims)]
-        loc0lst = [tf.clip_by_value(loc0[...,d], 0, max_loc[d]) for d in range(nb_dims)]
+        clipped_loc = [cbv(loc[...,d], 0, max_loc[d]) for d in range(nb_dims)]
+        loc0lst = [cbv(loc0[...,d], 0, max_loc[d]) for d in range(nb_dims)]
 
         # get other end of point cube
-        loc1 = [tf.clip_by_value(loc0lst[d] + 1, 0, max_loc[d]) for d in range(nb_dims)]
+        loc1 = [cbv(loc0lst[d] + 1, 0, max_loc[d]) for d in range(nb_dims)]
         locs = [[tf.cast(f, 'int32') for f in loc0lst], [tf.cast(f, 'int32') for f in loc1]]
 
         # compute the difference between the upper value and the original value
@@ -136,7 +141,8 @@ def interpn(vol, loc, interp_method='linear'):
         # e.g. [0, 0] means this "first" corner in a 2-D "cube"
         cube_pts = list(itertools.product([0, 1], repeat=nb_dims))
         interp_vol = 0
-        
+        vol_wt_list = []
+
         for c in cube_pts:
             
             # get nd values
@@ -164,8 +170,9 @@ def interpn(vol, loc, interp_method='linear'):
             wt = K.expand_dims(wt, -1)
             
             # compute final weighted value for each cube corner
-            interp_vol += wt * vol_val
-        
+            # interp_vol += wt * vol_val
+            vol_wt_list.append((vol, wt))
+        interp_vol += sum([x[0] * x[1] for x in vol_wt_list])
     else:
         assert interp_method == 'nearest'
         roundloc = tf.cast(tf.round(loc), 'int32')
