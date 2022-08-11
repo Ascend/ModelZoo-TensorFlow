@@ -118,7 +118,7 @@ pip3 install requirements.txt
 
 ## 数据集准备<a name="section361114841316"></a>
 
-1、数据集链接https://pan.baidu.com/s/1WAl4C_EnQi4wp6l684yI9w  提取码：unp5
+1、数据集链接https://github.com/google-research/google-research/blob/master/quantum_sample_learning/data
 
 2、quantum_sample_learning训练的模型及数据集可以参考"简述 -> 参考实现"
 
