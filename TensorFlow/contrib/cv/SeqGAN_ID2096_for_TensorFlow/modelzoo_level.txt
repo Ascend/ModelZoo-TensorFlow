@@ -1,0 +1,3 @@
+GPUStatus:OK
+NPUMigrationStatus:POK
+FuncStatus:OK
