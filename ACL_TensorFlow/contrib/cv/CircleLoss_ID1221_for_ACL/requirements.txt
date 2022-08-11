@@ -1,0 +1,34 @@
+absl-py @ file:///opt/conda/conda-bld/absl-py_1639803114343/work
+astor==0.8.1
+cached-property @ file:///tmp/build/80754af9/cached-property_1600785575025/work
+certifi @ file:///opt/conda/conda-bld/certifi_1655968806487/work/certifi
+gast==0.2.2
+google-pasta @ file:///Users/ktietz/demo/mc3/conda-bld/google-pasta_1630577991354/work
+grpcio==1.14.1
+h5py @ file:///tmp/build/80754af9/h5py_1637138881647/work
+importlib-metadata @ file:///tmp/build/80754af9/importlib-metadata_1648562407465/work
+joblib==1.1.0
+Keras-Applications @ file:///tmp/build/80754af9/keras-applications_1594366238411/work
+Keras-Preprocessing @ file:///tmp/build/80754af9/keras-preprocessing_1612283640596/work
+Markdown @ file:///tmp/build/80754af9/markdown_1614363832606/work
+mkl-fft==1.3.1
+mkl-random @ file:///tmp/build/80754af9/mkl_random_1626179032232/work
+mkl-service==2.4.0
+numpy @ file:///opt/conda/conda-bld/numpy_and_numpy_base_1653915516269/work
+opt-einsum @ file:///tmp/build/80754af9/opt_einsum_1621500238896/work
+protobuf==3.20.1
+scikit-learn==1.0.2
+scipy @ file:///tmp/build/80754af9/scipy_1641536880743/work
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+sklearn==0.0
+tensorboard==1.15.0
+tensorflow==1.15.0
+tensorflow-estimator==1.15.1
+termcolor==1.1.0
+threadpoolctl==3.1.0
+tqdm==4.64.0
+typing_extensions @ file:///opt/conda/conda-bld/typing_extensions_1647553014482/work
+webencodings==0.5.1
+Werkzeug==0.16.1
+wrapt @ file:///tmp/build/80754af9/wrapt_1638420625940/work
+zipp @ file:///opt/conda/conda-bld/zipp_1652341764480/work
