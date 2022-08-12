@@ -11,7 +11,9 @@ from __future__ import absolute_import, division, print_function
 
 # only keep warnings and errors
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL']='1'
+# os.environ['TF_CPP_MIN_LOG_LEVEL']='1'
+
+# start npu migration 20220606
 
 import numpy as np
 import argparse
@@ -145,6 +147,7 @@ def train(params):
         custom_op.name = "NpuOptimizer"
         custom_op.parameter_map["use_off_line"].b = True  # 必须显式开启，在昇腾AI处理器执行训练
         # 需要from tensorflow_core.core.protobuf.rewriter_config_pb2 import RewriterConfig
+        # custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision") # 开启混合精度
         config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
         config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
         sess = tf.Session(config=config)

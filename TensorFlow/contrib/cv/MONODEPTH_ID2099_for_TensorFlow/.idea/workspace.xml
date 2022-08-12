@@ -19,10 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6eebadf8-5102-4b9b-8039-3a2c5e707e16" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/monodepth_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/monodepth_main.py" afterDir="false" />
-    </list>
+    <list default="true" id="6eebadf8-5102-4b9b-8039-3a2c5e707e16" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,7 +34,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
   </component>
   <component name="JupyterTrust" id="5f76ea15-ad57-490a-9325-fd1719950191" />
   <component name="ProjectId" id="2ACrcsddz4OIylW57PSDaopWPEh" />
@@ -50,7 +47,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="imageUrltextFieldV2" value="swr-info/ascend-share/5.1.rc2.alpha006_tensorflow-ascend910-cp37-euleros2.8-aarch64-training:1.15.0-21.0.2_0617" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/utils/filenames" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="modelArtsEngineNameFlagV2" value="Ascend-Powered-Engine" />
     <property name="modelArtsEngineVersionFlagV2" value="tensorflow_1.15-cann_5.0.3-py_3.7-euler_2.8.3-aarch64" />
     <property name="modelArtsJobBootFileV2" value="$PROJECT_DIR$/modelarts_entry_acc.py" />
@@ -243,6 +240,8 @@
       <workItem from="1658471838149" duration="10788000" />
       <workItem from="1658978361563" duration="1654000" />
       <workItem from="1659938756100" duration="929000" />
+      <workItem from="1660233666369" duration="875000" />
+      <workItem from="1660275820805" duration="923000" />
     </task>
     <task id="LOCAL-00001" summary="NPU 迁移开始">
       <created>1654525194804</created>

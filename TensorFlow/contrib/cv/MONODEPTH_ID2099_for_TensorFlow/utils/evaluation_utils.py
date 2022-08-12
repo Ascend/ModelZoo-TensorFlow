@@ -7,7 +7,6 @@ import pickle
 
 from scipy.interpolate.interpnd import LinearNDInterpolator
 
-
 def compute_errors(gt, pred):
     thresh = np.maximum((gt / pred), (pred / gt))
     a1 = (thresh < 1.25   ).mean()
