@@ -460,7 +460,7 @@ with tf.Session(config=config) as session:
         # save
 
         # break
-        print("wgan :{} , acgan: {} acc_real: {} acc_fake:{}".format(_disc_wgan, _disc_acgan,_disc_acgan_acc,_disc_acgan_fake_acc))
+        print("loss: {}, wgan: {} , acgan: {} acc_real: {}, acc_fake: {}".format(_disc_cost, _disc_wgan, _disc_acgan, _disc_acgan_acc, _disc_acgan_fake_acc))
 
         if iteration % INCEPTION_FREQUENCY == INCEPTION_FREQUENCY - 1:
             print("start evaluation ")

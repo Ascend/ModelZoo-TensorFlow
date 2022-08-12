@@ -29,9 +29,9 @@ from configs import mnasnet_config
 from mixnet import mixnet_builder
 from tensorflow.core.protobuf import rewriter_config_pb2  # pylint: disable=g-direct-tensorflow-import
 import datetime
-import moxing as mox
-os.system('pip install tensorflow==1.15.4')
-os.system('pip install wrapt==1.12.1')
+# import moxing as mox
+# os.system('pip install tensorflow==1.15.4')
+# os.system('pip install wrapt==1.12.1')
 
 
 common_tpu_flags.define_common_tpu_flags()
@@ -219,15 +219,15 @@ LR_SCHEDULE = [  # (multiplier, epoch to start) tuples
     (1.0, 5), (0.1, 30), (0.01, 60), (0.001, 80)
 ]
 # 在ModelArts容器创建数据存放目录
-data_dir = "/cache/dataset"
-start = datetime.datetime.now()
-os.makedirs(data_dir)
+data_dir = FLAGS.data_url
+# start = datetime.datetime.now()
+# os.makedirs(data_dir)
 # OBS数据拷贝到ModelArts容器内
-mox.file.copy_parallel(FLAGS.data_url, data_dir)
-end = datetime.datetime.now()
+# mox.file.copy_parallel(FLAGS.data_url, data_dir)
+# end = datetime.datetime.now()
 # 在ModelArts容器创建训练输出目录
-model_dir = "/cache/result"
-os.makedirs(model_dir)
+model_dir = FLAGS.train_url
+# os.makedirs(model_dir)
 # FLAGS.data_path = data_dir
 # FLAGS.model_path = model_dir
 # print('=======', FLAGS.data_path)
@@ -413,7 +413,7 @@ def build_model_fn(features, labels, mode, params):
   # If necessary, in the model_fn, use params['batch_size'] instead the batch
   # size flags (--train_batch_size or --eval_batch_size).
   batch_size = params['train_batch_size']  # pylint: disable=unused-variable
-
+  print("batch_size: ", batch_size)
   # Calculate loss, which includes softmax cross entropy and L2 regularization.
   one_hot_labels = tf.one_hot(labels, params['num_label_classes'])
   cross_entropy = tf.losses.softmax_cross_entropy(
@@ -859,8 +859,8 @@ def main(unused_argv):
             steps=params.num_eval_images // params.eval_batch_size)
         tf.logging.info('Eval results at step %d: %s', next_checkpoint,
                         eval_results)
-        #训练结束后，将ModelArts容器内的训练输出拷贝到OBS
-        mox.file.copy_parallel(model_dir, FLAGS.train_url)
+        # 训练结束后，将ModelArts容器内的训练输出拷贝到OBS
+        # mox.file.copy_parallel(model_dir, FLAGS.train_url)
         print('OK')
         ckpt = tf.train.latest_checkpoint(model_dir)
         mnas_utils.archive_ckpt(eval_results, eval_results['top_1_accuracy'], ckpt)
@@ -876,5 +876,5 @@ if __name__ == '__main__':
   tf.logging.set_verbosity(tf.logging.INFO)
   tf.disable_v2_behavior()
   app.run(main)
- #  训练结束后，将ModelArts容器内的训练输出拷贝到OBS
-  mox.file.copy_parallel(model_dir, FLAGS.train_url)
+ # 训练结束后，将ModelArts容器内的训练输出拷贝到OBS
+ # mox.file.copy_parallel(model_dir, FLAGS.train_url)
