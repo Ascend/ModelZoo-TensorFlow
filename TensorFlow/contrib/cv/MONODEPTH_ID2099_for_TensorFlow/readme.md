@@ -27,16 +27,24 @@ https://github.com/mrharicot/monodepth
 
 ## 快速开始
 
+### 一键唤起测试
+
+```shell
+sh ./test/train_full_1p.sh --data_path=/home/disk/xjk/dataset/KITTI/ --output_path=/mnt/home/test_user03/tmp/
+```
+
+### 参数说明
+
 1. 目录说明
 
    > 数据集目录 /home/disk/xjk/dataset/KITTI/
    >
-   > 代码目录 ~/xjk/monodepth
-
-    注意：
-
-   - 运行命令时需要切换到monodepth目录下
+   
+ 注意：
+   
+- 运行命令时需要切换到monodepth目录下
    - --data_path 表示数据集路径
+   - --output_path 表示输出目录，包含checkpoint
    - -- filename_file 表示训练和测试图片路径
 
 2. 训练
