@@ -112,7 +112,7 @@ pip3 install requirements.txt
 1. 模型训练使用 Cross-Age Celebrity Dataset (CACD) 数据集，数据集请用户自行获取解压后，将解压的文件夹重命名为CACD2000_Crop。
 2. 第一次训练时，不存在1200_data.npy文件，请将TrainResNet.py中的data_path=args.train_data_path改成data_path=None，训练结束会生成该文件
 3. 请前往“参考实现”链接下载./label文件夹
-2. 获取数据集后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。数据集文件结构示例如下：
+4. 获取数据集后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。数据集文件结构示例如下：
 ```
     ├── ResNet50_dataset
     │   ├── label   // label文件夹，请前往“参考实现”中下载
