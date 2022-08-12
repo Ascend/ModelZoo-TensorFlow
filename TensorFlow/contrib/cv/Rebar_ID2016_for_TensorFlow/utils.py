@@ -130,7 +130,7 @@ def cov(a, b):
 def corr(a, b):
   return cov(a, b)*tf.rsqrt(cov(a, a))*tf.rsqrt(cov(b, b))
 
-def logSumExp(t, axis=0, keep_dims = False):
+def logSumExp(t, axis=0, keep_dims=False):
   '''Computes the log(sum(exp(t))) numerically stabily.
 
   Args:
