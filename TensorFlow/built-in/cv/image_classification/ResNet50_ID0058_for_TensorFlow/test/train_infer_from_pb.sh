@@ -160,7 +160,7 @@ E2E训练端到端时长，直接计算，不需要修改
 echo "E2E training Duration sec: $e2e_time"
 
 #训练用例信息，不需要修改
-BatchSize=256
+BatchSize=1
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
