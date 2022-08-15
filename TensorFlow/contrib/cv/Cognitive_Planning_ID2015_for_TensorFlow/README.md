@@ -120,7 +120,7 @@ pip3 install requirements.txt
 
 ## 数据集准备<a name="section361114841316"></a>
 
-1、用户需自行下载ActiveVision Dataset数据集。已上传至obs中，obs路径如下：obs://cognitive-planning/dataset/AVD_Minimal/
+1、用户需自行下载ActiveVision Dataset数据集。
 
 2、Cognitive_Planning训练的模型及数据集可以参考"简述 -> 参考实现"
 
