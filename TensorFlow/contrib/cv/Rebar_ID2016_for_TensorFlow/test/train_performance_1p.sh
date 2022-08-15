@@ -112,9 +112,9 @@ batch_size=24
 train_steps=2000000
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./rebar_train.py --working_dir=${output_path}
+    python3.7 ./rebar_train.py hparams="model=SBNDynamicRebar,learning_rate=0.0003,n_layer=2,task=sbn" --working_dir=${output_path}
 else
-    python3.7 ./rebar_train.py --working_dir=${output_path}
+    python3.7 ./rebar_train.py hparams="model=SBNDynamicRebar,learning_rate=0.0003,n_layer=2,task=sbn" --working_dir=${output_path}
 fi
 
 # 性能相关数据计算
