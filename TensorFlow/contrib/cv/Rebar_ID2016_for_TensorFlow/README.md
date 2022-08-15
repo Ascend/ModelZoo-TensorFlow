@@ -92,7 +92,7 @@ variables**
 
 1, 模型训练使用MNIST数据集，数据集请用户自行获取，也可通过如下命令行获取。
 
-```bash
+
 $ python download.py --dataset MNIST
 
 2, 放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
