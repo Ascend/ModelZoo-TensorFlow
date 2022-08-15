@@ -77,34 +77,13 @@ variables**
 
 
 
+
 <h2 id="训练环境准备.md">训练环境准备</h2>
 
 1. 硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 
 2.宿主机上需要安装Docker并登录Ascend Hub中心获取镜像。
 
-当前模型支持的镜像列表如表1所示。
-
-**表 1** 镜像列表
-
-    <a name="zh-cn_topic_0000001074498056_table1519011227314"></a>
-    <table><thead align="left"><tr id="zh-cn_topic_0000001074498056_row0190152218319"><th class="cellrowborder" valign="top" width="47.32%" id="mcps1.2.4.1.1"><p id="zh-cn_topic_0000001074498056_p1419132211315"><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><a name="zh-cn_topic_0000001074498056_p1419132211315"></a><em id="i1522884921219"><a name="i1522884921219"></a><a name="i1522884921219"></a>镜像名称</em></p>
-    </th>
-    <th class="cellrowborder" valign="top" width="25.52%" id="mcps1.2.4.1.2"><p id="zh-cn_topic_0000001074498056_p75071327115313"><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><a name="zh-cn_topic_0000001074498056_p75071327115313"></a><em id="i1522994919122"><a name="i1522994919122"></a><a name="i1522994919122"></a>镜像版本</em></p>
-    </th>
-    <th class="cellrowborder" valign="top" width="27.16%" id="mcps1.2.4.1.3"><p id="zh-cn_topic_0000001074498056_p1024411406234"><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><a name="zh-cn_topic_0000001074498056_p1024411406234"></a><em id="i723012493123"><a name="i723012493123"></a><a name="i723012493123"></a>配套CANN版本</em></p>
-    </th>
-    </tr>
-    </thead>
-    <tbody><tr id="zh-cn_topic_0000001074498056_row71915221134"><td class="cellrowborder" valign="top" width="47.32%" headers="mcps1.2.4.1.1 "><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><a name="zh-cn_topic_0000001074498056_ul81691515131910"></a><ul id="zh-cn_topic_0000001074498056_ul81691515131910"><li><em id="i82326495129"><a name="i82326495129"></a><a name="i82326495129"></a>ARM架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-arm" target="_blank" rel="noopener noreferrer">ascend-tensorflow-arm</a></em></li><li><em id="i18233184918125"><a name="i18233184918125"></a><a name="i18233184918125"></a>x86架构：<a href="https://ascend.huawei.com/ascendhub/#/detail?name=ascend-tensorflow-x86" target="_blank" rel="noopener noreferrer">ascend-tensorflow-x86</a></em></li></ul>
-    </td>
-    <td class="cellrowborder" valign="top" width="25.52%" headers="mcps1.2.4.1.2 "><p id="zh-cn_topic_0000001074498056_p1450714271532"><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><a name="zh-cn_topic_0000001074498056_p1450714271532"></a><em id="i72359495125"><a name="i72359495125"></a><a name="i72359495125"></a>20.2.0</em></p>
-    </td>
-    <td class="cellrowborder" valign="top" width="27.16%" headers="mcps1.2.4.1.3 "><p id="zh-cn_topic_0000001074498056_p18244640152312"><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><a name="zh-cn_topic_0000001074498056_p18244640152312"></a><em id="i162363492129"><a name="i162363492129"></a><a name="i162363492129"></a><a href="https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373/software" target="_blank" rel="noopener noreferrer">20.2</a></em></p>
-    </td>
-    </tr>
-    </tbody>
-    </table>
 
 
 <h2 id="快速上手.md">快速上手</h2>
@@ -200,6 +179,10 @@ NPU型号：昇腾910
 |---|---|---|---|
 |密度估计|102.1|101.83852|103.31268|
 
+
+
+
+
 <h2 id="Final性能精度信息.md">Final性能精度信息</h2>
 正在计算
 
@@ -217,6 +200,7 @@ NPU型号：昇腾910
 2022-08-01 10:21:18.840680: I tf_adapter/kernels/geop_npu.cc:805] The model has been compiled on the Ascend AI processor, current graph id is: 31
 2022-08-01 10:21:32.868666: I tf_adapter/kernels/geop_npu.cc:805] The model has been compiled on the Ascend AI processor, current graph id is: 41
 2022-08-01 10:41:18.079985: I tf_adapter/kernels/geop_npu.cc:805] The model has been compiled on the Ascend AI processor, current graph id is: 31
+
 
 <h2 id="执行任务OBS链接.md">执行任务OBS链接</h2>
 obs://rebar-ysnpu/train_dir/MA-new-07-04-09-33
@@ -252,6 +236,8 @@ Test 2000640: [ -96.69081    -101.83852       4.675375      1.0000001     0.9665
     0.9636474     0.95117027    0.9502216     1.            1.0000014
     1.            0.99999994]
 '''
+
+
 <h2 id="数据集obs链接.md">数据集obs链接</h2>
 OBS地址：
 obs://rebar-ysnpu/data/
