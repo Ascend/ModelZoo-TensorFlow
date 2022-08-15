@@ -1,0 +1,40 @@
+{
+  "op": [
+    {
+      "is_support": false,
+      "name": "IteratorGetNext",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorGetNext"
+    },
+    {
+      "is_support": false,
+      "name": "IteratorGetNext_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorGetNext"
+    },
+    {
+      "is_support": false,
+      "name": "IteratorGetNext_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorGetNext"
+    },
+    {
+      "is_support": false,
+      "name": "OptimizeDataset/TensorDataset",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "TensorDataset"
+    }
+  ]
+}
