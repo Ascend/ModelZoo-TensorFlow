@@ -1,0 +1,3 @@
+FuncStatus:OK   -  功能状态
+PerfStatus:NOK - 性能状态
+PrecisionStatus:OK - 精度状态
