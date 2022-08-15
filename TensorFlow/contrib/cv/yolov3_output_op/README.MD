@@ -11,7 +11,7 @@ https://pjreddie.com/darknet/yolo/
 
 原始模型权重下载地址 :
 ```
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/Yolov3/yolov3.caffemodel
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/Yolov3/yolov3.caffemodel
 ```
 
 模型网络下载地址 ：

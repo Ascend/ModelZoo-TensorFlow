@@ -59,7 +59,7 @@ python3 load_coco_json.py
 
 - convert pb to om
 
-  [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/yolov4_tf.pb)
+  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/yolov4_tf.pb)
 
   ```
   atc --model=yolov4_tf.pb --framework=3 --output=yolov4_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="x:1,416,416,3" --log=info

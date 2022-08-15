@@ -69,7 +69,7 @@ input_bins
 
 - convert pb to om
   
-  [**Pb Download Link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/006_train_backup/PWCNet_tf_wosaisai/offline_infer/pwcnet.pb)
+  [**Pb Download Link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/006_train_backup/PWCNet_tf_wosaisai/offline_infer/pwcnet.pb)
 
   batchsize=1
 

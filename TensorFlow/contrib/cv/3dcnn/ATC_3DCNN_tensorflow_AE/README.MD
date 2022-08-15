@@ -10,14 +10,14 @@ https://gitee.com/azureluck/gesture_recognition
 
 原始下载地址 :
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/3D_gesture_recognition/3d_gesture_recognition.pb
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/3D_gesture_recognition/3d_gesture_recognition.pb
 
 
 ## om模型
 
 om模型下载地址：
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/3D_gesture_recognition/3d_gesture_recognition.om
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/3D_gesture_recognition/3d_gesture_recognition.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 

@@ -10,17 +10,17 @@ https://github.com/YunYang1994/tensorflow-yolov3
 
 原始pb模型权重下载地址 :
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_ascend_logo_following/yolov3_ascend_logo.pb
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_ascend_logo_following/yolov3_ascend_logo.pb
 
 对应的cfg文件下载地址 ：
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_ascend_logo_following/insert_op.cfg
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_ascend_logo_following/insert_op.cfg
 
 ## om模型
 
 om模型下载地址：
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_ascend_logo_following/yolov3_ascend_logo.om
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/YOLOV3_ascend_logo_following/yolov3_ascend_logo.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 

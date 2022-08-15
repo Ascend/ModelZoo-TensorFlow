@@ -67,7 +67,7 @@ python3 main.py --act dump
 
 **Convert pb to om**
 
-[**pb download link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/VAE_GAN_for_ACL.zip)
+[**pb download link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/VAE_GAN_for_ACL.zip)
 
 ```Bash
 atc --model=./model/VAE_GAN_gpu.pb --framework=3 --output=./model/VAE_GAN_gpu --soc_version=Ascend310 --input_shape="Placeholder:64,64,64,3" --log=info

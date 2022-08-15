@@ -26,7 +26,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/DPN_for_ACL
 
 ### 2. Download and preprocess the dataset
 
-1. Download the  test dataset by yourself ([Download](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/dataset/dpnval.tfrecords))and put it to the path: **scripts/dataset/**
+1. Download the  test dataset by yourself ([Download](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/dataset/dpnval.tfrecords))and put it to the path: **scripts/dataset/**
 
 2. Preprocess of the test datasets and labels:
 ```
@@ -66,7 +66,7 @@ label
 
 - convert pb to om
   
-   [**Pb Download Link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/ckpt/dpn.pb)
+   [**Pb Download Link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/ckpt/dpn.pb)
 
   batchsize=8
 

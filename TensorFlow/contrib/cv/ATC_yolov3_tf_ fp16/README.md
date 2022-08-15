@@ -11,19 +11,19 @@ https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/de
 
 原始bp模型网络下载地址 ：
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/yolov3_tf/yolov3_tf.pb
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/yolov3_tf/yolov3_tf.pb
 
 AIPP下载地址 ：
 
-https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/YOLOV3_VOC_detection_picture/insert_op.cfg
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/YOLOV3_VOC_detection_picture/insert_op.cfg
 
 ## om模型
 
 om模型下载地址：
 
-20.0版本模型：https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/yolov3_tf/yolov3_ascend310_aipp_1_batch_1_input_fp16_output_FP32_C73.om
+20.0版本模型：https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/yolov3_tf/yolov3_ascend310_aipp_1_batch_1_input_fp16_output_FP32_C73.om
 
-20.1版本模型：https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/yolov3_tf/yolov3_ascend310_aipp_1_batch_1_input_fp16_output_FP32_C75.om
+20.1版本模型：https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/yolov3_tf/yolov3_ascend310_aipp_1_batch_1_input_fp16_output_FP32_C75.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令，具体操作详情和参数设置可以参考  [ATC工具使用指导](https://support.huaweicloud.com/ti-atc-A200dk_3000/altasatc_16_002.html) 
 

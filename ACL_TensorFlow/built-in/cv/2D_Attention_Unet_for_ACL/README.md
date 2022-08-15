@@ -62,7 +62,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/2D_Attention_Unet_for_ACL
 - convert pb to om
 
 
-  [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/2D_Attention_Unet_for_ACL.zip)
+  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/2D_Attention_Unet_for_ACL.zip)
 
   ```
   cd ..

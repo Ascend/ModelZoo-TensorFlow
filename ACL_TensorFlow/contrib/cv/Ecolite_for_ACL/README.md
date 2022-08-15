@@ -52,7 +52,7 @@ There will random testdata bin fils under *input_bins/*.
 
 - convert pb to om
 
-  [**pb download link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/ECOLite_for_ACL.zip)
+  [**pb download link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/ECOLite_for_ACL.zip)
 
   ```
   atc --model=ecolite_tf_4batch.pb --framework=3 --output=ecolite_tf_4batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input_tensor:4,224,224,3" --insert_op_conf=ecolite.json --enable_small_channel=1 --log=info

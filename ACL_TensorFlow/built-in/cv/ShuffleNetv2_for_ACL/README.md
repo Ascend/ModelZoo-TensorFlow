@@ -64,7 +64,7 @@ The jpeg pictures will be preprocessed to bin fils.
 - convert pb to om
 
   Download pb model of shufflenetv2 which was trained by this repo: [Repo of train](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/shufflenetv2/shufflenetv2_ID0185_for_TensorFlow/Offline_shufflenetv2_tf_uestclzx)
-  [Pb Download Link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/ShuffleNetv2_for_ACL.zip)
+  [Pb Download Link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/ShuffleNetv2_for_ACL.zip)
 
   ```
   atc --model=shufflenetv2.pb --framework=3 --output=shufflenetv2_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --out_nodes="classifier/BiasAdd:0" --log=info

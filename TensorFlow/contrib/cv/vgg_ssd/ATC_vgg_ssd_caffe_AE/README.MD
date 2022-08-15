@@ -10,20 +10,20 @@ https://github.com/weiliu89/caffe/tree/ssd
 
 原始模型权重下载地址 :
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/VGG_SSD/vgg_ssd.caffemodel
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/VGG_SSD/vgg_ssd.caffemodel
 
 原始模型网络下载地址 ：
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/VGG_SSD/vgg_ssd.prototxt
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/VGG_SSD/vgg_ssd.prototxt
 
 
 ## om模型
 
 om模型下载地址：
 
-20.0版本模型：https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/VGG_SSD/vgg-ssd_framework_caffe_ascend310_aipp_0_batch_1_input_fp32_output_FP32_C73.om
+20.0版本模型：https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/VGG_SSD/vgg-ssd_framework_caffe_ascend310_aipp_0_batch_1_input_fp32_output_FP32_C73.om
 
-20.1版本模型：https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/VGG_SSD/vgg-ssd_framework_caffe_ascend310_aipp_0_batch_1_input_fp32_output_FP32_C75.om 
+20.1版本模型：https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/VGG_SSD/vgg-ssd_framework_caffe_ascend310_aipp_0_batch_1_input_fp32_output_FP32_C75.om 
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 

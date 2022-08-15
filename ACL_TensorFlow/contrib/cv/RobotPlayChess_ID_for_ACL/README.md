@@ -8,11 +8,11 @@
 https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/built-in/TensorFlow/Official/cv/image_classification/VGG16_for_TensorFlow
 
 
-原始pb模型网络下载地址 ：https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/robot_play_chess/chess_ckpt_0804_vgg_99.pb
+原始pb模型网络下载地址 ：https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/robot_play_chess/chess_ckpt_0804_vgg_99.pb
 
 
 
-AIPP下载地址 ：https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/robot_play_chess/insert_op.cfg
+AIPP下载地址 ：https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/robot_play_chess/insert_op.cfg
 
 
 

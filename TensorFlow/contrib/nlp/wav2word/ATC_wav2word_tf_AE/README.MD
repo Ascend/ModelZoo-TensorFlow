@@ -10,14 +10,14 @@ https://gitee.com/li_jian_jlu/smartvoice_classnotes_c73
 
 原始模型网络下载地址 ：
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/Wav2word/Wav2word.pb
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/Wav2word/Wav2word.pb
 
 
 ## om模型
 
 om模型下载地址：
 
-https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/Wav2word/Wav2word_framework_tensorflow_aipp_0_batch_1_input_fp32_output_FP32.om
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/AE/ATC%20Model/Wav2word/Wav2word_framework_tensorflow_aipp_0_batch_1_input_fp32_output_FP32.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令，具体操作详情和参数设置可以参考  [ATC工具使用指导](https://support.huaweicloud.com/ti-atc-A200dk_3000/altasatc_16_002.html) 
 

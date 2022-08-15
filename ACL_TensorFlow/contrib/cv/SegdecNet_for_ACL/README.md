@@ -55,7 +55,7 @@ The labels bin files is stored in output/labels/
 
 - convert pb to om
 
-  [**pb download link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/SEGDEC-NET_for_ACL.zip)
+  [**pb download link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/SEGDEC-NET_for_ACL.zip)
 
   ```
   atc --model=./output/SEGDEC-NET_tf.pb --framework=3 --output=./output/SEGDEC-NET_tf --output_type=FP32 --soc_version=Ascend310 --input_shape="images:1,1408,512,1" --log=info
