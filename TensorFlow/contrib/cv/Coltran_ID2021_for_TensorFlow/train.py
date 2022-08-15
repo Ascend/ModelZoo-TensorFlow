@@ -34,9 +34,9 @@ from npu_bridge.npu_init import NPULossScaleOptimizer, npu_config_proto, Rewrite
 # import precision_tool.tf_config as npu_tf_config
 import os
 
-os.system('pip3 install ml_collections')
-os.system('pip3 install tensorflow_datasets==3.0.0')
-os.system('pip3 install pyopenssl')
+# os.system('pip3 install ml_collections')
+# os.system('pip3 install tensorflow_datasets==3.0.0')
+# os.system('pip3 install pyopenssl')
 import time
 from datetime import datetime
 
@@ -47,7 +47,7 @@ from datetime import datetime
 from ml_collections import config_flags
 import tensorflow as tf
 import tensorflow_datasets as tfds
-import moxing as mx
+# import moxing as mx
 import datasets
 from models import colorizer
 from models import upsampler
@@ -82,14 +82,14 @@ flags.DEFINE_integer('devices_per_worker', 1, 'Number of devices per worker.')
 flags.DEFINE_integer('num_workers', 1, 'Number workers.')
 config_flags.DEFINE_config_file(
     'config',
-    default='/home/ma-user/modelarts/user-job-dir/code/configs/spatial_upsampler.py',
+    default='./configs/spatial_upsampler.py',
     help_string='Training configuration file.')
 FLAGS = flags.FLAGS
 if not os.path.exists(FLAGS.logdir):
     os.makedirs(FLAGS.logdir)
 if FLAGS.restore:
     os.makedirs(FLAGS.prelogdir)
-    mx.file.copy_parallel(FLAGS.pretrain_dir, FLAGS.prelogdir)
+    # mx.file.copy_parallel(FLAGS.pretrain_dir, FLAGS.prelogdir)
 
 
 def loss_on_batch(inputs, model, config, training=False):
@@ -219,10 +219,10 @@ def train():
         # custom_op.parameter_map["profiling_mode"].b = True
         # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes(
         #     '{"output":"/cache/saveModels/","task_trace":"on"}')
-        custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes(
-            "/home/ma-user/modelarts/user-job-dir/code/precision_tool/ops_info.json")
-        custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes(
-            '/home/ma-user/modelarts/user-job-dir/code/precision_tool/fusion_switch.cfg')
+        # custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes(
+            # "/home/ma-user/modelarts/user-job-dir/code/precision_tool/ops_info.json")
+        # custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes(
+            # '/home/ma-user/modelarts/user-job-dir/code/precision_tool/fusion_switch.cfg')
         sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
         sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
         # sess_config = npu_tf_config.session_dump_config(sess_config, action='overflow')
@@ -237,6 +237,7 @@ def train():
                     print('restore model from {}!'.format(FLAGS.pretrain_dir))
             summary_writer = tf.summary.FileWriter(FLAGS.logdir, sess.graph)
             avgloss = 0.0
+            checkpoint_path = os.path.join(FLAGS.logdir, 'model.ckpt')
             for i in range(config.get('max_train_steps', 1000000)):
                 start_time = time.time()
                 # _, loss_value = sess.run([train_op, loss])
@@ -262,8 +263,8 @@ def train():
     print('Training completed')
     print('****************************************************')
     # copy results to obs
-    mx.file.copy_parallel('/cache/saveModels', FLAGS.train_url)
-    print('copy saved model to obs: {}.'.format(FLAGS.train_url))
+    # mx.file.copy_parallel('/cache/saveModels', FLAGS.train_url)
+    # print('copy saved model to obs: {}.'.format(FLAGS.train_url))
 
 
 if __name__ == '__main__':
