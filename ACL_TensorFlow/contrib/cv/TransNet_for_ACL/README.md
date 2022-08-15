@@ -33,7 +33,7 @@ pip3 install -r requirements.txt
 
 ### 3. Download demo video
 
-1. Download a demo video of **'BigBuckBunny.mp4'**  [Download Link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/Dataset/BigBuckBunny.mp4)
+1. Download a demo video of **'BigBuckBunny.mp4'**  [Download Link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/Dataset/BigBuckBunny.mp4)
 
 2. Move video file to **'scripts'** and convert it to bin files:
 ```
@@ -59,7 +59,7 @@ The video file will be converted to bin fils under **input_bins/**.
 
 - convert pb to om
 
-  [**pb download link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/TransNet_for_ACL.zip)
+  [**pb download link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/TransNet_for_ACL.zip)
 
   ```
   atc --model=transnet_tf.pb --framework=3 --output=transnet_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="TransNet/inputs:1,100,27,48,3" --log=info

@@ -10,27 +10,27 @@ https://github.com/TachibanaYoshino/AnimeGAN
 
 三种不同shape的pb模型及其aipp配置文件下载地址 ：
 ```
-https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGAN_256_256.pb
-https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/aipp_256_256.cfg
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/animeGAN/AnimeGAN_256_256.pb
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/animeGAN/aipp_256_256.cfg
 ```
 ```
-https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGAN_512_512.pb
-wget https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/aipp_512_512.cfg
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/animeGAN/AnimeGAN_512_512.pb
+wget https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/animeGAN/aipp_512_512.cfg
 ```
 ```
-https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGAN_1024_1024.pb
-wget https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/aipp_1024_1024.cfg
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/animeGAN/AnimeGAN_1024_1024.pb
+wget https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/animeGAN/aipp_1024_1024.cfg
 ```
 
 ## om模型
 
 om模型下载地址：
 
-`https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGANv2_256.om`
+`https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/animeGAN/AnimeGANv2_256.om`
 
-`https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGANv2_512.om`
+`https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/animeGAN/AnimeGANv2_512.om`
 
-`https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/animeGAN/AnimeGANv2_1024.om`
+`https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/animeGAN/AnimeGANv2_1024.om`
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 

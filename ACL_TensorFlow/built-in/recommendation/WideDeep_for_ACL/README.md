@@ -29,7 +29,7 @@ cd Modelzoo-TensorFlow/ACL/Research/recommendation/WideDeep_for_ACL
 
 and put them to **'acl/bin'**
 
-[test dataset](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com:443/010_Offline_Inference/Official/cv/WideDeep_ID0028_for_ACL/acl/data/adult.test?AccessKeyId=APWPYQJZOXDROK0SPPNG&Expires=1656054988&Signature=UXJ9XFtUdgDeM2PDVesztNBzQXs%3D)
+[test dataset](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com:443/010_Offline_Inference/Official/cv/WideDeep_ID0028_for_ACL/acl/data/adult.test?AccessKeyId=APWPYQJZOXDROK0SPPNG&Expires=1656054988&Signature=UXJ9XFtUdgDeM2PDVesztNBzQXs%3D)
 
 put test dataset to **'acl/data/'**
 
@@ -49,7 +49,7 @@ put test dataset to **'acl/data/'**
 
 - convert pb to om
 
-  [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/recommendation/widedeep_tf.pb)
+  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/recommendation/widedeep_tf.pb)
 
   ```
   atc --model=acl/model/widedeep_tf.pb --framework=3 --output=acl/model/widedeep_framework_tensorflow_aipp_0_batch_1_input_fp32_output_fp32 --soc_version=Ascend310 --input_shape="Input:1,51"

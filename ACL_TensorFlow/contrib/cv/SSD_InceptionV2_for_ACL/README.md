@@ -34,7 +34,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/SSD_InceptionV2_for_ACL
    
    ```
 3. Download gt labels
-   [instances_minival2014.json](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com:443/010_Offline_Inference/Official/cv/ID1654_ssd_resnet50fpn/scripts/instances_minival2014.json?AccessKeyId=APWPYQJZOXDROK0SPPNG&Expires=1656057065&Signature=ydPmdux71bGzs38Q/xV7USQIdCg%3D)
+   [instances_minival2014.json](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com:443/010_Offline_Inference/Official/cv/ID1654_ssd_resnet50fpn/scripts/instances_minival2014.json?AccessKeyId=APWPYQJZOXDROK0SPPNG&Expires=1656057065&Signature=ydPmdux71bGzs38Q/xV7USQIdCg%3D)
 
    put json file to **'scripts'**
  
@@ -54,7 +54,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/SSD_InceptionV2_for_ACL
 
 - convert pb to om
   
-  [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/SSD_for_ACL/ssd_inceptionv2_tf.pb)
+  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/SSD_for_ACL/ssd_inceptionv2_tf.pb)
 
   ```
   atc --model=model/ssd_inceptionv2_tf.pb --framework=3 --output=model/ssd_inceptionv2 --output_type=FP16 --soc_version=Ascend310P3 --input_shape="image_tensor:1,640,640,3" --out_nodes="detection_boxes:0;detection_scores:0;num_detections:0;detection_classes:0"

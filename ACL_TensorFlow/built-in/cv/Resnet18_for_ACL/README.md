@@ -63,7 +63,7 @@ The jpegs pictures will be preprocessed to bin fils.
 
 - convert pb to om
   
-  [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/resnet18_tf.pb)
+  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/resnet18_tf.pb)
 
   ```
   atc --model=resnet18_tf.pb --framework=3 --output=resnet18_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="test_inputs:1,64,64,3" --log=info --insert_op_conf=resnet18_tf_aipp.cfg --enable_small_channel=1

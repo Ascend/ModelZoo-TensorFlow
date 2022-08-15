@@ -7,7 +7,7 @@
 原始模型下载地址 :
 （1）星空风格
 ```
-https://c7xcode.obs.cn-north-4.myhuaweicloud.com/models/style_transfer_picture/xingkong1.pb
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/style_transfer_picture/xingkong1.pb
 ```
 （2）糖果风格
 ```

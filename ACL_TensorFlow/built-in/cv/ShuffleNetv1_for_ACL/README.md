@@ -65,7 +65,7 @@ The jpeg pictures will be preprocessed to bin fils.
 
   Download pb model of shufflenetv1 which was trained by this repo: [Repo of train](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/shufflenetv1/ShuffleNet_ID0184_for_TensorFlow)
   
-  [Pb Download Link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/ShuffleNetv1_for_ACL.zip)
+  [Pb Download Link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/ShuffleNetv1_for_ACL.zip)
 
   Because of batchsize was fixed to **96** by the trained checkpoint, atc input shape need to set **"input:96,224,224,3"**
   ```

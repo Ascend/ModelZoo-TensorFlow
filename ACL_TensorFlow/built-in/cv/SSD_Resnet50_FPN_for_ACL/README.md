@@ -32,7 +32,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/SSD_Resnet50_FPN_for_ACL
    
    ```
 3. Download gt labels
-   [instances_minival2014.json](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com:443/010_Offline_Inference/Official/cv/ID1654_ssd_resnet50fpn/scripts/instances_minival2014.json?AccessKeyId=APWPYQJZOXDROK0SPPNG&Expires=1656057065&Signature=ydPmdux71bGzs38Q/xV7USQIdCg%3D)
+   [instances_minival2014.json](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com:443/010_Offline_Inference/Official/cv/ID1654_ssd_resnet50fpn/scripts/instances_minival2014.json?AccessKeyId=APWPYQJZOXDROK0SPPNG&Expires=1656057065&Signature=ydPmdux71bGzs38Q/xV7USQIdCg%3D)
 
    put json file to **'scripts'**
  
@@ -52,7 +52,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/SSD_Resnet50_FPN_for_ACL
 
 - convert pb to om
   
-  [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/SSD_Resnet50_FPN_for_ACL.zip)
+  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/SSD_Resnet50_FPN_for_ACL.zip)
 
   ```
   atc --model=model/ssd-resnet50fpn_tf.pb --framework=3 --output=model/ssd_resnet50_fpn --output_type=FP16 --soc_version=Ascend310P3 --input_shape="image_tensor:1,640,640,3" "input_name1:image_tensor" --enable_scope_fusion_passes=ScopeBatchMultiClassNMSPass,ScopeDecodeBboxV2Pass,ScopeNormalizeBBoxPass,ScopeToAbsoluteBBoxPass

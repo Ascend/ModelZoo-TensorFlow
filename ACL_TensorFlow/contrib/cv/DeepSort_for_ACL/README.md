@@ -55,7 +55,7 @@ dataset/test
 
 - convert pb to om
   
-  [**Pb Download Link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/DeepSort_for_ACL/mars-small128.pb)
+  [**Pb Download Link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/DeepSort_for_ACL/mars-small128.pb)
 
   Dynamic batchsize
 
@@ -87,7 +87,7 @@ Our result were obtained by running the applicable training script. To achieve t
 
 #### Inference results:
 
-[Demo Video](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/DeepSort_for_ACL/MOT16-03.avi)
+[Demo Video](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/DeepSort_for_ACL/MOT16-03.avi)
 
 ## Reference
 [1] https://github.com/nwojke/deep_sort

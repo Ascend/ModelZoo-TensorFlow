@@ -50,7 +50,7 @@ The jpegs pictures will be preprocessed to bin fils.
 
 **Convert pb to om.**
 
-  [pb download link](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/deepLabv3_plus_for_ACL.zip)
+  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/deepLabv3_plus_for_ACL.zip)
 
 - configure the env
 
