@@ -198,7 +198,7 @@ python tools/make_tusimple_tfrecords.py
 
 
 
-## 训练过程<a name="section1589455252218"></a>
+## 训练输出信息<a name="section1589455252218"></a>
 
 启动单卡训练
 
