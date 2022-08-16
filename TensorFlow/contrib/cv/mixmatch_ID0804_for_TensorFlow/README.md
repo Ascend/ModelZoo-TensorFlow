@@ -175,7 +175,24 @@ pip3 install requirements.txt
          ```
          bash train_full_1p.sh
          ```
-        
+        4. 精度训练结果
+     
+        ```
+           P（Precision）=（预测为真且正确预测的样本数）/（所有预测为真的样本数）
+            
+            - npu测试最优精度
+            
+            --filters=32 --dataset=cifar10.3@250-5000 --w_match=100 --beta=0.5 accuracy train/valid/test  100.00  87.92  87.35
+            
+            - gpu测试最优精度
+            
+            --filters=32 --dataset=cifar10.1@250-5000 --w_match=100 --beta=0.5 accuracy train/valid/test  100.00  88.52  87.90
+            
+            （其中accuracy train/valid/test 分别指训练、验证、测试的精度）
+            
+            - 论文中的精度要求
+              cifar10 250models error rate of 11.08±0.87%   
+         ```    
 
 
 <h2 id="高级参考.md">高级参考</h2>
