@@ -118,46 +118,76 @@
 python tools/make_tusimple_tfrecords.py 
 
 -脚本和示例代码
-├── config                              
+
+├── config
+                              
     ├── tusimple_lanenet.yaml          //配置文件
 
+
 ├── data_provider          //准备数据
+
     ├── lanenet_data_feed_pipline.py 
+
     ├── tf_io_pipline_tools.py
 
+
 ├── lanenet_model          //构建模型
+
     ├── lanenet.py
+
     ├── lanenet_back_end.py
+
     ├── lanenet_discriminative_loss.py
+
     ├── lanenet_front_end.py
+
     ├── lanenet_postprocess.py
 
-├── local_utils                                   
+
+├── local_utils
+                                   
     ├── config_utils
 
         ├── parse_config_utils.py
+
     ├── log_util
 
         ├── init_logger.py
 
-├── mnn_project 
+
+├── mnn_project
+ 
     ├── freeze_lanenet_model.py
 
+
 ├── semantic_segmentation_zoo
+
     ├── bisenet_v2.py
+
     ├── cnn_basenet.py
+
     ├── vgg16_based_fcn.py
 
+
 ├── tools
+
     ├── evaluate_lanenet_on_tusimple.py
+
     ├── evaluate_model_utils.py
+
     ├── generate_tusimple_dataset.py
+
     ├── make_tusimple_tfrecords.py
+
     ├── test_lanenet.py
+
     ├── train_lanenet_tusimple.py          //入口
 
+
 ├── trainner 
+
     ├── tusimple_lanenet_multi_gpu_trainner.py
+
     ├── tusimple_lanenet_single_gpu_trainner.py
 
  
@@ -216,7 +246,7 @@ train loss: 27.36981, b_loss: 1.53718, i_loss: 22.19878: 100%|██████
 <h2 id="精度指标.md">精度指标</h2>
 训练总Loss
 
-| gpu   | npu  |原论文 |
+| gpu   | npu  |原论文|
 |-------|------|------|
 |1.9305 |0.991 |      | 
 原文训练轮数过多(40k轮)，只迭代905轮  
