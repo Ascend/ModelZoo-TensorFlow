@@ -31,6 +31,7 @@ from npu_bridge.npu_init import *
 # coding=utf-8
 import os
 import sys
+import time
 # import moxing as mox
 import csv
 import numpy as np
@@ -116,6 +117,7 @@ def train(model, saver, sess, exp_string, data_generator, resume_itr=0):
     multitask_weights, reg_weights = [], []
     for itr in range(resume_itr, FLAGS.pretrain_iterations + FLAGS.metatrain_iterations):
         feed_dict = {}
+        step_t0 = time.time()
         if 'generate' in dir(data_generator):
             batch_x, batch_y, amp, phase = data_generator.generate()
 
@@ -187,6 +189,8 @@ def train(model, saver, sess, exp_string, data_generator, resume_itr=0):
             item = item + 1
             total = total + result[1]
             print('Totally results: ' + ', ' + str(total/item))
+        step_t1 = time.time()
+        print("step = %d, step_time = %.8f" % (itr, step_t1 - step_t0))
     # mox.file.copy_parallel(model_dir, FLAGS.train_url)
     saver.save(sess, FLAGS.logdir + '/' + exp_string + '/model' + str(itr))
     # mox.file.copy_parallel(model_dir, FLAGS.train_url)
