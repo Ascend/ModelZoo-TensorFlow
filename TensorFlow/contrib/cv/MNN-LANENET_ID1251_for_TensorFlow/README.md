@@ -1,66 +1,66 @@
--   [»ù±¾ĞÅÏ¢]
--   [¸ÅÊö]
--   [ÑµÁ·»·¾³×¼±¸]
--   [ÑµÁ·¹ı³Ì]
--   [¾«¶ÈÖ¸±ê]
+-   [åŸºæœ¬ä¿¡æ¯]
+-   [æ¦‚è¿°]
+-   [è®­ç»ƒç¯å¢ƒå‡†å¤‡]
+-   [è®­ç»ƒè¿‡ç¨‹]
+-   [ç²¾åº¦æŒ‡æ ‡]
 
-<h2 id="»ù±¾ĞÅÏ¢.md">»ù±¾ĞÅÏ¢</h2>
+<h2 id="åŸºæœ¬ä¿¡æ¯.md">åŸºæœ¬ä¿¡æ¯</h2>
 
-**·¢²¼Õß£¨Publisher£©£ºHuawei**
+**å‘å¸ƒè€…ï¼ˆPublisherï¼‰ï¼šHuawei**
 
-**Ó¦ÓÃÁìÓò£¨Application Domain£©£º?Missing pattern**
+**åº”ç”¨é¢†åŸŸï¼ˆApplication Domainï¼‰ï¼š?Missing pattern**
 
-**°æ±¾£¨Version£©£º1.1**
+**ç‰ˆæœ¬ï¼ˆVersionï¼‰ï¼š1.1**
 
-**ĞŞ¸ÄÊ±¼ä£¨Modified£© £º2021.12.23**
+**ä¿®æ”¹æ—¶é—´ï¼ˆModifiedï¼‰ ï¼š2021.12.23**
 
-**´óĞ¡£¨Size£©£º389K**
+**å¤§å°ï¼ˆSizeï¼‰ï¼š389K**
 
-**¿ò¼Ü£¨Framework£©£ºTensorFlow 1.15.0**
+**æ¡†æ¶ï¼ˆFrameworkï¼‰ï¼šTensorFlow 1.15.0**
 
-**Ä£ĞÍ¸ñÊ½£¨Model Format£©£ºckpt**
+**æ¨¡å‹æ ¼å¼ï¼ˆModel Formatï¼‰ï¼šckpt**
 
-**¾«¶È£¨Precision£©£ºMixed**
+**ç²¾åº¦ï¼ˆPrecisionï¼‰ï¼šMixed**
 
-**´¦ÀíÆ÷£¨Processor£©£º•NÌÚ910**
+**å¤„ç†å™¨ï¼ˆProcessorï¼‰ï¼šæ˜‡è…¾910**
 
-**Ó¦ÓÃ¼¶±ğ£¨Categories£©£ºOfficial**
+**åº”ç”¨çº§åˆ«ï¼ˆCategoriesï¼‰ï¼šOfficial**
 
-**ÃèÊö£¨Description£©£º»ùÓÚTensorFlow¿ò¼ÜµÄ³µµÀÏß¼ì²âÑµÁ·´úÂë** 
+**æè¿°ï¼ˆDescriptionï¼‰ï¼šåŸºäºTensorFlowæ¡†æ¶çš„è½¦é“çº¿æ£€æµ‹è®­ç»ƒä»£ç ** 
 
-<h2 id="¸ÅÊö.md">¸ÅÊö</h2>
+<h2 id="æ¦‚è¿°.md">æ¦‚è¿°</h2>
 
-±¾Ëã·¨ÊÇÒ»ÖÖ¿ìËÙ³µµÀ¼ì²âµÄËã·¨£¬ÄÜ¹»´¦Àí¶àÊı³µµÀºÍ³µµÀ±ä»»¡£±¾Ëã·¨½«³µµÀ¼ì²âÎÊÌâ×ªÎªÊµÀı·Ö¸îÎÊÌâ£¬´Ó¶øÃ¿¸ö³µµÀÏß¸÷×ÔĞÎ³ÉÒ»¸öÊµÀıÒÔÊµÏÖÊµÏÖ¶Ëµ½¶ËÑµÁ·¡£ÔÚ·Ö¸î³µµÀÏßÓÃÓÚÄâºÏ³µµÀÖ®Ç°£¬²ÉÓÃÒ»¸öÒÑÑ§Ï°ºÃµÄÍ¸ÊÓ±ä»»£¬ÔÚÍ¼ÏñÉÏ×öÕâÖÖµ÷Õû£¬Óë¹Ì¶¨µÄÄñî«Í¼×ö¶Ô±ÈÒÔÈ·±£ÔÚµÀÂ·Æ½Ãæ±ä»¯ÏÂµÄ³µµÀÏßÄâºÏµÄÂ³°ôĞÔ¡£±¾Ëã·¨ÔÚtuSimpleÊı¾İ¼¯ÖĞÑéÖ¤¹ıÇÒÈ¡µÃ½ÏÓĞÓÅÊÆµÄ½á¹û¡£
+æœ¬ç®—æ³•æ˜¯ä¸€ç§å¿«é€Ÿè½¦é“æ£€æµ‹çš„ç®—æ³•ï¼Œèƒ½å¤Ÿå¤„ç†å¤šæ•°è½¦é“å’Œè½¦é“å˜æ¢ã€‚æœ¬ç®—æ³•å°†è½¦é“æ£€æµ‹é—®é¢˜è½¬ä¸ºå®ä¾‹åˆ†å‰²é—®é¢˜ï¼Œä»è€Œæ¯ä¸ªè½¦é“çº¿å„è‡ªå½¢æˆä¸€ä¸ªå®ä¾‹ä»¥å®ç°å®ç°ç«¯åˆ°ç«¯è®­ç»ƒã€‚åœ¨åˆ†å‰²è½¦é“çº¿ç”¨äºæ‹Ÿåˆè½¦é“ä¹‹å‰ï¼Œé‡‡ç”¨ä¸€ä¸ªå·²å­¦ä¹ å¥½çš„é€è§†å˜æ¢ï¼Œåœ¨å›¾åƒä¸Šåšè¿™ç§è°ƒæ•´ï¼Œä¸å›ºå®šçš„é¸Ÿç°å›¾åšå¯¹æ¯”ä»¥ç¡®ä¿åœ¨é“è·¯å¹³é¢å˜åŒ–ä¸‹çš„è½¦é“çº¿æ‹Ÿåˆçš„é²æ£’æ€§ã€‚æœ¬ç®—æ³•åœ¨tuSimpleæ•°æ®é›†ä¸­éªŒè¯è¿‡ä¸”å–å¾—è¾ƒæœ‰ä¼˜åŠ¿çš„ç»“æœã€‚
 
-- ²Î¿¼ÂÛÎÄ£º
+- å‚è€ƒè®ºæ–‡ï¼š
 
 [D. Neven, B. D. Brabandere, S. Georgoulis, M. Proesmans and L. V. Gool, "Towards End-to-End Lane Detection: an Instance Segmentation Approach," 2018 IEEE Intelligent Vehicles Symposium (IV), 2018, pp. 286-291, doi: 10.1109/IVS.2018.8500547.] 
 
-- ²Î¿¼ÊµÏÖ£º
+- å‚è€ƒå®ç°ï¼š
 
     
 
-- ÊÊÅä•NÌÚ AI ´¦ÀíÆ÷µÄÊµÏÖ£º
+- é€‚é…æ˜‡è…¾ AI å¤„ç†å™¨çš„å®ç°ï¼š
   
   [https://gitee.com/jingzhongrenxc/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/MNN-LANENET_ID1251_for_TensorFlow](https://gitee.com/jingzhongrenxc/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/MNN-LANENET_ID1251_for_TensorFlow)      
 
 
-- Í¨¹ıGit»ñÈ¡¶ÔÓ¦commit\_idµÄ´úÂë·½·¨ÈçÏÂ£º
+- é€šè¿‡Gitè·å–å¯¹åº”commit\_idçš„ä»£ç æ–¹æ³•å¦‚ä¸‹ï¼š
   
     ```
-    git clone {repository_url}    # ¿ËÂ¡²Ö¿âµÄ´úÂë
-    cd {repository_name}    # ÇĞ»»µ½Ä£ĞÍµÄ´úÂë²ÖÄ¿Â¼
-    git checkout  {branch}    # ÇĞ»»µ½¶ÔÓ¦·ÖÖ§
-    git reset --hard £ûcommit_id£ı     # ´úÂëÉèÖÃµ½¶ÔÓ¦µÄcommit_id
-    cd £ûcode_path£ı    # ÇĞ»»µ½Ä£ĞÍ´úÂëËùÔÚÂ·¾¶£¬Èô²Ö¿âÏÂÖ»ÓĞ¸ÃÄ£ĞÍ£¬ÔòÎŞĞèÇĞ»»
+    git clone {repository_url}    # å…‹éš†ä»“åº“çš„ä»£ç 
+    cd {repository_name}    # åˆ‡æ¢åˆ°æ¨¡å‹çš„ä»£ç ä»“ç›®å½•
+    git checkout  {branch}    # åˆ‡æ¢åˆ°å¯¹åº”åˆ†æ”¯
+    git reset --hard ï½›commit_idï½     # ä»£ç è®¾ç½®åˆ°å¯¹åº”çš„commit_id
+    cd ï½›code_pathï½    # åˆ‡æ¢åˆ°æ¨¡å‹ä»£ç æ‰€åœ¨è·¯å¾„ï¼Œè‹¥ä»“åº“ä¸‹åªæœ‰è¯¥æ¨¡å‹ï¼Œåˆ™æ— éœ€åˆ‡æ¢
     ```
 
-## Ä¬ÈÏÅäÖÃ<a name="section91661242121611"></a>
+## é»˜è®¤é…ç½®<a name="section91661242121611"></a>
 
-- ÑµÁ·Êı¾İ¼¯£¨tuSimpleÊı¾İ¼¯£¬½ö×÷ÎªÓÃ»§²Î¿¼Ê¾Àı£©£º
-  -Êı¾İ¼¯»ñÈ¡µØÖ·£ºhttps://link.zhihu.com/?target=https%3A//github.com/TuSimple/tusimple-benchmark/issues/3
+- è®­ç»ƒæ•°æ®é›†ï¼ˆtuSimpleæ•°æ®é›†ï¼Œä»…ä½œä¸ºç”¨æˆ·å‚è€ƒç¤ºä¾‹ï¼‰ï¼š
+  -æ•°æ®é›†è·å–åœ°å€ï¼šhttps://link.zhihu.com/?target=https%3A//github.com/TuSimple/tusimple-benchmark/issues/3
 
-- ÑµÁ·³¬²Î
+- è®­ç»ƒè¶…å‚
 
     - SNAPSHOT_EPOCH: 8
     - BATCH_SIZE: 16
@@ -75,95 +75,104 @@
     - WEIGHT_DECAY: 0.0005
     - MOVING_AVE_DECAY: 0.9995
 
-## Ö§³ÖÌØĞÔ<a name="section1899153513554"></a>
+## æ”¯æŒç‰¹æ€§<a name="section1899153513554"></a>
 
-| ÌØĞÔÁĞ±í  | ÊÇ·ñÖ§³Ö |
+| ç‰¹æ€§åˆ—è¡¨  | æ˜¯å¦æ”¯æŒ |
 |-------    |------    |
-| »ìºÏ¾«¶È  |  ÊÇ      |
+| æ··åˆç²¾åº¦  |  æ˜¯      |
 
 
-## »ìºÏ¾«¶ÈÑµÁ·<a name="section168064817164"></a>
+## æ··åˆç²¾åº¦è®­ç»ƒ<a name="section168064817164"></a>
 
-•NÌÚ910 AI´¦ÀíÆ÷Ìá¹©×Ô¶¯»ìºÏ¾«¶È¹¦ÄÜ£¬¿ÉÒÔÕë¶ÔÈ«ÍøÖĞfloat32Êı¾İÀàĞÍµÄËã×Ó£¬°´ÕÕÄÚÖÃµÄÓÅ»¯²ßÂÔ£¬×Ô¶¯½«²¿·Öfloat32µÄËã×Ó½µµÍ¾«¶Èµ½float16£¬´Ó¶øÔÚ¾«¶ÈËğÊ§ºÜĞ¡µÄÇé¿öÏÂÌáÉıÏµÍ³ĞÔÄÜ²¢¼õÉÙÄÚ´æÊ¹ÓÃ¡£
+æ˜‡è…¾910 AIå¤„ç†å™¨æä¾›è‡ªåŠ¨æ··åˆç²¾åº¦åŠŸèƒ½ï¼Œå¯ä»¥é’ˆå¯¹å…¨ç½‘ä¸­float32æ•°æ®ç±»å‹çš„ç®—å­ï¼ŒæŒ‰ç…§å†…ç½®çš„ä¼˜åŒ–ç­–ç•¥ï¼Œè‡ªåŠ¨å°†éƒ¨åˆ†float32çš„ç®—å­é™ä½ç²¾åº¦åˆ°float16ï¼Œä»è€Œåœ¨ç²¾åº¦æŸå¤±å¾ˆå°çš„æƒ…å†µä¸‹æå‡ç³»ç»Ÿæ€§èƒ½å¹¶å‡å°‘å†…å­˜ä½¿ç”¨ã€‚
 
-## ¿ªÆô»ìºÏ¾«¶È<a name="section20779114113713"></a>
+## å¼€å¯æ··åˆç²¾åº¦<a name="section20779114113713"></a>
 
-½Å±¾ÒÑÄ¬ÈÏ¹Ø±Õ»ìºÏ¾«¶È£¬ÒòÎª¿ªÆôÖ®ºóĞÔÄÜÎŞÌáÉı¡£
+è„šæœ¬å·²é»˜è®¤å…³é—­æ··åˆç²¾åº¦ï¼Œå› ä¸ºå¼€å¯ä¹‹åæ€§èƒ½æ— æå‡ã€‚
 
   ```custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
 
 
 
-     100%|¨€¨€¨€¨€¨€¨€¨€¨€¨€¨€| 192/192 [02:00<00:00,  1.59it/s]
+     100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 192/192 [02:00<00:00,  1.59it/s]
   
   ```
 
 
-<h2 id="ÑµÁ·»·¾³×¼±¸.md">ÑµÁ·»·¾³×¼±¸</h2>
+<h2 id="è®­ç»ƒç¯å¢ƒå‡†å¤‡.md">è®­ç»ƒç¯å¢ƒå‡†å¤‡</h2>
 
-Ó²¼ş»·¾³£ºAscend: 1*Ascend 910(32GB) | ARM: 24 ºË 96GB
-ÔËĞĞ»·¾³£ºascend-share/5.1.rc2.alpha005_tensorflow-ascend910-cp37-euleros2.8-aarch64-training:1.15.0-21.0.2_0602
+ç¡¬ä»¶ç¯å¢ƒï¼šAscend: 1*Ascend 910(32GB) | ARM: 24 æ ¸ 96GB
+è¿è¡Œç¯å¢ƒï¼šascend-share/5.1.rc2.alpha005_tensorflow-ascend910-cp37-euleros2.8-aarch64-training:1.15.0-21.0.2_0602
 
     
   
-<h2 id="ÑµÁ·¹ı³Ì.md">ÑµÁ·¹ı³Ì</h2>
+<h2 id="è®­ç»ƒè¿‡ç¨‹.md">è®­ç»ƒè¿‡ç¨‹</h2>
 
-- Êı¾İ¼¯×¼±¸¡£
+- æ•°æ®é›†å‡†å¤‡ã€‚
 
-  Êı¾İ¼¯ÒªÇóÈçÏÂ£º
+  æ•°æ®é›†è¦æ±‚å¦‚ä¸‹ï¼š
 
- Çë²ÎÔÄ data/training_data_example ÎÄ¼ş¼Ğ½á¹¹¡£ ²¢ÇÒĞèÒªÉú³ÉÒ»¸ötrain.txtºÍÒ»¸öval.txtÀ´¼ÇÂ¼ÓÃÓÚÑµÁ·Ä£ĞÍµÄÊı¾İ¡£
-ÑµÁ·Ñù±¾ÓÉÈı²¿·Ö×é³É£¬¶ş½øÖÆ·Ö¸î±êÇ©ÎÄ¼ş¡¢ÊµÀı·Ö¸î±êÇ©ÎÄ¼şºÍÔ­Ê¼Í¼Ïñ¡£ ¶ş½øÖÆ·Ö¸îÊ¹ÓÃ 255 ±íÊ¾³µµÀ×Ö¶Î£¬ÆäÓà²¿·ÖÊ¹ÓÃ 0¡£ ¸ÃÊµÀıÊ¹ÓÃ²»Í¬µÄÏñËØÖµÀ´±íÊ¾²»Í¬µÄ³µµÀ³¡£¬ÆäÓàµÄÎª 0¡£ËùÓĞµÄÑµÁ·Í¼Ïñ½«¸ù¾İÅäÖÃÎÄ¼şËõ·Åµ½ÏàÍ¬µÄ±ÈÀı¡£
-Ê¹ÓÃÏÂ½Å±¾Éú³É tensorflow ¼ÇÂ¼ÎÄ¼ş£º
+ è¯·å‚é˜… data/training_data_example æ–‡ä»¶å¤¹ç»“æ„ã€‚ å¹¶ä¸”éœ€è¦ç”Ÿæˆä¸€ä¸ªtrain.txtå’Œä¸€ä¸ªval.txtæ¥è®°å½•ç”¨äºè®­ç»ƒæ¨¡å‹çš„æ•°æ®ã€‚
+è®­ç»ƒæ ·æœ¬ç”±ä¸‰éƒ¨åˆ†ç»„æˆï¼ŒäºŒè¿›åˆ¶åˆ†å‰²æ ‡ç­¾æ–‡ä»¶ã€å®ä¾‹åˆ†å‰²æ ‡ç­¾æ–‡ä»¶å’ŒåŸå§‹å›¾åƒã€‚ äºŒè¿›åˆ¶åˆ†å‰²ä½¿ç”¨ 255 è¡¨ç¤ºè½¦é“å­—æ®µï¼Œå…¶ä½™éƒ¨åˆ†ä½¿ç”¨ 0ã€‚ è¯¥å®ä¾‹ä½¿ç”¨ä¸åŒçš„åƒç´ å€¼æ¥è¡¨ç¤ºä¸åŒçš„è½¦é“åœºï¼Œå…¶ä½™çš„ä¸º 0ã€‚æ‰€æœ‰çš„è®­ç»ƒå›¾åƒå°†æ ¹æ®é…ç½®æ–‡ä»¶ç¼©æ”¾åˆ°ç›¸åŒçš„æ¯”ä¾‹ã€‚
+ä½¿ç”¨ä¸‹è„šæœ¬ç”Ÿæˆ tensorflow è®°å½•æ–‡ä»¶ï¼š
 python tools/make_tusimple_tfrecords.py 
 
--½Å±¾ºÍÊ¾Àı´úÂë
-©À©¤©¤ config                              
-    ©À©¤©¤ tusimple_lanenet.yaml          //ÅäÖÃÎÄ¼ş
-©À©¤©¤ data_provider          //×¼±¸Êı¾İ
-    ©À©¤©¤ lanenet_data_feed_pipline.py 
-    ©À©¤©¤ tf_io_pipline_tools.py
-©À©¤©¤ lanenet_model          //¹¹½¨Ä£ĞÍ
-    ©À©¤©¤ lanenet.py
-    ©À©¤©¤ lanenet_back_end.py
-    ©À©¤©¤ lanenet_discriminative_loss.py
-    ©À©¤©¤ lanenet_front_end.py
-    ©À©¤©¤ lanenet_postprocess.py
-©À©¤©¤ local_utils                                   
-    ©À©¤©¤ config_utils
-        ©À©¤©¤ parse_config_utils.py
-    ©À©¤©¤ log_util
-        ©À©¤©¤ init_logger.py
-©À©¤©¤ mnn_project 
-    ©À©¤©¤ freeze_lanenet_model.py
-©À©¤©¤ semantic_segmentation_zoo
-    ©À©¤©¤ bisenet_v2.py
-    ©À©¤©¤ cnn_basenet.py
-    ©À©¤©¤ vgg16_based_fcn.py
-©À©¤©¤ tools
-    ©À©¤©¤ evaluate_lanenet_on_tusimple.py
-    ©À©¤©¤ evaluate_model_utils.py
-    ©À©¤©¤ generate_tusimple_dataset.py
-    ©À©¤©¤ make_tusimple_tfrecords.py
-    ©À©¤©¤ test_lanenet.py
-    ©À©¤©¤ train_lanenet_tusimple.py          //Èë¿Ú
-©À©¤©¤ trainner 
-    ©À©¤©¤ tusimple_lanenet_multi_gpu_trainner.py
-    ©À©¤©¤ tusimple_lanenet_single_gpu_trainner.py
+-è„šæœ¬å’Œç¤ºä¾‹ä»£ç 
+â”œâ”€â”€ config                              
+    â”œâ”€â”€ tusimple_lanenet.yaml          //é…ç½®æ–‡ä»¶
+
+â”œâ”€â”€ data_provider          //å‡†å¤‡æ•°æ®
+    â”œâ”€â”€ lanenet_data_feed_pipline.py 
+    â”œâ”€â”€ tf_io_pipline_tools.py
+
+â”œâ”€â”€ lanenet_model          //æ„å»ºæ¨¡å‹
+    â”œâ”€â”€ lanenet.py
+    â”œâ”€â”€ lanenet_back_end.py
+    â”œâ”€â”€ lanenet_discriminative_loss.py
+    â”œâ”€â”€ lanenet_front_end.py
+    â”œâ”€â”€ lanenet_postprocess.py
+
+â”œâ”€â”€ local_utils                                   
+    â”œâ”€â”€ config_utils
+
+        â”œâ”€â”€ parse_config_utils.py
+    â”œâ”€â”€ log_util
+
+        â”œâ”€â”€ init_logger.py
+
+â”œâ”€â”€ mnn_project 
+    â”œâ”€â”€ freeze_lanenet_model.py
+
+â”œâ”€â”€ semantic_segmentation_zoo
+    â”œâ”€â”€ bisenet_v2.py
+    â”œâ”€â”€ cnn_basenet.py
+    â”œâ”€â”€ vgg16_based_fcn.py
+
+â”œâ”€â”€ tools
+    â”œâ”€â”€ evaluate_lanenet_on_tusimple.py
+    â”œâ”€â”€ evaluate_model_utils.py
+    â”œâ”€â”€ generate_tusimple_dataset.py
+    â”œâ”€â”€ make_tusimple_tfrecords.py
+    â”œâ”€â”€ test_lanenet.py
+    â”œâ”€â”€ train_lanenet_tusimple.py          //å…¥å£
+
+â”œâ”€â”€ trainner 
+    â”œâ”€â”€ tusimple_lanenet_multi_gpu_trainner.py
+    â”œâ”€â”€ tusimple_lanenet_single_gpu_trainner.py
 
  
-- Ä£ĞÍÑµÁ·¡£
+- æ¨¡å‹è®­ç»ƒã€‚
 
-   Ê¹ÓÃpycharmÔÚModelArtsÑµÁ·Æô¶¯ÎÄ¼şÎª£º/tools/train_lanenet_tusimple.py
-
-
+   ä½¿ç”¨pycharmåœ¨ModelArtsè®­ç»ƒå¯åŠ¨æ–‡ä»¶ä¸ºï¼š/tools/train_lanenet_tusimple.py
 
 
-## ÑµÁ·¹ı³Ì<a name="section1589455252218"></a>
 
-Æô¶¯µ¥¿¨ÑµÁ·
 
-1.  ÑµÁ·½Å±¾logÖĞ°üÀ¨ÈçÏÂĞÅÏ¢¡£
+## è®­ç»ƒè¿‡ç¨‹<a name="section1589455252218"></a>
+
+å¯åŠ¨å•å¡è®­ç»ƒ
+
+1.  è®­ç»ƒè„šæœ¬logä¸­åŒ…æ‹¬å¦‚ä¸‹ä¿¡æ¯ã€‚
 
 ```
   0%|          | 0/192 [00:00<?, ?it/s]2022-06-16 22:11:40.757045: I tf_adapter/kernels/geop_npu.cc:817] The model has been compiled on the Ascend AI processor, current graph id is: 11
@@ -173,40 +182,41 @@ train loss: 34.08809, b_loss: 1.56111, i_loss: 28.89311:   1%|          | 1/192 
 train loss: 33.28113, b_loss: 1.53935, i_loss: 28.10791:   1%|          | 1/192 [03:18<10:28:28, 197.42s/it]
 train loss: 33.28113, b_loss: 1.53935, i_loss: 28.10791:   1%|          | 2/192 [03:18<7:18:14, 138.39s/it] 
 train loss: 32.75388, b_loss: 1.61211, i_loss: 27.50790:   1%|          | 2/192 [03:18<7:18:14, 138.39s/it]
-train loss: 32.75388, b_loss: 1.61211, i_loss: 27.50790:   2%|¨‡         | 3/192 [03:18<5:05:44, 97.06s/it] 
-train loss: 33.34206, b_loss: 1.55278, i_loss: 28.15541:   2%|¨‡         | 3/192 [03:19<5:05:44, 97.06s/it]
-train loss: 33.34206, b_loss: 1.55278, i_loss: 28.15541:   2%|¨‡         | 4/192 [03:19<3:33:27, 68.13s/it]
-train loss: 34.02236, b_loss: 1.59200, i_loss: 28.79649:   2%|¨‡         | 4/192 [03:19<3:33:27, 68.13s/it]
-train loss: 34.02236, b_loss: 1.59200, i_loss: 28.79649:   3%|¨†         | 5/192 [03:19<2:29:12, 47.88s/it]
-train loss: 33.55459, b_loss: 1.55814, i_loss: 28.36258:   3%|¨†         | 5/192 [03:20<2:29:12, 47.88s/it]
-train loss: 33.55459, b_loss: 1.55814, i_loss: 28.36258:   3%|¨†         | 6/192 [03:20<1:44:28, 33.70s/it]
-train loss: 34.67654, b_loss: 1.56015, i_loss: 29.48252:   3%|¨†         | 6/192 [03:21<1:44:28, 33.70s/it]
-train loss: 34.67654, b_loss: 1.56015, i_loss: 29.48252:   4%|¨†         | 7/192 [03:21<1:13:19, 23.78s/it]
-train loss: 33.96736, b_loss: 1.56802, i_loss: 28.76547:   4%|¨†         | 7/192 [03:21<1:13:19, 23.78s/it]
-train loss: 33.96736, b_loss: 1.56802, i_loss: 28.76547:   4%|¨…         | 8/192 [03:21<51:36, 16.83s/it]  
-train loss: 33.22740, b_loss: 1.53942, i_loss: 28.05412:   4%|¨…         | 8/192 [03:22<51:36, 16.83s/it]
-train loss: 33.22740, b_loss: 1.53942, i_loss: 28.05412:   5%|¨…         | 9/192 [03:22<36:30, 11.97s/it]
-train loss: 35.09825, b_loss: 1.53474, i_loss: 29.92964:   5%|¨…         | 9/192 [03:23<36:30, 11.97s/it]
-train loss: 35.09825, b_loss: 1.53474, i_loss: 29.92964:   5%|¨„         | 10/192 [03:23<25:58,  8.56s/it]
-train loss: 34.73063, b_loss: 1.53588, i_loss: 29.56088:   5%|¨„         | 10/192 [03:23<25:58,  8.56s/it]
-train loss: 34.73063, b_loss: 1.53588, i_loss: 29.56088:   6%|¨„         | 11/192 [03:23<18:38,  6.18s/it]
-train loss: 33.60005, b_loss: 1.60795, i_loss: 28.35823:   6%|¨„         | 11/192 [03:24<18:38,  6.18s/it]
-train loss: 33.60005, b_loss: 1.60795, i_loss: 28.35823:   6%|¨ƒ         | 12/192 [03:24<13:31,  4.51s/it]
-train loss: 32.77514, b_loss: 1.59790, i_loss: 27.54338:   6%|¨ƒ         | 12/192 [03:24<13:31,  4.51s/it]
-train loss: 32.77514, b_loss: 1.59790, i_loss: 27.54338:   7%|¨ƒ         | 13/192 [03:24<09:58,  3.35s/it]
-train loss: 33.52126, b_loss: 1.57790, i_loss: 28.30949:   7%|¨ƒ         | 13/192 [03:25<09:58,  3.35s/it]
-train loss: 33.52126, b_loss: 1.57790, i_loss: 28.30949:   7%|¨ƒ         | 14/192 [03:25<07:30,  2.53s/it]
-train loss: 32.66967, b_loss: 1.52915, i_loss: 27.50666:   7%|¨ƒ         | 14/192 [03:26<07:30,  2.53s/it]
-train loss: 32.66967, b_loss: 1.52915, i_loss: 27.50666:   8%|¨‚         | 15/192 [03:26<05:45,  1.95s/it]
-train loss: 34.08065, b_loss: 1.56651, i_loss: 28.88028:   8%|¨‚         | 15/192 [03:26<05:45,  1.95s/it]
-train loss: 34.08065, b_loss: 1.56651, i_loss: 28.88028:   8%|¨‚         | 16/192 [03:26<04:34,  1.56s/it]
+train loss: 32.75388, b_loss: 1.61211, i_loss: 27.50790:   2%|â–         | 3/192 [03:18<5:05:44, 97.06s/it] 
+train loss: 33.34206, b_loss: 1.55278, i_loss: 28.15541:   2%|â–         | 3/192 [03:19<5:05:44, 97.06s/it]
+train loss: 33.34206, b_loss: 1.55278, i_loss: 28.15541:   2%|â–         | 4/192 [03:19<3:33:27, 68.13s/it]
+train loss: 34.02236, b_loss: 1.59200, i_loss: 28.79649:   2%|â–         | 4/192 [03:19<3:33:27, 68.13s/it]
+train loss: 34.02236, b_loss: 1.59200, i_loss: 28.79649:   3%|â–         | 5/192 [03:19<2:29:12, 47.88s/it]
+train loss: 33.55459, b_loss: 1.55814, i_loss: 28.36258:   3%|â–         | 5/192 [03:20<2:29:12, 47.88s/it]
+train loss: 33.55459, b_loss: 1.55814, i_loss: 28.36258:   3%|â–         | 6/192 [03:20<1:44:28, 33.70s/it]
+train loss: 34.67654, b_loss: 1.56015, i_loss: 29.48252:   3%|â–         | 6/192 [03:21<1:44:28, 33.70s/it]
+train loss: 34.67654, b_loss: 1.56015, i_loss: 29.48252:   4%|â–         | 7/192 [03:21<1:13:19, 23.78s/it]
+train loss: 33.96736, b_loss: 1.56802, i_loss: 28.76547:   4%|â–         | 7/192 [03:21<1:13:19, 23.78s/it]
+train loss: 33.96736, b_loss: 1.56802, i_loss: 28.76547:   4%|â–         | 8/192 [03:21<51:36, 16.83s/it]  
+train loss: 33.22740, b_loss: 1.53942, i_loss: 28.05412:   4%|â–         | 8/192 [03:22<51:36, 16.83s/it]
+train loss: 33.22740, b_loss: 1.53942, i_loss: 28.05412:   5%|â–         | 9/192 [03:22<36:30, 11.97s/it]
+train loss: 35.09825, b_loss: 1.53474, i_loss: 29.92964:   5%|â–         | 9/192 [03:23<36:30, 11.97s/it]
+train loss: 35.09825, b_loss: 1.53474, i_loss: 29.92964:   5%|â–Œ         | 10/192 [03:23<25:58,  8.56s/it]
+train loss: 34.73063, b_loss: 1.53588, i_loss: 29.56088:   5%|â–Œ         | 10/192 [03:23<25:58,  8.56s/it]
+train loss: 34.73063, b_loss: 1.53588, i_loss: 29.56088:   6%|â–Œ         | 11/192 [03:23<18:38,  6.18s/it]
+train loss: 33.60005, b_loss: 1.60795, i_loss: 28.35823:   6%|â–Œ         | 11/192 [03:24<18:38,  6.18s/it]
+train loss: 33.60005, b_loss: 1.60795, i_loss: 28.35823:   6%|â–‹         | 12/192 [03:24<13:31,  4.51s/it]
+train loss: 32.77514, b_loss: 1.59790, i_loss: 27.54338:   6%|â–‹         | 12/192 [03:24<13:31,  4.51s/it]
+train loss: 32.77514, b_loss: 1.59790, i_loss: 27.54338:   7%|â–‹         | 13/192 [03:24<09:58,  3.35s/it]
+train loss: 33.52126, b_loss: 1.57790, i_loss: 28.30949:   7%|â–‹         | 13/192 [03:25<09:58,  3.35s/it]
+train loss: 33.52126, b_loss: 1.57790, i_loss: 28.30949:   7%|â–‹         | 14/192 [03:25<07:30,  2.53s/it]
+train loss: 32.66967, b_loss: 1.52915, i_loss: 27.50666:   7%|â–‹         | 14/192 [03:26<07:30,  2.53s/it]
+train loss: 32.66967, b_loss: 1.52915, i_loss: 27.50666:   8%|â–Š         | 15/192 [03:26<05:45,  1.95s/it]
+train loss: 34.08065, b_loss: 1.56651, i_loss: 28.88028:   8%|â–Š         | 15/192 [03:26<05:45,  1.95s/it]
+train loss: 34.08065, b_loss: 1.56651, i_loss: 28.88028:   8%|â–Š         | 16/192 [03:26<04:34,  1.56s/it]
 ...
-train loss: 27.36981, b_loss: 1.53718, i_loss: 22.19878: 100%|¨€¨€¨€¨€¨€¨€¨€¨€¨€¨€| 192/192 [05:20<00:00,  1.67s/it]
+train loss: 27.36981, b_loss: 1.53718, i_loss: 22.19878: 100%|â–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆâ–ˆ| 192/192 [05:20<00:00,  1.67s/it]
 2022-06-16 22:16:42.990 | INFO     | trainner.tusimple_lanenet_single_gpu_trainner:train:366 - => Epoch: 1 Time: 2022-06-16 22:16:42 Train loss: 31.00657 ...
 
-<h2 id="¾«¶ÈÖ¸±ê.md">¾«¶ÈÖ¸±ê</h2>
-ÑµÁ·×ÜLoss
+<h2 id="ç²¾åº¦æŒ‡æ ‡.md">ç²¾åº¦æŒ‡æ ‡</h2>
+è®­ç»ƒæ€»Loss
 
-| gpu   | npu  |Ô­ÂÛÎÄ |
-|--------|------|-----------|
-|   1.9305   |  0.991   |   Ô­ÎÄÑµÁ·ÂÖÊı¹ı¶à(40kÂÖ)£¬Ö»µü´ú905ÂÖ   | 
+| gpu   | npu  |åŸè®ºæ–‡ |
+|-------|------|------|
+|1.9305 |0.991 |      | 
+åŸæ–‡è®­ç»ƒè½®æ•°è¿‡å¤š(40kè½®)ï¼Œåªè¿­ä»£905è½®  
