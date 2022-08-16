@@ -1,0 +1,1276 @@
+[2022-04-29T16:36:04+08:00][ModelArts Service Log][init] toolkit_obs_upload_job_pid = 59
+[2022-04-29T16:36:04+08:00][ModelArts Service Log][init] toolkit_obs_upload_pid = 60
+[2022-04-29T16:36:04+08:00][ModelArts Service Log][init] running at 2022-04-29-16:36:04
+[2022-04-29T16:36:04+08:00][ModelArts Service Log][init] ip of the pod: 172.16.1.206
+[2022-04-29T16:36:04+08:00][ModelArts Service Log][task]Detect item: disk-size shm
+[2022-04-29T16:36:04+08:00][ModelArts Service Log][INFO][detect] code: 0, message: ok, item: disk-size shm
+[2022-04-29T16:36:04+08:00][ModelArts Service Log][task]Detect item: dns
+[2022-04-29T16:36:34+08:00][ModelArts Service Log][INFO][detect] code: 0, message: lookup modelarts-job-f66e38e0-13ef-4017-a7b7-a30c093dc06c-worker-0.modelarts-job-f66e38e0-13ef-4017-a7b7-a30c093dc06c on 10.247.3.10:53: no such host, item: dns
+[2022-04-29T16:36:34+08:00][ModelArts Service Log][task]Detect item: disk-size root
+[2022-04-29T16:36:35+08:00][ModelArts Service Log][INFO][detect] code: 0, message: ok, item: disk-size root
+[2022-04-29T16:36:35+08:00][ModelArts Service Log][task]Detect item: disk-size cache
+[2022-04-29T16:36:35+08:00][ModelArts Service Log][INFO][detect] code: 0, message: ok, item: disk-size cache
+[2022-04-29T16:36:35+08:00][ModelArts Service Log][init] autosearch_path is empty, skip the autosearch download
+[2022-04-29T16:36:35+08:00][ModelArts Service Log][init] start to download the code
+[2022-04-29T16:36:35+08:00][ModelArts Service Log][init] code_url: s3://mamlnpu/MA-new-maml-npu-04-29-16-34-730/code/maml_gpu/
+[2022-04-29T16:36:35+08:00][ModelArts Service Log][init] modelarts_downloader_job_pid = 269
+[ModelArts Service Log]2022-04-29 16:36:36,301 - modelarts-downloader.py[line:264] - INFO: Main: modelarts-downloader starting with Namespace(dst='./', recursive=True, skip_creating_dir=False, src='s3://mamlnpu/MA-new-maml-npu-04-29-16-34-730/code/maml_gpu/', trace=False, type='common', verbose=False)
+[2022-04-29T16:36:36+08:00][ModelArts Service Log][init] code is now in /home/work/modelarts/user-job-dir
+[ModelArts Service Log][init]engine type is: tensorflow
+[ModelArts Service Log][init]python version: 3
+[2022-04-29T16:36:36+08:00][ModelArts Service Log][init] inputs_handler_job_pid = 300
+[ModelArts Service Log][INFO][2022/04/29 16:36:36]: env MA_INPUTS is not found, skip the inputs handler
+[ModelArts Service Log][INFO][2022/04/29 16:36:37,143]: mkdir for local output dir
+[ModelArts Service Log][INFO][2022/04/29 16:36:37,143]: output-handler finalized
+[2022-04-29T16:36:37+08:00][ModelArts Service Log][init] exiting at 2022-04-29-16:36:37
+[2022-04-29T16:36:37+08:00][ModelArts Service Log][init] upload_metrics_pid = 339
+[2022-04-29T16:36:37+08:00][ModelArts Service Log][init] stop toolkit_obs_upload_pid = 60 by signal SIGTERM
+[2022-04-29T16:36:37+08:00][ModelArts Service Log][sidecar] toolkit_obs_upload 60 ret_code is 0
+[2022-04-29T16:36:37+08:00][ModelArts Service Log][init] exit with 0
+do nothing
+[Modelarts Service Log][decrypt_modelarts_aes_env] no related env found
+[Modelarts Service Log]user: uid=1101(work) gid=1101(work) groups=1101(work)
+[Modelarts Service Log]pwd: /home/work
+[Modelarts Service Log]app_url: s3://mamlnpu/MA-new-maml-npu-04-29-16-34-730/code/maml_gpu/
+[Modelarts Service Log]boot_file: maml_gpu/main.py
+[Modelarts Service Log]log_url: /home/work/modelarts/outputs/log/modelarts-job-f66e38e0-13ef-4017-a7b7-a30c093dc06c-training.log
+[Modelarts Service Log]command: maml_gpu/main.py --num_gpus=1 --logdir=/cache/result/logs/miniimagenet1shot/ --num_filters=32 --update_lr=0.01 --num_updates=5 --num_classes=5 --max_pool=True --datasource=miniimagenet --metatrain_iterations=60000 --meta_batch_size=4 --update_batch_size=1 --data_url=/home/work/modelarts/inputs/data_url_0/ --train_url=/home/work/modelarts/outputs/train_url_0/
+[Modelarts Service Log]MODELARTS_IPOIB_DEVICE: 
+[Modelarts Service Log]dependencies_file_dir: /home/work/user-job-dir/maml_gpu
+[Modelarts Service Log][modelarts_create_log] modelarts-pipe found
+[ModelArts Service Log]modelarts-pipe: will create log file /home/work/modelarts/outputs/log/modelarts-job-f66e38e0-13ef-4017-a7b7-a30c093dc06c-training.log
+[Modelarts Service Log]handle inputs of training job
+INFO:root:Using MoXing-v1.17.3-b2f1481c
+INFO:root:Using OBS-Python-SDK-3.20.7
+[2022-04-29T16:36:39+08:00][ModelArts Service Log][sidecar] running at 2022-04-29-16:36:39
+[2022-04-29T16:36:39+08:00][ModelArts Service Log][sidecar] toolkit_obs_upload_by_channels_job_pid = 40
+[2022-04-29T16:36:39+08:00][ModelArts Service Log][sidecar] toolkit_obs_upload_by_channels_pid = 42
+[2022-04-29T16:36:39+08:00][ModelArts Service Log][sidecar] waiting for training complete
+time="2022-04-29T16:36:40+08:00" level=info msg="local dir = /home/work/modelarts/outputs/train_url_0/" file="upload.go:191" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=train_url
+time="2022-04-29T16:36:40+08:00" level=info msg="obs dir = /mamlnpu/MA-new-maml-npu-04-29-16-34-730/output/" file="upload.go:194" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=train_url
+time="2022-04-29T16:36:40+08:00" level=info msg="start the periodic upload task, upload Period = 30 seconds " file="upload.go:204" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=train_url
+time="2022-04-29T16:36:40+08:00" level=info msg="local dir = /home/work/modelarts/log/" file="upload.go:191" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=srt_log_collection
+time="2022-04-29T16:36:40+08:00" level=info msg="obs dir = s3://modelarts-training-log-cn-north-4/f66e38e0-13ef-4017-a7b7-a30c093dc06c/worker-0" file="upload.go:194" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=srt_log_collection
+time="2022-04-29T16:36:40+08:00" level=info msg="enable append upload mode" file="upload.go:197" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=srt_log_collection
+time="2022-04-29T16:36:40+08:00" level=info msg="start the periodic upload task, upload Period = 5 seconds " file="upload.go:204" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=srt_log_collection
+time="2022-04-29T16:36:40+08:00" level=info msg="local dir = /home/work/modelarts/log/" file="upload.go:191" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=log_url
+time="2022-04-29T16:36:40+08:00" level=info msg="obs dir = obs://mamlnpu/MA-new-maml-npu-04-29-16-34-730/log/" file="upload.go:194" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=log_url
+time="2022-04-29T16:36:40+08:00" level=info msg="start the periodic upload task, upload Period = 30 seconds " file="upload.go:204" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=log_url
+[ModelArts Service Log][INFO][2022/04/29 16:36:40]: download the content of [data_url] inputs
+INFO:root:Using MoXing-v1.17.3-b2f1481c
+INFO:root:Using OBS-Python-SDK-3.20.7
+[ModelArts Service Log]2022-04-29 16:36:41,116 - modelarts-downloader.py[line:620] - INFO: Main: modelarts-downloader starting with Namespace(dst='./', recursive=True, skip_creating_dir=True, src='s3://mamlnpu/data/', trace=False, type='common', verbose=False)
+[ModelArts Service Log]2022-04-29 16:36:41,413 - file_io.py[line:1089] - INFO: Listing OBS: 1000
+[ModelArts Service Log]2022-04-29 16:36:41,500 - file_io.py[line:1089] - INFO: Listing OBS: 2000
+[ModelArts Service Log]2022-04-29 16:36:41,590 - file_io.py[line:1089] - INFO: Listing OBS: 3000
+[ModelArts Service Log]2022-04-29 16:36:41,683 - file_io.py[line:1089] - INFO: Listing OBS: 4000
+[ModelArts Service Log]2022-04-29 16:36:41,801 - file_io.py[line:1089] - INFO: Listing OBS: 5000
+[ModelArts Service Log]2022-04-29 16:36:41,898 - file_io.py[line:1089] - INFO: Listing OBS: 6000
+[ModelArts Service Log]2022-04-29 16:36:41,986 - file_io.py[line:1089] - INFO: Listing OBS: 7000
+[ModelArts Service Log]2022-04-29 16:36:42,076 - file_io.py[line:1089] - INFO: Listing OBS: 8000
+[ModelArts Service Log]2022-04-29 16:36:42,173 - file_io.py[line:1089] - INFO: Listing OBS: 9000
+[ModelArts Service Log]2022-04-29 16:36:42,275 - file_io.py[line:1089] - INFO: Listing OBS: 10000
+[ModelArts Service Log]2022-04-29 16:36:42,372 - file_io.py[line:1089] - INFO: Listing OBS: 11000
+[ModelArts Service Log]2022-04-29 16:36:42,521 - file_io.py[line:1089] - INFO: Listing OBS: 12000
+[ModelArts Service Log]2022-04-29 16:36:42,614 - file_io.py[line:1089] - INFO: Listing OBS: 13000
+[ModelArts Service Log]2022-04-29 16:36:42,796 - file_io.py[line:1089] - INFO: Listing OBS: 14000
+[ModelArts Service Log]2022-04-29 16:36:42,883 - file_io.py[line:1089] - INFO: Listing OBS: 15000
+[ModelArts Service Log]2022-04-29 16:36:42,979 - file_io.py[line:1089] - INFO: Listing OBS: 16000
+[ModelArts Service Log]2022-04-29 16:36:43,086 - file_io.py[line:1089] - INFO: Listing OBS: 17000
+[ModelArts Service Log]2022-04-29 16:36:43,229 - file_io.py[line:1089] - INFO: Listing OBS: 18000
+[ModelArts Service Log]2022-04-29 16:36:43,406 - file_io.py[line:1089] - INFO: Listing OBS: 19000
+[ModelArts Service Log]2022-04-29 16:36:43,507 - file_io.py[line:1089] - INFO: Listing OBS: 20000
+[ModelArts Service Log]2022-04-29 16:36:43,632 - file_io.py[line:1089] - INFO: Listing OBS: 21000
+[ModelArts Service Log]2022-04-29 16:36:43,718 - file_io.py[line:1089] - INFO: Listing OBS: 22000
+[ModelArts Service Log]2022-04-29 16:36:43,819 - file_io.py[line:1089] - INFO: Listing OBS: 23000
+[ModelArts Service Log]2022-04-29 16:36:43,905 - file_io.py[line:1089] - INFO: Listing OBS: 24000
+[ModelArts Service Log]2022-04-29 16:36:43,991 - file_io.py[line:1089] - INFO: Listing OBS: 25000
+[ModelArts Service Log]2022-04-29 16:36:44,077 - file_io.py[line:1089] - INFO: Listing OBS: 26000
+[ModelArts Service Log]2022-04-29 16:36:44,159 - file_io.py[line:1089] - INFO: Listing OBS: 27000
+[ModelArts Service Log]2022-04-29 16:36:44,244 - file_io.py[line:1089] - INFO: Listing OBS: 28000
+[ModelArts Service Log]2022-04-29 16:36:44,329 - file_io.py[line:1089] - INFO: Listing OBS: 29000
+[ModelArts Service Log]2022-04-29 16:36:44,415 - file_io.py[line:1089] - INFO: Listing OBS: 30000
+[ModelArts Service Log]2022-04-29 16:36:44,503 - file_io.py[line:1089] - INFO: Listing OBS: 31000
+[ModelArts Service Log]2022-04-29 16:36:44,613 - file_io.py[line:1089] - INFO: Listing OBS: 32000
+[ModelArts Service Log]2022-04-29 16:36:44,702 - file_io.py[line:1089] - INFO: Listing OBS: 33000
+[ModelArts Service Log]2022-04-29 16:36:44,790 - file_io.py[line:1089] - INFO: Listing OBS: 34000
+[ModelArts Service Log]2022-04-29 16:36:44,879 - file_io.py[line:1089] - INFO: Listing OBS: 35000
+[ModelArts Service Log]2022-04-29 16:36:44,965 - file_io.py[line:1089] - INFO: Listing OBS: 36000
+[ModelArts Service Log]2022-04-29 16:36:45,049 - file_io.py[line:1089] - INFO: Listing OBS: 37000
+[ModelArts Service Log]2022-04-29 16:36:45,134 - file_io.py[line:1089] - INFO: Listing OBS: 38000
+[ModelArts Service Log]2022-04-29 16:36:45,224 - file_io.py[line:1089] - INFO: Listing OBS: 39000
+[ModelArts Service Log]2022-04-29 16:36:45,310 - file_io.py[line:1089] - INFO: Listing OBS: 40000
+[ModelArts Service Log]2022-04-29 16:36:45,416 - file_io.py[line:1089] - INFO: Listing OBS: 41000
+[ModelArts Service Log]2022-04-29 16:36:45,506 - file_io.py[line:1089] - INFO: Listing OBS: 42000
+[ModelArts Service Log]2022-04-29 16:36:45,601 - file_io.py[line:1089] - INFO: Listing OBS: 43000
+[ModelArts Service Log]2022-04-29 16:36:45,694 - file_io.py[line:1089] - INFO: Listing OBS: 44000
+[ModelArts Service Log]2022-04-29 16:36:45,861 - file_io.py[line:1089] - INFO: Listing OBS: 45000
+[ModelArts Service Log]2022-04-29 16:36:45,971 - file_io.py[line:1089] - INFO: Listing OBS: 46000
+[ModelArts Service Log]2022-04-29 16:36:46,056 - file_io.py[line:1089] - INFO: Listing OBS: 47000
+[ModelArts Service Log]2022-04-29 16:36:46,141 - file_io.py[line:1089] - INFO: Listing OBS: 48000
+[ModelArts Service Log]2022-04-29 16:36:46,249 - file_io.py[line:1089] - INFO: Listing OBS: 49000
+[ModelArts Service Log]2022-04-29 16:36:46,335 - file_io.py[line:1089] - INFO: Listing OBS: 50000
+[ModelArts Service Log]2022-04-29 16:36:46,424 - file_io.py[line:1089] - INFO: Listing OBS: 51000
+[ModelArts Service Log]2022-04-29 16:36:46,512 - file_io.py[line:1089] - INFO: Listing OBS: 52000
+[ModelArts Service Log]2022-04-29 16:36:46,600 - file_io.py[line:1089] - INFO: Listing OBS: 53000
+[ModelArts Service Log]2022-04-29 16:36:46,693 - file_io.py[line:1089] - INFO: Listing OBS: 54000
+[ModelArts Service Log]2022-04-29 16:36:46,808 - file_io.py[line:1089] - INFO: Listing OBS: 55000
+[ModelArts Service Log]2022-04-29 16:36:46,968 - file_io.py[line:1089] - INFO: Listing OBS: 56000
+[ModelArts Service Log]2022-04-29 16:36:47,096 - file_io.py[line:1089] - INFO: Listing OBS: 57000
+[ModelArts Service Log]2022-04-29 16:36:47,229 - file_io.py[line:1089] - INFO: Listing OBS: 58000
+[ModelArts Service Log]2022-04-29 16:36:47,340 - file_io.py[line:1089] - INFO: Listing OBS: 59000
+[ModelArts Service Log]2022-04-29 16:36:47,360 - file_io.py[line:1089] - INFO: Listing OBS: 60000
+[ModelArts Service Log]2022-04-29 16:41:25,410 - file_io.py[line:1089] - INFO: Listing OBS: 1000
+[ModelArts Service Log]2022-04-29 16:41:25,494 - file_io.py[line:1089] - INFO: Listing OBS: 2000
+[ModelArts Service Log]2022-04-29 16:41:25,583 - file_io.py[line:1089] - INFO: Listing OBS: 3000
+[ModelArts Service Log]2022-04-29 16:41:25,751 - file_io.py[line:1089] - INFO: Listing OBS: 4000
+[ModelArts Service Log]2022-04-29 16:41:25,833 - file_io.py[line:1089] - INFO: Listing OBS: 5000
+[ModelArts Service Log]2022-04-29 16:41:25,923 - file_io.py[line:1089] - INFO: Listing OBS: 6000
+[ModelArts Service Log]2022-04-29 16:41:26,023 - file_io.py[line:1089] - INFO: Listing OBS: 7000
+[ModelArts Service Log]2022-04-29 16:41:26,121 - file_io.py[line:1089] - INFO: Listing OBS: 8000
+[ModelArts Service Log]2022-04-29 16:41:26,212 - file_io.py[line:1089] - INFO: Listing OBS: 9000
+[ModelArts Service Log]2022-04-29 16:41:26,299 - file_io.py[line:1089] - INFO: Listing OBS: 10000
+[ModelArts Service Log]2022-04-29 16:41:26,382 - file_io.py[line:1089] - INFO: Listing OBS: 11000
+[ModelArts Service Log]2022-04-29 16:41:26,467 - file_io.py[line:1089] - INFO: Listing OBS: 12000
+[ModelArts Service Log]2022-04-29 16:41:26,546 - file_io.py[line:1089] - INFO: Listing OBS: 13000
+[ModelArts Service Log]2022-04-29 16:41:26,623 - file_io.py[line:1089] - INFO: Listing OBS: 14000
+[ModelArts Service Log]2022-04-29 16:41:26,703 - file_io.py[line:1089] - INFO: Listing OBS: 15000
+[ModelArts Service Log]2022-04-29 16:41:26,799 - file_io.py[line:1089] - INFO: Listing OBS: 16000
+[ModelArts Service Log]2022-04-29 16:41:26,877 - file_io.py[line:1089] - INFO: Listing OBS: 17000
+[ModelArts Service Log]2022-04-29 16:41:26,956 - file_io.py[line:1089] - INFO: Listing OBS: 18000
+[ModelArts Service Log]2022-04-29 16:41:27,033 - file_io.py[line:1089] - INFO: Listing OBS: 19000
+[ModelArts Service Log]2022-04-29 16:41:27,116 - file_io.py[line:1089] - INFO: Listing OBS: 20000
+[ModelArts Service Log]2022-04-29 16:41:27,198 - file_io.py[line:1089] - INFO: Listing OBS: 21000
+[ModelArts Service Log]2022-04-29 16:41:27,278 - file_io.py[line:1089] - INFO: Listing OBS: 22000
+[ModelArts Service Log]2022-04-29 16:41:27,357 - file_io.py[line:1089] - INFO: Listing OBS: 23000
+[ModelArts Service Log]2022-04-29 16:41:27,436 - file_io.py[line:1089] - INFO: Listing OBS: 24000
+[ModelArts Service Log]2022-04-29 16:41:27,532 - file_io.py[line:1089] - INFO: Listing OBS: 25000
+[ModelArts Service Log]2022-04-29 16:41:27,613 - file_io.py[line:1089] - INFO: Listing OBS: 26000
+[ModelArts Service Log]2022-04-29 16:41:27,697 - file_io.py[line:1089] - INFO: Listing OBS: 27000
+[ModelArts Service Log]2022-04-29 16:41:27,778 - file_io.py[line:1089] - INFO: Listing OBS: 28000
+[ModelArts Service Log]2022-04-29 16:41:27,856 - file_io.py[line:1089] - INFO: Listing OBS: 29000
+[ModelArts Service Log]2022-04-29 16:41:27,934 - file_io.py[line:1089] - INFO: Listing OBS: 30000
+[ModelArts Service Log]2022-04-29 16:41:28,014 - file_io.py[line:1089] - INFO: Listing OBS: 31000
+[ModelArts Service Log]2022-04-29 16:41:28,095 - file_io.py[line:1089] - INFO: Listing OBS: 32000
+[ModelArts Service Log]2022-04-29 16:41:28,175 - file_io.py[line:1089] - INFO: Listing OBS: 33000
+[ModelArts Service Log]2022-04-29 16:41:28,282 - file_io.py[line:1089] - INFO: Listing OBS: 34000
+[ModelArts Service Log]2022-04-29 16:41:28,362 - file_io.py[line:1089] - INFO: Listing OBS: 35000
+[ModelArts Service Log]2022-04-29 16:41:28,442 - file_io.py[line:1089] - INFO: Listing OBS: 36000
+[ModelArts Service Log]2022-04-29 16:41:28,524 - file_io.py[line:1089] - INFO: Listing OBS: 37000
+[ModelArts Service Log]2022-04-29 16:41:28,601 - file_io.py[line:1089] - INFO: Listing OBS: 38000
+[ModelArts Service Log]2022-04-29 16:41:28,682 - file_io.py[line:1089] - INFO: Listing OBS: 39000
+[ModelArts Service Log]2022-04-29 16:41:28,761 - file_io.py[line:1089] - INFO: Listing OBS: 40000
+[ModelArts Service Log]2022-04-29 16:41:28,839 - file_io.py[line:1089] - INFO: Listing OBS: 41000
+[ModelArts Service Log]2022-04-29 16:41:28,917 - file_io.py[line:1089] - INFO: Listing OBS: 42000
+[ModelArts Service Log]2022-04-29 16:41:29,018 - file_io.py[line:1089] - INFO: Listing OBS: 43000
+[ModelArts Service Log]2022-04-29 16:41:29,099 - file_io.py[line:1089] - INFO: Listing OBS: 44000
+[ModelArts Service Log]2022-04-29 16:41:29,199 - file_io.py[line:1089] - INFO: Listing OBS: 45000
+[ModelArts Service Log]2022-04-29 16:41:29,279 - file_io.py[line:1089] - INFO: Listing OBS: 46000
+[ModelArts Service Log]2022-04-29 16:41:29,361 - file_io.py[line:1089] - INFO: Listing OBS: 47000
+[ModelArts Service Log]2022-04-29 16:41:29,448 - file_io.py[line:1089] - INFO: Listing OBS: 48000
+[ModelArts Service Log]2022-04-29 16:41:29,530 - file_io.py[line:1089] - INFO: Listing OBS: 49000
+[ModelArts Service Log]2022-04-29 16:41:29,626 - file_io.py[line:1089] - INFO: Listing OBS: 50000
+[ModelArts Service Log]2022-04-29 16:41:29,743 - file_io.py[line:1089] - INFO: Listing OBS: 51000
+[ModelArts Service Log]2022-04-29 16:41:29,867 - file_io.py[line:1089] - INFO: Listing OBS: 52000
+[ModelArts Service Log]2022-04-29 16:41:29,969 - file_io.py[line:1089] - INFO: Listing OBS: 53000
+[ModelArts Service Log]2022-04-29 16:41:30,068 - file_io.py[line:1089] - INFO: Listing OBS: 54000
+[ModelArts Service Log]2022-04-29 16:41:30,156 - file_io.py[line:1089] - INFO: Listing OBS: 55000
+[ModelArts Service Log]2022-04-29 16:41:30,252 - file_io.py[line:1089] - INFO: Listing OBS: 56000
+[ModelArts Service Log]2022-04-29 16:41:30,335 - file_io.py[line:1089] - INFO: Listing OBS: 57000
+[ModelArts Service Log]2022-04-29 16:41:30,425 - file_io.py[line:1089] - INFO: Listing OBS: 58000
+[ModelArts Service Log]2022-04-29 16:41:30,507 - file_io.py[line:1089] - INFO: Listing OBS: 59000
+[ModelArts Service Log]2022-04-29 16:41:30,523 - file_io.py[line:1089] - INFO: Listing OBS: 60000
+[ModelArts Service Log]2022-04-29 16:41:33,637 - file_io.py[line:2049] - INFO: pid: None.	1000/60009
+[ModelArts Service Log]2022-04-29 16:41:35,461 - file_io.py[line:2049] - INFO: pid: None.	2000/60009
+[ModelArts Service Log]2022-04-29 16:41:37,262 - file_io.py[line:2049] - INFO: pid: None.	3000/60009
+[ModelArts Service Log]2022-04-29 16:41:38,981 - file_io.py[line:2049] - INFO: pid: None.	4000/60009
+[ModelArts Service Log]2022-04-29 16:41:40,668 - file_io.py[line:2049] - INFO: pid: None.	5000/60009
+[ModelArts Service Log]2022-04-29 16:41:42,336 - file_io.py[line:2049] - INFO: pid: None.	6000/60009
+[ModelArts Service Log]2022-04-29 16:41:44,138 - file_io.py[line:2049] - INFO: pid: None.	7000/60009
+[ModelArts Service Log]2022-04-29 16:41:45,814 - file_io.py[line:2049] - INFO: pid: None.	8000/60009
+[ModelArts Service Log]2022-04-29 16:41:47,636 - file_io.py[line:2049] - INFO: pid: None.	9000/60009
+[ModelArts Service Log]2022-04-29 16:41:49,429 - file_io.py[line:2049] - INFO: pid: None.	10000/60009
+[ModelArts Service Log]2022-04-29 16:41:51,184 - file_io.py[line:2049] - INFO: pid: None.	11000/60009
+[ModelArts Service Log]2022-04-29 16:41:52,979 - file_io.py[line:2049] - INFO: pid: None.	12000/60009
+[ModelArts Service Log]2022-04-29 16:41:54,932 - file_io.py[line:2049] - INFO: pid: None.	13000/60009
+[ModelArts Service Log]2022-04-29 16:41:56,845 - file_io.py[line:2049] - INFO: pid: None.	14000/60009
+[ModelArts Service Log]2022-04-29 16:41:58,573 - file_io.py[line:2049] - INFO: pid: None.	15000/60009
+[ModelArts Service Log]2022-04-29 16:42:00,354 - file_io.py[line:2049] - INFO: pid: None.	16000/60009
+[ModelArts Service Log]2022-04-29 16:42:01,943 - file_io.py[line:2049] - INFO: pid: None.	17000/60009
+[ModelArts Service Log]2022-04-29 16:42:03,605 - file_io.py[line:2049] - INFO: pid: None.	18000/60009
+[ModelArts Service Log]2022-04-29 16:42:05,343 - file_io.py[line:2049] - INFO: pid: None.	19000/60009
+[ModelArts Service Log]2022-04-29 16:42:07,175 - file_io.py[line:2049] - INFO: pid: None.	20000/60009
+[ModelArts Service Log]2022-04-29 16:42:09,021 - file_io.py[line:2049] - INFO: pid: None.	21000/60009
+[ModelArts Service Log]2022-04-29 16:42:10,859 - file_io.py[line:2049] - INFO: pid: None.	22000/60009
+[ModelArts Service Log]2022-04-29 16:42:12,539 - file_io.py[line:2049] - INFO: pid: None.	23000/60009
+[ModelArts Service Log]2022-04-29 16:42:14,133 - file_io.py[line:2049] - INFO: pid: None.	24000/60009
+[ModelArts Service Log]2022-04-29 16:42:15,827 - file_io.py[line:2049] - INFO: pid: None.	25000/60009
+[ModelArts Service Log]2022-04-29 16:42:17,492 - file_io.py[line:2049] - INFO: pid: None.	26000/60009
+[ModelArts Service Log]2022-04-29 16:42:19,239 - file_io.py[line:2049] - INFO: pid: None.	27000/60009
+[ModelArts Service Log]2022-04-29 16:42:20,856 - file_io.py[line:2049] - INFO: pid: None.	28000/60009
+[ModelArts Service Log]2022-04-29 16:42:22,633 - file_io.py[line:2049] - INFO: pid: None.	29000/60009
+[ModelArts Service Log]2022-04-29 16:42:24,387 - file_io.py[line:2049] - INFO: pid: None.	30000/60009
+[ModelArts Service Log]2022-04-29 16:42:26,136 - file_io.py[line:2049] - INFO: pid: None.	31000/60009
+[ModelArts Service Log]2022-04-29 16:42:27,864 - file_io.py[line:2049] - INFO: pid: None.	32000/60009
+[ModelArts Service Log]2022-04-29 16:42:29,627 - file_io.py[line:2049] - INFO: pid: None.	33000/60009
+[ModelArts Service Log]2022-04-29 16:42:31,241 - file_io.py[line:2049] - INFO: pid: None.	34000/60009
+[ModelArts Service Log]2022-04-29 16:42:32,931 - file_io.py[line:2049] - INFO: pid: None.	35000/60009
+[ModelArts Service Log]2022-04-29 16:42:34,637 - file_io.py[line:2049] - INFO: pid: None.	36000/60009
+[ModelArts Service Log]2022-04-29 16:42:36,290 - file_io.py[line:2049] - INFO: pid: None.	37000/60009
+[ModelArts Service Log]2022-04-29 16:42:38,009 - file_io.py[line:2049] - INFO: pid: None.	38000/60009
+[ModelArts Service Log]2022-04-29 16:42:39,646 - file_io.py[line:2049] - INFO: pid: None.	39000/60009
+[ModelArts Service Log]2022-04-29 16:42:41,341 - file_io.py[line:2049] - INFO: pid: None.	40000/60009
+[ModelArts Service Log]2022-04-29 16:42:43,042 - file_io.py[line:2049] - INFO: pid: None.	41000/60009
+[ModelArts Service Log]2022-04-29 16:42:44,739 - file_io.py[line:2049] - INFO: pid: None.	42000/60009
+[ModelArts Service Log]2022-04-29 16:42:46,419 - file_io.py[line:2049] - INFO: pid: None.	43000/60009
+[ModelArts Service Log]2022-04-29 16:42:48,165 - file_io.py[line:2049] - INFO: pid: None.	44000/60009
+[ModelArts Service Log]2022-04-29 16:42:49,923 - file_io.py[line:2049] - INFO: pid: None.	45000/60009
+[ModelArts Service Log]2022-04-29 16:42:51,704 - file_io.py[line:2049] - INFO: pid: None.	46000/60009
+[ModelArts Service Log]2022-04-29 16:42:53,493 - file_io.py[line:2049] - INFO: pid: None.	47000/60009
+[ModelArts Service Log]2022-04-29 16:42:55,266 - file_io.py[line:2049] - INFO: pid: None.	48000/60009
+[ModelArts Service Log]2022-04-29 16:42:57,038 - file_io.py[line:2049] - INFO: pid: None.	49000/60009
+[ModelArts Service Log]2022-04-29 16:42:58,755 - file_io.py[line:2049] - INFO: pid: None.	50000/60009
+[ModelArts Service Log]2022-04-29 16:43:00,590 - file_io.py[line:2049] - INFO: pid: None.	51000/60009
+[ModelArts Service Log]2022-04-29 16:43:02,380 - file_io.py[line:2049] - INFO: pid: None.	52000/60009
+[ModelArts Service Log]2022-04-29 16:43:04,131 - file_io.py[line:2049] - INFO: pid: None.	53000/60009
+[ModelArts Service Log]2022-04-29 16:43:05,903 - file_io.py[line:2049] - INFO: pid: None.	54000/60009
+[ModelArts Service Log]2022-04-29 16:43:07,732 - file_io.py[line:2049] - INFO: pid: None.	55000/60009
+[ModelArts Service Log]2022-04-29 16:43:09,638 - file_io.py[line:2049] - INFO: pid: None.	56000/60009
+[ModelArts Service Log]2022-04-29 16:43:11,488 - file_io.py[line:2049] - INFO: pid: None.	57000/60009
+[ModelArts Service Log]2022-04-29 16:43:13,325 - file_io.py[line:2049] - INFO: pid: None.	58000/60009
+[ModelArts Service Log]2022-04-29 16:43:15,063 - file_io.py[line:2049] - INFO: pid: None.	59000/60009
+[ModelArts Service Log]2022-04-29 16:43:16,756 - file_io.py[line:2049] - INFO: pid: None.	60000/60009
+[ModelArts Service Log][INFO][2022/04/29 16:43:16]: download the content of [data_url] inputs successfully
+[ModelArts Service Log][INFO][2022/04/29 16:43:16]: it can be accessed at local dir [/home/work/modelarts/inputs/data_url_0]
+INFO:root:Using MoXing-v1.17.3-b2f1481c
+INFO:root:Using OBS-Python-SDK-3.20.7
+[ModelArts Service Log]2022-04-29 16:43:17,448 - modelarts-downloader.py[line:620] - INFO: Main: modelarts-downloader starting with Namespace(dst='./', recursive=True, skip_creating_dir=False, src='s3://mamlnpu/MA-new-maml-npu-04-29-16-34-730/code/maml_gpu/', trace=False, type='common', verbose=False)
+/home/work/user-job-dir
+[Modelarts Service Log][modelarts_logger] modelarts-pipe found
+[ModelArts Service Log]modelarts-pipe: will create log file /home/work/modelarts/outputs/log/modelarts-job-f66e38e0-13ef-4017-a7b7-a30c093dc06c-training.log
+[ModelArts Service Log]modelarts-pipe: will write log file /home/work/modelarts/outputs/log/modelarts-job-f66e38e0-13ef-4017-a7b7-a30c093dc06c-training.log
+[ModelArts Service Log]modelarts-pipe: param for max log length: 1073741824
+[ModelArts Service Log]modelarts-pipe: param for whether exit on overflow: 0
+INFO:root:Using MoXing-v1.17.3-b2f1481c
+INFO:root:Using OBS-Python-SDK-3.20.7
+WARN: Cannot define MaxPoolGrad, likely already defined for this version of tensorflow: "Registering two gradient with name 'MaxPoolGrad'! (Previous registration was in _find_and_load_unlocked <frozen importlib._bootstrap>:955)"
+INFO:root:pid: None.	1000/60009
+INFO:root:pid: None.	2000/60009
+INFO:root:pid: None.	3000/60009
+INFO:root:pid: None.	4000/60009
+INFO:root:pid: None.	5000/60009
+INFO:root:pid: None.	6000/60009
+INFO:root:pid: None.	7000/60009
+INFO:root:pid: None.	8000/60009
+INFO:root:pid: None.	9000/60009
+INFO:root:pid: None.	10000/60009
+INFO:root:pid: None.	11000/60009
+INFO:root:pid: None.	12000/60009
+INFO:root:pid: None.	13000/60009
+INFO:root:pid: None.	14000/60009
+INFO:root:pid: None.	15000/60009
+INFO:root:pid: None.	16000/60009
+INFO:root:pid: None.	17000/60009
+INFO:root:pid: None.	18000/60009
+INFO:root:pid: None.	19000/60009
+INFO:root:pid: None.	20000/60009
+INFO:root:pid: None.	21000/60009
+INFO:root:pid: None.	22000/60009
+INFO:root:pid: None.	23000/60009
+INFO:root:pid: None.	24000/60009
+INFO:root:pid: None.	25000/60009
+INFO:root:pid: None.	26000/60009
+INFO:root:pid: None.	27000/60009
+INFO:root:pid: None.	28000/60009
+INFO:root:pid: None.	29000/60009
+INFO:root:pid: None.	30000/60009
+INFO:root:pid: None.	31000/60009
+INFO:root:pid: None.	32000/60009
+INFO:root:pid: None.	33000/60009
+INFO:root:pid: None.	34000/60009
+INFO:root:pid: None.	35000/60009
+INFO:root:pid: None.	36000/60009
+INFO:root:pid: None.	37000/60009
+INFO:root:pid: None.	38000/60009
+INFO:root:pid: None.	39000/60009
+INFO:root:pid: None.	40000/60009
+INFO:root:pid: None.	41000/60009
+INFO:root:pid: None.	42000/60009
+INFO:root:pid: None.	43000/60009
+INFO:root:pid: None.	44000/60009
+INFO:root:pid: None.	45000/60009
+INFO:root:pid: None.	46000/60009
+INFO:root:pid: None.	47000/60009
+INFO:root:pid: None.	48000/60009
+INFO:root:pid: None.	49000/60009
+INFO:root:pid: None.	50000/60009
+INFO:root:pid: None.	51000/60009
+INFO:root:pid: None.	52000/60009
+INFO:root:pid: None.	53000/60009
+INFO:root:pid: None.	54000/60009
+INFO:root:pid: None.	55000/60009
+INFO:root:pid: None.	56000/60009
+INFO:root:pid: None.	57000/60009
+INFO:root:pid: None.	58000/60009
+INFO:root:pid: None.	59000/60009
+INFO:root:pid: None.	60000/60009
+------copy over, time:5(s)
+['miniImagenet']
+end
+===FLAGS.datasource===: miniimagenet
+FLAGS.datasource: miniimagenet
+True
+Generating filenames
+WARNING:tensorflow:From /cache/user-job-dir/maml_gpu/data_generator.py:113: string_input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(string_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/training/input.py:278: input_producer (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensor_slices(input_tensor).shuffle(tf.shape(input_tensor, out_type=tf.int64)[0]).repeat(num_epochs)`. If `shuffle=False`, omit the `.shuffle(...)`.
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/training/input.py:190: limit_epochs (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.from_tensors(tensor).repeat(num_epochs)`.
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/training/input.py:199: QueueRunner.__init__ (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/training/input.py:199: add_queue_runner (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/training/input.py:202: to_float (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+Generating image processing ops
+WARNING:tensorflow:From /cache/user-job-dir/maml_gpu/data_generator.py:115: WholeFileReader.__init__ (from tensorflow.python.ops.io_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.map(tf.read_file)`.
+Batching images
+WARNING:tensorflow:From /cache/user-job-dir/maml_gpu/data_generator.py:138: batch (from tensorflow.python.training.input) is deprecated and will be removed in a future version.
+Instructions for updating:
+Queue-based input pipelines have been replaced by `tf.data`. Use `tf.data.Dataset.batch(batch_size)` (or `padded_batch(...)` if `dynamic_pad=True`).
+Manipulating image data to be right shape
+False
+Generating filenames
+Generating image processing ops
+Batching images
+Manipulating image data to be right shape
+image_tensor:  (4, 80, 21168)
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From /cache/user-job-dir/maml_gpu/utils.py:61: softmax_cross_entropy_with_logits (from tensorflow.python.ops.nn_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+
+Future major versions of TensorFlow will allow gradients to flow
+into the labels input on backprop by default.
+
+See `tf.nn.softmax_cross_entropy_with_logits_v2`.
+
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/ops/math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+INFO:tensorflow:Summary name metatrain_Pre-update loss is illegal; using metatrain_Pre-update_loss instead.
+INFO:tensorflow:Summary name metatrain_Pre-update accuracy is illegal; using metatrain_Pre-update_accuracy instead.
+INFO:tensorflow:Summary name metatrain_Post-update loss, step 1 is illegal; using metatrain_Post-update_loss__step_1 instead.
+INFO:tensorflow:Summary name metatrain_Post-update accuracy, step 1 is illegal; using metatrain_Post-update_accuracy__step_1 instead.
+INFO:tensorflow:Summary name metatrain_Post-update loss, step 2 is illegal; using metatrain_Post-update_loss__step_2 instead.
+INFO:tensorflow:Summary name metatrain_Post-update accuracy, step 2 is illegal; using metatrain_Post-update_accuracy__step_2 instead.
+INFO:tensorflow:Summary name metatrain_Post-update loss, step 3 is illegal; using metatrain_Post-update_loss__step_3 instead.
+INFO:tensorflow:Summary name metatrain_Post-update accuracy, step 3 is illegal; using metatrain_Post-update_accuracy__step_3 instead.
+INFO:tensorflow:Summary name metatrain_Post-update loss, step 4 is illegal; using metatrain_Post-update_loss__step_4 instead.
+INFO:tensorflow:Summary name metatrain_Post-update accuracy, step 4 is illegal; using metatrain_Post-update_accuracy__step_4 instead.
+INFO:tensorflow:Summary name metatrain_Post-update loss, step 5 is illegal; using metatrain_Post-update_loss__step_5 instead.
+INFO:tensorflow:Summary name metatrain_Post-update accuracy, step 5 is illegal; using metatrain_Post-update_accuracy__step_5 instead.
+INFO:tensorflow:Summary name metaval_Pre-update loss is illegal; using metaval_Pre-update_loss instead.
+INFO:tensorflow:Summary name metaval_Pre-update accuracy is illegal; using metaval_Pre-update_accuracy instead.
+INFO:tensorflow:Summary name metaval_Post-update loss, step 1 is illegal; using metaval_Post-update_loss__step_1 instead.
+INFO:tensorflow:Summary name metaval_Post-update accuracy, step 1 is illegal; using metaval_Post-update_accuracy__step_1 instead.
+INFO:tensorflow:Summary name metaval_Post-update loss, step 2 is illegal; using metaval_Post-update_loss__step_2 instead.
+INFO:tensorflow:Summary name metaval_Post-update accuracy, step 2 is illegal; using metaval_Post-update_accuracy__step_2 instead.
+INFO:tensorflow:Summary name metaval_Post-update loss, step 3 is illegal; using metaval_Post-update_loss__step_3 instead.
+INFO:tensorflow:Summary name metaval_Post-update accuracy, step 3 is illegal; using metaval_Post-update_accuracy__step_3 instead.
+INFO:tensorflow:Summary name metaval_Post-update loss, step 4 is illegal; using metaval_Post-update_loss__step_4 instead.
+INFO:tensorflow:Summary name metaval_Post-update accuracy, step 4 is illegal; using metaval_Post-update_accuracy__step_4 instead.
+INFO:tensorflow:Summary name metaval_Post-update loss, step 5 is illegal; using metaval_Post-update_loss__step_5 instead.
+INFO:tensorflow:Summary name metaval_Post-update accuracy, step 5 is illegal; using metaval_Post-update_accuracy__step_5 instead.
+2022-04-29 16:43:40.788654: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 AVX512F FMA
+2022-04-29 16:43:40.981467: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x5626d8ab6800 executing computations on platform CUDA. Devices:
+2022-04-29 16:43:40.981507: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): Tesla V100-PCIE-32GB, Compute Capability 7.0
+2022-04-29 16:43:41.005619: I tensorflow/core/platform/profile_utils/cpu_utils.cc:94] CPU Frequency: 3000000000 Hz
+2022-04-29 16:43:41.006174: I tensorflow/compiler/xla/service/service.cc:150] XLA service 0x5626d8bd2100 executing computations on platform Host. Devices:
+2022-04-29 16:43:41.006207: I tensorflow/compiler/xla/service/service.cc:158]   StreamExecutor device (0): <undefined>, <undefined>
+2022-04-29 16:43:41.006442: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1433] Found device 0 with properties: 
+name: Tesla V100-PCIE-32GB major: 7 minor: 0 memoryClockRate(GHz): 1.38
+pciBusID: 0000:21:01.0
+totalMemory: 31.75GiB freeMemory: 31.44GiB
+2022-04-29 16:43:41.006474: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1512] Adding visible gpu devices: 0
+2022-04-29 16:43:41.009036: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-04-29 16:43:41.009064: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990]      0 
+2022-04-29 16:43:41.009071: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1003] 0:   N 
+2022-04-29 16:43:41.009161: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1115] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 30583 MB memory) -> physical GPU (device: 0, name: Tesla V100-PCIE-32GB, pci bus id: 0000:21:01.0, compute capability: 7.0)
+WARNING:tensorflow:From maml_gpu/main.py:385: start_queue_runners (from tensorflow.python.training.queue_runner_impl) is deprecated and will be removed in a future version.
+Instructions for updating:
+To construct input pipelines, use the `tf.data` module.
+Done initializing, starting training.
+2022-04-29 16:43:46.602408: I tensorflow/stream_executor/dso_loader.cc:152] successfully opened CUDA library libcublas.so.10.0 locally
+Iteration 100: 0.2, 0.3516667
+Iteration 200: 0.1, 0.47
+Iteration 300: 0.1, 0.48666668
+Iteration 400: 0.1, 0.46666667
+Iteration 500: 0.15, 0.47
+Validation results: 0.1, 0.30666667
+Totally results: , 0.30666667222976685
+Iteration 600: 0.15, 0.53999996
+Iteration 700: 0.25, 0.62333333
+Iteration 800: 0.2, 0.5833334
+Iteration 900: 0.15, 0.5733333
+Iteration 1000: 0.25, 0.62666667
+Validation results: 0.2, 0.23666668
+Totally results: , 0.27166667580604553
+Iteration 1100: 0.1, 0.62
+Iteration 1200: 0.15, 0.64
+Iteration 1300: 0.05, 0.6533333
+Iteration 1400: 0.15, 0.6666667
+Iteration 1500: 0.1, 0.6766666
+Validation results: 0.15, 0.27666664
+Totally results: , 0.2733333309491475
+Iteration 1600: 0.25, 0.65666664
+Iteration 1700: 0.35000002, 0.68666667
+Iteration 1800: 0.3, 0.67333335
+Iteration 1900: 0.25, 0.7066667
+Iteration 2000: 0.2, 0.7366667
+Validation results: 0.25, 0.25
+Totally results: , 0.26749999821186066
+Iteration 2100: 0.0, 0.74666667
+Iteration 2200: 0.05, 0.76666665
+Iteration 2300: 0.0, 0.69
+Iteration 2400: 0.0, 0.77
+Iteration 2500: 0.0, 0.78999996
+Validation results: 0.1, 0.27666667
+Totally results: , 0.2693333327770233
+Iteration 2600: 0.0, 0.76
+Iteration 2700: 0.1, 0.7266667
+Iteration 2800: 0.05, 0.72333336
+Iteration 2900: 0.05, 0.8
+Iteration 3000: 0.05, 0.84
+Validation results: 0.1, 0.24666667
+Totally results: , 0.26555555562178296
+Iteration 3100: 0.05, 0.82666665
+Iteration 3200: 0.05, 0.79333335
+Iteration 3300: 0.1, 0.85333335
+Iteration 3400: 0.05, 0.85
+Iteration 3500: 0.05, 0.87666667
+Validation results: 0.25, 0.21333332
+Totally results: , 0.25809523676122936
+Iteration 3600: 0.05, 0.81000006
+Iteration 3700: 0.05, 0.83000004
+Iteration 3800: 0.1, 0.8666667
+Iteration 3900: 0.1, 0.83000004
+Iteration 4000: 0.1, 0.86333334
+Validation results: 0.3, 0.26999998
+Totally results: , 0.2595833297818899
+Iteration 4100: 0.4, 0.91
+Iteration 4200: 0.35, 0.8933333
+Iteration 4300: 0.35, 0.9166667
+Iteration 4400: 0.45000002, 0.94000006
+Iteration 4500: 0.35, 0.94000006
+Validation results: 0.15, 0.21000001
+Totally results: , 0.2540740718444188
+Iteration 4600: 0.15, 0.87
+Iteration 4700: 0.15, 0.87666667
+Iteration 4800: 0.15, 0.9133333
+Iteration 4900: 0.15, 0.9133333
+Iteration 5000: 0.15, 0.9433334
+Validation results: 0.3, 0.26333332
+Totally results: , 0.25499999672174456
+Iteration 5100: 0.1, 0.89
+Iteration 5200: 0.1, 0.89666665
+Iteration 5300: 0.1, 0.8566667
+Iteration 5400: 0.1, 0.90666664
+Iteration 5500: 0.1, 0.94
+Validation results: 0.25, 0.23333335
+Totally results: , 0.25303030149503186
+Iteration 5600: 0.1, 0.9033333
+Iteration 5700: 0.1, 0.8833333
+Iteration 5800: 0.1, 0.90666664
+Iteration 5900: 0.1, 0.9166667
+Iteration 6000: 0.1, 0.95000005
+Validation results: 0.1, 0.24666667
+Totally results: , 0.2524999988575776
+Iteration 6100: 0.05, 0.92999995
+Iteration 6200: 0.05, 0.93
+Iteration 6300: 0.05, 0.9433334
+Iteration 6400: 0.05, 0.96333337
+Iteration 6500: 0.05, 0.94
+Validation results: 0.2, 0.22666666
+Totally results: , 0.2505128188775136
+Iteration 6600: 0.1, 0.95000005
+Iteration 6700: 0.1, 0.9566667
+Iteration 6800: 0.05, 0.97
+Iteration 6900: 0.1, 0.97333336
+Iteration 7000: 0.1, 0.9766667
+Validation results: 0.25, 0.2733333
+Totally results: , 0.25214285403490067
+Iteration 7100: 0.1, 0.9533334
+Iteration 7200: 0.1, 0.96000004
+Iteration 7300: 0.1, 0.99
+Iteration 7400: 0.1, 0.98
+Iteration 7500: 0.1, 0.9566667
+Validation results: 0.05, 0.25
+Totally results: , 0.25199999709924065
+Iteration 7600: 0.0, 0.9566667
+Iteration 7700: 0.0, 0.98
+Iteration 7800: 0.0, 0.96333337
+Iteration 7900: 0.0, 0.9666667
+Iteration 8000: 0.05, 0.9566667
+Validation results: 0.15, 0.24666667
+Totally results: , 0.2516666641458869
+Iteration 8100: 0.0, 0.9666667
+Iteration 8200: 0.0, 0.96333337
+Iteration 8300: 0.0, 0.96000004
+Iteration 8400: 0.0, 0.9666667
+Iteration 8500: 0.0, 0.9566667
+Validation results: 0.35, 0.25333333
+Totally results: , 0.2517647033228594
+Iteration 8600: 0.1, 0.9766667
+Iteration 8700: 0.1, 0.9766667
+Iteration 8800: 0.1, 0.9566667
+Iteration 8900: 0.1, 0.9866667
+Iteration 9000: 0.1, 0.99
+Validation results: 0.35000002, 0.21333334
+Totally results: , 0.24962962749931547
+Iteration 9100: 0.05, 0.99
+Iteration 9200: 0.05, 0.9866667
+Iteration 9300: 0.05, 0.9866667
+Iteration 9400: 0.05, 0.9566667
+Iteration 9500: 0.05, 0.9533334
+Validation results: 0.2, 0.27666664
+Totally results: , 0.25105262822226476
+Iteration 9600: 0.1, 0.97333336
+Iteration 9700: 0.1, 0.97333336
+Iteration 9800: 0.1, 1.0
+Iteration 9900: 0.1, 0.99666667
+Iteration 10000: 0.1, 0.99333334
+Validation results: 0.25, 0.25333333
+Totally results: , 0.25116666331887244
+Iteration 10100: 0.0, 0.9166667
+Iteration 10200: 0.0, 0.94
+Iteration 10300: 0.0, 0.98
+Iteration 10400: 0.0, 0.98333335
+Iteration 10500: 0.0, 1.0
+Validation results: 0.1, 0.29
+Totally results: , 0.25301586943013327
+Iteration 10600: 0.05, 0.99333334
+Iteration 10700: 0.05, 0.99333334
+Iteration 10800: 0.05, 0.9866667
+Iteration 10900: 0.05, 1.0
+Iteration 11000: 0.1, 0.99
+WARNING:tensorflow:From /home/work/anaconda/lib/python3.6/site-packages/tensorflow/python/training/saver.py:966: remove_checkpoint (from tensorflow.python.training.checkpoint_management) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use standard file APIs to delete files with this prefix.
+Validation results: 0.2, 0.28666666
+Totally results: , 0.2545454508878968
+Iteration 11100: 0.1, 0.97
+Iteration 11200: 0.1, 0.97
+Iteration 11300: 0.1, 0.99666667
+Iteration 11400: 0.1, 1.0
+Iteration 11500: 0.1, 0.99666667
+Validation results: 0.35000002, 0.22666667
+Totally results: , 0.25333333015441895
+Iteration 11600: 0.05, 0.99666667
+Iteration 11700: 0.05, 1.0
+Iteration 11800: 0.05, 1.0
+Iteration 11900: 0.05, 1.0
+Iteration 12000: 0.05, 0.95
+Validation results: 0.2, 0.25
+Totally results: , 0.2531944413979848
+Iteration 12100: 0.0, 0.97333336
+Iteration 12200: 0.0, 0.98
+Iteration 12300: 0.0, 0.99333334
+Iteration 12400: 0.0, 1.0
+Iteration 12500: 0.0, 1.0
+Validation results: 0.3, 0.21666667
+Totally results: , 0.25173333048820495
+Iteration 12600: 0.0, 1.0
+Iteration 12700: 0.0, 1.0
+Iteration 12800: 0.0, 1.0
+Iteration 12900: 0.0, 1.0
+Iteration 13000: 0.0, 1.0
+Validation results: 0.25, 0.22666666
+Totally results: , 0.2507692277431488
+Iteration 13100: 0.05, 0.9866667
+Iteration 13200: 0.05, 0.9766667
+Iteration 13300: 0.05, 0.94666666
+Iteration 13400: 0.05, 0.9533333
+Iteration 13500: 0.05, 0.95
+Validation results: 0.2, 0.22333334
+Totally results: , 0.24975308389575393
+Iteration 13600: 0.1, 0.99666667
+Iteration 13700: 0.1, 0.99
+Iteration 13800: 0.1, 1.0
+Iteration 13900: 0.1, 1.0
+Iteration 14000: 0.1, 1.0
+Validation results: 0.2, 0.22999999
+Totally results: , 0.24904761623059
+Iteration 14100: 0.2, 1.0
+Iteration 14200: 0.2, 1.0
+Iteration 14300: 0.2, 1.0
+Iteration 14400: 0.2, 1.0
+Iteration 14500: 0.2, 1.0
+Validation results: 0.15, 0.26666665
+Totally results: , 0.24965516914581432
+Iteration 14600: 0.0, 0.99666667
+Iteration 14700: 0.0, 0.93666667
+Iteration 14800: 0.05, 0.9666667
+Iteration 14900: 0.0, 0.9866667
+Iteration 15000: 0.0, 0.99
+Validation results: 0.15, 0.26333332
+Totally results: , 0.2501111075282097
+Iteration 15100: 0.1, 0.99
+Iteration 15200: 0.1, 1.0
+Iteration 15300: 0.1, 1.0
+Iteration 15400: 0.1, 1.0
+Iteration 15500: 0.1, 1.0
+Validation results: 0.05, 0.24333334
+Totally results: , 0.24989246985604685
+Iteration 15600: 0.05, 1.0
+Iteration 15700: 0.05, 1.0
+Iteration 15800: 0.05, 1.0
+Iteration 15900: 0.05, 1.0
+Iteration 16000: 0.05, 1.0
+Validation results: 0.3, 0.27666664
+Totally results: , 0.25072916271165013
+Iteration 16100: 0.05, 1.0
+Iteration 16200: 0.05, 0.99666667
+Iteration 16300: 0.05, 0.9866667
+Iteration 16400: 0.05, 0.96333337
+Iteration 16500: 0.05, 0.99
+Validation results: 0.3, 0.26666665
+Totally results: , 0.2512121168953
+Iteration 16600: 0.25, 0.97333336
+Iteration 16700: 0.25, 0.98333335
+Iteration 16800: 0.3, 1.0
+Iteration 16900: 0.3, 1.0
+Iteration 17000: 0.3, 1.0
+Validation results: 0.2, 0.26
+Totally results: , 0.25147058376494574
+Iteration 17100: 0.15, 1.0
+Iteration 17200: 0.15, 1.0
+Iteration 17300: 0.15, 1.0
+Iteration 17400: 0.15, 1.0
+Iteration 17500: 0.15, 1.0
+Validation results: 0.25, 0.19333333
+Totally results: , 0.24980951930795398
+Iteration 17600: 0.1, 1.0
+Iteration 17700: 0.1, 1.0
+Iteration 17800: 0.1, 1.0
+Iteration 17900: 0.1, 1.0
+Iteration 18000: 0.1, 1.0
+Validation results: 0.2, 0.26333332
+Totally results: , 0.25018518045544624
+Iteration 18100: 0.05, 1.0
+Iteration 18200: 0.05, 1.0
+Iteration 18300: 0.1, 0.90666664
+Iteration 18400: 0.1, 0.97
+Iteration 18500: 0.05, 0.9866667
+Validation results: 0.05, 0.25333333
+Totally results: , 0.25027026558244553
+Iteration 18600: 0.05, 1.0
+Iteration 18700: 0.05, 1.0
+Iteration 18800: 0.05, 1.0
+Iteration 18900: 0.05, 1.0
+Iteration 19000: 0.05, 1.0
+Validation results: 0.1, 0.22666666
+Totally results: , 0.24964911804387444
+Iteration 19100: 0.05, 1.0
+Iteration 19200: 0.1, 1.0
+Iteration 19300: 0.05, 1.0
+Iteration 19400: 0.05, 1.0
+Iteration 19500: 0.05, 1.0
+Validation results: 0.25, 0.22333333
+Totally results: , 0.24897435422127062
+Iteration 19600: 0.1, 1.0
+Iteration 19700: 0.1, 1.0
+Iteration 19800: 0.1, 1.0
+Iteration 19900: 0.1, 1.0
+Iteration 20000: 0.1, 1.0
+Validation results: 0.05, 0.24333332
+Totally results: , 0.2488333284854889
+Iteration 20100: 0.0, 1.0
+Iteration 20200: 0.0, 1.0
+Iteration 20300: 0.0, 0.99
+Iteration 20400: 0.0, 0.9666667
+Iteration 20500: 0.0, 0.97
+Validation results: 0.05, 0.20666666
+Totally results: , 0.24780487323679576
+Iteration 20600: 0.0, 1.0
+Iteration 20700: 0.0, 1.0
+Iteration 20800: 0.0, 1.0
+Iteration 20900: 0.0, 1.0
+Iteration 21000: 0.0, 1.0
+Validation results: 0.2, 0.24333334
+Totally results: , 0.2476984081523759
+Iteration 21100: 0.1, 1.0
+Iteration 21200: 0.1, 1.0
+Iteration 21300: 0.1, 1.0
+Iteration 21400: 0.1, 1.0
+Iteration 21500: 0.1, 1.0
+Validation results: 0.25, 0.23
+Totally results: , 0.24728681736214217
+Iteration 21600: 0.05, 1.0
+Iteration 21700: 0.05, 1.0
+Iteration 21800: 0.05, 1.0
+Iteration 21900: 0.05, 1.0
+Iteration 22000: 0.05, 1.0
+Validation results: 0.2, 0.26333332
+Totally results: , 0.24765151061794974
+Iteration 22100: 0.05, 1.0
+Iteration 22200: 0.05, 1.0
+Iteration 22300: 0.05, 1.0
+Iteration 22400: 0.05, 1.0
+Iteration 22500: 0.05, 1.0
+Validation results: 0.15, 0.23666666
+Totally results: , 0.24740740292602115
+Iteration 22600: 0.0, 1.0
+Iteration 22700: 0.0, 1.0
+Iteration 22800: 0.0, 1.0
+Iteration 22900: 0.0, 0.87666667
+Iteration 23000: 0.0, 0.96333337
+Validation results: 0.2, 0.23666666
+Totally results: , 0.2471739086120025
+Iteration 23100: 0.05, 0.99333334
+Iteration 23200: 0.05, 1.0
+Iteration 23300: 0.05, 1.0
+Iteration 23400: 0.05, 1.0
+Iteration 23500: 0.05, 1.0
+Validation results: 0.35000002, 0.24
+Totally results: , 0.24702127214441907
+Iteration 23600: 0.0, 1.0
+Iteration 23700: 0.0, 1.0
+Iteration 23800: 0.0, 1.0
+Iteration 23900: 0.0, 1.0
+Iteration 24000: 0.0, 1.0
+Validation results: 0.55, 0.19666666
+Totally results: , 0.24597221768150726
+Iteration 24100: 0.05, 1.0
+Iteration 24200: 0.05, 1.0
+Iteration 24300: 0.05, 1.0
+Iteration 24400: 0.05, 1.0
+Iteration 24500: 0.05, 1.0
+Validation results: 0.3, 0.20666666
+Totally results: , 0.24517006351023304
+Iteration 24600: 0.0, 1.0
+Iteration 24700: 0.0, 1.0
+Iteration 24800: 0.0, 1.0
+Iteration 24900: 0.0, 1.0
+Iteration 25000: 0.0, 1.0
+Validation results: 0.15, 0.22333334
+Totally results: , 0.24473332911729812
+Iteration 25100: 0.05, 1.0
+Iteration 25200: 0.05, 1.0
+Iteration 25300: 0.05, 1.0
+Iteration 25400: 0.05, 1.0
+Iteration 25500: 0.05, 1.0
+Validation results: 0.05, 0.26
+Totally results: , 0.24503267541819929
+Iteration 25600: 0.05, 1.0
+Iteration 25700: 0.05, 1.0
+Iteration 25800: 0.1, 0.99666667
+Iteration 25900: 0.05, 0.9166666
+Iteration 26000: 0.1, 0.99333334
+Validation results: 0.3, 0.21666667
+Totally results: , 0.24448717528810868
+Iteration 26100: 0.0, 0.99666667
+Iteration 26200: 0.0, 1.0
+Iteration 26300: 0.0, 1.0
+Iteration 26400: 0.0, 1.0
+Iteration 26500: 0.0, 1.0
+Validation results: 0.4, 0.23666666
+Totally results: , 0.24433961848043045
+Iteration 26600: 0.15, 1.0
+Iteration 26700: 0.15, 1.0
+Iteration 26800: 0.15, 1.0
+Iteration 26900: 0.15, 1.0
+Iteration 27000: 0.2, 1.0
+Validation results: 0.25, 0.23
+Totally results: , 0.2440740700673174
+Iteration 27100: 0.05, 1.0
+Iteration 27200: 0.05, 1.0
+Iteration 27300: 0.05, 1.0
+Iteration 27400: 0.05, 1.0
+Iteration 27500: 0.05, 1.0
+Validation results: 0.25, 0.25
+Totally results: , 0.24418181424791163
+Iteration 27600: 0.1, 1.0
+Iteration 27700: 0.1, 1.0
+Iteration 27800: 0.1, 1.0
+Iteration 27900: 0.1, 1.0
+Iteration 28000: 0.1, 1.0
+Validation results: 0.1, 0.23
+Totally results: , 0.243928567639419
+Iteration 28100: 0.05, 1.0
+Iteration 28200: 0.05, 1.0
+Iteration 28300: 0.05, 1.0
+Iteration 28400: 0.05, 1.0
+Iteration 28500: 0.05, 1.0
+Validation results: 0.2, 0.22333333
+Totally results: , 0.2435672476626279
+Iteration 28600: 0.05, 1.0
+Iteration 28700: 0.05, 1.0
+Iteration 28800: 0.05, 1.0
+Iteration 28900: 0.05, 1.0
+Iteration 29000: 0.05, 1.0
+Validation results: 0.15, 0.24666667
+Totally results: , 0.2436206859761271
+Iteration 29100: 0.3, 1.0
+Iteration 29200: 0.35000002, 1.0
+Iteration 29300: 0.35000002, 1.0
+Iteration 29400: 0.35000002, 1.0
+Iteration 29500: 0.4, 0.98333335
+Validation results: 0.3, 0.22666666
+Totally results: , 0.24333332958867995
+Iteration 29600: 0.25, 0.93333334
+Iteration 29700: 0.2, 0.98
+Iteration 29800: 0.2, 1.0
+Iteration 29900: 0.2, 1.0
+Iteration 30000: 0.2, 1.0
+Validation results: 0.2, 0.21666667
+Totally results: , 0.24288888523976007
+Iteration 30100: 0.1, 1.0
+Iteration 30200: 0.1, 1.0
+Iteration 30300: 0.1, 1.0
+Iteration 30400: 0.1, 1.0
+Iteration 30500: 0.1, 1.0
+Validation results: 0.3, 0.24999999
+Totally results: , 0.24300546064728595
+Iteration 30600: 0.05, 1.0
+Iteration 30700: 0.05, 1.0
+Iteration 30800: 0.05, 1.0
+Iteration 30900: 0.05, 1.0
+Iteration 31000: 0.05, 1.0
+Validation results: 0.15, 0.22
+Totally results: , 0.24263440481116694
+Iteration 31100: 0.1, 1.0
+Iteration 31200: 0.1, 1.0
+Iteration 31300: 0.1, 1.0
+Iteration 31400: 0.1, 1.0
+Iteration 31500: 0.1, 1.0
+Validation results: 0.15, 0.20333333
+Totally results: , 0.24201057827661906
+Iteration 31600: 0.1, 1.0
+Iteration 31700: 0.1, 1.0
+Iteration 31800: 0.1, 1.0
+Iteration 31900: 0.1, 1.0
+Iteration 32000: 0.1, 1.0
+Validation results: 0.1, 0.26
+Totally results: , 0.2422916628420353
+Iteration 32100: 0.1, 1.0
+Iteration 32200: 0.05, 1.0
+Iteration 32300: 0.1, 0.91999996
+Iteration 32400: 0.1, 0.98
+Iteration 32500: 0.1, 1.0
+Validation results: 0.05, 0.24666667
+Totally results: , 0.24235897064208983
+Iteration 32600: 0.0, 1.0
+Iteration 32700: 0.0, 1.0
+Iteration 32800: 0.0, 1.0
+Iteration 32900: 0.0, 1.0
+Iteration 33000: 0.0, 1.0
+Validation results: 0.1, 0.22666666
+Totally results: , 0.24212120834625128
+Iteration 33100: 0.05, 1.0
+Iteration 33200: 0.05, 1.0
+Iteration 33300: 0.05, 1.0
+Iteration 33400: 0.05, 1.0
+Iteration 33500: 0.05, 1.0
+Validation results: 0.3, 0.19999999
+Totally results: , 0.2414925334168904
+Iteration 33600: 0.05, 1.0
+Iteration 33700: 0.05, 1.0
+Iteration 33800: 0.05, 1.0
+Iteration 33900: 0.05, 1.0
+Iteration 34000: 0.05, 1.0
+Validation results: 0.25, 0.24333334
+Totally results: , 0.24151960409739437
+Iteration 34100: 0.05, 1.0
+Iteration 34200: 0.05, 1.0
+Iteration 34300: 0.05, 1.0
+Iteration 34400: 0.05, 1.0
+Iteration 34500: 0.05, 1.0
+Validation results: 0.15, 0.25
+Totally results: , 0.24164250838583795
+Iteration 34600: 0.1, 1.0
+Iteration 34700: 0.1, 1.0
+Iteration 34800: 0.1, 1.0
+Iteration 34900: 0.1, 1.0
+Iteration 35000: 0.1, 1.0
+Validation results: 0.2, 0.25333333
+Totally results: , 0.2418095201253891
+Iteration 35100: 0.05, 1.0
+Iteration 35200: 0.05, 1.0
+Iteration 35300: 0.05, 1.0
+Iteration 35400: 0.05, 1.0
+Iteration 35500: 0.05, 1.0
+Validation results: 0.1, 0.27999997
+Totally results: , 0.2423474138051691
+Iteration 35600: 0.2, 1.0
+Iteration 35700: 0.15, 0.94000006
+Iteration 35800: 0.2, 0.9766667
+Iteration 35900: 0.2, 0.99666667
+Iteration 36000: 0.2, 1.0
+Validation results: 0.3, 0.24333334
+Totally results: , 0.24236110722025236
+Iteration 36100: 0.0, 1.0
+Iteration 36200: 0.0, 1.0
+Iteration 36300: 0.0, 1.0
+Iteration 36400: 0.0, 1.0
+Iteration 36500: 0.0, 1.0
+Validation results: 0.35000002, 0.24666665
+Totally results: , 0.24242008732606288
+Iteration 36600: 0.15, 1.0
+Iteration 36700: 0.15, 1.0
+Iteration 36800: 0.15, 1.0
+Iteration 36900: 0.15, 1.0
+Iteration 37000: 0.15, 1.0
+Validation results: 0.2, 0.2
+Totally results: , 0.2418468429430111
+Iteration 37100: 0.05, 1.0
+Iteration 37200: 0.05, 1.0
+Iteration 37300: 0.05, 1.0
+Iteration 37400: 0.05, 1.0
+Iteration 37500: 0.05, 1.0
+Validation results: 0.25, 0.21666667
+Totally results: , 0.24151110728581746
+Iteration 37600: 0.0, 1.0
+Iteration 37700: 0.0, 1.0
+Iteration 37800: 0.0, 1.0
+Iteration 37900: 0.0, 1.0
+Iteration 38000: 0.0, 1.0
+Validation results: 0.05, 0.22333333
+Totally results: , 0.24127192599208733
+Iteration 38100: 0.05, 1.0
+Iteration 38200: 0.05, 1.0
+Iteration 38300: 0.05, 1.0
+Iteration 38400: 0.05, 1.0
+Iteration 38500: 0.05, 1.0
+Validation results: 0.2, 0.2
+Totally results: , 0.24073592699193336
+Iteration 38600: 0.05, 1.0
+Iteration 38700: 0.05, 1.0
+Iteration 38800: 0.05, 1.0
+Iteration 38900: 0.05, 1.0
+Iteration 39000: 0.05, 1.0
+Validation results: 0.25, 0.20333333
+Totally results: , 0.24025640655786562
+Iteration 39100: 0.1, 1.0
+Iteration 39200: 0.15, 1.0
+Iteration 39300: 0.1, 1.0
+Iteration 39400: 0.1, 1.0
+Iteration 39500: 0.1, 1.0
+Validation results: 0.25, 0.22666667
+Totally results: , 0.24008438462698006
+Iteration 39600: 0.0, 1.0
+Iteration 39700: 0.0, 1.0
+Iteration 39800: 0.0, 1.0
+Iteration 39900: 0.0, 1.0
+Iteration 40000: 0.0, 1.0
+Validation results: 0.25, 0.28000003
+Totally results: , 0.24058333020657302
+Iteration 40100: 0.05, 1.0
+Iteration 40200: 0.0, 0.9666667
+Iteration 40300: 0.0, 0.99333334
+Iteration 40400: 0.0, 1.0
+Iteration 40500: 0.05, 1.0
+Validation results: 0.15, 0.24
+Totally results: , 0.24057612853285706
+Iteration 40600: 0.1, 1.0
+Iteration 40700: 0.1, 1.0
+Iteration 40800: 0.1, 1.0
+Iteration 40900: 0.1, 1.0
+Iteration 41000: 0.1, 1.0
+Validation results: 0.15, 0.22
+Totally results: , 0.24032520012157718
+Iteration 41100: 0.05, 1.0
+Iteration 41200: 0.05, 1.0
+Iteration 41300: 0.05, 1.0
+Iteration 41400: 0.05, 1.0
+Iteration 41500: 0.05, 1.0
+Validation results: 0.15, 0.24
+Totally results: , 0.24032128198319172
+Iteration 41600: 0.3, 1.0
+Iteration 41700: 0.3, 1.0
+Iteration 41800: 0.3, 1.0
+Iteration 41900: 0.3, 1.0
+Iteration 42000: 0.3, 1.0
+Validation results: 0.25, 0.20333333
+Totally results: , 0.23988094925880432
+Iteration 42100: 0.2, 1.0
+Iteration 42200: 0.2, 1.0
+Iteration 42300: 0.2, 1.0
+Iteration 42400: 0.2, 1.0
+Iteration 42500: 0.2, 1.0
+Validation results: 0.25, 0.23
+Totally results: , 0.23976470284602222
+Iteration 42600: 0.1, 1.0
+Iteration 42700: 0.1, 1.0
+Iteration 42800: 0.1, 1.0
+Iteration 42900: 0.1, 1.0
+Iteration 43000: 0.1, 1.0
+Validation results: 0.2, 0.22333334
+Totally results: , 0.23957364053227181
+Iteration 43100: 0.05, 1.0
+Iteration 43200: 0.05, 1.0
+Iteration 43300: 0.05, 1.0
+Iteration 43400: 0.05, 1.0
+Iteration 43500: 0.05, 1.0
+Validation results: 0.15, 0.22
+Totally results: , 0.23934865614463544
+Iteration 43600: 0.2, 1.0
+Iteration 43700: 0.2, 1.0
+Iteration 43800: 0.2, 1.0
+Iteration 43900: 0.2, 1.0
+Iteration 44000: 0.2, 1.0
+Validation results: 0.25, 0.23666668
+Totally results: , 0.2393181791359728
+Iteration 44100: 0.05, 1.0
+Iteration 44200: 0.05, 1.0
+Iteration 44300: 0.05, 1.0
+Iteration 44400: 0.05, 1.0
+Iteration 44500: 0.05, 1.0
+Validation results: 0.1, 0.25
+Totally results: , 0.23943819959511917
+Iteration 44600: 0.1, 1.0
+Iteration 44700: 0.1, 1.0
+Iteration 44800: 0.2, 0.9133333
+Iteration 44900: 0.1, 0.99
+Iteration 45000: 0.1, 1.0
+Validation results: 0.05, 0.22999999
+Totally results: , 0.23933333059151968
+Iteration 45100: 0.0, 1.0
+Iteration 45200: 0.0, 1.0
+Iteration 45300: 0.0, 1.0
+Iteration 45400: 0.05, 1.0
+Iteration 45500: 0.05, 1.0
+Validation results: 0.05, 0.21333334
+Totally results: , 0.23904761639270153
+Iteration 45600: 0.05, 1.0
+Iteration 45700: 0.05, 1.0
+Iteration 45800: 0.05, 1.0
+Iteration 45900: 0.05, 1.0
+Iteration 46000: 0.05, 1.0
+Validation results: 0.3, 0.22
+Totally results: , 0.23884057707112769
+Iteration 46100: 0.05, 1.0
+Iteration 46200: 0.05, 1.0
+Iteration 46300: 0.05, 1.0
+Iteration 46400: 0.05, 1.0
+Iteration 46500: 0.05, 1.0
+Validation results: 0.35, 0.21666667
+Totally results: , 0.23860214794835738
+Iteration 46600: 0.1, 1.0
+Iteration 46700: 0.1, 1.0
+Iteration 46800: 0.1, 1.0
+Iteration 46900: 0.1, 1.0
+Iteration 47000: 0.1, 1.0
+Validation results: 0.1, 0.22999999
+Totally results: , 0.23851063562200425
+Iteration 47100: 0.0, 1.0
+Iteration 47200: 0.0, 1.0
+Iteration 47300: 0.0, 1.0
+Iteration 47400: 0.0, 1.0
+Iteration 47500: 0.0, 1.0
+Validation results: 0.2, 0.23666666
+Totally results: , 0.23849122539946907
+Iteration 47600: 0.05, 1.0
+Iteration 47700: 0.05, 1.0
+Iteration 47800: 0.05, 1.0
+Iteration 47900: 0.05, 1.0
+Iteration 48000: 0.05, 1.0
+Validation results: 0.15, 0.25666666
+Totally results: , 0.23868055284644166
+Iteration 48100: 0.2, 1.0
+Iteration 48200: 0.2, 1.0
+Iteration 48300: 0.2, 1.0
+Iteration 48400: 0.2, 1.0
+Iteration 48500: 0.2, 1.0
+Validation results: 0.2, 0.25666666
+Totally results: , 0.2388659766347138
+Iteration 48600: 0.05, 1.0
+Iteration 48700: 0.05, 1.0
+Iteration 48800: 0.05, 1.0
+Iteration 48900: 0.05, 1.0
+Iteration 49000: 0.05, 1.0
+Validation results: 0.35, 0.23666666
+Totally results: , 0.23884353467396327
+Iteration 49100: 0.15, 1.0
+Iteration 49200: 0.15, 1.0
+Iteration 49300: 0.15, 1.0
+Iteration 49400: 0.1, 1.0
+Iteration 49500: 0.15, 1.0
+Validation results: 0.25, 0.19333333
+Totally results: , 0.23838383561432963
+Iteration 49600: 0.15, 1.0
+Iteration 49700: 0.15, 1.0
+Iteration 49800: 0.15, 1.0
+Iteration 49900: 0.15, 1.0
+Iteration 50000: 0.2, 0.9166666
+Validation results: 0.15, 0.21000001
+Totally results: , 0.23809999734163284
+Iteration 50100: 0.0, 0.99666667
+Iteration 50200: 0.0, 1.0
+Iteration 50300: 0.0, 1.0
+Iteration 50400: 0.0, 1.0
+Iteration 50500: 0.0, 1.0
+Validation results: 0.1, 0.22666666
+Totally results: , 0.2379867959730696
+Iteration 50600: 0.05, 1.0
+Iteration 50700: 0.05, 1.0
+Iteration 50800: 0.05, 1.0
+Iteration 50900: 0.05, 1.0
+Iteration 51000: 0.05, 1.0
+Validation results: 0.3, 0.19666667
+Totally results: , 0.23758169672652787
+Iteration 51100: 0.1, 1.0
+Iteration 51200: 0.1, 1.0
+Iteration 51300: 0.1, 1.0
+Iteration 51400: 0.1, 1.0
+Iteration 51500: 0.1, 1.0
+Validation results: 0.2, 0.20333333
+Totally results: , 0.2372491883421407
+Iteration 51600: 0.15, 1.0
+Iteration 51700: 0.15, 1.0
+Iteration 51800: 0.15, 1.0
+Iteration 51900: 0.15, 1.0
+Iteration 52000: 0.15, 1.0
+Validation results: 0.2, 0.22999999
+Totally results: , 0.2371794845049198
+Iteration 52100: 0.0, 1.0
+Iteration 52200: 0.0, 1.0
+Iteration 52300: 0.0, 1.0
+Iteration 52400: 0.0, 1.0
+Iteration 52500: 0.0, 1.0
+Validation results: 0.3, 0.26
+Totally results: , 0.23739682265690396
+Iteration 52600: 0.05, 1.0
+Iteration 52700: 0.05, 1.0
+Iteration 52800: 0.05, 1.0
+Iteration 52900: 0.05, 1.0
+Iteration 53000: 0.05, 1.0
+Validation results: 0.15, 0.26666665
+Totally results: , 0.23767295311082084
+Iteration 53100: 0.1, 1.0
+Iteration 53200: 0.1, 1.0
+Iteration 53300: 0.1, 1.0
+Iteration 53400: 0.1, 1.0
+Iteration 53500: 0.1, 1.0
+Validation results: 0.25, 0.22333333
+Totally results: , 0.23753893793186295
+Iteration 53600: 0.05, 1.0
+Iteration 53700: 0.05, 1.0
+Iteration 53800: 0.05, 1.0
+Iteration 53900: 0.05, 1.0
+Iteration 54000: 0.05, 1.0
+Validation results: 0.15, 0.25666666
+Totally results: , 0.2377160464723905
+Iteration 54100: 0.25, 1.0
+Iteration 54200: 0.25, 1.0
+Iteration 54300: 0.25, 1.0
+Iteration 54400: 0.25, 1.0
+Iteration 54500: 0.25, 1.0
+Validation results: 0.25, 0.23333332
+Totally results: , 0.2376758379673739
+Iteration 54600: 0.2, 1.0
+Iteration 54700: 0.2, 1.0
+Iteration 54800: 0.2, 1.0
+Iteration 54900: 0.2, 1.0
+Iteration 55000: 0.2, 1.0
+Validation results: 0.25, 0.2
+Totally results: , 0.23733333037658172
+Iteration 55100: 0.1, 1.0
+Iteration 55200: 0.1, 1.0
+Iteration 55300: 0.1, 1.0
+Iteration 55400: 0.1, 1.0
+Iteration 55500: 0.1, 1.0
+Validation results: 0.15, 0.22333333
+Totally results: , 0.23720720423771455
+Iteration 55600: 0.1, 1.0
+Iteration 55700: 0.1, 1.0
+Iteration 55800: 0.1, 0.99
+Iteration 55900: 0.1, 0.9666667
+Iteration 56000: 0.1, 1.0
+Validation results: 0.1, 0.20333333
+Totally results: , 0.23690475896000862
+Iteration 56100: 0.2, 1.0
+Iteration 56200: 0.2, 1.0
+Iteration 56300: 0.2, 1.0
+Iteration 56400: 0.2, 1.0
+Iteration 56500: 0.2, 1.0
+Validation results: 0.15, 0.23666666
+Totally results: , 0.23690265192922239
+Iteration 56600: 0.1, 1.0
+Iteration 56700: 0.1, 1.0
+Iteration 56800: 0.1, 1.0
+Iteration 56900: 0.1, 1.0
+Iteration 57000: 0.1, 1.0
+Validation results: 0.15, 0.25666666
+Totally results: , 0.2370760204237804
+Iteration 57100: 0.1, 1.0
+Iteration 57200: 0.1, 1.0
+Iteration 57300: 0.1, 1.0
+Iteration 57400: 0.1, 1.0
+Iteration 57500: 0.1, 1.0
+Validation results: 0.05, 0.24666667
+Totally results: , 0.23715941737527432
+Iteration 57600: 0.05, 1.0
+Iteration 57700: 0.05, 1.0
+Iteration 57800: 0.05, 1.0
+Iteration 57900: 0.05, 1.0
+Iteration 58000: 0.05, 1.0
+Validation results: 0.1, 0.22666667
+Totally results: , 0.2370689626911591
+Iteration 58100: 0.05, 1.0
+Iteration 58200: 0.05, 1.0
+Iteration 58300: 0.05, 1.0
+Iteration 58400: 0.05, 1.0
+Iteration 58500: 0.05, 1.0
+Validation results: 0.3, 0.22333333
+Totally results: , 0.23695156411228016
+Iteration 58600: 0.05, 1.0
+Iteration 58700: 0.05, 1.0
+Iteration 58800: 0.05, 1.0
+Iteration 58900: 0.05, 1.0
+Iteration 59000: 0.05, 1.0
+Validation results: 0.3, 0.24666667
+Totally results: , 0.23703389551679968
+Iteration 59100: 0.05, 1.0
+Iteration 59200: 0.05, 1.0
+Iteration 59300: 0.05, 1.0
+Iteration 59400: 0.05, 1.0
+Iteration 59500: 0.05, 1.0
+Validation results: 0.05, 0.24
+Totally results: , 0.2370588207194785
+Iteration 59600: 0.1, 1.0
+Iteration 59700: 0.1, 1.0
+Iteration 59800: 0.1, 1.0
+Iteration 59900: 0.1, 1.0
+/cache/result
+/home/work/modelarts/outputs/train_url_0/
+[ModelArts Service Log]modelarts-pipe: total length: 37624
+[Modelarts Service Log]Training end with return code: 0
+[Modelarts Service Log]handle outputs of training job
+[Modelarts Service Log][modelarts_logger] modelarts-pipe found
+[ModelArts Service Log]modelarts-pipe: will create log file /home/work/modelarts/outputs/log/modelarts-job-f66e38e0-13ef-4017-a7b7-a30c093dc06c-training.log
+[ModelArts Service Log]modelarts-pipe: will write log file /home/work/modelarts/outputs/log/modelarts-job-f66e38e0-13ef-4017-a7b7-a30c093dc06c-training.log
+[ModelArts Service Log]modelarts-pipe: param for max log length: 1073741824
+[ModelArts Service Log]modelarts-pipe: param for whether exit on overflow: 0
+INFO:root:Using MoXing-v1.17.3-b2f1481c
+INFO:root:Using OBS-Python-SDK-3.20.7
+[ModelArts Service Log][INFO][2022/04/29 20:37:17]: upload the content of [train_url] outputs
+[ModelArts Service Log][INFO][2022/04/29 20:37:17]: upload the content of [train_url] outputs successfully
+[ModelArts Service Log][INFO][2022/04/29 20:37:17]: it can be accessed at obs path [/mamlnpu/MA-new-maml-npu-04-29-16-34-730/output/]
+[ModelArts Service Log]modelarts-pipe: total length: 413
+[Modelarts Service Log]Training completed.
+[2022-04-29T20:37:18+08:00][ModelArts Service Log][sidecar] training is completed
+[2022-04-29T20:37:18+08:00][ModelArts Service Log][sidecar] stop toolkit_obs_upload_by_channels_pid = 42 by signal SIGTERM
+time="2022-04-29T20:37:18+08:00" level=info msg="the periodic upload task exiting..." file="upload.go:214" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=log_url
+time="2022-04-29T20:37:18+08:00" level=info msg="the periodic upload task exiting..." file="upload.go:214" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=train_url
+time="2022-04-29T20:37:18+08:00" level=info msg="the periodic upload task exiting..." file="upload.go:214" Command=obs/upload_by_channels Component=ma-training-toolkit Platform=ModelArts-Service Task=srt_log_collection
