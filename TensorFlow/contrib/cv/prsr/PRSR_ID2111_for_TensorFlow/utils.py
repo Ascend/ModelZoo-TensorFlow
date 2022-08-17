@@ -19,7 +19,7 @@ def save_samples(np_imgs, img_path):
   merge_img = np.zeros((num * H, num * W, 3), dtype=np.uint8)
   for i in range(num):
     for j in range(num):
-      merge_img[i*H:(i+1)*H, j*W:(j+1)*W, :] = np_imgs[i*num+j,:,:,:]
+      merge_img[i*H:(i+1)*H, j*W:(j+1)*W, :] = np_imgs[i*num+j, :, :, :]
 
   # imsave(img_path, merge_img)
   # misc.imsave(img_path, merge_img)

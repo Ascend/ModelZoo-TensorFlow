@@ -23,7 +23,8 @@ class DataSet(object):
     with open(images_list_path, 'r') as f:
       num_example = len(list(f))
 
-    dataset = dataset.map(parse_example).shuffle(buffer_size = num_example).batch(batch_size, drop_remainder=True).repeat(num_epoch)
+    dataset = dataset.map(parse_example).shuffle(buffer_size = num_example).\
+      batch(batch_size, drop_remainder=True).repeat(num_epoch)
 
     iterator = dataset.make_one_shot_iterator()
 

@@ -90,7 +90,8 @@ class Solver(object):
 
 		# ------------------ NPU 混合精度 ----------------------------
 		custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
-		custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("/home/ma-user/modelarts/user-job-dir/code/ops_info.json")
+		custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes\
+			("/home/ma-user/modelarts/user-job-dir/code/ops_info.json")
 		# ----------------------------------------------------------
 
 		# #---------------- NPU DUMP --------------------------
@@ -155,7 +156,7 @@ class Solver(object):
 		coord.join(threads)
 		sess.close()
 
-	def sample(self, sess, mu = 1.1, step = None):
+	def sample(self, sess, mu=1.1, step=None):
 		c_logits = self.net.conditioning_logits
 		p_logits = self.net.prior_logits
 		lr_imgs = self.dataset.lr_images
