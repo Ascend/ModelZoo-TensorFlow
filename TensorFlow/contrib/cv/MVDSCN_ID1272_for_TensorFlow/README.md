@@ -120,7 +120,7 @@ pip3 install requirements.txt
 
 1、用户需自行下载数据集https://github.com/huybery/MvDSCN。
 
-2、mixmatch训练的模型及数据集可以参考"简述 -> 参考实现"
+2、 MVDSCN训练的模型及数据集可以参考"简述 -> 参考实现"
 
 
 ## 模型训练<a name="section715881518135"></a>
