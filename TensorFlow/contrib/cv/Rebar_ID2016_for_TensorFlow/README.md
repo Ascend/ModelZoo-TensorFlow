@@ -212,7 +212,7 @@ obs://rebar-ysnpu/train_dir/MA-new-07-04-09-33
 
 2. 参考脚本的模型存储路径为:/home/TestUser01/Pycode/rebar_npu/root/rebar/data/output (裸机TestUser01）
 
-<h2 id="执行结果打屏信息.md">高级参考</h2>
+<h2 id="执行结果打屏信息.md">执行结果打屏信息</h2>
 
 NPU训练过程部分打屏信息如下:
 '''
