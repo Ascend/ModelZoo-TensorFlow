@@ -1,0 +1,5 @@
+dm-sonnet==1.36
+numpy==1.18.0
+tensor2tensor==1.14
+tensorboard==1.15.0
+tensorflow==1.15.0
