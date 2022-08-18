@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -46,10 +46,14 @@ do
         output_path=`echo ${para#*=}`
     elif [[ $para == --train_steps* ]];then
         train_steps=`echo ${para#*=}`
-	elif [[ $para == --train_epochs* ]];then
+    elif [[ $para == --train_epochs* ]];then
         train_epochs=`echo ${para#*=}`
     elif [[ $para == --batch_size* ]];then
         batch_size=`echo ${para#*=}`
+    elif [[ $para == --conda_name* ]];then
+        conda_name=`echo ${para#*=}`
+        source set_conda.sh
+        source activate $conda_name
     fi
 done
 
@@ -113,9 +117,9 @@ batch_size=1
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3 ./train.py --datapath=${data_path}  --training_steps=${training_steps}
+    python3 ./train.py --datapath=${data_path} --training_steps=${training_steps}
 else
-    python3 ./train.py --datapath=${data_path} --training_steps=${training_steps} > ${print_log} 2>&1
+    python3 ./train.py --datapath=${data_path}/meshes --training_steps=${training_steps} > ${print_log} 2>&1
 fi
 
 wait
@@ -124,12 +128,12 @@ StepTime=`grep "StepTime:" ${print_log} | awk '{print $NF}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-v_l=`grep "Loss (vertices)" case.txt | awk  -F " " 'END{print $3}'`
-f_l=`grep "Loss (faces)" case.txt | awk -F " " 'END{print $3}'`
-train_accuracy=$v_l" "$f_l
+# v_l=`grep "Loss (vertices)" case.txt | awk  -F " " 'END{print $3}'`
+# f_l=`grep "Loss (faces)" case.txt | awk -F " " 'END{print $3}'`
+# train_accuracy=$v_l" "$f_l
 
 # 提取所有loss打印信息
-grep "Loss" case.txt | awk  -F " " '{print $3}'|awk '{tmp=$0;getline;print tmp" "$0}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "Loss (vertices)" ${print_log} | awk '{print $3}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
@@ -171,7 +175,7 @@ echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
 # 输出训练精度
-echo "Final Train Accuracy : ${train_accuracy}"
+# echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
 ActualLoss=(`tail -n 1 $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
@@ -186,3 +190,6 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+
+#退出conda环境
+conda deactivate
