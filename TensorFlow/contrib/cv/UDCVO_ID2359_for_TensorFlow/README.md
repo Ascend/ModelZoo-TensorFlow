@@ -74,25 +74,12 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+## Force_FP32精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+## 开启精度<a name="section20779114113713"></a>
 
-拉起脚本中，
-
-```
- ./train_full_1p.sh --help
-
-parameter explain:
-    --precision_mode         #precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
-    --data_path              # dataset of training
-    --output_path            # output of training
-    --train_steps            # max_step for training
-    --train_epochs           # max_epoch for training
-    --batch_size             # batch size
-    -h/--help                show help message
 ```
 float16 类型会导致训练错误，且精度不达标。**不支持混合精度** 。修改 `voiced_main.py` 中的相关代码为 `LossScale + force_fp32` 模式解决算子溢出以及精度问题。
 
