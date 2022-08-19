@@ -130,15 +130,9 @@ e2etime=$(( $end - $start ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`grep TimeHistory $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk '{print $4}'|tail -1|awk '{sum+=$1} END {print"",sum/NR}'|sed s/[[:space:]]//g`
-#TrainingTime=`grep Time $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk '{print $3}'|tail -1`
-#FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*1000/'${TrainingTime}'}'`
-Step=`grep loss: $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -1 | awk '{print $1}' | awk -F "/" '{print $1}' |awk '{sum+=$1} END {print sum/NR}'`
-Time=`grep loss: $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | tail -2 | awk '{print $3}' | tr -d s | awk '{sum+=$1} END {print sum/NR}'`
-TrainingTime=`awk 'BEGIN{printf "%.6f\n",'${Time}'/'${Step}'}'`
+FPS=`grep TimeHistory $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk '{print $4}'|tail -n +2|head -2|awk '{sum+=$1} END {print"",sum/NR}'|sed s/[[:space:]]//g`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${FPS}'}'`
 wait
-#FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${TrainingTime}'}'`
-#wait
 
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
@@ -159,7 +153,7 @@ ActualFPS=${FPS}
 TrainingTime=${TrainingTime}
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-cat $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|grep "loss:" |tail -n +3|awk '{print $6}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+cat $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|grep "loss:" |head -3|awk '{print $6}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print $1}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
@@ -171,9 +165,9 @@ echo "Final Train Accuracy : ${train_accuracy}"
 
 ##获取错误信息
 #系统错误信息
-#error_msg="N10tensorflow3VarE cannot be copied across devices\[NPU->CPU\] \[Op:ParallelMapDatasetV2\]"
+error_msg="N10tensorflow3VarE cannot be copied across devices\[NPU->CPU\] \[Op:ParallelMapDatasetV2\]"
 #判断错误信息是否和历史状态一致，此处无需修改
-#Status=`grep "${error_msg}" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | wc -l`
+Status=`grep "${error_msg}" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | wc -l`
 #失败阶段，枚举值图准备FAIL/图拆分FAIL/图优化FAIL/图编译FAIL/图执行FAIL/流程OK
 #ModelStatus="图执行FAIL"
 #DTS单号或者issue链接
@@ -187,7 +181,7 @@ echo "DeviceType = ${DeviceType}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${C
 echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 #echo "ModelStatus = ${ModelStatus}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 #echo "DTS_Number = ${DTS_Number}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "Status = ${Status}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "Status = ${Status}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 #echo "error_msg = ${error_msg}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2etime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
