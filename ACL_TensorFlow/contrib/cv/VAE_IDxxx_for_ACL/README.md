@@ -1,97 +1,67 @@
 
 
-# DeepLabv3+ Inference for Tensorflow 
+# VAE离线推理
 
-This repository provides a script and recipe to Inference of the Deeplabv3+ model.
+VAE离线推理生成MNIST图片
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
+## 环境
 
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+ Python版本：3.7.5
+ CANN 版本：5.0.3 
+ 推理芯片： 昇腾310 
 
-| Conditions | Need |
-| --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
 
-## Quick Start Guide
+## 快速入门
 
-### 1. Clone the respository
+### 1. 获取数据集
 
-```shell
-git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
-cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/DeepLabv3_plus_for_ACL
-```
+使用MNIST数据集，在下一步预处理中会自动下载。
 
-### 2. Download and preprocess the dataset
+### 2. 图片预处理
 
-1. Download the PascalVoc2012 dataset by yourself. 
+将jpegs图片预处理成bin文件.
 
-2. Put the dataset files to **'scripts/PascalVoc2012'** like this:
-```
---PascalVoc2012
-|----Annotations
-|----ImageSets
-|----JPEGImages
-|----SegmentationClass
-|----SegmentationObject
-```
-
-3. Images Preprocess:
 ```
 cd scripts
 mkdir input_bins
-python3 preprocess/preprocessing.py ./PascalVoc2012/ ./input_bins/
+python3 preprocessing.py
 ```
-The jpegs pictures will be preprocessed to bin fils.
 
-### 3. Offline Inference
 
-**Convert pb to om.**
+### 3. 将pb文件转为om模型
 
-  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/deepLabv3_plus_for_ACL.zip)
+pb文件已和源码一起一起上传至仓库中
 
-- configure the env
 
-  ```
-  export install_path=/usr/local/Ascend
-  export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-  export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
-  export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64:$LD_LIBRARY_PATH
-  export ASCEND_OPP_PATH=${install_path}/opp
-  ```
+将pb文件转为om模型
 
-- convert pb to om
+```
+atc --model=xxx/hh.pb --framework=3 --output=xxx/hh_om --soc_version=Ascend310 --input_shape="input:100,784"
+```
 
-  ```
-  atc --model=deeplabv3_plus_tf.pb --framework=3 --output=deeplabv3_plus_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="ImageTensor:1,513,513,3" --out_nodes=SemanticPredictions:0 --log=info
-  ```
+### 4. 构建推理程序
 
-- Build the program
 
-  ```
-  bash build.sh
-  ```
+```
+bash build.sh
+```
 
-- Run the program:
+### 5. 进行离线推理
+进行离线推理得到输出bin文件，需要修改benchmark_tf.sh中的路径。
 
-  ```
-  cd scripts
-  bash benchmark_tf.sh
-  ```
+```
+cd scripts
+bash benchmark_tf.sh
 
-## Performance
+```
+### 6. 对输出bin文件进行后处理生成MNIST图片
 
-### Result
 
-Our result was obtained by running the applicable inference script. To achieve the same results, follow the steps in the Quick Start Guide.
+```
+python3 postprocess.py ./results/VAE/hh_output0.bin
+```
 
-#### Inference accuracy results of Validation testset
+## 参考实现
 
-|       model       | **data**  |    MeanIOU    |
-| :---------------: | :-------: | :-------------: |
-| offline Inference | 1449 images | 93.6% |
-
-## Reference
-[1] https://github.com/tensorflow/models/tree/master/research/deeplab
+训练代码
+[1] https://github.com/kvfrans/variational-autoencoder
