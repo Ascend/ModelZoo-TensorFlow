@@ -32,7 +32,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/Roformer_for_ACL
 ```
 cd scripts
 mkdir input_bins
-python3 generate_random_data.py --path=./input_bins/ --nums=32
+python3 generate_random_data.py --path=./input_bins/ --nums=32 --batchsize=1
 ```
 There will random testdata bin fils under *input_bins/*.
 
