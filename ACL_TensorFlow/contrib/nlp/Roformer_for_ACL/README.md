@@ -55,7 +55,8 @@ There will random testdata bin fils under *input_bins/*.
   [**pb download link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/nlp/Roformer_for_ACL/Roformer.pb)
 
   ```
-   atc --model=DCN_v2.pb --framework=3 --soc_version=Ascend310P3 --output=DCNv2_16384_batch --log=error --op_debug_level=3 --input_shape="Input_21:16384;Input_24:16384;Input_4:16384;Input_6:16384;Input_12:16384;Input_19:16384;Input_3:16384;Input_22:16384;Input_23:16384;Input_13:16384;Input_18:16384;Input_10:16384;Input_1:16384;Input_14:16384;Input_26:16384;Input_8:16384;Input_2:16384;Input_15:16384;Input_16:16384;Input_17:16384;Input_20:16384;Input_7:16384;Input:16384,8;Input_11:16384;Input_5:16384;Input_25:16384;Input_9:16384" --out_nodes=Identity:0
+  export batch_size=1
+  atc --model=Roformer.pb --framework=3 --soc_version=Ascend310P3 --output=Roformer_${batch_size}_batch --log=info --op_debug_level=3 --input_shape="Input-Segment:${batch_size},1024;Input-Token:${batch_size},1024" --out_nodes="Identity:0" --keep_dtype="./execeptionlist.cfg"
   ```
 
 - Build the program
