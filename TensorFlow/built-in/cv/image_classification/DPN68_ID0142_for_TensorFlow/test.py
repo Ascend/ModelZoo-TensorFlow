@@ -96,6 +96,7 @@ print("params cost {} sec !".format(cost))
 print("Begin: load_data")
 begin = time.time()
 (x_train, y_train) , (x_test, y_test) = cifar10.load_data()
+count = x_train.shape[0]
 cost = time.time() - begin
 print("load_data cost {} sec !".format(cost))
 
@@ -132,7 +133,14 @@ tf.io.write_graph(testnet.sess.graph, args.output_path, 'graph.pbtxt', as_text=T
 cost = time.time() - begin
 print("write_graph cost {} sec !".format(cost))
 
+rank_size = int(os.getenv('RANK_SIZE'))
+rank_id = int(os.getenv('RANK_ID'))
+
 for epoch in range(int(args.train_epochs)):
+    batch = count // args.train_batch_size
+    if count % args.train_batch_size != 0:
+        batch += 1
+
     print('-'*20, 'epoch', epoch, '-'*20)
     train_acc = []
     train_loss = []
@@ -143,9 +151,13 @@ for epoch in range(int(args.train_epochs)):
         print('reduce learning rate =', lr, 'now')
     # train one epoch
     begin_epoch = time.time()
-    for iter in range(int(args.num_train)//int(args.train_batch_size)):
+    for iter in range(batch):
         # get and preprocess image
-        images, labels = train_gen.next()
+        images1, labels1 = train_gen.next()
+        images = images1[rank_id * args.train_batch_size / rank_size:(rank_id + 1) * args.train_batch_size / rank_size]
+        if images.shape[0] == 0:
+            break
+        labels = labels1[rank_id * args.train_batch_size / rank_size:(rank_id + 1) * args.train_batch_size / rank_size]
         images = images - mean
         # train_one_batch also can accept your own session
         begin = time.time()
