@@ -18,7 +18,7 @@
 
 **框架（Framework）：TensorFlow_1.15**
 
-**模型格式（Model Format）：pb**
+**模型格式（Model Format）：ckpt**
 
 **精度（Precision）：FP32**
 
@@ -78,32 +78,6 @@ SRNet，由三个模块组成：文本转换模块、背景修复模块和融合
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
-
-拉起脚本中，传入--precision_mode='allow_mix_precision'
-
-```
- ./train_performance_1p_16bs.sh --help
-
-parameter explain:
-    --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
-    --over_dump                  if or not over detection, default is False
-    --data_dump_flag         data dump flag, default is False
-    --data_dump_step             data dump step, default is 10
-    --profiling                  if or not profiling for performance debug, default is False
-    --data_path                  source data of training
-    -h/--help                    show help message
-```
-
-相关代码示例:
-
-```
-flags.DEFINE_string(name='precision_mode', default= 'allow_fp32_to_fp16',
-                    help='allow_fp32_to_fp16/force_fp16/ ' 
-                    'must_keep_origin_dtype/allow_mix_precision.')
-
-npu_device.global_options().precision_mode=FLAGS.precision_mode
-```
 <h2 id="训练环境准备.md">训练环境准备</h2>
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
