@@ -1,0 +1,4 @@
+[submodule "TensorFlow/contrib/cv/Pixel CNN++_ID2101_for_TensorFlow"]
+	url  = https://gitee.com/w_bohua/PixelCNN_ID2101_for_TensorFlow
+	path = TensorFlow/contrib/cv/Pixel CNN++_ID2101_for_TensorFlow
+
