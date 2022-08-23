@@ -15,7 +15,7 @@ CS_GAN模型是论文“Deep Compressed Sensing”的Tensorflow实现（基于�
 * pip install tensorflow==1.15rc2
 * pip install tensorflow-probability==0.7.0
 * pip install tensorflow-gan==2.0.0
-从obs://csgan-npu/CS_GAN_ID2064/中下载tensorflow_gan、tensorflow_gan、model等文件
+* 从obs://csgan-npu/CS_GAN_ID2064/中下载tensorflow_gan、tensorflow_hub、model等文件
 # 数据集
 * cifar
 * obs地址：`obs://csgan-npu/CS_GAN_ID2064/cifar/`
