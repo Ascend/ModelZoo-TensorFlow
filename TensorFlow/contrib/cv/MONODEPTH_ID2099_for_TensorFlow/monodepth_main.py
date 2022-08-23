@@ -241,7 +241,11 @@ def test(params):
     if args.checkpoint_path == '':
         restore_path = tf.train.latest_checkpoint(args.log_directory + '/' + args.model_name)
     else:
-        restore_path = args.checkpoint_path.split(".")[0]
+        restore_path = args.checkpoint_path
+    print("checkpoint_path:", args.checkpoint_path)
+    
+    print("restore_path:", restore_path)
+
     train_saver.restore(sess, restore_path)
 
     num_test_samples = count_text_lines(args.filenames_file)
