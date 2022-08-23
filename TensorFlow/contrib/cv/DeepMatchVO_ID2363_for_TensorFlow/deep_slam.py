@@ -359,6 +359,7 @@ class DeepSlam(object):
         config_proto = tf.ConfigProto()
         custom_op = config_proto.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
+        custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_fp32_to_fp16")
         config_proto.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
         config_proto.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
 
