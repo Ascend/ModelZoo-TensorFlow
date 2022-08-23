@@ -47,8 +47,7 @@ and you will get files below:
 2. Generate test dataset:
 ```
 cd scripts
-mkdir input_bins
-python3 generate_data.py --path=./input_bins/ --batchsize=128
+python3 generate_data.py --batchsize=128
 ```
 There will testdata bin fils under *input_bins/*.
 
