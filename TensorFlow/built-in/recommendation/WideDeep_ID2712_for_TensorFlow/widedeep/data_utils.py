@@ -44,7 +44,8 @@ def input_fn_tfrecord(tag, batch_size=4096, lines_per_sample=4096,
     files = [os.path.join(path,f) for f in all_files if f.startswith('part')]
     print ("Dataset files: ", files)
     raw_dataset = tf.data.TFRecordDataset(files)
-    raw_dataset = raw_dataset.repeat(num_epochs)
+    #raw_dataset = raw_dataset.repeat(num_epochs)
+    raw_dataset = raw_dataset.repeat()
     raw_dataset = raw_dataset.batch(int(batch_size // lines_per_sample))
 
 
