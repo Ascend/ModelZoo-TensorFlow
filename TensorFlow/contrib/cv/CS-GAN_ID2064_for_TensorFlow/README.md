@@ -27,11 +27,7 @@ CS_GAN模型是论文“Deep Compressed Sensing”的Tensorflow实现（基于�
 * 训练log：`obs://csgan-npu/MA-new-csgan_new-08-22-10-47/log/`
 * ckpt模型：`obs://csgan-npu/MA-new-csgan_new-08-22-10-47/output/ckpt/`
 # 训练精度对比
-|  |                |  GPU | NPU  | 
-|-----|-----------|------|--------|
-|colorizer | loss| ~0.58 | ~0.58 | 
-|color_upsampler | loss | ~2.88 | ~2.80 | 
-|spatial_upsampler | loss | ~2.66 | ~2.63 | 
+
 # 训练性能对比
 
 # 测试精度
