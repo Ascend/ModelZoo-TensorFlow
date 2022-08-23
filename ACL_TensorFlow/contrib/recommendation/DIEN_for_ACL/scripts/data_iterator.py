@@ -14,7 +14,7 @@
 
 import numpy
 import json
-import cPickle as pkl
+import pickle as pkl
 import random
 
 import gzip
@@ -30,7 +30,8 @@ def load_dict(filename):
             return unicode_to_utf8(json.load(f))
     except:
         with open(filename, 'rb') as f:
-            return unicode_to_utf8(pkl.load(f))
+            pkl.load(f)
+            #return unicode_to_utf8(pkl.load(f))
 
 
 def fopen(filename, mode='r'):
@@ -61,7 +62,7 @@ class DataIterator:
         for source_dict in [uid_voc, mid_voc, cat_voc]:
             self.source_dicts.append(load_dict(source_dict))
 
-        f_meta = open("item-info", "r")
+        f_meta = open("item-info", "r", encoding='utf-8')
         meta_map = {}
         for line in f_meta:
             arr = line.strip().split("\t")
@@ -80,7 +81,7 @@ class DataIterator:
                 cat_idx = 0
             self.meta_id_map[mid_idx] = cat_idx
 
-        f_review = open("reviews-info", "r")
+        f_review = open("reviews-info", "r", encoding='utf-8')
         self.mid_list_for_random = []
         for line in f_review:
             arr = line.strip().split("\t")
@@ -118,7 +119,7 @@ class DataIterator:
         else:
             self.source.seek(0)
 
-    def next(self):
+    def __next__(self):
         if self.end_of_data:
             self.end_of_data = False
             self.reset()
@@ -128,7 +129,7 @@ class DataIterator:
         target = []
 
         if len(self.source_buffer) == 0:
-            for k_ in xrange(self.k):
+            for k_ in range(self.k):
                 ss = self.source.readline()
                 if ss == "":
                     break
@@ -136,7 +137,7 @@ class DataIterator:
 
             # sort by  history behavior length
             if self.sort_by_length:
-                his_length = numpy.array([len(s[4].split("")) for s in self.source_buffer])
+                his_length = numpy.array([len(s[4].split("^B")) for s in self.source_buffer])
                 tidx = his_length.argsort()
 
                 _sbuf = [self.source_buffer[i] for i in tidx]
@@ -164,13 +165,13 @@ class DataIterator:
                 mid = self.source_dicts[1][ss[2]] if ss[2] in self.source_dicts[1] else 0
                 cat = self.source_dicts[2][ss[3]] if ss[3] in self.source_dicts[2] else 0
                 tmp = []
-                for fea in ss[4].split(""):
+                for fea in ss[4].split("^B"):
                     m = self.source_dicts[1][fea] if fea in self.source_dicts[1] else 0
                     tmp.append(m)
                 mid_list = tmp
 
                 tmp1 = []
-                for fea in ss[5].split(""):
+                for fea in ss[5].split("^B"):
                     c = self.source_dicts[2][fea] if fea in self.source_dicts[2] else 0
                     tmp1.append(c)
                 cat_list = tmp1
@@ -212,7 +213,7 @@ class DataIterator:
             self.end_of_data = True
 
         # all sentence pairs in maxibatch filtered out because of length
-        if len(source) == 0 or len(target) == 0:
-            source, target = self.next()
+        if len(source) < self.batch_size or len(target) < self.batch_size:
+            source, target = self.__next__()
 
         return source, target

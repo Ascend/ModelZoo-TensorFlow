@@ -63,7 +63,10 @@ def prepare_data(input, target, maxlen = None, return_neg = False):
             return None, None, None, None
 
     n_samples = len(seqs_mid)
-    maxlen_x = numpy.max(lengths_x)
+    if maxlen is not None:
+        maxlen_x = maxlen
+    else:
+        maxlen_x = numpy.max(lengths_x)
     neg_samples = len(noclk_seqs_mid[0][0])
 
     mid_his = numpy.zeros((n_samples, maxlen_x)).astype('int64')
@@ -97,7 +100,7 @@ def eval(sess, test_data):
     stored_arr = []
     for src, tgt in test_data:
         nums += 1
-        uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, noclk_mids, noclk_cats = prepare_data(src, tgt, return_neg=True)
+        uids, mids, cats, mid_his, cat_his, mid_mask, target, sl, noclk_mids, noclk_cats = prepare_data(src, tgt, maxlen=100, return_neg=True)
         uids.astype('int32').tofile('uids/{}.bin'.format(str(nums).zfill(6)))
         mids.astype('int32').tofile('mids/{}.bin'.format(str(nums).zfill(6)))
         cats.astype('int32').tofile('cats/{}.bin'.format(str(nums).zfill(6)))
