@@ -53,19 +53,21 @@ cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有�
 |--------------|--------|--------|
 | bits_per_dim | 2.9282 | 2.9595 |
 
-#### 训练结果打屏信息
-[打屏信息](https://cann--id2101.obs.cn-north-4.myhuaweicloud.com:443/npu/Pixel%20CNN%2B%2B_ID2101_for_TensorFlow/modelarts-job-f0e4f360-9294-411c-9eec-86eb9615f85a-worker-0.log?AccessKeyId=FH7STWYX1HSCOLV0WQ2S&Expires=1692347125&Signature=AeqWBORUSd3Ki4i7WrH%2BuVfF1H0%3D)
 
-#### 执行任务OBS链接
+【执行结果打屏信息】
+https://cann--id2101.obs.cn-north-4.myhuaweicloud.com:443/npu/Pixel%20CNN%2B%2B_ID2101_for_TensorFlow/modelarts-job-f0e4f360-9294-411c-9eec-86eb9615f85a-worker-0.log?AccessKeyId=FH7STWYX1HSCOLV0WQ2S&Expires=1692347125&Signature=AeqWBORUSd3Ki4i7WrH%2BuVfF1H0%3D
+------------------ INFO NOTICE START------------------
+INFO, your task have used Ascend NPU, please check your result.
+------------------ INFO NOTICE END------------------
+------------------ Final result ------------------
+Final Performance images/sec : 3.99
+Final Performance sec/step : 4.85
+E2E Training Duration sec : 992970s
+Final Train Accuracy : 2.9595
+【数据集OBS链接】
+obs://cann--id2101/dataset/
+【执行任务OBS链接】
 
-#### 数据集OBS链接
-[cifar-10](obs://cann--id2101/dataset/)
-
-#### Ascend NPU INFO NOTICE
-![在NPU上正常运行](images/image.png)
-
-#### Final
-![最终精度](images/image2.png)
 
 
 
