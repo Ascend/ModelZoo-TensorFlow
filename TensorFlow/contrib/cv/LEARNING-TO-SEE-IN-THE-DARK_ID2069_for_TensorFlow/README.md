@@ -156,7 +156,7 @@ pip3 install requirements.txt
              执行train_Sony.py文件，开始训练所有图片名第一个数字为"0"的短曝光图片。训练过程中在屏幕中打印每个epoch的loss和训练时间，通过观察发现在1000 epoch时， 
              loss收敛，停止训练,将训练得到的result_Sony中的checkpoint文件放入checkpoint文件夹.
 
-             python3.7 train_Sony.py   --epochs=1001
+             python3.7 train_Sony.py   
 
              执行test_Sony.py文件，用训练得到的checkpoint得到测试集的输出结果，测试所有图片名第一个数字为"1"的短曝光图片。测试结果为短曝光图片网络训练后的png格式图 
              片，以及其对应的真值长曝光png格式图片
