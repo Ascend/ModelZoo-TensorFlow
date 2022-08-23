@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -46,7 +46,7 @@ do
         output_path=`echo ${para#*=}`
     elif [[ $para == --train_steps* ]];then
         train_steps=`echo ${para#*=}`
-	elif [[ $para == --train_epochs* ]];then
+    elif [[ $para == --train_epochs* ]];then
         train_epochs=`echo ${para#*=}`
     elif [[ $para == --batch_size* ]];then
         batch_size=`echo ${para#*=}`
@@ -115,22 +115,22 @@ if [ x"${modelarts_flag}" != x ];
 then
   # data_path = /home/disk/xjk/dataset/KITTI/
   # train
-  python3.7 ./monodepth_main.py --mode train --model_name my_model --filenames_file ./utils/filenames/kitti_train_files.txt --data_path /home/disk/xjk/dataset/KITTI/ --log_directory ${output_path}
+  python3.7 ./monodepth_main.py --mode train --model_name my_model --filenames_file ./utils/filenames/kitti_train_files.txt --data_path ${data_path}/KITTI/ --log_directory ${output_path}
   # test
   python3.7 monodepth_main.py --mode test --data_path ${data_path} --filenames_file ./utils/filenames/kitti_stereo_2015_test_files.txt --log_directory ${output_path} --checkpoint_path ${output_path}/my_model/model-400
   # evaluate
-  python3.7 ./utils/evaluate_kitti.py --split kitti --predicted_disp_path ${output_path}/my_model/disparities.npy --gt_path ${data_path}
+  python3.7 ./utils/evaluate_kitti.py --split kitti --predicted_disp_path ${output_path}/my_model/disparities.npy --gt_path ${data_path}/KITTI/
 
 else
   echo "==================== running ===================="
   # init environment
   # source ~/env.sh
   # train
-  python3.7 ./monodepth_main.py --mode train --model_name my_model --filenames_file ./utils/filenames/kitti_train_files.txt --data_path ${data_path} --log_directory ${output_path} > ${print_log} 2>&1
+  python3.7 ./monodepth_main.py --mode train --model_name my_model --filenames_file ./utils/filenames/kitti_train_files.txt --data_path ${data_path}/KITTI/ --log_directory ${output_path} > ${print_log} 2>&1
   # test
-  python3.7 monodepth_main.py --mode test --data_path ${data_path} --filenames_file ./utils/filenames/kitti_stereo_2015_test_files.txt --log_directory ${output_path} --checkpoint_path ${output_path}/my_model/model-181250 >> ${print_log} 2>&1
+  python3.7 monodepth_main.py --mode test --data_path ${data_path}/KITTI/ --filenames_file ./utils/filenames/kitti_stereo_2015_test_files.txt --log_directory ${output_path} --checkpoint_path ${output_path}/my_model/model-181250 >> ${print_log} 2>&1
   # evaluate
-  python3.7 ./utils/evaluate_kitti.py --split kitti --predicted_disp_path ${output_path}/my_model/disparities.npy --gt_path ${data_path} >> ${print_log} 2>&1
+  python3.7 ./utils/evaluate_kitti.py --split kitti --predicted_disp_path ${output_path}/my_model/disparities.npy --gt_path ${data_path}/KITTI/ >> ${print_log} 2>&1
   echo "==================== ending ===================="
 fi
 
@@ -142,7 +142,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 # train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
 # train_accuracy_name=`tail -2 ${print_log} | head -1` # 取精度数值倒数第二行（参数名）
 # train_accuracy=`tail -1 ${print_log} | head -1` # 取精度数值倒数第一行（参数）
-train_accuracy=`tail -1 ${print_log} | head -1 | awk -F " " '{print $1}'` # 取精度数值倒数第一行第一列（参数）
+train_accuracy=`tail -1 ${print_log} | head -1 | awk -F " " '{print $1}' | tr -d ","` # 取精度数值倒数第一行第一列（参数）
 
 # 提取所有loss打印信息
 # grep "loss" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
