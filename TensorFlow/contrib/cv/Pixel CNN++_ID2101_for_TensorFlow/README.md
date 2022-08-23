@@ -4,10 +4,10 @@
 {Pixel CNN++是一个图像生成模型，这项工作建立在2016年6月van der Oord等人最初提出的PixelCNNs上。}
 
 #### 参考论文
-[输入链接说明](https://openreview.net/pdf?id=BJrFC6ceg)
+[pixel-cnn++](https://openreview.net/pdf?id=BJrFC6ceg)
 
 #### 参考实现
-[输入链接说明](https://github.com/openai/pixel-cnn)
+[pixel-cnn++](https://github.com/openai/pixel-cnn)
 
 #### 通过Git获取对应commit_id的代码方法如下：
 ```
@@ -52,6 +52,16 @@ cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有�
 | 精度指标项        | GPU实测  | NPU实测  |
 |--------------|--------|--------|
 | bits_per_dim | 2.9282 | 2.9595 |
+
+#### 训练结果打屏信息
+[打屏信息](https://cann--id2101.obs.cn-north-4.myhuaweicloud.com:443/npu/Pixel%20CNN%2B%2B_ID2101_for_TensorFlow/modelarts-job-f0e4f360-9294-411c-9eec-86eb9615f85a-worker-0.log?AccessKeyId=FH7STWYX1HSCOLV0WQ2S&Expires=1692347125&Signature=AeqWBORUSd3Ki4i7WrH%2BuVfF1H0%3D)
+
+#### 执行任务OBS链接
+
+#### 数据集OBS链接
+[cifar-10](obs://cann--id2101/dataset/)
+
+#### Ascend NPU INFO NOTICE
 
 
 
