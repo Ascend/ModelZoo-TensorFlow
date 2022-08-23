@@ -26,15 +26,30 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/recommendation/DIEN_for_ACL
 
 ### 2. Generate random test dataset
 
-1. Because of this is not a well trained model we test the model with random test dataset
+1. Follow the [train repo](https://github.com/mouna99/dien), download dataset and unzip it to use:
+```
+tar -jxvf data.tar.gz
+mv data/* scripts
+tar -jxvf data1.tar.gz
+mv data1/* scripts
+tar -jxvf data2.tar.gz
+mv data2/* scripts
+``` 
+and you will get files below:
+- cat_voc.pkl 
+- mid_voc.pkl 
+- uid_voc.pkl 
+- local_train_splitByUser 
+- local_test_splitByUser 
+- reviews-info
+- item-info
 
-2. Generate random test dataset:
+2. Generate test dataset:
 ```
 cd scripts
-mkdir input_bins
-python3 generate_random_data.py --path=./input_bins/ --nums=32
+python3 generate_data.py --batchsize=128
 ```
-There will random testdata bin fils under *input_bins/*.
+There will testdata bin fils under *input_bins/*.
 
 ### 3. Offline Inference
 
@@ -80,7 +95,9 @@ Our result was obtained by running the applicable inference script. To achieve t
 
 #### Inference accuracy results
 
-|       model       | **data**  |     Mean CosineSimilarity   |
+|       model       | **data**  |     MeanAccuracy   |
 | :---------------: | :-------: | :-------------: |
-| offline Inference | random data | 100.0% |
+| offline Inference | Amazon ProductGraph | 78.5% |
 
+## Reference
+[1] https://github.com/mouna99/dien
