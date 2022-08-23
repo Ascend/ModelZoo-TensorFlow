@@ -8,13 +8,13 @@
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：Object Detection**
+**应用领域（Application Domain）：Image Generation**
 
 **版本（Version）：1.1**
 
-**修改时间（Modified） ：2022.8.19**
+**修改时间（Modified） ：2022.8.22**
 
-**大小（Size）：77MB**
+**大小（Size）：78.5MB**
 
 **框架（Framework）：TensorFlow_1.15**
 
@@ -26,25 +26,25 @@
 
 **应用级别（Categories）：Official**
 
-**描述（Description）：基于TensorFlow框架通过图像超分辨率 (SR) 的生成对抗网络训练代码**
+**描述（Description）：基于TensorFlow框架的图像生成网络训练代码**
 
 <h2 id="概述.md">概述</h2>
 
 ## 简述<a name="section194554031510"></a>
 
-SRGAN，一种用于图像超分辨率 (SR) 的生成对抗网络 (GAN)。它是第一个能够为 4 倍放大系数推断照片般逼真的自然图像的框架。为了实现这一点，我们提出了一个感知损失函数，它由对抗性损失和内容损失组成。对抗性损失将我们的解决方案推向自然图像流形，使用经过训练的鉴别器网络来区分超分辨率图像和原始照片般逼真的图像。此外，我们使用由感知相似性而不是像素空间中的相似性驱动的内容损失。我们的深度残差网络能够从公共基准的大量下采样图像中恢复照片般逼真的纹理。广泛的平均意见分数 (MOS) 测试显示，使用 SRGAN 在感知质量方面取得了巨大的进步。
+SRNet，由三个模块组成：文本转换模块、背景修复模块和融合模块。文本转换模块更改的文本内容将源图像转换为目标文本，同时保留原始文本样式。背景修补模块擦除原始文本。并使用适当的纹理填充文本区域。融合模块合并来自前两个模块的信息，以及生成编辑后的文本图像。
 
 - 参考论文：
   
-  [https://arxiv.org/pdf/1609.04802.pdf](Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network)
+  [https://dl.acm.org/doi/pdf/10.1145/3343031.3350929](Editing Text in the Wild)
 
 - 参考实现：
 
-  https://github.com/tensorlayer/SRGAN
+  https://github.com/youdao-ai/SRNet
 
 - 适配昇腾 AI 处理器的实现：
   
-  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/SRGAN_ID2087_for_Tensorflow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/graph/SRNET_ID1089_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
   
@@ -58,13 +58,12 @@ SRGAN，一种用于图像超分辨率 (SR) 的生成对抗网络 (GAN)。它是
 ## 默认配置<a name="section91661242121611"></a>
 
 -   训练超参（单卡）：
-    - input_dir      
-    - output_dir 
-    - batch_size: 16
-    - epochs: 500
-    - lnumber_of_images: 8000
-    - train_test_ratio: 0.8 
-    - model_save_dir
+    - batch-size: 8
+    - learning_rate = 1e-4
+    - decay_steps = 10000
+    - max_iter = 20000
+    - save_ckpt_interval = 10000
+    - gen_example_interval = 1000
 
 ## 支持特性<a name="section1899153513554"></a>
 
@@ -81,28 +80,30 @@ SRGAN，一种用于图像超分辨率 (SR) 的生成对抗网络 (GAN)。它是
 
 ## 开启混合精度<a name="section20779114113713"></a>
 
-拉起脚本中，
+拉起脚本中，传入--precision_mode='allow_mix_precision'
 
 ```
- ./train_full_1p.sh --help
+ ./train_performance_1p_16bs.sh --help
 
 parameter explain:
-    --precision_mode         #precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
-    --data_path              # dataset of training
-    --output_path            # output of training
-    --train_steps            # max_step for training
-    --train_epochs           # max_epoch for training
-    --batch_size             # batch size
-    -h/--help                show help message
+    --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
+    --over_dump                  if or not over detection, default is False
+    --data_dump_flag         data dump flag, default is False
+    --data_dump_step             data dump step, default is 10
+    --profiling                  if or not profiling for performance debug, default is False
+    --data_path                  source data of training
+    -h/--help                    show help message
 ```
 
-混合精度相关代码示例:
+相关代码示例:
 
- ```
- custom_op.parameter_map["precision_mode"].s=tf.compat.as_bytes("allow_mix_precision")
+```
+flags.DEFINE_string(name='precision_mode', default= 'allow_fp32_to_fp16',
+                    help='allow_fp32_to_fp16/force_fp16/ ' 
+                    'must_keep_origin_dtype/allow_mix_precision.')
 
- ```
-
+npu_device.global_options().precision_mode=FLAGS.precision_mode
+```
 <h2 id="训练环境准备.md">训练环境准备</h2>
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
@@ -116,10 +117,9 @@ pip3 install requirements.txt
 
 ## 数据集准备<a name="section361114841316"></a>
 
-1、用户自行获取数据集
+1、用户需自行生成数据集（方法见https://github.com/youdao-ai/SRNet-Datagen）
 
-2、SRGAN的模型及数据集可以参考"简述 -> 参考实现"
-
+2、SRNET的模型及数据集可以参考"简述 -> 参考实现"
 
 ## 模型训练<a name="section715881518135"></a>
 
@@ -137,15 +137,10 @@ pip3 install requirements.txt
 
         1.首先在脚本test/train_full_1p.sh中, 训练需要根据安装教程，配置输入与输出的路径。配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
 
-             ```
-    
-            --input_dir=${data_path} \
-            --output_dir=${output_path} \
-            --batch_size=16 \
-            --epochs=500 \
-            --number_of_images=8000 \
-            --train_test_ratio=0.8 \
-            --model_save_dir='./model/'
+            ```
+            --data_dir=${data_path}/v1 
+            --output_dir=${output_path}
+          
             ```
 
         2.启动训练
@@ -156,14 +151,13 @@ pip3 install requirements.txt
              bash train_full_1p.sh
              ```
         3.精度训练结果
+          在原文之中，对生成的图片质量进行评估的主要标准为峰值信噪比(PSNR)和结构相似性(SSIM)。两张图像之间的PSNR和SSIM越高,说明越相似。使用训练得到的结果，我们生成 
+          了1000张图片，并计算了它们和对应真值之间PSNR和SSIM，最终得到的结果如下
         
              ```
-            |精度指标项|GPU实测|NPU实测|
-            |---|---|---|
-            |ganloss1|0.005|0.007|
-            |ganloss2|0.003|0.005|
-            |ganloss3|2|2|
-            |discriminator_loss|0.3|0.35|
+            |         |   PSNR   | SSIM   |
+            | :-----: | :-----: | :-----: | 
+            | NPU     | 17.31   | 1.75    | 
              ```             
     
 
@@ -173,18 +167,21 @@ pip3 install requirements.txt
 
 ```
 |--LICENSE
-|--README.md                                                      #说明文档									
-|--Utils.py		           	                          #训练脚本目录
-|--Utils_model.py
-|--VGGG.py    
-|--fusion_switch.cfg                                      
-|--modelarts_entry_acc.py
+|--README.md                                                     									
+|--examples			           	                          
+|	|--labels
+|	|--results                                         
 |--modelarts_entry_perf.py
-|--switch_config.txt
+|--modelzoo_level.txt
+|--predict.py
+|--cfg.py
+|--datagen.py
+|--loss.py
+|--model.py
 |--train.py
-|--modelzoo_level.txt									
-|--requirements.txt                                               #所需依赖                                                 
-|--test			           	                          #训练脚本目录
+|--utils.py									
+|--requirements.txt                                                                                               
+|--test			           	                          
 |	|--train_full_1p.sh
 |	|--train_performance_1p.sh
 ```
@@ -192,13 +189,20 @@ pip3 install requirements.txt
 ## 脚本参数<a name="section6669162441511"></a>
 
 ```
---input_dir                    
---output_dir
---model_save_dir
---batch_size
---epochs                
---number_of_images
---train_test_ratio              
+--learning_rate = 1e-4 # default 1e-3
+--decay_rate = 0.9
+--decay_steps = 10000
+--staircase = False
+--beta1 = 0.9 # default 0.9
+--beta2 = 0.999 # default 0.999
+--test_max_iter = 500
+--max_iter = 20000
+--show_loss_interval = 50
+--write_log_interval = 50
+--save_ckpt_interval = 10000
+--gen_example_interval = 1000
+--pretrained_ckpt_path = None
+--train_name = None # used for name examples and tensorboard logdirs, set None to use time
 ```
 
 ## 训练过程<a name="section1589455252218"></a>
