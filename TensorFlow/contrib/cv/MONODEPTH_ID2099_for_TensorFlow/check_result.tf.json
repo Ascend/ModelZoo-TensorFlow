@@ -1,0 +1,310 @@
+{
+  "op": [
+    {
+      "is_support": false,
+      "name": "IteratorGetNext",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorGetNext"
+    },
+    {
+      "is_support": false,
+      "name": "IteratorV2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorV2"
+    },
+    {
+      "is_support": false,
+      "name": "Merge/MergeSummary",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "MergeSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_gradient_loss_0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_gradient_loss_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_gradient_loss_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_gradient_loss_3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_left_est_0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_left_est_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_left_est_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_left_est_3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_right_est_0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_right_est_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_right_est_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "disp_right_est_3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "image_loss_0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "image_loss_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "image_loss_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "image_loss_3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "l1_loss_0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "l1_loss_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "l1_loss_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "l1_loss_3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "learning_rate",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "lr_loss_0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "lr_loss_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "lr_loss_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "lr_loss_3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "save/SaveV2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "SaveV2"
+    },
+    {
+      "is_support": false,
+      "name": "ssim_loss_0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "ssim_loss_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "ssim_loss_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "ssim_loss_3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "total_loss",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    }
+  ]
+}

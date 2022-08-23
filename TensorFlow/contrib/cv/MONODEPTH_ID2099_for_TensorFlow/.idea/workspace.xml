@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6eebadf8-5102-4b9b-8039-3a2c5e707e16" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Unit Test" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../.." />
+  </component>
+  <component name="JupyterTrust" id="5f76ea15-ad57-490a-9325-fd1719950191" />
+  <component name="ProjectId" id="2ACrcsddz4OIylW57PSDaopWPEh" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="imageUrltextFieldV2" value="swr-info/ascend-share/5.1.rc2.alpha006_tensorflow-ascend910-cp37-euleros2.8-aarch64-training:1.15.0-21.0.2_0617" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="modelArtsEngineNameFlagV2" value="Ascend-Powered-Engine" />
+    <property name="modelArtsEngineVersionFlagV2" value="tensorflow_1.15-cann_5.0.3-py_3.7-euler_2.8.3-aarch64" />
+    <property name="modelArtsJobBootFileV2" value="$PROJECT_DIR$/modelarts_entry_acc.py" />
+    <property name="modelArtsJobCodeDirV2" value="$PROJECT_DIR$" />
+    <property name="modelArtsJobDebuggerFlagV2" value="true" />
+    <property name="modelArtsJobDescV2" value="monodepth" />
+    <property name="modelArtsJobFlagV2" value="true" />
+    <property name="modelArtsJobNameV2" value="MA-new-monodepth-07-22-15-56-990" />
+    <property name="modelArtsJobObsDataPathV2" value="obs://cann-id2099/dataset/KITTI/" />
+    <property name="modelArtsJobObsPathV2" value="obs://cann-id2099/npu/workspace/" />
+    <property name="modelArtsJobParamsV2" value="" />
+    <property name="modelArtsJobSpecV2" value="NPU:1*Ascend 910 CPU:24*vCPUs 96GB" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="two.files.diff.last.used.folder" value="$PROJECT_DIR$/../monodepthv2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/utils/filenames" />
+      <recent name="$PROJECT_DIR$/my_model" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/demos/filenames" />
+      <recent name="$PROJECT_DIR$/demos" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.cumsum_test">
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="monodepth" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="cumsum_test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="monodepth" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/demos" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/demos/cumsum_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="monodepth_main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="monodepth" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/monodepth_main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_dataset" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="monodepth" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/demos" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/demos/test_dataset.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_v2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="monodepth" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/demos" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/demos/test_v2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unittests for test_mycase.MyTestCase.test_something" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <module name="monodepth" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/demos" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_mycase.MyTestCase.test_something&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.cumsum_test" />
+        <item itemvalue="Python.monodepth_main" />
+        <item itemvalue="Python.test_v2" />
+        <item itemvalue="Python tests.Unittests for test_mycase.MyTestCase.test_something" />
+        <item itemvalue="Python.test_dataset" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6eebadf8-5102-4b9b-8039-3a2c5e707e16" name="Default Changelist" comment="" />
+      <created>1654524490407</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1654524490407</updated>
+      <workItem from="1654524491774" duration="6421000" />
+      <workItem from="1654610979340" duration="15851000" />
+      <workItem from="1655199696090" duration="397000" />
+      <workItem from="1655355866872" duration="390000" />
+      <workItem from="1655700280315" duration="320000" />
+      <workItem from="1655700774455" duration="44871000" />
+      <workItem from="1656930489382" duration="85000" />
+      <workItem from="1656930599197" duration="7325000" />
+      <workItem from="1657003122969" duration="15665000" />
+      <workItem from="1657103394335" duration="16691000" />
+      <workItem from="1658038267430" duration="9060000" />
+      <workItem from="1658054628647" duration="4893000" />
+      <workItem from="1658062738108" duration="1530000" />
+      <workItem from="1658110376065" duration="6709000" />
+      <workItem from="1658222223303" duration="6209000" />
+      <workItem from="1658449948033" duration="3704000" />
+      <workItem from="1658468595682" duration="402000" />
+      <workItem from="1658469038996" duration="1174000" />
+      <workItem from="1658471838149" duration="10788000" />
+      <workItem from="1658978361563" duration="1654000" />
+      <workItem from="1659938756100" duration="929000" />
+      <workItem from="1660233666369" duration="875000" />
+      <workItem from="1660275820805" duration="923000" />
+      <workItem from="1660290778129" duration="399000" />
+    </task>
+    <task id="LOCAL-00001" summary="NPU 迁移开始">
+      <created>1654525194804</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1654525194804</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="NPU 迁移开始" />
+    <option name="LAST_COMMIT_MESSAGE" value="NPU 迁移开始" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="698" y="294" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1657004330433">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="698" y="294" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1657004330433" />
+    <state x="93" y="82" width="1606" height="933" key="DiffContextDialog" timestamp="1654770080228">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="93" y="82" width="1606" height="933" key="DiffContextDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1654760772197" />
+    <state x="100" y="100" width="1720" height="880" key="DiffContextDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1654525369064" />
+    <state x="93" y="82" width="1606" height="933" key="DiffContextDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1654770080228" />
+    <state x="100" y="100" width="1720" height="880" key="DiffContextDialog/0.23.1920.1057@0.23.1920.1057" timestamp="1654611571818" />
+    <state width="1878" height="405" key="GridCell.Tab.0.bottom" timestamp="1657003077013">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1750" height="423" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1656930461182" />
+    <state width="1878" height="405" key="GridCell.Tab.0.bottom/0.0.1920.1080@0.0.1920.1080" timestamp="1657003077013" />
+    <state width="1878" height="405" key="GridCell.Tab.0.center" timestamp="1657003077011">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1750" height="423" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1656930461181" />
+    <state width="1878" height="405" key="GridCell.Tab.0.center/0.0.1920.1080@0.0.1920.1080" timestamp="1657003077011" />
+    <state width="1878" height="405" key="GridCell.Tab.0.left" timestamp="1657003077010">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1750" height="423" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1656930461180" />
+    <state width="1878" height="405" key="GridCell.Tab.0.left/0.0.1920.1080@0.0.1920.1080" timestamp="1657003077010" />
+    <state width="1878" height="405" key="GridCell.Tab.0.right" timestamp="1657003077012">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state width="1750" height="423" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1656930461181" />
+    <state width="1878" height="405" key="GridCell.Tab.0.right/0.0.1920.1080@0.0.1920.1080" timestamp="1657003077012" />
+    <state width="875" height="392" key="GridCell.Tab.1.bottom" timestamp="1656930417284">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="875" height="392" key="GridCell.Tab.1.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1656930417284" />
+    <state width="875" height="392" key="GridCell.Tab.1.center" timestamp="1656930417283">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="875" height="392" key="GridCell.Tab.1.center/0.0.1792.1120@0.0.1792.1120" timestamp="1656930417283" />
+    <state width="875" height="392" key="GridCell.Tab.1.left" timestamp="1656930417282">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="875" height="392" key="GridCell.Tab.1.left/0.0.1792.1120@0.0.1792.1120" timestamp="1656930417282" />
+    <state width="875" height="392" key="GridCell.Tab.1.right" timestamp="1656930417283">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="875" height="392" key="GridCell.Tab.1.right/0.0.1792.1120@0.0.1792.1120" timestamp="1656930417283" />
+    <state x="484" y="302" key="IDE.errors.dialog" timestamp="1656930520405">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="484" y="302" key="IDE.errors.dialog/0.0.1792.1120@0.0.1792.1120" timestamp="1656930520405" />
+    <state x="684" y="258" key="RollbackChangesDialog" timestamp="1659084873623">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="684" y="258" key="RollbackChangesDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1659084873623" />
+    <state x="733" y="249" key="RollbackChangesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1654524987185" />
+    <state x="460" y="179" key="SettingsEditor" timestamp="1654524581323">
+      <screen x="0" y="0" width="1920" height="1080" />
+    </state>
+    <state x="460" y="179" key="SettingsEditor/0.0.1920.1080@0.0.1920.1080" timestamp="1654524581323" />
+    <state x="708" y="291" key="VcsDiffUtil.ChangesDialog" timestamp="1654764255584">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="708" y="291" key="VcsDiffUtil.ChangesDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1654764255584" />
+    <state x="759" y="281" key="VcsDiffUtil.ChangesDialog/0.0.1920.1080@0.0.1920.1080" timestamp="1654525372550" />
+    <state x="100" y="79" width="1592" height="940" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1658113667172">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="100" y="79" width="1592" height="940" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1792.1120@0.0.1792.1120" timestamp="1658113667172" />
+    <state x="100" y="100" width="1592" height="920" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1658060078091" />
+    <state x="100" y="100" width="1592" height="920" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1659090659569">
+      <screen x="0" y="23" width="1792" height="1097" />
+    </state>
+    <state x="100" y="100" width="1592" height="920" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.23.1792.1097@0.23.1792.1097" timestamp="1659090659569" />
+    <state x="429" y="226" width="1104" height="762" key="find.popup" timestamp="1658057047831">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state x="429" y="226" width="1104" height="762" key="find.popup/0.0.1792.1120@0.0.1792.1120" timestamp="1658057047831" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/monodepth$test_dataset.coverage" NAME="test_dataset Coverage Results" MODIFIED="1656930401304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/demos" />
+    <SUITE FILE_PATH="coverage/monodepth$Unittests_for_test_mycase_MyTestCase_test_something.coverage" NAME="Unittests for test_mycase.MyTestCase.test_something Coverage Results" MODIFIED="1657000890997" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/demos" />
+  </component>
+</project>
