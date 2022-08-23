@@ -146,9 +146,13 @@ pip3 install requirements.txt
              ```
              bash train_full_1p.sh
              ```
+
+
+
          3. 精度训练执行结果
 
              ```
+
            |平台|精度(强化学习，此处分析loss值)|性能(ms/step)|
            |----|----|----|
            |GPU-1p|1.6061|542.9|
