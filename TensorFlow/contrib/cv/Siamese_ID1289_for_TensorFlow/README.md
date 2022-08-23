@@ -32,7 +32,7 @@
 
 ## 简述<a name="section194554031510"></a>
 
-A模型用于实时目标跟踪；模型主要有两个创新点：首先构建了一个用于实时目标跟踪的双重暹罗网络SA-Siam。SA-Siam由语义分支和外观分支组成。每个分支都是一个类似的学习暹罗语的网络。SA-Siam中的一个重要设计选择是分别训练两个分支，以保持两种类型特征的异质性。其次模型在语义分支提出了一种通道注意机制。根据目标位置周围的通道激活计算通道权重。
+SA-Siam模型用于实时目标跟踪；模型主要有两个创新点：首先构建了一个用于实时目标跟踪的双重暹罗网络SA-Siam。SA-Siam由语义分支和外观分支组成。每个分支都是一个类似的学习暹罗语的网络。SA-Siam中的一个重要设计选择是分别训练两个分支，以保持两种类型特征的异质性。其次模型在语义分支提出了一种通道注意机制。根据目标位置周围的通道激活计算通道权重。
 
 - 参考论文：
 
@@ -74,7 +74,7 @@ A模型用于实时目标跟踪；模型主要有两个创新点：首先构建�
 | ---------- | -------- |
 | 分布式训练 | 否       |
 | 混合精度   | 是       |
-| 数据并行   | 是       |
+| 数据并行   | 否       |
 
 
 ## 混合精度训练<a name="section168064817164"></a>
@@ -153,9 +153,9 @@ pip3 install requirements.txt
 
          3. 精度训练执行结果
 
-           |平台|精度(强化学习，此处分析loss值)
+           |平台|精度(此处分析loss值)
            |----|----|----|
-           |GPU-1p|0.265|
+           |GPU-1p|0.263|
            |NPU-1p|0.268|
                   
 
@@ -201,14 +201,14 @@ pip3 install requirements.txt
 ## 脚本参数<a name="section6669162441511"></a>
 
 ```
--- epoch: 30
--- batch_size: 8
--- max_frame_dist: 100
--- prefetch_threads: 4,
--- prefetch_capacity: 15 * 8
--- initial_lr: 0.01
--- num_epochs_per_decay: 25
--- lr_decay_factor: 0.1
+-- epoch
+-- batch_size 
+-- max_frame_dist 
+-- prefetch_threads 
+-- prefetch_capacity
+-- initial_lr
+-- num_epochs_per_decay
+-- lr_decay_factor
 ```
 
 ## 训练过程<a name="section1589455252218"></a>
