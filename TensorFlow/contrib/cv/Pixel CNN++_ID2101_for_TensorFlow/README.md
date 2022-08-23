@@ -62,7 +62,10 @@ cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有�
 [cifar-10](obs://cann--id2101/dataset/)
 
 #### Ascend NPU INFO NOTICE
+![在NPU上正常运行](images/image.png)
 
+#### Final
+![最终精度](images/image2.png)
 
 
 
