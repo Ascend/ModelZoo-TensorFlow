@@ -99,10 +99,12 @@ do
         conf_path=`echo ${para#*=}`
     elif [[ $para == --devices_num* ]];then
 	    devices_num=`echo ${para#*=}`
+    elif [[ $para == --servers_num* ]];then
+        servers_num=`echo ${para#*=}`
     fi
 done
-one_node_ip=`find $conf_path -name "server_111._0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
-linux_num=`find $conf_path -name "server_*.info" |wc -l`
+linux_num=$servers_num
+
 #校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
     echo "[Error] para \"data_path\" must be specified"
@@ -112,7 +114,11 @@ export eval_batch_size=`awk 'BEGIN{printf "%.0f\n",'16'*'${linux_num}'}'`
 
 export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
 rank_size=8
-nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+
+if [[ $conf_path != "" ]];then
+     nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+fi
+
 wait
 export RANK_TABLE_FILE=$cur_path/rank_table.json
 export JOB_ID=10087
