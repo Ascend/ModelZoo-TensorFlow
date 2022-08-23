@@ -29,9 +29,10 @@ CS_GAN模型是论文“Deep Compressed Sensing”的Tensorflow实现（基于�
 # 训练精度对比
 GPUloss:
 ![输入图片说明](images/GPUloss.png)
-GPUloss:
+NPUloss:
 ![输入图片说明](images/NPUloss.png)
-取10个模型在GPU和NPU上训练4000steps的训练损失，求平均后GPU上disc_loss为
+取10个模型在GPU和NPU上训练4000steps的训练损失，求平均后GPU上disc_loss为1.397,gen_loss为320.26。NPU上disc_loss为1.375,gen_loss为322.35。
+计算disc_loss的误差为1.6%，gen_loss的误差为0.6%。
 # 训练性能对比
 
 # 测试精度
