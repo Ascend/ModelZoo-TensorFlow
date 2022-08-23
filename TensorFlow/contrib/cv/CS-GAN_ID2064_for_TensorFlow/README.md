@@ -23,6 +23,7 @@ CS_GAN模型是论文“Deep Compressed Sensing”的Tensorflow实现（基于�
 * obs地址：`obs://csgan/`
 * 训练log：`obs://csgan/loss+perf_gpu.txt`
 * ckpt模型：`obs://csgan/output/gan/ckpt/`
+* 训练模型：python main.py
 # NPU复现训练
 * 训练log：`obs://csgan-npu/MA-new-csgan_new-08-22-10-47/log/`
 * ckpt模型：`obs://csgan-npu/MA-new-csgan_new-08-22-10-47/output/ckpt/`
