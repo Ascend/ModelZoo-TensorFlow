@@ -31,7 +31,7 @@ GPUloss:
 ![输入图片说明](images/GPUloss.png)
 GPUloss:
 ![输入图片说明](images/NPUloss.png)
-取10个模型在GPU和NPU上训练4000steps的训练损失，求平均后
+取10个模型在GPU和NPU上训练4000steps的训练损失，求平均后GPU上disc_loss为
 # 训练性能对比
 
 # 测试精度
