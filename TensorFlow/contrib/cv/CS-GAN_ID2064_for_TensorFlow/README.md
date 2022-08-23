@@ -1,29 +1,31 @@
 # 简介
 CS_GAN模型是论文“Deep Compressed Sensing”的Tensorflow实现（基于晟腾NPU）。
 # 文件说明
-* models：网络定义
-* configs：各子网络训练参数
-* test_configs：各子网络测试参数
-* utils: 初始化依赖相关函数
+* model文件: 存放inception模型
 * main.py: 训练脚本
 * net.py：定义网络
 * gan.py：定义GAN模型
+* cs.py：压缩感知算法实现
+* image_metrics.py：评估图像指标
 # 依赖安装
-* pip install tensorflow-gpu==1.15.0
-* pip install tensorflow_datasets==3.2.1
-* pip install ml_collections
+* pip install absl-py==0.7.1
+* pip install dm-sonnet==1.34
+* pip install numpy==1.16.4
+* pip install Pillow
+* pip install tensorflow==1.15rc2
+* pip install tensorflow-probability==0.7.0
+* pip install tensorflow-gan==2.0.0
+从obs://csgan-npu/CS_GAN_ID2064/中下载tensorflow_gan、tensorflow_gan、model等文件
 # 数据集
 * cifar
 * obs地址：`obs://csgan-npu/CS_GAN_ID2064/cifar/`
 # GPU复现训练
 * obs地址：`obs://csgan/`
-* colorizer训练log及ckpt模型：`obs://imagenet2012-lp/coltran_re/coltran_colorizer/`
-* color_upsampler训练log及ckpt模型：`obs://imagenet2012-lp/coltran_re/coltran_color_upsampler/`
-* spatial_upsampler训练log及ckpt模型：`obs://imagenet2012-lp/coltran_re/coltran_spatial_upsampler/`
+* 训练log：`obs://csgan/loss+perf_gpu.txt`
+* ckpt模型：`obs://csgan/output/gan/ckpt/`
 # NPU复现训练
-* colorizer训练log及ckpt模型：`obs://imagenet2012-lp/coltran_log/MA-new-coltran_modelarts-05-17-17-36/`
-* color_upsampler训练log及ckpt模型：`obs://imagenet2012-lp/coltran_log/MA-new-coltran_modelarts-05-19-13-49/`
-* spatial_upsampler训练log及ckpt模型：`obs://imagenet2012-lp/coltran_log/MA-new-coltran_modelarts-05-22-09-13/`
+* 训练log：`obs://csgan-npu/MA-new-csgan_new-08-22-10-47/log/`
+* ckpt模型：`obs://csgan-npu/MA-new-csgan_new-08-22-10-47/output/ckpt/`
 # 训练精度对比
 |  |                |  GPU | NPU  | 
 |-----|-----------|------|--------|
