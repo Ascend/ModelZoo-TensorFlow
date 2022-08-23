@@ -30,7 +30,7 @@ def load_dict(filename):
             return unicode_to_utf8(json.load(f))
     except:
         with open(filename, 'rb') as f:
-            pkl.load(f)
+            return pkl.load(f)
             #return unicode_to_utf8(pkl.load(f))
 
 
