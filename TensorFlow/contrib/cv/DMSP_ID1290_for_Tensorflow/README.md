@@ -8,11 +8,11 @@
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：Image Restorationg**
+**应用领域（Application Domain）：Object Detection**
 
 **版本（Version）：1.1**
 
-**修改时间（Modified） ：2022.08.24**
+**修改时间（Modified） ：2022.8.24**
 
 **大小（Size）：25MB**
 
@@ -26,8 +26,7 @@
 
 **应用级别（Categories）：Official**
 
-**描述（Description）：基于TensorFlow框架的用于图像恢复的深度均值偏移先验代码** 
-
+**描述（Description）：基于TensorFlow框架的用于图像恢复的深度均值偏移先验代码**
 <h2 id="概述.md">概述</h2>
 
 ## 简述<a name="section194554031510"></a>
