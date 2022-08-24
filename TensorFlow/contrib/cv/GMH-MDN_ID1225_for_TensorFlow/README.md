@@ -32,7 +32,7 @@
 
 ## 简述<a name="section194554031510"></a>
 
-BERT模型的全称是：BidirectionalEncoder Representations from Transformer。BERT模型的目标是利用大规模无标注语料训练、获得文本的包含丰富语义信息的Representation，即：文本的语义表示，然后将文本的语义表示在特定NLP任务中作微调，最终应用于该NLP任务。
+   GMH-MDN：一种基于多峰混合密度网络生成多个可行的 3D 姿态假设的网络
 
 - 参考论文：
 
@@ -162,7 +162,7 @@ pip3 install requirements.txt
              ```
                bash train_full_1p.sh --train_dir
              ```
-         3. 训练结果
+         3. 精度训练结果
              ```
              |                |  GPU | NPU  | 
              |----------------|------|--------|
@@ -175,11 +175,12 @@ pip3 install requirements.txt
 
 ```
 ├── README.md                                //说明文档
-├── requirements.txt						 //依赖
+├── requirements.txt
 ├── LICENSE
-├── Models
-├── experiments
-├── src_npu_20211208155957
+├── modelarts_entry_acc.py					 
+├── modelarts_entry_perf.py
+├── modelzoo_level.txt
+├── src
 │   ├── cameras.py
 │   ├── data_utils.py
 │   ├── logging.conf
@@ -187,6 +188,9 @@ pip3 install requirements.txt
 │   ├── predict_3dpose_mdm.py
 │   ├── procrustes.py
 │   └── viz.py
+├── test
+│   ├── train_full_1p.sh
+│   ├── train_performance_1p.sh
 ```
 
 ## 脚本参数<a name="section6669162441511"></a>
