@@ -91,7 +91,7 @@
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
 ```
- ./train_performance_1p_16bs.sh --help
+ ./train_full_1p.sh --help
 
 parameter explain:
     --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
@@ -106,11 +106,17 @@ parameter explain:
 相关代码示例:
 
 ```
-flags.DEFINE_string(name='precision_mode', default= 'allow_fp32_to_fp16',
-                    help='allow_fp32_to_fp16/force_fp16/ ' 
-                    'must_keep_origin_dtype/allow_mix_precision.')
+    npu_config = NPURunConfig(
+        model_dir=FLAGS.model_dir,
+        save_checkpoints_steps=save_checkpoints_steps,
+        save_summary_steps=0,
+        # dump_config=dump_config,
+        # fusion_switch_file="/home/test_user03/tpu-master/models/official/amoeba_net/fusion_switch.cfg",
+        session_config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=False),
+        #precision_mode="allow_mix_precision")
+        precision_mode="allow_fp32_to_fp16")
+        #precision_mode="force_fp32")
 
-npu_device.global_options().precision_mode=FLAGS.precision_mode
 ```
 
 <h2 id="训练环境准备.md">训练环境准备</h2>
