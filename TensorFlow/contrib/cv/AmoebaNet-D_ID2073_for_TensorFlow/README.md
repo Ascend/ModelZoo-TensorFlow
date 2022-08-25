@@ -1,45 +1,85 @@
--   [基本信息](#基本信息.md)
--   [概述](#概述.md)
--   [训练环境准备](#训练环境准备.md)
--   [快速上手](#快速上手.md)
--   [高级参考](#高级参考.md)
+- [基本信息](#基本信息.md)
+- [概述](#概述.md)
+- [训练环境准备](#训练环境准备.md)
+- [快速上手](#快速上手.md)
+- [迁移学习指导](#迁移学习指导.md)
+- [高级参考](#高级参考.md)
 <h2 id="基本信息.md">基本信息</h2>
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）： Image Classification**
+**应用领域（Application Domain）：Image Classification**
 
-**修改时间（Modified） ：2022.5.9**
+**版本（Version）：1.1**
 
-**框架（Framework）：TensorFlow 1.15.0**
+**修改时间（Modified） ：2022.8.25**
+
+**大小（Size）：75MB**
+
+**框架（Framework）：TensorFlow_1.15.0**
 
 **模型格式（Model Format）：ckpt**
 
-**精度（Precision）：Mixed**
+**精度（Precision）：FP32**
 
 **处理器（Processor）：昇腾910**
 
 **应用级别（Categories）：Official**
 
-**描述（Description）：基于TensorFlow框架的AmoebaNet-D图像分类网络训练代码** 
+**描述（Description）：基于TensorFlow框架的AmoebaNet-D图像分类网络训练代码**
 
 <h2 id="概述.md">概述</h2>
 
-AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像分类神经网络。
+## 简述<a name="section194554031510"></a>
+
+ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像分类神经网络。
 
 - 参考论文：
 
-    [Real, E., Aggarwal, A., Huang, Y., & Le, Q. V. (2019, July). Regularized evolution for image classifier architecture search. In Proceedings of the aaai conference on artificial intelligence (Vol. 33, No. 01, pp. 4780-4789).](https://arxiv.org/pdf/1802.01548.pdf) 
-
+  [https://arxiv.org/pdf/1802.01548.pdf](Regularized Evolution for Image Classifier Architecture Search)
 
 - 参考实现：
 
-    
+  https://github.com/tensorflow/tpu/tree/master/models/official/amoeba_net
 
 - 适配昇腾 AI 处理器的实现：
   
-  [https://gitee.com/zero167/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/AmoebaNet-D_ID2073_for_TensorFlow](https://gitee.com/zero167/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/AmoebaNet-D_ID2073_for_TensorFlow)      
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/AmoebaNet-D_ID2073_for_TensorFlow
 
+- 通过Git获取对应commit\_id的代码方法如下：
+  
+        git clone {repository_url}    # 克隆仓库的代码
+        cd {repository_name}    # 切换到模型的代码仓目录
+        git checkout  {branch}    # 切换到对应分支
+        git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
+        cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+    
+
+## 默认配置<a name="section91661242121611"></a>
+
+-   训练超参（单卡）：
+
+      - data_dir
+      - model_dir
+      - num_cells
+      - image_size
+      - num_epochs
+      - train_batch_size
+      - eval_batch_size
+      - lr=2.56 
+      - lr_decay_value
+      - lr_warmup_epochs
+      - mode=train_and_eval 
+      - iterations_per_loop=1251
+    
+
+## 支持特性<a name="section1899153513554"></a>
+
+| 特性列表   | 是否支持 |
+| ---------- | -------- |
+| 分布式训练 | 否       |
+| 混合精度   | 否       |
+| 数据并行   | 否       |
 
 
 ## 混合精度训练<a name="section168064817164"></a>
@@ -48,10 +88,24 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 
 ## 开启混合精度<a name="section20779114113713"></a>
 
-脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
+拉起脚本中，传入--precision_mode='allow_mix_precision'
 
-  ```
-  
+```
+ ./train_full_1p.sh --help
+
+parameter explain:
+    --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
+    --over_dump                  if or not over detection, default is False
+    --data_dump_flag         data dump flag, default is False
+    --data_dump_step             data dump step, default is 10
+    --profiling                  if or not profiling for performance debug, default is False
+    --data_path                  source data of training
+    -h/--help                    show help message
+```
+
+相关代码示例:
+
+```
     npu_config = NPURunConfig(
         model_dir=FLAGS.model_dir,
         save_checkpoints_steps=save_checkpoints_steps,
@@ -61,81 +115,77 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
         session_config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=False),
         #precision_mode="allow_mix_precision")
         precision_mode="allow_fp32_to_fp16")
-	#precision_mode="force_fp32")
-  ```
+        #precision_mode="force_fp32")
 
+```
 
 <h2 id="训练环境准备.md">训练环境准备</h2>
 
-1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
-2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
-
-
+-  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
+-  运行以下命令安装依赖。
+```
+pip3 install requirements.txt
+```
+说明：依赖配置文件requirements.txt文件位于模型的根目录
 
 <h2 id="快速上手.md">快速上手</h2>
 
-- 数据集准备
-1. 模型训练使用ImageNet2012数据集，数据集请用户自行获取。
+## 数据集准备<a name="section361114841316"></a>
 
-2. 数据集训练前需要做预处理操作，请用户参考[Tensorflow-Slim](https://github.com/tensorflow/models/tree/master/research/slim),将数据集封装为tfrecord格式。
+1、模型训练使用ImageNet2012数据集，数据集请用户自行获取
 
-3. 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
-   
+2、数据集训练前需要做预处理操作，将数据集封装为tfrecord格式(方法见https://github.com/tensorflow/models/tree/master/research/slim)
+
+3、数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用
+
+4、AmoebaNet训练的模型及数据集可以参考"简述 -> 参考实现"
+
 
 ## 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
+- 开始训练。
 
-- 启动训练之前，首先要配置程序运行相关环境变量。
+    - 启动训练之前，首先要配置程序运行相关环境变量。
 
-  环境变量配置信息参见：
+      环境变量配置信息参见：
 
-     [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
+      [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
 
-- 单卡训练 
+    - 单卡训练
 
-  1. 配置训练参数。
+          1. 配置训练参数。
+        
+             首先在脚本train_full_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
+        
+             ```
+             # 路径参数初始化
+              --data_dir=${data_path} 
+              --model_dir=${output_path} 
+              --num_cells=6 
+              --image_size=224 
+              --num_epochs=35 
+              --train_batch_size=64 
+              --eval_batch_size=64 
+              --lr=2.56 
+              --lr_decay_value=0.88 
+              --lr_warmup_epochs=0.35 
+              --mode=train_and_eval 
+              --iterations_per_loop=1251  
+             ```
+        
+          2. 启动训练。（脚本为./test/train_full_1p.sh） 
+        
+             ```
+             bash train_full_1p.sh --data_path
+             ```
 
-     首先在脚本train_full_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
-
-     ```
-     # 路径参数初始化
-     data_path="/home/test_user03/tf_records/"
-     output_path="/home/test_user03/xx" 
-     ```
-
-  2. 启动训练。（脚本为train_full_1p.sh） 
-
-     ```
-     bash train_full_1p.sh
-     ```
-
-
-- 验证。
-
-  1. 配置验证参数。
-
-     首先在脚本train_full_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
-
-     ```
-     # 路径参数初始化
-     data_path="/home/test_user03/tf_records/"
-     output_path="/home/test_user03/xx" 
-     ```
-
-  2. 启动验证。（脚本为train_full_1p.sh） 
-
-     ```
-     bash train_full_1p.sh
-     ```          
-
-
-
+           
 
 
 <h2 id="高级参考.md">高级参考</h2>
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+## 脚本和示例代码
 
 ```
 ├── amoeba_net.py                          //训练与测试入口
@@ -157,9 +207,10 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 ├── common
 │    ├──imagenet.py                         //为ImageNet ILSVRC 2012数据集提供数据帮助程序
 │    ├──inference_warmup.py                //inference warmup实现```
-
 ```
+
 ## 脚本参数<a name="section6669162441511"></a>
+
 ```
 --use_tpu              是否使用tpu，默认：False（由于该代码从tpu版本迁移过来，在昇腾910上只能是False）
 --mode                 运行模式，可选：train_and_eval，train，eval
@@ -175,74 +226,6 @@ AmoebaNet-D是由AmoebaNet演化神经架构搜索算法搜索出的一个图像
 --lr_warmup_epochs      初始学习率从0增长到指定学习率的迭代数，默认：0.35
 ```
 
-
 ## 训练过程<a name="section1589455252218"></a>
 
-1.  通过“模型训练”中的训练指令启动单卡训练。
-
-2.  训练脚本log中包括如下信息。
-
-```
-I0420 23:35:31.718360 281472996956240 basic_session_run_hooks.py:692] global_step/sec: 4.13978
-INFO:tensorflow:global_step...700647
-I0420 23:35:31.722282 281472996956240 npu_hook.py:132] global_step...700647
-INFO:tensorflow:global_step...700648
-I0420 23:35:31.963601 281472996956240 npu_hook.py:132] global_step...700648
-...
-INFO:tensorflow:Saving checkpoints for 700662 into /home/test_user03/ckpt5/model.ckpt.
-I0420 23:35:35.366074 281472996956240 basic_session_run_hooks.py:606] Saving checkpoints for 700662 into /home/test_user03/ckpt5/model.ckpt.
-INFO:tensorflow:global_step...700663
-I0420 23:36:39.784266 281472996956240 npu_hook.py:132] global_step...700663
-INFO:tensorflow:global_step...700664
-I0420 23:36:40.024840 281472996956240 npu_hook.py:132] global_step...700664
-INFO:tensorflow:global_step...700665
-I0420 23:36:40.267009 281472996956240 npu_hook.py:132] global_step...700665
-INFO:tensorflow:NPUCheckpointSaverHook end...
-I0420 23:36:40.267664 281472996956240 npu_hook.py:137] NPUCheckpointSaverHook end...
-INFO:tensorflow:Saving checkpoints for 700665 into /home/test_user03/ckpt5/model.ckpt.
-I0420 23:36:40.269501 281472996956240 basic_session_run_hooks.py:606] Saving checkpoints for 700665 into /home/test_user03/ckpt5/model.ckpt.
-INFO:tensorflow:Loss for final step: 4.1664658.
-I0420 23:38:08.704852 281472996956240 estimator.py:371] Loss for final step: 4.1664658.
-```
-
-## 推理/验证过程<a name="section1465595372416"></a>
-
-1.  通过“模型训练”中的验证指令启动验证。
-
-2.  当前只能针对该工程训练出的checkpoint进行推理测试。
-
-3.  测试结束后会打印测试集的top1 accuracy和top5 accuracy，如下所示。
-
-```
-ow:Evaluation [78/781]
-I0420 23:40:00.258475 281472996956240 evaluation.py:167] Evaluation [78/781]
-INFO:tensorflow:Evaluation [156/781]
-I0420 23:40:07.798311 281472996956240 evaluation.py:167] Evaluation [156/781]
-INFO:tensorflow:Evaluation [234/781]
-I0420 23:40:15.336721 281472996956240 evaluation.py:167] Evaluation [234/781]
-INFO:tensorflow:Evaluation [312/781]
-I0420 23:40:22.876575 281472996956240 evaluation.py:167] Evaluation [312/781]
-INFO:tensorflow:Evaluation [390/781]
-I0420 23:40:30.432068 281472996956240 evaluation.py:167] Evaluation [390/781]
-INFO:tensorflow:Evaluation [468/781]
-I0420 23:40:38.020324 281472996956240 evaluation.py:167] Evaluation [468/781]
-INFO:tensorflow:Evaluation [546/781]
-I0420 23:40:45.564076 281472996956240 evaluation.py:167] Evaluation [546/781]
-INFO:tensorflow:Evaluation [624/781]
-I0420 23:40:53.106832 281472996956240 evaluation.py:167] Evaluation [624/781]
-INFO:tensorflow:Evaluation [702/781]
-I0420 23:41:00.634234 281472996956240 evaluation.py:167] Evaluation [702/781]
-INFO:tensorflow:Evaluation [780/781]
-I0420 23:41:08.236136 281472996956240 evaluation.py:167] Evaluation [780/781]
-INFO:tensorflow:Evaluation [781/781]
-I0420 23:41:08.331177 281472996956240 evaluation.py:167] Evaluation [781/781]
-2022-04-20 23:41:08.749352: I /home/phisik3/jenkins/workspace/work_code/tmp/host-prefix/src/host-build/asl/tfadaptor/CMakeFiles/tf_adapter.dir/compiler_depend.ts:805] The model has been compiled on the Ascend AI processor, current graph id is: 71
-INFO:tensorflow:Finished evaluation at 2022-04-20-23:41:13
-I0420 23:41:13.806376 281472996956240 evaluation.py:275] Finished evaluation at 2022-04-20-23:41:13
-INFO:tensorflow:Saving dict for global step 700665: global_step = 700665, loss = 1.8883309, top_1_accuracy = 0.75600195, top_5_accuracy = 0.9269366
-I0420 23:41:13.807576 281472996956240 estimator.py:2049] Saving dict for global step 700665: global_step = 700665, loss = 1.8883309, top_1_accuracy = 0.75600195, top_5_accuracy = 0.9269366
-INFO:tensorflow:Saving 'checkpoint_path' summary for global step 700665: /home/test_user03/ckpt5/model.ckpt-700665
-I0420 23:41:13.810555 281472996956240 estimator.py:2109] Saving 'checkpoint_path' summary for global step 700665: /home/test_user03/ckpt5/model.ckpt-700665
-INFO:tensorflow:Evaluation results: {'loss': 1.8883309, 'top_1_accuracy': 0.75600195, 'top_5_accuracy': 0.9269366, 'global_step': 700665}
-I0420 23:41:13.813197 281472996956240 amoeba_net.py:467] Evaluation results: {'loss': 1.8883309, 'top_1_accuracy': 0.75600195, 'top_5_accuracy': 0.9269366, 'global_step': 700665}
-```
+通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以单卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
