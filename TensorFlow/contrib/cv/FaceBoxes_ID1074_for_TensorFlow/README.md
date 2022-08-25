@@ -165,7 +165,7 @@ pip3 install requirements.txt
              ```
             | 迁移模型    | 训练次数  |  NPU final loss  |  GPU final loss  | 
             | ---------- | --------  | --------  |  -------- |
-            |FaceBoxes   | 240000   | 2.2218564      |2.480684    |
+            |FaceBoxes   | 240000   | 3.065      |3.0756    |
              ```
            
 
