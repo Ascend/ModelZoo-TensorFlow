@@ -58,10 +58,10 @@
 ## 默认配置<a name="section91661242121611"></a>
 
 -   训练超参（单卡）：
-  - Batch size: 4
-  - Learning rate(LR): 0.001
-  - Optimizer: Adam
-  - Train epoch: 1
+      - Batch size: 4
+      - Learning rate(LR): 0.001
+      - Optimizer: Adam
+      - Train epoch: 1
 
 
 ## 支持特性<a name="section1899153513554"></a>
