@@ -29,7 +29,7 @@ from tensorflow.python.framework.graph_util import convert_variables_to_constant
 # from npu_bridge.estimator.npu.npu_loss_scale_manager import ExponentialUpdateLossScaleManager
 
 import os
-os.system("pip install tensorflow_datasets==3.0.0")
+# os.system("pip3 install tensorflow_datasets==3.0.0")
 import data as data_utils
 import model as model_utils
 import utils as utils
@@ -120,7 +120,7 @@ def main(argv):
   config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
   config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
   #添加自定义算子
-  custom_op.parameter_map["customize_dtypes"].s=tf.compat.as_bytes("./switch_config.txt")
+  custom_op.parameter_map["customize_dtypes"].s=tf.compat.as_bytes("./code/switch_config.txt")
   # custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("./ops_info.json")
   # custom_op.parameter_map["profiling_mode"].b = True
   # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes('{"output":"/cache/profiling","task_trace":"on"}')
@@ -133,8 +133,8 @@ def main(argv):
 
   sess.run(init)
 
-  start = time.time()
   for _ in range(num_train_steps):
+    start = time.time()
     batch = sess.run(el)
     # Learning rate warm-up.
     flag1=sess.run(compa)
@@ -149,10 +149,9 @@ def main(argv):
     #sess.run(update)
     gs=sess.run(global_steps)
     # Log the training loss.
-    if not gs % 100:
+    if not gs % 1:
       logging.info("Step: %s, Loss: %.6f, Time: %s",
-                   gs, loss,
-                   datetime.timedelta(seconds=time.time() - start))
+                   gs, loss, time.time() - start)
       # mox.file.copy_parallel("/cache/profiling", "obs://lwr-slot-npu/profiling")
 
     # We save the checkpoints every 1000 iterations.
