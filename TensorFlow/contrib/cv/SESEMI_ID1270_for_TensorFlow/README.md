@@ -8,17 +8,17 @@
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：Object Detection**
+**应用领域（Application Domain）：Image Classification**
 
 **版本（Version）：1.1**
 
-**修改时间（Modified） ：2022.8.25**
+**修改时间（Modified） ：2022.8.26**
 
-**大小（Size）：8.71MB**
+**大小（Size）：25.3MB**
 
 **框架（Framework）：TensorFlow_1.15.0**
 
-**模型格式（Model Format）：ckpt**
+**模型格式（Model Format）：h5**
 
 **精度（Precision）：FP32**
 
@@ -26,25 +26,25 @@
 
 **应用级别（Categories）：Official**
 
-**描述（Description）：基于TensorFlow框架的voxelmorph图像配准网络训练代码**
+**描述（Description）：基于TensorFlow框架的MASF图像分类网络训练代码**
 
 <h2 id="概述.md">概述</h2>
 
 ## 简述<a name="section194554031510"></a>
 
- voxelmorph是一种基于快速学习的可变形、成对的三维医学图像配准算法。该方法将配准定义为一个参数函数，并在给定一组感兴趣的图像的情况下优化其参数。给定一对新的图像对（待配准图像，参考图像），voxelmorph可以通过使用学习的参数直接计算函数来快速计算配准场，使用CNN对该配准函数进行建模，并使用空间变换层将待配准图像配准到参考图像，同时对配准场施加平滑度约束。该方法不需要有监督的信息，如地面真实度配准场或解剖地标
+SESEMI的工作属于半监督学习(SSL)的框架，在图像分类的背景下，它可以利用大量的未标记数据，在有限的标记数据中显著改进监督分类器的性能。具体来说，我们利用自监督损失项作为正则化(应用于标记数据)和SSL方法(应用于未标记数据)类似于一致性正则化。尽管基于一致性正则化的方法获得了最先进的SSL结果，但这些方法需要仔细调优许多超参数，在实践中通常不容易实现。为了追求简单和实用，我们的模型具有自监督正则化，不需要额外的超参数来调整最佳性能
 
 - 参考论文：
 
-  [http://arxiv.org/abs/1809.05231](VoxelMorph: A Learning Framework for Deformable Medical Image Registration)
+  [http://arxiv.org/abs/1809.05231](Exploring Self-Supervised Regularization for Supervised and Semi-Supervised Learning)
 
 - 参考实现：
 
-  https://github.com/voxelmorph/voxelmorph/tree/legacy
+  https://github.com/vuptran/sesemi
 
 - 适配昇腾 AI 处理器的实现：
   
-  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/voxelmorph_ID2120_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/SESEMI_ID1270_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
   
@@ -59,11 +59,13 @@
 
 -   训练超参（单卡）：
 
-      - lr：1e-4
-      - epochs：50
-      - lambda：0.01
-      - batch_size：1
-      - atlas_file
+    - batch_size=16
+    - dataset
+    - epochs
+    - labels
+    - result
+    - base_lr = 0.05
+    - lr_decay_power = 0.5
     
 
 ## 支持特性<a name="section1899153513554"></a>
@@ -96,6 +98,8 @@ parameter explain:
     -h/--help                    show help message
 ```
 
+SESEMI模型未开启混合精度
+
 <h2 id="训练环境准备.md">训练环境准备</h2>
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
@@ -109,13 +113,11 @@ pip3 install requirements.txt
 
 ## 数据集准备<a name="section361114841316"></a>
 
-1、模型训练使用ABIDE freesurfer pipeline数据集，数据集请用户自行获取
+1、模型训练使用cifar-10数据集，数据集请用户自行获取(方法见https://github.com/vuptran/sesemi/tree/master/datasets)
 
-2、数据集训练前需要做预处理操作，请用户参考上文默认配置
+2、数据集放入模型目录下，在训练脚本中指定数据集路径，可正常使用
 
-3、数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用
-
-4、voxelmorph训练的模型及数据集可以参考"简述 -> 参考实现"
+3、SESEMI训练的模型及数据集可以参考"简述 -> 参考实现"
 
 
 ## 模型训练<a name="section715881518135"></a>
@@ -133,29 +135,33 @@ pip3 install requirements.txt
 
           1. 配置训练参数
         
-             首先在脚本train_full_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
+             首先在脚本train_performance_1p.sh中，配置训练数据集路径和checkpoint保存路径，请用户根据实际路径配置，示例如下所示：
         
              ```
              # 路径参数初始化
-             ${data_path}/Dataset-ABIDE/train/ 
-             --atlas_file=${data_path}/Dataset-ABIDE/atlas_abide_brain_crop.nii.gz 
-             --model_dir=${output_path} 
-             --tensorboard_log_dir=${output_path} 
-             --batch_size=${batch_size}
+             --dataset=${data_path}/cifar-10-batches-py 
+             --epochs=${train_epochs} 
+             --labels=2000 
              ```
         
-          2. 启动训练（脚本为./test/train_full_1p.sh） 
+          2. 启动训练（脚本为./test/train_performance_1p.sh） 
         
              ```
-             bash train_full_1p.sh --data_path
+             bash train_performance_1p.sh --data_path
              ```
 
           3. 训练精度结果
 
-            |                                          | NPU          | GPU          | 原论文       |
-            | ---------------------------------------- | ------------ | ------------ | ------------ |
-            | DICE系数（[0, 1], 1 最优）/ 均值(标准差) | 0.703(0.134) | 0.708(0.133) | 0.752(0.140) |
+            |样本数量|  论文精度 |GPU精度 | NPU精度 |
+            |---------|-------- -- |----------|-----------|
+            | 1000    |29.44±0.24|   0.2876 | 0.2983     |
+            | 2000    |21.53±0.18|   0.2186 | 0.2179     |
            
+          4. 训练性能结果
+
+            | 样本数量 | GPU性能   | NPU性能   |
+            | -------- | --------- | --------- |
+            | 1000     | 75ms/step | 53ms/step |
 
 
 <h2 id="高级参考.md">高级参考</h2>
@@ -167,25 +173,19 @@ pip3 install requirements.txt
 ├── README.md
 ├── modelzoo_level.txt
 ├── requirements.txt
-├── ext                                  	//项目需要的外部库
-│    ├── medipy-lib
-│    ├── neuron
-│    ├── pynd-lib
-│    ├── pytools-lib
-├── models                                 	//预训练权重
-├── precision_too                               //华为官方的精度工具，修改了fusion_switch.cfg，关闭了UB融合
-├── src					        //项目文件
-│    ├── datagenerators.py            		//数据
-│    ├── losses.py                       	//定义loss
-│    ├── networks.py                   		//定义网络
-│    ├── test_zyh.py                    	//测试代码
-│    ├── train_all.py                		//训练代码
-│    ├── run_1p_all.sh  					
-│    ├── test.sh  							//测试入口
-│    ├── loss+perf_npu_all.txt				//打印日志
-│    ├── fusion_switch.json					//融合规则配置文件
-│    ├── train_full_1p.sh					
-│    ├── train_performance_1p.sh			//
+├── train_evaluate_asl2.py                    //训练py脚本主入口
+├── utils.py
+├── networks                                  	
+│    ├── convnet.py
+│    ├── nin.py
+│    ├── wrn.py
+├── boot_modelarts.py                                 	
+├── help_modelarts.py                               
+├── dataset				        
+│    ├── cifar10.py           		
+│    ├── cifar100.py                       	
+│    ├── dataset.txt                   		
+│    ├── svhn.py                   	
 ├── test     
 │    ├──train_performance_1p.sh                //训练性能入口
 │    ├──train_full_1p.sh                       //训练精度入口，包含准确率评估
@@ -194,15 +194,13 @@ pip3 install requirements.txt
 ## 脚本参数<a name="section6669162441511"></a>
 
 ```
---train_data_dir
---atlas_file
---model_dir
---lr
+--batch_size=16
+--dataset
 --epochs
---lambda
---batch_size
---load_model_file
---tensorboard_log_dir
+--labels
+--result
+--base_lr = 0.05
+--lr_decay_power = 0.5
 ```
 
 ## 训练过程<a name="section1589455252218"></a>
