@@ -12,9 +12,9 @@
 
 **版本（Version）：1.1**
 
-**修改时间（Modified） ：2022.8.25**
+**修改时间（Modified） ：2022.8.26**
 
-**大小（Size）：56MB**
+**大小（Size）：5.6MB**
 
 **框架（Framework）：TensorFlow_1.15.0**
 
