@@ -115,11 +115,9 @@ pip3 install requirements.txt
 
 1、模型训练使用selfie2anime数据集，数据集请用户自行获取
 
-2、数据集地址（方法见https://drive.google.com/file/d/1xOWj1UVgp6NKMT3HbPhBbtq2A4EDkghF）
+2、数据集放入相应模型目录下，在训练脚本中指定数据集路径，可正常使用
 
-3、数据集放入相应模型目录下，在训练脚本中指定数据集路径，可正常使用
-
-4、UGATIT训练的模型及数据集可以参考"简述 -> 参考实现"
+3、UGATIT训练的模型及数据集可以参考"简述 -> 参考实现"
 
 
 ## 模型训练<a name="section715881518135"></a>
