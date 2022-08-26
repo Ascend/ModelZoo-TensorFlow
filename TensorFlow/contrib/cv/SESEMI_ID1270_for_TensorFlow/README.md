@@ -36,7 +36,7 @@ SESEMI的工作属于半监督学习(SSL)的框架，在图像分类的背景下
 
 - 参考论文：
 
-  [http://arxiv.org/abs/1809.05231](Exploring Self-Supervised Regularization for Supervised and Semi-Supervised Learning)
+  [https://arxiv.org/abs/1906.10343](Exploring Self-Supervised Regularization for Supervised and Semi-Supervised Learning)
 
 - 参考实现：
 
