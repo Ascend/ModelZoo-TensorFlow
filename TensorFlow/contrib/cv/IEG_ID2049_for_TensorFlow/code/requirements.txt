@@ -1,0 +1,8 @@
+tqdm
+absl-py
+numpy
+sklearn
+gast==0.2.2
+tensorflow_datasets==3.2.1
+Pillow
+tenacity
