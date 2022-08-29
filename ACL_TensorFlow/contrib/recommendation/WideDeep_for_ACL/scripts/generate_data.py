@@ -58,15 +58,15 @@ def separate_input_fn(
     
     parsed_dataset = raw_dataset.apply(
         tf.data.experimental.parse_example_dataset(
-            tf_transform_output.transformed_teature_spec(),
-            num_parallel_calls=parse_num_threads
+            tf_transform_output.transformed_feature_spec(),
+            num_parallel_calls=parser_num_threads
         )
     )
     
    def consolidate_batch(elem):
         label = elem.pop("label")
         reshaped_label = tf.reshape(label,[-1,label.shape[-1]])
-        reshape_elem = {
+        reshaped_elem = {
             key: tf.reshape(elem[key],[-1,elem[key].shape[-1]])
             for key in elem
         }
@@ -91,6 +91,7 @@ def separate_input_fn(
         consolidate_batch,
         num_parallel_calls=None
     )
+    return parsed_dataset
         
 def data_generator(tf_records,batchsize):
     tf_transform_output = tft.TFTransformOutput(tf_records)
@@ -104,7 +105,7 @@ def data_generator(tf_records,batchsize):
         tf.estimator.ModeKeys.EVAL,
         reader_num_threads=1,
         parser_num_threads=1,
-        shuffle_buffer_size=int(0.0*create_bathces),
+        shuffle_buffer_size=int(0.0*create_batches),
         prefetch_buffer_size=1,
         print_display_ids=False)
     iterator = parsed_dataset.make_one_shot_iterator()
@@ -131,7 +132,7 @@ def data_generator(tf_records,batchsize):
     batchs = total_num // batchsize
     for i in range(batchs):
         sub_input = labels[i*batchsize:(i+1)*batchsize]
-        sub_input.tofile(os.[ath.join('labels',"{}.bin".format(str(i).zfill(6))))
+        sub_input.tofile(os.path.join('labels',"{}.bin".format(str(i).zfill(6))))
         
     
 if __name__=="__main__":
