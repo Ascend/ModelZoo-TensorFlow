@@ -32,7 +32,7 @@ from npu_bridge.npu_init import *
 from npu_bridge.estimator import npu_ops
 
 # #------------------ NPU 关闭融合规则 ----------------------
-import precision_tool.precision_tool.tf_config as npu_tf_config
+# import precision_tool.precision_tool.tf_config as npu_tf_config
 
 
 LOG = loguru.logger
@@ -203,10 +203,7 @@ class LaneNetTusimpleTrainer(object):
         # run_config = NPURunConfig(enable_data_pre_proc=False)
 
         # # ------------------ NPU 关闭融合规则 ----------------------
-        config = npu_tf_config.session_dump_config(config, action='fusion_off')
-
-        # ------------------ NPU 浮点异常检测 ----------------------
-        config = npu_tf_config.session_dump_config(config, action='overflow')
+        custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("./fusion_off.cfg")
 
         self._sess = tf.Session(config=config)
         
