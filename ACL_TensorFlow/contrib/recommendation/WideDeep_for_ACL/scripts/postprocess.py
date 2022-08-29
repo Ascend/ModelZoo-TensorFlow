@@ -43,7 +43,7 @@ def write_accuracy(result_file,result_content):
     with open(result_file,"w") as json_file:
         json_file.write(encode_json)
 
-if __name__="__main__":
+if __name__=="__main__":
     parser = argparse.ArgumentParser()
     #-----------------------------------------------------
     parser.add_argument("--infer_result", type=str, default="../../result_Files")
@@ -68,7 +68,7 @@ if __name__="__main__":
             display_id.append(id)
             label = np.fromfile(os.path.join(args.label,"{}.bin".format(file.split("davinci_")[1].split("_output")[0])),dtype=np.int64)
             labels.append(label)
-    predictions = np.appay(predictions).reshape(-1,1)
+    predictions = np.array(predictions).reshape(-1,1)
     display_id = np.array(display_id).reshape(-1)
     labels = np.array(labels).reshape(-1)
     print("predictions:",predictions.shape)
@@ -89,7 +89,7 @@ if __name__="__main__":
     preds = tf.RaggedTensor.from_value_rowids(predictions,display_ids_idx).to_tensor()
     labels = tf.RaggedTensor.from_value_rowids(labels,display_ids_idx).to_tensor()
     labels = tf.argmax(labels,axis=1)
-    map_tensor = tf.metrics.sparse_average_precision_at_k(
+    map_tensor = tf.metrics.average_precision_at_k(
         predictions=pad_fn(preds),
         labels=labels,
         k=12,
