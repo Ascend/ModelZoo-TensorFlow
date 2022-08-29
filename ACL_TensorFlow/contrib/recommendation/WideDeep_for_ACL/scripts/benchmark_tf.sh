@@ -2,13 +2,15 @@
 #set -x
 cur_dir=`pwd`
 benchmark_dir=$cur_dir/../Benchmark/out
-om_name=$cur_dir/../tdnn_tf_1batch.om
-batchsize=1
-model_name=tdnn
+om_name=$cur_dir/../widedeep_1024batch.om
+batchsize=1024
+model_name=widedeep
 output_dir='results'
 rm -rf $cur_dir/$output_dir/*
 
 #start offline inference
-$benchmark_dir/benchmark --om $om_name --dataDir $cur_dir/input_bins/ --modelType $model_name --outDir $cur_dir/$output_dir --batchSize $batchsize --imgType bin --useDvpp 0
+$benchmark_dir/benchmark --model $om_name --input "ad_advertiser,ad_id,ad_views_log_01scaled,doc_ad_category_id,doc_ad_days_since_published_log_01scaled,doc_ad_entity_id,doc_ad_publisher_id,doc_ad_source_id,doc_ad_topic_id,doc_event_category_id,doc_event_days_since_published_log_01scaled,doc_event_doc_ad_sim_categories_log_01scaled,doc_event_doc_ad_sim_entities_log_01scaled,doc_event_doc_ad_sim_topics_log_01scaled,doc_event_entity_id,doc_event_hour_log_01scaled,doc_event_id,doc_event_publisher_id,doc_event_source_id,doc_event_topic_id,doc_id,doc_views_log_01scaled,event_country,event_country_state,event_geo_location,event_hour,event_platform,event_weekend,pop_ad_id_conf,pop_ad_id_log_01scaled,pop_advertiser_id_conf,pop_advertiser_id_log_01scaled,pop_campain_id_conf_multipl_log_01scaled,pop_campain_id_log_01scaled,pop_category_id_conf,pop_category_id_log_01scaled,pop_document_id_conf,pop_document_id_log_01scaled,pop_entity_id_conf,pop_entity_id_log_01scaled,pop_publisher_id_conf,pop_publisher_id_log_01scaled,pop_source_id_conf,pop_source_id_log_01scaled,pop_topic_id_conf,pop_topic_id_log_01scaled,traffic_source,user_doc_ad_sim_categories_conf,user_doc_ad_sim_categories_log_01scaled,user_doc_ad_sim_entities_log_01scaled,user_doc_ad_sim_topics_conf,user_doc_ad_sim_topics_log_01scaled,user_has_already_viewed_doc,user_views_log_01scaled" --output $output_dir 
 
 #post process
+python3 post_process.py --infer_result=$output_dir --display_id=./display_id/ --label=./labels/
+cat accuracy_result.json
