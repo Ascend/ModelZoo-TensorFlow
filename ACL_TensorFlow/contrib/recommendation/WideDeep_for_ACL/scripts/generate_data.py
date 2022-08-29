@@ -44,7 +44,7 @@ def separate_input_fn(
     transformed_examples,
     create_batches,
     mode,
-    reader_num_threads=1，
+    reader_num_threads=1,
     parser_num_threads=2,
     shuffle_buffer_size=10,
     prefetch_buffer_size=1,
