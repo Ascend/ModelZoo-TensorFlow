@@ -129,6 +129,7 @@ do
     nohup ${bind_core} python3 imagenet_main.py \
         --resnet_size=50 \
         --resnet_version=1 \
+        --data_format 'channels_last' \
         --max_train_steps=$train_steps \
         --hooks=ExamplesPerSecondHook \
         --data_dir=$data_path \
