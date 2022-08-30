@@ -19,6 +19,7 @@ from __future__ import print_function
 from npu_bridge.npu_init import *
 import tensorflow as tf
 import math
+from npu_bridge.hccl import hccl_ops
 
 def npu_tf_optimizer(opt):
     npu_opt = NPUDistributedOptimizer(opt)
@@ -86,7 +87,8 @@ class DPN():
             var_list = tf.trainable_variables()
             varavg = tf.train.ExponentialMovingAverage(0.9, name='var_moveavg')
             varavg_op = varavg.apply(var_list)
-            optimizer = npu_tf_optimizer(tf.train.MomentumOptimizer(self.lr, momentum=0.9))
+            # optimizer = npu_tf_optimizer(tf.train.MomentumOptimizer(self.lr, momentum=0.9))
+            optimizer = npu_distributed_optimizer_wrapper(tf.train.MomentumOptimizer(self.lr, momentum=0.9))
             train_op = optimizer.minimize(self.total_loss, global_step=self.global_step)
             update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
             self.train_op = tf.group([update_ops, lossavg_op, varavg_op, train_op])
@@ -101,11 +103,17 @@ class DPN():
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
         custom_op.parameter_map["dynamic_input"].b = True
         custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
+        custom_op.parameter_map["hcom_parallel"].b = True
         config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  #off remap
         config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
         self.sess = tf.InteractiveSession(config=npu_config_proto(config_proto=config))
         #############npu modify end###############
         self.sess.run(tf.global_variables_initializer())
+        rank_size = int(os.getenv('RANK_SIZE'))
+        if int(rank_size) > 1:
+            input = tf.trainable_variables()
+            bcast_global_variables_op = hccl_ops.broadcast(input, 0)
+            self.sess.run(bcast_global_variables_op)
         self.saver = tf.train.Saver()
         self.best_saver = tf.train.Saver()
 
