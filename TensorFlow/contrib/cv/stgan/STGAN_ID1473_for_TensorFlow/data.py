@@ -30,7 +30,7 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-os.environ["ASCEND_DEVICE_ID"] = "6"
+os.environ["ASCEND_DEVICE_ID"] = "0"
 
 import numpy as np
 import tensorflow as tf
