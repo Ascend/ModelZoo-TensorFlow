@@ -103,3 +103,6 @@ Our result were obtained by running the applicable training script. To achieve t
 | SVT          | 88.9%             | 77.2%             |
 | ICDAR2013    | 93.5%             | 87.3%             |
 | IIIT5K       | 91.4%             | 79.6%             |
+
+## Reference
+[1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/CRNN_for_TensorFlow

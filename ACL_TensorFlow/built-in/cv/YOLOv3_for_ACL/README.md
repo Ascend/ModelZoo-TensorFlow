@@ -121,3 +121,6 @@ IoU=0.5
 | model  | Npu_nums | **mAP** | 
 | :----: | :------: | :-----: | 
 | Yolov3 |    1     |  55.3%   | 
+
+## Reference
+[1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/YoloV3_ID0076_for_TensorFlow
