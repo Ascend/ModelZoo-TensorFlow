@@ -145,6 +145,7 @@ do
             --epochs_between_evals=5 \
             --hooks=ExamplesPerSecondHook,loggingtensorhook \
             --data_dir=${data_path} \
+            --data_format 'channels_last' \
             --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
