@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -91,6 +91,11 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+#创建目录
+mkdir -p ./result/samples
+mkdir ./result/model_best
+mkdir ./result/model_prev
+
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -108,15 +113,14 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-train_epochs=2
 train_steps=100
 batch_size=64
 
 if [ x"${modelarts_flag}" != x ];
 then
-    python3.7 ./gan_cifar_resnet_kmeans.py --data_path=${data_path} --steps=${train_steps}
+    python3.7 ./gan_cifar_resnet_kmeans.py --data_path=${data_path}
 else
-    python3.7 ./gan_cifar_resnet_kmeans.py --data_path=${data_path} --steps=${train_steps} 1>${print_log} 2>&1
+    python3.7 ./gan_cifar_resnet_kmeans.py --data_path=${data_path} 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
