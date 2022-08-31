@@ -56,7 +56,7 @@ mem = psutil.virtual_memory()
 # extracted files here!
 
 parser = argparse.ArgumentParser() # 创建一个解析对象
-parser.add_argument('-d''--data_path', type=str, help='the path of dateset')
+parser.add_argument('--data_path', type=str, help='the path of dateset')
 args=parser.parse_args()
 # Host日志
 # os.environ['ASCEND_SLOG_PRINT_TO_STDOUT'] = "1"
@@ -653,7 +653,7 @@ with tf.Session(config=config) as session:
                                             feed_dict={all_real_data_int: _data, all_real_labels: _labels,
                                                        _iteration: iteration})
 
-        lib.plot.plot('cost', _disc_cost)
+        lib.plot.plot('loss', _disc_cost)
         if CONDITIONAL and ACGAN:
             lib.plot.plot('wgan', _disc_wgan)
             lib.plot.plot('acgan', _disc_acgan)
