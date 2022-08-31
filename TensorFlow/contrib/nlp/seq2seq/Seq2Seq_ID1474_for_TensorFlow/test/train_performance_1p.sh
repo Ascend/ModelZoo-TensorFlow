@@ -150,7 +150,8 @@ do
 	--data_dir=${data_path} \
 	--epoch=0.5  \
 	--batch_size=128 \
-	--max_train_data_size=100000 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
+    --steps_per_checkpoint=200 \
+	--max_train_data_size=204800 > ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
 	
 	
 	#python3 translate.py \
@@ -170,7 +171,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-grep "step-time"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log  |awk '{print $8}' > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt
+grep "step-time"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log  |awk '{print $8}'|awk 'NR!=1 {print}' > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt
 cat  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime.txt |awk '{sum+=$1} END {print "Avg = ",sum/NR}' > $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt
 TrainingTime=`grep 'Avg' $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt |awk '{print $3}'` 
 
