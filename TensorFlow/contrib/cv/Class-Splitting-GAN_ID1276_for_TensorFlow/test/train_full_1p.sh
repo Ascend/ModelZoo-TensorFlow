@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -91,6 +91,11 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+#创建目录
+mkdir -p ./result/samples
+mkdir ./result/model_best
+mkdir ./result/model_prev
+
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -102,7 +107,7 @@ start_time=$(date +%s)
 #=========================================================
 #=========================================================
 #========训练执行命令，需要根据您的网络进行修改==============
-#=========================================================
+#========================================================
 #=========================================================
 # 基础参数，需要模型审视修改
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
@@ -118,13 +123,13 @@ else
 fi
 
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "iter" ${print_log} | awk '{print $14}' | tail -n 10 | awk '{sum+=$1} END {print"",sum/NR}' | sed s/[[:space:]]//g`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`grep "inception_50k" ${print_log} | awk '{print $16}' | awk 'NR==1{max=$1;next}{max=max>$1?max:$1}END{print max}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "loss" ${print_log} | awk '{print $4}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
@@ -152,8 +157,8 @@ get_casename
 
 # 重命名loss文件
 if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
-then
-    mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
+ then
+     mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
 fi
 
 # 训练端到端耗时
@@ -170,7 +175,7 @@ echo "E2E Training Duration sec : $e2e_time"
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt`)
+ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
