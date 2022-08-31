@@ -55,9 +55,10 @@ mem = psutil.virtual_memory()
 # https://www.cs.toronto.edu/~kriz/cifar.html and fill in the path to the
 # extracted files here!
 
-parser = argparse.ArgumentParser() # 鍒涘缓涓€涓В鏋愬璞?parser.add_argument('--data_path', type=str, help='the path of dateset')
+parser = argparse.ArgumentParser() # 创建一个解析对象
+parser.add_argument('--data_path', type=str, help='the path of dateset')
 args=parser.parse_args()
-# Host鏃ュ織
+# Host日志
 # os.environ['ASCEND_SLOG_PRINT_TO_STDOUT'] = "1"
 # os.environ['SLOG_PRINT_TO_STDOUT'] = "1"
 # os.environ['ASCEND_GLOBAL_LOG_LEVEL'] = "0"
@@ -359,8 +360,8 @@ custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
 custom_op.parameter_map["graph_memory_max_size"].s = tf.compat.as_bytes(str(15 * 1024 * 1024 * 1024))
 custom_op.parameter_map["variable_memory_max_size"].s = tf.compat.as_bytes(str(15 * 1024 * 1024 * 1024))
-config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 蹇呴』鏄惧紡鍏抽棴
-# config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 蹇呴』鏄惧紡鍏抽棴
+config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显式关闭
+# config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
 with tf.Session(config=config) as session:
     # with tf.Session() as session:
     if softmax is None:
