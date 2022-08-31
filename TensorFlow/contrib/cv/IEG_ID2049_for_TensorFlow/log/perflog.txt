@@ -1,0 +1,1696 @@
+nohup: ignoring input
+WARNING:tensorflow:From /home/TestUser06/Ascend/tfplugin/latest/python/site-packages/npu_bridge/estimator/npu/npu_optimizer.py:128: The name tf.train.Optimizer is deprecated. Please use tf.compat.v1.train.Optimizer instead.
+
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/compat/v2_compat.py:68: disable_resource_variables (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
+Instructions for updating:
+non-resource variables are not supported in the long term
+2022-08-26 21:23:10.505437: W tensorflow/core/platform/profile_utils/cpu_utils.cc:98] Failed to find bogomips in /proc/cpuinfo; cannot determine CPU frequency
+2022-08-26 21:23:10.511784: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x3a2e90a0 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2022-08-26 21:23:10.511854: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+WARNING:tensorflow:There is non-GPU devices in `tf.distribute.Strategy`, not using nccl allreduce.
+Corrupted confusion matirx
+ [[0.83146293 0.01783567 0.01543086 0.01963928 0.02064128 0.01623246
+  0.02124248 0.02084168 0.01783567 0.01883768]
+ [0.02084168 0.82224449 0.01983968 0.02124248 0.02184369 0.01803607
+  0.02144289 0.01843687 0.01743487 0.01863727]
+ [0.01703407 0.01883768 0.82985972 0.02024048 0.01843687 0.02044088
+  0.01763527 0.01963928 0.01803607 0.01983968]
+ [0.02044088 0.02004008 0.02084168 0.81683367 0.02064128 0.01923848
+  0.02284569 0.01863727 0.01883768 0.02164329]
+ [0.02204409 0.02324649 0.02164329 0.02064128 0.82064128 0.01623246
+  0.01983968 0.02024048 0.01883768 0.01663327]
+ [0.01983968 0.02264529 0.02084168 0.02284569 0.02024048 0.81543086
+  0.02284569 0.02044088 0.01382766 0.02104208]
+ [0.02024048 0.01943888 0.01823647 0.01843687 0.0248497  0.02084168
+  0.82204409 0.01843687 0.02064128 0.01683367]
+ [0.02304609 0.01823647 0.02064128 0.01843687 0.01543086 0.02264529
+  0.01863727 0.82224449 0.02164329 0.01903808]
+ [0.01723447 0.02004008 0.02124248 0.0238477  0.02024048 0.02304609
+  0.01763527 0.0240481  0.81102204 0.02164329]
+ [0.01903808 0.02044088 0.01863727 0.0238477  0.01843687 0.01823647
+  0.01843687 0.02204409 0.01863727 0.82224449]]
+INFO:tensorflow:Init [cifar10_uniform_0.2] dataset loader
+INFO:tensorflow:train size: 49900 class0-5046 class1-5005 class2-5026 class3-5020 class4-4997 class5-4942 class6-5003 class7-5015 class8-4874 class9-4972 
+
+INFO:tensorflow:test size: 10000 class0-1000 class1-1000 class2-1000 class3-1000 class4-1000 class5-1000 class6-1000 class7-1000 class8-1000 class9-1000 
+
+INFO:tensorflow:probe size: 100 class0-10 class1-10 class2-10 class3-10 class4-10 class5-10 class6-10 class7-10 class8-10 class9-10 
+
+INFO:tensorflow:Adjust hyperparameters based on num_replicas_in_sync 1
+INFO:tensorflow:Use epoch scale hyperparam and reset max_iteration and decay_epochs.
+INFO:tensorflow:	 FLAGS.eval_freq 499
+INFO:tensorflow:	 FLAGS.learning_rate 0.1
+INFO:tensorflow:	 FLAGS.max_iteration 99800
+INFO:tensorflow:	 self.decay_steps [499]
+INFO:tensorflow:	 self.batch_size 100
+INFO:tensorflow:	 self.val_batch_size 100
+INFO:tensorflow:	 self.iter_epoch 499
+INFO:tensorflow:[BaseModel] Parallel training in 1 devices
+INFO:tensorflow:Create network [wrn28-10] ...
+INFO:tensorflow:[BaseModel] actual batch size 100
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/ops/resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+INFO:tensorflow:Use cosine learning rate decay, step: [499]
+INFO:tensorflow:Init IEG model
+INFO:tensorflow:All flags values
+INFO:tensorflow:FLAGS.?: False
+INFO:tensorflow:FLAGS.alsologtostderr: False
+INFO:tensorflow:FLAGS.aug_type: autoaug
+INFO:tensorflow:FLAGS.batch_size: 100
+INFO:tensorflow:FLAGS.ce_factor: 5.0
+INFO:tensorflow:FLAGS.checkpoint_path: /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10
+INFO:tensorflow:FLAGS.clip_meta_weight: True
+INFO:tensorflow:FLAGS.consistency_factor: 20.0
+INFO:tensorflow:FLAGS.cos_m_mul: 0.9
+INFO:tensorflow:FLAGS.cos_t_mul: 1.5
+INFO:tensorflow:FLAGS.data_url: 
+INFO:tensorflow:FLAGS.dataset: cifar10_uniform_0.2
+INFO:tensorflow:FLAGS.dataset_dir: ./ieg/data
+INFO:tensorflow:FLAGS.decay_epochs: 1
+INFO:tensorflow:FLAGS.decay_rate: 0.1
+INFO:tensorflow:FLAGS.decay_steps: 499
+INFO:tensorflow:FLAGS.distribution_strategy: mirrored
+INFO:tensorflow:FLAGS.dropout_rate: 0.0
+INFO:tensorflow:FLAGS.ds_include_metadata: False
+INFO:tensorflow:FLAGS.eval_freq: 499
+INFO:tensorflow:FLAGS.exp_path_pattern: None
+INFO:tensorflow:FLAGS.fix_network_features: False
+INFO:tensorflow:FLAGS.fusion_switch_file: 
+INFO:tensorflow:FLAGS.grad_eps_init: 0.9
+INFO:tensorflow:FLAGS.help: False
+INFO:tensorflow:FLAGS.helpfull: False
+INFO:tensorflow:FLAGS.helpshort: False
+INFO:tensorflow:FLAGS.helpxml: False
+INFO:tensorflow:FLAGS.l2_weight_decay: 0.0004
+INFO:tensorflow:FLAGS.label_smoothing: 0.0
+INFO:tensorflow:FLAGS.learning_rate: 0.1
+INFO:tensorflow:FLAGS.log_dir: 
+INFO:tensorflow:FLAGS.logger_levels: {}
+INFO:tensorflow:FLAGS.logtostderr: False
+INFO:tensorflow:FLAGS.lr_schedule: cosine
+INFO:tensorflow:FLAGS.max_epoch: 200
+INFO:tensorflow:FLAGS.max_iteration: 99800
+INFO:tensorflow:FLAGS.meta_momentum: 0.9
+INFO:tensorflow:FLAGS.meta_moving_end_epoch: 0
+INFO:tensorflow:FLAGS.meta_partial_level: 0.0
+INFO:tensorflow:FLAGS.meta_start_epoch: 20
+INFO:tensorflow:FLAGS.meta_stepsize: 0.1
+INFO:tensorflow:FLAGS.method: ieg
+INFO:tensorflow:FLAGS.mode: train
+INFO:tensorflow:FLAGS.momentum: 0.9
+INFO:tensorflow:FLAGS.moving_weight_gamma: 0.0
+INFO:tensorflow:FLAGS.network_name: wrn28-10
+INFO:tensorflow:FLAGS.only_check_args: False
+INFO:tensorflow:FLAGS.op_conversion_fallback_to_while_loop: False
+INFO:tensorflow:FLAGS.pdb: False
+INFO:tensorflow:FLAGS.pdb_post_mortem: False
+INFO:tensorflow:FLAGS.post_batch_mode_autoaug: True
+INFO:tensorflow:FLAGS.pretrained_ckpt: None
+INFO:tensorflow:FLAGS.pretrained_ckpt_mode: imagenet
+INFO:tensorflow:FLAGS.probe_dataset_hold_ratio: 0.002
+INFO:tensorflow:FLAGS.profile_file: None
+INFO:tensorflow:FLAGS.queue_beta: 0.9
+INFO:tensorflow:FLAGS.queue_bs: 200
+INFO:tensorflow:FLAGS.queue_capacity: 2000
+INFO:tensorflow:FLAGS.queue_metric: margin
+INFO:tensorflow:FLAGS.restore_step: 0
+INFO:tensorflow:FLAGS.run_with_pdb: False
+INFO:tensorflow:FLAGS.run_with_profiling: False
+INFO:tensorflow:FLAGS.seed: 12345
+INFO:tensorflow:FLAGS.showprefixforinfo: True
+INFO:tensorflow:FLAGS.stderrthreshold: fatal
+INFO:tensorflow:FLAGS.summary_eval_to_train: True
+INFO:tensorflow:FLAGS.test_random_seed: 301
+INFO:tensorflow:FLAGS.test_randomize_ordering_seed: 
+INFO:tensorflow:FLAGS.test_srcdir: 
+INFO:tensorflow:FLAGS.test_tmpdir: /tmp/absl_testing
+INFO:tensorflow:FLAGS.tpu: None
+INFO:tensorflow:FLAGS.train_url: 
+INFO:tensorflow:FLAGS.use_cprofile_for_profiling: True
+INFO:tensorflow:FLAGS.use_ema: True
+INFO:tensorflow:FLAGS.use_imagenet_as_eval: False
+INFO:tensorflow:FLAGS.use_mixup: True
+INFO:tensorflow:FLAGS.use_pseudo_loss: all_1_0.1_2
+INFO:tensorflow:FLAGS.v: 0
+INFO:tensorflow:FLAGS.val_batch_size: 100
+INFO:tensorflow:FLAGS.verbose_finer_log: True
+INFO:tensorflow:FLAGS.verbosity: 0
+INFO:tensorflow:FLAGS.warmup_epochs: 0
+INFO:tensorflow:FLAGS.weight_decay: 0.0005
+INFO:tensorflow:FLAGS.xm_exp_id: None
+INFO:tensorflow:FLAGS.xml_output_file: 
+WARNING:tensorflow:From /home/TestUser06/IEG_YYW/code/models/model.py:42: DatasetV1.output_shapes (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.compat.v1.data.get_output_shapes(dataset)`.
+WARNING:tensorflow:From /home/TestUser06/IEG_YYW/code/dataset_utils/utils.py:208: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, there are two
+    options available in V2.
+    - tf.py_function takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    - tf.numpy_function maintains the semantics of the deprecated tf.py_func
+    (it is not differentiable, and manipulates numpy arrays). It drops the
+    stateful argument making all functions stateful.
+    
+WARNING:tensorflow:From /home/TestUser06/IEG_YYW/code/models/custom_ops.py:89: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.BatchNormalization instead.  In particular, `tf.control_dependencies(tf.GraphKeys.UPDATE_OPS)` should not be used (consult the `tf.keras.layers.batch_normalization` documentation).
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/layers/normalization.py:327: Layer.apply (from tensorflow.python.keras.engine.base_layer) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `layer.__call__` method instead.
+INFO:tensorflow:77 variables to decay, rate 0.0005
+INFO:tensorflow:Get scope: model/ 50 updates (e.g. model/unit_1_0/shared_activation/init_bn/AssignMovingAvg/AssignSubVariableOp)
+INFO:tensorflow:[StrategyNetBase] model: Find 77 trainable_variables and 50 update_variables 50 updates
+INFO:tensorflow:Total number of parameters (M) 36.220634
+INFO:tensorflow:Use crossentropy minimization loss 5.0
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/ops/losses/losses_impl.py:121: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+INFO:tensorflow:Use consistency loss 20.0
+INFO:tensorflow:Create meta image WRN
+INFO:tensorflow:Pre-initialize optimizer momentum states.
+INFO:tensorflow:[Meta Image] 77 variables and 50 update_variables are mirrored
+INFO:tensorflow:[Meta Image] add regularization decay 0.0005 to 77 variables
+INFO:tensorflow:77 variables to decay, rate 0.0005
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/distribute/values.py:671: Variable.initialized_value (from tensorflow.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use Variable.read_value. Variables in 2.X are initialized automatically both in eager and graph (inside tf.defun) contexts.
+INFO:tensorflow:Save checkpoint to /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10
+2022-08-26 21:23:42.646770: W tf_adapter/util/ge_plugin.cc:128] [GePlugin] can not find Environment variable : JOB_ID
+2022-08-26 21:23:48.838560: I tf_adapter/kernels/geop_npu.cc:824] The model has been compiled on the Ascend AI processor, current graph id is: 1
+2022-08-26 21:23:55.261252: I tf_adapter/kernels/geop_npu.cc:824] The model has been compiled on the Ascend AI processor, current graph id is: 11
+INFO:tensorflow:Finish variable initialization
+INFO:tensorflow:Reading /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10 for getting latest checkpoint: ['/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-1.meta', '/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-6986.meta', '/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-84331.meta', '/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-84830.meta', '/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-85329.meta']
+INFO:tensorflow:Load the latest checkpoint /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-85329
+INFO:tensorflow:Restoring parameters from /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-85329
+2022-08-26 21:24:05.084784: I tf_adapter/kernels/geop_npu.cc:824] The model has been compiled on the Ascend AI processor, current graph id is: 21
+2022-08-26 21:24:08.164182: I tf_adapter/kernels/geop_npu.cc:824] The model has been compiled on the Ascend AI processor, current graph id is: 31
+2022-08-26 21:24:11.003056: I tf_adapter/kernels/geop_npu.cc:824] The model has been compiled on the Ascend AI processor, current graph id is: 41
+INFO:tensorflow:Load model checkpoint /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-85329, learning_rate 0.031381 global_step 85329
+
+  0%|          | 0/14471 [00:00<?, ?it/s]2022-08-26 21:25:17.205319: I tf_adapter/kernels/geop_npu.cc:824] The model has been compiled on the Ascend AI processor, current graph id is: 51
+
+  0%|          | 1/14471 [03:32<852:27:35, 212.08s/it]Epoch 171[1/499] lr0.031 meta_loss:4.53 loss:13.88 mc_loss:7.30 uc_loss:1.93 weight0.01(0.02) acc:0.000 mata_acc0.000
+this step use time: %s 0:03:32.084977
+
+  0%|          | 2/14471 [03:32<352:02:54, 87.59s/it] Epoch 171[2/499] lr0.031 meta_loss:4.55 loss:15.37 mc_loss:7.72 uc_loss:2.86 weight0.01(0.02) acc:0.800 mata_acc0.980
+this step use time: %s 0:00:00.447602
+
+  0%|          | 3/14471 [03:32<192:05:50, 47.80s/it]Epoch 171[3/499] lr0.031 meta_loss:4.53 loss:13.83 mc_loss:7.05 uc_loss:1.92 weight0.01(0.02) acc:0.790 mata_acc0.980
+this step use time: %s 0:00:00.443810
+
+  0%|          | 4/14471 [03:33<116:57:15, 29.10s/it]Epoch 171[4/499] lr0.031 meta_loss:4.50 loss:14.11 mc_loss:7.21 uc_loss:1.79 weight0.01(0.02) acc:0.797 mata_acc0.980
+this step use time: %s 0:00:00.442999
+
+  0%|          | 5/14471 [03:33<75:24:58, 18.77s/it] Epoch 171[5/499] lr0.031 meta_loss:4.53 loss:16.46 mc_loss:7.31 uc_loss:3.77 weight0.01(0.02) acc:0.788 mata_acc0.983
+this step use time: %s 0:00:00.442658
+
+  0%|          | 6/14471 [03:34<50:22:32, 12.54s/it]Epoch 171[6/499] lr0.031 meta_loss:4.51 loss:16.92 mc_loss:8.03 uc_loss:3.92 weight0.01(0.02) acc:0.778 mata_acc0.984
+this step use time: %s 0:00:00.442476
+
+  0%|          | 7/14471 [03:34<34:29:03,  8.58s/it]Epoch 171[7/499] lr0.031 meta_loss:4.54 loss:17.78 mc_loss:8.04 uc_loss:4.51 weight0.01(0.03) acc:0.768 mata_acc0.985
+this step use time: %s 0:00:00.441549
+
+  0%|          | 8/14471 [03:35<24:04:15,  5.99s/it]Epoch 171[8/499] lr0.031 meta_loss:4.54 loss:14.40 mc_loss:7.51 uc_loss:2.10 weight0.01(0.02) acc:0.767 mata_acc0.986
+this step use time: %s 0:00:00.443042
+
+  0%|          | 9/14471 [03:35<17:06:08,  4.26s/it]Epoch 171[9/499] lr0.031 meta_loss:4.58 loss:17.82 mc_loss:7.79 uc_loss:5.03 weight0.01(0.03) acc:0.771 mata_acc0.986
+this step use time: %s 0:00:00.443609
+
+  0%|          | 10/14471 [03:36<12:22:10,  3.08s/it]Epoch 171[10/499] lr0.031 meta_loss:4.71 loss:16.73 mc_loss:7.85 uc_loss:3.59 weight0.01(0.03) acc:0.776 mata_acc0.986
+this step use time: %s 0:00:00.441638
+
+  0%|          | 11/14471 [03:36<9:07:38,  2.27s/it] Epoch 171[11/499] lr0.031 meta_loss:4.61 loss:18.45 mc_loss:8.45 uc_loss:5.02 weight0.01(0.02) acc:0.768 mata_acc0.980
+this step use time: %s 0:00:00.442636
+
+  0%|          | 12/14471 [03:36<6:53:28,  1.72s/it]Epoch 171[12/499] lr0.031 meta_loss:4.68 loss:16.96 mc_loss:8.11 uc_loss:3.82 weight0.01(0.02) acc:0.771 mata_acc0.981
+this step use time: %s 0:00:00.442560
+
+  0%|          | 13/14471 [03:37<5:20:29,  1.33s/it]Epoch 171[13/499] lr0.031 meta_loss:4.67 loss:17.20 mc_loss:7.68 uc_loss:4.74 weight0.01(0.02) acc:0.773 mata_acc0.981
+this step use time: %s 0:00:00.442251
+
+  0%|          | 14/14471 [03:37<4:15:50,  1.06s/it]Epoch 171[14/499] lr0.031 meta_loss:4.68 loss:20.09 mc_loss:8.54 uc_loss:6.41 weight0.01(0.02) acc:0.775 mata_acc0.979
+this step use time: %s 0:00:00.441983
+
+  0%|          | 15/14471 [03:38<3:30:55,  1.14it/s]Epoch 171[15/499] lr0.031 meta_loss:4.76 loss:19.67 mc_loss:8.41 uc_loss:5.78 weight0.01(0.02) acc:0.779 mata_acc0.977
+this step use time: %s 0:00:00.443545
+
+  0%|          | 16/14471 [03:38<2:59:30,  1.34it/s]Epoch 171[16/499] lr0.031 meta_loss:4.81 loss:17.67 mc_loss:8.38 uc_loss:3.60 weight0.01(0.02) acc:0.775 mata_acc0.973
+this step use time: %s 0:00:00.442229
+
+  0%|          | 17/14471 [03:39<2:37:31,  1.53it/s]Epoch 171[17/499] lr0.031 meta_loss:4.81 loss:22.20 mc_loss:8.58 uc_loss:8.39 weight0.01(0.03) acc:0.772 mata_acc0.968
+this step use time: %s 0:00:00.441725
+
+  0%|          | 18/14471 [03:39<2:22:09,  1.69it/s]Epoch 171[18/499] lr0.031 meta_loss:4.79 loss:17.37 mc_loss:7.98 uc_loss:4.07 weight0.01(0.02) acc:0.775 mata_acc0.965
+this step use time: %s 0:00:00.441797
+
+  0%|          | 19/14471 [03:40<2:11:24,  1.83it/s]Epoch 171[19/499] lr0.031 meta_loss:4.86 loss:20.66 mc_loss:8.54 uc_loss:6.46 weight0.01(0.02) acc:0.773 mata_acc0.963
+this step use time: %s 0:00:00.441618
+
+  0%|          | 20/14471 [03:40<2:03:53,  1.94it/s]Epoch 171[20/499] lr0.031 meta_loss:4.91 loss:18.14 mc_loss:8.06 uc_loss:4.69 weight0.01(0.02) acc:0.769 mata_acc0.961
+this step use time: %s 0:00:00.441687
+
+  0%|          | 21/14471 [03:40<1:58:39,  2.03it/s]Epoch 171[21/499] lr0.031 meta_loss:4.93 loss:19.79 mc_loss:9.18 uc_loss:5.02 weight0.01(0.01) acc:0.770 mata_acc0.959
+this step use time: %s 0:00:00.442254
+
+  0%|          | 22/14471 [03:41<1:55:06,  2.09it/s]Epoch 171[22/499] lr0.031 meta_loss:4.90 loss:19.56 mc_loss:8.98 uc_loss:5.15 weight0.01(0.02) acc:0.769 mata_acc0.957
+this step use time: %s 0:00:00.443736
+
+  0%|          | 23/14471 [03:41<1:52:55,  2.13it/s]Epoch 171[23/499] lr0.031 meta_loss:4.90 loss:20.31 mc_loss:8.91 uc_loss:6.01 weight0.01(0.02) acc:0.766 mata_acc0.954
+this step use time: %s 0:00:00.447416
+
+  0%|          | 24/14471 [03:42<1:51:14,  2.16it/s]Epoch 171[24/499] lr0.031 meta_loss:4.86 loss:18.18 mc_loss:8.70 uc_loss:3.93 weight0.01(0.01) acc:0.762 mata_acc0.952
+this step use time: %s 0:00:00.445441
+
+  0%|          | 25/14471 [03:42<1:49:50,  2.19it/s]Epoch 171[25/499] lr0.031 meta_loss:4.84 loss:18.53 mc_loss:9.03 uc_loss:4.26 weight0.01(0.02) acc:0.760 mata_acc0.952
+this step use time: %s 0:00:00.442637
+
+  0%|          | 26/14471 [03:43<1:48:48,  2.21it/s]Epoch 171[26/499] lr0.031 meta_loss:4.85 loss:18.13 mc_loss:8.58 uc_loss:4.32 weight0.01(0.01) acc:0.760 mata_acc0.952
+this step use time: %s 0:00:00.441854
+
+  0%|          | 27/14471 [03:43<1:48:14,  2.22it/s]Epoch 171[27/499] lr0.031 meta_loss:4.83 loss:19.67 mc_loss:8.76 uc_loss:5.78 weight0.01(0.01) acc:0.761 mata_acc0.952
+this step use time: %s 0:00:00.444496
+
+  0%|          | 28/14471 [03:44<1:47:56,  2.23it/s]Epoch 171[28/499] lr0.031 meta_loss:4.83 loss:18.96 mc_loss:8.82 uc_loss:5.01 weight0.01(0.01) acc:0.760 mata_acc0.953
+this step use time: %s 0:00:00.445333
+
+  0%|          | 29/14471 [03:44<1:47:32,  2.24it/s]Epoch 171[29/499] lr0.031 meta_loss:4.85 loss:19.13 mc_loss:8.98 uc_loss:4.95 weight0.01(0.01) acc:0.759 mata_acc0.953
+this step use time: %s 0:00:00.442735
+
+  0%|          | 30/14471 [03:44<1:47:12,  2.25it/s]Epoch 171[30/499] lr0.031 meta_loss:4.82 loss:19.49 mc_loss:9.09 uc_loss:5.21 weight0.01(0.02) acc:0.758 mata_acc0.953
+this step use time: %s 0:00:00.442169
+
+  0%|          | 31/14471 [03:45<1:47:00,  2.25it/s]Epoch 171[31/499] lr0.031 meta_loss:4.87 loss:17.49 mc_loss:8.50 uc_loss:3.66 weight0.01(0.01) acc:0.755 mata_acc0.954
+this step use time: %s 0:00:00.442847
+
+  0%|          | 32/14471 [03:45<1:46:53,  2.25it/s]Epoch 171[32/499] lr0.031 meta_loss:4.88 loss:17.62 mc_loss:8.62 uc_loss:3.68 weight0.01(0.01) acc:0.751 mata_acc0.954
+this step use time: %s 0:00:00.442925
+
+  0%|          | 33/14471 [03:46<1:46:46,  2.25it/s]Epoch 171[33/499] lr0.031 meta_loss:4.85 loss:19.43 mc_loss:8.85 uc_loss:5.39 weight0.01(0.01) acc:0.749 mata_acc0.954
+this step use time: %s 0:00:00.442535
+
+  0%|          | 34/14471 [03:46<1:46:39,  2.26it/s]Epoch 171[34/499] lr0.031 meta_loss:4.88 loss:17.86 mc_loss:8.52 uc_loss:3.95 weight0.01(0.01) acc:0.749 mata_acc0.954
+this step use time: %s 0:00:00.442291
+
+  0%|          | 35/14471 [03:47<1:46:36,  2.26it/s]Epoch 171[35/499] lr0.031 meta_loss:4.85 loss:16.53 mc_loss:8.61 uc_loss:2.79 weight0.01(0.01) acc:0.746 mata_acc0.954
+this step use time: %s 0:00:00.442448
+
+  0%|          | 36/14471 [03:47<1:46:42,  2.25it/s]Epoch 171[36/499] lr0.031 meta_loss:4.82 loss:17.88 mc_loss:8.73 uc_loss:3.89 weight0.01(0.01) acc:0.749 mata_acc0.954
+this step use time: %s 0:00:00.444577
+
+  0%|          | 37/14471 [03:48<1:46:36,  2.26it/s]Epoch 171[37/499] lr0.031 meta_loss:4.82 loss:18.42 mc_loss:8.90 uc_loss:4.22 weight0.01(0.01) acc:0.748 mata_acc0.954
+this step use time: %s 0:00:00.442349
+
+  0%|          | 38/14471 [03:48<1:46:33,  2.26it/s]Epoch 171[38/499] lr0.031 meta_loss:4.83 loss:17.45 mc_loss:8.54 uc_loss:3.17 weight0.01(0.02) acc:0.749 mata_acc0.955
+this step use time: %s 0:00:00.442288
+
+  0%|          | 39/14471 [03:48<1:46:30,  2.26it/s]Epoch 171[39/499] lr0.031 meta_loss:4.85 loss:19.37 mc_loss:8.72 uc_loss:5.29 weight0.01(0.02) acc:0.749 mata_acc0.956
+this step use time: %s 0:00:00.442242
+
+  0%|          | 40/14471 [03:49<1:46:27,  2.26it/s]Epoch 171[40/499] lr0.031 meta_loss:4.87 loss:18.52 mc_loss:8.74 uc_loss:4.25 weight0.01(0.02) acc:0.749 mata_acc0.955
+this step use time: %s 0:00:00.442269
+
+  0%|          | 41/14471 [03:49<1:46:41,  2.25it/s]Epoch 171[41/499] lr0.031 meta_loss:4.86 loss:17.66 mc_loss:8.40 uc_loss:3.92 weight0.01(0.02) acc:0.748 mata_acc0.955
+this step use time: %s 0:00:00.446088
+
+  0%|          | 42/14471 [03:50<1:46:36,  2.26it/s]Epoch 171[42/499] lr0.031 meta_loss:4.82 loss:18.75 mc_loss:8.95 uc_loss:4.39 weight0.01(0.02) acc:0.747 mata_acc0.956
+this step use time: %s 0:00:00.442313
+
+  0%|          | 43/14471 [03:50<1:46:30,  2.26it/s]Epoch 171[43/499] lr0.031 meta_loss:4.83 loss:19.14 mc_loss:8.69 uc_loss:5.04 weight0.01(0.01) acc:0.746 mata_acc0.956
+this step use time: %s 0:00:00.441843
+
+  0%|          | 44/14471 [03:51<1:46:26,  2.26it/s]Epoch 171[44/499] lr0.031 meta_loss:4.83 loss:18.77 mc_loss:8.70 uc_loss:4.81 weight0.01(0.01) acc:0.747 mata_acc0.957
+this step use time: %s 0:00:00.442171
+
+  0%|          | 45/14471 [03:51<1:46:24,  2.26it/s]Epoch 171[45/499] lr0.031 meta_loss:4.84 loss:18.58 mc_loss:8.65 uc_loss:4.71 weight0.01(0.02) acc:0.748 mata_acc0.957
+this step use time: %s 0:00:00.442151
+
+  0%|          | 46/14471 [03:52<1:46:21,  2.26it/s]Epoch 171[46/499] lr0.031 meta_loss:4.87 loss:18.10 mc_loss:9.36 uc_loss:3.38 weight0.01(0.02) acc:0.747 mata_acc0.958
+this step use time: %s 0:00:00.441923
+
+  0%|          | 47/14471 [03:52<1:46:20,  2.26it/s]Epoch 171[47/499] lr0.031 meta_loss:4.89 loss:18.85 mc_loss:9.06 uc_loss:4.46 weight0.01(0.01) acc:0.747 mata_acc0.958
+this step use time: %s 0:00:00.442096
+
+  0%|          | 48/14471 [03:52<1:46:16,  2.26it/s]Epoch 171[48/499] lr0.031 meta_loss:4.93 loss:18.59 mc_loss:9.33 uc_loss:3.68 weight0.01(0.01) acc:0.747 mata_acc0.958
+this step use time: %s 0:00:00.441582
+
+  0%|          | 49/14471 [03:53<1:46:31,  2.26it/s]Epoch 171[49/499] lr0.031 meta_loss:4.87 loss:19.32 mc_loss:8.79 uc_loss:5.05 weight0.01(0.01) acc:0.745 mata_acc0.958
+this step use time: %s 0:00:00.445649
+
+  0%|          | 50/14471 [03:53<1:46:29,  2.26it/s]Epoch 171[50/499] lr0.031 meta_loss:4.89 loss:18.06 mc_loss:8.74 uc_loss:4.08 weight0.01(0.01) acc:0.744 mata_acc0.958
+this step use time: %s 0:00:00.442823
+
+  0%|          | 51/14471 [03:54<1:46:25,  2.26it/s]Epoch 171[51/499] lr0.031 meta_loss:4.87 loss:20.18 mc_loss:9.01 uc_loss:5.99 weight0.01(0.01) acc:0.744 mata_acc0.958
+this step use time: %s 0:00:00.442261
+
+  0%|          | 52/14471 [03:54<1:46:22,  2.26it/s]Epoch 171[52/499] lr0.031 meta_loss:4.85 loss:17.50 mc_loss:8.61 uc_loss:3.69 weight0.01(0.01) acc:0.744 mata_acc0.958
+this step use time: %s 0:00:00.442126
+
+  0%|          | 53/14471 [03:55<1:46:19,  2.26it/s]Epoch 171[53/499] lr0.031 meta_loss:4.84 loss:18.74 mc_loss:8.87 uc_loss:4.52 weight0.01(0.01) acc:0.744 mata_acc0.959
+this step use time: %s 0:00:00.441991
+
+  0%|          | 54/14471 [03:55<1:46:20,  2.26it/s]Epoch 171[54/499] lr0.031 meta_loss:4.85 loss:18.81 mc_loss:8.81 uc_loss:4.70 weight0.01(0.01) acc:0.742 mata_acc0.959
+this step use time: %s 0:00:00.442931
+
+  0%|          | 55/14471 [03:56<1:46:20,  2.26it/s]Epoch 171[55/499] lr0.031 meta_loss:4.83 loss:19.00 mc_loss:8.83 uc_loss:4.77 weight0.01(0.01) acc:0.742 mata_acc0.960
+this step use time: %s 0:00:00.442503
+
+  0%|          | 56/14471 [03:56<1:46:20,  2.26it/s]Epoch 171[56/499] lr0.031 meta_loss:4.79 loss:18.64 mc_loss:8.93 uc_loss:4.46 weight0.01(0.01) acc:0.743 mata_acc0.960
+this step use time: %s 0:00:00.442493
+
+  0%|          | 57/14471 [03:56<1:46:17,  2.26it/s]Epoch 171[57/499] lr0.031 meta_loss:4.81 loss:18.95 mc_loss:9.32 uc_loss:4.29 weight0.01(0.01) acc:0.743 mata_acc0.961
+this step use time: %s 0:00:00.442074
+
+  0%|          | 58/14471 [03:57<1:46:14,  2.26it/s]Epoch 171[58/499] lr0.031 meta_loss:4.79 loss:19.13 mc_loss:8.77 uc_loss:4.91 weight0.01(0.02) acc:0.743 mata_acc0.961
+this step use time: %s 0:00:00.441751
+
+  0%|          | 59/14471 [03:57<1:46:15,  2.26it/s]Epoch 171[59/499] lr0.031 meta_loss:4.81 loss:19.82 mc_loss:8.72 uc_loss:5.59 weight0.01(0.02) acc:0.741 mata_acc0.962
+this step use time: %s 0:00:00.442500
+
+  0%|          | 60/14471 [03:58<1:46:13,  2.26it/s]Epoch 171[60/499] lr0.031 meta_loss:4.82 loss:18.81 mc_loss:8.78 uc_loss:4.53 weight0.01(0.02) acc:0.740 mata_acc0.962
+this step use time: %s 0:00:00.441908
+
+  0%|          | 61/14471 [03:58<1:46:11,  2.26it/s]Epoch 171[61/499] lr0.031 meta_loss:4.81 loss:18.33 mc_loss:8.40 uc_loss:4.47 weight0.01(0.01) acc:0.739 mata_acc0.962
+this step use time: %s 0:00:00.442117
+
+  0%|          | 62/14471 [03:59<1:46:12,  2.26it/s]Epoch 171[62/499] lr0.031 meta_loss:4.79 loss:18.43 mc_loss:8.70 uc_loss:4.37 weight0.01(0.01) acc:0.739 mata_acc0.963
+this step use time: %s 0:00:00.442266
+
+  0%|          | 63/14471 [03:59<1:46:15,  2.26it/s]Epoch 171[63/499] lr0.031 meta_loss:4.80 loss:19.12 mc_loss:8.69 uc_loss:4.08 weight0.01(0.02) acc:0.739 mata_acc0.963
+this step use time: %s 0:00:00.442908
+
+  0%|          | 64/14471 [03:59<1:46:13,  2.26it/s]Epoch 171[64/499] lr0.031 meta_loss:4.79 loss:17.90 mc_loss:8.57 uc_loss:3.73 weight0.01(0.02) acc:0.740 mata_acc0.963
+this step use time: %s 0:00:00.442398
+
+  0%|          | 65/14471 [04:00<1:46:13,  2.26it/s]Epoch 171[65/499] lr0.031 meta_loss:4.79 loss:18.37 mc_loss:9.01 uc_loss:3.83 weight0.01(0.01) acc:0.739 mata_acc0.963
+this step use time: %s 0:00:00.442146
+
+  0%|          | 66/14471 [04:00<1:46:13,  2.26it/s]Epoch 171[66/499] lr0.031 meta_loss:4.80 loss:17.49 mc_loss:8.35 uc_loss:3.84 weight0.01(0.01) acc:0.739 mata_acc0.964
+this step use time: %s 0:00:00.442368
+
+  0%|          | 67/14471 [04:01<1:46:11,  2.26it/s]Epoch 171[67/499] lr0.031 meta_loss:4.79 loss:18.75 mc_loss:8.32 uc_loss:4.97 weight0.01(0.01) acc:0.739 mata_acc0.964
+this step use time: %s 0:00:00.442250
+
+  0%|          | 68/14471 [04:01<1:46:09,  2.26it/s]Epoch 171[68/499] lr0.031 meta_loss:4.81 loss:17.93 mc_loss:8.91 uc_loss:3.81 weight0.01(0.01) acc:0.739 mata_acc0.964
+this step use time: %s 0:00:00.441878
+
+  0%|          | 69/14471 [04:02<1:46:06,  2.26it/s]Epoch 171[69/499] lr0.031 meta_loss:4.82 loss:17.13 mc_loss:8.34 uc_loss:3.41 weight0.01(0.01) acc:0.738 mata_acc0.964
+this step use time: %s 0:00:00.441664
+
+  0%|          | 70/14471 [04:02<1:46:10,  2.26it/s]Epoch 171[70/499] lr0.031 meta_loss:4.77 loss:19.28 mc_loss:8.12 uc_loss:5.93 weight0.01(0.01) acc:0.738 mata_acc0.964
+this step use time: %s 0:00:00.443196
+
+  0%|          | 71/14471 [04:03<1:46:10,  2.26it/s]Epoch 171[71/499] lr0.031 meta_loss:4.79 loss:17.51 mc_loss:8.33 uc_loss:4.08 weight0.01(0.02) acc:0.737 mata_acc0.965
+this step use time: %s 0:00:00.442155
+85400
+
+  0%|          | 72/14471 [04:03<1:46:20,  2.26it/s]Epoch 171[72/499] lr0.031 meta_loss:4.76 loss:17.13 mc_loss:8.22 uc_loss:3.44 weight0.01(0.02) acc:0.737 mata_acc0.965
+this step use time: %s 0:00:00.441953
+
+  1%|          | 73/14471 [04:03<1:46:14,  2.26it/s]Epoch 171[73/499] lr0.031 meta_loss:4.77 loss:18.01 mc_loss:7.91 uc_loss:4.28 weight0.01(0.01) acc:0.738 mata_acc0.966
+this step use time: %s 0:00:00.442046
+
+  1%|          | 74/14471 [04:04<1:46:12,  2.26it/s]Epoch 171[74/499] lr0.031 meta_loss:4.78 loss:17.49 mc_loss:8.43 uc_loss:3.58 weight0.01(0.02) acc:0.738 mata_acc0.966
+this step use time: %s 0:00:00.442136
+
+  1%|          | 75/14471 [04:04<1:46:11,  2.26it/s]Epoch 171[75/499] lr0.031 meta_loss:4.75 loss:18.05 mc_loss:8.41 uc_loss:3.97 weight0.01(0.02) acc:0.738 mata_acc0.966
+this step use time: %s 0:00:00.442509
+
+  1%|          | 76/14471 [04:05<1:46:12,  2.26it/s]Epoch 171[76/499] lr0.031 meta_loss:4.77 loss:18.63 mc_loss:8.30 uc_loss:4.62 weight0.01(0.01) acc:0.739 mata_acc0.967
+this step use time: %s 0:00:00.442802
+
+  1%|          | 77/14471 [04:05<1:46:13,  2.26it/s]Epoch 171[77/499] lr0.031 meta_loss:4.76 loss:18.45 mc_loss:8.37 uc_loss:4.19 weight0.01(0.02) acc:0.738 mata_acc0.967
+this step use time: %s 0:00:00.443346
+
+  1%|          | 78/14471 [04:06<1:46:18,  2.26it/s]Epoch 171[78/499] lr0.031 meta_loss:4.78 loss:18.60 mc_loss:8.55 uc_loss:4.66 weight0.01(0.02) acc:0.738 mata_acc0.967
+this step use time: %s 0:00:00.443728
+
+  1%|          | 79/14471 [04:06<1:46:13,  2.26it/s]Epoch 171[79/499] lr0.031 meta_loss:4.80 loss:15.93 mc_loss:8.33 uc_loss:2.03 weight0.01(0.03) acc:0.738 mata_acc0.968
+this step use time: %s 0:00:00.442001
+
+  1%|          | 80/14471 [04:07<1:46:09,  2.26it/s]Epoch 171[80/499] lr0.031 meta_loss:4.79 loss:17.86 mc_loss:8.78 uc_loss:3.51 weight0.01(0.02) acc:0.739 mata_acc0.968
+this step use time: %s 0:00:00.442166
+
+  1%|          | 81/14471 [04:07<1:46:11,  2.26it/s]Epoch 171[81/499] lr0.031 meta_loss:4.82 loss:19.36 mc_loss:8.90 uc_loss:5.16 weight0.01(0.02) acc:0.738 mata_acc0.968
+this step use time: %s 0:00:00.442935
+
+  1%|          | 82/14471 [04:07<1:46:08,  2.26it/s]Epoch 171[82/499] lr0.031 meta_loss:4.79 loss:17.91 mc_loss:8.83 uc_loss:3.68 weight0.01(0.02) acc:0.738 mata_acc0.968
+this step use time: %s 0:00:00.442013
+
+  1%|          | 83/14471 [04:08<1:46:05,  2.26it/s]Epoch 171[83/499] lr0.031 meta_loss:4.81 loss:18.67 mc_loss:9.03 uc_loss:4.05 weight0.01(0.02) acc:0.738 mata_acc0.968
+this step use time: %s 0:00:00.442132
+
+  1%|          | 84/14471 [04:08<1:46:04,  2.26it/s]Epoch 171[84/499] lr0.031 meta_loss:4.79 loss:17.25 mc_loss:8.75 uc_loss:3.08 weight0.01(0.02) acc:0.737 mata_acc0.968
+this step use time: %s 0:00:00.442088
+
+  1%|          | 85/14471 [04:09<1:46:05,  2.26it/s]Epoch 171[85/499] lr0.031 meta_loss:4.79 loss:18.11 mc_loss:8.67 uc_loss:4.24 weight0.01(0.02) acc:0.737 mata_acc0.969
+this step use time: %s 0:00:00.442705
+
+  1%|          | 86/14471 [04:09<1:46:03,  2.26it/s]Epoch 171[86/499] lr0.031 meta_loss:4.78 loss:17.92 mc_loss:8.46 uc_loss:4.19 weight0.01(0.02) acc:0.737 mata_acc0.969
+this step use time: %s 0:00:00.442009
+
+  1%|          | 87/14471 [04:10<1:46:03,  2.26it/s]Epoch 171[87/499] lr0.031 meta_loss:4.79 loss:18.24 mc_loss:8.39 uc_loss:4.51 weight0.01(0.02) acc:0.737 mata_acc0.969
+this step use time: %s 0:00:00.442482
+
+  1%|          | 88/14471 [04:10<1:46:08,  2.26it/s]Epoch 171[88/499] lr0.031 meta_loss:4.78 loss:18.80 mc_loss:8.67 uc_loss:4.86 weight0.01(0.02) acc:0.738 mata_acc0.969
+this step use time: %s 0:00:00.443558
+
+  1%|          | 89/14471 [04:11<1:46:06,  2.26it/s]Epoch 171[89/499] lr0.031 meta_loss:4.77 loss:18.33 mc_loss:8.57 uc_loss:4.44 weight0.01(0.02) acc:0.737 mata_acc0.969
+this step use time: %s 0:00:00.442310
+
+  1%|          | 90/14471 [04:11<1:46:04,  2.26it/s]Epoch 171[90/499] lr0.031 meta_loss:4.79 loss:18.50 mc_loss:8.40 uc_loss:4.57 weight0.01(0.02) acc:0.737 mata_acc0.970
+this step use time: %s 0:00:00.442327
+
+  1%|          | 91/14471 [04:11<1:46:06,  2.26it/s]Epoch 171[91/499] lr0.031 meta_loss:4.80 loss:19.12 mc_loss:8.68 uc_loss:5.13 weight0.01(0.02) acc:0.736 mata_acc0.970
+this step use time: %s 0:00:00.442914
+
+  1%|          | 92/14471 [04:12<1:46:05,  2.26it/s]Epoch 171[92/499] lr0.031 meta_loss:4.80 loss:18.40 mc_loss:8.65 uc_loss:4.46 weight0.01(0.01) acc:0.737 mata_acc0.970
+this step use time: %s 0:00:00.442531
+
+  1%|          | 93/14471 [04:12<1:46:04,  2.26it/s]Epoch 171[93/499] lr0.031 meta_loss:4.83 loss:19.77 mc_loss:8.93 uc_loss:5.46 weight0.01(0.02) acc:0.737 mata_acc0.970
+this step use time: %s 0:00:00.442724
+
+  1%|          | 94/14471 [04:13<1:46:40,  2.25it/s]Epoch 171[94/499] lr0.031 meta_loss:4.81 loss:18.86 mc_loss:8.65 uc_loss:4.87 weight0.01(0.02) acc:0.737 mata_acc0.970
+this step use time: %s 0:00:00.451032
+
+  1%|          | 95/14471 [04:13<1:47:03,  2.24it/s]Epoch 171[95/499] lr0.031 meta_loss:4.81 loss:17.68 mc_loss:8.33 uc_loss:4.09 weight0.01(0.02) acc:0.737 mata_acc0.970
+this step use time: %s 0:00:00.450401
+
+  1%|          | 96/14471 [04:14<1:46:50,  2.24it/s]Epoch 171[96/499] lr0.031 meta_loss:4.80 loss:18.48 mc_loss:8.58 uc_loss:4.66 weight0.01(0.02) acc:0.737 mata_acc0.971
+this step use time: %s 0:00:00.443986
+
+  1%|          | 97/14471 [04:14<1:46:38,  2.25it/s]Epoch 171[97/499] lr0.031 meta_loss:4.84 loss:19.08 mc_loss:8.84 uc_loss:5.06 weight0.01(0.02) acc:0.736 mata_acc0.971
+this step use time: %s 0:00:00.443100
+
+  1%|          | 98/14471 [04:15<1:46:26,  2.25it/s]Epoch 171[98/499] lr0.031 meta_loss:4.87 loss:17.36 mc_loss:8.54 uc_loss:3.56 weight0.01(0.01) acc:0.736 mata_acc0.971
+this step use time: %s 0:00:00.442303
+
+  1%|          | 99/14471 [04:15<1:46:23,  2.25it/s]Epoch 171[99/499] lr0.031 meta_loss:4.86 loss:19.62 mc_loss:8.90 uc_loss:5.37 weight0.01(0.02) acc:0.736 mata_acc0.971
+this step use time: %s 0:00:00.443798
+
+  1%|          | 100/14471 [04:15<1:46:15,  2.25it/s]Epoch 171[100/499] lr0.031 meta_loss:4.89 loss:18.87 mc_loss:8.69 uc_loss:4.94 weight0.01(0.02) acc:0.736 mata_acc0.971
+this step use time: %s 0:00:00.442517
+
+  1%|          | 101/14471 [04:16<1:46:12,  2.25it/s]Epoch 171[101/499] lr0.031 meta_loss:4.85 loss:18.22 mc_loss:8.91 uc_loss:3.97 weight0.01(0.01) acc:0.736 mata_acc0.971
+this step use time: %s 0:00:00.442823
+
+  1%|          | 102/14471 [04:16<1:46:06,  2.26it/s]Epoch 171[102/499] lr0.031 meta_loss:4.87 loss:17.11 mc_loss:8.45 uc_loss:3.26 weight0.01(0.01) acc:0.736 mata_acc0.972
+this step use time: %s 0:00:00.442197
+
+  1%|          | 103/14471 [04:17<1:46:00,  2.26it/s]Epoch 171[103/499] lr0.031 meta_loss:4.85 loss:18.21 mc_loss:8.81 uc_loss:4.13 weight0.01(0.01) acc:0.737 mata_acc0.972
+this step use time: %s 0:00:00.441674
+
+  1%|          | 104/14471 [04:17<1:45:58,  2.26it/s]Epoch 171[104/499] lr0.031 meta_loss:4.86 loss:17.85 mc_loss:8.31 uc_loss:4.17 weight0.01(0.01) acc:0.737 mata_acc0.972
+this step use time: %s 0:00:00.442221
+
+  1%|          | 105/14471 [04:18<1:45:56,  2.26it/s]Epoch 171[105/499] lr0.031 meta_loss:4.83 loss:18.77 mc_loss:8.49 uc_loss:5.11 weight0.01(0.01) acc:0.736 mata_acc0.972
+this step use time: %s 0:00:00.442251
+
+  1%|          | 106/14471 [04:18<1:46:00,  2.26it/s]Epoch 171[106/499] lr0.031 meta_loss:4.83 loss:18.31 mc_loss:8.47 uc_loss:4.42 weight0.01(0.01) acc:0.736 mata_acc0.972
+this step use time: %s 0:00:00.443367
+
+  1%|          | 107/14471 [04:19<1:45:57,  2.26it/s]Epoch 171[107/499] lr0.031 meta_loss:4.81 loss:17.29 mc_loss:8.59 uc_loss:3.46 weight0.01(0.01) acc:0.736 mata_acc0.972
+this step use time: %s 0:00:00.442074
+
+  1%|          | 108/14471 [04:19<1:45:53,  2.26it/s]Epoch 171[108/499] lr0.031 meta_loss:4.80 loss:16.21 mc_loss:8.12 uc_loss:2.85 weight0.01(0.02) acc:0.736 mata_acc0.973
+this step use time: %s 0:00:00.441706
+
+  1%|          | 109/14471 [04:19<1:45:58,  2.26it/s]Epoch 171[109/499] lr0.031 meta_loss:4.79 loss:17.66 mc_loss:8.28 uc_loss:4.21 weight0.01(0.01) acc:0.736 mata_acc0.973
+this step use time: %s 0:00:00.443662
+
+  1%|          | 110/14471 [04:20<1:45:54,  2.26it/s]Epoch 171[110/499] lr0.031 meta_loss:4.78 loss:16.13 mc_loss:7.89 uc_loss:3.19 weight0.01(0.01) acc:0.736 mata_acc0.973
+this step use time: %s 0:00:00.441709
+
+  1%|          | 111/14471 [04:20<1:45:51,  2.26it/s]Epoch 171[111/499] lr0.031 meta_loss:4.77 loss:18.27 mc_loss:8.48 uc_loss:4.61 weight0.01(0.02) acc:0.736 mata_acc0.973
+this step use time: %s 0:00:00.441861
+
+  1%|          | 112/14471 [04:21<1:45:56,  2.26it/s]Epoch 171[112/499] lr0.031 meta_loss:4.78 loss:18.08 mc_loss:8.66 uc_loss:4.00 weight0.01(0.02) acc:0.737 mata_acc0.973
+this step use time: %s 0:00:00.443367
+
+  1%|          | 113/14471 [04:21<1:45:59,  2.26it/s]Epoch 171[113/499] lr0.031 meta_loss:4.78 loss:18.94 mc_loss:8.51 uc_loss:4.77 weight0.01(0.02) acc:0.738 mata_acc0.974
+this step use time: %s 0:00:00.443674
+
+  1%|          | 114/14471 [04:22<1:45:55,  2.26it/s]Epoch 171[114/499] lr0.031 meta_loss:4.81 loss:16.45 mc_loss:8.25 uc_loss:2.76 weight0.01(0.02) acc:0.738 mata_acc0.974
+this step use time: %s 0:00:00.441914
+
+  1%|          | 115/14471 [04:22<1:45:56,  2.26it/s]Epoch 171[115/499] lr0.031 meta_loss:4.77 loss:17.21 mc_loss:8.40 uc_loss:3.37 weight0.01(0.02) acc:0.738 mata_acc0.974
+this step use time: %s 0:00:00.442990
+
+  1%|          | 116/14471 [04:23<1:45:58,  2.26it/s]Epoch 171[116/499] lr0.031 meta_loss:4.77 loss:18.54 mc_loss:8.62 uc_loss:4.31 weight0.01(0.02) acc:0.738 mata_acc0.974
+this step use time: %s 0:00:00.443343
+
+  1%|          | 117/14471 [04:23<1:46:05,  2.26it/s]Epoch 171[117/499] lr0.031 meta_loss:4.75 loss:17.53 mc_loss:8.09 uc_loss:3.79 weight0.01(0.02) acc:0.737 mata_acc0.974
+this step use time: %s 0:00:00.444372
+
+  1%|          | 118/14471 [04:23<1:46:03,  2.26it/s]Epoch 171[118/499] lr0.031 meta_loss:4.75 loss:17.32 mc_loss:7.91 uc_loss:3.88 weight0.01(0.02) acc:0.737 mata_acc0.975
+this step use time: %s 0:00:00.443150
+
+  1%|          | 119/14471 [04:24<1:46:00,  2.26it/s]Epoch 171[119/499] lr0.031 meta_loss:4.78 loss:18.89 mc_loss:8.19 uc_loss:4.98 weight0.01(0.03) acc:0.738 mata_acc0.975
+this step use time: %s 0:00:00.442816
+
+  1%|          | 120/14471 [04:24<1:46:01,  2.26it/s]Epoch 171[120/499] lr0.031 meta_loss:4.84 loss:18.06 mc_loss:8.10 uc_loss:4.35 weight0.01(0.03) acc:0.737 mata_acc0.975
+this step use time: %s 0:00:00.443299
+
+  1%|          | 121/14471 [04:25<1:46:12,  2.25it/s]Epoch 171[121/499] lr0.031 meta_loss:4.81 loss:18.56 mc_loss:8.64 uc_loss:4.25 weight0.01(0.02) acc:0.738 mata_acc0.975
+this step use time: %s 0:00:00.445983
+
+  1%|          | 122/14471 [04:25<1:46:06,  2.25it/s]Epoch 171[122/499] lr0.031 meta_loss:4.79 loss:18.90 mc_loss:8.35 uc_loss:4.64 weight0.01(0.03) acc:0.738 mata_acc0.975
+this step use time: %s 0:00:00.442749
+
+  1%|          | 123/14471 [04:26<1:46:04,  2.25it/s]Epoch 171[123/499] lr0.031 meta_loss:4.77 loss:18.11 mc_loss:8.32 uc_loss:3.95 weight0.01(0.03) acc:0.738 mata_acc0.975
+this step use time: %s 0:00:00.443180
+
+  1%|          | 124/14471 [04:26<1:45:58,  2.26it/s]Epoch 171[124/499] lr0.031 meta_loss:4.76 loss:21.08 mc_loss:8.67 uc_loss:6.82 weight0.01(0.02) acc:0.738 mata_acc0.975
+this step use time: %s 0:00:00.442150
+
+  1%|          | 125/14471 [04:27<1:45:53,  2.26it/s]Epoch 171[125/499] lr0.031 meta_loss:4.79 loss:17.24 mc_loss:8.16 uc_loss:3.25 weight0.01(0.02) acc:0.738 mata_acc0.975
+this step use time: %s 0:00:00.442239
+
+  1%|          | 126/14471 [04:27<1:45:54,  2.26it/s]Epoch 171[126/499] lr0.031 meta_loss:4.77 loss:18.91 mc_loss:8.24 uc_loss:5.25 weight0.01(0.03) acc:0.738 mata_acc0.975
+this step use time: %s 0:00:00.443105
+
+  1%|          | 127/14471 [04:27<1:46:03,  2.25it/s]Epoch 171[127/499] lr0.031 meta_loss:4.76 loss:17.88 mc_loss:7.97 uc_loss:4.48 weight0.01(0.02) acc:0.738 mata_acc0.975
+this step use time: %s 0:00:00.445114
+
+  1%|          | 128/14471 [04:28<1:46:13,  2.25it/s]Epoch 171[128/499] lr0.031 meta_loss:4.80 loss:18.65 mc_loss:8.58 uc_loss:4.70 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.445837
+
+  1%|          | 129/14471 [04:28<1:46:06,  2.25it/s]Epoch 171[129/499] lr0.031 meta_loss:4.81 loss:21.25 mc_loss:8.66 uc_loss:6.85 weight0.01(0.03) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.442754
+
+  1%|          | 130/14471 [04:29<1:46:06,  2.25it/s]Epoch 171[130/499] lr0.031 meta_loss:4.84 loss:19.87 mc_loss:8.39 uc_loss:5.84 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.444018
+
+  1%|          | 131/14471 [04:29<1:46:00,  2.25it/s]Epoch 171[131/499] lr0.031 meta_loss:4.91 loss:19.13 mc_loss:8.58 uc_loss:5.11 weight0.01(0.01) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.442608
+
+  1%|          | 132/14471 [04:30<1:45:57,  2.26it/s]Epoch 171[132/499] lr0.031 meta_loss:4.94 loss:17.57 mc_loss:8.50 uc_loss:3.62 weight0.01(0.02) acc:0.738 mata_acc0.976
+this step use time: %s 0:00:00.442954
+
+  1%|          | 133/14471 [04:30<1:45:59,  2.25it/s]Epoch 171[133/499] lr0.031 meta_loss:4.95 loss:18.32 mc_loss:8.51 uc_loss:4.26 weight0.01(0.02) acc:0.738 mata_acc0.976
+this step use time: %s 0:00:00.443871
+
+  1%|          | 134/14471 [04:31<1:45:55,  2.26it/s]Epoch 171[134/499] lr0.031 meta_loss:4.86 loss:18.50 mc_loss:8.49 uc_loss:4.65 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.442486
+
+  1%|          | 135/14471 [04:31<1:45:56,  2.26it/s]Epoch 171[135/499] lr0.031 meta_loss:4.83 loss:19.63 mc_loss:8.71 uc_loss:5.48 weight0.01(0.01) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443559
+
+  1%|          | 136/14471 [04:31<1:45:54,  2.26it/s]Epoch 171[136/499] lr0.031 meta_loss:4.85 loss:17.82 mc_loss:8.15 uc_loss:4.32 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443145
+
+  1%|          | 137/14471 [04:32<1:45:57,  2.25it/s]Epoch 171[137/499] lr0.031 meta_loss:4.87 loss:17.52 mc_loss:8.41 uc_loss:3.65 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443970
+
+  1%|          | 138/14471 [04:32<1:45:54,  2.26it/s]Epoch 171[138/499] lr0.031 meta_loss:4.87 loss:18.76 mc_loss:8.79 uc_loss:4.58 weight0.01(0.02) acc:0.738 mata_acc0.976
+this step use time: %s 0:00:00.442838
+
+  1%|          | 139/14471 [04:33<1:45:55,  2.26it/s]Epoch 171[139/499] lr0.031 meta_loss:4.91 loss:19.99 mc_loss:8.15 uc_loss:5.72 weight0.01(0.03) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443534
+
+  1%|          | 140/14471 [04:33<1:45:56,  2.25it/s]Epoch 171[140/499] lr0.031 meta_loss:4.91 loss:17.35 mc_loss:8.23 uc_loss:3.02 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443903
+
+  1%|          | 141/14471 [04:34<1:45:52,  2.26it/s]Epoch 171[141/499] lr0.031 meta_loss:4.92 loss:17.98 mc_loss:8.29 uc_loss:3.61 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.442684
+
+  1%|          | 142/14471 [04:34<1:46:03,  2.25it/s]Epoch 171[142/499] lr0.031 meta_loss:4.93 loss:19.92 mc_loss:8.69 uc_loss:5.23 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.445776
+
+  1%|          | 143/14471 [04:35<1:46:05,  2.25it/s]Epoch 171[143/499] lr0.031 meta_loss:4.90 loss:18.34 mc_loss:8.29 uc_loss:4.39 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.444583
+
+  1%|          | 144/14471 [04:35<1:45:57,  2.25it/s]Epoch 171[144/499] lr0.031 meta_loss:4.88 loss:18.44 mc_loss:8.37 uc_loss:4.44 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.442377
+
+  1%|          | 145/14471 [04:35<1:45:54,  2.25it/s]Epoch 171[145/499] lr0.031 meta_loss:4.87 loss:17.14 mc_loss:8.36 uc_loss:3.25 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443100
+
+  1%|          | 146/14471 [04:36<1:45:53,  2.25it/s]Epoch 171[146/499] lr0.031 meta_loss:4.89 loss:19.25 mc_loss:8.63 uc_loss:4.85 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443487
+
+  1%|          | 147/14471 [04:36<1:45:52,  2.25it/s]Epoch 171[147/499] lr0.031 meta_loss:4.88 loss:18.70 mc_loss:8.44 uc_loss:4.90 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443326
+
+  1%|          | 148/14471 [04:37<1:45:46,  2.26it/s]Epoch 171[148/499] lr0.031 meta_loss:4.87 loss:20.28 mc_loss:8.56 uc_loss:6.16 weight0.01(0.01) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.442141
+
+  1%|          | 149/14471 [04:37<1:45:47,  2.26it/s]Epoch 171[149/499] lr0.031 meta_loss:4.88 loss:18.46 mc_loss:8.56 uc_loss:4.36 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443272
+
+  1%|          | 150/14471 [04:38<1:45:51,  2.25it/s]Epoch 171[150/499] lr0.031 meta_loss:4.94 loss:19.73 mc_loss:8.60 uc_loss:5.31 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.444277
+
+  1%|          | 151/14471 [04:38<1:45:49,  2.26it/s]Epoch 171[151/499] lr0.031 meta_loss:4.93 loss:18.57 mc_loss:8.66 uc_loss:4.47 weight0.01(0.02) acc:0.737 mata_acc0.976
+this step use time: %s 0:00:00.443108
+
+  1%|          | 152/14471 [04:38<1:45:52,  2.25it/s]Epoch 171[152/499] lr0.031 meta_loss:4.91 loss:17.36 mc_loss:8.39 uc_loss:3.40 weight0.01(0.02) acc:0.736 mata_acc0.976
+this step use time: %s 0:00:00.444163
+
+  1%|          | 153/14471 [04:39<1:45:54,  2.25it/s]Epoch 171[153/499] lr0.031 meta_loss:4.88 loss:18.56 mc_loss:8.63 uc_loss:4.33 weight0.01(0.01) acc:0.737 mata_acc0.977
+this step use time: %s 0:00:00.444027
+
+  1%|          | 154/14471 [04:39<1:45:54,  2.25it/s]Epoch 171[154/499] lr0.031 meta_loss:4.89 loss:18.64 mc_loss:8.55 uc_loss:4.43 weight0.01(0.02) acc:0.737 mata_acc0.977
+this step use time: %s 0:00:00.443868
+
+  1%|          | 155/14471 [04:40<1:45:53,  2.25it/s]Epoch 171[155/499] lr0.031 meta_loss:4.87 loss:18.97 mc_loss:8.87 uc_loss:4.63 weight0.01(0.02) acc:0.736 mata_acc0.977
+this step use time: %s 0:00:00.443635
+
+  1%|          | 156/14471 [04:40<1:45:54,  2.25it/s]Epoch 171[156/499] lr0.031 meta_loss:4.89 loss:18.81 mc_loss:8.35 uc_loss:4.99 weight0.01(0.02) acc:0.737 mata_acc0.977
+this step use time: %s 0:00:00.444144
+
+  1%|          | 157/14471 [04:41<1:45:47,  2.26it/s]Epoch 171[157/499] lr0.031 meta_loss:4.90 loss:17.62 mc_loss:8.58 uc_loss:3.63 weight0.01(0.02) acc:0.737 mata_acc0.977
+this step use time: %s 0:00:00.442215
+
+  1%|          | 158/14471 [04:41<1:45:41,  2.26it/s]Epoch 171[158/499] lr0.031 meta_loss:4.91 loss:17.43 mc_loss:8.11 uc_loss:3.94 weight0.01(0.02) acc:0.737 mata_acc0.977
+this step use time: %s 0:00:00.442091
+
+  1%|          | 159/14471 [04:42<1:45:41,  2.26it/s]Epoch 171[159/499] lr0.031 meta_loss:4.90 loss:18.70 mc_loss:8.55 uc_loss:4.49 weight0.01(0.02) acc:0.737 mata_acc0.977
+this step use time: %s 0:00:00.443223
+
+  1%|          | 160/14471 [04:42<1:45:48,  2.25it/s]Epoch 171[160/499] lr0.031 meta_loss:4.91 loss:18.08 mc_loss:8.43 uc_loss:3.98 weight0.01(0.02) acc:0.736 mata_acc0.977
+this step use time: %s 0:00:00.444682
+
+  1%|          | 161/14471 [04:42<1:45:41,  2.26it/s]Epoch 171[161/499] lr0.031 meta_loss:4.92 loss:19.44 mc_loss:8.69 uc_loss:5.22 weight0.01(0.02) acc:0.736 mata_acc0.977
+this step use time: %s 0:00:00.442033
+
+  1%|          | 162/14471 [04:43<1:45:37,  2.26it/s]Epoch 171[162/499] lr0.031 meta_loss:4.89 loss:18.10 mc_loss:8.45 uc_loss:4.12 weight0.01(0.02) acc:0.736 mata_acc0.977
+this step use time: %s 0:00:00.442282
+
+  1%|          | 163/14471 [04:43<1:45:42,  2.26it/s]Epoch 171[163/499] lr0.031 meta_loss:4.90 loss:17.14 mc_loss:8.35 uc_loss:3.39 weight0.01(0.02) acc:0.735 mata_acc0.977
+this step use time: %s 0:00:00.444155
+
+  1%|          | 164/14471 [04:44<1:45:42,  2.26it/s]Epoch 171[164/499] lr0.031 meta_loss:4.91 loss:18.76 mc_loss:8.50 uc_loss:4.69 weight0.01(0.02) acc:0.736 mata_acc0.977
+this step use time: %s 0:00:00.443215
+
+  1%|          | 165/14471 [04:44<1:45:37,  2.26it/s]Epoch 171[165/499] lr0.031 meta_loss:4.89 loss:19.59 mc_loss:8.66 uc_loss:5.42 weight0.01(0.02) acc:0.736 mata_acc0.977
+this step use time: %s 0:00:00.442221
+
+  1%|          | 166/14471 [04:45<1:45:36,  2.26it/s]Epoch 171[166/499] lr0.031 meta_loss:4.88 loss:19.70 mc_loss:8.54 uc_loss:5.46 weight0.01(0.02) acc:0.736 mata_acc0.977
+this step use time: %s 0:00:00.442911
+
+  1%|          | 167/14471 [04:45<1:45:32,  2.26it/s]Epoch 171[167/499] lr0.031 meta_loss:4.90 loss:17.55 mc_loss:8.09 uc_loss:3.89 weight0.01(0.02) acc:0.736 mata_acc0.977
+this step use time: %s 0:00:00.441902
+
+  1%|          | 168/14471 [04:46<1:45:27,  2.26it/s]Epoch 171[168/499] lr0.031 meta_loss:4.93 loss:20.22 mc_loss:8.95 uc_loss:5.72 weight0.01(0.02) acc:0.737 mata_acc0.977
+this step use time: %s 0:00:00.441603
+
+  1%|          | 169/14471 [04:46<1:45:27,  2.26it/s]Epoch 171[169/499] lr0.031 meta_loss:4.92 loss:16.59 mc_loss:8.02 uc_loss:3.27 weight0.01(0.02) acc:0.736 mata_acc0.977
+this step use time: %s 0:00:00.442505
+
+  1%|          | 170/14471 [04:46<1:45:36,  2.26it/s]Epoch 171[170/499] lr0.031 meta_loss:4.96 loss:18.54 mc_loss:8.48 uc_loss:4.42 weight0.01(0.02) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.444527
+
+  1%|          | 171/14471 [04:47<1:45:36,  2.26it/s]Epoch 171[171/499] lr0.031 meta_loss:4.94 loss:16.81 mc_loss:8.15 uc_loss:3.15 weight0.01(0.02) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.443196
+85500
+
+  1%|          | 172/14471 [04:47<1:45:40,  2.26it/s]Epoch 171[172/499] lr0.031 meta_loss:4.97 loss:19.49 mc_loss:8.71 uc_loss:5.35 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.442085
+
+  1%|          | 173/14471 [04:48<1:45:44,  2.25it/s]Epoch 171[173/499] lr0.031 meta_loss:4.97 loss:19.62 mc_loss:8.67 uc_loss:5.47 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.444531
+
+  1%|          | 174/14471 [04:48<1:45:39,  2.26it/s]Epoch 171[174/499] lr0.031 meta_loss:4.96 loss:18.09 mc_loss:8.31 uc_loss:4.35 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.442602
+
+  1%|          | 175/14471 [04:49<1:45:34,  2.26it/s]Epoch 171[175/499] lr0.031 meta_loss:4.97 loss:18.57 mc_loss:8.26 uc_loss:4.91 weight0.01(0.02) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.442173
+
+  1%|          | 176/14471 [04:49<1:45:39,  2.26it/s]Epoch 171[176/499] lr0.031 meta_loss:4.96 loss:17.48 mc_loss:8.24 uc_loss:3.98 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.444282
+
+  1%|          | 177/14471 [04:50<1:45:39,  2.25it/s]Epoch 171[177/499] lr0.031 meta_loss:4.97 loss:17.97 mc_loss:8.52 uc_loss:3.92 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.443597
+
+  1%|          | 178/14471 [04:50<1:45:34,  2.26it/s]Epoch 171[178/499] lr0.031 meta_loss:4.96 loss:16.26 mc_loss:8.07 uc_loss:2.75 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.442272
+
+  1%|          | 179/14471 [04:50<1:45:40,  2.25it/s]Epoch 171[179/499] lr0.031 meta_loss:4.96 loss:18.02 mc_loss:8.21 uc_loss:4.41 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.445317
+
+  1%|          | 180/14471 [04:51<1:45:46,  2.25it/s]Epoch 171[180/499] lr0.031 meta_loss:4.95 loss:17.57 mc_loss:8.49 uc_loss:3.60 weight0.01(0.02) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.444161
+
+  1%|▏         | 181/14471 [04:51<1:45:40,  2.25it/s]Epoch 171[181/499] lr0.031 meta_loss:4.96 loss:16.67 mc_loss:8.32 uc_loss:3.01 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.442740
+
+  1%|▏         | 182/14471 [04:52<1:45:32,  2.26it/s]Epoch 171[182/499] lr0.031 meta_loss:4.95 loss:18.09 mc_loss:8.36 uc_loss:4.28 weight0.01(0.01) acc:0.735 mata_acc0.978
+this step use time: %s 0:00:00.441787
+
+  1%|▏         | 183/14471 [04:52<1:45:38,  2.25it/s]Epoch 171[183/499] lr0.031 meta_loss:4.94 loss:17.95 mc_loss:8.47 uc_loss:4.12 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.444646
+
+  1%|▏         | 184/14471 [04:53<1:45:31,  2.26it/s]Epoch 171[184/499] lr0.031 meta_loss:4.96 loss:17.94 mc_loss:8.23 uc_loss:4.48 weight0.01(0.02) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.442137
+
+  1%|▏         | 185/14471 [04:53<1:45:38,  2.25it/s]Epoch 171[185/499] lr0.031 meta_loss:4.94 loss:16.64 mc_loss:7.92 uc_loss:3.46 weight0.01(0.01) acc:0.736 mata_acc0.978
+this step use time: %s 0:00:00.445281
+
+  1%|▏         | 186/14471 [04:54<1:45:56,  2.25it/s]Epoch 171[186/499] lr0.031 meta_loss:4.94 loss:18.20 mc_loss:8.12 uc_loss:4.50 weight0.01(0.02) acc:0.737 mata_acc0.979
+this step use time: %s 0:00:00.447231
+
+  1%|▏         | 187/14471 [04:54<1:45:51,  2.25it/s]Epoch 171[187/499] lr0.031 meta_loss:4.92 loss:16.97 mc_loss:8.45 uc_loss:3.05 weight0.01(0.02) acc:0.737 mata_acc0.979
+this step use time: %s 0:00:00.443989
+
+  1%|▏         | 188/14471 [04:54<1:45:44,  2.25it/s]Epoch 171[188/499] lr0.031 meta_loss:4.90 loss:17.10 mc_loss:8.01 uc_loss:3.70 weight0.01(0.02) acc:0.737 mata_acc0.979
+this step use time: %s 0:00:00.443009
+
+  1%|▏         | 189/14471 [04:55<1:46:03,  2.24it/s]Epoch 171[189/499] lr0.031 meta_loss:4.90 loss:16.65 mc_loss:8.04 uc_loss:3.02 weight0.01(0.02) acc:0.737 mata_acc0.979
+this step use time: %s 0:00:00.448684
+
+  1%|▏         | 190/14471 [04:55<1:46:46,  2.23it/s]Epoch 171[190/499] lr0.031 meta_loss:4.90 loss:16.48 mc_loss:8.24 uc_loss:2.77 weight0.01(0.02) acc:0.737 mata_acc0.979
+this step use time: %s 0:00:00.455588
+
+  1%|▏         | 191/14471 [04:56<1:46:23,  2.24it/s]Epoch 171[191/499] lr0.031 meta_loss:4.89 loss:17.47 mc_loss:8.06 uc_loss:3.90 weight0.01(0.02) acc:0.737 mata_acc0.979
+this step use time: %s 0:00:00.443346
+
+  1%|▏         | 192/14471 [04:56<1:46:04,  2.24it/s]Epoch 171[192/499] lr0.031 meta_loss:4.88 loss:17.97 mc_loss:8.15 uc_loss:4.17 weight0.01(0.02) acc:0.737 mata_acc0.979
+this step use time: %s 0:00:00.442729
+
+  1%|▏         | 193/14471 [04:57<1:45:54,  2.25it/s]Epoch 171[193/499] lr0.031 meta_loss:4.88 loss:16.85 mc_loss:7.94 uc_loss:3.13 weight0.01(0.02) acc:0.738 mata_acc0.979
+this step use time: %s 0:00:00.443377
+
+  1%|▏         | 194/14471 [04:57<1:45:42,  2.25it/s]Epoch 171[194/499] lr0.031 meta_loss:4.87 loss:16.23 mc_loss:7.68 uc_loss:2.97 weight0.01(0.01) acc:0.738 mata_acc0.979
+this step use time: %s 0:00:00.442263
+
+  1%|▏         | 195/14471 [04:58<1:45:41,  2.25it/s]Epoch 171[195/499] lr0.031 meta_loss:4.87 loss:17.73 mc_loss:8.08 uc_loss:4.12 weight0.01(0.01) acc:0.738 mata_acc0.979
+this step use time: %s 0:00:00.444148
+
+  1%|▏         | 196/14471 [04:58<1:45:43,  2.25it/s]Epoch 171[196/499] lr0.031 meta_loss:4.87 loss:17.16 mc_loss:7.99 uc_loss:3.43 weight0.01(0.02) acc:0.738 mata_acc0.979
+this step use time: %s 0:00:00.444680
+
+  1%|▏         | 197/14471 [04:58<1:45:37,  2.25it/s]Epoch 171[197/499] lr0.031 meta_loss:4.87 loss:16.67 mc_loss:7.89 uc_loss:3.04 weight0.01(0.02) acc:0.738 mata_acc0.979
+this step use time: %s 0:00:00.442985
+
+  1%|▏         | 198/14471 [04:59<1:45:39,  2.25it/s]Epoch 171[198/499] lr0.031 meta_loss:4.87 loss:17.37 mc_loss:8.25 uc_loss:3.46 weight0.01(0.02) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.444596
+
+  1%|▏         | 199/14471 [04:59<1:45:45,  2.25it/s]Epoch 171[199/499] lr0.031 meta_loss:4.87 loss:18.65 mc_loss:8.56 uc_loss:4.36 weight0.01(0.02) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.445500
+
+  1%|▏         | 200/14471 [05:00<1:45:55,  2.25it/s]Epoch 171[200/499] lr0.031 meta_loss:4.88 loss:18.43 mc_loss:8.07 uc_loss:4.72 weight0.01(0.02) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.447075
+
+  1%|▏         | 201/14471 [05:00<1:45:43,  2.25it/s]Epoch 171[201/499] lr0.031 meta_loss:4.88 loss:17.39 mc_loss:7.96 uc_loss:3.70 weight0.01(0.02) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.442559
+
+  1%|▏         | 202/14471 [05:01<1:45:38,  2.25it/s]Epoch 171[202/499] lr0.031 meta_loss:4.87 loss:17.69 mc_loss:8.38 uc_loss:3.91 weight0.01(0.01) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.443468
+
+  1%|▏         | 203/14471 [05:01<1:45:33,  2.25it/s]Epoch 171[203/499] lr0.031 meta_loss:4.87 loss:17.64 mc_loss:8.12 uc_loss:4.04 weight0.01(0.02) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.443049
+
+  1%|▏         | 204/14471 [05:02<1:45:25,  2.26it/s]Epoch 171[204/499] lr0.031 meta_loss:4.89 loss:18.45 mc_loss:8.02 uc_loss:5.02 weight0.01(0.02) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.442135
+
+  1%|▏         | 205/14471 [05:02<1:45:22,  2.26it/s]Epoch 171[205/499] lr0.031 meta_loss:4.90 loss:18.37 mc_loss:8.31 uc_loss:4.56 weight0.01(0.02) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.442583
+
+  1%|▏         | 206/14471 [05:02<1:45:17,  2.26it/s]Epoch 171[206/499] lr0.031 meta_loss:4.90 loss:18.76 mc_loss:8.50 uc_loss:4.49 weight0.01(0.02) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.442086
+
+  1%|▏         | 207/14471 [05:03<1:45:17,  2.26it/s]Epoch 171[207/499] lr0.031 meta_loss:4.92 loss:17.47 mc_loss:8.11 uc_loss:3.66 weight0.01(0.02) acc:0.738 mata_acc0.980
+this step use time: %s 0:00:00.442991
+
+  1%|▏         | 208/14471 [05:03<1:45:16,  2.26it/s]Epoch 171[208/499] lr0.031 meta_loss:4.93 loss:18.90 mc_loss:8.49 uc_loss:4.56 weight0.01(0.02) acc:0.739 mata_acc0.980
+this step use time: %s 0:00:00.442779
+
+  1%|▏         | 209/14471 [05:04<1:45:12,  2.26it/s]Epoch 171[209/499] lr0.031 meta_loss:4.91 loss:19.52 mc_loss:8.56 uc_loss:5.35 weight0.01(0.01) acc:0.739 mata_acc0.980
+this step use time: %s 0:00:00.441819
+
+  1%|▏         | 210/14471 [05:04<1:45:12,  2.26it/s]Epoch 171[210/499] lr0.031 meta_loss:4.89 loss:20.39 mc_loss:8.57 uc_loss:6.48 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.442615
+
+  1%|▏         | 211/14471 [05:05<1:45:10,  2.26it/s]Epoch 171[211/499] lr0.031 meta_loss:4.89 loss:16.56 mc_loss:8.05 uc_loss:2.76 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.442214
+
+  1%|▏         | 212/14471 [05:05<1:45:13,  2.26it/s]Epoch 171[212/499] lr0.031 meta_loss:4.89 loss:17.12 mc_loss:7.83 uc_loss:3.73 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.443620
+
+  1%|▏         | 213/14471 [05:06<1:45:19,  2.26it/s]Epoch 171[213/499] lr0.031 meta_loss:4.91 loss:18.67 mc_loss:8.66 uc_loss:4.50 weight0.01(0.03) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.443839
+
+  1%|▏         | 214/14471 [05:06<1:45:13,  2.26it/s]Epoch 171[214/499] lr0.031 meta_loss:4.92 loss:18.65 mc_loss:8.09 uc_loss:4.79 weight0.01(0.03) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.442016
+
+  1%|▏         | 215/14471 [05:06<1:45:18,  2.26it/s]Epoch 171[215/499] lr0.031 meta_loss:4.93 loss:18.21 mc_loss:8.18 uc_loss:4.55 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.444010
+
+  1%|▏         | 216/14471 [05:07<1:45:17,  2.26it/s]Epoch 171[216/499] lr0.031 meta_loss:4.92 loss:17.78 mc_loss:8.21 uc_loss:3.89 weight0.01(0.03) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.442907
+
+  1%|▏         | 217/14471 [05:07<1:45:15,  2.26it/s]Epoch 171[217/499] lr0.031 meta_loss:4.97 loss:18.20 mc_loss:8.19 uc_loss:4.30 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.442821
+
+  2%|▏         | 218/14471 [05:08<1:45:11,  2.26it/s]Epoch 171[218/499] lr0.031 meta_loss:4.95 loss:18.38 mc_loss:8.37 uc_loss:4.39 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.442253
+
+  2%|▏         | 219/14471 [05:08<1:45:10,  2.26it/s]Epoch 171[219/499] lr0.031 meta_loss:4.93 loss:18.30 mc_loss:8.47 uc_loss:3.92 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.442731
+
+  2%|▏         | 220/14471 [05:09<1:45:14,  2.26it/s]Epoch 171[220/499] lr0.031 meta_loss:4.92 loss:20.03 mc_loss:8.40 uc_loss:5.68 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.443542
+
+  2%|▏         | 221/14471 [05:09<1:45:10,  2.26it/s]Epoch 171[221/499] lr0.031 meta_loss:4.93 loss:20.55 mc_loss:8.56 uc_loss:6.07 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.442295
+
+  2%|▏         | 222/14471 [05:10<1:45:14,  2.26it/s]Epoch 171[222/499] lr0.031 meta_loss:4.96 loss:19.29 mc_loss:8.77 uc_loss:4.73 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.443724
+
+  2%|▏         | 223/14471 [05:10<1:45:10,  2.26it/s]Epoch 171[223/499] lr0.031 meta_loss:4.98 loss:18.74 mc_loss:8.34 uc_loss:4.69 weight0.01(0.03) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.442206
+
+  2%|▏         | 224/14471 [05:10<1:45:10,  2.26it/s]Epoch 171[224/499] lr0.031 meta_loss:5.00 loss:19.02 mc_loss:8.28 uc_loss:4.81 weight0.01(0.02) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.442942
+
+  2%|▏         | 225/14471 [05:11<1:45:21,  2.25it/s]Epoch 171[225/499] lr0.031 meta_loss:5.02 loss:19.98 mc_loss:8.46 uc_loss:5.85 weight0.01(0.02) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.445703
+
+  2%|▏         | 226/14471 [05:11<1:45:20,  2.25it/s]Epoch 171[226/499] lr0.031 meta_loss:5.03 loss:18.77 mc_loss:8.30 uc_loss:4.91 weight0.01(0.03) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.443430
+
+  2%|▏         | 227/14471 [05:12<1:45:20,  2.25it/s]Epoch 171[227/499] lr0.031 meta_loss:5.02 loss:20.08 mc_loss:8.55 uc_loss:6.01 weight0.01(0.02) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.443858
+
+  2%|▏         | 228/14471 [05:12<1:45:19,  2.25it/s]Epoch 171[228/499] lr0.031 meta_loss:5.01 loss:20.10 mc_loss:8.76 uc_loss:5.57 weight0.01(0.02) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.443552
+
+  2%|▏         | 229/14471 [05:13<1:45:24,  2.25it/s]Epoch 171[229/499] lr0.031 meta_loss:5.02 loss:19.93 mc_loss:8.78 uc_loss:5.26 weight0.01(0.01) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.444926
+
+  2%|▏         | 230/14471 [05:13<1:45:18,  2.25it/s]Epoch 171[230/499] lr0.031 meta_loss:5.04 loss:19.22 mc_loss:8.69 uc_loss:4.81 weight0.01(0.01) acc:0.739 mata_acc0.981
+this step use time: %s 0:00:00.442626
+
+  2%|▏         | 231/14471 [05:14<1:45:15,  2.25it/s]Epoch 171[231/499] lr0.031 meta_loss:5.06 loss:18.71 mc_loss:8.61 uc_loss:4.46 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.442987
+
+  2%|▏         | 232/14471 [05:14<1:45:12,  2.26it/s]Epoch 171[232/499] lr0.031 meta_loss:5.08 loss:18.93 mc_loss:8.93 uc_loss:4.41 weight0.01(0.02) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.442760
+
+  2%|▏         | 233/14471 [05:14<1:45:07,  2.26it/s]Epoch 171[233/499] lr0.031 meta_loss:5.11 loss:18.51 mc_loss:8.49 uc_loss:4.45 weight0.01(0.02) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.442193
+
+  2%|▏         | 234/14471 [05:15<1:45:09,  2.26it/s]Epoch 171[234/499] lr0.031 meta_loss:5.11 loss:18.54 mc_loss:8.65 uc_loss:4.19 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.443892
+
+  2%|▏         | 235/14471 [05:15<1:45:11,  2.26it/s]Epoch 171[235/499] lr0.031 meta_loss:5.12 loss:18.75 mc_loss:8.73 uc_loss:4.29 weight0.01(0.02) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.443664
+
+  2%|▏         | 236/14471 [05:16<1:45:12,  2.26it/s]Epoch 171[236/499] lr0.031 meta_loss:5.11 loss:19.99 mc_loss:8.81 uc_loss:5.49 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.443239
+
+  2%|▏         | 237/14471 [05:16<1:45:06,  2.26it/s]Epoch 171[237/499] lr0.031 meta_loss:5.11 loss:19.49 mc_loss:8.84 uc_loss:4.86 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.442021
+
+  2%|▏         | 238/14471 [05:17<1:45:01,  2.26it/s]Epoch 171[238/499] lr0.031 meta_loss:5.12 loss:17.38 mc_loss:8.35 uc_loss:3.41 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.441848
+
+  2%|▏         | 239/14471 [05:17<1:44:57,  2.26it/s]Epoch 171[239/499] lr0.031 meta_loss:5.09 loss:17.21 mc_loss:8.42 uc_loss:3.23 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.441825
+
+  2%|▏         | 240/14471 [05:18<1:44:53,  2.26it/s]Epoch 171[240/499] lr0.031 meta_loss:5.08 loss:17.69 mc_loss:8.35 uc_loss:3.89 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.441790
+
+  2%|▏         | 241/14471 [05:18<1:44:51,  2.26it/s]Epoch 171[241/499] lr0.031 meta_loss:5.13 loss:18.60 mc_loss:8.79 uc_loss:4.35 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.441826
+
+  2%|▏         | 242/14471 [05:18<1:44:50,  2.26it/s]Epoch 171[242/499] lr0.031 meta_loss:5.12 loss:18.62 mc_loss:8.69 uc_loss:4.49 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.441849
+
+  2%|▏         | 243/14471 [05:19<1:44:51,  2.26it/s]Epoch 171[243/499] lr0.031 meta_loss:5.11 loss:17.41 mc_loss:8.48 uc_loss:3.48 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.442257
+
+  2%|▏         | 244/14471 [05:19<1:44:50,  2.26it/s]Epoch 171[244/499] lr0.031 meta_loss:5.09 loss:17.62 mc_loss:8.42 uc_loss:3.77 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.442019
+
+  2%|▏         | 245/14471 [05:20<1:44:50,  2.26it/s]Epoch 171[245/499] lr0.031 meta_loss:5.09 loss:17.65 mc_loss:8.53 uc_loss:3.67 weight0.01(0.01) acc:0.738 mata_acc0.981
+this step use time: %s 0:00:00.442129
+
+  2%|▏         | 246/14471 [05:20<1:44:49,  2.26it/s]Epoch 171[246/499] lr0.031 meta_loss:5.09 loss:16.27 mc_loss:8.14 uc_loss:2.66 weight0.01(0.01) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442117
+
+  2%|▏         | 247/14471 [05:21<1:44:48,  2.26it/s]Epoch 171[247/499] lr0.031 meta_loss:5.07 loss:18.43 mc_loss:8.71 uc_loss:4.19 weight0.01(0.01) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.441813
+
+  2%|▏         | 248/14471 [05:21<1:44:50,  2.26it/s]Epoch 171[248/499] lr0.031 meta_loss:5.06 loss:17.56 mc_loss:8.50 uc_loss:3.61 weight0.01(0.01) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442726
+
+  2%|▏         | 249/14471 [05:22<1:44:52,  2.26it/s]Epoch 171[249/499] lr0.031 meta_loss:5.04 loss:16.35 mc_loss:8.00 uc_loss:2.85 weight0.01(0.01) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442852
+
+  2%|▏         | 250/14471 [05:22<1:44:54,  2.26it/s]Epoch 171[250/499] lr0.031 meta_loss:5.04 loss:17.00 mc_loss:8.70 uc_loss:2.80 weight0.01(0.01) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442919
+
+  2%|▏         | 251/14471 [05:22<1:44:54,  2.26it/s]Epoch 171[251/499] lr0.031 meta_loss:5.04 loss:18.39 mc_loss:8.44 uc_loss:4.49 weight0.01(0.01) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442657
+
+  2%|▏         | 252/14471 [05:23<1:44:52,  2.26it/s]Epoch 171[252/499] lr0.031 meta_loss:5.01 loss:19.03 mc_loss:8.71 uc_loss:4.81 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442293
+
+  2%|▏         | 253/14471 [05:23<1:44:51,  2.26it/s]Epoch 171[253/499] lr0.031 meta_loss:5.00 loss:18.21 mc_loss:8.47 uc_loss:4.11 weight0.01(0.01) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442255
+
+  2%|▏         | 254/14471 [05:24<1:44:50,  2.26it/s]Epoch 171[254/499] lr0.031 meta_loss:5.00 loss:16.77 mc_loss:8.30 uc_loss:3.00 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442261
+
+  2%|▏         | 255/14471 [05:24<1:44:50,  2.26it/s]Epoch 171[255/499] lr0.031 meta_loss:5.02 loss:16.88 mc_loss:7.97 uc_loss:3.45 weight0.01(0.01) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442454
+
+  2%|▏         | 256/14471 [05:25<1:44:48,  2.26it/s]Epoch 171[256/499] lr0.031 meta_loss:5.00 loss:18.79 mc_loss:8.91 uc_loss:4.20 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442179
+
+  2%|▏         | 257/14471 [05:25<1:44:47,  2.26it/s]Epoch 171[257/499] lr0.031 meta_loss:5.00 loss:17.17 mc_loss:8.24 uc_loss:3.39 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442204
+
+  2%|▏         | 258/14471 [05:25<1:44:50,  2.26it/s]Epoch 171[258/499] lr0.031 meta_loss:5.01 loss:17.45 mc_loss:8.23 uc_loss:3.54 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.443053
+
+  2%|▏         | 259/14471 [05:26<1:44:48,  2.26it/s]Epoch 171[259/499] lr0.031 meta_loss:4.99 loss:18.25 mc_loss:8.37 uc_loss:4.27 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442112
+
+  2%|▏         | 260/14471 [05:26<1:44:46,  2.26it/s]Epoch 171[260/499] lr0.031 meta_loss:4.99 loss:18.11 mc_loss:8.24 uc_loss:4.19 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.441963
+
+  2%|▏         | 261/14471 [05:27<1:44:44,  2.26it/s]Epoch 171[261/499] lr0.031 meta_loss:4.99 loss:21.36 mc_loss:8.76 uc_loss:6.91 weight0.01(0.01) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442100
+
+  2%|▏         | 262/14471 [05:27<1:44:43,  2.26it/s]Epoch 171[262/499] lr0.031 meta_loss:4.99 loss:18.44 mc_loss:8.22 uc_loss:4.70 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.441948
+
+  2%|▏         | 263/14471 [05:28<1:44:42,  2.26it/s]Epoch 171[263/499] lr0.031 meta_loss:5.00 loss:17.46 mc_loss:7.92 uc_loss:3.71 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442110
+
+  2%|▏         | 264/14471 [05:28<1:44:43,  2.26it/s]Epoch 171[264/499] lr0.031 meta_loss:4.99 loss:18.63 mc_loss:8.22 uc_loss:4.72 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442419
+
+  2%|▏         | 265/14471 [05:29<1:44:44,  2.26it/s]Epoch 171[265/499] lr0.031 meta_loss:4.99 loss:18.42 mc_loss:8.27 uc_loss:4.70 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442611
+
+  2%|▏         | 266/14471 [05:29<1:44:43,  2.26it/s]Epoch 171[266/499] lr0.031 meta_loss:5.01 loss:18.33 mc_loss:8.28 uc_loss:4.04 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442108
+
+  2%|▏         | 267/14471 [05:29<1:44:47,  2.26it/s]Epoch 171[267/499] lr0.031 meta_loss:5.00 loss:18.31 mc_loss:8.31 uc_loss:4.43 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.443339
+
+  2%|▏         | 268/14471 [05:30<1:44:44,  2.26it/s]Epoch 171[268/499] lr0.031 meta_loss:4.99 loss:16.24 mc_loss:8.03 uc_loss:2.59 weight0.01(0.03) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.441998
+
+  2%|▏         | 269/14471 [05:30<1:44:46,  2.26it/s]Epoch 171[269/499] lr0.031 meta_loss:4.98 loss:17.16 mc_loss:8.04 uc_loss:3.47 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442904
+
+  2%|▏         | 270/14471 [05:31<1:44:49,  2.26it/s]Epoch 171[270/499] lr0.031 meta_loss:4.99 loss:16.85 mc_loss:8.30 uc_loss:3.14 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.443357
+
+  2%|▏         | 271/14471 [05:31<1:44:45,  2.26it/s]Epoch 171[271/499] lr0.031 meta_loss:4.99 loss:16.76 mc_loss:8.05 uc_loss:3.11 weight0.01(0.02) acc:0.738 mata_acc0.982
+this step use time: %s 0:00:00.442078
+85600
+
+  2%|▏         | 272/14471 [05:32<1:44:49,  2.26it/s]Epoch 171[272/499] lr0.031 meta_loss:4.99 loss:17.05 mc_loss:8.38 uc_loss:3.09 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442814
+
+  2%|▏         | 273/14471 [05:32<1:44:46,  2.26it/s]Epoch 171[273/499] lr0.031 meta_loss:4.98 loss:18.60 mc_loss:8.32 uc_loss:4.79 weight0.01(0.01) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442142
+
+  2%|▏         | 274/14471 [05:33<1:44:42,  2.26it/s]Epoch 171[274/499] lr0.031 meta_loss:4.99 loss:18.56 mc_loss:8.64 uc_loss:4.23 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442022
+
+  2%|▏         | 275/14471 [05:33<1:44:43,  2.26it/s]Epoch 171[275/499] lr0.031 meta_loss:5.00 loss:18.52 mc_loss:8.57 uc_loss:4.47 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442644
+
+  2%|▏         | 276/14471 [05:33<1:44:40,  2.26it/s]Epoch 171[276/499] lr0.031 meta_loss:4.99 loss:18.38 mc_loss:8.67 uc_loss:4.32 weight0.01(0.01) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442011
+
+  2%|▏         | 277/14471 [05:34<1:44:40,  2.26it/s]Epoch 171[277/499] lr0.031 meta_loss:5.01 loss:17.68 mc_loss:8.41 uc_loss:3.78 weight0.01(0.01) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442513
+
+  2%|▏         | 278/14471 [05:34<1:44:38,  2.26it/s]Epoch 171[278/499] lr0.031 meta_loss:5.00 loss:18.65 mc_loss:8.29 uc_loss:4.88 weight0.01(0.01) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442063
+
+  2%|▏         | 279/14471 [05:35<1:44:37,  2.26it/s]Epoch 171[279/499] lr0.031 meta_loss:5.01 loss:17.41 mc_loss:8.49 uc_loss:3.51 weight0.01(0.01) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442110
+
+  2%|▏         | 280/14471 [05:35<1:44:35,  2.26it/s]Epoch 171[280/499] lr0.031 meta_loss:5.01 loss:20.07 mc_loss:8.88 uc_loss:5.54 weight0.01(0.02) acc:0.739 mata_acc0.983
+this step use time: %s 0:00:00.441956
+
+  2%|▏         | 281/14471 [05:36<1:44:34,  2.26it/s]Epoch 171[281/499] lr0.031 meta_loss:5.02 loss:18.32 mc_loss:8.49 uc_loss:4.20 weight0.01(0.01) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442010
+
+  2%|▏         | 282/14471 [05:36<1:44:33,  2.26it/s]Epoch 171[282/499] lr0.031 meta_loss:5.02 loss:17.25 mc_loss:8.38 uc_loss:3.46 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442081
+
+  2%|▏         | 283/14471 [05:37<1:44:34,  2.26it/s]Epoch 171[283/499] lr0.031 meta_loss:5.00 loss:18.23 mc_loss:8.28 uc_loss:4.44 weight0.01(0.01) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442288
+
+  2%|▏         | 284/14471 [05:37<1:44:32,  2.26it/s]Epoch 171[284/499] lr0.031 meta_loss:5.01 loss:16.97 mc_loss:8.23 uc_loss:3.23 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.441967
+
+  2%|▏         | 285/14471 [05:37<1:44:36,  2.26it/s]Epoch 171[285/499] lr0.031 meta_loss:5.01 loss:19.03 mc_loss:8.65 uc_loss:4.54 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442939
+
+  2%|▏         | 286/14471 [05:38<1:44:36,  2.26it/s]Epoch 171[286/499] lr0.031 meta_loss:5.03 loss:18.04 mc_loss:8.28 uc_loss:4.03 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442640
+
+  2%|▏         | 287/14471 [05:38<1:44:35,  2.26it/s]Epoch 171[287/499] lr0.031 meta_loss:5.03 loss:18.08 mc_loss:8.31 uc_loss:4.18 weight0.01(0.01) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442140
+
+  2%|▏         | 288/14471 [05:39<1:44:32,  2.26it/s]Epoch 171[288/499] lr0.031 meta_loss:5.00 loss:18.30 mc_loss:8.27 uc_loss:4.22 weight0.01(0.02) acc:0.739 mata_acc0.983
+this step use time: %s 0:00:00.441935
+
+  2%|▏         | 289/14471 [05:39<1:44:31,  2.26it/s]Epoch 171[289/499] lr0.031 meta_loss:5.00 loss:18.90 mc_loss:8.61 uc_loss:4.46 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442085
+
+  2%|▏         | 290/14471 [05:40<1:44:29,  2.26it/s]Epoch 171[290/499] lr0.031 meta_loss:5.00 loss:17.93 mc_loss:7.99 uc_loss:4.30 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.441826
+
+  2%|▏         | 291/14471 [05:40<1:44:29,  2.26it/s]Epoch 171[291/499] lr0.031 meta_loss:5.02 loss:16.95 mc_loss:7.97 uc_loss:3.08 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442036
+
+  2%|▏         | 292/14471 [05:41<1:44:28,  2.26it/s]Epoch 171[292/499] lr0.031 meta_loss:5.01 loss:18.59 mc_loss:8.57 uc_loss:4.45 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.441940
+
+  2%|▏         | 293/14471 [05:41<1:44:28,  2.26it/s]Epoch 171[293/499] lr0.031 meta_loss:5.02 loss:18.65 mc_loss:8.40 uc_loss:4.65 weight0.01(0.02) acc:0.738 mata_acc0.983
+this step use time: %s 0:00:00.442208
+
+  2%|▏         | 294/14471 [05:41<1:44:29,  2.26it/s]Epoch 171[294/499] lr0.031 meta_loss:4.99 loss:20.30 mc_loss:8.81 uc_loss:5.94 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.442271
+
+  2%|▏         | 295/14471 [05:42<1:44:29,  2.26it/s]Epoch 171[295/499] lr0.031 meta_loss:5.01 loss:18.50 mc_loss:8.17 uc_loss:4.80 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.442406
+
+  2%|▏         | 296/14471 [05:42<1:44:28,  2.26it/s]Epoch 171[296/499] lr0.031 meta_loss:5.01 loss:16.87 mc_loss:8.32 uc_loss:3.03 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.442025
+
+  2%|▏         | 297/14471 [05:43<1:44:29,  2.26it/s]Epoch 171[297/499] lr0.031 meta_loss:5.05 loss:18.44 mc_loss:8.26 uc_loss:4.51 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.442642
+
+  2%|▏         | 298/14471 [05:43<1:44:27,  2.26it/s]Epoch 171[298/499] lr0.031 meta_loss:5.03 loss:20.18 mc_loss:8.81 uc_loss:5.65 weight0.01(0.01) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.441815
+
+  2%|▏         | 299/14471 [05:44<1:44:44,  2.25it/s]Epoch 171[299/499] lr0.031 meta_loss:5.02 loss:17.89 mc_loss:8.09 uc_loss:4.22 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.446348
+
+  2%|▏         | 300/14471 [05:44<1:44:48,  2.25it/s]Epoch 171[300/499] lr0.031 meta_loss:5.00 loss:17.52 mc_loss:8.17 uc_loss:3.71 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.444406
+
+  2%|▏         | 301/14471 [05:45<1:44:47,  2.25it/s]Epoch 171[301/499] lr0.031 meta_loss:4.99 loss:19.88 mc_loss:8.70 uc_loss:5.68 weight0.01(0.02) acc:0.737 mata_acc0.984
+this step use time: %s 0:00:00.443542
+
+  2%|▏         | 302/14471 [05:45<1:44:51,  2.25it/s]Epoch 171[302/499] lr0.031 meta_loss:5.00 loss:17.46 mc_loss:8.16 uc_loss:3.90 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.444756
+
+  2%|▏         | 303/14471 [05:45<1:44:55,  2.25it/s]Epoch 171[303/499] lr0.031 meta_loss:5.01 loss:16.25 mc_loss:8.05 uc_loss:2.49 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.445083
+
+  2%|▏         | 304/14471 [05:46<1:44:50,  2.25it/s]Epoch 171[304/499] lr0.031 meta_loss:5.01 loss:17.51 mc_loss:8.37 uc_loss:3.44 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.443224
+
+  2%|▏         | 305/14471 [05:46<1:44:48,  2.25it/s]Epoch 171[305/499] lr0.031 meta_loss:5.00 loss:17.64 mc_loss:8.12 uc_loss:3.83 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.443483
+
+  2%|▏         | 306/14471 [05:47<1:44:44,  2.25it/s]Epoch 171[306/499] lr0.031 meta_loss:5.00 loss:19.38 mc_loss:8.37 uc_loss:5.45 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.443012
+
+  2%|▏         | 307/14471 [05:47<1:44:38,  2.26it/s]Epoch 171[307/499] lr0.031 meta_loss:4.99 loss:16.71 mc_loss:8.00 uc_loss:3.28 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.442434
+
+  2%|▏         | 308/14471 [05:48<1:44:36,  2.26it/s]Epoch 171[308/499] lr0.031 meta_loss:4.99 loss:18.37 mc_loss:8.72 uc_loss:4.20 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.442686
+
+  2%|▏         | 309/14471 [05:48<1:44:34,  2.26it/s]Epoch 171[309/499] lr0.031 meta_loss:4.99 loss:20.17 mc_loss:8.38 uc_loss:5.85 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.442767
+
+  2%|▏         | 310/14471 [05:49<1:44:37,  2.26it/s]Epoch 171[310/499] lr0.031 meta_loss:4.99 loss:18.76 mc_loss:8.41 uc_loss:4.58 weight0.01(0.02) acc:0.737 mata_acc0.984
+this step use time: %s 0:00:00.443899
+
+  2%|▏         | 311/14471 [05:49<1:44:39,  2.25it/s]Epoch 171[311/499] lr0.031 meta_loss:5.00 loss:18.01 mc_loss:7.93 uc_loss:4.02 weight0.01(0.02) acc:0.738 mata_acc0.984
+this step use time: %s 0:00:00.443844
+
+  2%|▏         | 312/14471 [05:49<1:44:36,  2.26it/s]Epoch 171[312/499] lr0.031 meta_loss:5.01 loss:19.14 mc_loss:8.52 uc_loss:4.87 weight0.01(0.03) acc:0.737 mata_acc0.984
+this step use time: %s 0:00:00.442678
+
+  2%|▏         | 313/14471 [05:50<1:44:38,  2.26it/s]Epoch 171[313/499] lr0.031 meta_loss:4.99 loss:19.20 mc_loss:8.24 uc_loss:4.88 weight0.01(0.02) acc:0.737 mata_acc0.984
+this step use time: %s 0:00:00.443983
+
+  2%|▏         | 314/14471 [05:50<1:44:38,  2.25it/s]Epoch 171[314/499] lr0.031 meta_loss:5.00 loss:18.93 mc_loss:8.37 uc_loss:4.68 weight0.01(0.02) acc:0.737 mata_acc0.984
+this step use time: %s 0:00:00.443208
+
+  2%|▏         | 315/14471 [05:51<1:44:34,  2.26it/s]Epoch 171[315/499] lr0.031 meta_loss:5.00 loss:17.16 mc_loss:8.10 uc_loss:3.31 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.442854
+
+  2%|▏         | 316/14471 [05:51<1:44:32,  2.26it/s]Epoch 171[316/499] lr0.031 meta_loss:5.01 loss:19.31 mc_loss:8.05 uc_loss:5.10 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.442716
+
+  2%|▏         | 317/14471 [05:52<1:44:30,  2.26it/s]Epoch 171[317/499] lr0.031 meta_loss:5.01 loss:17.79 mc_loss:8.06 uc_loss:3.89 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.442530
+
+  2%|▏         | 318/14471 [05:52<1:44:33,  2.26it/s]Epoch 171[318/499] lr0.031 meta_loss:5.02 loss:18.55 mc_loss:8.40 uc_loss:4.64 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.443808
+
+  2%|▏         | 319/14471 [05:52<1:44:33,  2.26it/s]Epoch 171[319/499] lr0.031 meta_loss:5.03 loss:19.37 mc_loss:8.64 uc_loss:5.26 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443604
+
+  2%|▏         | 320/14471 [05:53<1:44:36,  2.25it/s]Epoch 171[320/499] lr0.031 meta_loss:5.02 loss:17.70 mc_loss:8.13 uc_loss:4.12 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443714
+
+  2%|▏         | 321/14471 [05:53<1:44:35,  2.25it/s]Epoch 171[321/499] lr0.031 meta_loss:5.04 loss:16.63 mc_loss:8.16 uc_loss:2.90 weight0.01(0.01) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443338
+
+  2%|▏         | 322/14471 [05:54<1:44:32,  2.26it/s]Epoch 171[322/499] lr0.031 meta_loss:5.03 loss:16.75 mc_loss:8.17 uc_loss:3.17 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.442946
+
+  2%|▏         | 323/14471 [05:54<1:44:30,  2.26it/s]Epoch 171[323/499] lr0.031 meta_loss:5.03 loss:17.34 mc_loss:8.20 uc_loss:3.50 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.442720
+
+  2%|▏         | 324/14471 [05:55<1:44:28,  2.26it/s]Epoch 171[324/499] lr0.031 meta_loss:5.02 loss:16.38 mc_loss:7.98 uc_loss:2.94 weight0.01(0.01) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.442873
+
+  2%|▏         | 325/14471 [05:55<1:44:29,  2.26it/s]Epoch 171[325/499] lr0.031 meta_loss:5.02 loss:18.65 mc_loss:8.26 uc_loss:4.62 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443597
+
+  2%|▏         | 326/14471 [05:56<1:44:25,  2.26it/s]Epoch 171[326/499] lr0.031 meta_loss:5.02 loss:19.57 mc_loss:8.36 uc_loss:5.49 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.442166
+
+  2%|▏         | 327/14471 [05:56<1:44:23,  2.26it/s]Epoch 171[327/499] lr0.031 meta_loss:5.05 loss:17.23 mc_loss:7.91 uc_loss:3.41 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.442480
+
+  2%|▏         | 328/14471 [05:56<1:44:27,  2.26it/s]Epoch 171[328/499] lr0.031 meta_loss:5.05 loss:17.90 mc_loss:8.18 uc_loss:3.91 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443925
+
+  2%|▏         | 329/14471 [05:57<1:44:28,  2.26it/s]Epoch 171[329/499] lr0.031 meta_loss:5.07 loss:18.97 mc_loss:8.36 uc_loss:4.50 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443288
+
+  2%|▏         | 330/14471 [05:57<1:44:28,  2.26it/s]Epoch 171[330/499] lr0.031 meta_loss:5.07 loss:17.60 mc_loss:8.07 uc_loss:3.98 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443305
+
+  2%|▏         | 331/14471 [05:58<1:44:31,  2.25it/s]Epoch 171[331/499] lr0.031 meta_loss:5.09 loss:18.71 mc_loss:8.65 uc_loss:4.25 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443985
+
+  2%|▏         | 332/14471 [05:58<1:44:32,  2.25it/s]Epoch 171[332/499] lr0.031 meta_loss:5.09 loss:17.95 mc_loss:8.23 uc_loss:3.98 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443975
+
+  2%|▏         | 333/14471 [05:59<1:44:34,  2.25it/s]Epoch 171[333/499] lr0.031 meta_loss:5.09 loss:17.73 mc_loss:8.51 uc_loss:3.53 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443998
+
+  2%|▏         | 334/14471 [05:59<1:44:33,  2.25it/s]Epoch 171[334/499] lr0.031 meta_loss:5.11 loss:17.87 mc_loss:8.16 uc_loss:4.09 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443526
+
+  2%|▏         | 335/14471 [06:00<1:44:31,  2.25it/s]Epoch 171[335/499] lr0.031 meta_loss:5.13 loss:18.72 mc_loss:8.77 uc_loss:4.35 weight0.01(0.01) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443474
+
+  2%|▏         | 336/14471 [06:00<1:44:29,  2.25it/s]Epoch 171[336/499] lr0.031 meta_loss:5.11 loss:17.85 mc_loss:8.39 uc_loss:3.61 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443233
+
+  2%|▏         | 337/14471 [06:00<1:44:27,  2.26it/s]Epoch 171[337/499] lr0.031 meta_loss:5.12 loss:17.46 mc_loss:8.43 uc_loss:3.50 weight0.01(0.01) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443007
+
+  2%|▏         | 338/14471 [06:01<1:44:32,  2.25it/s]Epoch 171[338/499] lr0.031 meta_loss:5.12 loss:17.69 mc_loss:8.26 uc_loss:3.81 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.444690
+
+  2%|▏         | 339/14471 [06:01<1:44:33,  2.25it/s]Epoch 171[339/499] lr0.031 meta_loss:5.12 loss:16.53 mc_loss:7.92 uc_loss:3.15 weight0.01(0.01) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443967
+
+  2%|▏         | 340/14471 [06:02<1:44:28,  2.25it/s]Epoch 171[340/499] lr0.031 meta_loss:5.13 loss:17.18 mc_loss:8.28 uc_loss:2.94 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.442705
+
+  2%|▏         | 341/14471 [06:02<1:44:24,  2.26it/s]Epoch 171[341/499] lr0.031 meta_loss:5.14 loss:18.73 mc_loss:8.09 uc_loss:4.79 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443027
+
+  2%|▏         | 342/14471 [06:03<1:44:26,  2.25it/s]Epoch 171[342/499] lr0.031 meta_loss:5.11 loss:17.79 mc_loss:8.36 uc_loss:3.79 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.443743
+
+  2%|▏         | 343/14471 [06:03<1:44:21,  2.26it/s]Epoch 171[343/499] lr0.031 meta_loss:5.08 loss:18.62 mc_loss:8.21 uc_loss:4.70 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.442228
+
+  2%|▏         | 344/14471 [06:04<1:44:22,  2.26it/s]Epoch 171[344/499] lr0.031 meta_loss:5.08 loss:18.05 mc_loss:8.31 uc_loss:3.93 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.443416
+
+  2%|▏         | 345/14471 [06:04<1:44:24,  2.25it/s]Epoch 171[345/499] lr0.031 meta_loss:5.09 loss:16.27 mc_loss:8.06 uc_loss:2.60 weight0.01(0.02) acc:0.738 mata_acc0.985
+this step use time: %s 0:00:00.444004
+
+  2%|▏         | 346/14471 [06:04<1:44:22,  2.26it/s]Epoch 171[346/499] lr0.031 meta_loss:5.09 loss:17.53 mc_loss:8.09 uc_loss:3.72 weight0.01(0.01) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.442951
+
+  2%|▏         | 347/14471 [06:05<1:44:20,  2.26it/s]Epoch 171[347/499] lr0.031 meta_loss:5.10 loss:17.50 mc_loss:7.87 uc_loss:3.87 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.442868
+
+  2%|▏         | 348/14471 [06:05<1:44:19,  2.26it/s]Epoch 171[348/499] lr0.031 meta_loss:5.10 loss:18.36 mc_loss:8.34 uc_loss:4.43 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.443231
+
+  2%|▏         | 349/14471 [06:06<1:44:23,  2.25it/s]Epoch 171[349/499] lr0.031 meta_loss:5.09 loss:16.44 mc_loss:8.09 uc_loss:2.81 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.444042
+
+  2%|▏         | 350/14471 [06:06<1:44:29,  2.25it/s]Epoch 171[350/499] lr0.031 meta_loss:5.11 loss:17.40 mc_loss:8.01 uc_loss:3.57 weight0.01(0.01) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.444873
+
+  2%|▏         | 351/14471 [06:07<1:44:23,  2.25it/s]Epoch 171[351/499] lr0.031 meta_loss:5.12 loss:16.90 mc_loss:8.26 uc_loss:2.96 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.442785
+
+  2%|▏         | 352/14471 [06:07<1:44:22,  2.25it/s]Epoch 171[352/499] lr0.031 meta_loss:5.08 loss:17.63 mc_loss:8.42 uc_loss:3.42 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.443370
+
+  2%|▏         | 353/14471 [06:08<1:44:22,  2.25it/s]Epoch 171[353/499] lr0.031 meta_loss:5.07 loss:17.20 mc_loss:8.26 uc_loss:3.15 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.443423
+
+  2%|▏         | 354/14471 [06:08<1:44:23,  2.25it/s]Epoch 171[354/499] lr0.031 meta_loss:5.05 loss:17.61 mc_loss:8.31 uc_loss:3.79 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.444078
+
+  2%|▏         | 355/14471 [06:08<1:44:36,  2.25it/s]Epoch 171[355/499] lr0.031 meta_loss:5.05 loss:19.16 mc_loss:8.89 uc_loss:4.51 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.446720
+
+  2%|▏         | 356/14471 [06:09<1:44:27,  2.25it/s]Epoch 171[356/499] lr0.031 meta_loss:5.04 loss:18.93 mc_loss:8.96 uc_loss:4.34 weight0.01(0.02) acc:0.737 mata_acc0.985
+this step use time: %s 0:00:00.442399
+
+  2%|▏         | 357/14471 [06:09<1:44:20,  2.25it/s]Epoch 171[357/499] lr0.031 meta_loss:5.04 loss:18.44 mc_loss:8.45 uc_loss:4.39 weight0.01(0.02) acc:0.736 mata_acc0.985
+this step use time: %s 0:00:00.442438
+
+  2%|▏         | 358/14471 [06:10<1:44:20,  2.25it/s]Epoch 171[358/499] lr0.031 meta_loss:5.03 loss:19.81 mc_loss:9.01 uc_loss:5.30 weight0.01(0.01) acc:0.736 mata_acc0.985
+this step use time: %s 0:00:00.443696
+
+  2%|▏         | 359/14471 [06:10<1:44:22,  2.25it/s]Epoch 171[359/499] lr0.031 meta_loss:5.04 loss:16.66 mc_loss:8.14 uc_loss:3.06 weight0.01(0.02) acc:0.736 mata_acc0.985
+this step use time: %s 0:00:00.444164
+
+  2%|▏         | 360/14471 [06:11<1:44:20,  2.25it/s]Epoch 171[360/499] lr0.031 meta_loss:5.05 loss:17.35 mc_loss:8.49 uc_loss:3.15 weight0.01(0.02) acc:0.736 mata_acc0.985
+this step use time: %s 0:00:00.443294
+
+  2%|▏         | 361/14471 [06:11<1:44:29,  2.25it/s]Epoch 171[361/499] lr0.031 meta_loss:5.05 loss:17.43 mc_loss:8.52 uc_loss:3.02 weight0.01(0.02) acc:0.736 mata_acc0.985
+this step use time: %s 0:00:00.446053
+
+  3%|▎         | 362/14471 [06:12<1:44:29,  2.25it/s]Epoch 171[362/499] lr0.031 meta_loss:5.04 loss:18.79 mc_loss:8.74 uc_loss:4.59 weight0.01(0.02) acc:0.736 mata_acc0.985
+this step use time: %s 0:00:00.444174
+
+  3%|▎         | 363/14471 [06:12<1:44:20,  2.25it/s]Epoch 171[363/499] lr0.031 meta_loss:5.04 loss:19.32 mc_loss:8.33 uc_loss:5.10 weight0.01(0.02) acc:0.736 mata_acc0.985
+this step use time: %s 0:00:00.442246
+
+  3%|▎         | 364/14471 [06:12<1:44:20,  2.25it/s]Epoch 171[364/499] lr0.031 meta_loss:5.04 loss:17.72 mc_loss:8.38 uc_loss:3.54 weight0.01(0.02) acc:0.736 mata_acc0.985
+this step use time: %s 0:00:00.443792
+
+  3%|▎         | 365/14471 [06:13<1:44:18,  2.25it/s]Epoch 171[365/499] lr0.031 meta_loss:5.05 loss:16.78 mc_loss:8.27 uc_loss:2.89 weight0.01(0.02) acc:0.736 mata_acc0.985
+this step use time: %s 0:00:00.443506
+
+  3%|▎         | 366/14471 [06:13<1:44:13,  2.26it/s]Epoch 171[366/499] lr0.031 meta_loss:5.05 loss:17.50 mc_loss:7.94 uc_loss:3.53 weight0.01(0.02) acc:0.736 mata_acc0.986
+this step use time: %s 0:00:00.442195
+
+  3%|▎         | 367/14471 [06:14<1:44:16,  2.25it/s]Epoch 171[367/499] lr0.031 meta_loss:5.05 loss:16.44 mc_loss:7.84 uc_loss:2.58 weight0.01(0.02) acc:0.736 mata_acc0.986
+this step use time: %s 0:00:00.444910
+
+  3%|▎         | 368/14471 [06:14<1:44:37,  2.25it/s]Epoch 171[368/499] lr0.031 meta_loss:5.04 loss:17.75 mc_loss:8.55 uc_loss:3.42 weight0.01(0.01) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.447489
+
+  3%|▎         | 369/14471 [06:15<1:44:27,  2.25it/s]Epoch 171[369/499] lr0.031 meta_loss:5.03 loss:18.61 mc_loss:8.03 uc_loss:4.81 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442764
+
+  3%|▎         | 370/14471 [06:15<1:44:18,  2.25it/s]Epoch 171[370/499] lr0.031 meta_loss:5.03 loss:18.54 mc_loss:8.40 uc_loss:4.33 weight0.01(0.02) acc:0.736 mata_acc0.986
+this step use time: %s 0:00:00.442315
+
+  3%|▎         | 371/14471 [06:16<1:44:14,  2.25it/s]Epoch 171[371/499] lr0.031 meta_loss:5.03 loss:16.45 mc_loss:8.02 uc_loss:2.72 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.443225
+85700
+
+  3%|▎         | 372/14471 [06:16<1:44:18,  2.25it/s]Epoch 171[372/499] lr0.031 meta_loss:5.03 loss:18.24 mc_loss:8.48 uc_loss:4.03 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.443412
+
+  3%|▎         | 373/14471 [06:16<1:44:13,  2.25it/s]Epoch 171[373/499] lr0.031 meta_loss:5.04 loss:18.48 mc_loss:8.12 uc_loss:3.81 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442739
+
+  3%|▎         | 374/14471 [06:17<1:44:29,  2.25it/s]Epoch 171[374/499] lr0.031 meta_loss:5.05 loss:19.54 mc_loss:8.29 uc_loss:5.54 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.448025
+
+  3%|▎         | 375/14471 [06:17<1:44:33,  2.25it/s]Epoch 171[375/499] lr0.031 meta_loss:5.04 loss:16.89 mc_loss:7.57 uc_loss:3.51 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.445082
+
+  3%|▎         | 376/14471 [06:18<1:44:28,  2.25it/s]Epoch 171[376/499] lr0.031 meta_loss:5.04 loss:17.55 mc_loss:8.15 uc_loss:3.70 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.443916
+
+  3%|▎         | 377/14471 [06:18<1:44:26,  2.25it/s]Epoch 171[377/499] lr0.031 meta_loss:5.05 loss:17.73 mc_loss:8.21 uc_loss:3.82 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.444320
+
+  3%|▎         | 378/14471 [06:19<1:44:22,  2.25it/s]Epoch 171[378/499] lr0.031 meta_loss:5.05 loss:19.36 mc_loss:8.42 uc_loss:5.30 weight0.01(0.01) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.443697
+
+  3%|▎         | 379/14471 [06:19<1:44:13,  2.25it/s]Epoch 171[379/499] lr0.031 meta_loss:5.07 loss:17.41 mc_loss:8.05 uc_loss:3.61 weight0.01(0.01) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442291
+
+  3%|▎         | 380/14471 [06:20<1:44:08,  2.26it/s]Epoch 171[380/499] lr0.031 meta_loss:5.08 loss:17.90 mc_loss:8.02 uc_loss:4.23 weight0.01(0.01) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442589
+
+  3%|▎         | 381/14471 [06:20<1:44:05,  2.26it/s]Epoch 171[381/499] lr0.031 meta_loss:5.10 loss:18.04 mc_loss:8.15 uc_loss:4.25 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442740
+
+  3%|▎         | 382/14471 [06:20<1:44:03,  2.26it/s]Epoch 171[382/499] lr0.031 meta_loss:5.11 loss:19.38 mc_loss:8.27 uc_loss:5.57 weight0.01(0.01) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442882
+
+  3%|▎         | 383/14471 [06:21<1:44:00,  2.26it/s]Epoch 171[383/499] lr0.031 meta_loss:5.12 loss:17.62 mc_loss:8.26 uc_loss:3.86 weight0.01(0.01) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442451
+
+  3%|▎         | 384/14471 [06:21<1:44:01,  2.26it/s]Epoch 171[384/499] lr0.031 meta_loss:5.10 loss:17.57 mc_loss:8.14 uc_loss:3.96 weight0.01(0.01) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.443377
+
+  3%|▎         | 385/14471 [06:22<1:44:00,  2.26it/s]Epoch 171[385/499] lr0.031 meta_loss:5.10 loss:18.20 mc_loss:8.38 uc_loss:4.34 weight0.01(0.01) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442710
+
+  3%|▎         | 386/14471 [06:22<1:43:59,  2.26it/s]Epoch 171[386/499] lr0.031 meta_loss:5.08 loss:16.19 mc_loss:7.64 uc_loss:3.21 weight0.01(0.01) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442758
+
+  3%|▎         | 387/14471 [06:23<1:44:03,  2.26it/s]Epoch 171[387/499] lr0.031 meta_loss:5.08 loss:17.10 mc_loss:7.86 uc_loss:3.70 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.444125
+
+  3%|▎         | 388/14471 [06:23<1:44:05,  2.25it/s]Epoch 171[388/499] lr0.031 meta_loss:5.08 loss:17.80 mc_loss:8.27 uc_loss:3.94 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.443714
+
+  3%|▎         | 389/14471 [06:24<1:44:09,  2.25it/s]Epoch 171[389/499] lr0.031 meta_loss:5.06 loss:17.86 mc_loss:8.43 uc_loss:3.75 weight0.01(0.02) acc:0.736 mata_acc0.986
+this step use time: %s 0:00:00.444459
+
+  3%|▎         | 390/14471 [06:24<1:44:06,  2.25it/s]Epoch 171[390/499] lr0.031 meta_loss:5.05 loss:17.79 mc_loss:8.25 uc_loss:4.06 weight0.01(0.02) acc:0.736 mata_acc0.986
+this step use time: %s 0:00:00.443204
+
+  3%|▎         | 391/14471 [06:24<1:44:02,  2.26it/s]Epoch 171[391/499] lr0.031 meta_loss:5.06 loss:18.84 mc_loss:8.12 uc_loss:5.13 weight0.01(0.02) acc:0.736 mata_acc0.986
+this step use time: %s 0:00:00.442589
+
+  3%|▎         | 392/14471 [06:25<1:43:58,  2.26it/s]Epoch 171[392/499] lr0.031 meta_loss:5.05 loss:17.71 mc_loss:8.28 uc_loss:4.01 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442394
+
+  3%|▎         | 393/14471 [06:25<1:43:55,  2.26it/s]Epoch 171[393/499] lr0.031 meta_loss:5.05 loss:18.29 mc_loss:8.50 uc_loss:4.18 weight0.01(0.01) acc:0.736 mata_acc0.986
+this step use time: %s 0:00:00.442733
+
+  3%|▎         | 394/14471 [06:26<1:43:52,  2.26it/s]Epoch 171[394/499] lr0.031 meta_loss:5.05 loss:17.34 mc_loss:8.33 uc_loss:3.46 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442178
+
+  3%|▎         | 395/14471 [06:26<1:43:50,  2.26it/s]Epoch 171[395/499] lr0.031 meta_loss:5.05 loss:17.18 mc_loss:8.18 uc_loss:3.55 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442161
+
+  3%|▎         | 396/14471 [06:27<1:43:47,  2.26it/s]Epoch 171[396/499] lr0.031 meta_loss:5.04 loss:16.93 mc_loss:8.43 uc_loss:2.89 weight0.01(0.02) acc:0.735 mata_acc0.986
+this step use time: %s 0:00:00.442054
+
+  3%|▎         | 397/14471 [06:27<1:43:45,  2.26it/s]Epoch 171[397/499] lr0.031 meta_loss:5.04 loss:19.01 mc_loss:8.37 uc_loss:5.01 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442232
+
+  3%|▎         | 398/14471 [06:28<1:43:46,  2.26it/s]Epoch 171[398/499] lr0.031 meta_loss:5.05 loss:17.21 mc_loss:7.99 uc_loss:3.56 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442498
+
+  3%|▎         | 399/14471 [06:28<1:43:47,  2.26it/s]Epoch 171[399/499] lr0.031 meta_loss:5.05 loss:16.96 mc_loss:8.27 uc_loss:3.07 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442554
+
+  3%|▎         | 400/14471 [06:28<1:43:45,  2.26it/s]Epoch 171[400/499] lr0.031 meta_loss:5.05 loss:19.52 mc_loss:8.41 uc_loss:5.13 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442218
+
+  3%|▎         | 401/14471 [06:29<1:43:43,  2.26it/s]Epoch 171[401/499] lr0.031 meta_loss:5.05 loss:16.77 mc_loss:8.02 uc_loss:3.15 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442030
+
+  3%|▎         | 402/14471 [06:29<1:43:42,  2.26it/s]Epoch 171[402/499] lr0.031 meta_loss:5.07 loss:18.88 mc_loss:8.08 uc_loss:5.14 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442174
+
+  3%|▎         | 403/14471 [06:30<1:43:42,  2.26it/s]Epoch 171[403/499] lr0.031 meta_loss:5.06 loss:19.15 mc_loss:8.14 uc_loss:5.20 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442343
+
+  3%|▎         | 404/14471 [06:30<1:43:41,  2.26it/s]Epoch 171[404/499] lr0.031 meta_loss:5.06 loss:18.37 mc_loss:8.43 uc_loss:4.24 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.441972
+
+  3%|▎         | 405/14471 [06:31<1:43:41,  2.26it/s]Epoch 171[405/499] lr0.031 meta_loss:5.06 loss:17.99 mc_loss:8.07 uc_loss:4.26 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442342
+
+  3%|▎         | 406/14471 [06:31<1:43:39,  2.26it/s]Epoch 171[406/499] lr0.031 meta_loss:5.08 loss:17.93 mc_loss:8.52 uc_loss:3.68 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442063
+
+  3%|▎         | 407/14471 [06:32<1:43:41,  2.26it/s]Epoch 171[407/499] lr0.031 meta_loss:5.08 loss:18.05 mc_loss:8.47 uc_loss:3.77 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442421
+
+  3%|▎         | 408/14471 [06:32<1:43:48,  2.26it/s]Epoch 171[408/499] lr0.031 meta_loss:5.10 loss:17.53 mc_loss:8.01 uc_loss:3.84 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.443961
+
+  3%|▎         | 409/14471 [06:32<1:43:48,  2.26it/s]Epoch 171[409/499] lr0.031 meta_loss:5.12 loss:18.17 mc_loss:8.24 uc_loss:3.97 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.443121
+
+  3%|▎         | 410/14471 [06:33<1:43:55,  2.26it/s]Epoch 171[410/499] lr0.031 meta_loss:5.12 loss:19.97 mc_loss:8.39 uc_loss:5.69 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.444565
+
+  3%|▎         | 411/14471 [06:33<1:43:52,  2.26it/s]Epoch 171[411/499] lr0.031 meta_loss:5.12 loss:17.84 mc_loss:8.46 uc_loss:3.47 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442656
+
+  3%|▎         | 412/14471 [06:34<1:44:01,  2.25it/s]Epoch 171[412/499] lr0.031 meta_loss:5.10 loss:17.37 mc_loss:8.00 uc_loss:3.57 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.445759
+
+  3%|▎         | 413/14471 [06:34<1:44:09,  2.25it/s]Epoch 171[413/499] lr0.031 meta_loss:5.12 loss:17.51 mc_loss:8.47 uc_loss:3.44 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.445625
+
+  3%|▎         | 414/14471 [06:35<1:44:01,  2.25it/s]Epoch 171[414/499] lr0.031 meta_loss:5.12 loss:18.77 mc_loss:8.45 uc_loss:4.67 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442630
+
+  3%|▎         | 415/14471 [06:35<1:43:54,  2.25it/s]Epoch 171[415/499] lr0.031 meta_loss:5.12 loss:19.03 mc_loss:8.37 uc_loss:4.65 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442515
+
+  3%|▎         | 416/14471 [06:36<1:43:50,  2.26it/s]Epoch 171[416/499] lr0.031 meta_loss:5.10 loss:18.20 mc_loss:8.47 uc_loss:4.05 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442680
+
+  3%|▎         | 417/14471 [06:36<1:43:52,  2.25it/s]Epoch 171[417/499] lr0.031 meta_loss:5.09 loss:18.95 mc_loss:8.45 uc_loss:4.66 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.443725
+
+  3%|▎         | 418/14471 [06:36<1:43:53,  2.25it/s]Epoch 171[418/499] lr0.031 meta_loss:5.09 loss:19.12 mc_loss:8.54 uc_loss:4.99 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.443801
+
+  3%|▎         | 419/14471 [06:37<1:43:51,  2.25it/s]Epoch 171[419/499] lr0.031 meta_loss:5.09 loss:16.47 mc_loss:7.72 uc_loss:3.19 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.443143
+
+  3%|▎         | 420/14471 [06:37<1:43:54,  2.25it/s]Epoch 171[420/499] lr0.031 meta_loss:5.08 loss:17.26 mc_loss:8.04 uc_loss:3.56 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.444340
+
+  3%|▎         | 421/14471 [06:38<1:43:56,  2.25it/s]Epoch 171[421/499] lr0.031 meta_loss:5.09 loss:19.36 mc_loss:8.40 uc_loss:5.27 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.444119
+
+  3%|▎         | 422/14471 [06:38<1:43:50,  2.25it/s]Epoch 171[422/499] lr0.031 meta_loss:5.11 loss:17.48 mc_loss:7.80 uc_loss:2.95 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.442572
+
+  3%|▎         | 423/14471 [06:39<1:43:58,  2.25it/s]Epoch 171[423/499] lr0.031 meta_loss:5.10 loss:17.76 mc_loss:8.00 uc_loss:3.53 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.445535
+
+  3%|▎         | 424/14471 [06:39<1:43:57,  2.25it/s]Epoch 171[424/499] lr0.031 meta_loss:5.10 loss:19.59 mc_loss:8.62 uc_loss:4.88 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.443931
+
+  3%|▎         | 425/14471 [06:40<1:43:57,  2.25it/s]Epoch 171[425/499] lr0.031 meta_loss:5.11 loss:17.57 mc_loss:8.02 uc_loss:3.61 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.443931
+
+  3%|▎         | 426/14471 [06:40<1:43:52,  2.25it/s]Epoch 171[426/499] lr0.031 meta_loss:5.08 loss:19.93 mc_loss:8.33 uc_loss:5.86 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.443108
+
+  3%|▎         | 427/14471 [06:40<1:43:51,  2.25it/s]Epoch 171[427/499] lr0.031 meta_loss:5.09 loss:16.90 mc_loss:7.76 uc_loss:3.62 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.443318
+
+  3%|▎         | 428/14471 [06:41<1:43:47,  2.26it/s]Epoch 171[428/499] lr0.031 meta_loss:5.08 loss:16.20 mc_loss:8.20 uc_loss:2.39 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.442686
+
+  3%|▎         | 429/14471 [06:41<1:43:41,  2.26it/s]Epoch 171[429/499] lr0.031 meta_loss:5.08 loss:18.89 mc_loss:8.23 uc_loss:5.01 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.442027
+
+  3%|▎         | 430/14471 [06:42<1:43:42,  2.26it/s]Epoch 171[430/499] lr0.031 meta_loss:5.09 loss:16.02 mc_loss:8.04 uc_loss:2.52 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.443416
+
+  3%|▎         | 431/14471 [06:42<1:43:38,  2.26it/s]Epoch 171[431/499] lr0.031 meta_loss:5.09 loss:17.37 mc_loss:8.43 uc_loss:3.41 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.442153
+
+  3%|▎         | 432/14471 [06:43<1:43:38,  2.26it/s]Epoch 171[432/499] lr0.031 meta_loss:5.11 loss:17.61 mc_loss:8.25 uc_loss:3.65 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.442895
+
+  3%|▎         | 433/14471 [06:43<1:43:34,  2.26it/s]Epoch 171[433/499] lr0.031 meta_loss:5.09 loss:16.66 mc_loss:7.58 uc_loss:3.41 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.442091
+
+  3%|▎         | 434/14471 [06:43<1:43:32,  2.26it/s]Epoch 171[434/499] lr0.031 meta_loss:5.09 loss:17.43 mc_loss:8.18 uc_loss:3.26 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.442120
+
+  3%|▎         | 435/14471 [06:44<1:43:32,  2.26it/s]Epoch 171[435/499] lr0.031 meta_loss:5.09 loss:17.51 mc_loss:8.13 uc_loss:3.59 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.442776
+
+  3%|▎         | 436/14471 [06:44<1:43:40,  2.26it/s]Epoch 171[436/499] lr0.031 meta_loss:5.09 loss:18.23 mc_loss:8.29 uc_loss:4.15 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.444363
+
+  3%|▎         | 437/14471 [06:45<1:43:34,  2.26it/s]Epoch 171[437/499] lr0.031 meta_loss:5.09 loss:17.70 mc_loss:7.97 uc_loss:3.91 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.441859
+
+  3%|▎         | 438/14471 [06:45<1:43:31,  2.26it/s]Epoch 171[438/499] lr0.031 meta_loss:5.08 loss:18.71 mc_loss:8.31 uc_loss:4.70 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442089
+
+  3%|▎         | 439/14471 [06:46<1:43:28,  2.26it/s]Epoch 171[439/499] lr0.031 meta_loss:5.10 loss:16.55 mc_loss:7.73 uc_loss:3.03 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.441888
+
+  3%|▎         | 440/14471 [06:46<1:43:25,  2.26it/s]Epoch 171[440/499] lr0.031 meta_loss:5.08 loss:17.58 mc_loss:8.19 uc_loss:3.46 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.441911
+
+  3%|▎         | 441/14471 [06:47<1:43:27,  2.26it/s]Epoch 171[441/499] lr0.031 meta_loss:5.08 loss:15.48 mc_loss:7.73 uc_loss:2.21 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442694
+
+  3%|▎         | 442/14471 [06:47<1:43:31,  2.26it/s]Epoch 171[442/499] lr0.031 meta_loss:5.08 loss:18.08 mc_loss:8.28 uc_loss:3.55 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.443599
+
+  3%|▎         | 443/14471 [06:47<1:43:36,  2.26it/s]Epoch 171[443/499] lr0.031 meta_loss:5.07 loss:18.40 mc_loss:7.99 uc_loss:4.71 weight0.01(0.03) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.443882
+
+  3%|▎         | 444/14471 [06:48<1:43:38,  2.26it/s]Epoch 171[444/499] lr0.031 meta_loss:5.07 loss:17.15 mc_loss:8.29 uc_loss:3.21 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.443588
+
+  3%|▎         | 445/14471 [06:48<1:43:35,  2.26it/s]Epoch 171[445/499] lr0.031 meta_loss:5.07 loss:18.51 mc_loss:8.35 uc_loss:4.43 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.442784
+
+  3%|▎         | 446/14471 [06:49<1:43:35,  2.26it/s]Epoch 171[446/499] lr0.031 meta_loss:5.07 loss:18.97 mc_loss:7.83 uc_loss:5.45 weight0.01(0.02) acc:0.736 mata_acc0.987
+this step use time: %s 0:00:00.443118
+
+  3%|▎         | 447/14471 [06:49<1:43:33,  2.26it/s]Epoch 171[447/499] lr0.031 meta_loss:5.06 loss:17.75 mc_loss:8.42 uc_loss:3.83 weight0.01(0.02) acc:0.735 mata_acc0.987
+this step use time: %s 0:00:00.442656
+
+  3%|▎         | 448/14471 [06:50<1:44:12,  2.24it/s]Epoch 171[448/499] lr0.031 meta_loss:5.07 loss:17.33 mc_loss:8.18 uc_loss:3.66 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.452523
+
+  3%|▎         | 449/14471 [06:50<1:44:41,  2.23it/s]Epoch 171[449/499] lr0.031 meta_loss:5.06 loss:16.93 mc_loss:7.91 uc_loss:3.47 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.452923
+
+  3%|▎         | 450/14471 [06:51<1:44:22,  2.24it/s]Epoch 171[450/499] lr0.031 meta_loss:5.07 loss:19.60 mc_loss:8.45 uc_loss:5.24 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443359
+
+  3%|▎         | 451/14471 [06:51<1:44:07,  2.24it/s]Epoch 171[451/499] lr0.031 meta_loss:5.07 loss:16.57 mc_loss:7.71 uc_loss:3.21 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443154
+
+  3%|▎         | 452/14471 [06:51<1:44:17,  2.24it/s]Epoch 171[452/499] lr0.031 meta_loss:5.08 loss:16.43 mc_loss:7.93 uc_loss:2.42 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.448009
+
+  3%|▎         | 453/14471 [06:52<1:44:04,  2.24it/s]Epoch 171[453/499] lr0.031 meta_loss:5.09 loss:19.40 mc_loss:8.42 uc_loss:4.98 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443135
+
+  3%|▎         | 454/14471 [06:52<1:43:54,  2.25it/s]Epoch 171[454/499] lr0.031 meta_loss:5.10 loss:18.26 mc_loss:8.06 uc_loss:4.27 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.443275
+
+  3%|▎         | 455/14471 [06:53<1:43:47,  2.25it/s]Epoch 171[455/499] lr0.031 meta_loss:5.09 loss:20.58 mc_loss:8.54 uc_loss:6.04 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.443127
+
+  3%|▎         | 456/14471 [06:53<1:43:41,  2.25it/s]Epoch 171[456/499] lr0.031 meta_loss:5.09 loss:19.17 mc_loss:8.43 uc_loss:5.05 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.442973
+
+  3%|▎         | 457/14471 [06:54<1:43:37,  2.25it/s]Epoch 171[457/499] lr0.031 meta_loss:5.10 loss:17.31 mc_loss:8.06 uc_loss:3.49 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442890
+
+  3%|▎         | 458/14471 [06:54<1:43:38,  2.25it/s]Epoch 171[458/499] lr0.031 meta_loss:5.10 loss:19.05 mc_loss:8.65 uc_loss:4.62 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.444036
+
+  3%|▎         | 459/14471 [06:55<1:43:54,  2.25it/s]Epoch 171[459/499] lr0.031 meta_loss:5.13 loss:15.88 mc_loss:7.92 uc_loss:2.21 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.447423
+
+  3%|▎         | 460/14471 [06:55<1:43:46,  2.25it/s]Epoch 171[460/499] lr0.031 meta_loss:5.12 loss:18.62 mc_loss:8.10 uc_loss:4.81 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443145
+
+  3%|▎         | 461/14471 [06:55<1:43:39,  2.25it/s]Epoch 171[461/499] lr0.031 meta_loss:5.11 loss:19.36 mc_loss:8.36 uc_loss:5.27 weight0.01(0.03) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442907
+
+  3%|▎         | 462/14471 [06:56<1:43:31,  2.26it/s]Epoch 171[462/499] lr0.031 meta_loss:5.13 loss:16.48 mc_loss:7.66 uc_loss:3.14 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442003
+
+  3%|▎         | 463/14471 [06:56<1:43:29,  2.26it/s]Epoch 171[463/499] lr0.031 meta_loss:5.13 loss:19.63 mc_loss:8.10 uc_loss:5.69 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442867
+
+  3%|▎         | 464/14471 [06:57<1:43:28,  2.26it/s]Epoch 171[464/499] lr0.031 meta_loss:5.14 loss:17.22 mc_loss:8.09 uc_loss:3.25 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443300
+
+  3%|▎         | 465/14471 [06:57<1:43:25,  2.26it/s]Epoch 171[465/499] lr0.031 meta_loss:5.14 loss:19.23 mc_loss:8.40 uc_loss:4.81 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442403
+
+  3%|▎         | 466/14471 [06:58<1:43:35,  2.25it/s]Epoch 171[466/499] lr0.031 meta_loss:5.14 loss:19.61 mc_loss:8.34 uc_loss:3.91 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.445567
+
+  3%|▎         | 467/14471 [06:58<1:43:43,  2.25it/s]Epoch 171[467/499] lr0.031 meta_loss:5.17 loss:18.26 mc_loss:8.45 uc_loss:4.09 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.445829
+
+  3%|▎         | 468/14471 [06:59<1:43:41,  2.25it/s]Epoch 171[468/499] lr0.031 meta_loss:5.17 loss:19.48 mc_loss:8.43 uc_loss:5.31 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443762
+
+  3%|▎         | 469/14471 [06:59<1:43:42,  2.25it/s]Epoch 171[469/499] lr0.031 meta_loss:5.16 loss:17.40 mc_loss:8.66 uc_loss:3.01 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.444853
+
+  3%|▎         | 470/14471 [06:59<1:43:49,  2.25it/s]Epoch 171[470/499] lr0.031 meta_loss:5.16 loss:18.70 mc_loss:8.52 uc_loss:4.43 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.445614
+
+  3%|▎         | 471/14471 [07:00<1:43:52,  2.25it/s]Epoch 171[471/499] lr0.031 meta_loss:5.16 loss:16.63 mc_loss:8.23 uc_loss:2.82 weight0.01(0.01) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.445823
+85800
+
+  3%|▎         | 472/14471 [07:00<1:43:56,  2.24it/s]Epoch 171[472/499] lr0.031 meta_loss:5.17 loss:18.39 mc_loss:8.15 uc_loss:4.56 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.444264
+
+  3%|▎         | 473/14471 [07:01<1:43:53,  2.25it/s]Epoch 171[473/499] lr0.031 meta_loss:5.15 loss:17.48 mc_loss:8.41 uc_loss:3.12 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.444753
+
+  3%|▎         | 474/14471 [07:01<1:43:42,  2.25it/s]Epoch 171[474/499] lr0.031 meta_loss:5.15 loss:17.85 mc_loss:8.24 uc_loss:3.95 weight0.01(0.01) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442812
+
+  3%|▎         | 475/14471 [07:02<1:43:33,  2.25it/s]Epoch 171[475/499] lr0.031 meta_loss:5.14 loss:18.45 mc_loss:8.40 uc_loss:4.42 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442511
+
+  3%|▎         | 476/14471 [07:02<1:43:37,  2.25it/s]Epoch 171[476/499] lr0.031 meta_loss:5.14 loss:17.48 mc_loss:8.10 uc_loss:3.74 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.444961
+
+  3%|▎         | 477/14471 [07:03<1:43:40,  2.25it/s]Epoch 171[477/499] lr0.031 meta_loss:5.15 loss:19.57 mc_loss:8.44 uc_loss:5.43 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.444944
+
+  3%|▎         | 478/14471 [07:03<1:43:33,  2.25it/s]Epoch 171[478/499] lr0.031 meta_loss:5.15 loss:16.42 mc_loss:7.76 uc_loss:3.08 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442969
+
+  3%|▎         | 479/14471 [07:03<1:43:29,  2.25it/s]Epoch 171[479/499] lr0.031 meta_loss:5.15 loss:19.39 mc_loss:8.45 uc_loss:4.96 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443109
+
+  3%|▎         | 480/14471 [07:04<1:43:25,  2.25it/s]Epoch 171[480/499] lr0.031 meta_loss:5.17 loss:18.45 mc_loss:8.39 uc_loss:4.15 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442935
+
+  3%|▎         | 481/14471 [07:04<1:43:24,  2.25it/s]Epoch 171[481/499] lr0.031 meta_loss:5.16 loss:17.29 mc_loss:8.27 uc_loss:3.08 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443287
+
+  3%|▎         | 482/14471 [07:05<1:43:21,  2.26it/s]Epoch 171[482/499] lr0.031 meta_loss:5.16 loss:18.29 mc_loss:8.41 uc_loss:4.17 weight0.01(0.01) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442717
+
+  3%|▎         | 483/14471 [07:05<1:43:22,  2.26it/s]Epoch 171[483/499] lr0.031 meta_loss:5.15 loss:18.42 mc_loss:8.44 uc_loss:4.06 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443535
+
+  3%|▎         | 484/14471 [07:06<1:43:24,  2.25it/s]Epoch 171[484/499] lr0.031 meta_loss:5.13 loss:18.70 mc_loss:8.22 uc_loss:4.82 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443938
+
+  3%|▎         | 485/14471 [07:06<1:43:21,  2.26it/s]Epoch 171[485/499] lr0.031 meta_loss:5.12 loss:17.66 mc_loss:8.13 uc_loss:3.67 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.443092
+
+  3%|▎         | 486/14471 [07:07<1:43:19,  2.26it/s]Epoch 171[486/499] lr0.031 meta_loss:5.13 loss:17.85 mc_loss:8.28 uc_loss:3.85 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442981
+
+  3%|▎         | 487/14471 [07:07<1:43:16,  2.26it/s]Epoch 171[487/499] lr0.031 meta_loss:5.12 loss:18.87 mc_loss:8.30 uc_loss:4.68 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442622
+
+  3%|▎         | 488/14471 [07:07<1:43:13,  2.26it/s]Epoch 171[488/499] lr0.031 meta_loss:5.14 loss:19.16 mc_loss:8.15 uc_loss:4.86 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442419
+
+  3%|▎         | 489/14471 [07:08<1:43:09,  2.26it/s]Epoch 171[489/499] lr0.031 meta_loss:5.15 loss:18.29 mc_loss:7.99 uc_loss:4.43 weight0.01(0.02) acc:0.736 mata_acc0.988
+this step use time: %s 0:00:00.442040
+
+  3%|▎         | 490/14471 [07:08<1:43:05,  2.26it/s]Epoch 171[490/499] lr0.031 meta_loss:5.14 loss:17.24 mc_loss:7.92 uc_loss:3.67 weight0.01(0.01) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.441786
+
+  3%|▎         | 491/14471 [07:09<1:43:05,  2.26it/s]Epoch 171[491/499] lr0.031 meta_loss:5.15 loss:17.86 mc_loss:7.77 uc_loss:3.55 weight0.01(0.01) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.442388
+
+  3%|▎         | 492/14471 [07:09<1:43:03,  2.26it/s]Epoch 171[492/499] lr0.031 meta_loss:5.14 loss:18.08 mc_loss:8.25 uc_loss:4.01 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.442123
+
+  3%|▎         | 493/14471 [07:10<1:43:03,  2.26it/s]Epoch 171[493/499] lr0.031 meta_loss:5.14 loss:18.01 mc_loss:8.50 uc_loss:3.60 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.442247
+
+  3%|▎         | 494/14471 [07:10<1:43:00,  2.26it/s]Epoch 171[494/499] lr0.031 meta_loss:5.13 loss:18.47 mc_loss:8.19 uc_loss:4.45 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.441870
+
+  3%|▎         | 495/14471 [07:11<1:43:00,  2.26it/s]Epoch 171[495/499] lr0.031 meta_loss:5.14 loss:18.81 mc_loss:8.23 uc_loss:4.73 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.442172
+
+  3%|▎         | 496/14471 [07:11<1:43:00,  2.26it/s]Epoch 171[496/499] lr0.031 meta_loss:5.16 loss:17.12 mc_loss:8.09 uc_loss:3.23 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.442344
+
+  3%|▎         | 497/14471 [07:11<1:42:58,  2.26it/s]Epoch 171[497/499] lr0.031 meta_loss:5.15 loss:17.97 mc_loss:7.76 uc_loss:4.22 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.441707
+
+  3%|▎         | 498/14471 [07:12<1:42:57,  2.26it/s]Epoch 171[498/499] lr0.031 meta_loss:5.15 loss:18.64 mc_loss:8.18 uc_loss:4.43 weight0.01(0.02) acc:0.735 mata_acc0.988
+this step use time: %s 0:00:00.441950
+
+  3%|▎         | 499/14471 [07:12<1:42:55,  2.26it/s]Epoch 172[0/499] lr0.031 meta_loss:5.14 loss:18.17 mc_loss:8.42 uc_loss:3.81 weight0.01(0.02) acc:0.735 mata_acc0.988

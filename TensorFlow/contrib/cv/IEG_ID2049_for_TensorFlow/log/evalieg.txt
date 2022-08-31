@@ -1,0 +1,199 @@
+[TestUser06@localhost code]$ python3 main.py
+WARNING:tensorflow:From /usr/local/Ascend/tfplugin/latest/tfplugin/python/site-packages/npu_bridge/estimator/npu/npu_optimizer.py:128: The name tf.train.Optimizer is deprecated. Please use tf.compat.v1.train.Optimizer instead.
+
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/compat/v2_compat.py:68: disable_resource_variables (from tensorflow.python.ops.variable_scope) is deprecated and will be removed in a future version.
+Instructions for updating:
+non-resource variables are not supported in the long term
+2022-08-26 17:07:05.397295: W tensorflow/core/platform/profile_utils/cpu_utils.cc:98] Failed to find bogomips in /proc/cpuinfo; cannot determine CPU frequency
+2022-08-26 17:07:05.405875: I tensorflow/compiler/xla/service/service.cc:168] XLA service 0x3cb42150 initialized for platform Host (this does not guarantee that XLA will be used). Devices:
+2022-08-26 17:07:05.405926: I tensorflow/compiler/xla/service/service.cc:176]   StreamExecutor device (0): Host, Default Version
+WARNING:tensorflow:There is non-GPU devices in `tf.distribute.Strategy`, not using nccl allreduce.
+Corrupted confusion matirx
+ [[0.83146293 0.01783567 0.01543086 0.01963928 0.02064128 0.01623246
+  0.02124248 0.02084168 0.01783567 0.01883768]
+ [0.02084168 0.82224449 0.01983968 0.02124248 0.02184369 0.01803607
+  0.02144289 0.01843687 0.01743487 0.01863727]
+ [0.01703407 0.01883768 0.82985972 0.02024048 0.01843687 0.02044088
+  0.01763527 0.01963928 0.01803607 0.01983968]
+ [0.02044088 0.02004008 0.02084168 0.81683367 0.02064128 0.01923848
+  0.02284569 0.01863727 0.01883768 0.02164329]
+ [0.02204409 0.02324649 0.02164329 0.02064128 0.82064128 0.01623246
+  0.01983968 0.02024048 0.01883768 0.01663327]
+ [0.01983968 0.02264529 0.02084168 0.02284569 0.02024048 0.81543086
+  0.02284569 0.02044088 0.01382766 0.02104208]
+ [0.02024048 0.01943888 0.01823647 0.01843687 0.0248497  0.02084168
+  0.82204409 0.01843687 0.02064128 0.01683367]
+ [0.02304609 0.01823647 0.02064128 0.01843687 0.01543086 0.02264529
+  0.01863727 0.82224449 0.02164329 0.01903808]
+ [0.01723447 0.02004008 0.02124248 0.0238477  0.02024048 0.02304609
+  0.01763527 0.0240481  0.81102204 0.02164329]
+ [0.01903808 0.02044088 0.01863727 0.0238477  0.01843687 0.01823647
+  0.01843687 0.02204409 0.01863727 0.82224449]]
+INFO:tensorflow:Init [cifar10_uniform_0.2] dataset loader
+INFO:tensorflow:train size: 49900 class0-5046 class1-5005 class2-5026 class3-5020 class4-4997 class5-4942 class6-5003 class7-5015 class8-4874 class9-4972
+
+INFO:tensorflow:test size: 10000 class0-1000 class1-1000 class2-1000 class3-1000 class4-1000 class5-1000 class6-1000 class7-1000 class8-1000 class9-1000
+
+INFO:tensorflow:probe size: 100 class0-10 class1-10 class2-10 class3-10 class4-10 class5-10 class6-10 class7-10 class8-10 class9-10
+
+INFO:tensorflow:Adjust hyperparameters based on num_replicas_in_sync 1
+INFO:tensorflow:Use epoch scale hyperparam and reset max_iteration and decay_epochs.
+INFO:tensorflow:         FLAGS.eval_freq 499
+INFO:tensorflow:         FLAGS.learning_rate 0.1
+INFO:tensorflow:         FLAGS.max_iteration 99800
+INFO:tensorflow:         self.decay_steps [499]
+INFO:tensorflow:         self.batch_size 100
+INFO:tensorflow:         self.val_batch_size 100
+INFO:tensorflow:         self.iter_epoch 499
+INFO:tensorflow:[BaseModel] Parallel training in 1 devices
+INFO:tensorflow:Create network [wrn28-10] ...
+INFO:tensorflow:[BaseModel] actual batch size 100
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/ops/resource_variable_ops.py:1630: calling BaseResourceVariable.__init__ (from tensorflow.python.ops.resource_variable_ops) with constraint is deprecated and will be removed in a future version.
+Instructions for updating:
+If using Keras pass *_constraint arguments to layers.
+INFO:tensorflow:Use cosine learning rate decay, step: [499]
+INFO:tensorflow:Init IEG model
+INFO:tensorflow:All flags values
+INFO:tensorflow:FLAGS.?: False
+INFO:tensorflow:FLAGS.alsologtostderr: False
+INFO:tensorflow:FLAGS.aug_type: autoaug
+INFO:tensorflow:FLAGS.batch_size: 100
+INFO:tensorflow:FLAGS.ce_factor: 5.0
+INFO:tensorflow:FLAGS.checkpoint_path: /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10
+INFO:tensorflow:FLAGS.clip_meta_weight: True
+INFO:tensorflow:FLAGS.consistency_factor: 20.0
+INFO:tensorflow:FLAGS.cos_m_mul: 0.9
+INFO:tensorflow:FLAGS.cos_t_mul: 1.5
+INFO:tensorflow:FLAGS.data_url:
+INFO:tensorflow:FLAGS.dataset: cifar10_uniform_0.2
+INFO:tensorflow:FLAGS.dataset_dir: ./ieg/data
+INFO:tensorflow:FLAGS.decay_epochs: 1
+INFO:tensorflow:FLAGS.decay_rate: 0.1
+INFO:tensorflow:FLAGS.decay_steps: 499
+INFO:tensorflow:FLAGS.distribution_strategy: mirrored
+INFO:tensorflow:FLAGS.dropout_rate: 0.0
+INFO:tensorflow:FLAGS.ds_include_metadata: False
+INFO:tensorflow:FLAGS.eval_freq: 499
+INFO:tensorflow:FLAGS.exp_path_pattern: None
+INFO:tensorflow:FLAGS.fix_network_features: False
+INFO:tensorflow:FLAGS.fusion_switch_file:
+INFO:tensorflow:FLAGS.grad_eps_init: 0.9
+INFO:tensorflow:FLAGS.help: False
+INFO:tensorflow:FLAGS.helpfull: False
+INFO:tensorflow:FLAGS.helpshort: False
+INFO:tensorflow:FLAGS.helpxml: False
+INFO:tensorflow:FLAGS.l2_weight_decay: 0.0004
+INFO:tensorflow:FLAGS.label_smoothing: 0.0
+INFO:tensorflow:FLAGS.learning_rate: 0.1
+INFO:tensorflow:FLAGS.log_dir:
+INFO:tensorflow:FLAGS.logger_levels: {}
+INFO:tensorflow:FLAGS.logtostderr: False
+INFO:tensorflow:FLAGS.lr_schedule: cosine
+INFO:tensorflow:FLAGS.max_epoch: 200
+INFO:tensorflow:FLAGS.max_iteration: 99800
+INFO:tensorflow:FLAGS.meta_momentum: 0.9
+INFO:tensorflow:FLAGS.meta_moving_end_epoch: 0
+INFO:tensorflow:FLAGS.meta_partial_level: 0.0
+INFO:tensorflow:FLAGS.meta_start_epoch: 20
+INFO:tensorflow:FLAGS.meta_stepsize: 0.1
+INFO:tensorflow:FLAGS.method: ieg
+INFO:tensorflow:FLAGS.mode: evaluation
+INFO:tensorflow:FLAGS.momentum: 0.9
+INFO:tensorflow:FLAGS.moving_weight_gamma: 0.0
+INFO:tensorflow:FLAGS.network_name: wrn28-10
+INFO:tensorflow:FLAGS.only_check_args: False
+INFO:tensorflow:FLAGS.op_conversion_fallback_to_while_loop: False
+INFO:tensorflow:FLAGS.pdb: False
+INFO:tensorflow:FLAGS.pdb_post_mortem: False
+INFO:tensorflow:FLAGS.post_batch_mode_autoaug: True
+INFO:tensorflow:FLAGS.pretrained_ckpt: None
+INFO:tensorflow:FLAGS.pretrained_ckpt_mode: imagenet
+INFO:tensorflow:FLAGS.probe_dataset_hold_ratio: 0.002
+INFO:tensorflow:FLAGS.profile_file: None
+INFO:tensorflow:FLAGS.queue_beta: 0.9
+INFO:tensorflow:FLAGS.queue_bs: 200
+INFO:tensorflow:FLAGS.queue_capacity: 2000
+INFO:tensorflow:FLAGS.queue_metric: margin
+INFO:tensorflow:FLAGS.restore_step: 0
+INFO:tensorflow:FLAGS.run_with_pdb: False
+INFO:tensorflow:FLAGS.run_with_profiling: False
+INFO:tensorflow:FLAGS.seed: 12345
+INFO:tensorflow:FLAGS.showprefixforinfo: True
+INFO:tensorflow:FLAGS.stderrthreshold: fatal
+INFO:tensorflow:FLAGS.summary_eval_to_train: True
+INFO:tensorflow:FLAGS.test_random_seed: 301
+INFO:tensorflow:FLAGS.test_randomize_ordering_seed:
+INFO:tensorflow:FLAGS.test_srcdir:
+INFO:tensorflow:FLAGS.test_tmpdir: /tmp/absl_testing
+INFO:tensorflow:FLAGS.tpu: None
+INFO:tensorflow:FLAGS.train_url:
+INFO:tensorflow:FLAGS.use_cprofile_for_profiling: True
+INFO:tensorflow:FLAGS.use_ema: True
+INFO:tensorflow:FLAGS.use_imagenet_as_eval: False
+INFO:tensorflow:FLAGS.use_mixup: True
+INFO:tensorflow:FLAGS.use_pseudo_loss: all_1_0.1_2
+INFO:tensorflow:FLAGS.v: 0
+INFO:tensorflow:FLAGS.val_batch_size: 100
+INFO:tensorflow:FLAGS.verbose_finer_log: True
+INFO:tensorflow:FLAGS.verbosity: 0
+INFO:tensorflow:FLAGS.warmup_epochs: 0
+INFO:tensorflow:FLAGS.weight_decay: 0.0005
+INFO:tensorflow:FLAGS.xm_exp_id: None
+INFO:tensorflow:FLAGS.xml_output_file:
+WARNING:tensorflow:From /home/TestUser06/IEG_YYW/code/models/model.py:41: DatasetV1.output_shapes (from tensorflow.python.data.ops.dataset_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.compat.v1.data.get_output_shapes(dataset)`.
+WARNING:tensorflow:From /home/TestUser06/IEG_YYW/code/dataset_utils/utils.py:208: py_func (from tensorflow.python.ops.script_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+tf.py_func is deprecated in TF V2. Instead, there are two
+    options available in V2.
+    - tf.py_function takes a python function which manipulates tf eager
+    tensors instead of numpy arrays. It's easy to convert a tf eager tensor to
+    an ndarray (just call tensor.numpy()) but having access to eager tensors
+    means `tf.py_function`s can use accelerators such as GPUs as well as
+    being differentiable using a gradient tape.
+    - tf.numpy_function maintains the semantics of the deprecated tf.py_func
+    (it is not differentiable, and manipulates numpy arrays). It drops the
+    stateful argument making all functions stateful.
+
+WARNING:tensorflow:From /home/TestUser06/IEG_YYW/code/models/custom_ops.py:89: batch_normalization (from tensorflow.python.layers.normalization) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use keras.layers.BatchNormalization instead.  In particular, `tf.control_dependencies(tf.GraphKeys.UPDATE_OPS)` should not be used (consult the `tf.keras.layers.batch_normalization` documentation).
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/layers/normalization.py:327: Layer.apply (from tensorflow.python.keras.engine.base_layer) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `layer.__call__` method instead.
+INFO:tensorflow:77 variables to decay, rate 0.0005
+INFO:tensorflow:Get scope: model/ 50 updates (e.g. model/unit_1_0/shared_activation/init_bn/AssignMovingAvg/AssignSubVariableOp)
+INFO:tensorflow:[StrategyNetBase] model: Find 77 trainable_variables and 50 update_variables 50 updates
+INFO:tensorflow:Total number of parameters (M) 36.220634
+INFO:tensorflow:Use crossentropy minimization loss 5.0
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/ops/losses/losses_impl.py:121: where (from tensorflow.python.ops.array_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.where in 2.0, which has the same broadcast rule as np.where
+INFO:tensorflow:Use consistency loss 20.0
+INFO:tensorflow:Create meta image WRN
+INFO:tensorflow:Pre-initialize optimizer momentum states.
+INFO:tensorflow:[Meta Image] 77 variables and 50 update_variables are mirrored
+INFO:tensorflow:[Meta Image] add regularization decay 0.0005 to 77 variables
+INFO:tensorflow:77 variables to decay, rate 0.0005
+WARNING:tensorflow:From /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/distribute/values.py:671: Variable.initialized_value (from tensorflow.python.ops.variables) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use Variable.read_value. Variables in 2.X are initialized automatically both in eager and graph (inside tf.defun) contexts.
+INFO:tensorflow:Save checkpoint to /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10
+2022-08-26 17:07:36.966493: W tf_adapter/util/npu_attrs.cc:148] [GePlugin] DEVICE_ID and ASCEND_DEVICE_ID is none, use default device id : 0, if set session_device_id, session_device_id has a higher priority
+2022-08-26 17:07:36.966566: W tf_adapter/util/ge_plugin.cc:128] [GePlugin] can not find Environment variable : JOB_ID
+2022-08-26 17:07:43.355574: I tf_adapter/kernels/geop_npu.cc:822] The model has been compiled on the Ascend AI processor, current graph id is: 1
+2022-08-26 17:07:50.097950: I tf_adapter/kernels/geop_npu.cc:822] The model has been compiled on the Ascend AI processor, current graph id is: 11
+INFO:tensorflow:Reading /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10 for getting latest checkpoint: ['/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-1.meta', '/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-6986.meta', '/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-84331.meta', '/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-84830.meta', '/home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-85329.meta']
+INFO:tensorflow:Load the latest checkpoint /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-85329
+INFO:tensorflow:Restoring parameters from /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-85329
+2022-08-26 17:07:55.949625: I tf_adapter/kernels/geop_npu.cc:822] The model has been compiled on the Ascend AI processor, current graph id is: 21
+2022-08-26 17:07:58.568713: I tf_adapter/kernels/geop_npu.cc:822] The model has been compiled on the Ascend AI processor, current graph id is: 31
+2022-08-26 17:08:00.999794: I tf_adapter/kernels/geop_npu.cc:822] The model has been compiled on the Ascend AI processor, current graph id is: 41
+INFO:tensorflow:Load model checkpoint /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/checkpoint.ckpt-85329, learning_rate 0.031381 global_step 85329
+INFO:tensorflow:Create 12 clean accuracy state ops
+2022-08-26 17:08:02.735602: I tf_adapter/kernels/geop_npu.cc:822] The model has been compiled on the Ascend AI processor, current graph id is: 51
+2022-08-26 17:08:05.731572: I tf_adapter/kernels/geop_npu.cc:822] The model has been compiled on the Ascend AI processor, current graph id is: 61
+Evaluation (val): lr 0.00000 global_step 85329 total 10000 acc 0.946 (top-5 0.998)
+2022-08-26 17:08:23.351893: W tf_adapter/util/npu_attrs.cc:148] [GePlugin] DEVICE_ID and ASCEND_DEVICE_ID is none, use default device id : 0, if set session_device_id, session_device_id has a higher priority
+[TestUser06@localhost code]$ mv ../checkpoint.ckpt-85828.* /home/TestUser06/IEG_YYW/code/output/cifar10_uniform_0.2/wrn28-10/
