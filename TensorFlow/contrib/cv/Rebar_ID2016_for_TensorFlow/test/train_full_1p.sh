@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -46,7 +46,7 @@ do
         output_path=`echo ${para#*=}`
     elif [[ $para == --train_steps* ]];then
         train_steps=`echo ${para#*=}`
-	elif [[ $para == --train_epochs* ]];then
+    elif [[ $para == --train_epochs* ]];then
         train_epochs=`echo ${para#*=}`
     elif [[ $para == --batch_size* ]];then
         batch_size=`echo ${para#*=}`
@@ -91,6 +91,9 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+# 修改参数
+sed -i "s#/home/TestUser01/Pycode/rebar_npu_20220103120007/data#${data_path}/data#" ./config.py
+
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -114,14 +117,17 @@ if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ./rebar_train.py --working_dir=${output_path}
 else
-    python3.7 ./rebar_train.py --working_dir=${output_path}
+    python3.7 ./rebar_train.py --working_dir=${output_path} > ${print_log} 2>&1
 fi
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
-FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+# StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+# FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`grep "Step" ${print_log} | awk '{print $3}' | tr -d "[" | tail -n 1`
+
+# 提取所有loss打印信息
+grep -A 3 "Step" ${print_log} | grep -v " " | sed '/^--/d'  > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -158,15 +164,15 @@ e2e_time=$(( $end_time - $start_time ))
 
 echo "------------------ Final result ------------------"
 # 输出性能FPS/单step耗时/端到端耗时
-echo "Final Performance images/sec : $FPS"
-echo "Final Performance sec/step : $StepTime"
+# echo "Final Performance images/sec : $FPS"
+# echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
 # 输出训练精度
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt`)
+ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -174,8 +180,8 @@ echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}
 echo "BatchSize = ${batch_size}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DeviceType = `uname -m`" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+# echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+# echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.logfi
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
