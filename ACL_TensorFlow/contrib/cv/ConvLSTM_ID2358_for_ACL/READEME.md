@@ -63,6 +63,7 @@ Convlstm_OM86.om的obs地址：obs://convlstm/GPU/mini_dataset/
 首先需要下载acl相关工具：
 https://gitee.com/ascend/samples/tree/master/python/level2_simple_inference/6_other/colorization_picture
 利用代码colorize.py进行前处理，om模型调用，后处理，生成txtcsv结果。
+实际27机器上的路径：/home/test_user07/Convlstm/samples/python/level2_simple_inference/6_other/colorization_picture/src/
 预测的txtcsv文件夹路径：obs://convlstm/GPU/mini_dataset/推理txtcsv/
 
 
