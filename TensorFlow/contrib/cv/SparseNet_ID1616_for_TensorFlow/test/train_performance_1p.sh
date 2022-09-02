@@ -153,25 +153,30 @@ avage_total=0
 avage_count=0
 cat $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_time.txt |while read line
 do
-	second_var=$(echo $line|awk -F"," '{print $2}')
-	#echo $second_var
-	min_judg=$(echo $second_var|awk '{print $2}')
-	#echo $min_judg
-	
-	if [ $min_judg == 'minutes' ] || [ $min_judg == 'minute' ];then
-		min_count=$(echo $second_var |awk '{print $1}'|awk -F":" '{print $2}')
-		#echo $min_count
-		second_count=$(echo $second_var |awk '{print $3}')
-		#echo $second_count
-		((final_count=$min_count*60+$second_count))
-	else
-		final_count=$(echo $second_var |awk '{print $1}'|awk -F":" '{print $2}'|awk -F'.' '{print $1}')
-	fi
-	((avage_total=$avage_total+$final_count))
-	((avage_count=$avage_count+1))
-    ((final_result=$avage_total/$avage_count))
-	echo $final_result >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt
+    second_var=$(echo $line|awk -F"," '{print $2}'|awk -F ":" '{print $2}')
+    #echo "===========second_var================$second_var"
+    min_judg=$(echo $second_var|awk -F " " '{print $2}')
+    #echo $min_judg
+
+    if [ $min_judg == 'minutes' ] || [ $min_judg == 'minute' ] || [ $min_judg == 'minute.' ];then
+        min_count=$(echo $second_var |awk -F " " '{print $1}')
+        #echo $min_count
+        second_count=$(echo $second_var |awk -F " " '{print $3}')
+        #echo $second_count
+        if [ "$second_count" == "" ];then
+            ((final_count=$min_count*60))
+        else
+            ((final_count=$min_count*60+$second_count))
+        fi
+    else
+        final_count=$(echo $second_var |awk -F ' ' '{print $1}')
+    fi
+    avage_total=`awk -v x=$avage_total -v y=$final_count 'BEGIN{printf "%.2f\n",x+y}'`
+    ((avage_count=$avage_count+1))
+    final_result=`awk -v x=$avage_total -v y=$avage_count 'BEGIN{printf "%.2f\n",x/y}'`
+    echo $final_result >  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt
 done
+
 
 epochTime=` awk 'END {print}'  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}_traintime_avg.txt `
 TrainingTime=`awk 'BEGIN{printf "%.3f\n",  '${epochTime}'/728}'`
