@@ -96,3 +96,6 @@ flags offered to adjust MnasNet model to different sizes quickly.
 
 please refer to our tutorial: https://cloud.google.com/tpu/docs/tutorials/mnasnet
 
+npu:单step耗时0.1
+gpu:global_step/sec: 3.0701
+
