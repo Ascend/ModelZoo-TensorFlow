@@ -231,7 +231,7 @@ Result SampleProcess::Process(map<char, string>& params, vector<string>& input_f
         mkdir(temp_s, 0775);
     }
     std::string T = Utils::printCurrentTime();
-    string times = output_path + "/" + T;
+    string times = output_path;
     const char* time = times.c_str();
     cout<<time<<endl;
     mkdir(time, 0775);
