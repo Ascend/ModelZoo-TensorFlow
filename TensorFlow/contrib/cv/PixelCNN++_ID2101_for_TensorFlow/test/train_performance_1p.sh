@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -46,7 +46,7 @@ do
         output_path=`echo ${para#*=}`
     elif [[ $para == --train_steps* ]];then
         train_steps=`echo ${para#*=}`
-	elif [[ $para == --train_epochs* ]];then
+    elif [[ $para == --train_epochs* ]];then
         train_epochs=`echo ${para#*=}`
     elif [[ $para == --batch_size* ]];then
         batch_size=`echo ${para#*=}`
@@ -91,6 +91,9 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
+# 修改参数
+sed -i "s/step%100/step%1/" ./train.py
+
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -115,7 +118,7 @@ if [ x"${etp_flag}" != xtrue ];
 then
     python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} --train_steps=${train_steps} --max_epochs=${max_epochs}
 else
-    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} --train_steps=${train_steps} --max_epochs=${max_epochs} > ${print_log}
+    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} --max_epochs=${max_epochs} --train_steps=${train_steps} --batch_size=${batch_size} > ${print_log} 2>&1
 fi
 
 # 性能相关数据计算
