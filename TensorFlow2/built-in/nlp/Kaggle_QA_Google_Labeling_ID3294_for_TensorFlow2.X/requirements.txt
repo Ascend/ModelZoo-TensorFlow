@@ -1,4 +1,11 @@
 tqdm
-tensorflow
-scipy
+tensorflow==2.6.2
 transformers
+keras==2.3.1
+numpy==1.12.1
+pandas==0.22.0
+matplotlib==2.1.2
+scikit-learn==0.19.1
+jupyter_notebook==5.4.0
+scipy==1.0.0
+math==1.1.0

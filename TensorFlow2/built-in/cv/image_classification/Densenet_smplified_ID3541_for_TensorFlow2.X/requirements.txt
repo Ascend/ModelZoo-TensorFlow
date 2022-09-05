@@ -1,1 +1,2 @@
 tensorflow==2.6.2
+numpy>=1.13
