@@ -179,34 +179,26 @@ run_config = NPURunConfig(
 ## 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
-├── train.py                                          //网络训练与测试代码
-├── env.py                                            //超参配置
-├── README.md                                         //说明文档
-├── logger.py
-├── eval_image_classifier_mobilenet.py                //测试脚本
-├── dataloader
-│    ├──data_provider.py                             //数据加载入口脚本 
-├── estimator_impl.py
+|-- LICENSE                    //license
+|-- Readme.md                  //说明文档
+|-- acl.json
+|-- modelzoo_level.txt      
+|-- official                 //训练代码
+|-- requirements.txt         //安装依赖
+`-- test
+    |-- train_full_1p.sh      //单P精度拉起脚本
+    |-- train_full_8p.sh      //8P精度拉起脚本
+    |-- train_performance_1p.sh      //单P性能拉起脚本
+    `-- train_performance_8p.sh      //8P性能拉起脚本
 ```
 
 ## 脚本参数<a name="section6669162441511"></a>
 
 ```
---dataset_dir              数据集路径，默认：/opt/npu/slimImagenet
---max_train_steps          最大的训练step 数， 默认：None
---iterations_per_loop      NPU运行时，device端下沉次数，默认：None
---model_name               网络模型，默认：mobilenet_v2_140
---moving_average_decay     滑动平均的衰减系数， 默认：None
---label_smoothing          label smooth 系数， 默认：0.1
---preprocessing_name       预处理方法， 默认：inception_v2
---weight_decay             正则化系数，默认：0
---batch_size               每个NPU的batch size， 默认：256
---learning_rate_decay_type 学习率衰减的策略， 默认：fixed
---learning_rate            学习率， 默认：0.1
---optimizer                优化器， 默认：sgd
---momentum                 动量， 默认：0.9 
---warmup_epochs            学习率线性warmup 的epoch数， 默认：5
---max_epoch                训练epoch次数，默认：300
+--data_path                 数据集路径，默认：''，必传参数
+--max_train_steps          最大的训练step 数， 默认：1000
+--batch_size               每个NPU的batch size
+--train_epochs             训练epoch次数
 ```
 
 
