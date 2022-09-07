@@ -65,7 +65,7 @@ https://gitee.com/ascend/samples/tree/master/python/level2_simple_inference/6_ot
 
 再利用代码colorize.py进行数据集前处理，om模型调用，数据后处理，生成结果存放在txtcsv文件夹。
 
-数据集文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
+数据集文件共享地址，需要在colorize.py中替换datapath：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
 
 实际27机器上的路径：/home/test_user07/Convlstm/samples/python/level2_simple_inference/6_other/colorization_picture/src/
 
