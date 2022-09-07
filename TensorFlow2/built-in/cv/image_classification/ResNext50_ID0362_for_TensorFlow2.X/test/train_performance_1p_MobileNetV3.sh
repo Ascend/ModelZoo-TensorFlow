@@ -146,7 +146,7 @@ sed -i "s|model_index = 3|model_index = 1|g" configuration.py
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep "perf" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $10}'|tac|sed -n '2p'`
+TrainingTime=`grep "perf" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $10}'|head -201|tail -198|awk '{sum+=$1} END {print"",sum/NR}'|sed s/[[:space:]]//g`
 wait
 FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${TrainingTime}'}'`
 #打印，不需要修改
