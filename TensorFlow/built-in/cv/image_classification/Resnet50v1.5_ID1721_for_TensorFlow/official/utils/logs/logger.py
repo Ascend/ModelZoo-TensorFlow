@@ -312,7 +312,7 @@ def _gather_run_info(model_name, dataset_name, run_params, test_id):
   _collect_tensorflow_info(run_info)
   _collect_tensorflow_environment_variables(run_info)
   _collect_run_params(run_info, run_params)
-  _collect_cpu_info(run_info)
+  #_collect_cpu_info(run_info)
   _collect_memory_info(run_info)
   _collect_test_environment(run_info)
   return run_info

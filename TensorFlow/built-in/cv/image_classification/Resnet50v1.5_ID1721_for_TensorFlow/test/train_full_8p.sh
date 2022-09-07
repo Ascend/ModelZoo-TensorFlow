@@ -9,7 +9,7 @@ export JOB_ID=10087
 export RANK_TABLE_FILE=$cur_path/../official/r1/resnet/scripts/8p.json
 RANK_ID_START=0
 
-
+export PYTHONPATH=${cur_path}/../:$PYTHONPATH
 # 数据集路径,保持为空,不需要修改
 data_path=""
 
