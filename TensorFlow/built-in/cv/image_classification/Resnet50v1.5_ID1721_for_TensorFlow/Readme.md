@@ -43,7 +43,7 @@ ResNet是ImageNet竞赛中分类问题效果比较好的网络，它引入了残
 
 -   参考实现：
 
-    [https://github.com/tensorflow/models/tree/master/research/slim/nets/mobilenet](https://github.com/tensorflow/models/tree/master/research/slim)
+    [https://github.com/tensorflow/models/tree/r1.10.0/official/resnet](https://github.com/tensorflow/models/tree/r1.10.0/official/resnet)
     
 -   适配昇腾 AI 处理器的实现：
     
