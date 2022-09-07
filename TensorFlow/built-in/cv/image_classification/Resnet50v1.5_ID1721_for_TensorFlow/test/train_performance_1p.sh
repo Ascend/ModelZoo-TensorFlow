@@ -8,7 +8,7 @@ export RANK_SIZE=1
 export JOB_ID=10087
 
 RANK_ID_START=0
-
+export PYTHONPATH=${cur_path}/../:$PYTHONPATH
 
 # 数据集路径,保持为空,不需要修改
 data_path=""
