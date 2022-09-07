@@ -62,7 +62,8 @@ om文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.c
 
 首先需要下载acl相关工具：
 https://gitee.com/ascend/samples/tree/master/python/level2_simple_inference/6_other/colorization_picture
-利用代码colorize.py进行数据集前处理，om模型调用，数据后处理，生成txtcsv结果。
+
+再利用代码colorize.py进行数据集前处理，om模型调用，数据后处理，生成结果存放在txtcsv文件夹。
 
 数据集文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
 
