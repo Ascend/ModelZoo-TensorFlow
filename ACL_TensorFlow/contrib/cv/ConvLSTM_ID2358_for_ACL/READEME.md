@@ -37,7 +37,7 @@ obs地址：obs://convlstm/GPU/mini_dataset/GPU_output7/
 ```
 Convlstm_frozen_model.pb
 ```
-obs地址：obs://convlstm/GPU/mini_dataset/
+pb文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/Convlstm_frozen_model.pb
 
 
 
@@ -54,7 +54,7 @@ atc --model=/home/HwHiAiUser/AscendProjects/Convlstm/pb_model/Convlstm_frozen_mo
 
 成功转化成Convlstm_OM86.om
 
-Convlstm_OM86.om的obs地址：obs://convlstm/GPU/mini_dataset/
+om文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/Convlstm_OM86.om
 
 
 
@@ -62,7 +62,9 @@ Convlstm_OM86.om的obs地址：obs://convlstm/GPU/mini_dataset/
 
 首先需要下载acl相关工具：
 https://gitee.com/ascend/samples/tree/master/python/level2_simple_inference/6_other/colorization_picture
-利用代码colorize.py进行前处理，om模型调用，后处理，生成txtcsv结果。
+利用代码colorize.py进行数据集前处理，om模型调用，数据后处理，生成txtcsv结果。
+
+数据集文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
 
 实际27机器上的路径：/home/test_user07/Convlstm/samples/python/level2_simple_inference/6_other/colorization_picture/src/
 
