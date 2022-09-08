@@ -48,7 +48,7 @@ class Model:
         self.session = None
         self.tmp = EasyDict(print_queue=[], cache=EasyDict())
         self.step = tf.train.get_or_create_global_step()
-        self.ops = self.model(**kwargs)
+        self.loss, self.ops = self.model(**kwargs)
         self.ops.update_step = tf.assign_add(self.step, FLAGS.batch)
         self.add_summaries(**kwargs)
 
@@ -139,10 +139,12 @@ class ClassifySemi(Model):
         # overflow_status_reduce_all = tf.get_default_graph().get_tensor_by_name("overflow_status_reduce_all:0")
 
         # l_s, overflow_status_reduce_all,
-        self.tmp.step = train_session.run([self.ops.train_op, self.ops.update_step],
+        loss, _, self.tmp.step = train_session.run([self.loss, self.ops.train_op, self.ops.update_step],
                                           feed_dict={self.ops.x: x['image'],
                                                      self.ops.y: y['image'],
-                                                     self.ops.label: x['label']})[1]
+                                                     self.ops.label: x['label']})
+        print("step = %d, loss = %.2f" % (self.tmp.step, loss))
+        
         # print('loss_scale is: ', l_s)
         # print("overflow_status_reduce_all:", overflow_status_reduce_all)
 
@@ -238,6 +240,7 @@ class ClassifySemi(Model):
         batch = batch or FLAGS.batch
         classify_op = self.ops.classify_op if classify_op is None else classify_op
         accuracies = []
+        # loss = []
         for subset in ('train_labeled', 'valid', 'test'):
             images, labels = self.tmp.cache[subset]
             predicted = []
@@ -253,8 +256,11 @@ class ClassifySemi(Model):
             predicted = np.concatenate(predicted, axis=0)
             print('=='*10, predicted.argmax(1))
             accuracies.append(((np.array(predicted.argmax(1) == labels)).astype(np.int)).mean() * 100)
+            # loss.append(((1.0-(np.array(predicted.argmax(1) == labels)).astype(np.int)).mean() * 100))
         self.train_print('kimg %-5d  accuracy train/valid/test  %.2f  %.2f  %.2f' %
                          tuple([self.tmp.step >> 10] + accuracies))
+        # self.train_print('kimg %-5d  loss train/valid/test  %.2f  %.2f  %.2f' %
+                         # tuple([self.tmp.step >> 10] + loss))
         return np.array(accuracies, 'f')
 
     def add_summaries(self, feed_extra=None, **kwargs):
