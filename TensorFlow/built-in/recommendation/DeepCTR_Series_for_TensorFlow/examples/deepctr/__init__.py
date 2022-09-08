@@ -27,8 +27,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from .utils import check_version
-
-__version__ = '0.9.0'
-check_version(__version__)
+# from .utils import check_version
+#
+# __version__ = '0.9.0'
+# check_version(__version__)
 

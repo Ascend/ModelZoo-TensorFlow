@@ -31,6 +31,7 @@ from .afm import AFMEstimator
 from .autoint import AutoIntEstimator
 from .ccpm import CCPMEstimator
 from .dcn import DCNEstimator
+from .dcnmix import DCNMixEstimator
 from .deepfm import DeepFMEstimator
 from .fwfm import FwFMEstimator
 from .fibinet import FiBiNETEstimator

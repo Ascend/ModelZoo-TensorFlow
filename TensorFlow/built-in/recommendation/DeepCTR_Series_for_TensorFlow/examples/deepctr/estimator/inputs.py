@@ -29,6 +29,7 @@
 #
 from npu_bridge.npu_init import *
 import tensorflow as tf
+import os
 
 
 def input_fn_pandas(df, features, label=None, batch_size=256, num_epochs=1, shuffle=False, queue_capacity_factor=10,
@@ -78,6 +79,40 @@ def input_fn_tfrecord(filenames, feature_description, label=None, batch_size=256
             iterator = tf.compat.v1.data.make_one_shot_iterator(dataset)
 
         return iterator.get_next()
+
+    return input_fn
+
+def input_fn_tfrecord_adv(file_list, feature_description, label=None, batch_size=256,
+                          num_epochs=1, num_parallel_calls=8, shuffle_factor=10, prefetch_factor=1,
+                          ):
+    def _parse_examples(serial_exmp):
+        try:
+            features = tf.parse_single_example(serial_exmp, features=feature_description)
+        except AttributeError:
+            features = tf.io.parse_single_example(serial_exmp, features=feature_description)
+        if label is not None:
+            labels = features.pop(label)
+            return features, labels
+        return features
+
+    def input_fn():
+        dataset = tf.data.Dataset.from_tensor_slices(file_list)
+        dataset = tf.data.TFRecordDataset(dataset, num_parallel_calls=num_parallel_calls)
+        dataset = dataset.map(_parse_examples, num_parallel_calls=num_parallel_calls)
+        if shuffle_factor > 0:
+            rank_size = int(os.getenv("RANK_SIZE"))
+            if rank_size > 1:
+                rank_id = int(os.getenv("RANK_ID"))
+                dataset = dataset.shard(rank_size, rank_id)
+            dataset = dataset.shuffle(buffer_size=batch_size * shuffle_factor)
+            dataset = dataset.repeat(num_epochs)
+
+        dataset = dataset.batch(batch_size, drop_remainder=True)
+
+        if prefetch_factor > 0:
+            dataset = dataset.prefetch(buffer_size=batch_size * prefetch_factor)
+
+        return dataset
 
     return input_fn
 
