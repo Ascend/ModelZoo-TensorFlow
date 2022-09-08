@@ -125,6 +125,7 @@ class MixMatch(models.MultiModel):
         # opt = opt.minimize(self.loss)
 
         loss_manager = loss_xe + w_match * loss_l2u
+
         train_op = create_optimizer(loss_manager, lr, "adam")
         if FLAGS.use_fp16 and (FLAGS.loss_scale not in [None, -1]):
             opt_tmp = train_op
@@ -151,7 +152,7 @@ class MixMatch(models.MultiModel):
         train_bn = tf.group(*[v for v in tf.get_collection(tf.GraphKeys.UPDATE_OPS)
                               if v not in skip_ops])
 
-        return EasyDict(
+        return loss_manager, EasyDict(
             x=x_in, y=y_in, label=l_in, train_op=train_op, tune_op=train_bn,
             classify_raw=tf.nn.softmax(classifier(x_in, training=False)),  # No EMA, for debugging.
             classify_op=tf.nn.softmax(classifier(x_in, getter=ema_getter, training=False)))
