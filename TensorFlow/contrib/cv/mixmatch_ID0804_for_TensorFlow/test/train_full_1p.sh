@@ -122,10 +122,13 @@ fi
 
 # 性能相关数据计算
 FPS=`grep -Eo "[0-9]*.[0-9]*img/s" ${print_log} | tail -n 10 | head -n 5 | awk '{sum+=$1} END {print"",sum/NR}' | awk '{print $1}'`
-StepTime=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${FPS}'}'`
+StepTime=`awk 'BEGIN{printf "%.3f\n", '${batch_size}'/'${FPS}'}'`
 
 # 精度相关数据计算
 train_accuracy=`grep "accuracy" ${print_log} | awk '{print $NF}' | awk 'NR==1{max=$1;next}{max=max>$1?max:$1}END{print max}'`
+
+# 提取所有loss打印信息
+grep "loss = " ${print_log} | awk '{print $NF}' >  ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -151,10 +154,10 @@ fi
 get_casename
 
 # 重命名loss文件
-# if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
-# then
-#     mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
-# fi
+if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
+then
+    mv ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt
+fi
 
 # 训练端到端耗时
 end_time=$(date +%s)
@@ -170,7 +173,7 @@ echo "E2E Training Duration sec : $e2e_time"
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-# ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
+ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -180,7 +183,7 @@ echo "DeviceType = `uname -m`" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-# echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 
