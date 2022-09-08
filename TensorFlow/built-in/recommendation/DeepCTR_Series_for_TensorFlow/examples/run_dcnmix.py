@@ -163,7 +163,7 @@ def main():
         log_step_count_steps=None,
         session_config=tf.ConfigProto(allow_soft_placement=True, log_device_placement=False),
         precision_mode=args.precision_mode,
-        enable_data_pre_proce=True,
+        enable_data_pre_proc=True,
         graph_memory_max_size=str(24 * 1024 * 1024 * 1024),
         variable_memory_max_size=str(7 * 1024 * 1024 * 1024),
         hcom_parallel=True
