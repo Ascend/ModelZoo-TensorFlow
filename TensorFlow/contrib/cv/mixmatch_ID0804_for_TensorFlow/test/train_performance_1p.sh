@@ -90,9 +90,10 @@ cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}/ckpt
 
-# 修改路径
+# 修改配置
 sed -i "s#/cache/dataset#${data_path}/ML_DATA#" ./libml/data.py
 sed -i "s#/cache/result#${output_path}/ckpt#" ./libml/train.py
+sed -i "s/train_kimg << 10/train_kimg/" ./mixmatch.py
 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
