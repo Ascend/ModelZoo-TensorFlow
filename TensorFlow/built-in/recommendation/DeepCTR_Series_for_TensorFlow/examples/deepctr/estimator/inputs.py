@@ -97,7 +97,7 @@ def input_fn_tfrecord_adv(file_list, feature_description, label=None, batch_size
 
     def input_fn():
         dataset = tf.data.Dataset.from_tensor_slices(file_list)
-        dataset = tf.data.TFRecordDataset(dataset, num_parallel_calls=num_parallel_calls)
+        dataset = tf.data.TFRecordDataset(dataset, num_parallel_reads=num_parallel_calls)
         dataset = dataset.map(_parse_examples, num_parallel_calls=num_parallel_calls)
         if shuffle_factor > 0:
             rank_size = int(os.getenv("RANK_SIZE"))
