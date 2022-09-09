@@ -43,13 +43,13 @@ pb文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.c
 
 <h2 id="概述.md">om模型</h2>
 
-转Convlstm_frozen_model.pb到Convlstm_OM86.om
+转Convlstm_frozen_model.pb到Convlstm_OM.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 ```
-atc --model=/home/test_user07/Convlstm/READEME/Convlstm_frozen_model.pb --framework=3 --output=/home/test_user07/Convlstm/READEME/Convlstm_OM909 --soc_version=Ascend910  --input_shape="input/Placeholder:32,1,384,1280,6" --log=info --out_nodes="Wx_plus_b/xw_plus_b:0"  --precision_mode=force_fp32 --op_select_implmode=high_precision
+atc --model=/home/test_user07/Convlstm/READEME/Convlstm_frozen_model.pb --framework=3 --output=/home/test_user07/Convlstm/READEME/Convlstm_OM --soc_version=Ascend910  --input_shape="input/Placeholder:32,1,384,1280,6" --log=info --out_nodes="Wx_plus_b/xw_plus_b:0"  --precision_mode=force_fp32 --op_select_implmode=high_precision
 ```
-成功转化成Convlstm_OM909.om
+成功转化成Convlstm_OM.om
 
 om文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/Convlstm_OM86.om
 
@@ -77,15 +77,17 @@ python3 colorize.py
 
 <h2 id="概述.md">结果计算</h2>
 
-利用evo工具进行推理txtcsv文件夹中的数据文件计算
-
-计算参考，先cd到所在文件夹，再执行：
+安装evo工具：
+```
+pip install evo --upgrade --no-binary evo
+```
+利用evo工具对txtcsv文件夹中的数据进行计算，先cd到所在文件夹（其中output_12D_file.txt是真值文件，estimated_12D_file.txt是预测文件），执行：
 
 ```
 evo_ape kitti  output_12D_file.txt  estimated_12D_file.txt  -r full -va --plot --plot_mode xz --save_results results/ConvLSTM.zip
 
 ```
-推理计算后的均方根误差RMSE（Root Mean Square Error）为16.048021，对比GPU的结果为16.047025。
+推理计算后的均方根误差RMSE（Root Mean Square Error）为16.048021，对比GPU的结果16.047025，精度达标。
 
 
 
