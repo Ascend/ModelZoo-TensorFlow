@@ -46,10 +46,9 @@ pb文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.c
 转Convlstm_frozen_model.pb到Convlstm_OM86.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
-
 ```
 atc --model=/home/test_user07/Convlstm/READEME/Convlstm_frozen_model.pb --framework=3 --output=/home/test_user07/Convlstm/READEME/Convlstm_OM909 --soc_version=Ascend910  --input_shape="input/Placeholder:32,1,384,1280,6" --log=info --out_nodes="Wx_plus_b/xw_plus_b:0"  --precision_mode=force_fp32 --op_select_implmode=high_precision
-
+```
 成功转化成Convlstm_OM909.om
 
 om文件共享地址：
