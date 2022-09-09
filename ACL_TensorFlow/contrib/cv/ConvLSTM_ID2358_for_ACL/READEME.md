@@ -48,13 +48,11 @@ pb文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.c
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 
 ```
-atc --model=/home/HwHiAiUser/AscendProjects/Convlstm/pb_model/Convlstm_frozen_model.pb --framework=3 --output=/home/HwHiAiUser/AscendProjects/Convlstm/Convlstm_OM86
---soc_version=Ascend910 --input_shape="input/Placeholder:32,1,384,1280,6" --log=info --out_nodes="Wx_plus_b/xw_plus_b:0"
-```
+atc --model=/home/test_user07/Convlstm/READEME/Convlstm_frozen_model.pb --framework=3 --output=/home/test_user07/Convlstm/READEME/Convlstm_OM909 --soc_version=Ascend910  --input_shape="input/Placeholder:32,1,384,1280,6" --log=info --out_nodes="Wx_plus_b/xw_plus_b:0"  --precision_mode=force_fp32 --op_select_implmode=high_precision
 
-成功转化成Convlstm_OM86.om
+成功转化成Convlstm_OM909.om
 
-om文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/Convlstm_OM86.om
+om文件共享地址：
 
 
 
@@ -63,7 +61,11 @@ om文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.c
 首先需要下载acl相关工具：
 https://gitee.com/ascend/samples/tree/master/python/level2_simple_inference/6_other/colorization_picture
 
-再利用代码colorize.py进行数据集前处理，om模型调用，数据后处理，生成结果存放在txtcsv文件夹。
+再利用代码colorize.py进行数据集前处理，om模型调用，数据后处理，生成结果存放在txtcsv文件夹:
+
+```
+python3 colorize.py
+```
 
 数据集文件共享地址，需要在colorize.py中替换datapath：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
 
