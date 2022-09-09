@@ -1,0 +1,8 @@
+tensorflow==1.15
+pickle
+csv
+sklearn
+argparse
+shutil
+rdkit
+numpy
