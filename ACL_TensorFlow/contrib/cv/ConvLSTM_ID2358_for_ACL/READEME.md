@@ -51,7 +51,7 @@ atc --model=/home/test_user07/Convlstm/READEME/Convlstm_frozen_model.pb --framew
 ```
 成功转化成Convlstm_OM909.om
 
-om文件共享地址：
+om文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/Convlstm_OM86.om
 
 
 
