@@ -85,7 +85,7 @@ python3 colorize.py
 evo_ape kitti  output_12D_file.txt  estimated_12D_file.txt  -r full -va --plot --plot_mode xz --save_results results/ConvLSTM.zip
 
 ```
-
+推理计算后的均方根误差RMSE（Root Mean Square Error）为16.048021，对比GPU的结果为16.047025。
 
 
 
