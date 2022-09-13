@@ -1,0 +1,27 @@
+1)
+  train_files: [ 'teacher01.dat', 'teacher02.dat', 'teacher03.dat', 'subject01.dat', 'subject02.dat', 'subject03.dat', 'subject04_1.dat', 'subject04_2.dat', 'subject08.dat', 'subject09.dat', 'subject10.dat' ]
+  validation_files: [  'subject06.dat', 'subject07_1.dat', 'subject07_2.dat', ]
+  test_files: [ 'subject05.dat', 'subject11.dat' ]
+
+  Acc: 80%
+
+2)
+  train_files: [ 'teacher01.dat',  'subject05.dat', 'teacher03.dat', 'subject01.dat', 'subject02.dat', 'subject03.dat', 'subject04_1.dat', 'subject04_2.dat', 'subject08.dat', 'subject09.dat', 'subject10.dat' ]
+  validation_files: [  'subject06.dat', 'subject11.dat']
+  test_files: [  'teacher02.dat',  'subject07_1.dat', 'subject07_2.dat',]
+
+  Acc: 83%
+
+3)
+  train_files: [ 'teacher01.dat',  'subject05.dat', 'teacher03.dat', 'subject01.dat', 'subject02.dat', 'subject03.dat', 'subject11.dat', 'subject04_1.dat', 'subject04_2.dat', 'subject09.dat', 'subject10.dat' ]
+  validation_files: [  'subject06.dat', 'subject08.dat', ]
+  test_files: [  'teacher02.dat',  'subject07_1.dat', 'subject07_2.dat',]
+
+  Acc: 83%
+
+4)
+  train_files: [ 'teacher01.dat',  'subject03.dat', 'subject05.dat', 'teacher03.dat',  'subject06.dat', 'subject11.dat', 'subject04_1.dat', 'subject04_2.dat', 'subject09.dat', 'subject10.dat' ]
+  validation_files: [  'subject08.dat', 'teacher02.dat',]
+  test_files: [ 'subject01.dat',  'subject02.dat',    'subject07_1.dat', 'subject07_2.dat',]
+
+  Acc: 81%
