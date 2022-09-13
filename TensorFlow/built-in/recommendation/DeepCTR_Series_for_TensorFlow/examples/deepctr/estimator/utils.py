@@ -150,8 +150,15 @@ class Head(_Head):
 
 
 def deepctr_model_fn(features, mode, logits, labels, task, linear_optimizer, dnn_optimizer, training_chief_hooks):
-    linear_optimizer = get_optimizer_instance(linear_optimizer, 0.005)
-    dnn_optimizer = get_optimizer_instance(dnn_optimizer, 0.01)
+    rank_size = int(os.getenv("RANK_SIZE"))
+    linear_lr = 0.005 * round(rank_size**0.5)
+    dnn_lr = 0.01 * round(rank_size**0.5)
+    linear_optimizer = get_optimizer_instance(linear_optimizer, linear_lr)
+    dnn_optimizer = get_optimizer_instance(dnn_optimizer, dnn_lr)
+
+    if rank_size > 1:
+        linear_optimizer = NPUOptimizer(linear_optimizer, is_distributed=True, is_tailing_optimization=True)
+        dnn_optimizer = NPUOptimizer(dnn_optimizer, is_distributed=True, is_tailing_optimization=True)
     train_op_fn = get_train_op_fn(linear_optimizer, dnn_optimizer)
 
     head = Head(task)
