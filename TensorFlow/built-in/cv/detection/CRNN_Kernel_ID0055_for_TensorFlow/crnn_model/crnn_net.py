@@ -186,24 +186,26 @@ class ShadowNet(cnn_basenet.CNNBaseModel):
             #    dtype=tf.float32
             #)
             
-            inputdata = tf.cast(inputdata, tf.float16)
             inputdata = tf.transpose(inputdata, [1, 0, 2], name='transpose_inputdata')
-            # for RNN cell instances
-            #print(inputdata)
-            fw1_cell = DynamicRNN(256, dtypes.float16, time_major=True, forget_bias=1.0)
-            bw1_cell = DynamicRNN(256, dtypes.float16, time_major=True, forget_bias=1.0)
-            #fw2_cell = DynamicRNN(256, dtypes.float32, time_major=True, forget_bias=1.0)
-            #bw2_cell = DynamicRNN(256, dtypes.float32, time_major=True, forget_bias=1.0)
+            # for RNN cell instances and self._layers_nums=2
+            fw_cell = DynamicRNN(self._hidden_nums, dtypes.float32, time_major=True, forget_bias=1.0)
+            bw_cell = DynamicRNN(self._hidden_nums, dtypes.float32, time_major=True, forget_bias=1.0)
 
-            y, output_h, output_c, i, j, f, o, tanh = fw1_cell(inputdata)
-            y2, output_h, output_c, i, j, f, o, tanh = bw1_cell( tf.reverse(inputdata,axis=[0]))
-            l2_input = tf.concat((y, tf.reverse(y2,axis=[0])),axis=2)
-            #y3, output_h, output_c, i, j, f, o, tanh = fw2_cell(l2_input)
-            #y4, output_h, output_c, i, j, f, o, tanh = bw2_cell(tf.reverse(l2_input,axis=[0]))
-            #stack_lstm_layer = tf.concat((y3, tf.reverse(y4,axis=[0])),axis=2)
+            fw_y1, output_h, output_c, i, j, f, o, tanh = fw_cell(inputdata)
+            bw_y1, output_h, output_c, i, j, f, o, tanh = bw_cell(tf.reverse(inputdata, axis=[0]))
+            output_rnn1 = tf.concat((fw_y1, tf.reverse(bw_y1, axis=[0])), axis=2)
+
+            fw_cell2 = DynamicRNN(self._hidden_nums, dtypes.float32, time_major=True, forget_bias=1.0)
+            bw_cell2 = DynamicRNN(self._hidden_nums, dtypes.float32, time_major=True, forget_bias=1.0)
+
+            fw_y2, output_h, output_c, i, j, f, o, tanh = fw_cell2(output_rnn1)
+            bw_y2, output_h, output_c, i, j, f, o, tanh = bw_cell2(tf.reverse(output_rnn1, axis=[0]))
+            output_rnn2 = tf.concat((fw_y2, tf.reverse(bw_y2, axis=[0])), axis=2)
+
+            # outputs = tf.transpose(output_rnn2, perm=[1, 0, 2], name="transpose_outdata")
+
             stack_lstm_layer = self.dropout(
-                #inputdata=stack_lstm_layer,
-                inputdata=l2_input,
+                inputdata=output_rnn2,
                 keep_prob=0.5,
                 is_training=self._is_training,
                 name='sequence_drop_out'
@@ -216,25 +218,17 @@ class ShadowNet(cnn_basenet.CNNBaseModel):
             w = tf.get_variable(
                 name='w',
                 shape=[hidden_nums, self._num_classes],
-                initializer=tf.truncated_normal_initializer(stddev=0.02),
-                #initializer=tf.truncated_normal_initializer(stddev=0.2),
-                #initializer=tf.contrib.layers.variance_scaling_initializer(),
-                dtype=tf.float16,
-                #dtype=tf.float32,
+                initializer=tf.truncated_normal_initializer(stddev=0.2),
                 trainable=True
             )
-            #tf.add_to_collection("inputdata", [w])
             # Doing the affine projection
             logits = tf.matmul(rnn_reshaped, w, name='logits')
-
             logits = tf.reshape(logits, [shape[0], shape[1], self._num_classes], name='logits_reshape')
-            #logits = tf.transpose(logits, [1, 0, 2], name='transpose_time_major')
-            #print(logits)
+
             raw_pred = tf.argmax(tf.nn.softmax(logits), axis=2, name='raw_prediction')
-            raw_pred = tf.transpose(raw_pred, [1, 0], name='transpose_time_major')
-            #print(raw_pred)
-        return tf.cast(logits, tf.float32), tf.cast(raw_pred, tf.float32)
-        #return logits, raw_pred
+            raw_pred = tf.transpose(raw_pred, [1, 0], name='transpose_batch_major')
+
+        return logits, raw_pred
 
     def inference(self, inputdata, name, reuse=False):
         """
