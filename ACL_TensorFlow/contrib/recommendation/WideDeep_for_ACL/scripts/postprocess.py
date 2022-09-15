@@ -99,5 +99,5 @@ if __name__=="__main__":
         sess.run(tf.global_variables_initializer())
         sess.run(tf.local_variables_initializer())
         accuracy_results["Acc"] = sess.run(map_tensor)[1]
-    
+    print("Acc:", accuracy_results['Acc'])
     write_accuracy(args.result_file,accuracy_results)
