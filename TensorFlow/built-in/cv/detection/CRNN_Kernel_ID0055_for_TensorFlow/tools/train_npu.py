@@ -287,7 +287,7 @@ def train_shadownet(dataset_dir, weights_path, char_dict_path, ord_map_dict_path
             tf.less(global_step, warmup_steps), 
             lambda:wp_lr,
             lambda: decayed_lr)
-    learning_rate = tf.convert_to_tensor(args.lr)
+    #learning_rate = tf.convert_to_tensor(args.lr)
     
     optimizer = tf.train.MomentumOptimizer(
             learning_rate=learning_rate,
