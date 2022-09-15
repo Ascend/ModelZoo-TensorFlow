@@ -1,0 +1,7 @@
+/home/TestUser02/PRSR/PRSR_NPU_5_25/tools-master/msame/build/intermediates/host/CMakeFiles/install/strip.dir
+/home/TestUser02/PRSR/PRSR_NPU_5_25/tools-master/msame/build/intermediates/host/CMakeFiles/edit_cache.dir
+/home/TestUser02/PRSR/PRSR_NPU_5_25/tools-master/msame/build/intermediates/host/CMakeFiles/main.dir
+/home/TestUser02/PRSR/PRSR_NPU_5_25/tools-master/msame/build/intermediates/host/CMakeFiles/rebuild_cache.dir
+/home/TestUser02/PRSR/PRSR_NPU_5_25/tools-master/msame/build/intermediates/host/CMakeFiles/list_install_components.dir
+/home/TestUser02/PRSR/PRSR_NPU_5_25/tools-master/msame/build/intermediates/host/CMakeFiles/install/local.dir
+/home/TestUser02/PRSR/PRSR_NPU_5_25/tools-master/msame/build/intermediates/host/CMakeFiles/install.dir
