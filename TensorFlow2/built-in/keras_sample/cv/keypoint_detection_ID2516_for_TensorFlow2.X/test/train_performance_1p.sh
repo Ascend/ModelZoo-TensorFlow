@@ -123,8 +123,8 @@ echo "Final Training Duration sec : $e2e_time"
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep 166/166 $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk '{print $3}'|tr -d 's'|awk '{sum+=$1} END {print"",sum/NR}'|sed s/[[:space:]]//g`
-FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${TrainingTime}'}'`
+TrainingTime=`grep 166/166 $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk '{print $3}'|tr -d 's'|tail -1|awk '{sum+=$1} END {print"",sum/NR}'|sed s/[[:space:]]//g`
+FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*166/'${TrainingTime}'}'`
 wait
 
 #打印，不需要修改
