@@ -600,14 +600,17 @@ class SSDVGG:
         # Build the optimizer
         #-----------------------------------------------------------------------
         with tf.variable_scope('optimizer'):
-            optimizer = npu_tf_optimizer(tf.train.MomentumOptimizer(learning_rate, momentum))
             #****** npu modify begin ******
             loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=2, decr_ratio=0.5)
-            optimizer = NPULossScaleOptimizer(optimizer, loss_scale_manager)
+            if int(os.getenv('RANK_SIZE')) > 1:
+                print("****** enter distrinuted optimozer ******")
+                optimizer = npu_distributed_optimizer_wrapper(tf.train.MomentumOptimizer(learning_rate, momentum))  
+                optimizer = NPULossScaleOptimizer(optimizer, loss_scale_manager, is_distributed=True)
+            else:
+                optimizer = npu_tf_optimizer(tf.train.MomentumOptimizer(learning_rate, momentum))
+                optimizer = NPULossScaleOptimizer(optimizer, loss_scale_manager)
             #****** npu modify end ******
-            optimizer = optimizer.minimize(self.loss, global_step=global_step,
-                                           name='optimizer')
-
+            optimizer = optimizer.minimize(self.loss, global_step=global_step, name='optimizer')
         #-----------------------------------------------------------------------
         # Store the tensors
         #-----------------------------------------------------------------------
