@@ -208,6 +208,8 @@ def main():
     custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
     custom_op.parameter_map["use_off_line"].b = True
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)
+    if int(os.environ.get('RANK_SIZE')) > 1:
+        custom_op.parameter_map["hcom_parallel"].b = True
     if args.over_dump:
         custom_op.parameter_map["enable_dump_debug"].b = True
         custom_op.parameter_map["dump_debug_mode"].s = tf.compat.as_bytes("all")
@@ -297,6 +299,16 @@ def main():
             net_summary = sess.run(net_summary_ops)
             summary_writer.add_summary(net_summary, 0)
         summary_writer.flush()
+ 
+	#-----------------------------------------------------------------------
+	#variable broadcasting
+	#-----------------------------------------------------------------------
+        if int(os.environ.get('RANK_SIZE')) > 1:
+            input = tf.trainable_variables()
+            bcast_global_variables_op = hccl_ops.broadcast(input, 0)
+            sess.run(bcast_global_variables_op)
+
+            args.epochs = args.epochs//int(os.environ.get('RANK_SIZE'))
 
         #-----------------------------------------------------------------------
         # Cycle through the epoch
@@ -311,9 +323,10 @@ def main():
             #-------------------------------------------------------------------
             generator = td.train_generator(args.batch_size, args.num_workers)
             description = '[i] Train {:>2}/{}'.format(e+1, args.epochs)
+
             n = 0
             duration = 0
-            start_time=time.time()
+            start_time = time.time()
             for x, y, gt_boxes in tqdm(generator, total=n_train_batches,
                                        desc=description, unit='batches'):
 
@@ -322,18 +335,15 @@ def main():
 
                 feed = {net.image_input: x,
                         net.labels: y}
-                #start_time = time.time()
                 result, loss_batch, _ = sess.run([net.result, net.losses,
                                                   net.optimizer],
-                                                 feed_dict=feed)
+                                                  feed_dict=feed)
 
-                #duration += (time.time() - start_time)
                 n = n+1
-                '''if n % 100 == 0:
-                    print('step:'+str(n), 'loss:'+str(loss_batch['total']), 'perf = {:4f}'.format(duration))
-                    duration = 0
-                if math.isnan(loss_batch['confidence']):
-                    print('[!] Confidence loss is NaN.')'''
+                # if n % 1 == 0:
+                #     print('step:'+str(n), 'loss:'+str(loss_batch['total']), 'perf = {:4f}'.format(duration))
+                # if math.isnan(loss_batch['confidence']):
+                #     print('[!] Confidence loss is NaN.')
 
                 training_loss.add(loss_batch, x.shape[0])
 
@@ -346,11 +356,15 @@ def main():
 
                     if len(training_imgs_samples) < 3:
                         training_imgs_samples.append((saved_images[i], boxes))
-            duration += (time.time() - start_time)
+
+            # Each epoch costtime
+            duration = (time.time() - start_time)
+
             #-------------------------------------------------------------------
             # Validate
             #-------------------------------------------------------------------
-            '''generator = td.valid_generator(args.batch_size, args.num_workers)
+            '''
+            generator = td.valid_generator(args.batch_size, args.num_workers)
             description = '[i] Valid {:>2}/{}'.format(e+1, args.epochs)
             for x, y, gt_boxes in tqdm(generator, total=n_valid_batches,
                                        desc=description, unit='batches'):
@@ -368,14 +382,15 @@ def main():
                     validation_ap_calc.add_detections(gt_boxes[i], boxes)
 
                     if len(validation_imgs_samples) < 3:
-                        validation_imgs_samples.append((np.copy(x[i]), boxes))'''
+                        validation_imgs_samples.append((np.copy(x[i]), boxes))
+            '''
 
             #-------------------------------------------------------------------
             # Write summaries
             #-------------------------------------------------------------------
             training_loss.push(e+1)
             #****** npu modify begin ******
-            print('epoch:'+str(e+1), 'loss:'+str(loss_batch['total']), 'perf = {:4f} global_ste/sec'.format(n/duration))
+            print('epoch:'+str(e+1), 'loss:'+str(loss_batch['total']), 'perf = {:4f} global_step/sec'.format(n/duration))
             #****** npu modify end ******
             #validation_loss.push(e+1)
 
