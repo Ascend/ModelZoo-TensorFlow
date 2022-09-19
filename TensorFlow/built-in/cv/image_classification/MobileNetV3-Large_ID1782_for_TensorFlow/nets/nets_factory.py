@@ -21,8 +21,8 @@ import functools
 from tensorflow.contrib import slim as contrib_slim
 
 
-from nets import inception
-from nets.mobilenet import mobilenet_v2
+
+
 from nets.mobilenet import mobilenet_v3
 
 
@@ -31,8 +31,8 @@ slim = contrib_slim
 
 networks_map = {
 
-    'inception_v2': inception.inception_v2,
 
+    'mobilenet_v3_small': mobilenet_v3.small,
     'mobilenet_v3_large': mobilenet_v3.large,
     'mobilenet_v3_small_minimalistic': mobilenet_v3.small_minimalistic,
     'mobilenet_v3_large_minimalistic': mobilenet_v3.large_minimalistic,
@@ -41,11 +41,6 @@ networks_map = {
 }
 
 arg_scopes_map = {
-
-
-    'inception_v2': inception.inception_v3_arg_scope,
-    
-   
     'mobilenet_v3_small': mobilenet_v3.training_scope,
     'mobilenet_v3_large': mobilenet_v3.training_scope,
     'mobilenet_v3_small_minimalistic': mobilenet_v3.training_scope,
