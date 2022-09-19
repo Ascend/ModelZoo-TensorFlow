@@ -28,7 +28,7 @@ To train model on npu:
 
 # offline inference
 
-we provide .pb file and .om file for evaluation:\
+we provide .pb file and .om file for evaluation:
 
 [https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/PRSR/prsr_conditioning.pb](https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/PRSR/prsr_conditioning.pb)
 
