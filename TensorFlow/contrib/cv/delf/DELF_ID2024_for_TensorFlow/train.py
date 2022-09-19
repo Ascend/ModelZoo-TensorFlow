@@ -292,7 +292,7 @@ def main(argv):
   config_proto.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 
   ## set mix precision
-  custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+  # custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
   ### set black list for mix precision
   #custom_op.parameter_map['modify_mixlist'].s = tf.compat.as_bytes(OPS_FILE)
   #print("[PrecisionTool] Set mix_precision setting file: ", OPS_FILE)
