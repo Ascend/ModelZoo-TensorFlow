@@ -133,7 +133,10 @@ cost = time.time() - begin
 print("write_graph cost {} sec !".format(cost))
 
 rank_size = int(os.getenv('RANK_SIZE'))
-rank_id = int(os.getenv('RANK_ID'))
+if rank_size > 1:
+    rank_id = int(os.getenv('RANK_ID'))
+else:
+    rank_id = 0
 
 for epoch in range(int(args.train_epochs)):
 
