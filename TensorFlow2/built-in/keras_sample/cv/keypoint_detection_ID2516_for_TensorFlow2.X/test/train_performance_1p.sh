@@ -2,11 +2,11 @@
 cur_path=`pwd`/../
 
 #设置默认日志级别,不需要修改
-# export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
+# export ASCEND_GLOBAL_LOG_LEVEL=3
 
 #基础参数，需要模型审视修改
 #Batch Size
-batch_size=64
+batch_size=32
 #网络名称，同目录名称
 Network="keypoint_detection_ID2516_for_TensorFlow2.X"
 #Device数量，单卡默认为1
@@ -40,7 +40,7 @@ auto_tune=False
 ############维测参数##############
 
 if [[ $1 == --help || $1 == --h ]];then
-   echo "usage: ./train_performance_1p.sh"
+   echo "usage: ./train_full_1p.sh"
    exit 1
 fi
 
@@ -106,13 +106,14 @@ nohup python3 keypoint_detection.py \
         --data_dump_flag=${data_dump_flag} \
         --data_dump_step=${data_dump_step} \
         --data_dump_path=${data_dump_path} \
-        --profiling=${profiling} \
+	--profiling=${profiling} \
     --use_mixlist=${use_mixlist} \
     --fusion_off_flag=${fusion_off_flag} \
     --mixlist_file=${mixlist_file} \
     --fusion_off_file=${fusion_off_file} \
     --auto_tune=${auto_tune} \
-    --profiling_dump_path=${profiling_dump_path}>$cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+    --profiling_dump_path=${profiling_dump_path} \
+    --static=0 >$cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 wait
 
 end=$(date +%s)
@@ -123,17 +124,17 @@ echo "Final Training Duration sec : $e2e_time"
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep 166/166 $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk '{print $3}'|tr -d 's'|tail -1|awk '{sum+=$1} END {print"",sum/NR}'|sed s/[[:space:]]//g`
-FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*166/'${TrainingTime}'}'`
+TrainingTime=`grep loss: $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $3}'|awk 'NR==2'|tr -cd "[0-9]"`
+FPS=`awk 'BEGIN{printf "%.2f\n",'333'*'${batch_size}'/'${TrainingTime}'}'`
 wait
 
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-# train_accuracy=`grep val_loss $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk 'END {print$9}'`
+train_accuracy=`grep 'loss:' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk 'END {print $6}'`
 #打印，不需要修改
-echo "Final Train Accuracy : =Loss"
+echo "Final Train Accuracy : =${train_accuracy}"
 
 
 #精度看护结果汇总
@@ -149,7 +150,7 @@ ActualFPS=${FPS}
 TrainingTime=${TrainingTime}
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-cat $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|grep 166/166 |awk '{print $6}'|sed s/[[:space:]]//g > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+cat $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| grep loss: | awk '{print $6}' > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt  
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print $1}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
@@ -158,9 +159,9 @@ echo "Network = ${Network}" > $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName
 echo "RankSize = ${RANK_SIZE}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "BatchSize = ${BatchSize}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DeviceType = ${DeviceType}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "CaseName = ${CaseName}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CaseName = ${CaseName}_dynamic" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "TrainAccuracy = Loss" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
