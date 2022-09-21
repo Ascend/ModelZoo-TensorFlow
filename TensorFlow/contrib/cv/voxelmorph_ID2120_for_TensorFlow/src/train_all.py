@@ -90,7 +90,7 @@ def train(train_data_dir,
     :param data_loss: data_loss: 'mse' or 'ncc
     """
     # load atlas from provided files. The atlas we used is 160x192x224.
-    atlas_vol = nib.load(atlas_file).dataobj[np.newaxis, ..., np.newaxis]
+    atlas_vol = nib.load(atlas_file).dataobj[np.newaxis, ..., np.newaxis].astype('float32')
     vol_size = atlas_vol.shape[1:-1]
 
     # prepare data files

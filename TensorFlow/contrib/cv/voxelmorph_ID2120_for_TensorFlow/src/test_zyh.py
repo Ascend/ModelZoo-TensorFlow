@@ -34,6 +34,7 @@ train atlas-based alignment with CVPR2018 version of VoxelMorph
 # python imports
 import os
 import sys
+import time
 from argparse import ArgumentParser
 
 # third-party imports
@@ -77,8 +78,8 @@ def test_zyh(data_path,
 
     # load atlas from provided files. The atlas we used is 160x192x224.
     atlas_vol = nib.load(os.path.join(data_path, 'atlas_abide_brain_crop.nii.gz')).dataobj[
-        np.newaxis, ..., np.newaxis]
-    atlas_seg = nib.load(os.path.join(data_path, 'atlas_abide_seg_crop.nii.gz')).dataobj
+        np.newaxis, ..., np.newaxis].astype('float32')
+    atlas_seg = np.array(nib.load(os.path.join(data_path, 'atlas_abide_seg_crop.nii.gz')).dataobj).astype('float32')
     vol_size = atlas_vol.shape[1:-1]
     test_path = os.path.join(data_path, 'test/')
     seg_path = os.path.join(data_path, 'seg_affined/')
@@ -129,13 +130,15 @@ def test_zyh(data_path,
             # load subject test
             X_vol, X_seg = datagenerators.load_example_by_name(vol_name, seg_name)
 
+            t0 = time.time()
             pred_flow = sess.run(flow, feed_dict={src: X_vol, tgt: atlas_vol})
+            t = time.time()-t0
 
             warp_seg = nn_trf_model.predict([X_seg, pred_flow])[0, ..., 0]
             # OrthoSlicer3D(warp_seg).show()
 
             dice_vals[:, k] = dice(warp_seg, atlas_seg, labels=good_labels)
-            print('%3d %5.3f %5.3f' % (k, np.mean(dice_vals[:, k]), np.mean(np.mean(dice_vals[:, :k + 1]))))
+            print('%3d %5.3f %5.3f, %.3f' % (k, np.mean(dice_vals[:, k]), np.mean(np.mean(dice_vals[:, :k + 1])), t))
 
     return np.mean(dice_vals[:]), np.std(dice_vals[:])
 

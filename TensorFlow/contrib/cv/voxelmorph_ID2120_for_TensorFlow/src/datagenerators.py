@@ -42,7 +42,7 @@ import tensorflow as tf
 
 def zyh_data_in(vol_name, np_var='vol_data'):
     X = load_volfile(vol_name, np_var=np_var)
-    X = X[np.newaxis, ..., np.newaxis]
+    X = X[np.newaxis, ..., np.newaxis].astype('float32')
     return X
 
 
@@ -149,12 +149,12 @@ def load_example_by_name(vol_name, seg_name, np_var='vol_data'):
         npz files. default to 'vol_data'
     """
     X = load_volfile(vol_name, np_var)
-    X = X[np.newaxis, ..., np.newaxis]
+    X = X[np.newaxis, ..., np.newaxis].astype('float32')
 
     return_vals = [X]
 
     X_seg = load_volfile(seg_name, np_var)
-    X_seg = X_seg[np.newaxis, ..., np.newaxis]
+    X_seg = X_seg[np.newaxis, ..., np.newaxis].astype('float32')
 
     return_vals.append(X_seg)
 
