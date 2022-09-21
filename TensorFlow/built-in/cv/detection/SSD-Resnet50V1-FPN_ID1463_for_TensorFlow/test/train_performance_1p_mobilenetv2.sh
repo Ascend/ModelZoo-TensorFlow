@@ -117,6 +117,7 @@ for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
         --alsologtostder \
         --amp \
         --num_train_steps=${num_train_steps}  \
+        --skip_eval=True \
         "${@:1}"  > $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 done
 wait
