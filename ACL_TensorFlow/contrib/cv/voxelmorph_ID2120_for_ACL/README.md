@@ -32,7 +32,7 @@ voxelmorph_ID2120_for_ACL
 
 ## 模型文件
 包括初始ckpt文件，固化pb文件，以及推理om文件
-链接：
+链接：`obs://voxelmorph-zyh/voxelmorph_ID2120_for_ACL/models/`
 
 ## pb模型
 
