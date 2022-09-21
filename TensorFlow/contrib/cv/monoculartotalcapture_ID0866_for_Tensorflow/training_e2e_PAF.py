@@ -121,7 +121,9 @@ with tf.Graph().as_default(), tf.device('/cpu:0'):
                 for ip, pred_PAF in enumerate(predicted_PAFs):
                     resized_PAF = tf.image.resize_images(pred_PAF, (s[1], s[2]), method=tf.image.ResizeMethod.BICUBIC)
                     channelWisePAF = tf.reshape(resized_PAF, [s[0], s[1], s[2], -1, 3])
-                    PAF_x2y2 = tf.sqrt(tf.reduce_sum(tf.square(channelWisePAF[:, :, :, :, 0:2]), axis=4)) + 1e-6
+                    #PAF_x2y2 = tf.sqrt(tf.reduce_sum(tf.square(channelWisePAF[:, :, :, :, 0:2]), axis=4)) + 1e-6
+                    a = tf.reduce_sum(tf.square(channelWisePAF[:, :, :, :, 0:2]), axis=4)
+                    PAF_x2y2 = tf.sqrt(tf.maximum(a, 1.18e-38)) + 1e-6
                     PAF_normed_x = channelWisePAF[:, :, :, :, 0] / PAF_x2y2
                     PAF_normed_y = channelWisePAF[:, :, :, :, 1] / PAF_x2y2
                     PAF_normed_z = tf.zeros(PAF_normed_x.get_shape(), dtype=tf.float32)
