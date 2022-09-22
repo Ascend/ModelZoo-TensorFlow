@@ -369,7 +369,7 @@ Result SampleProcess::Process(map<char, string>& params, vector<string>& input_f
             string framename = fileName_vec[i];
             size_t dex = (framename).find_last_of(".");
             modelName = (framename).erase(dex);
-            
+            bool dym_sign = g_is_dymShape || g_is_dymConfig;
             processModel.OutputModelResult(times, modelName, g_dymbatch_size, g_is_dymShape);
             processModel.DestroyInput();
             
