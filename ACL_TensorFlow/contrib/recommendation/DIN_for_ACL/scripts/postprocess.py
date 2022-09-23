@@ -38,6 +38,8 @@ import tensorflow as tf
 import sys
 from input import DataInput, DataInputTest
 
+ori_dir = sys.argv[1]
+infer_dir = sys.argv[2]
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 random.seed(1234)
