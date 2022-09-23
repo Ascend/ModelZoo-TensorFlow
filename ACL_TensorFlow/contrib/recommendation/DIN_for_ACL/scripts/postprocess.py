@@ -37,13 +37,7 @@ import numpy as np
 import tensorflow as tf
 import sys
 from input import DataInput, DataInputTest
-from model import Model
-import argparse
-parser = argparse.ArgumentParser()
-#-----------------------------------------------------
-parser.add_argument("--input_data", type=str, default="../../dataset.pkl")
-#-----------------------------------------------------
-args = parser.parse_args()
+
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 random.seed(1234)
@@ -56,8 +50,8 @@ predict_batch_size = 32
 predict_users_num = 1000
 predict_ads_num = 100
 
-with open(args.input_data, 'rb') as f:
-  #train_set = pickle.load(f)
+with open("./dataset.pkl", 'rb') as f:
+  train_set = pickle.load(f)
   test_set = pickle.load(f)
   cate_list = pickle.load(f)
   user_count, item_count, cate_count = pickle.load(f)
@@ -94,10 +88,6 @@ def calc_auc(raw_arr):
 def _auc_arr(score):
   score_p = score[:,0]
   score_n = score[:,1]
-  #print "============== p ============="
-  #print score_p
-  #print "============== n ============="
-  #print score_n
   score_arr = []
   for s in score_p.tolist():
     score_arr.append([0, 1, s])
@@ -105,7 +95,7 @@ def _auc_arr(score):
     score_arr.append([1, 0, s])
   return score_arr
 
-def _eval(sess, model):
+if __name__=="__main__":
   auc_sum = 0.0
   score_arr = []
   index = 0
@@ -113,11 +103,11 @@ def _eval(sess, model):
   for _, uij in DataInputTest(test_set, test_batch_size):
     index += 1
     for i in range(5):
-        np.array(uij[i]).astype("int32").tofile("input_bins/pl{}/{}.bin".format(i+1,str(index).zfill(6)))
+        np.array(uij[i]).astype("int32").tofile(os.path.join(ori_dir,"input_bins/pl{}/{}.bin").format(i+1,str(index).zfill(6)))
     
     actual_batch = np.array(uij[0]).shape[0]
-    auc_ = np.fromfile("npu_predict/davinci_{}_output0.bin".format(str(index).zfill(6)),dtype="float32")
-    score_ = np.fromfile("npu_predict/davinci_{}_output1.bin".format(str(index).zfill(6)),dtype="float32").reshape(actual_batch,2)
+    auc_ = np.fromfile(os.path.join(infer_dir,"davinci_{}_output0.bin").format(str(index).zfill(6)),dtype="float32")
+    score_ = np.fromfile(os.path.join(infer_dir,"davinci_{}_output1.bin").format(str(index).zfill(6)),dtype="float32").reshape(actual_batch,2)
     
     
     score_arr += _auc_arr(score_)
@@ -125,31 +115,4 @@ def _eval(sess, model):
 
   test_gauc = auc_sum / len(test_set)
   Auc = calc_auc(score_arr)
-  print(test_gauc, Auc)
-  return test_gauc, Auc
-
-def _test(sess, model):
-  auc_sum = 0.0
-  score_arr = []
-  predicted_users_num = 0
-  print("test sub items")
-  for _, uij in DataInputTest(test_set, predict_batch_size):
-    if predicted_users_num >= predict_users_num:
-        break
-    score_ = model.test(sess, uij)
-    score_arr.append(score_)
-    predicted_users_num += predict_batch_size
-  return score_[0]
-
-gpu_options = tf.GPUOptions(allow_growth=True)
-with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
-
-  model = Model(user_count, item_count, cate_count, cate_list, predict_batch_size, predict_ads_num)
-  saver = tf.train.Saver()
-  ckpt_state = tf.train.get_checkpoint_state("./save_path/")
-  model_path = os.path.join("./save_path/",os.path.basename(ckpt_state.model_checkpoint_path))
-  print("Restore from {}".format(model_path))
-  saver.restore(sess,model_path)
-  
-  print("test_gauc: %.4f\t test_auc: %.4f" % _eval(sess,model))
-  sys.stdout.flush()
+  print("test_gauc: %.4f\t test_auc: %.4f" % (test_gauc, Auc))
