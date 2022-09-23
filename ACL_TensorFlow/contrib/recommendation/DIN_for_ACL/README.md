@@ -27,14 +27,29 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/recommendation/DIN_for_ACL
 ### 2. Generate random test dataset
 
 1. Follow the (https://github.com/zhougr1993/DeepInterestNetwork) guide download amazon data
-
+```
+step 1:
+cd ../raw_data
+wget -c http://snap.stanford.edu/data/amazon/productGraph/categoryFiles/reviews_Electronics_5.json.gz
+gzip -d reviews_Electronics_5.json.gz
+wget -c http://snap.stanford.edu/data/amazon/productGraph/categoryFiles/meta_Electronics.json.gz
+gzip -d meta_Electronics.json.gz
+step 2:
+cd utils
+python 1_convert_pd.py;
+python 2_remap_id.py
+step 3:
+cd din
+build_dataset.py
+```
+get the dataset: dataset.pkl
 
 2. Generate test dataset:
 ```
 cd scripts
 python3 preprocess.py 
 ```
-There will generate testdata bin fils under *input_bins/*.
+There will generate testdata bin fils under *input_bins/* and dataset_conf.txt.
 
 ### 3. Offline Inference
 
