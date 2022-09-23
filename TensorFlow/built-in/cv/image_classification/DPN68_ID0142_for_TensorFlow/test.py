@@ -153,10 +153,14 @@ for epoch in range(int(args.train_epochs)):
     for iter in range(int(args.num_train)//int(args.train_batch_size)):
         # get and preprocess image
         images1, labels1 = train_gen.next()
-        images = images1[rank_id * args.train_batch_size / rank_size:(rank_id + 1) * args.train_batch_size / rank_size]
+        start_index = int(rank_id * args.train_batch_size / rank_size)
+        end_index = int((rank_id + 1) * args.train_batch_size / rank_size)
+        images = images1[start_index:end_index]
+        # images = images1[rank_id * args.train_batch_size / rank_size:(rank_id + 1) * args.train_batch_size / rank_size]
         if images.shape[0] == 0:
             break
-        labels = labels1[rank_id * args.train_batch_size / rank_size:(rank_id + 1) * args.train_batch_size / rank_size]
+        labels = labels1[start_index:end_index]    
+        # labels = labels1[rank_id * args.train_batch_size / rank_size:(rank_id + 1) * args.train_batch_size / rank_size]
         images = images - mean
         # train_one_batch also can accept your own session
         begin = time.time()
