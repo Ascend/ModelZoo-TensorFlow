@@ -127,6 +127,7 @@ for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
        --step_dump_path=${step_dump_path}   \
        --alsologtostder \
        --amp \
+       --skip_eval=True \
        --num_train_steps=${num_train_steps}  \
        "${@:1}"  > $cur_path/output/$ASCEND_DEVICE_ID/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done

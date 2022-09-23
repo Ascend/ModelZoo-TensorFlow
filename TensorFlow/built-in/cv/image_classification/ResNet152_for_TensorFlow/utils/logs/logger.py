@@ -378,9 +378,10 @@ def _collect_cpu_info(run_info):
     import cpuinfo    # pylint: disable=g-import-not-at-top
 
     info = cpuinfo.get_cpu_info()
-    cpu_info["cpu_info"] = info["brand"]
-    cpu_info["mhz_per_cpu"] = info["hz_advertised_raw"][0] / 1.0e6
-
+    #cpu_info["cpu_info"] = info["brand"]
+    #cpu_info["mhz_per_cpu"] = info["hz_advertised_raw"][0] / 1.0e6
+    cpu_info["cpu_info"] = info["brand_raw"]
+    cpu_info["mhz_per_cpu"] = info["hz_advertised"][0] / 1.0e6
     run_info["machine_config"]["cpu_info"] = cpu_info
   except ImportError:
     tf.compat.v1.logging.warn(
