@@ -64,7 +64,7 @@ if __name__=="__main__":
     index += 1
     for i in range(5):
         np.array(uij[i]).astype("int32").tofile("input_bins/pl{}/{}.bin".format(i+1,str(index).zfill(6)))
-    content += "name:{}.bin  shape:Placeholder_1:{};Placeholder_2:{};Placeholder_4:{},{};Placeholder_5:{}\n".format(str(index).zfill(6),np.array(uij[0]).shape[0],np.array(uij[1]).shape[0],np.array(uij[3]).shape[0],np.array(uij[3]).shape[1],np.array(uij[4]).shape[0])
+    content += "name:{}.bin shape:Placeholder_1:{};Placeholder_2:{};Placeholder_4:{},{};Placeholder_5:{}\n".format(str(index).zfill(6),np.array(uij[0]).shape[0],np.array(uij[1]).shape[0],np.array(uij[3]).shape[0],np.array(uij[3]).shape[1],np.array(uij[4]).shape[0])
 
   with open("dataset_conf.txt","w") as f:
     f.write(content)
