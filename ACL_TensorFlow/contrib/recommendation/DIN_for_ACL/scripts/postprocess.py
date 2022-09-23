@@ -108,8 +108,8 @@ if __name__=="__main__":
         np.array(uij[i]).astype("int32").tofile(os.path.join(ori_dir,"input_bins/pl{}/{}.bin").format(i+1,str(index).zfill(6)))
     
     actual_batch = np.array(uij[0]).shape[0]
-    auc_ = np.fromfile(os.path.join(infer_dir,"davinci_{}_output0.bin").format(str(index).zfill(6)),dtype="float32")
-    score_ = np.fromfile(os.path.join(infer_dir,"davinci_{}_output1.bin").format(str(index).zfill(6)),dtype="float32").reshape(actual_batch,2)
+    auc_ = np.fromfile(os.path.join(infer_dir,"davinci_{}_output_0.bin").format(str(index).zfill(6)),dtype="float32")
+    score_ = np.fromfile(os.path.join(infer_dir,"davinci_{}_output_1.bin").format(str(index).zfill(6)),dtype="float32").reshape(actual_batch,2)
     
     
     score_arr += _auc_arr(score_)
