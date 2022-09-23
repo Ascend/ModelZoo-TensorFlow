@@ -80,7 +80,7 @@ Our result was obtained by running the applicable inference script. To achieve t
 
 #### Inference accuracy results
 
-|       model       |  **data**   |   test_gauc   |   test_gauc   |
+|       model       |  **data**   |   test_gauc   |   test_auc   |
 | :---------------: |  :-------:  | :-----------: | :-----------: |
 | offline Inference | dataset.pkl |     0.6854    |     0.6836    |
 
