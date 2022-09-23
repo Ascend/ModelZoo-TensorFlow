@@ -37,7 +37,6 @@ import numpy as np
 import tensorflow as tf
 import sys
 from input import DataInput, DataInputTest
-from model import Model
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 random.seed(1234)
@@ -56,48 +55,9 @@ with open('./dataset.pkl', 'rb') as f:
   cate_list = pickle.load(f)
   user_count, item_count, cate_count = pickle.load(f)
 
-best_auc = 0.0
-def calc_auc(raw_arr):
-    """Summary
-    Args:
-        raw_arr (TYPE): Description
-    Returns:
-        TYPE: Description
-    """
-    # sort by pred value, from small to big
-    arr = sorted(raw_arr, key=lambda d:d[2])
 
-    auc = 0.0
-    fp1, tp1, fp2, tp2 = 0.0, 0.0, 0.0, 0.0
-    for record in arr:
-        fp2 += record[0] # noclick
-        tp2 += record[1] # click
-        auc += (fp2 - fp1) * (tp2 + tp1)
-        fp1, tp1 = fp2, tp2
-
-    # if all nonclick or click, disgard
-    threshold = len(arr) - 1e-3
-    if tp2 > threshold or fp2 > threshold:
-        return -0.5
-
-    if tp2 * fp2 > 0.0:  # normal auc
-        return (1.0 - auc / (2.0 * tp2 * fp2))
-    else:
-        return None
-
-def _auc_arr(score):
-  score_p = score[:,0]
-  score_n = score[:,1]
-  score_arr = []
-  for s in score_p.tolist():
-    score_arr.append([0, 1, s])
-  for s in score_n.tolist():
-    score_arr.append([1, 0, s])
-  return score_arr
-
-def _eval(sess, model):
+if __name__=="__main__":
   auc_sum = 0.0
-  score_arr = []
   index = 0
   content = ""
   for _, uij in DataInputTest(test_set, test_batch_size):
