@@ -42,7 +42,7 @@ from model import Model
 os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 random.seed(1234)
 np.random.seed(1234)
-#tf.set_random_seed(1234)
+tf.set_random_seed(1234)
 
 train_batch_size = 32
 test_batch_size = 512
@@ -50,7 +50,7 @@ predict_batch_size = 32
 predict_users_num = 1000
 predict_ads_num = 100
 
-with open('../dataset.pkl', 'rb') as f:
+with open('./dataset.pkl', 'rb') as f:
   train_set = pickle.load(f)
   test_set = pickle.load(f)
   cate_list = pickle.load(f)
@@ -88,10 +88,6 @@ def calc_auc(raw_arr):
 def _auc_arr(score):
   score_p = score[:,0]
   score_n = score[:,1]
-  #print "============== p ============="
-  #print score_p
-  #print "============== n ============="
-  #print score_n
   score_arr = []
   for s in score_p.tolist():
     score_arr.append([0, 1, s])
@@ -109,39 +105,6 @@ def _eval(sess, model):
     for i in range(5):
         np.array(uij[i]).astype("int32").tofile("input_bins/pl{}/{}.bin".format(i+1,str(index).zfill(6)))
     content += "name:{}.bin  shape:Placeholder_1:{};Placeholder_2:{};Placeholder_4:{},{};Placeholder_5:{}\n".format(str(index).zfill(6),np.array(uij[0]).shape[0],np.array(uij[1]).shape[0],np.array(uij[3]).shape[0],np.array(uij[3]).shape[1],np.array(uij[4]).shape[0])
-    auc_, score_ = model.eval(sess, uij)
-    
-    score_arr += _auc_arr(score_)
-    auc_sum += auc_ * len(uij[0])
+
   with open("dataset_conf.txt","w") as f:
     f.write(content)
-  test_gauc = auc_sum / len(test_set)
-  Auc = calc_auc(score_arr)
-
-  return test_gauc, Auc
-
-def _test(sess, model):
-  auc_sum = 0.0
-  score_arr = []
-  predicted_users_num = 0
-  print("test sub items")
-  for _, uij in DataInputTest(test_set, predict_batch_size):
-    if predicted_users_num >= predict_users_num:
-        break
-    score_ = model.test(sess, uij)
-    score_arr.append(score_)
-    predicted_users_num += predict_batch_size
-  return score_[0]
-
-gpu_options = tf.GPUOptions(allow_growth=True)
-with tf.Session(config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
-
-  model = Model(user_count, item_count, cate_count, cate_list, predict_batch_size, predict_ads_num)
-  saver = tf.train.Saver()
-  ckpt_state = tf.train.get_checkpoint_state("./save_path/")
-  model_path = os.path.join("./save_path/",os.path.basename(ckpt_state.model_checkpoint_path))
-  print("Restore from {}".format(model_path))
-  saver.restore(sess,model_path)
-  
-  print("test_gauc: %.4f\t test_auc: %.4f" % _eval(sess,model))
-  sys.stdout.flush()
