@@ -26,9 +26,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/recommendation/DIN_for_ACL
 
 ### 2. Generate random test dataset
 
-1. Follow the [train repo](https://github.com/AustinMaster/DeepInterestNetwork) guide download amazon product dataset 
-
-and cat aa ab ac > dataset.pkl,then preprocess the dataset.pkl
+1. Follow the (https://github.com/zhougr1993/DeepInterestNetwork) guide download amazon data
 
 
 2. Generate test dataset:
@@ -54,7 +52,7 @@ There will generate testdata bin fils under *input_bins/*.
 
 - convert pb to om
 
-  [**pb download link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/recommendation/DIN_for_ACL/din_npu.pb)
+  [**pb download link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/recommendation/DIN_for_ACL/din.pb)
 
   ```
   export batch_size=512
@@ -71,7 +69,7 @@ There will generate testdata bin fils under *input_bins/*.
 
   ```
   cd scripts
-  bash benchmark_tf.sh  "../../dataset.pkl"
+  bash benchmark_tf.sh
   ```
 
 ## Performance
@@ -84,7 +82,7 @@ Our result was obtained by running the applicable inference script. To achieve t
 
 |       model       |  **data**   |   test_gauc   |   test_gauc   |
 | :---------------: |  :-------:  | :-----------: | :-----------: |
-| offline Inference | dataset.pkl |      86.8%    |      87%    |
+| offline Inference | dataset.pkl |     0.6854    |     0.6836    |
 
 ## Reference
 [1] https://github.com/AustinMaster/DeepInterestNetwork/tree/master/din
