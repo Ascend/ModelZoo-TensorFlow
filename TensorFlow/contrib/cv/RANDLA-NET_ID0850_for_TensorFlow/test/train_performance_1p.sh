@@ -148,7 +148,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime_ms=`grep "ms/batch"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk '{print $5}' |awk -F'---' '{print $2}' |awk '{sum+=$1} END {print sum/NR}'`
+TrainingTime_ms=`grep "ms/batch"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk '{print $6}' |awk -F'---' '{print $0}' |awk '{sum+=$1} END {print sum/NR}'`
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",  '${TrainingTime_ms}'/1000}'`
 #输出训练精度,需要模型审视修改
 train_acc=`grep "Mean IoU" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |awk  '{print $4}'|awk -F'[ %]+' '{print $1}'`
