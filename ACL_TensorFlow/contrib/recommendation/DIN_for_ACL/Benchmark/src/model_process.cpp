@@ -801,7 +801,7 @@ void ModelProcess::OutputModelResult(std::string& s, std::string& modelName, std
         if (g_is_txt) {
             vector<int64_t> curOutputDimsMul;
             ret = GetCurOutputDimsMul(i, curOutputDimsMul);
-            ofstream outstr(s + "/davinci_" + modelName + "_output_" + to_string(i) + ".txt", ios::out);
+            ofstream outstr(s + "/davinci_" + modelName + "_output" + to_string(i) + ".txt", ios::out);
             switch (datatype) {
             case 0:
                 for (int64_t i = 1; i <= len / sizeof(float); i++) {
@@ -968,7 +968,7 @@ void ModelProcess::OutputModelResult(std::string& s, std::string& modelName, std
             }
             outstr.close();
         } else {
-            ofstream outstr(s + "/davinci_" + modelName + "_output_" + to_string(i) + ".bin", ios::out | ios::binary);
+            ofstream outstr(s + "/davinci_" + modelName + "_output" + to_string(i) + ".bin", ios::out | ios::binary);
 
             outstr.write((char*)outData, len);
             outstr.close();
