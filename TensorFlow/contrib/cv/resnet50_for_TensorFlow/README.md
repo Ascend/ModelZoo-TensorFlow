@@ -6,14 +6,14 @@
 
 原始模型权重下载地址 :
 
-https://obs-9be7.obs.myhuaweicloud.com/resnet50/resnet50_tensorflow_1.7.pb
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/resnet50_imagenet_dynamic_hw-python/resnet50_tensorflow_1.7.pb
 
 
 ## om模型
 
 om模型下载地址：
 
-https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/resnet50/tf_resnet50.om
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/models/resnet50_imagenet_dynamic_hw-python/tf_resnet50.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令，具体操作详情和参数设置可以参考  [ATC工具使用指导](https://support.huaweicloud.com/ti-atc-A200dk_3000/altasatc_16_002.html) 
 
