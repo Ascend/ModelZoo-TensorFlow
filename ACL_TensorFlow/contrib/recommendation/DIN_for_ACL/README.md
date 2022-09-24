@@ -26,7 +26,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/recommendation/DIN_for_ACL
 
 ### 2. Generate random test dataset
 
-1. Follow the (https://github.com/zhougr1993/DeepInterestNetwork) guide download amazon data
+1. Follow the [train repo](https://github.com/zhougr1993/DeepInterestNetwork) guide download amazon data
 ```
 step 1:
 cd ../raw_data
@@ -67,11 +67,11 @@ There will generate testdata bin fils under *input_bins/* and dataset_conf.txt.
 
 - convert pb to om
 
-  [**pb download link**](https://modelzoo-train-atc.obs.cn-north-4.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/recommendation/DIN_for_ACL/din.pb)
+  [**pb download link**](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-09-24_tf/DIN_for_ACL/frozen_din.pb)
 
   ```
   export batch_size=512
-  atc --model=din.pb --framework=3 --soc_version=Ascend310P3 --output=din_${batch_size}batch_dynamic_shape --log=error --op_debug_level=3 --input_shape_range="Placeholder_1:[100~512];Placeholder_2:[100~512];Placeholder_4:[100~512,-1];Placeholder_5:[100~512]"
+  atc --model=frozen_din.pb --framework=3 --soc_version=Ascend310P3 --output=din_${batch_size}batch_dynamic_shape --log=error --op_debug_level=3 --input_shape_range="Placeholder_1:[100~512];Placeholder_2:[100~512];Placeholder_4:[100~512,-1];Placeholder_5:[100~512]"
   ```
 
 - Build the program
