@@ -56,7 +56,7 @@ python3 frozen_graph.py --ckpt_path= ckpt_path/shadownet_xxx.ckpt-600000
 
 **Convert pb to om.**
 
-  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/CRNN_for_ACL.zip)
+  [pb download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-09-24_tf/CRNN_for_ACL/shadownet_tf_64batch.pb)
 
 - configure the env
 
