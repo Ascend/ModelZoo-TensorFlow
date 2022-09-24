@@ -226,3 +226,26 @@ Inference for 70 image files for queries.
 70it [00:10,  6.71it/s]
 I0522 20:23:57.981321 281473293996400 eval.py:205] Eval cost in 205.72006487846375 seconds, MAP=0.8571428571428571
 ```
+
+## NPU复现结果
+
+1. 训练性能：每训练500个step，平均耗时为299.35s(GPU:79s)
+2. 训练精度：loss收敛至0.62(GPU:0.58), accuracy收敛至0.72905(GPU:0.7813)
+
+## 模型固化并转化为om文件
+1. sess.run模式下保存graph pb. data_url为obs://delf-training/npu_results/best_ckpts/. train_url为固化pb的输出目录.
+```
+## [Freeze Graph]
+shell_cmd = ("bash %s/npu_freeze.sh %s %s %s %s " % (code_dir, code_dir, work_dir, config.data_url, config.train_url))
+```
+
+2. 固化graph的输入是模型保存的**checkpoint路径**，存档OBS为obs://delf-training/npu_results/best_ckpts/model.ckpt-499999.index
+. **生成的pb文件**地址是存档OBS路径：obs://delf-training/npu_results/pb_model/delf_model.pb.
+3. 使用ATC模型转换工具，将上面步骤得到的pb模型转换成om离线模型，即可用于在昇腾AI处理器进行离线推理.
+4. ATC环境搭建: 参见《CANN软件安装指南》 进行开发环境搭建，并确保开发套件包Ascend-cann-toolkit安装完成。该场景下ATC工具安装在“Ascend-cann-toolkit安装目录/ascend-toolkit/{version}/{arch}-linux/atc/bin”下。
+本次转化时soc_version从文件/usr/local/Ascend/ascend-toolkit/latest/atc/data/platform_config/Ascend910A.ini中，得知--soc_version=Ascend910A 
+5. 执行ATC转换脚本即可生成om文件: **生成的om文件**地址是存档OBS路径: obs://delf-training/npu_results/pb_model/tf_delf_model.om
+  
+```
+atc --model=/home/TestUser08/work_xiangd/ModelZoo-TensorFlow/TensorFlow/contrib/cv/delf/DELF_ID2024_for_TensorFlow/npu_results/pb_model/delf_model.pb --framework=3 --output=/home/TestUser08/work_xiangd/ModelZoo-TensorFlow/TensorFlow/contrib/cv/delf/DELF_ID2024_for_TensorFlow/npu_results/pb_model/tf_delf_model --soc_version=Ascend910A
+```

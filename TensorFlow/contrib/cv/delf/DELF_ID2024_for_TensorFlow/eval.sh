@@ -34,8 +34,7 @@
 #  --images_dir test/data/oxford5k_images \
 #  --output_features_dir test/data/oxford5k_features/query
 
-python -u eval.py \
-  --dataset_file_path test/data/gnd_roxford5k.mat \
-  --images_dir test/data/oxford5k_tfrecords \
-  --load_checkpoint \
-  --logdir=result_v2
+
+python3 -u eval.py \
+  --data_path /home/TestUser08/work_xiangd/eval_inputs \
+  --output_path eval_output
