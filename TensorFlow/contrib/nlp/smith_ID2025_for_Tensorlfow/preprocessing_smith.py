@@ -1,18 +1,4 @@
 # coding=utf-8
-# Copyright 2021 The Google Research Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 # Copyright 2021 Huawei Technologies Co., Ltd
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,6 +14,20 @@
 # limitations under the License.
 # ==============================================================================
 
+# Copyright 2021 The Google Research Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Library to preprocess text data into SMITH dual encoder model inputs."""
 from npu_bridge.npu_init import *
 import collections
@@ -35,9 +35,9 @@ import random
 import nltk
 import tensorflow.compat.v1 as tf
 import tqdm
-from smith import utils
-from smith import wiki_doc_pair_pb2
-from smith.bert import tokenization
+from smith_npu_20220702105238 import utils
+from smith_npu_20220702105238 import wiki_doc_pair_pb2
+from smith_npu_20220702105238.bert import tokenization
 
 flags = tf.flags
 
@@ -311,14 +311,22 @@ def create_instance_from_wiki_doc_pair(instance_id, doc_match_label,
                                        masked_lm_prob, max_predictions_per_seq,
                                        vocab_words, rng):
   """Creates `TrainingInstance`s for a WikiDocPair input data."""
-  (tokens_1, segment_ids_1, masked_lm_positions_1, masked_lm_labels_1, \
-   input_mask_1, masked_lm_weights_1) = \
-      get_tokens_segment_ids_masks(max_sent_length_by_word, max_doc_length_by_sentence, doc_one_tokens, masked_lm_prob,
+  tokens_segment_ids_masks = GetTokensSegmentIdsMasks().get_tokens_segment_ids_masks
+
+  tokens_segment_ids_masks_res_1 = \
+      tokens_segment_ids_masks(max_sent_length_by_word, max_doc_length_by_sentence, doc_one_tokens, masked_lm_prob,
                                    max_predictions_per_seq, vocab_words, rng)
-  (tokens_2, segment_ids_2, masked_lm_positions_2, masked_lm_labels_2, \
-   input_mask_2, masked_lm_weights_2) = \
-      get_tokens_segment_ids_masks(max_sent_length_by_word, max_doc_length_by_sentence, doc_two_tokens, masked_lm_prob,
+
+  tokens_1, segment_ids_1, masked_lm_positions_1, masked_lm_labels_1, input_mask_1, masked_lm_weights_1 = \
+      tokens_segment_ids_masks_res_1.tokens_doc, tokens_segment_ids_masks_res_1.segment_ids_doc, tokens_segment_ids_masks_res_1.masked_lm_positions_doc, tokens_segment_ids_masks_res_1.masked_lm_labels_doc, tokens_segment_ids_masks_res_1.input_mask_doc, tokens_segment_ids_masks_res_1.masked_lm_weights_doc
+
+  tokens_segment_ids_masks_res_2= \
+      tokens_segment_ids_masks(max_sent_length_by_word, max_doc_length_by_sentence, doc_two_tokens, masked_lm_prob,
                                    max_predictions_per_seq, vocab_words, rng)
+
+  tokens_2, segment_ids_2, masked_lm_positions_2, masked_lm_labels_2, input_mask_2, masked_lm_weights_2 = \
+      tokens_segment_ids_masks_res_2.tokens_doc, tokens_segment_ids_masks_res_2.segment_ids_doc, tokens_segment_ids_masks_res_2.masked_lm_positions_doc, tokens_segment_ids_masks_res_2.masked_lm_labels_doc, tokens_segment_ids_masks_res_2.input_mask_doc, tokens_segment_ids_masks_res_2.masked_lm_weights_doc
+
   instance = TrainingInstance(
       tokens_1=tokens_1,
       segment_ids_1=segment_ids_1,
@@ -337,167 +345,194 @@ def create_instance_from_wiki_doc_pair(instance_id, doc_match_label,
   return instance
 
 
-def get_tokens_segment_ids_masks(max_sent_length_by_word,
-                                 max_doc_length_by_sentence, doc_one_tokens,
-                                 masked_lm_prob, max_predictions_per_seq,
-                                 vocab_words, rng):
-  """Get the tokens, segment ids and masks of an input sequence."""
-  # The format of tokens for SMITH dual encoder models is like:
-  # [CLS] block1_token1 block1_token2 block1_token3 ... [SEP] [SEP] [PAD] ...
-  # [CLS] block2_token1 block2_token2 block2_token3 ... [SEP] [SEP] [PAD] ...
-  # [CLS] block3_token1 block3_token2 block3_token3 ... [SEP] [SEP] [PAD] ...
-  # If max_sent_length_by_word is large, then there will be many padded
-  # words in the sentence. Here we added an optional "greedy sentence filling"
-  # trick in order to reduce the number of padded words and maintain all
-  # content in the document. We allow a "sentence" block to contain more than
-  # one natural sentence and try to fill as many as sentences into the
-  # "sentence" block. If a sentence will be cut off and the current sentence
-  # block is not empty, we will put the sentence into the next "sentence" block.
-  # According to ALBERT paper and RoBERTa paper, a segment is usually comprised
-  # of more than one natural sentence, which has been shown to benefit
-  # performance. doc_one_tokens is a 2D list which contains the sentence
-  # boundary information.
-  sentence_num = len(doc_one_tokens)
-  # sent_block_token_list is a 2D list to maintain sentence block tokens.
-  sent_block_token_list = []
-  natural_sentence_index = -1
-  while natural_sentence_index + 1 < sentence_num:
-    natural_sentence_index += 1
-    sent_tokens = doc_one_tokens[natural_sentence_index]
-    if not sent_tokens:
-      continue
-    if FLAGS.greedy_sentence_filling:
-      cur_sent_block_length = 0
-      cur_sent_block = []
-      # Fill as many senteces as possible in the current sentence block in a
-      # greedy way.
-      while natural_sentence_index < sentence_num:
-        cur_natural_sent_tokens = doc_one_tokens[natural_sentence_index]
-        if not cur_natural_sent_tokens:
-          natural_sentence_index += 1
+class GetTokensSegmentIdsMasks(object):
+
+    def __init__(self, tokens_doc=None, segment_ids_doc=None, masked_lm_positions_doc=None,
+                 masked_lm_labels_doc=None, input_mask_doc=None, masked_lm_weights_doc=None):
+        self.tokens_doc = tokens_doc
+        self.segment_ids_doc = segment_ids_doc
+        self.masked_lm_positions_doc = masked_lm_positions_doc
+        self.masked_lm_labels_doc = masked_lm_labels_doc
+        self.input_mask_doc = input_mask_doc
+        self.masked_lm_weights_doc = masked_lm_weights_doc
+
+    def get_tokens_segment_ids_masks(self, max_sent_length_by_word,
+                                     max_doc_length_by_sentence, doc_one_tokens,
+                                     masked_lm_prob, max_predictions_per_seq,
+                                     vocab_words, rng):
+      """Get the tokens, segment ids and masks of an input sequence."""
+      # The format of tokens for SMITH dual encoder models is like:
+      # [CLS] block1_token1 block1_token2 block1_token3 ... [SEP] [SEP] [PAD] ...
+      # [CLS] block2_token1 block2_token2 block2_token3 ... [SEP] [SEP] [PAD] ...
+      # [CLS] block3_token1 block3_token2 block3_token3 ... [SEP] [SEP] [PAD] ...
+      # If max_sent_length_by_word is large, then there will be many padded
+      # words in the sentence. Here we added an optional "greedy sentence filling"
+      # trick in order to reduce the number of padded words and maintain all
+      # content in the document. We allow a "sentence" block to contain more than
+      # one natural sentence and try to fill as many as sentences into the
+      # "sentence" block. If a sentence will be cut off and the current sentence
+      # block is not empty, we will put the sentence into the next "sentence" block.
+      # According to ALBERT paper and RoBERTa paper, a segment is usually comprised
+      # of more than one natural sentence, which has been shown to benefit
+      # performance. doc_one_tokens is a 2D list which contains the sentence
+      # boundary information.
+      sentence_num = len(doc_one_tokens)
+      # sent_block_token_list is a 2D list to maintain sentence block tokens.
+      sent_block_token_list = []
+      natural_sentence_index = -1
+      while natural_sentence_index + 1 < sentence_num:
+        natural_sentence_index += 1
+        sent_tokens = doc_one_tokens[natural_sentence_index]
+        if not sent_tokens:
           continue
-        cur_sent_len = len(cur_natural_sent_tokens)
-        if ((cur_sent_block_length + cur_sent_len) <=
-            (max_sent_length_by_word - 3)) or cur_sent_block_length == 0:
-          # One exceptional case here is that if the 1st sentence of a sentence
-          # block is already going across the boundary, then the current
-          # sentence block will be empty. So when cur_sent_block_length is 0
-          # and we meet a natural sentence with length longer than
-          # (max_sent_length_by_word - 3), we still put this natural sentence
-          # in the current sentence block. In this case, this long natural
-          # sentence will be cut off with the final length up to
-          # (max_sent_length_by_word - 3).
-          cur_sent_block.extend(cur_natural_sent_tokens)
-          cur_sent_block_length += cur_sent_len
-          natural_sentence_index += 1
-        else:
-          # If cur_sent_block_length + cur_sent_len > max_sent_length_by_word-3
-          # and the current sentence block is not empty, the sentence which
-          # goes across the boundary will be put into the next sentence block.
-          natural_sentence_index -= 1
-          break
-    sent_tokens = cur_sent_block
-    sent_block_token_list.append(sent_tokens)
-    if len(sent_block_token_list) >= max_doc_length_by_sentence:
-      break  # Skip more sentence blocks if the document is too long.
-  # For each sentence block, generate the token sequences, masks and paddings.
-  tokens_doc = []
-  segment_ids_doc = []
-  masked_lm_positions_doc = []
-  masked_lm_labels_doc = []
-  input_mask_doc = []
-  masked_lm_weights_doc = []
-  for block_index in range(len(sent_block_token_list)):
-    tokens_block, segment_ids_block, masked_lm_positions_block, \
-    masked_lm_labels_block, input_mask_block, masked_lm_weights_block = \
-        get_token_masks_paddings(
-            sent_block_token_list[block_index],
-            max_sent_length_by_word,
-            masked_lm_prob,
-            max_predictions_per_seq,
-            vocab_words,
-            rng,
-            block_index)
-    tokens_doc.extend(tokens_block)
-    segment_ids_doc.extend(segment_ids_block)
-    masked_lm_positions_doc.extend(masked_lm_positions_block)
-    masked_lm_labels_doc.extend(masked_lm_labels_block)
-    input_mask_doc.extend(input_mask_block)
-    masked_lm_weights_doc.extend(masked_lm_weights_block)
+        if FLAGS.greedy_sentence_filling:
+          cur_sent_block_length = 0
+          cur_sent_block = []
+          # Fill as many senteces as possible in the current sentence block in a
+          # greedy way.
+          while natural_sentence_index < sentence_num:
+            cur_natural_sent_tokens = doc_one_tokens[natural_sentence_index]
+            if not cur_natural_sent_tokens:
+              natural_sentence_index += 1
+              continue
+            cur_sent_len = len(cur_natural_sent_tokens)
+            if ((cur_sent_block_length + cur_sent_len) <=
+                (max_sent_length_by_word - 3)) or cur_sent_block_length == 0:
+              # One exceptional case here is that if the 1st sentence of a sentence
+              # block is already going across the boundary, then the current
+              # sentence block will be empty. So when cur_sent_block_length is 0
+              # and we meet a natural sentence with length longer than
+              # (max_sent_length_by_word - 3), we still put this natural sentence
+              # in the current sentence block. In this case, this long natural
+              # sentence will be cut off with the final length up to
+              # (max_sent_length_by_word - 3).
+              cur_sent_block.extend(cur_natural_sent_tokens)
+              cur_sent_block_length += cur_sent_len
+              natural_sentence_index += 1
+            else:
+              # If cur_sent_block_length + cur_sent_len > max_sent_length_by_word-3
+              # and the current sentence block is not empty, the sentence which
+              # goes across the boundary will be put into the next sentence block.
+              natural_sentence_index -= 1
+              break
+        sent_tokens = cur_sent_block
+        sent_block_token_list.append(sent_tokens)
+        if len(sent_block_token_list) >= max_doc_length_by_sentence:
+          break  # Skip more sentence blocks if the document is too long.
+      # For each sentence block, generate the token sequences, masks and paddings.
+      tokens_doc = []
+      segment_ids_doc = []
+      masked_lm_positions_doc = []
+      masked_lm_labels_doc = []
+      input_mask_doc = []
+      masked_lm_weights_doc = []
+      for block_index in range(len(sent_block_token_list)):
+        token_masks_paddings = \
+            GetTokenMasksPaddings().get_token_masks_paddings(
+                sent_block_token_list[block_index],
+                max_sent_length_by_word,
+                masked_lm_prob,
+                max_predictions_per_seq,
+                vocab_words,
+                rng,
+                block_index)
 
-  # Pad sentence blocks if the actual number of sentence blocks is less than
-  # max_doc_length_by_sentence.
-  sentence_block_index = len(sent_block_token_list)
-  while sentence_block_index < max_doc_length_by_sentence:
-    for _ in range(max_sent_length_by_word):
-      tokens_doc.append("[PAD]")
-      segment_ids_doc.append(0)
-      input_mask_doc.append(0)
-    for _ in range(max_predictions_per_seq):
-      masked_lm_positions_doc.append(0)
-      masked_lm_labels_doc.append("[PAD]")
-      masked_lm_weights_doc.append(0.0)
-    sentence_block_index += 1
-  assert len(tokens_doc) == max_sent_length_by_word * max_doc_length_by_sentence
-  assert len(masked_lm_labels_doc
-            ) == max_predictions_per_seq * max_doc_length_by_sentence
-  return (tokens_doc, segment_ids_doc, masked_lm_positions_doc,
-          masked_lm_labels_doc, input_mask_doc, masked_lm_weights_doc)
+        tokens_block, segment_ids_block, masked_lm_positions_block, masked_lm_labels_block, input_mask_block, masked_lm_weights_block = \
+            token_masks_paddings.tokens, token_masks_paddings.segment_ids, token_masks_paddings.masked_lm_positions, token_masks_paddings.masked_lm_labels, token_masks_paddings.input_mask, token_masks_paddings.masked_lm_weights
+
+        tokens_doc.extend(tokens_block)
+        segment_ids_doc.extend(segment_ids_block)
+        masked_lm_positions_doc.extend(masked_lm_positions_block)
+        masked_lm_labels_doc.extend(masked_lm_labels_block)
+        input_mask_doc.extend(input_mask_block)
+        masked_lm_weights_doc.extend(masked_lm_weights_block)
+
+      # Pad sentence blocks if the actual number of sentence blocks is less than
+      # max_doc_length_by_sentence.
+      sentence_block_index = len(sent_block_token_list)
+      while sentence_block_index < max_doc_length_by_sentence:
+        for _ in range(max_sent_length_by_word):
+          tokens_doc.append("[PAD]")
+          segment_ids_doc.append(0)
+          input_mask_doc.append(0)
+        for _ in range(max_predictions_per_seq):
+          masked_lm_positions_doc.append(0)
+          masked_lm_labels_doc.append("[PAD]")
+          masked_lm_weights_doc.append(0.0)
+        sentence_block_index += 1
+      assert len(tokens_doc) == max_sent_length_by_word * max_doc_length_by_sentence
+      assert len(masked_lm_labels_doc
+                ) == max_predictions_per_seq * max_doc_length_by_sentence
+
+      return GetTokensSegmentIdsMasks(tokens_doc, segment_ids_doc, masked_lm_positions_doc,
+                                      masked_lm_labels_doc, input_mask_doc, masked_lm_weights_doc)
 
 
-def get_token_masks_paddings(block_tokens, max_sent_length_by_word,
-                             masked_lm_prob, max_predictions_per_seq,
-                             vocab_words, rng, block_index):
-  """Generates tokens, masks and paddings for the input block tokens."""
-  # Account for [CLS], [SEP], [SEP]
-  max_num_tokens = max_sent_length_by_word - 3
-  # Truncates the sequence if sequence length is longer than max_num_tokens.
-  tokens = []
-  segment_ids = []
-  if len(block_tokens) > max_num_tokens:
-    block_tokens = block_tokens[0:max_num_tokens]
-  tokens_a = block_tokens
-  tokens.append("[CLS]")
-  segment_ids.append(0)
-  for token in tokens_a:
-    tokens.append(token)
-    segment_ids.append(0)
-  tokens.append("[SEP]")
-  segment_ids.append(0)
-  tokens.append("[SEP]")
-  segment_ids.append(0)
-  masked_lm_positions = []
-  masked_lm_labels = []
-  masked_lm_weights = []
-  if max_predictions_per_seq > 0:
-    (tokens, masked_lm_positions,
-     masked_lm_labels) = utils.create_masked_lm_predictions(
-         tokens, masked_lm_prob, max_predictions_per_seq, vocab_words, rng)
-  # Add [PAD] to tokens and masked LM related lists.
-  input_mask = [1] * len(tokens)
-  while len(tokens) < max_sent_length_by_word:
-    tokens.append("[PAD]")
-    input_mask.append(0)
-    segment_ids.append(0)
+class GetTokenMasksPaddings(object):
 
-  assert len(tokens) == max_sent_length_by_word
-  assert len(input_mask) == max_sent_length_by_word
-  assert len(segment_ids) == max_sent_length_by_word
+    def __init__(self, tokens=None, segment_ids=None, masked_lm_positions=None, masked_lm_labels=None,
+                input_mask=None, masked_lm_weights=None):
+        self.tokens = tokens
+        self.segment_ids = segment_ids
+        self.masked_lm_positions = masked_lm_positions
+        self.masked_lm_labels = masked_lm_labels
+        self.input_mask = input_mask
+        self.masked_lm_weights = masked_lm_weights
 
-  if max_predictions_per_seq > 0:
-    # Transfer local positions in masked_lm_positions to global positions in the
-    # whole document to be consistent with the model training pipeline.
-    masked_lm_positions = [
-        (i + max_sent_length_by_word * block_index) for i in masked_lm_positions
-    ]
-    masked_lm_weights = [1.0] * len(masked_lm_labels)
+    def get_token_masks_paddings(self, block_tokens, max_sent_length_by_word,
+                                 masked_lm_prob, max_predictions_per_seq,
+                                 vocab_words, rng, block_index):
+      """Generates tokens, masks and paddings for the input block tokens."""
+      # Account for [CLS], [SEP], [SEP]
+      max_num_tokens = max_sent_length_by_word - 3
+      # Truncates the sequence if sequence length is longer than max_num_tokens.
+      tokens = []
+      segment_ids = []
+      if len(block_tokens) > max_num_tokens:
+        block_tokens = block_tokens[0:max_num_tokens]
+      tokens_a = block_tokens
+      tokens.append("[CLS]")
+      segment_ids.append(0)
+      for token in tokens_a:
+        tokens.append(token)
+        segment_ids.append(0)
+      tokens.append("[SEP]")
+      segment_ids.append(0)
+      tokens.append("[SEP]")
+      segment_ids.append(0)
+      masked_lm_positions = []
+      masked_lm_labels = []
+      masked_lm_weights = []
+      if max_predictions_per_seq > 0:
+        (tokens, masked_lm_positions,
+         masked_lm_labels) = utils.create_masked_lm_predictions(
+             tokens, masked_lm_prob, max_predictions_per_seq, vocab_words, rng)
+      # Add [PAD] to tokens and masked LM related lists.
+      input_mask = [1] * len(tokens)
+      while len(tokens) < max_sent_length_by_word:
+        tokens.append("[PAD]")
+        input_mask.append(0)
+        segment_ids.append(0)
 
-    while len(masked_lm_positions) < max_predictions_per_seq:
-      masked_lm_positions.append(0)
-      masked_lm_labels.append("[PAD]")
-      masked_lm_weights.append(0.0)
-  return (tokens, segment_ids, masked_lm_positions, masked_lm_labels,
-          input_mask, masked_lm_weights)
+      assert len(tokens) == max_sent_length_by_word
+      assert len(input_mask) == max_sent_length_by_word
+      assert len(segment_ids) == max_sent_length_by_word
+
+      if max_predictions_per_seq > 0:
+        # Transfer local positions in masked_lm_positions to global positions in the
+        # whole document to be consistent with the model training pipeline.
+        masked_lm_positions = [
+            (i + max_sent_length_by_word * block_index) for i in masked_lm_positions
+        ]
+        masked_lm_weights = [1.0] * len(masked_lm_labels)
+
+        while len(masked_lm_positions) < max_predictions_per_seq:
+          masked_lm_positions.append(0)
+          masked_lm_labels.append("[PAD]")
+          masked_lm_weights.append(0.0)
+
+      return GetTokenMasksPaddings(tokens, segment_ids, masked_lm_positions, masked_lm_labels,
+                                   input_mask, masked_lm_weights)
 
 
 def main(_):

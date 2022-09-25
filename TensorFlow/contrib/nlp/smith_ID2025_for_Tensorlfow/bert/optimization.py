@@ -65,9 +65,12 @@ def create_optimizer(loss, init_lr, num_train_steps, num_warmup_steps, use_tpu):
       epsilon=1e-6,
       exclude_from_weight_decay=["LayerNorm", "layer_norm", "bias"])
 
+  # TODO:此处为开启LossScale排查精度问题所用，正式PR去除该部分
+  """
   #loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2**32, incr_every_n_steps=1000, decr_every_n_nan_or_inf=2, decr_ratio=0.8)
   loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=1, incr_every_n_steps=1000, decr_every_n_nan_or_inf=2, decr_ratio=0.8)
   optimizer = NPULossScaleOptimizer(optimizer, loss_scale_manager)
+  """
 
   if use_tpu:
     optimizer = tf.tpu.CrossShardOptimizer(optimizer)

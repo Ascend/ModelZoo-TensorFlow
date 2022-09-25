@@ -1,18 +1,4 @@
 # coding=utf-8
-# Copyright 2021 The Google Research Authors.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 # Copyright 2021 Huawei Technologies Co., Ltd
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,14 +14,28 @@
 # limitations under the License.
 # ==============================================================================
 
+# Copyright 2021 The Google Research Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Model layers in dual encoder SMITH model."""
 from npu_bridge.npu_init import *
 from six.moves import range
 from npu_bridge.estimator.npu import npu_convert_dropout
 import tensorflow.compat.v1 as tf
 
-from smith import constants
-from smith.bert import modeling
+from smith_npu_20220702105238 import constants
+from smith_npu_20220702105238.bert import modeling
 
 
 def get_doc_rep_with_masked_sent(input_sent_reps_doc,
@@ -370,201 +370,233 @@ def get_seq_rep_from_bert(bert_model):
   return normalized_siamese_input_tensor
 
 
-def get_sent_reps_masks_normal_loop(sent_index,
-                                    input_sent_reps_doc,
-                                    input_mask_doc_level,
-                                    masked_lm_loss_doc,
-                                    masked_lm_example_loss_doc,
-                                    masked_lm_weights_doc,
-                                    dual_encoder_config,
-                                    is_training,
-                                    train_mode,
-                                    input_ids,
-                                    input_mask,
-                                    masked_lm_positions,
-                                    masked_lm_ids,
-                                    masked_lm_weights,
-                                    use_one_hot_embeddings,
-                                    debugging=False):
-  """Get the sentence encodings, mask ids and masked word LM loss.
+class GetSentRepsMasksNormalLoop(object):
 
-  Args:
-      sent_index: The index of the current looped sentence.
-      input_sent_reps_doc: The representations of all sentences in the doc
-        learned by BERT.
-      input_mask_doc_level: The document level input masks, which indicates
-        whether a sentence is a real sentence or a padded sentence.
-      masked_lm_loss_doc: The sum of all the masked word LM loss.
-      masked_lm_example_loss_doc: The per example masked word LM loss.
-      masked_lm_weights_doc: the weights of the maksed LM words. If the position
-        is corresponding to a real masked word, it is 1.0; It is a padded mask,
-        the weight is 0.
-      dual_encoder_config: The config of the dual encoder.
-      is_training: Whether it is in the training mode.
-      train_mode: string. The train mode which can be finetune, joint_train, or
-        pretrain.
-      input_ids: The ids of the input tokens.
-      input_mask: The mask of the input tokens.
-      masked_lm_positions: The positions of the masked words in the language
-        model training.
-      masked_lm_ids: The ids of the masked words in LM model training.
-      masked_lm_weights: The weights of the masked words in LM model training.
-      use_one_hot_embeddings: Whether use one hot embedding. It should be true
-        for the runs on TPUs.
-      debugging: bool. Whether it is in the debugging mode.
+    def __init__(self, input_sent_reps_doc=None, input_mask_doc_level=None, masked_lm_loss_doc=None,
+                 masked_lm_example_loss_doc=None, masked_lm_weights_doc=None):
+        self.input_sent_reps_doc = input_sent_reps_doc
+        self.input_mask_doc_level = input_mask_doc_level
+        self.masked_lm_loss_doc = masked_lm_loss_doc
+        self.masked_lm_example_loss_doc = masked_lm_example_loss_doc
+        self.masked_lm_weights_doc = masked_lm_weights_doc
 
-  Returns:
-    A list of tensors on the learned sentence representations and the masked
-    word LM loss.
-  """
-  # Collect token information for the current sentence.
-  bert_config = modeling.BertConfig.from_json_file(
-      dual_encoder_config.encoder_config.bert_config_file)
-  max_sent_length_by_word = dual_encoder_config.encoder_config.max_sent_length_by_word
-  sent_bert_trainable = dual_encoder_config.encoder_config.sent_bert_trainable
-  max_predictions_per_seq = dual_encoder_config.encoder_config.max_predictions_per_seq
-  sent_start = sent_index * max_sent_length_by_word
-  input_ids_cur_sent = tf.slice(input_ids, [0, sent_start],
-                                [-1, max_sent_length_by_word])
-  # Output shape: [batch, max_sent_length_by_word].
-  input_mask_cur_sent = tf.slice(input_mask, [0, sent_start],
-                                 [-1, max_sent_length_by_word])
-  # Output Shape:  [batch].
-  input_mask_cur_sent_max = tf.reduce_max(input_mask_cur_sent, 1)
-  # Output Shape:  [loop_sent_number_per_doc, batch].
-  input_mask_doc_level.append(input_mask_cur_sent_max)
-  if debugging:
-    input_ids_cur_sent = tf.Print(
-        input_ids_cur_sent, [input_ids_cur_sent, input_mask_cur_sent],
-        message="input_ids_cur_sent in get_sent_reps_masks_lm_loss",
-        summarize=20)
-  model = modeling.BertModel(
-      config=bert_config,
-      is_training=is_training,
-      input_ids=input_ids_cur_sent,
-      input_mask=input_mask_cur_sent,
-      use_one_hot_embeddings=use_one_hot_embeddings,
-      sent_bert_trainable=sent_bert_trainable)
-  with tf.variable_scope("seq_rep_from_bert_sent_dense", reuse=tf.AUTO_REUSE):
-    normalized_siamese_input_tensor = get_seq_rep_from_bert(model)
-  input_sent_reps_doc.append(normalized_siamese_input_tensor)
+    def get_sent_reps_masks_normal_loop(self, sent_index,
+                                        input_sent_reps_doc,
+                                        input_mask_doc_level,
+                                        masked_lm_loss_doc,
+                                        masked_lm_example_loss_doc,
+                                        masked_lm_weights_doc,
+                                        dual_encoder_config,
+                                        is_training,
+                                        train_mode,
+                                        input_ids,
+                                        input_mask,
+                                        masked_lm_positions,
+                                        masked_lm_ids,
+                                        masked_lm_weights,
+                                        use_one_hot_embeddings,
+                                        debugging=False):
+      """Get the sentence encodings, mask ids and masked word LM loss.
 
-  if (train_mode == constants.TRAIN_MODE_PRETRAIN or
-      train_mode == constants.TRAIN_MODE_JOINT_TRAIN):
-    # Collect masked token information for the current sentence.
-    sent_mask_lm_token_start = sent_index * max_predictions_per_seq
-    # Output shape: [batch, max_predictions_per_seq].
-    masked_lm_positions_cur_sent = tf.slice(masked_lm_positions,
-                                            [0, sent_mask_lm_token_start],
-                                            [-1, max_predictions_per_seq])
-    masked_lm_ids_cur_sent = tf.slice(masked_lm_ids,
-                                      [0, sent_mask_lm_token_start],
-                                      [-1, max_predictions_per_seq])
-    masked_lm_weights_cur_sent = tf.slice(masked_lm_weights,
+      Args:
+          sent_index: The index of the current looped sentence.
+          input_sent_reps_doc: The representations of all sentences in the doc
+            learned by BERT.
+          input_mask_doc_level: The document level input masks, which indicates
+            whether a sentence is a real sentence or a padded sentence.
+          masked_lm_loss_doc: The sum of all the masked word LM loss.
+          masked_lm_example_loss_doc: The per example masked word LM loss.
+          masked_lm_weights_doc: the weights of the maksed LM words. If the position
+            is corresponding to a real masked word, it is 1.0; It is a padded mask,
+            the weight is 0.
+          dual_encoder_config: The config of the dual encoder.
+          is_training: Whether it is in the training mode.
+          train_mode: string. The train mode which can be finetune, joint_train, or
+            pretrain.
+          input_ids: The ids of the input tokens.
+          input_mask: The mask of the input tokens.
+          masked_lm_positions: The positions of the masked words in the language
+            model training.
+          masked_lm_ids: The ids of the masked words in LM model training.
+          masked_lm_weights: The weights of the masked words in LM model training.
+          use_one_hot_embeddings: Whether use one hot embedding. It should be true
+            for the runs on TPUs.
+          debugging: bool. Whether it is in the debugging mode.
+
+      Returns:
+        A list of tensors on the learned sentence representations and the masked
+        word LM loss.
+      """
+      # Collect token information for the current sentence.
+      bert_config = modeling.BertConfig.from_json_file(
+          dual_encoder_config.encoder_config.bert_config_file)
+      max_sent_length_by_word = dual_encoder_config.encoder_config.max_sent_length_by_word
+      sent_bert_trainable = dual_encoder_config.encoder_config.sent_bert_trainable
+      max_predictions_per_seq = dual_encoder_config.encoder_config.max_predictions_per_seq
+      sent_start = sent_index * max_sent_length_by_word
+      input_ids_cur_sent = tf.slice(input_ids, [0, sent_start],
+                                    [-1, max_sent_length_by_word])
+      # Output shape: [batch, max_sent_length_by_word].
+      input_mask_cur_sent = tf.slice(input_mask, [0, sent_start],
+                                     [-1, max_sent_length_by_word])
+      # Output Shape:  [batch].
+      input_mask_cur_sent_max = tf.reduce_max(input_mask_cur_sent, 1)
+      # Output Shape:  [loop_sent_number_per_doc, batch].
+      input_mask_doc_level.append(input_mask_cur_sent_max)
+      if debugging:
+        input_ids_cur_sent = tf.Print(
+            input_ids_cur_sent, [input_ids_cur_sent, input_mask_cur_sent],
+            message="input_ids_cur_sent in get_sent_reps_masks_lm_loss",
+            summarize=20)
+      model = modeling.BertModel(
+          config=bert_config,
+          is_training=is_training,
+          input_ids=input_ids_cur_sent,
+          input_mask=input_mask_cur_sent,
+          use_one_hot_embeddings=use_one_hot_embeddings,
+          sent_bert_trainable=sent_bert_trainable)
+      with tf.variable_scope("seq_rep_from_bert_sent_dense", reuse=tf.AUTO_REUSE):
+        normalized_siamese_input_tensor = get_seq_rep_from_bert(model)
+      input_sent_reps_doc.append(normalized_siamese_input_tensor)
+
+      if (train_mode == constants.TRAIN_MODE_PRETRAIN or
+          train_mode == constants.TRAIN_MODE_JOINT_TRAIN):
+        # Collect masked token information for the current sentence.
+        sent_mask_lm_token_start = sent_index * max_predictions_per_seq
+        # Output shape: [batch, max_predictions_per_seq].
+        masked_lm_positions_cur_sent = tf.slice(masked_lm_positions,
+                                                [0, sent_mask_lm_token_start],
+                                                [-1, max_predictions_per_seq])
+        masked_lm_ids_cur_sent = tf.slice(masked_lm_ids,
                                           [0, sent_mask_lm_token_start],
                                           [-1, max_predictions_per_seq])
-    # Since in the processed data of smith model, the masked lm positions are
-    # global indices started from the 1st token of the whole sequence, we need
-    # to transform this global position to a local position for the current
-    # sentence. The position index is started from 0.
-    # Local_index = global_index mod max_sent_length_by_word.
-    masked_lm_positions_cur_sent = tf.mod(masked_lm_positions_cur_sent,
-                                          max_sent_length_by_word)
-    # Shape of masked_lm_loss_cur_sent [1].
-    # Shape of masked_lm_example_loss_cur_sent is [batch,
-    # max_predictions_per_seq].
-    (masked_lm_loss_cur_sent, masked_lm_example_loss_cur_sent,
-     _) = get_masked_lm_output(bert_config, model.get_sequence_output(),
-                               model.get_embedding_table(),
-                               masked_lm_positions_cur_sent,
-                               masked_lm_ids_cur_sent,
-                               masked_lm_weights_cur_sent)
-    # Output Shape: [1].
-    masked_lm_loss_doc += masked_lm_loss_cur_sent
-    # Output Shape: [loop_sent_number_per_doc, batch * max_predictions_per_seq].
-    masked_lm_example_loss_doc.append(masked_lm_example_loss_cur_sent)
-    # Output Shape: [loop_sent_number_per_doc, batch, max_predictions_per_seq].
-    masked_lm_weights_doc.append(masked_lm_weights_cur_sent)
-  return (input_sent_reps_doc, input_mask_doc_level, masked_lm_loss_doc,
-          masked_lm_example_loss_doc, masked_lm_weights_doc)
+        masked_lm_weights_cur_sent = tf.slice(masked_lm_weights,
+                                              [0, sent_mask_lm_token_start],
+                                              [-1, max_predictions_per_seq])
+        # Since in the processed data of smith model, the masked lm positions are
+        # global indices started from the 1st token of the whole sequence, we need
+        # to transform this global position to a local position for the current
+        # sentence. The position index is started from 0.
+        # Local_index = global_index mod max_sent_length_by_word.
+        masked_lm_positions_cur_sent = tf.mod(masked_lm_positions_cur_sent,
+                                              max_sent_length_by_word)
+        # Shape of masked_lm_loss_cur_sent [1].
+        # Shape of masked_lm_example_loss_cur_sent is [batch,
+        # max_predictions_per_seq].
+        (masked_lm_loss_cur_sent, masked_lm_example_loss_cur_sent,
+         _) = get_masked_lm_output(bert_config, model.get_sequence_output(),
+                                   model.get_embedding_table(),
+                                   masked_lm_positions_cur_sent,
+                                   masked_lm_ids_cur_sent,
+                                   masked_lm_weights_cur_sent)
+        # Output Shape: [1].
+        masked_lm_loss_doc += masked_lm_loss_cur_sent
+        # Output Shape: [loop_sent_number_per_doc, batch * max_predictions_per_seq].
+        masked_lm_example_loss_doc.append(masked_lm_example_loss_cur_sent)
+        # Output Shape: [loop_sent_number_per_doc, batch, max_predictions_per_seq].
+        masked_lm_weights_doc.append(masked_lm_weights_cur_sent)
+
+      return GetSentRepsMasksNormalLoop(input_sent_reps_doc, input_mask_doc_level, masked_lm_loss_doc,
+                                        masked_lm_example_loss_doc, masked_lm_weights_doc)
 
 
-def learn_sent_reps_normal_loop(dual_encoder_config, is_training, train_mode,
-                                input_ids_1, input_mask_1,
-                                masked_lm_positions_1, masked_lm_ids_1,
-                                masked_lm_weights_1, input_ids_2, input_mask_2,
-                                masked_lm_positions_2, masked_lm_ids_2,
-                                masked_lm_weights_2, use_one_hot_embeddings):
-  """Learn the sentence representations with normal loop functions."""
-  input_sent_reps_doc_1 = []
-  # Generate document level input masks on each sentence based on the word
-  # level input mask information.
-  input_mask_doc_level_1 = []
-  masked_lm_loss_doc_1 = 0.0
-  masked_lm_example_loss_doc_1 = []
-  masked_lm_weights_doc_1 = []
+class LearnSentRepsNormalLoop(object):
 
-  input_mask_doc_level_2 = []
-  input_sent_reps_doc_2 = []
-  masked_lm_loss_doc_2 = 0.0
-  masked_lm_example_loss_doc_2 = []
-  masked_lm_weights_doc_2 = []
+    def __init__(self, input_sent_reps_doc_1_unmask=None, input_mask_doc_level_1_tensor=None,
+                  input_sent_reps_doc_2_unmask=None, input_mask_doc_level_2_tensor=None,
+                  masked_lm_loss_doc_1=None, masked_lm_loss_doc_2=None,
+                  masked_lm_example_loss_doc_1=None, masked_lm_example_loss_doc_2=None,
+                  masked_lm_weights_doc_1=None, masked_lm_weights_doc_2=None):
+        self.input_sent_reps_doc_1_unmask = input_sent_reps_doc_1_unmask
+        self.input_mask_doc_level_1_tensor = input_mask_doc_level_1_tensor
+        self.input_sent_reps_doc_2_unmask = input_sent_reps_doc_2_unmask
+        self.input_mask_doc_level_2_tensor = input_mask_doc_level_2_tensor
+        self.masked_lm_loss_doc_1 = masked_lm_loss_doc_1
+        self.masked_lm_loss_doc_2 = masked_lm_loss_doc_2
+        self.masked_lm_example_loss_doc_1 = masked_lm_example_loss_doc_1
+        self.masked_lm_example_loss_doc_2 = masked_lm_example_loss_doc_2
+        self.masked_lm_weights_doc_1 = masked_lm_weights_doc_1
+        self.masked_lm_weights_doc_2 = masked_lm_weights_doc_2
 
-  # Learn the representation for each sentence in the document.
-  # Setting smaller number of loop_sent_number_per_doc can save memory for the
-  # model training.
-  # Shape of masked_lm_loss_doc_1 [1].
-  # Shape of masked_lm_example_loss_doc_1 is [max_doc_length_by_sentence,
-  # batch * max_predictions_per_seq].
-  for sent_index in range(
-      0, dual_encoder_config.encoder_config.loop_sent_number_per_doc):
-    (input_sent_reps_doc_1, input_mask_doc_level_1, masked_lm_loss_doc_1,
-     masked_lm_example_loss_doc_1,
-     masked_lm_weights_doc_1) = get_sent_reps_masks_normal_loop(
-         sent_index, input_sent_reps_doc_1, input_mask_doc_level_1,
-         masked_lm_loss_doc_1, masked_lm_example_loss_doc_1,
-         masked_lm_weights_doc_1, dual_encoder_config, is_training, train_mode,
-         input_ids_1, input_mask_1, masked_lm_positions_1, masked_lm_ids_1,
-         masked_lm_weights_1, use_one_hot_embeddings)
-    (input_sent_reps_doc_2, input_mask_doc_level_2, masked_lm_loss_doc_2,
-     masked_lm_example_loss_doc_2,
-     masked_lm_weights_doc_2) = get_sent_reps_masks_normal_loop(
-         sent_index, input_sent_reps_doc_2, input_mask_doc_level_2,
-         masked_lm_loss_doc_2, masked_lm_example_loss_doc_2,
-         masked_lm_weights_doc_2, dual_encoder_config, is_training, train_mode,
-         input_ids_2, input_mask_2, masked_lm_positions_2, masked_lm_ids_2,
-         masked_lm_weights_2, use_one_hot_embeddings)
+    def learn_sent_reps_normal_loop(self, dual_encoder_config, is_training, train_mode,
+                                    input_ids_1, input_mask_1,
+                                    masked_lm_positions_1, masked_lm_ids_1,
+                                    masked_lm_weights_1, input_ids_2, input_mask_2,
+                                    masked_lm_positions_2, masked_lm_ids_2,
+                                    masked_lm_weights_2, use_one_hot_embeddings):
+      """Learn the sentence representations with normal loop functions."""
+      input_sent_reps_doc_1 = []
+      # Generate document level input masks on each sentence based on the word
+      # level input mask information.
+      input_mask_doc_level_1 = []
+      masked_lm_loss_doc_1 = 0.0
+      masked_lm_example_loss_doc_1 = []
+      masked_lm_weights_doc_1 = []
 
-  # Stack the sentence representations to learn the doc representations.
-  # Output Shape: [batch, loop_sent_number_per_doc, hidden].
-  input_sent_reps_doc_1_unmask = tf.stack(input_sent_reps_doc_1, axis=1)
-  input_sent_reps_doc_2_unmask = tf.stack(input_sent_reps_doc_2, axis=1)
+      input_mask_doc_level_2 = []
+      input_sent_reps_doc_2 = []
+      masked_lm_loss_doc_2 = 0.0
+      masked_lm_example_loss_doc_2 = []
+      masked_lm_weights_doc_2 = []
 
-  # Output Shape:  [batch, loop_sent_number_per_doc].
-  input_mask_doc_level_1_tensor = tf.stack(input_mask_doc_level_1, axis=1)
-  input_mask_doc_level_2_tensor = tf.stack(input_mask_doc_level_2, axis=1)
+      # Learn the representation for each sentence in the document.
+      # Setting smaller number of loop_sent_number_per_doc can save memory for the
+      # model training.
+      # Shape of masked_lm_loss_doc_1 [1].
+      # Shape of masked_lm_example_loss_doc_1 is [max_doc_length_by_sentence,
+      # batch * max_predictions_per_seq].
+      for sent_index in range(
+          0, dual_encoder_config.encoder_config.loop_sent_number_per_doc):
+        sent_reps_masks_normal_loop = GetSentRepsMasksNormalLoop().get_sent_reps_masks_normal_loop(
+             sent_index, input_sent_reps_doc_1, input_mask_doc_level_1,
+             masked_lm_loss_doc_1, masked_lm_example_loss_doc_1,
+             masked_lm_weights_doc_1, dual_encoder_config, is_training, train_mode,
+             input_ids_1, input_mask_1, masked_lm_positions_1, masked_lm_ids_1,
+             masked_lm_weights_1, use_one_hot_embeddings)
+        input_sent_reps_doc_1, input_mask_doc_level_1, masked_lm_loss_doc_1, masked_lm_example_loss_doc_1, masked_lm_weights_doc_1 = \
+            sent_reps_masks_normal_loop.input_sent_reps_doc, sent_reps_masks_normal_loop.input_mask_doc_level, sent_reps_masks_normal_loop.masked_lm_loss_doc, \
+            sent_reps_masks_normal_loop.masked_lm_example_loss_doc, sent_reps_masks_normal_loop.masked_lm_weights_doc
 
-  if (train_mode == constants.TRAIN_MODE_PRETRAIN or
-      train_mode == constants.TRAIN_MODE_JOINT_TRAIN):
-    # Output Shape:  [batch * max_predictions_per_seq,
-    # loop_sent_number_per_doc].
-    masked_lm_example_loss_doc_1 = tf.stack(
-        masked_lm_example_loss_doc_1, axis=1)
-    masked_lm_example_loss_doc_2 = tf.stack(
-        masked_lm_example_loss_doc_2, axis=1)
+        sent_reps_masks_normal_loop = GetSentRepsMasksNormalLoop().get_sent_reps_masks_normal_loop(
+             sent_index, input_sent_reps_doc_2, input_mask_doc_level_2,
+             masked_lm_loss_doc_2, masked_lm_example_loss_doc_2,
+             masked_lm_weights_doc_2, dual_encoder_config, is_training, train_mode,
+             input_ids_2, input_mask_2, masked_lm_positions_2, masked_lm_ids_2,
+             masked_lm_weights_2, use_one_hot_embeddings)
 
-    # Output Shape:  [batch, loop_sent_number_per_doc, max_predictions_per_seq].
-    masked_lm_weights_doc_1 = tf.stack(masked_lm_weights_doc_1, axis=1)
-    masked_lm_weights_doc_2 = tf.stack(masked_lm_weights_doc_2, axis=1)
-  else:
-    masked_lm_example_loss_doc_1 = tf.zeros([1])
-    masked_lm_example_loss_doc_2 = tf.zeros([1])
-    masked_lm_weights_doc_1 = tf.zeros([1])
-    masked_lm_weights_doc_2 = tf.zeros([1])
+        input_sent_reps_doc_2, input_mask_doc_level_2, masked_lm_loss_doc_2, masked_lm_example_loss_doc_2, masked_lm_weights_doc_2 = \
+            sent_reps_masks_normal_loop.input_sent_reps_doc, sent_reps_masks_normal_loop.input_mask_doc_level, sent_reps_masks_normal_loop.masked_lm_loss_doc, \
+            sent_reps_masks_normal_loop.masked_lm_example_loss_doc, sent_reps_masks_normal_loop.masked_lm_weights_doc
 
-  return (input_sent_reps_doc_1_unmask, input_mask_doc_level_1_tensor,
-          input_sent_reps_doc_2_unmask, input_mask_doc_level_2_tensor,
-          masked_lm_loss_doc_1, masked_lm_loss_doc_2,
-          masked_lm_example_loss_doc_1, masked_lm_example_loss_doc_2,
-          masked_lm_weights_doc_1, masked_lm_weights_doc_2)
+      # Stack the sentence representations to learn the doc representations.
+      # Output Shape: [batch, loop_sent_number_per_doc, hidden].
+      input_sent_reps_doc_1_unmask = tf.stack(input_sent_reps_doc_1, axis=1)
+      input_sent_reps_doc_2_unmask = tf.stack(input_sent_reps_doc_2, axis=1)
 
+      # Output Shape:  [batch, loop_sent_number_per_doc].
+      input_mask_doc_level_1_tensor = tf.stack(input_mask_doc_level_1, axis=1)
+      input_mask_doc_level_2_tensor = tf.stack(input_mask_doc_level_2, axis=1)
+
+      if (train_mode == constants.TRAIN_MODE_PRETRAIN or
+          train_mode == constants.TRAIN_MODE_JOINT_TRAIN):
+        # Output Shape:  [batch * max_predictions_per_seq,
+        # loop_sent_number_per_doc].
+        masked_lm_example_loss_doc_1 = tf.stack(
+            masked_lm_example_loss_doc_1, axis=1)
+        masked_lm_example_loss_doc_2 = tf.stack(
+            masked_lm_example_loss_doc_2, axis=1)
+
+        # Output Shape:  [batch, loop_sent_number_per_doc, max_predictions_per_seq].
+        masked_lm_weights_doc_1 = tf.stack(masked_lm_weights_doc_1, axis=1)
+        masked_lm_weights_doc_2 = tf.stack(masked_lm_weights_doc_2, axis=1)
+      else:
+        masked_lm_example_loss_doc_1 = tf.zeros([1])
+        masked_lm_example_loss_doc_2 = tf.zeros([1])
+        masked_lm_weights_doc_1 = tf.zeros([1])
+        masked_lm_weights_doc_2 = tf.zeros([1])
+
+      return LearnSentRepsNormalLoop(input_sent_reps_doc_1_unmask, input_mask_doc_level_1_tensor,
+              input_sent_reps_doc_2_unmask, input_mask_doc_level_2_tensor,
+              masked_lm_loss_doc_1, masked_lm_loss_doc_2,
+              masked_lm_example_loss_doc_1, masked_lm_example_loss_doc_2,
+              masked_lm_weights_doc_1, masked_lm_weights_doc_2)
