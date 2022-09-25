@@ -444,7 +444,8 @@ class GetTokensSegmentIdsMasks(object):
         tokens_block, segment_ids_block, masked_lm_positions_block, masked_lm_labels_block, \
         input_mask_block, masked_lm_weights_block = \
             token_masks_paddings.tokens, token_masks_paddings.segment_ids, token_masks_paddings.masked_lm_positions, \
-            token_masks_paddings.masked_lm_labels, token_masks_paddings.input_mask, token_masks_paddings.masked_lm_weights
+            token_masks_paddings.masked_lm_labels, token_masks_paddings.input_mask, \
+            token_masks_paddings.masked_lm_weights
 
         tokens_doc.extend(tokens_block)
         segment_ids_doc.extend(segment_ids_block)

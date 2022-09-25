@@ -555,7 +555,8 @@ class LearnSentRepsNormalLoop(object):
              masked_lm_weights_1, use_one_hot_embeddings)
         input_sent_reps_doc_1, input_mask_doc_level_1, masked_lm_loss_doc_1, \
         masked_lm_example_loss_doc_1, masked_lm_weights_doc_1 = \
-            sent_reps_masks_normal_loop.input_sent_reps_doc, sent_reps_masks_normal_loop.input_mask_doc_level, sent_reps_masks_normal_loop.masked_lm_loss_doc, \
+            sent_reps_masks_normal_loop.input_sent_reps_doc, sent_reps_masks_normal_loop.input_mask_doc_level, \
+            sent_reps_masks_normal_loop.masked_lm_loss_doc, \
             sent_reps_masks_normal_loop.masked_lm_example_loss_doc, sent_reps_masks_normal_loop.masked_lm_weights_doc
 
         sent_reps_masks_normal_loop = GetSentRepsMasksNormalLoop().get_sent_reps_masks_normal_loop(
@@ -567,7 +568,8 @@ class LearnSentRepsNormalLoop(object):
 
         input_sent_reps_doc_2, input_mask_doc_level_2, masked_lm_loss_doc_2, \
         masked_lm_example_loss_doc_2, masked_lm_weights_doc_2 = \
-            sent_reps_masks_normal_loop.input_sent_reps_doc, sent_reps_masks_normal_loop.input_mask_doc_level, sent_reps_masks_normal_loop.masked_lm_loss_doc, \
+            sent_reps_masks_normal_loop.input_sent_reps_doc, sent_reps_masks_normal_loop.input_mask_doc_level, \
+            sent_reps_masks_normal_loop.masked_lm_loss_doc, \
             sent_reps_masks_normal_loop.masked_lm_example_loss_doc, sent_reps_masks_normal_loop.masked_lm_weights_doc
 
       # Stack the sentence representations to learn the doc representations.

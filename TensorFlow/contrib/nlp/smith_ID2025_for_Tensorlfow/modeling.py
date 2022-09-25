@@ -159,10 +159,14 @@ class BuildSmithDualEncoder(object):
       input_sent_reps_doc_2_unmask, input_mask_doc_level_2_tensor, masked_lm_loss_doc_1, \
       masked_lm_loss_doc_2, masked_lm_example_loss_doc_1, masked_lm_example_loss_doc_2, \
       masked_lm_weights_doc_1, masked_lm_weights_doc_2 = \
-          learn_sent_reps_normal_loop.input_sent_reps_doc_1_unmask, learn_sent_reps_normal_loop.input_mask_doc_level_1_tensor, \
-          learn_sent_reps_normal_loop.input_sent_reps_doc_2_unmask, learn_sent_reps_normal_loop.input_mask_doc_level_2_tensor, \
-          learn_sent_reps_normal_loop.masked_lm_loss_doc_1, learn_sent_reps_normal_loop.masked_lm_loss_doc_2, learn_sent_reps_normal_loop.masked_lm_example_loss_doc_1, \
-          learn_sent_reps_normal_loop.masked_lm_example_loss_doc_2, learn_sent_reps_normal_loop.masked_lm_weights_doc_1, learn_sent_reps_normal_loop.masked_lm_weights_doc_2
+          learn_sent_reps_normal_loop.input_sent_reps_doc_1_unmask, \
+          learn_sent_reps_normal_loop.input_mask_doc_level_1_tensor, \
+          learn_sent_reps_normal_loop.input_sent_reps_doc_2_unmask, \
+          learn_sent_reps_normal_loop.input_mask_doc_level_2_tensor, \
+          learn_sent_reps_normal_loop.masked_lm_loss_doc_1, learn_sent_reps_normal_loop.masked_lm_loss_doc_2, \
+          learn_sent_reps_normal_loop.masked_lm_example_loss_doc_1, \
+          learn_sent_reps_normal_loop.masked_lm_example_loss_doc_2, \
+          learn_sent_reps_normal_loop.masked_lm_weights_doc_1, learn_sent_reps_normal_loop.masked_lm_weights_doc_2
 
       if debugging:
         input_mask_doc_level_1_tensor = tf.Print(
@@ -419,9 +423,11 @@ def model_fn_builder(dual_encoder_config,
           smith_dual_encoder.masked_sent_lm_loss_1, smith_dual_encoder.masked_sent_lm_loss_2, \
           smith_dual_encoder.masked_sent_per_example_loss_1, smith_dual_encoder.masked_sent_per_example_loss_2, \
           smith_dual_encoder.masked_sent_weight_1, smith_dual_encoder.masked_sent_weight_2, \
-          smith_dual_encoder.final_doc_rep_1, smith_dual_encoder.final_doc_rep_2, smith_dual_encoder.input_sent_reps_doc_1_unmask, \
+          smith_dual_encoder.final_doc_rep_1, smith_dual_encoder.final_doc_rep_2, \
+          smith_dual_encoder.input_sent_reps_doc_1_unmask, \
           smith_dual_encoder.input_sent_reps_doc_2_unmask, \
-          smith_dual_encoder.output_sent_reps_doc_1, smith_dual_encoder.output_sent_reps_doc_2, smith_dual_encoder.siamese_loss, \
+          smith_dual_encoder.output_sent_reps_doc_1, smith_dual_encoder.output_sent_reps_doc_2, \
+          smith_dual_encoder.siamese_loss, \
           smith_dual_encoder.siamese_example_loss, smith_dual_encoder.siamese_logits
 
     else:
