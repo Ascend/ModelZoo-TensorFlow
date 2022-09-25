@@ -318,14 +318,18 @@ def create_instance_from_wiki_doc_pair(instance_id, doc_match_label,
                                    max_predictions_per_seq, vocab_words, rng)
 
   tokens_1, segment_ids_1, masked_lm_positions_1, masked_lm_labels_1, input_mask_1, masked_lm_weights_1 = \
-      tokens_segment_ids_masks_res_1.tokens_doc, tokens_segment_ids_masks_res_1.segment_ids_doc, tokens_segment_ids_masks_res_1.masked_lm_positions_doc, tokens_segment_ids_masks_res_1.masked_lm_labels_doc, tokens_segment_ids_masks_res_1.input_mask_doc, tokens_segment_ids_masks_res_1.masked_lm_weights_doc
+      tokens_segment_ids_masks_res_1.tokens_doc, tokens_segment_ids_masks_res_1.segment_ids_doc, \
+      tokens_segment_ids_masks_res_1.masked_lm_positions_doc, tokens_segment_ids_masks_res_1.masked_lm_labels_doc, \
+      tokens_segment_ids_masks_res_1.input_mask_doc, tokens_segment_ids_masks_res_1.masked_lm_weights_doc
 
   tokens_segment_ids_masks_res_2= \
       tokens_segment_ids_masks(max_sent_length_by_word, max_doc_length_by_sentence, doc_two_tokens, masked_lm_prob,
                                    max_predictions_per_seq, vocab_words, rng)
 
   tokens_2, segment_ids_2, masked_lm_positions_2, masked_lm_labels_2, input_mask_2, masked_lm_weights_2 = \
-      tokens_segment_ids_masks_res_2.tokens_doc, tokens_segment_ids_masks_res_2.segment_ids_doc, tokens_segment_ids_masks_res_2.masked_lm_positions_doc, tokens_segment_ids_masks_res_2.masked_lm_labels_doc, tokens_segment_ids_masks_res_2.input_mask_doc, tokens_segment_ids_masks_res_2.masked_lm_weights_doc
+      tokens_segment_ids_masks_res_2.tokens_doc, tokens_segment_ids_masks_res_2.segment_ids_doc, \
+      tokens_segment_ids_masks_res_2.masked_lm_positions_doc, tokens_segment_ids_masks_res_2.masked_lm_labels_doc, \
+      tokens_segment_ids_masks_res_2.input_mask_doc, tokens_segment_ids_masks_res_2.masked_lm_weights_doc
 
   instance = TrainingInstance(
       tokens_1=tokens_1,
@@ -437,8 +441,10 @@ class GetTokensSegmentIdsMasks(object):
                 rng,
                 block_index)
 
-        tokens_block, segment_ids_block, masked_lm_positions_block, masked_lm_labels_block, input_mask_block, masked_lm_weights_block = \
-            token_masks_paddings.tokens, token_masks_paddings.segment_ids, token_masks_paddings.masked_lm_positions, token_masks_paddings.masked_lm_labels, token_masks_paddings.input_mask, token_masks_paddings.masked_lm_weights
+        tokens_block, segment_ids_block, masked_lm_positions_block, masked_lm_labels_block, \
+        input_mask_block, masked_lm_weights_block = \
+            token_masks_paddings.tokens, token_masks_paddings.segment_ids, token_masks_paddings.masked_lm_positions, \
+            token_masks_paddings.masked_lm_labels, token_masks_paddings.input_mask, token_masks_paddings.masked_lm_weights
 
         tokens_doc.extend(tokens_block)
         segment_ids_doc.extend(segment_ids_block)

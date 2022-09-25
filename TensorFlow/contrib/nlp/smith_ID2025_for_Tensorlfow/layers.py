@@ -553,7 +553,8 @@ class LearnSentRepsNormalLoop(object):
              masked_lm_weights_doc_1, dual_encoder_config, is_training, train_mode,
              input_ids_1, input_mask_1, masked_lm_positions_1, masked_lm_ids_1,
              masked_lm_weights_1, use_one_hot_embeddings)
-        input_sent_reps_doc_1, input_mask_doc_level_1, masked_lm_loss_doc_1, masked_lm_example_loss_doc_1, masked_lm_weights_doc_1 = \
+        input_sent_reps_doc_1, input_mask_doc_level_1, masked_lm_loss_doc_1, \
+        masked_lm_example_loss_doc_1, masked_lm_weights_doc_1 = \
             sent_reps_masks_normal_loop.input_sent_reps_doc, sent_reps_masks_normal_loop.input_mask_doc_level, sent_reps_masks_normal_loop.masked_lm_loss_doc, \
             sent_reps_masks_normal_loop.masked_lm_example_loss_doc, sent_reps_masks_normal_loop.masked_lm_weights_doc
 
@@ -564,7 +565,8 @@ class LearnSentRepsNormalLoop(object):
              input_ids_2, input_mask_2, masked_lm_positions_2, masked_lm_ids_2,
              masked_lm_weights_2, use_one_hot_embeddings)
 
-        input_sent_reps_doc_2, input_mask_doc_level_2, masked_lm_loss_doc_2, masked_lm_example_loss_doc_2, masked_lm_weights_doc_2 = \
+        input_sent_reps_doc_2, input_mask_doc_level_2, masked_lm_loss_doc_2, \
+        masked_lm_example_loss_doc_2, masked_lm_weights_doc_2 = \
             sent_reps_masks_normal_loop.input_sent_reps_doc, sent_reps_masks_normal_loop.input_mask_doc_level, sent_reps_masks_normal_loop.masked_lm_loss_doc, \
             sent_reps_masks_normal_loop.masked_lm_example_loss_doc, sent_reps_masks_normal_loop.masked_lm_weights_doc
 
