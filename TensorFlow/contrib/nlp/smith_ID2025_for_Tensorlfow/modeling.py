@@ -33,15 +33,14 @@ from npu_bridge.npu_init import *
 
 import tensorflow.compat.v1 as tf
 
-from smith_npu_20220702105238 import constants
-from smith_npu_20220702105238 import layers
-from smith_npu_20220702105238 import loss_fns
-from smith_npu_20220702105238 import metric_fns
-from smith_npu_20220702105238 import utils
-from smith_npu_20220702105238.bert import modeling
-from smith_npu_20220702105238.bert import optimization
+from smith import constants
+from smith import layers
+from smith import loss_fns
+from smith import metric_fns
+from smith import utils
+from smith import modeling
+from smith.bert import optimization
 
-# Add by:TC
 import precision_tool.tf_config as npu_tf_config
 
 class BuildSmithDualEncoder(object):

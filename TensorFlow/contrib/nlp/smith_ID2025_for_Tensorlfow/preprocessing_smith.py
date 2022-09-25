@@ -35,9 +35,9 @@ import random
 import nltk
 import tensorflow.compat.v1 as tf
 import tqdm
-from smith_npu_20220702105238 import utils
-from smith_npu_20220702105238 import wiki_doc_pair_pb2
-from smith_npu_20220702105238.bert import tokenization
+from smith import utils
+from smith import wiki_doc_pair_pb2
+from smith.bert import tokenization
 
 flags = tf.flags
 

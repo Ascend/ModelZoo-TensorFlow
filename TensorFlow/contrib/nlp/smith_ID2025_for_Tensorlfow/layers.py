@@ -34,8 +34,8 @@ from six.moves import range
 from npu_bridge.estimator.npu import npu_convert_dropout
 import tensorflow.compat.v1 as tf
 
-from smith_npu_20220702105238 import constants
-from smith_npu_20220702105238.bert import modeling
+from smith import constants
+from smith.bert import modeling
 
 
 def get_doc_rep_with_masked_sent(input_sent_reps_doc,
