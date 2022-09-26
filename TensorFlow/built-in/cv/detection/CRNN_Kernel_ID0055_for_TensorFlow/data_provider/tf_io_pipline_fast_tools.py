@@ -145,7 +145,7 @@ def _write_tfrecords(tfrecords_writer):
 
             # try to use PIL 
             image = Image.open(sample_path)
-            if image_t is None:
+            if image is None:
                 continue
             image = image.resize(tuple(CFG.ARCH.INPUT_SIZE),Image.BILINEAR)
             image_np = np.array(image).astype(np.uint8)
