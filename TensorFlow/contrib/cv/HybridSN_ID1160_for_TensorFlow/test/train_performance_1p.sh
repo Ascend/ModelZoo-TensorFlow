@@ -133,7 +133,17 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep "16238/16238" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F '16238/16238' '{print $2}'|grep 'loss:'|awk 'END {print $4}'|cut -d 'm' -f -1`
+#TrainingTime=`grep "16238/16238" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F '16238/16238' '{print $2}'|grep 'loss:'|awk 'END {print $4}'|cut -d 'm' -f -1`
+
+TrainingTime=`grep "16238/16238" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F '16238/16238' '{print $2}'|grep 'loss:'|awk 'END {print $4}'|tr -d "a-zA-Z /"`
+echo "$TrainingTime"
+type=`grep "16238/16238" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F '16238/16238' '{print $2}'|grep 'loss:'|awk 'END {print $4}'|awk -F '/' '{print $1}'|sed 's/^[0-9]*//'`
+echo "type:$type"
+if [ "$type" = "ms" ];then
+        ActualFPS=`awk 'BEGIN{printf "%.2f\n", '1000'*'${batch_size}'/'${TrainingTime}'}'`
+elif [ "$type" = "us" ];then
+        ActualFPS=`awk 'BEGIN{printf "%.2f\n", '1000000'*'${batch_size}'/'${TrainingTime}'}'`
+fi
 
 
 #性能看护结果汇总
@@ -144,7 +154,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 ##获取性能数据，不需要修改
 #吞吐量
-ActualFPS=`awk 'BEGIN{printf "%.2f\n", '1000'*'${batch_size}'/'${TrainingTime}'}'`
+#ActualFPS=`awk 'BEGIN{printf "%.2f\n", '1000'*'${batch_size}'/'${TrainingTime}'}'`
 
 #获取模型精度
 train_accuracy=`grep "16238/16238" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F '16238/16238' '{print $2}'|grep 'loss:'|awk 'END {print $10}'`
