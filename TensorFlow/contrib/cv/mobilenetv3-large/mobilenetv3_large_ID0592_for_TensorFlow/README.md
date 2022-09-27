@@ -54,7 +54,7 @@ Tensorflow 1.15.0
 ### 1. Clone the respository
 
 ```shell
-git clone https://gitee.com/ascend/modelzoo/tree/master/contrib/Research/cv/mobilenetv3-large/mobilenetv3-large_tf_backseason
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/mobilenetv3-large/mobilenetv3_large_ID0592_for_TensorFlow
 cd gpu
 ```
 
