@@ -45,7 +45,7 @@
 -   适配昇腾 AI 处理器的实现：
     
         ```
-        https://gitee.com/ascend/modelzoo/blob/master/TensorFlow/built-in/cv/image_classification/ShufflenetV2_ID0371_For_Tensorflow
+        https://gitee.com/ascend/ModelZoo-TensorFlow/blob/master/TensorFlow/built-in/cv/image_classification/ShufflenetV2_ID0371_For_Tensorflow
 
         ```
 
