@@ -106,5 +106,5 @@ python    run_xception.py  --model_path ./model/xception_model.ckpt  --data_path
 以上代码主要功能就是将所有训练集的tfrecord文件路径以list的形式存入tf_data_list,读取文件时将此作为参数进行传递。\
 
  **### offline_inference** 
-[offline_inference readme](https://gitee.com/ascend/modelzoo/blob/master/contrib/TensorFlow/Research/cv/xception/Xception_ID0178_for_TensorFlow/offline_inference/README.md)
+[offline_inference readme](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/xception/Xception_ID0178_for_TensorFlow)
 

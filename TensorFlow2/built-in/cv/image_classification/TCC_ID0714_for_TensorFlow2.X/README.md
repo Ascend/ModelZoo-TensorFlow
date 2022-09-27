@@ -44,7 +44,7 @@ TCC(Temporal Cycle-Consistency)可用于视频的自监督表示学习，它被�
 
 -   适配昇腾 AI 处理器的实现：
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/nlp/Transformer_ID0633_for_TensorFlow2.X
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/cv/image_classification/TCC_ID0714_for_TensorFlow2.X
 
 -   通过Git获取对应commit\_id的代码方法如下：
     

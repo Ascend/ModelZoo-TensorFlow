@@ -36,7 +36,7 @@
 
 - 适配昇腾 AI 处理器的实现：
 
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/image_classification/HRNet_ID0139_for_TensorFlow/
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/HRNet_ID0139_for_TensorFlow
 
 
 - 通过Git获取对应commit\_id的代码方法如下：

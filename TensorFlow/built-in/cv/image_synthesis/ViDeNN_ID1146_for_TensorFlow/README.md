@@ -42,7 +42,7 @@ ViDeNN提出一个CNN框架，使用一个结合空间和时间的滤波，一�
 
 - 适配昇腾 AI 处理器的实现：
   
-  https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/image_synthesis/ViDeNN_ID1146_for_TensorFlow 
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_synthesis/ViDeNN_ID1146_for_TensorFlow 
 
 
 - 通过Git获取对应commit\_id的代码方法如下：

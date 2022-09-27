@@ -39,7 +39,7 @@ SRGAN的作用简单点说,就是给你一张模糊的图片,让你复原一张�
 - 适配昇腾 AI 处理器的实现：
 
 
-  https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_synthesis/SRGAN_ID1881_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_synthesis/SRGAN_ID1881_for_TensorFlow
 
 
 - 通过Git获取对应commit\_id的代码方法如下：

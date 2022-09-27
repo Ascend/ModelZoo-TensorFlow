@@ -38,7 +38,7 @@ SpineNet是一种具有尺度排列中间特征的骨干网络与采用NAS专为
 
 - 适配昇腾 AI 处理器的实现：
 
-  https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/SpineNet_ID0709_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/SpineNet_ID0709_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
 

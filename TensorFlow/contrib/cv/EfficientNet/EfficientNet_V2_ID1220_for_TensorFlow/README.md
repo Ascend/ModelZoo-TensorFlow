@@ -37,7 +37,7 @@ EfficientNets是谷歌大脑的工程师谭明星和首席科学家Quoc V. Le在
 - 适配昇腾 AI 处理器的实现：
     
         
-    https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/EfficientNet/EfficientNet_V2_ID1220_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/EfficientNet/EfficientNet_V2_ID1220_for_TensorFlow
         
 
 

@@ -34,7 +34,7 @@
   
     ````
     ```
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/image_synthesis/GAN_ID0652_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_synthesis/GAN_ID0652_for_TensorFlow
     ```
     ````
     

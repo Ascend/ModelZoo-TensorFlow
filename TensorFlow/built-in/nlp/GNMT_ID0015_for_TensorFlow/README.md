@@ -41,7 +41,7 @@ GNMT v2 模型类似于谷歌的机器翻译网络GNMT模型。两种模型之�
 -   适配昇腾 AI 处理器的实现：
     
     
-     https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/nlp/GNMT_ID0015_for_TensorFlow
+     https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/GNMT_ID0015_for_TensorFlow
         
 
 -   通过Git获取对应commit\_id的代码方法如下：

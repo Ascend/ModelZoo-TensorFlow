@@ -31,7 +31,7 @@
 - 适配昇腾 AI 处理器的实现：
     
         
-  https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/pfe/pfe_ID0982_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/pfe/pfe_ID0982_for_TensorFlow
         
 
 

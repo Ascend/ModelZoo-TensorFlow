@@ -44,7 +44,7 @@ Transformer模型是谷歌在2017年提出来的模型，模型完全摒弃了RN
 
 -   适配昇腾 AI 处理器的实现：
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/nlp/Transformer_ID0633_for_TensorFlow2.X
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/nlp/Transformer_ID0633_for_TensorFlow2.X
 
 -   通过Git获取对应commit\_id的代码方法如下：
     

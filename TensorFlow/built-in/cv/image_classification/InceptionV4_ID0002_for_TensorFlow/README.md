@@ -39,7 +39,7 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
     [https://github.com/tensorflow/models/tree/master/research/slim](https://github.com/tensorflow/models/tree/master/research/slim)
 -   适配昇腾 AI 处理器的实现：
     
-    [https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/InceptionV4_ID0002_for_TensorFlow](https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/InceptionV4_ID0002_for_TensorFlow)
+    [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/InceptionV4_ID0002_for_TensorFlow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/InceptionV4_ID0002_for_TensorFlow)
         
     
 -   通过Git获取对应commit\_id的代码方法如下：

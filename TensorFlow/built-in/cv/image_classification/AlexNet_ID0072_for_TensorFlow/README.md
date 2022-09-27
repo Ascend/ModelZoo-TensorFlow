@@ -45,7 +45,7 @@ AlexNet是一个经典的图像分类网络，AlexNet在2012年ImageNet竞赛中
 
 -   适配昇腾 AI 处理器的实现：
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/AlexNet_ID0072_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/AlexNet_ID0072_for_TensorFlow
 
 -   通过Git获取对应commit\_id的代码方法如下：
     

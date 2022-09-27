@@ -42,7 +42,7 @@
 
 - 适配昇腾 AI 处理器的实现：    
     
-   https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow2/Research/cv/image_classification/knowledge_disti_ID2517_for_TensorFlow2.X
+   https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/keras_sample/cv/knowledge_disti_ID2517_for_TensorFlow2.X
 
 - 通过Git获取对应commit_id的代码方法如下:
     

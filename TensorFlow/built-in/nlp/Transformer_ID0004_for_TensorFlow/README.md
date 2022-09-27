@@ -43,7 +43,7 @@ Transformer是一个能够高效并行训练的序列到序列模型，该模型
 
 -   适配昇腾 AI 处理器的实现：    
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/nlp/Transformer_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/Transformer_ID0004_for_TensorFlow
 
 -   通过Git获取对应commit\_id的代码方法如下：
     

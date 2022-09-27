@@ -43,7 +43,7 @@ CRF是一种常用的序列标注算法，可用于词性标注，分词，命�
 -   适配昇腾 AI 处理器的实现：
     
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/nlp/BiLSTM_CRF_ID0125_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/BiLSTM_CRF_ID0125_for_TensorFlow
         
 
 -   通过Git获取对应commit\_id的代码方法如下：

@@ -43,7 +43,7 @@ Swin Transformer（名称Swin代表移位窗口）最初在arxiv中描述，它�
 
 -   适配昇腾 AI 处理器的实现：
     
-        https://gitee.com/modelzoo/tree/master/built-in/TensorFlow/Research/cv/detection/Swin-Transformer_ID2412_for_TensorFlow2.X
+        https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/cv/detection/Swin-Transformer_ID2412_for_TensorFlow2.X
 
 -   通过Git获取对应commit\_id的代码方法如下：
     

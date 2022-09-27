@@ -44,7 +44,7 @@ MobileNetV3和Lite R-ASPP语义分割的Keras实现（正在开发中）。
 
 -   适配昇腾 AI 处理器的实现：
     
-    https://gitee.com/ascend/modelzoo/blob/master/built-in/TensorFlow/Official/cv/image_classification/MobileNetV3_ID0256_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/MobileNetV3_ID0256_for_TensorFlow
 
 -   通过Git获取对应commit\_id的代码方法如下：
     

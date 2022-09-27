@@ -38,7 +38,7 @@ Seq2Seq是一种重要的RNN模型，也称为Encoder-Decoder模型，可以理�
 
 - 适配昇腾AI处理器的实现：
 
-  [https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/nlp/seq2seq/Seq2Seq_ID1474_for_TensorFlow](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/nlp/seq2seq/Seq2Seq_ID1474_for_TensorFlow)
+  [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/nlp/seq2seq/Seq2Seq_ID1474_for_TensorFlow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/nlp/seq2seq/Seq2Seq_ID1474_for_TensorFlow)
 
 ## 默认配置
 

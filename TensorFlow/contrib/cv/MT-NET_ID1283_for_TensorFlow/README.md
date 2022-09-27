@@ -32,7 +32,7 @@ MT-net是一种基于参数优化的小样本学习算法，基本思路还是�
 
 - 适配昇腾 AI 处理器的实现：
 
-  https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/MT-net_ID1283_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/MT-NET_ID1283_for_TensorFlow
 
 - 通过Git获取对应commit_id的代码方法如下：
 
@@ -56,7 +56,7 @@ MT-net是一种基于参数优化的小样本学习算法，基本思路还是�
 
 2. 宿主机上需要安装Docker并登录[Ascend Hub中心](https://gitee.com/link?target=https%3A%2F%2Fascendhub.huawei.com%2F%23%2Fdetail%3Fname%3Dascend-tensorflow-arm)获取镜像。
 
-   当前模型支持的镜像列表如[表1](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/MassFace_ID1255_for_TensorFlow#zh-cn_topic_0000001074498056_table1519011227314)所示。
+   当前模型支持的镜像列表如[表1](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/MT-NET_ID1283_for_TensorFlow#zh-cn_topic_0000001074498056_table1519011227314)所示。
 
    **表 1** 镜像列表
 

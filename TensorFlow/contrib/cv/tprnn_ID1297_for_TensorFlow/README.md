@@ -44,7 +44,7 @@ https://github.com/eddyhkchiu/pose_forecast_wacv
  ```
 -   适配昇腾 AI 处理器的实现：
 ```
-https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/image_classification/ResNet101_ID0361_for_TensorFlow2.X
+https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/tprnn_ID1297_for_TensorFlow
 ```
 
 

@@ -47,7 +47,7 @@
     - 适配昇腾 AI 处理器的实现：
     
         ```
-        https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/image_classification/VNECT_ID1094_for_TensorFlow
+        https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/VNECT_ID1094_for_TensorFlow
         ```
 
 

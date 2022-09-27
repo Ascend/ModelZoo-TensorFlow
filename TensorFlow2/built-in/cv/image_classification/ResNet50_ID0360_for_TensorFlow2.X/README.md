@@ -44,7 +44,7 @@ Resnet是残差网络(Residual Network)的缩写,该系列网络广泛用于目�
 
 -   适配昇腾 AI 处理器的实现：
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/ResNet50_ID0360_for_TensorFlow2.X
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/cv/image_classification/ResNet50_ID0360_for_TensorFlow2.X
 
 -   通过Git获取对应commit\_id的代码方法如下：
     

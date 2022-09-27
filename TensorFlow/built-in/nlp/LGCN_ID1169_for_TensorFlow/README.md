@@ -47,7 +47,7 @@
 -   适配昇腾 AI 处理器的实现：【深加工】
     
         ```
-        https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/AlexNet_for_TensorFlow
+        https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/LGCN_ID1169_for_TensorFlow
         branch=master
         commit_id= 477b07a1e95a35885b3a9a569b1c8ccb9ad5d7af
         ```

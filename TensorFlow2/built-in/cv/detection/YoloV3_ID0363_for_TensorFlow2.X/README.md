@@ -42,7 +42,7 @@
 - 适配昇腾 AI 处理器的实现： 
 
       ```
-      https://gitee.com/ascend/modelzoo/blob/master/built-in/TensorFlow/Research/cv/detection/YoloV3_ID0363_for_TensorFlow2.X
+      https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/cv/detection/YoloV3_ID0363_for_TensorFlow2.X
         
       ```
 

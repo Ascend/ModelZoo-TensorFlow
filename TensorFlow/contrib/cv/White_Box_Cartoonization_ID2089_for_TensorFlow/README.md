@@ -49,7 +49,7 @@
   - 适配昇腾 AI 处理器的实现：
         
             
-      https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/nlp/LeNet_for_TensorFlow
+      https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/White_Box_Cartoonization_ID2089_for_TensorFlow
             
   
   

@@ -47,7 +47,7 @@
     - 适配昇腾 AI 处理器的实现：
     
         ```
-        https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/detection/Hourglass_ID0155_for_TensorFlow
+        https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/Hourglass_ID0155_for_TensorFlow
         branch=master
         commit_id= 477b07a1e95a35885b3a9a569b1c8ccb9ad5d7af
         ```

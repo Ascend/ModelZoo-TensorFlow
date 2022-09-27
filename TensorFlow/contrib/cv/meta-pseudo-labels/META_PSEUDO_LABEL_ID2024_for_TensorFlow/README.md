@@ -28,7 +28,7 @@
 
 - 参考实现：[https://github.com/google-research/google-research/tree/master/meta_pseudo_labels](https://github.com/google-research/google-research/tree/master/meta_pseudo_labels)
 
-- 适配昇腾 AI 处理器的实现：[https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/meta-pseudo-labels/META_PSEUDO_LABEL_ID2024_for_TensorFlow](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/meta-pseudo-labels/META_PSEUDO_LABEL_ID2024_for_TensorFlow)
+- 适配昇腾 AI 处理器的实现：[https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/meta-pseudo-labels/META_PSEUDO_LABEL_ID2024_for_TensorFlow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/meta-pseudo-labels/META_PSEUDO_LABEL_ID2024_for_TensorFlow)
 
 - 通过Git获取对应commit_id的代码方法如下：
     ```

@@ -42,7 +42,7 @@ BERT是一种与训练语言表示的方法，这意味着我们在大型文本�
 
 - 适配昇腾 AI 处理器的实现：
   
-  https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/nlp/Bertsquad_ID0495_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/BertGoogle_Series_for_TensorFlow
 
 
 - 通过Git获取对应commit\_id的代码方法如下：

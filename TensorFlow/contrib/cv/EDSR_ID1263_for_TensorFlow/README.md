@@ -43,7 +43,7 @@ EDSR网络是一个单图像超分辨率增强深度残差网络。这是EDSR模
 
 - 适配昇腾 AI 处理器的实现：
     
-  https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/EDSR_ID1263_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/EDSR_ID1263_for_TensorFlow
         
 
 

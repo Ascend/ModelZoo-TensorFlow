@@ -38,7 +38,7 @@ MASF是一个有着泛化能力的图像分类网络，主要特点是采用了�
 
     适配昇腾 AI 处理器的实现：
 
-    https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/MASF_ID1191_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/MASF_ID1191_for_TensorFlow
 
     通过Git获取对应commit_id的代码方法如下：
         git clone {repository_url}    # 克隆仓库的代码

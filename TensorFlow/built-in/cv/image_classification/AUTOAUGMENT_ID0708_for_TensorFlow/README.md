@@ -44,7 +44,7 @@
     
 - 适配昇腾 AI 处理器的实现：
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Benchmark/cv/image_classification/AUTOAUGMENT_ID0708_for_TensorFlow   
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/AUTOAUGMENT_ID0708_for_TensorFlow   
 
 - 通过Git获取对应commit_id的代码方法如下:
     

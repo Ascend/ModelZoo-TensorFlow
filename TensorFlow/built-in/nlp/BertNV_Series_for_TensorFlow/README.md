@@ -43,7 +43,7 @@
 
 -   适配昇腾 AI 处理器的实现：
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/nlp/Bert-base_ID0060_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/BertNV_Series_for_TensorFlow
     
 - 通过Git获取对应commit\_id的代码方法如下：
 

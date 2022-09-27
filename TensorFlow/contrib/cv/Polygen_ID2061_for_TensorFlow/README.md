@@ -41,7 +41,7 @@ PolyGen是三维网格的生成模型，可顺序输出网格顶点和面。Poly
   [https://github.com/deepmind/deepmind-research/tree/master/polygen](https://github.com/deepmind/deepmind-research/tree/master/polygen)
 
 - 适配昇腾 AI 处理器的实现：
-  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/Polygen_ID2601_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/Polygen_ID2061_for_TensorFlow
 
 
 - 通过Git获取对应commit\_id的代码方法如下：

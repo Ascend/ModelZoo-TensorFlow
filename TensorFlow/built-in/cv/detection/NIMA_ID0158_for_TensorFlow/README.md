@@ -44,7 +44,7 @@ NIMA由两个模型组成，是一个美学和技术图像质量评估的网络�
 
 - 适配昇腾 AI 处理器的实现：
 
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/detection/NIMA_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/NIMA_ID0158_for_TensorFlow
         
 
 

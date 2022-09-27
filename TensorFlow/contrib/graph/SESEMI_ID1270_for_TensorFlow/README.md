@@ -36,7 +36,7 @@ SESEMI的工作属于半监督学习(SSL)的框架，在图像分类的背景下
     
     适配昇腾 AI 处理器的实现：
     
-    https://gitee.com/zhou-xinyu-HIT/modelzoo/tree/master/contrib/TensorFlow/Research/graph/SESEMI_ID1270_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/graph/SESEMI_ID1270_for_TensorFlow
     
     通过Git获取对应commit_id的代码方法如下：
         git clone {repository_url}    # 克隆仓库的代码

@@ -44,7 +44,7 @@ Fast-Style-Transfer模型是基于Ulyanov等人(2016)中介绍的快速风格化
 
 - 适配昇腾 AI 处理器的实现：
 
-  https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/FAST-STYLE-TRANSFER_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/FAST-STYLE-TRANSFER_ID2056_for_TensorFlow
   
 - 通过Git获取对应commit\_id的代码方法如下：
   

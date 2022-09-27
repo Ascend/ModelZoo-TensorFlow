@@ -38,7 +38,7 @@ Ascend本次提供的是以ResNet34为主干网络、输入shape为300的SSD-Res
 
 - 适配昇腾 AI 处理器的实现：
 
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/detection/SSD-Resnet34_ID0048_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/SSD-Resnet34_ID0048_for_TensorFlow
 
 
 ### 默认配置

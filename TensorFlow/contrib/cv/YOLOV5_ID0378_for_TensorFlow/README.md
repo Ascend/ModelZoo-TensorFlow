@@ -43,7 +43,7 @@
 - 适配昇腾 AI 处理器的实现：
     
         
-  https://gitee.com/dw8023/modelzoo/tree/master/contrib/TensorFlow/Research/cv/OSNet_ID1379_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/YOLOV5_ID0378_for_TensorFlow
         
 
 

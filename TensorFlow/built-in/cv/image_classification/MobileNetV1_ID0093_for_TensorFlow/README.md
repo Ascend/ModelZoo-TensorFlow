@@ -41,7 +41,7 @@ MobileNetv1是一个轻型框架神经网络，可以部署在任何移动设备
 -   适配昇腾 AI 处理器的实现：
     
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/image_classification/MobileNetV1_ID0093_for_TensorFlow   
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/MobileNetV1_ID0093_for_TensorFlow   
     
 -   通过Git获取对应commit\_id的代码方法如下：
     

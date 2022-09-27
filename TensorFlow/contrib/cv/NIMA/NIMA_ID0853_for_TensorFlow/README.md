@@ -34,7 +34,7 @@ NIMA模型是NIMA: Neural Image Assessment论文的Tensorflow+Keras的实现，�
     https://github.com/titu1994/neural-image-assessment
 
 - 适配昇腾 AI 处理器的实现：
-    https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/NIMA/NIMA_ID0853_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/NIMA/NIMA_ID0853_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
     

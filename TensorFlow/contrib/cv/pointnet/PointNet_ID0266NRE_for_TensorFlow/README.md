@@ -45,7 +45,7 @@ PointNet是一种针对点云提出的深度网络架构。这种网络无需将
 - 适配昇腾 AI 处理器的实现：
   
   
-  https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/pointnet/PointNet_ID0266_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/pointnet/PointNet_ID0266NRE_for_TensorFlow
         
 
 

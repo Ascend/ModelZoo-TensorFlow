@@ -11,7 +11,7 @@
 
 DAN是“Deep Alignment Network: A convolutional neural network for robust face alignment”中描述的面部对齐方法的参考实现
 - [参考实现](http://github.com/MarekKowalski/DeepAlignmentNetwork)（[tensorflow实现](https://github.com/zjjMaiMai/Deep-Alignment-Network-A-convolutional-neural-network-for-robust-face-alignment)）
-- [适配昇腾 AI 处理器的实现](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/dan/DeepAlignmentNetwork_ID0874_for_TensorFlow)
+- [适配昇腾 AI 处理器的实现](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/dan/DeepAlignmentNetwork_ID0874_for_TensorFlow)
 
 ### 默认配置
 

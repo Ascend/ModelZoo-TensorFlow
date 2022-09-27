@@ -44,7 +44,7 @@
 - 适配昇腾 AI 处理器的实现： 
 
     ```
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/cv/detection/Swin-Transformer_ID2374_for_TensorFlow2.X
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/cv/detection/Swin-Transformer_ID2374_for_TensorFlow2.X
     ```
 
 

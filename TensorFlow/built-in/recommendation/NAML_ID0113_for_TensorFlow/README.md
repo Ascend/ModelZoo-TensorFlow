@@ -44,7 +44,7 @@ NAML是一个新闻推荐网络，核心是新闻编码器和用户编码器。�
 
 - 适配昇腾 AI 处理器的实现：
 
-    https://gitee.com/hxxhl88/modelzoo/tree/master/built-in/TensorFlow/Research/recommendation/NAML_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/recommendation/NAML_ID0113_for_TensorFlow
         
 
 

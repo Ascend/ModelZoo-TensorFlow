@@ -45,7 +45,7 @@ UNet是医学图像处理方面著名的图像分割网络，过程是这样的�
 
 - 适配昇腾 AI 处理器的实现：
   
-    https://gitee.com/ascend/modelzoo/blob/master/built-in/TensorFlow/Research/cv/image_segmentation/UNet2D_for_TensorFlow/00-access/
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_segmentation/UNet2D_ID0008_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
   

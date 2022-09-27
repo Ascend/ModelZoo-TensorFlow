@@ -48,7 +48,7 @@ PSENet_ID0359_for_Tensorflow是一种基于语义分割的文字框检测模型�
 
 - 适配昇腾 AI 处理器的实现：
   
-    https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/psenet/PSENet_ID0239_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/psenet/PSENet_ID0239_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
   

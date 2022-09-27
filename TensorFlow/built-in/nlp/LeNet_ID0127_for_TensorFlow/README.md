@@ -44,7 +44,7 @@
 - 适配昇腾 AI 处理器的实现：
     
         
-  https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/nlp/LeNet_ID0127_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/LeNet_ID0127_for_TensorFlow
         
 
 

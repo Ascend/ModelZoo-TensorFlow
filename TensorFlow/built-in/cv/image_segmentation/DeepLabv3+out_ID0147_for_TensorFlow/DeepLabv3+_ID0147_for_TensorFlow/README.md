@@ -44,7 +44,7 @@
 
   - 适配昇腾 AI 处理器的实现：
 
-      https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_segmentation/DeepLabv3+_ID0147_for_TensorFlow
+      https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_segmentation/DeepLabv3+out_ID0147_for_TensorFlow/DeepLabv3+_ID0147_for_TensorFlow
 
 
 - 通过Git获取对应commit_id的代码方法如下:

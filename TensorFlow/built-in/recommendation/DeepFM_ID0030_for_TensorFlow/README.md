@@ -41,7 +41,7 @@ DeepFM：基于分解的机器神经网络进行CTR预测”是华为在2017年�
 -   适配昇腾 AI 处理器的实现：
     
     
-    https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Research/recommendation/DeepFM_for_TensorFlow
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/recommendation/DeepFM_ID0030_for_TensorFlow
         
 
 -   通过Git获取对应commit\_id的代码方法如下：
