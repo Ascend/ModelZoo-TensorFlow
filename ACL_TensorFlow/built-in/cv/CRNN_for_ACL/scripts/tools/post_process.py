@@ -81,22 +81,22 @@ def evaluate_shadownet(input_dir, label_dir, char_dict_path,
         i = 0
 
         for file in filelist:
-        if file.endswith(".bin"):
-            with open(os.path.join(labelPath, 'batch_label_'+str(i).rjust(3,'0')+'.txt'),'r') as f:
-                data = f.read()
-            batch_label = data.replace('\r','').replace('\n','').split(',')
-            input_data = np.fromfile(os.path.join(inputPath,file),dtype="float32").reshape(25,batchsize,37)
-            test_predictions_value = sess.run(test_decoded,feed_dict={test_inference_ret: input_data})
-            test_predictions_value = decoder.sparse_tensor_to_str(test_predictions_value[0])
+            if file.endswith(".bin"):
+                with open(os.path.join(labelPath, 'batch_label_'+str(i).rjust(3,'0')+'.txt'),'r') as f:
+                    data = f.read()
+                batch_label = data.replace('\r','').replace('\n','').split(',')
+                input_data = np.fromfile(os.path.join(inputPath,file),dtype="float32").reshape(25,batchsize,37)
+                test_predictions_value = sess.run(test_decoded,feed_dict={test_inference_ret: input_data})
+                test_predictions_value = decoder.sparse_tensor_to_str(test_predictions_value[0])
 
-            per_char_accuracy += evaluation_tools.compute_accuracy(
-                        batch_label, test_predictions_value, display=False, mode='per_char'
-                    )
+                per_char_accuracy += evaluation_tools.compute_accuracy(
+                            batch_label, test_predictions_value, display=False, mode='per_char'
+                        )
 
-            full_sequence_accuracy += evaluation_tools.compute_accuracy(
-                        batch_label, test_predictions_value, display=False, mode='full_sequence'
-                    )
-            i += 1
+                full_sequence_accuracy += evaluation_tools.compute_accuracy(
+                            batch_label, test_predictions_value, display=False, mode='full_sequence'
+                        )
+                i += 1
 
         avg_per_char_accuracy = per_char_accuracy / i
         avg_full_sequence_accuracy = full_sequence_accuracy / i

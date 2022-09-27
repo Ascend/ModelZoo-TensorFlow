@@ -71,20 +71,20 @@ def separate_input_fn(
             for key in elem
         }
         if print_display_ids:
-            elem['ad_id'] = tf.Print(input_=elem["ad_id"],
+            elem["ad_id"] = tf.Print(input_=elem["ad_id"],
                                     data=[tf.reshape(elem["display_id"],[-1])],
                                     message="display_id", name="print_display_ids"
-                                    summarize=elem[ad_id].shape[1]
+                                    summarize=elem["ad_id"].shape[1]
                                     )
-            elem['ad_id'] = tf.Print(input_=elem["ad_id"],
+            elem["ad_id"] = tf.Print(input_=elem["ad_id"],
                                     data=[tf.reshape(elem["ad_id"],[-1])],
                                     message="ad_id", name="print_ad_ids"
-                                    summarize=elem[ad_id].shape[1]
+                                    summarize=elem["ad_id"].shape[1]
                                     )
-            elem['ad_id'] = tf.Print(input_=elem["ad_id"],
+            elem["ad_id"] = tf.Print(input_=elem["ad_id"],
                                     data=[tf.reshape(elem["is_leak"],[-1])],
                                     message="is_leak", name="print_is_leak"
-                                    summarize=elem[ad_id].shape[1]
+                                    summarize=elem["ad_id"].shape[1]
                                     )
         return reshaped_elem,reshaped_label
     parsed_dataset = parsed_dataset.map(

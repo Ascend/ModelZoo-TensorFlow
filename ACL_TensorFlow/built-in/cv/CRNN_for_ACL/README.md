@@ -2,7 +2,7 @@
 
 # CRNN Inference for Tensorflow 
 
-This repository provides a script and recipe to Inference the CRNN model. Original train implement please follow this link: [CRNN_for_Tensorflow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/CRNN_for_TensorFlow)
+This repository provides a script and recipe to Inference the CRNN model. Original train implement please follow this link: [CRNN_for_Tensorflow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/ACL_TensorFlow/built-in/cv/CRNN_for_ACL)
 
 ## Notice
 **This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
@@ -21,7 +21,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
-cd Modelzoo-TensorFlow/ACL/Official/cv/CRNN_for_ACL
+cd ModelZoo-TensorFlow/tree/master/ACL_TensorFlow/built-in/cv/CRNN_for_ACL
 ```
 
 ### 2. Download and preprocess the dataset
@@ -49,14 +49,14 @@ labels
 ### 3. Offline Inference
 **Freeze ckpt to pb**
 
-Please use the frozen_graph.py from the train scripts: [frozen_graph.py](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/CRNN_for_TensorFlow/tools/frozen_graph.py)
+Please use the frozen_graph.py from the train scripts: [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/ACL_TensorFlow/built-in/cv/CRNN_for_ACL)
 ```
 python3 frozen_graph.py --ckpt_path= ckpt_path/shadownet_xxx.ckpt-600000
 ```
 
 **Convert pb to om.**
 
-  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/CRNN_for_ACL.zip)
+  [pb download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-09-24_tf/CRNN_for_ACL/shadownet_tf_64batch.pb)
 
 - configure the env
 
