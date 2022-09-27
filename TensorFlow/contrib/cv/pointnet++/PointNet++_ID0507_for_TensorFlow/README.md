@@ -41,8 +41,8 @@ PointNet++是一个点云特征提取网络，可用于点云分割和点云分�
     [https://github.com/charlesq34/pointnet2](https://github.com/charlesq34/pointnet2)
 
 - 适配昇腾 AI 处理器的实现
-    [https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/pointnet++/pointnet++_tensorflow_douzir
-    ](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/pointnet++/pointnet++_tensorflow_douzir)   
+    [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/pointnet++/PointNet++_ID0507_for_TensorFlow
+    ](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/pointnet++/PointNet++_ID0507_for_TensorFlow)   
     
 - 通过Git获取对听commit_id的代码方法如下：
     ```
