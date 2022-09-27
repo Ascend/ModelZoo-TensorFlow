@@ -41,7 +41,7 @@ Improved-GAN是一个经典的图像生成网络，主要特点是采用各层�
 
 - 适配昇腾 AI 处理器的实现：
   
-  [https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/DenseNet121_ID0067_for_TensorFlow](https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/DenseNet121_ID0067_for_TensorFlow)      
+  [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/Improved-GAN_ID2094_for_Tensorflow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/Improved-GAN_ID2094_for_Tensorflow)      
 
 
 - 通过Git获取对应commit\_id的代码方法如下：
