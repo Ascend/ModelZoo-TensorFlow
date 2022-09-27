@@ -171,7 +171,7 @@ NAML是一个新闻推荐网络，核心是新闻编码器和用户编码器。�
      启动单卡训练 （脚本为NAML_for_TensorFlow/tests/train_performance_1p.sh） 
 
      ```
-     bash train_performance_1p.sh
+     bash train_performance_1p.sh --dynamic_input=lazy_recompile
      ```
 
 - 8卡训练
@@ -189,7 +189,7 @@ NAML是一个新闻推荐网络，核心是新闻编码器和用户编码器。�
      启动单卡训练 （脚本为NAML_for_TensorFlow/tests/train_performance_8p.sh） 
 
      ```
-     bash train_performance_8p.sh
+     bash train_performance_8p.sh --dynamic_input=lazy_recompile
      ```
 
 

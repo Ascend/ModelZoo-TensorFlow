@@ -53,4 +53,4 @@ lr=1e-5
 
  **
 offline_inference**
-[offline_inference](https://gitee.com/xiaoqiqiyaya/modelzoo/tree/master/contrib/Research/cv/fcn/fcn_tf_xiaoqiqiya/offline_inference) 
+[offline_inference](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/fcn/FCN_ID0179_for_TensorFlow/offline_inference) 
