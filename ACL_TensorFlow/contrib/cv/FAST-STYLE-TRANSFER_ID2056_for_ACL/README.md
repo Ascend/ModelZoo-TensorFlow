@@ -23,7 +23,7 @@
 Fast-Style-Transfer模型是基于Ulyanov等人(2016)中介绍的快速风格化方法的改进。主要改进点在于将原始风格化架构中的Batch normalization改为Instance Normalization从而导致生成的图像质量得到了显著的改善。
 
 * 参考论文：Ulyanov D, Vedaldi A, Lempitsky V. Instance normalization: The missing ingredient for fast stylization[J]. arXiv preprint arXiv:1607.08022, 2016.
-* 参考实现：https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/ACL_TensorFlow/contrib/cv/FAST-STYLE-TRANSFER_ID2056_for_ACL
+* 参考实现：https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/FAST-STYLE-TRANSFER_ID2056_for_TensorFlow
 
 <h3>默认配置</h3>
 
