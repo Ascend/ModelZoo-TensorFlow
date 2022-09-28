@@ -116,4 +116,4 @@ python    run_wideresnet.py  --model_path ./model_save/wideresnet.ckpt  --data_p
 
 ###  **offline_inference** 
 
-[offline_inference readme](https://gitee.com/xiaoqiqiyaya/modelzoo/blob/master/contrib/Research/cv/wideresnet/wideresnet_ID0175_for_TensorFlow/README.md)
+[offline_inference readme](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/wideresnet/wideresnet_ID0175_for_TensorFlow)

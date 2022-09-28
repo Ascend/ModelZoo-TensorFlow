@@ -57,7 +57,7 @@ SimpleHumanPose模型主要针对人体姿态估计和姿态追踪，提出一�
 
 2. 宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
 
-   当前模型支持的镜像列表如[表1](https://gitee.com/ascend/modelzoo/blob/master/built-in/TensorFlow/Official/cv/image_classification/DenseNet121_for_TensorFlow/README.md#zh-cn_topic_0000001074498056_table1519011227314)所示。
+   当前模型支持的镜像列表如[表1](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/SimpleHumanPose_ID0956_for_TensorFlow#zh-cn_topic_0000001074498056_table1519011227314)所示。
 
    **表 1** 镜像列表
 

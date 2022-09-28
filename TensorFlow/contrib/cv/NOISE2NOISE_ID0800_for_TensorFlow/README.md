@@ -36,7 +36,7 @@
 
 - 适配昇腾 AI 处理器的实现
 
-​		https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/NOISE2NOISE_ID0800_for_TensorFlow
+​		https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/NOISE2NOISE_ID0800_for_TensorFlow
 
 - 获取适配代码：
 
@@ -73,7 +73,7 @@ cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有�
 
 2. 宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
 
-   当前模型支持的镜像列表如[表1](https://gitee.com/ascend/modelzoo/blob/master/contrib/TensorFlow/Research/cv/NOISE2NOISE_ID0800_for_TensorFlow/README.md#zh-cn_topic_0000001074498056_table1519011227314)所示。
+   当前模型支持的镜像列表如[表1](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/NOISE2NOISE_ID0800_for_TensorFlow#zh-cn_topic_0000001074498056_table1519011227314)所示。
 
    **表 1** 镜像列表
 

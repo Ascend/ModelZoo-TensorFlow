@@ -56,5 +56,5 @@ lr=0.0001
 
  **offline_inference
 ** 
-[offline_inference](https://gitee.com/ascend/modelzoo/blob/master/contrib/TensorFlow/Research/cv/dpn/DPN_ID1636_for_TensorFlow/offline_inference/README.md)
+[offline_inference](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/dpn/DPN_ID1636_for_TensorFlow)
 

@@ -45,7 +45,7 @@
 - 参考论文：Learning Important Features Through Propagating Activation Differences
 
 - 适配昇腾 AI 处理器的实现：
-  [modelzoo: Ascend Model Zoo - Gitee.com](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/nlp//shap_ID2054_for_TensorFlow)
+  [modelzoo: Ascend Model Zoo - Gitee.com](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/nlp/shap_ID2054_for_TensorFlow)
 
 - 通过Git获取对应commit\_id的代码方法如下：
   

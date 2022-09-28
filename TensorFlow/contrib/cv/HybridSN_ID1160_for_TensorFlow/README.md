@@ -4,7 +4,7 @@
 
 ### **参考实现**
 
-[modelzoo: Ascend Model Zoo - Gitee.com](https://gitee.com/ascend/modelzoo/tree/master/contrib/TensorFlow/Research/cv/HybridSN_ID1160_for_TensorFlow)
+[modelzoo: Ascend Model Zoo - Gitee.com](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/HybridSN_ID1160_for_TensorFlow)
 
 ### **训练环境准备**
 

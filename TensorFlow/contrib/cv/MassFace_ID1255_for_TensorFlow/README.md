@@ -50,7 +50,7 @@ This project provide an efficient implementation for deep face recognition using
 
 - 适配昇腾 AI 处理器的实现：
   
-  [https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/DenseNet121_ID0067_for_TensorFlow](https://gitee.com/ascend/modelzoo/tree/master/built-in/TensorFlow/Official/cv/image_classification/DenseNet121_ID0067_for_TensorFlow)      
+  [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/MassFace_ID1255_for_TensorFlow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/MassFace_ID1255_for_TensorFlow)      
 
 
 - 通过Git获取对应commit\_id的代码方法如下：
