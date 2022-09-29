@@ -41,8 +41,9 @@ import optimization
 import tokenization
 import six
 import tensorflow as tf
-#import horovod.tensorflow as hvd
 import time
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 flags = tf.flags
 FLAGS = None
@@ -575,7 +576,4 @@ def main():
     eval_writer.close()
 
 if __name__ == "__main__":
-  (npu_sess, npu_shutdown) = init_resource()
   main()
-  shutdown_resource(npu_sess, npu_shutdown)
-  close_session(npu_sess)
