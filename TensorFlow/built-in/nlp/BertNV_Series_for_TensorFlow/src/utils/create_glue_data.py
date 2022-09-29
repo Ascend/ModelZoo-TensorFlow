@@ -41,7 +41,6 @@ import optimization
 import tokenization
 import six
 import tensorflow as tf
-#import horovod.tensorflow as hvd
 import time
 import csv
 
@@ -525,7 +524,4 @@ def main():
                                             predict_file)
 
 if __name__ == "__main__":
-  (npu_sess, npu_shutdown) = init_resource()
   main()
-  shutdown_resource(npu_sess, npu_shutdown)
-  close_session(npu_sess)

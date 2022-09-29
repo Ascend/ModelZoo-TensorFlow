@@ -4,6 +4,7 @@
 -   [快速上手](#快速上手.md)
 -   [迁移学习指导](#迁移学习指导.md)
 -   [高级参考](#高级参考.md)
+
 <h2 id="基本信息.md">基本信息</h2>
 
 **发布者（Publisher）：Huawei**
@@ -26,7 +27,7 @@
 
 **应用级别（Categories）：Benchmark**
 
-**描述（Description）：基于TensorFlow框架的BERT-Base及下游任务代码**
+**描述（Description）：基于TensorFlow框架的BERT预训练及下游任务代码**
 
 <h2 id="概述.md">概述</h2>
 
@@ -57,35 +58,18 @@
 
 ## 默认配置<a name="section91661242121611"></a>
 
-- 网络结构
-
-  学习率为1e-5，使用polynomial decay
-
-  优化器：Adam
-
-  优化器Weight decay为0.01
-
-  优化器epsilon设置为1e-4
-
-  单卡batchsize：128
-
-  32卡batchsize：128*32
-
-  总step数设置为500000
-
-  Warmup step设置为10000
-
-- 训练数据集预处理（以wikipedia为例，仅作为用户参考示例）：
-
-  Sequence Length原则上用户可以自行定义
-
-  以常见的设置128为例，mask其中的20个tokens作为自编码恢复的目标。
-  
-  下游任务预处理以用户需要为准。
-
-- 测试数据集预处理（以wikipedia为例，仅作为用户参考示例）：
-
-  和训练数据集处理一致。
+-   网络结构
+    - 24-layer, 1024-hidden, 16-heads, 340M parameters
+-   训练超参（单卡）：
+    - Batch size: 24
+    - max_predictions_per_seq: 80
+    - max_seq_length: 512
+    - Learning rate(LR): 5e-5, polynomial decay
+    - optimizer: Adam 
+    - Weight decay: 0.01
+    - beta_1: 0.9
+    - beta_2: 0.999
+    - Train epoch: 1
 
 ## 支持特性<a name="section1899153513554"></a>
 
@@ -149,52 +133,100 @@
 
 <h2 id="快速上手.md">快速上手</h2>
 
-- 单击“立即下载”，下载源码包。
+## 数据集准备<a name="section361114841316"></a>
 
-- 数据集准备<a name="section361114841316"></a>
+1、用户自行准备好数据集，本网络包括Bert的Pre-training和Fine tuning任务
 
-数据集以文本格式表示，每段之间以空行隔开，如wikipedia。
-运行如下命令，将数据集转换为tfrecord格式。
+2、Pre-training任务使用的数据集是wikipedia-en，Fine tuning使用的数据集是MPRC、MNLI、CoLA、SQuAD1.1和SQuAD2.0。
 
-```
-      python src/create_pretraining_data.py \   
-      --input_file=<path to your testdata> \   
-      --output_file=<tfrecord dir>/some_output_data.tfrecord \   
-      --vocab_file=<path to vocab.txt> \   
-      --do_lower_case=True \   
-      --max_seq_length=128 \   
-      --max_predictions_per_seq=20 \   
-      --masked_lm_prob=0.15 \   
-      --random_seed=12345 \   
-      --dupe_factor=5
+```shell
+#为了提升训练的端到端效率，SQuAD1.1和SQuAD2.0均提前做了转tfrecord的处理，转换方式如下：
+cd ${work_path}
+python3 ${work_path}/src/utils/create_squad_data.py --train_file=${data_path}/train-v1.1.json  \
+                                                    --predict_file=${data_path}/dev-v1.1.json  \
+                                                    --vocab_file=${model_path}/vocab.txt
 ```
 
-- 模型训练
-- 启动训练之前，首先要配置程序运行相关环境变量。
+3、Bert训练的模型及数据集可以参考"概述 -> 参考实现"
 
-  环境变量配置信息参见：
+## 模型训练<a name="section715881518135"></a>
 
-     [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/01.%E8%AE%AD%E7%BB%83%E8%84%9A%E6%9C%AC%E8%BF%81%E7%A7%BB%E6%A1%88%E4%BE%8B/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE)
+- 单击“立即下载”，并选择合适的下载方式下载源码包。
+- 开始训练。
 
-  将环境变量配置到test/train_*.sh中
+    - 启动训练之前，首先要配置程序运行相关环境变量。
 
- - 单卡训练
-   
-    1. 将test/train_ID0060_BertBase_performance_1p.sh的data_path配置为用户数据集具体路径
+      环境变量配置信息参见：
+
+      [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/modelzoo/wikis/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=3148819)
+
+    - 单卡训练
+
+      网络共包含18个训练，其中Pre-training 8个训练任务, Fine tuning 10个训练任务。
     
-    2. 单卡训练指令，在test目录下，执行如下命令：
-        ``` 
-        bash train_ID0060_BertBase_performance_1p.sh
-        ```
+      **Pre-training 任务**:
+
+      ```shell
+      #ID0060: num_hidden_layers=12 max_seq_length=128 optimizer=Adam
+      bash train_ID0060_BertBase_performance_1p.sh --data_path=/home
+      
+      #ID3067: num_hidden_layers=24 max_seq_length=128 optimizer=Adam
+      bash train_ID3067_BertLarge-128_performance_1p.sh --data_path=/home
+      
+      #ID3068: num_hidden_layers=24 max_seq_length=512 optimizer=lamb phase2
+      bash train_ID3068_BertLarge-512_performance_1p.sh --data_path=/home
+      
+      #ID3069: num_hidden_layers=12 max_seq_length=512 optimizer=lamb phase2
+      bash train_ID3069_BertBase-512_performance_1p.sh --data_path=/home
+      
+      #ID3206: num_hidden_layers=12 max_seq_length=512 optimizer=Adam
+      bash train_ID3206_BertBase-512_performance_1p.sh --data_path=/home
+      
+      #ID3207: num_hidden_layers=24 max_seq_length=512 optimizer=Adam
+      bash train_ID3207_BertLarge-512_performance_1p.sh --data_path=/home
+      
+      #ID3208: num_hidden_layers=12 max_seq_length=128 optimizer=lamb phase1
+      bash train_ID3208_BertBase-128_performance_1p.sh --data_path=/home
+      
+      #ID3209: num_hidden_layers=24 max_seq_length=128 optimizer=lamb phase1
+      bash train_ID3209_BertLarge-128_performance_1p.sh --data_path=/home 
+      ```
+    
+      **Fine tuning 任务**:
+
+      ```shell
+      #ID1641: MRPC num_hidden_layers=24 max_seq_length=128 optimizer=Adam
+      bash train_ID1641_BertLarge-128_performance_1p.sh --data_path=/home
+      
+      #ID3232: MRPC num_hidden_layers=12 max_seq_length=128 optimizer=Adam
+      bash train_ID3232_BertBase-128_performance_1p.sh --data_path=/home
+      
+      #ID1642: MNLI num_hidden_layers=24 max_seq_length=128 optimizer=Adam
+      bash train_ID1642_BertLarge-128_performance_1p.sh --data_path=/home
+      
+      #ID3233: MNLI num_hidden_layers=12 max_seq_length=128 optimizer=Adam
+      bash train_ID3233_BertBase-128_performance_1p.sh --data_path=/home
+      
+      #ID1643: CoLA num_hidden_layers=24 max_seq_length=128 optimizer=Adam
+      bash train_ID1643_BertLarge-128_performance_1p.sh --data_path=/home
+      
+      #ID3234: CoLA num_hidden_layers=12 max_seq_length=128 optimizer=Adam
+      bash train_ID3234_BertBase-128_performance_1p.sh --data_path=/home
+      
+      #ID3217: SQuAD1.1 num_hidden_layers=12 max_seq_length=384 optimizer=Adam
+      bash train_ID3217_BertBase-Squad1.1_performance_1p.sh --data_path=/home
+      
+      #ID3218: SQuAD1.1 num_hidden_layers=24 max_seq_length=384 optimizer=Adam
+      bash train_ID3218_BertLarge-Squad1.1_performance_1p.sh --data_path=/home
+      
+      #ID3219: SQuAD2.0 num_hidden_layers=12 max_seq_length=384 optimizer=Adam
+      bash train_ID3219_BertBase-Squad2.0_performance_1p.sh --data_path=/home 
+      
+      #ID3220: SQuAD2.0 num_hidden_layers=24 max_seq_length=384 optimizer=Adam
+      bash train_ID3220_BertLarge-Squad2.0_performance_1p.sh --data_path=/home 
+      ```
 
 
-- 8卡训练
-    1. 修改test/train_ID0060_BertBase_performance_8p.sh中的data_path配置为用户数据集具体路径
-
-    2. 8卡训练指令，在test目录下，执行如下命令：
-        ```
-        bash train_ID0060_BertBase_performance_8p.sh
-        ```
 
 <h2 id="高级参考.md">高级参考</h2>
 
@@ -205,17 +237,24 @@
     │    ├──bert_large_config.json               //bert base模型配置文件
     │    ├──bert_base_vocab.txt                 //bert base中文词表
     ├── src
+    │    ├──utils
+    │    │    ├──create_pretraining_data.py            //生成预训练数据脚本
+    │    │    ├──create_glue_data.py                   //glue数据集转tfrecord脚本
+    │    │    ├──create_squad_data.py                  //squad数据集转tfrecord脚本
+    │    │    ├──dllogger_class.py                     //生成与训练数据脚本
+    │    │    ├──gpu_affinity.py                       //设置gpu亲和性
+    │    │    ├──utils.py                              //公共脚本
     │    ├──gpu_environment.py                     //原始gpu_environment设置
-    │    ├──create_pretraining_data.py            //生成与训练数据脚本
     │    ├──modeling.py                           //NEZHA模型脚本
     │    ├──optimization.py                       //优化器脚本
     │    ├──extract_features.py                   //特征抽取脚本
     │    ├──fp16_utils.py                       //fp16 utils脚本
     │    ├──fused_layer_norm.py                     //layer norm融合脚本
     │    ├──run_pretraining.py                    //预训练启动脚本
+    │    ├──run_classifier.py                    //下游任务分类脚本
+    │    ├──run_squad.py                         //下游任务squad脚本
     │    ├──tf_metrics.py                        //tf metrics脚本
     │    ├──tokenization.py                      //分词器脚本
-    │    ├──utils.py                            //utils脚本
     ├── CONTRIBUTING.md                             //CONTRIBUTING.md
     ├── LICENCE                                   //LICENCE
     ├── NOTICE                                   //NOTICE
@@ -226,13 +265,13 @@
 
 
 ```
-         --train_batch_size=128 \           #每个NPU训练的batch size，默认：128
-         --learning_rate=1e-4 \             #学习率，默认：1e-4
-         --num_warmup_steps=10000 \         # 初始warmup训练epoch数，默认：10000
-         --num_train_steps=500000 \         #训练次数，单P 默认：500000
-         --input_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \      #训练数据集路径
-         --eval_files_dir=/autotest/CI_daily/ModelZoo_BertBase_TF/data/wikipedia_128 \       #验证数据集路径  
-         --iterations_per_loop=100 \        #NPU运行时，device端下沉次数，默认：1000 
+ --train_batch_size=128 \           # 每个NPU训练的batch size
+ --learning_rate=1e-4 \             # 学习率
+ --num_warmup_steps=10000 \         # 初始warmup训练epoch数
+ --num_train_steps=500000 \         # 训练次数
+ --input_files_dir=xxxx \           # 训练数据集路径
+ --eval_files_dir=xxxx \            # 验证数据集路径  
+ --iterations_per_loop=100 \        # NPU运行时，device端下沉次数
     
 ```
 
