@@ -128,13 +128,11 @@ class TrainingData:
                 #---------------------------------------------------------------
                 # Process the sample
                 #---------------------------------------------------------------
-                '''
                 try:
                     samples = sample_queue.get(timeout=1)
                 except q.Empty:
                     break
-                '''
-                samples = sample_queue.get()
+
                 images, labels, gt_boxes = process_samples(samples)
 
                 #---------------------------------------------------------------
@@ -181,16 +179,16 @@ class TrainingData:
                 # support.
                 #---------------------------------------------------------------
                 workers = []
-                # os.environ['CUDA_VISIBLE_DEVICES'] = ""
-                # cv2_num_threads = cv2.getNumThreads()
-                # cv2.setNumThreads(1)
+                os.environ['CUDA_VISIBLE_DEVICES'] = ""
+                cv2_num_threads = cv2.getNumThreads()
+                cv2.setNumThreads(1)
                 for i in range(num_workers):
                     args = (sample_queue, batch_queue)
                     w = mp.Process(target=batch_producer, args=args)
                     workers.append(w)
                     w.start()
-                # del os.environ['CUDA_VISIBLE_DEVICES']
-                # cv2.setNumThreads(cv2_num_threads)
+                del os.environ['CUDA_VISIBLE_DEVICES']
+                cv2.setNumThreads(cv2_num_threads)
 
                 #---------------------------------------------------------------
                 # Fill the sample queue with data
@@ -202,7 +200,7 @@ class TrainingData:
                 # Return the data
                 #---------------------------------------------------------------
                 for offset in range(0, len(sample_list), batch_size):
-                    images, labels, gt_boxes = batch_queue.get(timeout=5)
+                    images, labels, gt_boxes = batch_queue.get()
                     num_items = len(gt_boxes)
                     yield images[:num_items], labels[:num_items], gt_boxes
 
