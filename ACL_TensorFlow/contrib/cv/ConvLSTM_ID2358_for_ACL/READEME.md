@@ -62,15 +62,17 @@ acllite是对当前开源社区样例中相关重复代码进行封装，为用�
 
 https://gitee.com/ascend/samples/tree/master/python/common
 
-再利用代码Inference.py进行数据集前处理，om模型调用，数据后处理，生成结果存放在txtcsv文件夹:
+利用代码Inference.py进行数据集前处理，om模型调用，数据后处理，生成结果存放在txtcsv文件夹:
 
 ```
 python3 Inference.py
 ```
 
-数据集文件共享地址，需要在Inference.py中替换datapath：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
+运行前需要注意：
 
-实际27机器上的路径：/home/test_user07/Convlstm/samples/python/level2_simple_inference/6_other/colorization_picture/src/
+将Inference.py中的模型替换为上述解压出的Convlstm_OM.om
+
+数据集文件共享地址，需要在Inference.py中替换datapath：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
 
 预测的txtcsv文件夹路径：obs://convlstm/GPU/mini_dataset/推理txtcsv/
 
