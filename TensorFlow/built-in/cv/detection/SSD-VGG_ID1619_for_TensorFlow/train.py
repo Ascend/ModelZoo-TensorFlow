@@ -358,7 +358,7 @@ def main():
                         training_imgs_samples.append((saved_images[i], boxes))
 
             # Each epoch costtime
-            duration = (time.time() - start_time)
+            duration += (time.time() - start_time)
 
             #-------------------------------------------------------------------
             # Validate
@@ -390,7 +390,7 @@ def main():
             #-------------------------------------------------------------------
             training_loss.push(e+1)
             #****** npu modify begin ******
-            print('epoch:'+str(e+1), 'loss:'+str(loss_batch['total']), 'perf = {:4f} global_step/sec'.format(n/duration))
+            print('epoch:'+str(e+1), 'loss:'+str(loss_batch['total']), 'perf = {:4f} global_ste/sec'.format(n/duration))
             #****** npu modify end ******
             #validation_loss.push(e+1)
 
