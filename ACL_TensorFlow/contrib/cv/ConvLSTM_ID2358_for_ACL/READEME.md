@@ -57,10 +57,11 @@ om文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.c
 
 <h2 id="概述.md">数据前处理+利用acllite工具推理+数据后处理</h2>
 
-acllite是对当前开源社区样例中相关重复代码进行封装，为用户提供的一组简易公共接口。
-首先需要下载acllite相关工具，用户需要解压acllite文件夹文件，或者去以下路径下载：
+acllite是对当前开源社区样例中相关重复代码进行封装，为用户提供的一组简易公共接口。首先需要下载acllite相关工具，用户需要解压acllite文件夹文件。
 
-https://gitee.com/ascend/samples/tree/master/python/common
+建议去以下路径下载，然后把om文件和Inference.py放在.../colorization_picture/src文件夹内：
+
+ACL_TensorFlow/contrib/cv/ConvLSTM_ID2358_for_ACL/colorization_picture.zip
 
 利用代码Inference.py进行数据集前处理，om模型调用，数据后处理，生成结果存放在txtcsv文件夹:
 
