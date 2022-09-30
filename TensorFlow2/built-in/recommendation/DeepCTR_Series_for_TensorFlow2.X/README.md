@@ -116,7 +116,7 @@ pip3 install requirements.txt
 ```
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
-## 快速
+## 快速上手
 
 ## 数据集准备<a name="section361114841316"></a>
 
