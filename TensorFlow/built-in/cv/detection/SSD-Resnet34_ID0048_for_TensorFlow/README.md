@@ -339,11 +339,23 @@ python3 $3/ssd_main.py  \
 ```
 ./run_npu_8p.sh
 ```
+##### 分布式插件使能分布式
+
+分布式统一训练脚本`./test/train_performance_distribute.sh`, 该脚本由`./test/train_performance_8p.sh`修改而来, 具体差异可自行比对
+分布式插件屏蔽了多P rank_table.json和环境变量的差异, 多P可以共有一个脚本, 具体超参请用户根据实际情况修改
+
+训练前请下载工具并根据说明完成配置
+工具路径: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
+
+
+- 8p训练
+```
+python3 $path/distrbute_npu.py --np 8 --env 10.10.10.10:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
+```
+
 
 - 16p训练
 
-训练脚本`./test/train_performance_distribute.sh`,使用之前请用户先下载分布式插件,分布式插件使用参考工具README
-工具路径: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
 ```
 python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
 ```
