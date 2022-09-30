@@ -102,8 +102,8 @@ fi
 cpucount=`lscpu | grep "CPU(s):" | head -n 1 | awk '{print $2}'`
 cpustep=`expr $cpucount / 8`
 echo "taskset c steps:" $cpustep
-let a=ASCEND_DEVICE_ID*$cpustep
-let b=ASCEND_DEVICE_ID+1
+let a=$ASCEND_DEVICE_ID*$cpustep
+let b=$ASCEND_DEVICE_ID+1
 let c=b*$cpustep-1
     
 #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
