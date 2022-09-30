@@ -411,7 +411,7 @@ void ModelProcess::OutputModelResult(std::string& s, std::string& modelName)
             outData = reinterpret_cast<float*>(data);
         }
         if (f_isTXT) {
-            ofstream outstr(s + "/davinci_" + modelName + "_output" + to_string(i) + ".txt", ios::out);
+            ofstream outstr(s + "/" + modelName + "_output_" + to_string(i) + ".txt", ios::out);
             int amount_onebatch = 1;
             for (int j = 1; j < dim->dimCount; j++) {
                 amount_onebatch *= dim->dims[j];
@@ -580,7 +580,7 @@ void ModelProcess::OutputModelResult(std::string& s, std::string& modelName)
             }
             outstr.close();
         } else {
-            ofstream outstr(s + "/davinci_" + modelName + "_output" + to_string(i) + ".bin", ios::out | ios::binary);
+            ofstream outstr(s + "/" + modelName + "_output_" + to_string(i) + ".bin", ios::out | ios::binary);
 
             outstr.write((char*)outData, len);
             outstr.close();
