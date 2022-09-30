@@ -27,7 +27,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from npu_bridge.npu_init import *
 import requests
 import zipfile
 import sys
@@ -61,7 +60,7 @@ def download_file_from_google_drive(url, save_dir, data_name, data_size=None):
     if not os.path.exists(os.path.join(save_dir, '%s.zip' % data_name)):
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
-        with requests.Session(config=npu_config_proto()) as session:
+        with requests.Session() as session:
             response = session.get(url, stream=True)
             token = get_confirm_token(response)
             if token:
