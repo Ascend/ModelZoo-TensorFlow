@@ -14,7 +14,7 @@
 
 **修改时间（Modified） ：2021.7.20**
 
-** 大小（Size）：275MB**
+** 大小（Size）：275000KB**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
