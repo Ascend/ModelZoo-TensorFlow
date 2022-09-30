@@ -30,7 +30,6 @@
 
 ## 概述
 
-## 简述<a name="section194554031510"></a>
 
 DeepCTR 是一个**易于使用**、**模块化**和**可扩展**的基于深度学习的 CTR 模型包以及许多可用于轻松构建自定义模型的核心组件层，在该网络中我们定义了FwFM,MMoE,DeepFM,FLEN四个模型。
 
@@ -117,7 +116,7 @@ pip3 install requirements.txt
 ```
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
-## 快速上手
+## 快速
 
 ## 数据集准备<a name="section361114841316"></a>
 
