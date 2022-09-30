@@ -48,7 +48,6 @@ def create_train_command(args, ids, device_id, i=0, ssh=None, exec_path=None):
 
 def run_train_command(args, ids, device, i=0, ssh=None, exec_path=None):
     train_command = create_train_command(args, ids, device, i=i, ssh=ssh)
-    print(os.getpid(), os.getppid())
     os.system(train_command)
 
 
@@ -79,8 +78,6 @@ def run_multi_command(args, ids, device, worker_info, i=0, exec_path=None):
 
 
 def npu_distribute_run(args, process_list):
-    if args.rank_nums != len(args.server_list[0]['device_list']):
-        print("rank_nums != len(device_list), use len(device_list)!")
     os.environ['RANK_SIZE'] = f'{args.rank_size}'
     rank_table_file = 'rank_table_' + str(args.worker_num) + '_' + str(args.rank_size) + 'p.json'
     os.environ['RANK_TABLE_FILE'] = cache_dir + rank_table_file

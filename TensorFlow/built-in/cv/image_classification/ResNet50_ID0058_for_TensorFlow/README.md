@@ -149,6 +149,25 @@ cd /path/to/Modelzoo_Resnet50_HC/scripts
 bash train_8p.sh
 ```
 
+##### ascend_distribute Training
+
+training shell `./test/train_performance_distribute.sh`, change from `./test/train_performance_bs256_hw192_8p.sh`
+
+tool path: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
+
+
+- 8p training
+```
+python3 $path/distrbute_npu.py --np 8 --env 10.10.10.10:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
+```
+
+
+- 16p training
+
+```
+python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
+```
+
 #### Training process
 
 All the results of the training will be stored in the directory specified with `--model_dir` argument.
