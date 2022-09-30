@@ -12,13 +12,17 @@
 
 **版本（Version）：1.1**
 
-**修改时间（Modified） ：2021.7.20**
-
-**大小（Size）：275M**
-
-**框架（Framework）：TensorFlow 1.15.0**
 
 
+**模型格式（Model Format）：ckpt**
+
+**精度（Precision）：Mixed**
+
+**处理器（Processor）：昇腾910**
+
+**应用级别（Categories）：Official**
+
+**描述（Description）：基于TensorFlow框架的DenseNet-161图像分类网络训练代码** 
 
 ## 概述
 
