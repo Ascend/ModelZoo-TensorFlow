@@ -6,6 +6,18 @@
 -   [高级参考](#高级参考.md)
 ## 基本信息
 
+**发布者（Publisher）：Huawei**
+
+**应用领域（Application Domain）：Image Classification**
+
+**版本（Version）：1.1**
+
+**修改时间（Modified） ：2021.7.20**
+
+**大小（Size）：275M**
+
+**框架（Framework）：TensorFlow 1.15.0**
+
 
 
 ## 概述
