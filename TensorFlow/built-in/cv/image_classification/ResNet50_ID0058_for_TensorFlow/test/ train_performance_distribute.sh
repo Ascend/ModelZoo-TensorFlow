@@ -4,13 +4,9 @@
 cur_path=`pwd`
 
 #集合通信参数,不需要修改
-export RANK_SIZE=8
 export JOB_ID=99990001
-export RANK_ID=8p
 export SLOG_PRINT_TO_STDOUT=0
-export RANK_TABLE_FILE=${cur_path}/../configs/8p.json
 export HCCL_CONNECT_TIMEOUT=600
-RANK_ID_START=0
 
 # 数据集路径,保持为空,不需要修改
 data_path=""
@@ -115,41 +111,35 @@ start_time=$(date +%s)
 
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../
-for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
-do
-    #设置环境变量，不需要修改
-    echo "Device ID: $RANK_ID"
-    export RANK_ID=$RANK_ID
-    export DEVICE_INDEX=$RANK_ID
-    export ASCEND_DEVICE_ID=$RANK_ID
-    ASCEND_DEVICE_ID=$RANK_ID
+#设置环境变量，不需要修改
+echo "Device ID: $RANK_ID"
+export DEVICE_INDEX=$RANK_ID
     
-    #创建DeviceID输出目录，不需要修改
-    if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
-        rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
-    else
-        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
-    fi
+#创建DeviceID输出目录，不需要修改
+if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
+    rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
+    mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+else
+    mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
+fi
     
-     # 绑核，不需要的绑核的模型删除，需要模型审视修改
-    corenum=`cat /proc/cpuinfo |grep "processor"|wc -l`
-    let a=RANK_ID*${corenum}/${RANK_SIZE}
-    let b=RANK_ID+1
-    let c=b*${corenum}/${RANK_SIZE}-1
+# 绑核，不需要的绑核的模型删除，需要模型审视修改
+corenum=`cat /proc/cpuinfo |grep "processor"|wc -l`
+let a=ASCEND_DEVICE_ID*${corenum}/${RANK_SIZE}
+let b=ASCEND_DEVICE_ID+1
+let c=b*${corenum}/${RANK_SIZE}-1
 
-    #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
-    #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    if [ "x${bind_core}" != x ];then
-        bind_core="taskset -c $a-$c"
-    fi
-    nohup ${bind_core} python3.7 ${cur_path}/../src/mains/res50.py --config_file=res50_256bs_HW192_8p \
+#执行训练脚本，以下传参不需要修改，其他需要模型审视修改
+#--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
+if [ "x${bind_core}" != x ];then
+    bind_core="taskset -c $a-$c"
+fi
+nohup ${bind_core} python3.7 ${cur_path}/../src/mains/res50.py --config_file=res50_256bs_HW192_8p \
     --max_train_steps=${train_steps} \
     --iterations_per_loop=100 \
     --debug=True \
     --eval=False \
     --model_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/d_solution/ckpt${ASCEND_DEVICE_ID} >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
-done 
 wait
 
 #训练结束时间，不需要修改
