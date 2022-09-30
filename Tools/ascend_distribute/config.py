@@ -94,7 +94,6 @@ def get_train_pattern(args):
         server_info = {}
         env_device_nums = 0
         server_info, env_device_nums = deal_host_info(server_info, 0, args.env, env_device_nums)
-        print(device_nums == env_device_nums)
         if device_nums == env_device_nums:
             return _default_train_pattern(0), server_info
         else:
