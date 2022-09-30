@@ -340,6 +340,13 @@ python3 $3/ssd_main.py  \
 ./run_npu_8p.sh
 ```
 
+- 16p训练
+训练脚本`./test/train_performance_distribute.sh`,使用之前请用户先下载分布式插件,分布式插件使用参看工具README
+工具路径: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
+```
+python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
+```
+
 #### 模型评估
 
 默认情况下训练模式为train_and_eval，即训练全部完成后进行一次eval。若用户需要单独进行测试，请修改脚本`exec_main.sh`中的参数，将mode参数修改为eval。
