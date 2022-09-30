@@ -54,7 +54,7 @@ Result ModelProcess::LoadModelFromFileWithMem(const string& modelPath)
         ERROR_LOG("has already loaded a model");
         return FAILED;
     }
-    
+
     aclError ret = aclmdlLoadFromFile(modelPath.c_str(), &modelId_);
     if (ret != ACL_ERROR_NONE) {
         ERROR_LOG("load model from file failed, model file is %s", modelPath.c_str());
@@ -411,7 +411,7 @@ void ModelProcess::OutputModelResult(std::string& s, std::string& modelName)
             outData = reinterpret_cast<float*>(data);
         }
         if (f_isTXT) {
-            ofstream outstr(s + "/" + modelName + "_output_" + to_string(i) + ".txt", ios::out);
+            ofstream outstr(s + "/davinci_" + modelName + "_output" + to_string(i) + ".txt", ios::out);
             int amount_onebatch = 1;
             for (int j = 1; j < dim->dimCount; j++) {
                 amount_onebatch *= dim->dims[j];
@@ -580,7 +580,7 @@ void ModelProcess::OutputModelResult(std::string& s, std::string& modelName)
             }
             outstr.close();
         } else {
-            ofstream outstr(s + "/" + modelName + "_output_" + to_string(i) + ".bin", ios::out | ios::binary);
+            ofstream outstr(s + "/davinci_" + modelName + "_output" + to_string(i) + ".bin", ios::out | ios::binary);
 
             outstr.write((char*)outData, len);
             outstr.close();
