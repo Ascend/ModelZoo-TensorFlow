@@ -100,7 +100,7 @@ UNet是医学图像处理方面著名的图像分割网络，过程是这样的�
         keep_checkpoint_max=1)
         # for npu
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
@@ -129,7 +129,7 @@ UNet是医学图像处理方面著名的图像分割网络，过程是这样的�
     </table>
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 - 数据集准备
 
@@ -168,7 +168,7 @@ UNet是医学图像处理方面著名的图像分割网络，过程是这样的�
      bash run_1p_accuracy.sh --data_dir=/data
      ```
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 

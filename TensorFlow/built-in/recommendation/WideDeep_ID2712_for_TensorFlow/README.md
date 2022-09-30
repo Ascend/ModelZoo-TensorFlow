@@ -5,7 +5,7 @@
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
 
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -29,7 +29,7 @@
 
 **描述（Description）：Wide&Deep是一个同时具有Memorization和Generalization功能的CTR预估模型，该模型主要由广义线性模型（Wide网络）和深度神经网络（Deep网络）组成，对于推荐系统来说，Wide线性模型可以通过交叉特征转换来记忆稀疏特征之间的交互，Deep神经网络可以通过低维嵌入来泛化未出现的特征交互。与单一的线性模型（Wide-only）和深度模型（Deep-only）相比，Wide&Deep可以显著提高CTR预估的效果，从而提高APP的下载量。
 
-<h2 id="概述.md">概述</h2>
+## 概述
 - 参考论文：
    https://arxiv.org/abs/1606.07792
 
@@ -83,7 +83,7 @@
   session_config = npu_config_proto(config_proto=config_proto)
 ```
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -92,7 +92,7 @@ pip3 install requirements.txt
 ```
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ### 数据集准备<a name="section361114841316"></a>
 
@@ -117,7 +117,7 @@ pip3 install requirements.txt
 	bash train_performance_1p.sh --data_path=/data  (功能和性能)
 	bash train_full_1p.sh --data_path=/data        （全量）
     ```
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 

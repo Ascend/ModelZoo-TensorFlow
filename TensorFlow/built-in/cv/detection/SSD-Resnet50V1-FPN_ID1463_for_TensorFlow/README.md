@@ -6,7 +6,7 @@
 - [高级参考](#高级参考.md)
 
 
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -30,7 +30,7 @@
 
 **描述（Description）：基于tensorflow实现，以Resnet50为backbone的SSD目标检测网络。
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
 SSD-Resnet50V1-FPN将边界框的输出空间离散为一组默认框，每个特征地图位置的纵横比和比例不同。在预测时，网络为每个默认框中每个对象类别生成分数，并对该框进行调整，以更好地匹配对象形状。此外，该网络结合了来自不同分辨率的多个特征图的预测，从而自然地处理不同尺寸的物体
 
@@ -102,7 +102,7 @@ SSD-Resnet50V1-FPN将边界框的输出空间离散为一组默认框，每个�
   session_config = npu_config_proto(config_proto=config_proto)
 ```
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -120,7 +120,7 @@ pip3 install requirements.txt
 
 3、mpl_toolkits
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ### 数据集准备<a name="section361114841316"></a>
 
@@ -169,7 +169,7 @@ download_all.sh nvidia_ssd <data_dir_path> <checkpoint_dir_path>
 	bash examples/SSD320_evaluate.sh /checkpoints/
 	```
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 

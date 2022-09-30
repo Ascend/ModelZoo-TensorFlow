@@ -5,7 +5,7 @@
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
 
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -29,7 +29,7 @@
 
 **描述（Description）：基于TensorFlow框架的ShapeNet网络训练代码**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
 -    与通过定制的卷积算子捕获3D点云中的局部模式的文献相反，本文研究了如何有效地将此类点云投影到2D图像空间中的问题，从而使传统2D卷积神经网络（CNN） ）（例如U-Net）可用于细分。为此，我们受到图绘制的激励，并将其重新构造为整数编程问题，以了解每个单个点云的拓扑保留图到网格映射。为了在实践中加快计算速度，我们进一步提出了一种新颖的分层近似算法。
 
@@ -96,7 +96,7 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
   session_config = npu_config_proto(config_proto=config_proto)
 ```
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -106,7 +106,7 @@ pip3 install requirements.txt
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ## 数据集准备<a name="section361114841316"></a>
 
@@ -164,7 +164,7 @@ pip3 install requirements.txt
         │   ├── ShapeNet_training.hdf5
         ```
 
-<h2 id="迁移学习指导.md">迁移学习指导</h2>
+## 迁移学习指导
 
 - 数据集准备。
 
@@ -175,7 +175,7 @@ pip3 install requirements.txt
 
     请参考“快速上手”章节
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 

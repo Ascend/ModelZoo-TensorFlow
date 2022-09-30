@@ -5,7 +5,7 @@
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
 
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -29,7 +29,7 @@
 
 **描述（Description）：基于TensorFlow框架的OSMN网络训练代码**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
    OSMN是利用modulators模块快速地调整分割网络使其可以适应特定的物体，而不需要执行数百次的梯度下降；同时不需要调整所有的参数。在视频目标分割上有两个关键的点：视觉外观和空间中持续的移动。为了同时使用视觉和空间信息，将视觉modulator和空间modulator进行合并，在第一帧的标注信息和目标空间位置的基础上分别学习如何调整主体分割网络。
 
@@ -75,7 +75,7 @@
     if FLAGS.precision_mode == "allow_mix_precision":
          custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
 ```
@@ -112,7 +112,7 @@ pip3 install requirements.txt
 ## 安装依赖
 pip3 install requirements.txt
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ### 数据集准备<a name="section361114841316"></a>
 1. 下载MS-COCO 2017数据集
@@ -132,7 +132,7 @@ pip3 install requirements.txt
  
 ```
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码
 
