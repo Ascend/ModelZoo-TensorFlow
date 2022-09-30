@@ -143,8 +143,8 @@ rm -rf $cur_dir/modelInputOutputInfo
 testcase_dir=$log_dir/$(date "+%Y%m%d%H%M%S")
 mkdir -p $testcase_dir
 
-echo "======================Data preprocessing========================"
-preprocess
+#echo "======================Data preprocessing========================"
+#preprocess
 echo "======================infer test========================"
 infer_test
 echo "======================collect results==================="
