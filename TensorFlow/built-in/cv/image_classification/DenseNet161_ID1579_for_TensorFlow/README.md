@@ -12,7 +12,11 @@
 
 **版本（Version）：1.1**
 
+**修改时间（Modified） ：2021.7.20**
 
+**大小（Size）：275MB**
+
+**框架（Framework）：TensorFlow 1.15.0**
 
 **模型格式（Model Format）：ckpt**
 
