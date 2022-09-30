@@ -51,6 +51,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
   ```
 
 - convert pb to om
+  Sample of pb(20180402):
 
   ```
    atc --framework=3 --model=./model/facenet_tf.pb  --output=./model/facenet --soc_version=Ascend310 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:4,160,160,3
@@ -65,7 +66,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
 - Run the program:
 
   ```
-  ./benchmark_tf.sh --batchSize=4 --modelPath=../../model/facenet.om --dataPath=./dataset_bin/ --modelType=facenet --imgType=rgb
+  ./benchmark_tf.sh --batchSize=4 --modelPath=absolute_path_of_facenet.om --dataPath=absolute_path_of_dataset_bin --modelType=facenet --imgType=rgb
   ```
   
 ## Performance
@@ -76,7 +77,8 @@ Our result were obtained by running the applicable inference script. To achieve 
 
 #### Inference accuracy results
 
-|       model       | ***data***  |    Embeddings Accuracy    |
-| :---------------: | :---------: | :---------: |
-| offline Inference | 12000 images |   99.532%     |
+|       model    |       mode       | ***data***  |    Embeddings Accuracy    |
+| :---------------:| :---------------: | :---------: | :---------: |
+| pb(20180402)| offline Inference | 12000 images |   99.532%     |
+| pb(20180408)| offline Inference | 12000 images |   98.917%     |
 
