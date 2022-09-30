@@ -14,7 +14,7 @@
 
 **修改时间（Modified） ：2021.7.20**
 
-**大小（Size）：412M**
+**模型大小（Size）：412M**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
@@ -30,7 +30,7 @@
 
 ## 概述
 
-
+ResNeXt网络在ResNet基础上进行了优化，同时采用Vgg/ResNet堆叠的思想和Inception的split-transform-merge思想，把单路卷积转变成了多个支路的多个卷积。ResNeXt结构可以在不增加参数复杂度的前提下提高准确率，同时还减少了超参数的数量。ResNeXt有不同的网络层数，常用的有18-layer、34-layer、50-layer、101-layer、152-layer。Ascend本次提供的是101-layer的ResNeXt-101网络。
 
 - 参考论文：
 
