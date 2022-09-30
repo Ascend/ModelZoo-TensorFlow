@@ -105,7 +105,7 @@ aclError LoadModel()
     uint32_t modelSize = 0;
     std::string modelPath = cfg.om;
 
-    ret = aclmdlLoadFromMemWithMem(modelPath, &modelId);
+    ret = aclmdlLoadFromFile(modelPath.c_str(), &modelId);
     CHECK_ACL_RET("load model from file failed", ret);
 
     modelDesc = aclmdlCreateDesc();
