@@ -1,28 +1,4 @@
 
-**发布者（Publisher）：Huawei**
-
-**应用领域（Application Domain）：** Image Classification 
-
-**版本（Version）：1.1**
-
-**修改时间（Modified） ：2021.7.20**
-
-**大小（Size）：275M**
-
-**框架（Framework）：TensorFlow 1.15.0**
-
-**模型格式（Model Format）：ckpt**
-
-**精度（Precision）：Mixed**
-
-**处理器（Processor）：昇腾910**
-
-**应用级别（Categories）：Official**
-
-**描述（Description）：基于TensorFlow框架的DenseNet-161图像分类网络训练代码** 
-
-
-
 DenseNet-161是一个经典的图像分类网络，主要特点是采用各层两两相互连接的Dense Block结构。DenseNet能有效缓解梯度消失，促进特征传递和复用。 
 
 - 参考论文：
