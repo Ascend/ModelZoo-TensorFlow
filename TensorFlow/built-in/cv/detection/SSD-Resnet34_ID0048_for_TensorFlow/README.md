@@ -342,7 +342,7 @@ python3 $3/ssd_main.py  \
 
 - 16p训练
 
-训练脚本`./test/train_performance_distribute.sh`,使用之前请用户先下载分布式插件,分布式插件使用参看工具README
+训练脚本`./test/train_performance_distribute.sh`,使用之前请用户先下载分布式插件,分布式插件使用参考工具README
 工具路径: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
 ```
 python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
