@@ -6,13 +6,30 @@
 - [高级参考](#高级参考.md)
 ## 基本信息
 
+**发布者（Publisher）：Huawei**
+
+**应用领域（Application Domain）：Natural Language Processing**
+
+**版本（Version）：1.1**
+
+**修改时间（Modified） ：2021.11.10**
+
+**大小（Size）：1.3GB**
+
+**框架（Framework）：TensorFlow_1.15.0**
+
+**模型格式（Model Format）：ckpt**
+
+**精度（Precision）：Mixed**
+
+**处理器（Processor）：昇腾910**
+
+**应用级别（Categories）：Benchmark**
+
+**描述（Description）：基于TensorFlow框架的BioBERT生物医学语言网络训练代码**
 
 ## 概述
 
-    BioBERT（用于生物医学文本挖掘的双向编码器表示Transformers），这是一种在大型生物医学语料库上预先训练的领域特定语言表示模型。 
-    通过在任务上几乎相同的体系结构，在经过生物医学语料库的预训练之后，BioBERT在许多生物医学文本挖掘任务中都大大优于BERT和以前的最新模型。
-    尽管BERT的性能可与以前的最新模型相媲美，但在以下三个代表性的生物医学文本挖掘任务上，BioBERT的性能明显优于它们：生物医学命名实体识别（F1分数提高0.62％），
-    生物医学关系提取（2.80％） F1分数提高）和生物医学问答（MRR提高12.24％）。 分析结果表明，对生物医学语料库进行BERT的预培训有助于其理解复杂的生物医学文献。 
 
 - 参考论文：
 
