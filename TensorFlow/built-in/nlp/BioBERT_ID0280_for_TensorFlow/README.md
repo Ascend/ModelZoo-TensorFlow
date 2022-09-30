@@ -14,7 +14,7 @@
 
 **修改时间（Modified） ：2021.11.10**
 
-**大小（Size）：1.3GB**
+**模型大小（Size）：1.3GB**
 
 **框架（Framework）：TensorFlow_1.15.0**
 
