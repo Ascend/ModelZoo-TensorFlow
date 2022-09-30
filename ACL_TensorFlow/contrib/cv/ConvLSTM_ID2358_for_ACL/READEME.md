@@ -55,20 +55,25 @@ om文件共享地址：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.c
 
 
 
-<h2 id="概述.md">数据集转换bin以及利用acllite工具推理</h2>
+<h2 id="概述.md">数据前处理+利用acllite工具推理+数据后处理</h2>
 
-首先需要下载acl相关工具：
-https://gitee.com/ascend/samples/tree/master/python/level2_simple_inference/6_other/colorization_picture
+acllite是对当前开源社区样例中相关重复代码进行封装，为用户提供的一组简易公共接口。首先需要下载acllite相关工具，用户需要解压acllite文件夹文件。
 
-再利用代码colorize.py进行数据集前处理，om模型调用，数据后处理，生成结果存放在txtcsv文件夹:
+建议去以下路径下载，然后把om文件和Inference.py放在.../colorization_picture/src文件夹内：
+
+ACL_TensorFlow/contrib/cv/ConvLSTM_ID2358_for_ACL/colorization_picture.zip
+
+利用代码Inference.py进行数据集前处理，om模型调用，数据后处理，生成结果存放在txtcsv文件夹:
 
 ```
-python3 colorize.py
+python3 Inference.py
 ```
 
-数据集文件共享地址，需要在colorize.py中替换datapath：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
+运行前需要注意：
 
-实际27机器上的路径：/home/test_user07/Convlstm/samples/python/level2_simple_inference/6_other/colorization_picture/src/
+将Inference.py中的模型替换为上述解压出的Convlstm_OM.om
+
+数据集文件共享地址，需要在Inference.py中替换datapath：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
 
 预测的txtcsv文件夹路径：obs://convlstm/GPU/mini_dataset/推理txtcsv/
 
