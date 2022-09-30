@@ -136,7 +136,7 @@ python3 ../swintransformer/train_main_16p.py \
         --fusion_off_file=${fusion_off_file} \
         --profiling_dump_path=${profiling_dump_path}} \
 	--batch_size 16 \
-	--nproc_per_node=${RankSize} >$cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+	--nproc_per_node=${RANK_SIZE} >$cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 
 wait
 end=$(date +%s)
