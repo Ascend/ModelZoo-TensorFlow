@@ -105,21 +105,8 @@ aclError LoadModel()
     uint32_t modelSize = 0;
     std::string modelPath = cfg.om;
 
-    cfg.modelData_ptr = ReadBinFile(modelPath, modelSize);
-    CHECK_WITH_RET(cfg.modelData_ptr != nullptr, ACL_ERROR_READ_MODEL_FAILURE, "can't read model");
-
-    aclError ret = aclmdlQuerySizeFromMem(cfg.modelData_ptr, modelSize, &memSize, &weightsize);
-    CHECK_ACL_RET("query memory size failed", ret);
-
-    ret = aclrtMalloc(&(cfg.devMem_ptr), memSize, ACL_MEM_MALLOC_HUGE_ONLY);
-    CHECK_ACL_RET("alloc dev_ptr failed", ret);
-    ret = aclrtMalloc(&(cfg.weightMem_ptr), weightsize, ACL_MEM_MALLOC_HUGE_ONLY);
-    CHECK_ACL_RET("alloc weight_ptr failed", ret);
-
-    ret = aclmdlLoadFromMemWithMem(cfg.modelData_ptr, modelSize, &modelId, cfg.devMem_ptr, memSize, cfg.weightMem_ptr,
-                                   weightsize);
-    CHECK_ACL_RET("load model from memory failed", ret);
-    LOG("Load model success. memSize: %lu, weightSize: %lu.\n", memSize, weightsize);
+    ret = aclmdlLoadFromMemWithMem(modelPath, &modelId);
+    CHECK_ACL_RET("load model from file failed", ret);
 
     modelDesc = aclmdlCreateDesc();
     CHECK_WITH_RET(modelDesc != nullptr, ACL_ERROR_READ_MODEL_FAILURE, "create model desc failed");
