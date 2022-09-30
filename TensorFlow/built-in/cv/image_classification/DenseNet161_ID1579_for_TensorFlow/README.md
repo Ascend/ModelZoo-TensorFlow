@@ -26,7 +26,7 @@
 
 **应用级别（Categories）：Official**
 
-**描述（Description）：基于TensorFlow框架的DenseNet-161图像分类网络** 
+**描述（Description）：** 
 
 ## 概述
 
