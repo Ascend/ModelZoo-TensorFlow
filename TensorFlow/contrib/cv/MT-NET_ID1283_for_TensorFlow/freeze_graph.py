@@ -37,7 +37,7 @@ from maml_freeze import MAML
 logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger('main')
 parser = argparse.ArgumentParser()
-parser.add_argument('--ckpt_path',type=str, default='/npu/ID1283/task00613907/MT-NET_ID1283_for_TensorFlow/mt-net-0419/ckpt/model59999',help='The path of checkpoint')
+parser.add_argument('--ckpt_path',type=str, default='/home/MT-NET/ckpt/model59999',help='The path of checkpoint')
 
 #running function
 def run(args):
