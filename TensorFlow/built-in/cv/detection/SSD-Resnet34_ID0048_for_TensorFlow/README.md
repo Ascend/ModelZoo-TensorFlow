@@ -341,10 +341,10 @@ python3 $3/ssd_main.py  \
 ```
 ##### 分布式插件使能分布式
 
-分布式统一训练脚本`./test/train_performance_distribute.sh`, 该脚本由`./test/train_performance_8p.sh`修改而来, 具体差异可自行比对
-分布式插件屏蔽了多P rank_table.json和环境变量的差异, 多P可以共有一个脚本, 具体超参请用户根据实际情况修改
+分布式统一训练脚本`./test/train_performance_distribute.sh`, 该脚本由`./test/train_performance_8p.sh`修改而来, 具体差异可自行比对, 分布式插件屏蔽了多P 执行过程中rank_table.json和环境变量的差异, 多P可以共有一个脚本, 具体超参请用户根据实际情况修改
 
 训练前请下载工具并根据说明完成配置
+
 工具路径: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
 
 
