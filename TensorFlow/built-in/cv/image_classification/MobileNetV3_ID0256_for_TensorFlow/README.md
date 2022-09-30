@@ -4,7 +4,7 @@
 -   [快速上手](#快速上手.md)
 -   [迁移学习指导](#迁移学习指导.md)
 -   [高级参考](#高级参考.md)
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -28,7 +28,7 @@
 
 **描述（Description）：基于TensorFlow框架的MobileNetV3 网络训练代码**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
 ## 简述
 
@@ -98,7 +98,7 @@ echo "parameter explain:
     -h/--help                show help message
 ```
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
@@ -128,7 +128,7 @@ echo "parameter explain:
     </table>
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ## 数据集准备<a name="section361114841316"></a>
 
@@ -177,7 +177,7 @@ echo "parameter explain:
             bash test/train_full_1p.sh 
 
 
-<h2 id="迁移学习指导.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码
 

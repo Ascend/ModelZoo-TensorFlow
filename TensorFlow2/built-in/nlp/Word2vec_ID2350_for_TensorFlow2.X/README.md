@@ -4,7 +4,7 @@
 - [快速上手](#快速上手.md)
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -28,9 +28,8 @@
 
 **描述（Description）：基于TensorFlow框架的Word2vec模型训练代码**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
-## 简述<a name="section194554031510"></a>
 
 本项目是基于TensorFlow2.X的文本分类任务，使用Word2vec词向量训练模型进行文本分类。Word2vec是一种将词转化成向量的方法，其中包含两种算法，分别是skip-gram和CBOW，它们最大的区别是skip-gram是通过中心词去预测中心词周围的词，而CBOW是通过周围的词去预测中心词。
 
@@ -118,7 +117,7 @@ flags.DEFINE_string(name='precision_mode', default= 'allow_fp32_to_fp16',
 npu_device.global_options().precision_mode=FLAGS.precision_mode
 ```
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -127,7 +126,7 @@ pip3 install requirements.txt
 ```
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ## 数据集准备<a name="section361114841316"></a>
 
@@ -172,7 +171,7 @@ pip3 install requirements.txt
 
 
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码
 

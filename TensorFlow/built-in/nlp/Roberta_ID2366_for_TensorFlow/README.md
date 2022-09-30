@@ -4,7 +4,7 @@
 - [快速上手](#快速上手.md)
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -28,7 +28,7 @@
 
 **描述（Description）：基于TensorFlow框架的Roberta_ZH下游任务finetune代码**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
     在自然语言处理领域中，预训练语言模型（Pre-trained Language Models）已成为非常重要的基础技术。
     为了进一步促进中文信息处理的研究发展，基于全词遮罩（Whole Word Masking）技术的中文预训练模型BERT-wwm应运而生，
@@ -90,7 +90,7 @@
   session_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
 ```
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -100,7 +100,7 @@ pip3 install requirements.txt
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ## 数据集准备<a name="section361114841316"></a>
 
@@ -146,7 +146,7 @@ pip3 install requirements.txt
 
        ```
 
-<h2 id="迁移学习指导.md">迁移学习指导</h2>
+## 迁移学习指导
 
 - 数据集准备。
 
@@ -161,7 +161,7 @@ pip3 install requirements.txt
 
     参考“模型训练”中验证步骤。
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码
 

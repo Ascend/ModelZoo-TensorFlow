@@ -4,17 +4,17 @@
 -   [快速上手](#快速上手.md)
 -   [迁移学习指导](#迁移学习指导.md)
 -   [高级参考](#高级参考.md)
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：** Image Classification 
+**应用领域（Application Domain）：Image Classification**
 
 **版本（Version）：1.1**
 
 **修改时间（Modified） ：2021.7.20**
 
-**大小（Size）：465M**
+**模型大小（Size）：465M**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
@@ -28,7 +28,7 @@
 
 **描述（Description）：基于TensorFlow框架的ResNet152图像分类网络训练代码** 
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
 1. ResNet在ImageNet竞赛中是一个比较好的分类问题网络。介绍了剩余学习的概念。通过增加直接连接通道来保护信息的完整性，解决了信息丢失、梯度消失、梯度爆炸等问题。这个网络也可以训练。ResNet有不同的网络层，常用的有18层、34层、50层、101层、152层。
 
@@ -105,7 +105,7 @@
   ```
 
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
@@ -134,7 +134,7 @@
     </table>
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 - 数据集准备
 1. 模型训练使用ImageNet2012数据集，数据集请用户自行获取。
@@ -201,7 +201,7 @@
      bash train_full_8p.sh
      ```
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 

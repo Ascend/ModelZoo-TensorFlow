@@ -5,7 +5,7 @@
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
 
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -29,7 +29,7 @@
 
 **描述（Description）：基于TensorFlow框架的DIEN网络训练代码**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
 DIEN是用于点击率预测的深度兴趣进化网络。这个模型能够更精确的表达用户兴趣，同时带来更高的CTR预估准确率。
 
@@ -94,7 +94,7 @@ DIEN是用于点击率预测的深度兴趣进化网络。这个模型能够更�
   config_proto.graph_options.rewrite_options.remapping = RewriterConfig.OFF
   session_config = npu_config_proto(config_proto=config_proto)
 ```
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -104,7 +104,7 @@ pip3 install requirements.txt
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ## 数据集准备<a name="section361114841316"></a>
 
@@ -136,7 +136,7 @@ mv data2/* .
 	bash train_full_1p.sh --data_path=/data        （全量） ## 当前full脚本尚未调通
     ```
             
-<h2 id="迁移学习指导.md">迁移学习指导</h2>
+## 迁移学习指导
 
 - 数据集准备。
 
@@ -147,7 +147,7 @@ mv data2/* .
 
     请参考“快速上手”章节
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 

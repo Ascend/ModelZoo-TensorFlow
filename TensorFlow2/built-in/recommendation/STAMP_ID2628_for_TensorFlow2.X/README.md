@@ -5,7 +5,7 @@
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
 
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -30,7 +30,7 @@
 **描述（Description）：基于TensorFlow2.X框架的推荐网络训练代码**
 
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
 ## 简述<a name="section194554031510"></a>
 
@@ -113,7 +113,7 @@ flags.DEFINE_string(name='precision_mode', default= 'allow_fp32_to_fp16',
 npu_device.global_options().precision_mode=FLAGS.precision_mode
 ```
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -124,7 +124,7 @@ pip3 install requirements.txt
 
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 
 ## 数据集准备<a name="section361114841316"></a>
@@ -179,7 +179,7 @@ pip3 install requirements.txt
 
 
 
-<h2 id="迁移学习指导.md">迁移学习指导</h2>
+## 迁移学习指导
 
 
 1.  数据集准备。
@@ -199,7 +199,7 @@ pip3 install requirements.txt
 
 4.  模型评估。（根据实际情况）_可以参考“模型训练”中训练步骤。_
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 

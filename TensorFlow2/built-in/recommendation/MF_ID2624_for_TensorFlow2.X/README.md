@@ -5,7 +5,7 @@
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
 
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -29,7 +29,7 @@
 
 **描述（Description）：使用矩阵分解模型（matrix factorization）的推荐系统**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
     矩阵分解用于实现隐含语义模型，它一方面既能减少运算量，另一方面也可以很好的解决由于用户数目或者物品数目过多引起的矩阵稀疏化问题。
   
@@ -82,7 +82,7 @@
 ```
 
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -91,7 +91,7 @@ pip3 install requirements.txt
 ```
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ## 数据集准备<a name="section361114841316"></a>
 
@@ -126,7 +126,7 @@ pip3 install requirements.txt
             bash train_full_1p.sh --data_path=/ml-1m/
 
 
-<h2 id="迁移学习指导.md">迁移学习指导</h2>
+## 迁移学习指导
 
 - 数据集准备。
 
@@ -141,7 +141,7 @@ pip3 install requirements.txt
 
     参考“模型训练”中验证步骤。
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码
 

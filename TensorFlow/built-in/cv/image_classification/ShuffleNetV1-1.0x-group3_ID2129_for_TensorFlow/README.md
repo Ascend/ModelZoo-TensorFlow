@@ -5,7 +5,7 @@
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
 
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -29,7 +29,7 @@
 
 **描述（Description）：基于TensorFlow框架的高效CNN架构设计网络shufflenetv1**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
 ​         目前，神经网络架构设计主要以计算复杂度的\emph{indirect} 度量，即FLOPs 为指导。然而，\emph{direct} 指标（例如速度）还取决于其他因素，例如内存访问成本和平台特性。因此，这项工作建议评估目标平台上的直接指标，而不仅仅是考虑 FLOP。基于一系列受控实验，这项工作推导出了几个实用的\ emph {指南}，用于有效的网络设计。ShuffleNetV1提出了channel shuffle操作，使得网络可以尽情地使用分组卷积来加速。
 
@@ -105,7 +105,7 @@ run_config = NPURunConfig( model_dir=flags_obj.model_dir,
 ```
 
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -141,7 +141,7 @@ pip3 install requirements.txt
     </table>
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 - 数据集准备
 1. 模型训练使用ImageNet2012数据集，数据集请用户自行获取。
@@ -171,7 +171,7 @@ pip3 install requirements.txt
 
 
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 

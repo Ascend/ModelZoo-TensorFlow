@@ -4,7 +4,7 @@
 - [快速上手](#快速上手.md)
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 
 **发布者（Publisher）：Huawei**
 
@@ -28,7 +28,7 @@
 
 **描述（Description）：基于Keras框架的AutoAugment自动数据增强网络训练代码**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 
     近日，来自谷歌大脑的研究者在 arXiv 上发表论文，提出一种自动搜索合适数据增强策略的方法 AutoAugment，
     该方法创建一个数据增强策略的搜索空间，利用搜索算法选取适合特定数据集的数据增强策略。
@@ -88,7 +88,7 @@
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
@@ -117,7 +117,7 @@
     </table>
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 
 ## 数据集准备<a name="section361114841316"></a>
 
@@ -155,7 +155,7 @@
                         callbacks=callbacks)
         ```
 
-<h2 id="迁移学习指导.md">迁移学习指导</h2>
+## 迁移学习指导
 
 - 数据集准备。
 
@@ -170,7 +170,7 @@
 
     参考“模型训练”中验证步骤。
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码
 

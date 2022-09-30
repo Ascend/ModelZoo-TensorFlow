@@ -96,7 +96,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
         g_optimizer = NPULossScaleOptimizer(g_optimizer, loss_scale_manager, is_distributed=True)
     g_optim = npu_tf_optimizer(g_optimizer).minimize(self.g_loss, var_list=self.g_vars)
 
-<h2 id="训练环境准备">训练环境准备</h2>
+## 训练环境准备
 
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
@@ -124,7 +124,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
     </tbody>
     </table>
 
-<h2 id="快速上手">快速上手</h2>
+## 快速上手
 
 - 数据集准备
 
@@ -163,7 +163,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
      bash train_full_1p.sh --data_path=/datasets/facades
      ```
 
-<h2 id="高级参考">高级参考</h2>
+## 高级参考
 
 ## 脚本和示例代码<a name="section08421615141513"></a>
 

@@ -4,7 +4,7 @@
 - [快速上手](#快速上手.md)
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 **发布者（Publisher）：Huawei**
 
 **应用领域（Application Domain）：Image Classification **
@@ -27,7 +27,7 @@
 
 **描述（Description）：基于TensorFlow2框架的MobileNetV3和ResNext50网络训练代码**
 
-<h2 id="概述.md">概述</h2>
+## 概述
 -     mobilenet-v3是Google继mobilenet-v2之后的又一力作，作为mobilenet系列的新成员，自然效果会提升，mobilenet-v3提供了两个版本，分别为mobilenet-v3 large 以及mobilenet-v3 small，分别适用于对资源不同要求的情况。MobileNetV3和ResNext50共用的一个框架。
 
 - 参考论文：
@@ -95,7 +95,7 @@
 npu_device.global_options().precision_mode=FLAGS.precision_mode
 ```
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
 2.  宿主机上需要安装Docker并登录[Ascend Hub中心](https://ascendhub.huawei.com/#/detail?name=ascend-tensorflow-arm)获取镜像。
 
@@ -123,7 +123,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
     </table>
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 ## 数据集准备 <a name="section361114841316"></a>
 
 1. 模型使用VOC2007数据集；
@@ -160,7 +160,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
         ```
 
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 ## 脚本和示例代码 <a name="section08421615141513"></a>
 
     ├── README.md                                //说明文档

@@ -4,7 +4,7 @@
 - [快速上手](#快速上手.md)
 - [迁移学习指导](#迁移学习指导.md)
 - [高级参考](#高级参考.md)
-<h2 id="基本信息.md">基本信息</h2>
+## 基本信息
 **发布者（Publisher）：Huawei**
 
 **应用领域（Application Domain）：Natural Language Processing**
@@ -27,7 +27,7 @@
 
 **描述（Description）：基于TensorFlow框架的Albert_ZH代码**
 
-<h2 id="概述.md">概述</h2>
+## 概述
   在预训练自然语言表示时增加模型大小通常会提高下游任务的性能。 但是，由于GPU / TPU内存的限制和更长的训练时间，在某些时候，进一步的模型增加变得更加困难。 为了解决这些问题，我们提出了两种参数减少技术，以降低内存消耗并提高BERT的训练速度。 全面的经验证据表明，与原始BERT相比，我们提出的方法所导致的模型可扩展性更好。 我们还使用了一个自我监督的损失，该损失集中于对句子之间的连贯性进行建模，并表明它始终可以通过多句子输入来帮助下游任务。 因此，我们的最佳模型在GLUE，RACE和\ squad基准上建立了最新的技术成果，而与BERT-large相比，参数更少。    
 
 - 参考论文：
@@ -102,7 +102,7 @@ run_config = NPURunConfig(
      ）
 ```
 
-<h2 id="训练环境准备.md">训练环境准备</h2>
+## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
 -  运行以下命令安装依赖。
@@ -139,7 +139,7 @@ pip3 install requirements.txt
     </table>
 
 
-<h2 id="快速上手.md">快速上手</h2>
+## 快速上手
 ## 数据集准备<a name="section361114841316"></a>
 
 1. 模型使用数据集 LCQMC，参考源代码提供路径下载。
@@ -231,7 +231,7 @@ pip3 install requirements.txt
             
             perl multi-bleu.perl /data/wmt-ende/newstest2014.tok.de.forbleu < output-0603.forbleu
 
-<h2 id="高级参考.md">高级参考</h2>
+## 高级参考
 ## 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
