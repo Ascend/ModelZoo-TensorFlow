@@ -41,7 +41,7 @@
     [https://github.com/google-research/albert](https://github.com/google-research/albert)
     
 - 适配昇腾 AI 处理器的实现：
-    
+  
     [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/Albert_ID0632_for_TensorFlow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/Albert_ID0632_for_TensorFlow)
 
 - 通过Git获取对应commit_id的代码方法如下:
@@ -54,7 +54,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+### 默认配置<a name="section91661242121611"></a>
 -   网络结构
     
     - 初始学习率为0.00001375，使用polynomial_decay
@@ -78,7 +78,7 @@
     -   Train steps:125000
 
 
-## 支持特性<a name="section1899153513554"></a>
+### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -87,11 +87,11 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+### 开启混合精度<a name="section20779114113713"></a>
 相关代码示例。
 
 ```
@@ -135,7 +135,7 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+### 数据集准备<a name="section361114841316"></a>
 
 1. 模型训练使用news_zh_1.txt数据集，数据集请用户自行获取。
 
@@ -150,7 +150,7 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
 
 3. 这里是列表文本数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
-## 模型训练<a name="section715881518135"></a>
+### 模型训练<a name="section715881518135"></a>
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
   
@@ -195,7 +195,7 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+### 脚本和示例代码<a name="section08421615141513"></a>
 
     ├── README.md                                //说明文档
     ├── requirements.txt						 //依赖
@@ -208,7 +208,7 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
     │    ├──run_pretraining.py                   //训练入口脚本
 
 
-## 脚本参数<a name="section6669162441511"></a>
+### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --output_dir                                       checkpoint保存路径
@@ -220,7 +220,7 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
 --save_checkpoints_steps                           保存ckpt间隔
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+### 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡训练。
 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。
