@@ -1,5 +1,4 @@
 # BertBase_Google_for_TensorFlow
-## 目录
 * [基本信息](#基本信息)
 * [概述](#概述)
 * [训练环境准备](#训练环境准备)
@@ -59,7 +58,7 @@ BERT模型的全称是Bidirectional Encoder Representation from Transformers，�
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-### 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练超参
 
@@ -71,7 +70,7 @@ BERT模型的全称是Bidirectional Encoder Representation from Transformers，�
   - num_warmup_steps: 1000
 
 
-### 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -79,11 +78,11 @@ BERT模型的全称是Bidirectional Encoder Representation from Transformers，�
 | 混合精度  | 是    |
 | 并行数据  | 是    |
 
-### 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-### 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，通过传入参数--precision_mode可以改变精度模式，相关代码示例：
 
@@ -128,7 +127,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(FLAGS.precision
 
 ## 快速上手
 
-### 数据集准备
+#### 数据集准备
 
   模型训练使用wikipedia数据集，参考源代码提供路径下载。
 
@@ -165,7 +164,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(FLAGS.precision
         --dupe_factor=5
   ```
 
-### 模型训练
+#### 模型训练
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -195,7 +194,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(FLAGS.precision
 
 ## 高级参考
 
-### 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 └─Bert_Google_pretrain_for_TensorFlow
@@ -226,7 +225,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(FLAGS.precision
     └─tokenization_test.py
 ```
 
-### 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
     --precision_mode           precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
@@ -247,7 +246,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(FLAGS.precision
     --max_seq_length           max_seq_length
 ```
 
-### 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动单卡训练和8卡训练。
 
@@ -255,7 +254,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(FLAGS.precision
 
 
 
-### 推理/验证过程<a name="section1465595372416"></a>
+#### 推理/验证过程<a name="section1465595372416"></a>
 
 执行训练脚本默认执行验证过程，验证结果在test/output/${ASCEND_DEVICE_ID}的*_acc.log中打印
 
