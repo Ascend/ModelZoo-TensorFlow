@@ -19,7 +19,7 @@ data_path=""
 #网络名称，同目录名称
 Network="Oct-ResNet_ID2890_for_TensorFlow2.X"
 #训练epoch
-train_epochs=2
+train_epochs=5
 #训练step
 #train_steps=1000
 #训练batch_size
