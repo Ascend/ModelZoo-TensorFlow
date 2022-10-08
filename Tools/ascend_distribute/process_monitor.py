@@ -85,10 +85,17 @@ def find_all_process(parent_process, sub_parent_dict):
     return all_sub_parent
 
 
+def kill_all_process(all_sub_parent):
+    for sub_parent in all_sub_parent:
+        for process in sub_parent:
+            os.kill(process, signal.SIGKILL)
+
+
 def main():
     parent_process = get_parent_process()
     sub_parent_dict = get_all_process()
     all_sub_parent = find_all_process(parent_process, sub_parent_dict)
+    kill_all_process(all_sub_parent)
 
 
 if __name__ == '__main__':
