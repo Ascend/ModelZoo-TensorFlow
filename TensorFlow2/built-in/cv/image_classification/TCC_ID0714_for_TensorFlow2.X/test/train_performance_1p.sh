@@ -112,7 +112,7 @@ do
     #设置环境变量，不需要修改
     echo "Device ID: $ASCEND_DEVICE_ID"
     export RANK_ID=$RANK_ID
-    
+
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
@@ -161,16 +161,16 @@ do
 		    --alsologtostderr \
         --force_train   > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 
-    sleep 60
-    num=`grep 'E19999' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
-    while [ ${num} -eq 0 ]
-    do
-        num=`grep 'E19999' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
-        sleep 5
-    done
-    ps -ef | grep python3 | grep tcc | grep train.py | awk '{system("kill -9 "$2)}'
-    echo 'killed TCC_ID0714_for_TensorFlow2.X' >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
-done 
+    # sleep 60
+    # num=`grep 'E19999' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
+    # while [ ${num} -eq 0 ]
+    # do
+    #     num=`grep 'E19999' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
+    #     sleep 5
+    # done
+    # ps -ef | grep python3 | grep tcc | grep train.py | awk '{system("kill -9 "$2)}'
+    # echo 'killed TCC_ID0714_for_TensorFlow2.X' >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
+done
 wait
 
 cd ../tcc
