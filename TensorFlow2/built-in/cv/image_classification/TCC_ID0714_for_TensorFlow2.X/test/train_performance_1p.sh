@@ -112,7 +112,7 @@ do
     #设置环境变量，不需要修改
     echo "Device ID: $ASCEND_DEVICE_ID"
     export RANK_ID=$RANK_ID
-    
+
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
@@ -120,32 +120,6 @@ do
     else
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
-
-#    #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
-#    #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
-#    nohup python3.7 $cur_path/../train_adda_seg.py ${data_path}/data/inria_test source_image source_label_index target_image adda_deeplab_v3p.h5 \
-#        --optimizer adam \
-#		--base_learning_rate 1e-4 \
-#		--min_learning_rate 1e-7 \
-#		--image_width 256 \
-#		--image_height 256 \
-#		--image_channel 3 \
-#		--image_suffix .png \
-#		--label_suffix .png \
-#		--n_class 2 \
-#		--batch_size 2 \
-#		--iterations 50 \
-#		--weight_decay 1e-4 \
-#		--initializer he_normal \
-#		--bn_epsilon 1e-3 \
-#		--bn_momentum 0.99 \
-#		--pre_trained_model ./logs/checkpoints/deeplab_v3p_base.h5 \
-#		--source_fname_file ${data_path}/data/inria_test/source.txt \
-#		--target_fname_file ${data_path}/data/inria_test/target.txt \
-#		--logs_dir ./logs \
-#		--augmentations flip_x,flip_y,random_crop \
-#		--display 1 \
-#		--snapshot 5   > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 
 	#执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
@@ -161,16 +135,16 @@ do
 		    --alsologtostderr \
         --force_train   > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 
-    sleep 60
-    num=`grep 'E19999' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
-    while [ ${num} -eq 0 ]
-    do
-        num=`grep 'E19999' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
-        sleep 5
-    done
-    ps -ef | grep python3 | grep tcc | grep train.py | awk '{system("kill -9 "$2)}'
-    echo 'killed TCC_ID0714_for_TensorFlow2.X' >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
-done 
+    # sleep 60
+    # num=`grep 'E19999' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
+    # while [ ${num} -eq 0 ]
+    # do
+    #     num=`grep 'E19999' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
+    #     sleep 5
+    # done
+    # ps -ef | grep python3 | grep tcc | grep train.py | awk '{system("kill -9 "$2)}'
+    # echo 'killed TCC_ID0714_for_TensorFlow2.X' >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log
+done
 wait
 
 cd ../tcc
@@ -226,7 +200,7 @@ echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = None" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
