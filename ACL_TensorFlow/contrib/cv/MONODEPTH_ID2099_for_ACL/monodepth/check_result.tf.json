@@ -1,0 +1,13 @@
+{
+  "op": [
+    {
+      "is_support": false,
+      "name": "save/RestoreV2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "RestoreV2"
+    }
+  ]
+}

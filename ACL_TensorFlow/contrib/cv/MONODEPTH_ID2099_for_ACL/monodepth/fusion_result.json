@@ -1,0 +1,67 @@
+{
+    "graph_fusion": {
+        "AABiasaddConvFusion": {
+            "effect_times": "32",
+            "match_times": "32"
+        },
+        "ConstToAttrPass": {
+            "effect_times": "10",
+            "match_times": "10"
+        },
+        "ConstToAttrStridedSliceFusion": {
+            "effect_times": "1",
+            "match_times": "1"
+        },
+        "ConvConcatFusionPass": {
+            "effect_times": "0",
+            "match_times": "7"
+        },
+        "ConvToFullyConnectionFusionPass": {
+            "effect_times": "0",
+            "match_times": "32"
+        },
+        "ConvWeightCompressFusionPass": {
+            "effect_times": "0",
+            "match_times": "32"
+        },
+        "MulSquareFusionPass": {
+            "effect_times": "0",
+            "match_times": "4"
+        },
+        "PadConv2dFusionPass": {
+            "effect_times": "32",
+            "match_times": "32"
+        },
+        "RefreshInt64ToInt32FusionPass": {
+            "effect_times": "1",
+            "match_times": "1"
+        },
+        "SplitConvConcatFusionPass": {
+            "effect_times": "0",
+            "match_times": "7"
+        },
+        "StridedSliceRemovePass": {
+            "effect_times": "0",
+            "match_times": "1"
+        },
+        "TransdataCastFusionPass": {
+            "effect_times": "0",
+            "match_times": "34"
+        },
+        "ZConcatExt2FusionPass": {
+            "effect_times": "7",
+            "match_times": "7"
+        },
+        "ZConcatv2dFusionPass": {
+            "effect_times": "0",
+            "match_times": "7"
+        }
+    },
+    "session_and_graph_id": "0_0",
+    "ub_fusion": {
+        "TbeConvCommonRules0FusionPass": {
+            "effect_times": "32",
+            "match_times": "32"
+        }
+    }
+}
