@@ -39,6 +39,11 @@ FLAGS = tf.flags.FLAGS
 
 if FLAGS.chip == 'npu':
   from npu_bridge.npu_init import *
+  
+# 改
+rank_size = int(os.getenv('RANK_SIZE'))
+rank_id = int(os.getenv('DEVICE_INDEX'))
+print(rank_size, rank_id)
 
 # 与模型训练相关的参数
 tf.flags.DEFINE_string('bsrn_model_scales', '-1', 'Supported scales of the model. Use the \',\' character to specify multiple scales (e.g., 2,3,4). This parameter is involved in constructing the multi-scale structure of the model.')
@@ -113,6 +118,8 @@ class BSRN(BaseModel):
           custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
           custom_op.name = "NpuOptimizer"
           custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+          # change
+          custom_op.parameter_map["hcom_parallel"].b = True
           sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
           sess_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
           # custom_op.parameter_map['dynamic_input'].b = True
@@ -210,8 +217,12 @@ class BSRN(BaseModel):
       else:
         config = tf.compat.v1.ConfigProto()
         self.tf_session = tf.Session(config=config)
-
       self.tf_session.run(self.tf_init_op)
+      # change
+      if int(rank_size) > 1 and (is_training):
+        input = tf.trainable_variables()
+        bcast_global_variables_op = hccl_ops.broadcast(input, 0)
+        self.tf_session.run(bcast_global_variables_op)
 
 
 
@@ -478,7 +489,8 @@ class BSRN(BaseModel):
 
     g_variables = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='generator')
     g_optimizer = tf.train.AdamOptimizer(learning_rate, epsilon=self.adam_epsilon)
-
+    # change
+    g_optimizer = npu_distributed_optimizer_wrapper(g_optimizer)
     # A list of (gradient, variable) pairs
     g_grad_vars = g_optimizer.compute_gradients(loss, var_list=g_variables)
 
