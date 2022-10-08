@@ -151,6 +151,8 @@ python3 ${work_path}/src/utils/create_squad_data.py --train_file=${data_path}/tr
 
 ## 模型训练<a name="section715881518135"></a>
 
+#### 模型训练
+
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
 
@@ -226,6 +228,26 @@ python3 ${work_path}/src/utils/create_squad_data.py --train_file=${data_path}/tr
       bash train_ID3220_BertLarge-Squad2.0_performance_1p.sh --data_path=/home 
       ```
 
+#### 分布式插件使能分布式
+
+ID0060网络分布式统一训练脚本`./test/train_ID0060_BertBase_performance_distribute.sh`, 该脚本由`./test/train_ID0060_BertBase_performance_8p.sh`修改而来, 具体差异可自行比对, 分布式插件屏蔽了多P 执行过程中rank_table.json和环境变量的差异, 多P可以共有一个脚本, 具体超参请用户根据实际情况修改
+
+训练前请下载工具并根据说明完成配置
+
+工具路径: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
+
+
+- 8p训练
+```
+python3 $path/distrbute_npu.py --np 8 --env 10.10.10.10:8 --train_command "bash train_ID0060_BertBase_performance_distribute.sh --data_path=/npu/traindata"
+```
+
+
+- 16p训练
+
+```
+python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train_command "bash train_ID0060_BertBase_performance_distribute.sh --data_path=/npu/traindata"
+```
 
 
 <h2 id="高级参考.md">高级参考</h2>

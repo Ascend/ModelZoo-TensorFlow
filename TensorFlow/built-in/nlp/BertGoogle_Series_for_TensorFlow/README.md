@@ -142,6 +142,8 @@ BERT是一种与训练语言表示的方法，这意味着我们在大型文本�
 
   将环境变量配置到test/train_*.sh中
 
+#### 模型训练
+
 - 单卡训练 
 
   启动单卡训练
@@ -164,6 +166,26 @@ BERT是一种与训练语言表示的方法，这意味着我们在大型文本�
   bash train_ID0495_Bert-Squad_performance_8p.sh
   ```
   
+#### 分布式插件使能分布式
+
+分布式统一训练脚本`./test/train_ID0495_Bert-Squad_performance_distribute.sh`, 该脚本由`.test/train_ID0495_Bert-Squad_performance_1p.sh`修改而来, 具体差异可自行比对, 分布式插件屏蔽了多P 执行过程中rank_table.json和环境变量的差异, 多P可以共有一个脚本, 具体超参请用户根据实际情况修改
+
+训练前请下载工具并根据说明完成配置
+
+工具路径: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
+
+
+- 8p训练
+```
+python3 $path/distrbute_npu.py --np 8 --env 10.10.10.10:8 --train_command "bash train_ID0495_Bert-Squad_performance_distribute.sh --data_path=/npu/traindata"
+```
+
+
+- 16p训练
+
+```
+python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train_command "bash train_ID0495_Bert-Squad_performance_distribute.sh --data_path=/npu/traindata"
+```
   
 
 <h2 id="高级参考.md">高级参考</h2>
