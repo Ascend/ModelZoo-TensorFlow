@@ -176,6 +176,7 @@ python3 pack_pretraining_data.py --input-glob="path/to/store/binery/files" --out
 文件夹路径需要自己创建。
 
 ## 模型训练<a name="section715881518135"></a>
+#### 模型训练
 - 下载训练脚本。
 - 检查并修改configs/目录下8卡IP的json配置文件“rank_table_8p.json"。
   
@@ -260,6 +261,19 @@ python3 pack_pretraining_data.py --input-glob="path/to/store/binery/files" --out
     
         4.1 含pack策略的训练脚本（./test/目录下名字带有"_packed"的脚本即为相应包含pack策略的训练脚本）
         使用pack策略进行训练时，需使用pack过后的数据集（train、eval）及对应的预训练模型。若无对应tensorflow-v2版本packed预训练模型，可由tensorflow-v1版本进行转换得来。模型转换相关脚本为bert/tf2_encoder_checkpoint_converter.py，详见：脚本和事例代码 - 模型转换脚本
+
+#### 分布式插件使能分布式
+分布式统一训练脚本`./test/train_performance_distribute.sh`, 该脚本由`./test/train_performance_8p_192bs.sh`修改而来, 具体差异可自行比对, 分布式插件屏蔽了多P 执行过程中rank_table.json和环境变量的差异, 多P可以共有一个脚本, 具体超参请用户根据实际情况修改
+训练前请下载工具并根据说明完成配置
+工具路径: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
+- 8p训练
+```
+python3 $path/distrbute_npu.py --np 8 --env 10.10.10.10:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
+```
+- 16p训练
+```
+python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
+```
 
 ## 高级参考
 
