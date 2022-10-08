@@ -37,7 +37,8 @@ import dataloaders
 import models
 
 # os.environ['ASCEND_SLOG_PRINT_TO_STDOUT'] = "1"
-
+rank_size = int(os.getenv('RANK_SIZE'))
+rank_id = int(os.getenv('DEVICE_INDEX'))
 
 FLAGS = tf.flags.FLAGS
 
@@ -132,7 +133,7 @@ def main(unused_argv):
 
   # train
   local_train_step = 0
-  while (model.global_step < FLAGS.max_steps):
+  while (model.global_step * rank_size < FLAGS.max_steps):
     global_train_step = model.global_step + 1
     local_train_step += 1
 
@@ -159,8 +160,8 @@ def main(unused_argv):
     
     if (summary is not None):
       summary_writers[scale].add_summary(summary, global_step=global_train_step)
-    
-    if (local_train_step % FLAGS.save_freq == 0):
+
+    if ( (local_train_step * rank_size) % FLAGS.save_freq == 0 and rank_id == 0):
       model.save(base_path=FLAGS.train_path)
       tf.logging.info('saved a model checkpoint at step %d' % (global_train_step))
 
