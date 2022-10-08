@@ -51,7 +51,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练超参
 
@@ -62,7 +62,7 @@
   - Max_seq_length:128
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -70,11 +70,11 @@
 | 混合精度   | 是       |
 | 并行数据   | 否       |
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
 
@@ -121,12 +121,13 @@
 
 ## 快速上手
 
-- 数据集准备
-1. 数据集采用CoNLL-2003，用户自行下载并处理，也可以参考源 https://github.com/kyzhouhzau/BERT-NER里的data目录下的数据集
-2. 同时准备预训练模型，预训练后的bert模型，参考源链接。
+#### 数据集准备
+
+- 数据集采用CoNLL-2003，用户自行下载并处理，也可以参考源 https://github.com/kyzhouhzau/BERT-NER里的data目录下的数据集
+- 同时准备预训练模型，预训练后的bert模型，参考源链接。
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -160,7 +161,7 @@
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 BERT-NER
@@ -175,7 +176,7 @@ BERT-NER
 
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --precision_mode=$precision_mode \      精度模型，默认allow_mix_precision
@@ -191,7 +192,3 @@ BERT-NER
 --num_train_epochs=$train_epochs   \    训练epoch数
 --output_dir=./output/result_dir        保存路径
 ```
-
-## 训练过程<a name="section1589455252218"></a>
-
-NA

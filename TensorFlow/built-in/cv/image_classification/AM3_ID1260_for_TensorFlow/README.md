@@ -41,11 +41,11 @@
             
     
 - 适配昇腾 AI 处理器的实现：
-    
+  
     https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/AM3_ID1260_for_TensorFlow
 
 - 通过Git获取对应commit_id的代码方法如下:
-    
+  
         git clone {repository_url}    # 克隆仓库的代码
         cd {repository_name}    # 切换到模型的代码仓目录
         git checkout  {branch}    # 切换到对应分支
@@ -53,7 +53,7 @@
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 -   训练超参（单卡）：
     -   Batch size: 24
@@ -65,7 +65,7 @@
     -   Train steps: 30000
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -73,11 +73,11 @@
 | 混合精度  | 是    |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 相关代码示例。
 
 
@@ -126,13 +126,13 @@ run_config = NPURunConfig(
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 模型训练使用mini-imagenet.zip数据集，数据集请用户自行获取。
+- 模型训练使用mini-imagenet.zip数据集，数据集请用户自行获取。
 
-2. 数据集解压后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
-   
-## 模型训练<a name="section715881518135"></a>
+- 数据集解压后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练   
@@ -143,12 +143,12 @@ run_config = NPURunConfig(
           [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/01.%E8%AE%AD%E7%BB%83%E8%84%9A%E6%9C%AC%E8%BF%81%E7%A7%BB%E6%A1%88%E4%BE%8B/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE)
 
     2. 单卡训练 
-  
+
  单卡训练指令（脚本位于AM3_ID1260_for_TensorFlow/test/train_full_1p.sh,以数据目录为/trainingdata/data/mini-imagenet为例） 
         
      ```
-	 cd test
-	 bash train_full_1p.sh --data_path=/trainingdata/
+     cd test
+     bash train_full_1p.sh --data_path=/trainingdata/
      ```   
 
 ## 迁移学习指导
@@ -156,7 +156,7 @@ run_config = NPURunConfig(
 - 数据集准备。
 
       请参见“快速上手”中的数据集准备。
-    
+  
 - 模型训练。
 
       请参考“模型训练”中训练步骤。
@@ -164,7 +164,7 @@ run_config = NPURunConfig(
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
     ├── tadam.py
     ├── protonet++.py
@@ -184,7 +184,7 @@ run_config = NPURunConfig(
     │    ├──gen_experiments.py  
     │    ├──util.py 
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
     --train_steps                     训练步数
