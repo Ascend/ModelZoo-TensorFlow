@@ -30,8 +30,6 @@
 
 ## 概述
 
-## 简述<a name="section194554031510"></a>
-
 ALBERT，一种轻量级BERT，用于语言表征的自监督学习。
 
 本项目中包含使用ALBERT V2 Base和ALBERT V2 Large两种预训练模型的finetune下游分类任务，两个场景使用相同的数据及代码，使用的预训练模型不相同。
@@ -57,7 +55,7 @@ ALBERT，一种轻量级BERT，用于语言表征的自监督学习。
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+### 默认配置<a name="section91661242121611"></a>
 
 -   网络结构：
     -   ALBERT V2 Base: 12-layer, 768-hidden, 12-heads, 12M parameters
@@ -108,7 +106,7 @@ ALBERT，一种轻量级BERT，用于语言表征的自监督学习。
     -   learning_rate: 4e-6
 
 
-## 支持特性<a name="section1899153513554"></a>
+### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持（ALBERT V2 Base finetune) | 是否支持(ALBERT V2 Large finetune) |
 | ---------- | ---------------------------------- | ---------------------------------- |
@@ -117,11 +115,11 @@ ALBERT，一种轻量级BERT，用于语言表征的自监督学习。
 | 数据并行   | 否                                 | 否                                 |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+### 开启混合精度<a name="section20779114113713"></a>
 
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
@@ -161,7 +159,7 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+### 数据集准备<a name="section361114841316"></a>
 
 1、ALBERT V2 Base finetune和ALBERT V2 Large finetune所使用的数据集均为GLUE数据集，请用户参考“参考实现”中数据集下载方式下载原始GLUE数据集。
 
@@ -221,7 +219,7 @@ albert_data
 
 
 
-## 模型训练<a name="section715881518135"></a>
+### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -262,7 +260,7 @@ albert_data
 
 ## 高级参考
 
-## 脚本和示例代码
+### 脚本和示例代码
 
 ```
 ├── configs
@@ -279,7 +277,7 @@ albert_data
 	└── train_ID3244_albert_FineTune_GLUE_AlbertLarge_performance_1p.sh			## ALBERT V2 Large finetune performance 1p训练拉起脚本
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+### 脚本参数<a name="section6669162441511"></a>
 
 1、ALBERT V2 Base finetune及ALBERT V2 Large finetune脚本参数
 
@@ -315,7 +313,7 @@ albert_data
 
 
 
-## 训练过程<a name="section1589455252218"></a>
+### 训练过程<a name="section1589455252218"></a>
 
 ```
 通过“模型训练”中的训练指令可以启动两个场景的单卡full或performance训练。
