@@ -163,6 +163,9 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
 
 ## 模型训练<a name="section715881518135"></a>
+
+#### 模型训练
+
 - 下载训练脚本。
 - 检查scripts/目录下是否有存在8卡IP的json配置文件“rank_table_8p.json"。
   
@@ -243,7 +246,26 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
     
             train_performance_8p_49152bs_static_noeval.sh --data_path=${Data_Path} 
 
+#### 分布式插件使能分布式
 
+分布式统一训练脚本`./test/train_performance_distribute.sh`, 该脚本由`./test/train_performance_8p_32768bs_static_noeval.sh`修改而来, 具体差异可自行比对, 分布式插件屏蔽了多P 执行过程中rank_table.json和环境变量的差异, 多P可以共有一个脚本, 具体超参请用户根据实际情况修改
+
+训练前请下载工具并根据说明完成配置
+
+工具路径: https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/Tools/ascend_distribute
+
+
+- 8p训练
+```
+python3 $path/distrbute_npu.py --np 8 --env 10.10.10.10:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
+```
+
+
+- 16p训练
+
+```
+python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train_command "bash train_performance_distribute.sh --data_path=/npu/traindata"
+```
 
 <h2 id="迁移学习指导.md">高级参考</h2>
 
