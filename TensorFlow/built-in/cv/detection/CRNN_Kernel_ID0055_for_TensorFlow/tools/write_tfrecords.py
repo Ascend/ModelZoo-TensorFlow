@@ -12,7 +12,7 @@ import argparse
 import os
 import os.path as ops
 import sys
-sys.path.append('/opt/npu/m00536736/OCR/CRNN/CRNN_NPU/')
+sys.path.append('./../')
 #from data_provider import shadownet_data_feed_pipline
 import shadownet_data_feed_pipline
 
