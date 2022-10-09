@@ -46,7 +46,7 @@
     
         ```
         https://gitee.com/ascend/ModelZoo-TensorFlow/blob/master/TensorFlow/built-in/cv/image_classification/ShufflenetV2_ID0371_For_Tensorflow
-
+    
         ```
 
 
@@ -60,7 +60,7 @@
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
         ```
 
-## 默认配置 <a name="section91661242121611"></a>
+#### 默认配置 <a name="section91661242121611"></a>
 
 -   训练超参（单卡）：
     -   Batch size: 128
@@ -70,7 +70,7 @@
     -   Train epoch: 133
 
 
-## 支持特性 <a name="section1899153513554"></a>
+#### 支持特性 <a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -79,17 +79,15 @@
 | 数据并行   | 是       |
 
 
-## 混合精度训练 <a name="section168064817164"></a>
+#### 混合精度训练 <a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度【深加工】<a name="section20779114113713"></a>
+#### 开启混合精度
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
 
 相关代码示例。
-
-
 
 ```
 run_config = NPURunConfig(
@@ -135,11 +133,11 @@ run_config = NPURunConfig(
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 模型训练使用imagenet2012数据集，数据集请用户自行获取。
+- 模型训练使用imagenet2012数据集，数据集请用户自行获取。
 
-2. 这里是列表文本数据集训练前需要做预处理操作。
+- 这里是列表文本数据集训练前需要做预处理操作。
 
    ```
    python explore_imagenet.py
@@ -158,9 +156,9 @@ run_config = NPURunConfig(
    (说明：数据集预处理部分numpy的版本不能高于1.6.2或者在create_tfrecords.py里np.load()里添加参数allow_pickle=True）
    ```
 
-3. 这里是列表文本数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+- 这里是列表文本数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
-## 模型训练 <a name="section715881518135"></a>
+#### 模型训练 <a name="section715881518135"></a>
 - 下载训练脚本。
 - 检查是否有存在8卡IP的json配置文件“8p.json”。
   
@@ -196,10 +194,9 @@ run_config = NPURunConfig(
         bash test/train_full_1p.sh 
         ```
         
-
-   3. 8卡训练 
-
-        3.1 8卡训练指令（脚本位于ShuffleNetV2_ID0371_For_Tensorflow/test/train_full_8p.sh），示例如下。
+3. 8卡训练 
+   
+     3.1 8卡训练指令（脚本位于ShuffleNetV2_ID0371_For_Tensorflow/test/train_full_8p.sh），示例如下。
         
         ```
         bash test/train_full_8p.sh 
@@ -211,7 +208,7 @@ run_config = NPURunConfig(
 
 ## 高级参考 
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
     ├-- README.md                            #说明文档
     ├-- requirements.txt						 #依赖
@@ -221,10 +218,10 @@ run_config = NPURunConfig(
           |--......
 
 
-   
 
 
-## 脚本参数 <a name="section6669162441511"></a>
+
+#### 脚本参数 <a name="section6669162441511"></a>
 
 ```
     --data_dir                        train data dir, default : path/to/data
@@ -249,6 +246,6 @@ run_config = NPURunConfig(
     --rank_size                       number of npus to use, default : 1
 ```
 
-## 训练过程 <a name="section1589455252218"></a>
+#### 训练过程 <a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。模型存储路径为curpath/output/ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以8卡训练为例，loss信息在文件curpath/output/{ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
