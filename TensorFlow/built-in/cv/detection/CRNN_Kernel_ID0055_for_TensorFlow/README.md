@@ -36,7 +36,7 @@ reference implementation:  <https://github.com/MaybeShewill-CV/CRNN_Tensorflow>
 ### Default configuration
 
 The following sections introduce the default configurations and hyperparameters for CRNN  model. We reproduce training setups 
-on synth90k datasets, evaluate on three datasets: IIIT5K, ICDAR2003 and SVT. See [Results](#results) for details.
+and evaluate on three datasets: IIIT5K, ICDAR2003 and SVT. See [Results](#results) for details.
 
 For detailed hpyerparameters, please refer to corresponding scripts under directory `scripts/` and 
 #### Optimizer
@@ -75,9 +75,9 @@ cd  ModelZoo_CRNN_TF/
 
 ### 2. Download and preprocess the dataset
 
-You can use any datasets as you wish. Here, we only  synth90k dataset as an example to illustrate the data generation. 
+You can use any datasets as you wish. Here, we use IIIT5K, ICDAR2003 and SVT dataset as an example to illustrate the data generation. 
 
-1. Download the synth90k, IIIT5K, ICDAR2003 and SVT datasets and put them under `./data`. 
+1. Download the  IIIT5K, ICDAR2003 and SVT datasets and put them under `./data`. 
 2. go to  `/data` directory and unzip the datasets
 
 
@@ -86,13 +86,16 @@ bash prepare_ds.sh
 ``` 
 After data preparation, the directory of  `data/` looks like following structure:
 
+```
 |-- data/
 |     |-- char_dict/
-|     |-- mnt/
 |     |-- images/
 |     |-- test/
 |     |-- tfrecords/
+```
 
+If you wish, the network can also support synth90k dataset training. Place synth90k dataset file in `data/`  and refer to the source link:
+<https://github.com/MaybeShewill-CV/CRNN_Tensorflow>
 
 ### 3. Train
 
