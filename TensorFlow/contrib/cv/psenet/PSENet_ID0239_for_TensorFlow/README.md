@@ -60,7 +60,7 @@ PSENet_ID0359_for_Tensorflow是一种基于语义分割的文字框检测模型�
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练数据集预处理（以ImageNet2012训练集为例，仅作为用户参考示例）：
 
@@ -73,7 +73,7 @@ PSENet_ID0359_for_Tensorflow是一种基于语义分割的文字框检测模型�
   - Train_step: 100000
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -81,15 +81,15 @@ PSENet_ID0359_for_Tensorflow是一种基于语义分割的文字框检测模型�
 | 混合精度  | 是    |
 | 并行数据  | 否    |
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
 
-
+```
   run_config = NPURunConfig(        
   		model_dir=flags_obj.model_dir,        
   		session_config=session_config,        
@@ -106,6 +106,7 @@ PSENet_ID0359_for_Tensorflow是一种基于语义分割的文字框检测模型�
   opt = NPUDistributedOptimizer(opt)
   loss_scale_manager = FixedLossScaleManager(loss_scale=FLAGS.loss_scale)
   rank_size = int(os.getenv('RANK_SIZE'))
+```
 
 	if rank_size > 1:
 		opt = NPULossScaleOptimizer(opt, loss_scale_manager, is_distributed=True)
@@ -144,11 +145,11 @@ PSENet_ID0359_for_Tensorflow是一种基于语义分割的文字框检测模型�
 
 ## 快速上手
 
-- 数据集准备
+#### 数据集准备
 
-   请参考“概述”->“参考实现”
+请参考“概述”->“参考实现”
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -183,7 +184,7 @@ PSENet_ID0359_for_Tensorflow是一种基于语义分割的文字框检测模型�
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```shell
 ├── checkpoint        ----存放训练ckpt的路径
@@ -218,7 +219,7 @@ PSENet_ID0359_for_Tensorflow是一种基于语义分割的文字框检测模型�
     └── utils_tool.py
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --Rank_Size              使用NPU卡数量，默认：1
@@ -230,7 +231,7 @@ PSENet_ID0359_for_Tensorflow是一种基于语义分割的文字框检测模型�
 ```
 
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动性能或者精度训练。性能和精度通过运行不同脚本，支持性能、精度网络训练。
 
