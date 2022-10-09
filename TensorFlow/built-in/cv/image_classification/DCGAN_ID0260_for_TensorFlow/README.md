@@ -50,7 +50,7 @@ DCGAN全称[Deep Convolutional Generative Adversarial Networks](https://arxiv.or
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练数据集预处理（以MINIST训练集为例，仅作为用户参考示例）：
 
@@ -65,7 +65,7 @@ DCGAN全称[Deep Convolutional Generative Adversarial Networks](https://arxiv.or
   - Train epoch: 145
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -105,11 +105,12 @@ DCGAN全称[Deep Convolutional Generative Adversarial Networks](https://arxiv.or
 
 ## 快速上手
 
-- 数据集准备
-1. 模型训练使用MINIST数据集，数据集请用户自行获取,可以参考源链接里的MINIST_data文件夹下的数据集。
+#### 数据集准备
+
+- 模型训练使用MINIST数据集，数据集请用户自行获取,可以参考源链接里的MINIST_data文件夹下的数据集。
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -140,7 +141,7 @@ DCGAN全称[Deep Convolutional Generative Adversarial Networks](https://arxiv.or
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 ├── README.md                                 //代码说明文档
@@ -149,7 +150,7 @@ DCGAN全称[Deep Convolutional Generative Adversarial Networks](https://arxiv.or
 │    ├──train_full_1p.sh                           //单卡运行启动脚本
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --train_epochs 训练epoch数，默认145
@@ -158,8 +159,3 @@ DCGAN全称[Deep Convolutional Generative Adversarial Networks](https://arxiv.or
 --precision_mode 精度模式，默认allow_fp32_to_fp16
 ```
 
-## 训练过程<a name="section1589455252218"></a>
-
-```
-无
-```

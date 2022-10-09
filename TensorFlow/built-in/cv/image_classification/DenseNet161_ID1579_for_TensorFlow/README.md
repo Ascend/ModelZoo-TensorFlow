@@ -28,7 +28,7 @@
 
 **描述（Description）：基于TensorFlow框架的DenseNet-161图像分类网络训练代码** 
 
-## 概述
+#### 概述
 
 DenseNet-161是一个经典的图像分类网络，主要特点是采用各层两两相互连接的Dense Block结构。DenseNet能有效缓解梯度消失，促进特征传递和复用。 
 
@@ -43,9 +43,9 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
 - 适配昇腾 AI 处理器的实现：
           
   https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/DenseNet161_ID1579_for_TensorFlow
-        
+  
 - 通过Git获取对应commit\_id的代码方法如下：
-    
+  
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -54,7 +54,7 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练数据集预处理
   请参考"概述"->"参考实现"。
@@ -71,7 +71,7 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
   - Train epoch: 150
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -79,11 +79,11 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
 | 混合精度  | 是    |
 | 并行数据  | 是    |
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
 
@@ -133,15 +133,16 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
 
 ## 快速上手
 
-- 数据集准备
-1. 模型训练使用ImageNet2012数据集，数据集请用户自行获取。
+#### 数据集准备
 
-2. 数据集训练前需要做预处理操作，请用户参考[Tensorflow-Slim](https://github.com/tensorflow/models/tree/master/research/slim),将数据集封装为tfrecord格式。
+- 模型训练使用ImageNet2012数据集，数据集请用户自行获取。
 
-3. 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
-   
+- 数据集训练前需要做预处理操作，请用户参考[Tensorflow-Slim](https://github.com/tensorflow/models/tree/master/research/slim),将数据集封装为tfrecord格式。
 
-## 模型训练<a name="section715881518135"></a>
+- 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+
+
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -168,12 +169,13 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
      ```
      bash train_performance_1p.sh
      ```
-	 
-	 启动单卡精度训练 （脚本为DenseNet121_for_TensorFlow/test/train_full_1p.sh） 
-
+     
+     启动单卡精度训练 （脚本为DenseNet121_for_TensorFlow/test/train_full_1p.sh）
+     
      ```
      bash train_full_1p.sh
      ```
+
 - 8卡训练
 
   1. 配置训练参数。
@@ -191,7 +193,7 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
      ```
      bash train_performance_8p.sh
      ```
-	 
+		
      启动8卡精度训练 （脚本为DenseNet121_for_TensorFlow/test/train_full_8p.sh） 
 
      ```
@@ -202,7 +204,7 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 ├── train.py                                  //网络训练与测试代码
@@ -226,7 +228,7 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
 │    ├──env.sh                               //环境配置    
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --rank_size              使用NPU卡数量，默认：1
@@ -255,13 +257,13 @@ DenseNet-161是一个经典的图像分类网络，主要特点是采用各层�
 
 说明：当前8卡默认模式为train_and_evaluate，每训练epochs_between_evals（5）个epoch测试1次，共训练max_epochs（150）个epoch；可选模式：train，训练max_train_steps次；evaluate模式，对eval_dir目录下的ckpt进行测试。
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动性能或者精度训练。单卡和多卡通过运行不同脚本，支持单卡、8卡网络训练。
 
 2.  参考脚本的模型存储路径为model_1p或者model_8p_*/.
 
-## 推理/验证过程<a name="section1465595372416"></a>
+#### 推理/验证过程<a name="section1465595372416"></a>
 
 1.  通过“模型训练”中的测试指令启动测试。
 
