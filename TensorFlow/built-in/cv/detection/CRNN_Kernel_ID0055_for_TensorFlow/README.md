@@ -86,11 +86,13 @@ bash prepare_ds.sh
 ``` 
 After data preparation, the directory of  `data/` looks like following structure:
 
+```
 |-- data/
 |     |-- char_dict/
 |     |-- images/
 |     |-- test/
 |     |-- tfrecords/
+```
 
 If you wish, the network can also support synth90k dataset training. Place the dataset file `mnt` in `data/`  and refer to the source link:
 <https://github.com/MaybeShewill-CV/CRNN_Tensorflow>
