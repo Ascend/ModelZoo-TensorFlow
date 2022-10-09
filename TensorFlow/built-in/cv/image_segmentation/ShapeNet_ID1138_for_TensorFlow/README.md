@@ -31,7 +31,7 @@
 
 ## 概述
 
--    与通过定制的卷积算子捕获3D点云中的局部模式的文献相反，本文研究了如何有效地将此类点云投影到2D图像空间中的问题，从而使传统2D卷积神经网络（CNN） ）（例如U-Net）可用于细分。为此，我们受到图绘制的激励，并将其重新构造为整数编程问题，以了解每个单个点云的拓扑保留图到网格映射。为了在实践中加快计算速度，我们进一步提出了一种新颖的分层近似算法。
+与通过定制的卷积算子捕获3D点云中的局部模式的文献相反，本文研究了如何有效地将此类点云投影到2D图像空间中的问题，从而使传统2D卷积神经网络（CNN） ）（例如U-Net）可用于细分。为此，我们受到图绘制的激励，并将其重新构造为整数编程问题，以了解每个单个点云的拓扑保留图到网格映射。为了在实践中加快计算速度，我们进一步提出了一种新颖的分层近似算法。
 
 - 参考论文：
 
@@ -42,7 +42,7 @@
     [https://github.com/Zhang-VISLab/Learning-to-Segment-3D-Point-Clouds-in-2D-Image-Space](https://github.com/Zhang-VISLab/Learning-to-Segment-3D-Point-Clouds-in-2D-Image-Space)
 
 - 适配昇腾 AI 处理器的实现：
-    
+  
     [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_segmentation/ShapeNet_ID1138_for_TensorFlow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_segmentation/ShapeNet_ID1138_for_TensorFlow)
 
 - 通过Git获取对应commit\_id的代码方法如下：
@@ -55,7 +55,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 -   网络结构
     -   优化器：Adam
     -   初始学习率：1e-4
@@ -70,7 +70,7 @@
     -   Train steps：15000
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -79,11 +79,11 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 相关代码示例。
 
 ```
@@ -108,10 +108,10 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 模型使用 shapenet_part_seg_hdf5_data 数据集，请用户自行下载，具体获取方法参见 ./ShapeNet_ID1138_for_TensorFlow/S0_download_data.sh。
-2. 获取数据集后，进行数据预处理，并将预处理后的数据放入模型目录下，在训练脚本中指定数据集路径，可正常使用。数据预处理和最终数据集文件结构示例如下：
+- 模型使用 shapenet_part_seg_hdf5_data 数据集，请用户自行下载，具体获取方法参见 ./ShapeNet_ID1138_for_TensorFlow/S0_download_data.sh。
+- 获取数据集后，进行数据预处理，并将预处理后的数据放入模型目录下，在训练脚本中指定数据集路径，可正常使用。数据预处理和最终数据集文件结构示例如下：
 ```
     # 数据预处理，详见：
     ./ShapeNet_ID1138_for_TensorFlow/S1_network_dataset_combination.py
@@ -124,7 +124,7 @@ pip3 install requirements.txt
     则 data_path=./ShapeNet_dataset 即可
 ```
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
   
@@ -138,7 +138,7 @@ pip3 install requirements.txt
     2. 单卡训练
        
         2.1 设置单卡训练参数（脚本位于./ShapeNet_ID1138_for_TensorFlow/test/train_full_1p.sh），示例如下。
- 
+
         
         ```
         # 训练epoch
@@ -151,12 +151,10 @@ pip3 install requirements.txt
         data_path=./ShapeNet_dataset
         ```
         
-        
-        
         2.2 单卡训练指令（脚本位于./ShapeNet_ID1138_for_TensorFlow/test/train_full_1p.sh） 
-
+        
         ```
-        于终端中运行export ASCEND_DEVICE_ID=0 (0~7)以指定单卡训练时使用的卡
+于终端中运行export ASCEND_DEVICE_ID=0 (0~7)以指定单卡训练时使用的卡
         bash train_full_1p.sh --data_path=xx
         数据集应有如下结构（数据切分可能不同），配置data_path时需指定为data这一层，例：--data_path=/home/ShapeNet_dataset
         ├── ShapeNet_dataset
@@ -177,7 +175,7 @@ pip3 install requirements.txt
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
     ├── README.md                                //说明文档
     ├── requirements.txt                         //依赖
@@ -187,7 +185,7 @@ pip3 install requirements.txt
     ├── S2_network_training.py			 // 训练入口脚本
 
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 batch_size                                       训练batch_size
@@ -196,7 +194,7 @@ train_epochs                                     总训练epoch数
 train_steps                                      总训练steps数
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡训练。
 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。

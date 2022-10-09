@@ -30,7 +30,7 @@
 
 ## 概述
 
-- EDVR：使用增强的可变形卷积网络进行视频恢复.
+EDVR：使用增强的可变形卷积网络进行视频恢复.
 
 - 参考论文：
 
@@ -41,14 +41,13 @@
     https://github.com/xinntao/EDVR
    
 - 适配昇腾 AI 处理器的实现：
-    
-    
+  
+  
      https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/Video_enhancement/EDVR_ID0056_for_TensorFlow
-        
-
+     
 - 通过Git获取对应commit_id的代码方法如下:
-    
-    
+  
+  
         git clone {repository_url}    # 克隆仓库的代码
         cd {repository_name}    # 切换到模型的代码仓目录
         git checkout  {branch}    # 切换到对应分支
@@ -56,7 +55,7 @@
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 网络结构 
     -   单卡batchsize：4
@@ -85,7 +84,7 @@
     这一步会将验证集（val_sharp和val_sharp_bicubic）合并到对应的初始训练集中。验证集部分将被重命名为序列240-269，并附在原训练集之后。因此总共有270个视频序列，每个 
     视频序列有100帧。
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -94,11 +93,11 @@
 | 数据并行   | 是       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
  混合精度训练昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
     config = tf.ConfigProto()
     custom_op =  config.graph_options.rewrite_options.custom_optimizers.add()
@@ -137,7 +136,7 @@
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
   - 请用户自行准备REDS4数据数据集。
 
@@ -160,12 +159,12 @@
     这一步会将验证集（val_sharp和val_sharp_bicubic）合并到对应的初始训练集中。验证集部分将被重命名为序列240-269，并附在原训练集之后。因此总共有270个视频序列，每个 
     视频序列有100帧。
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
 - 开始训练  
-   
+  
     1.启动训练之前，首先要配置程序运行相关环境变量。
 
     环境变量配置信息参见：
@@ -228,7 +227,6 @@
             `-- val.json
         ```
 
-    
 -   模型训练。
 
     参考“模型训练”中训练步骤。
@@ -239,7 +237,7 @@
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```sh
 edvr
@@ -280,7 +278,7 @@ edvr
 ```
 
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
     -   单卡batchsize：4
@@ -288,7 +286,7 @@ edvr
     -   mnum_threads: 8  
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。 
 2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。 

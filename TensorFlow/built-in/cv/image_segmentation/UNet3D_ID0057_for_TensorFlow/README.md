@@ -9,17 +9,17 @@
 
 ## 基本信息
 
-**发布者（Publisher）：Huawei
-**应用领域（Application Domain）： Instance Segmentation
-**版本（Version）：1.1
-**修改时间（Modified）：2021.7.19
-**大小（Size）：664K
-**框架（Framework）：TensorFlow 1.15.0
-**模型格式（Model Format）：ckpt
-**精度（Precision）：Mixed
-**处理器（Processor）：昇腾910
-**应用级别（Categories）：Research
-**描述（Description）：利用unet网络进行医学图像分割训练代码
+**发布者（Publisher）：Huawei**
+**应用领域（Application Domain）： Instance Segmentation**
+**版本（Version）：1.1**
+**修改时间（Modified）：2021.7.19**
+**大小（Size）：664K**
+**框架（Framework）：TensorFlow 1.15.0**
+**模型格式（Model Format）：ckpt**
+**精度（Precision）：Mixed**
+**处理器（Processor）：昇腾910**
+**应用级别（Categories）：Research**
+**描述（Description）：利用unet网络进行医学图像分割训练代码**
 
 
 ## 概述
@@ -39,7 +39,7 @@
     https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_segmentation/UNet3D_ID0057_for_TensorFlow
   
 - 通过Git获取对应commit\_id的代码方法如下：
-    
+  
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -48,7 +48,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练数据集预处理（以ImageNet2012训练集为例，仅作为用户参考示例）：
 
@@ -61,7 +61,7 @@
   - model_dir:result
   - max_steps=80 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -69,14 +69,16 @@
 | 混合精度  | 是    |
 | 并行数据  | 是    |
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
- run_config = NPURunConfig(
+
+```
+run_config = NPURunConfig(
         hcom_parallel=True,
         precision_mode="allow_fp32_to_fp16",
         enable_data_pre_proc=True,
@@ -85,6 +87,7 @@
         iterations_per_loop=iteration_loop_value,
         keep_checkpoint_max=5
     )
+```
 
   
 
@@ -119,11 +122,11 @@
 
 ## 快速上手
 
-- 数据集准备
+#### 数据集准备
 
-   请参考“概述”->“参考实现”
+请参考“概述”->“参考实现”
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -168,7 +171,7 @@
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 
@@ -191,7 +194,7 @@
 
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --Rank_Size              使用NPU卡数量，默认：1
@@ -202,7 +205,7 @@
 ```
 
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡、8卡网络训练。
 

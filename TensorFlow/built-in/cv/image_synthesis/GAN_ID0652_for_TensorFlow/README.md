@@ -21,36 +21,29 @@
 - 描述（Description）：基于TensorFlow框架的GAN学习算法训练代码
 
 ## 概述
--     生成式对抗网络（GAN, Generative Adversarial Networks ）是一种[深度学习](https://baike.baidu.com/item/深度学习/3729729)[模型](https://baike.baidu.com/item/模型/1741186)，是近年来复杂分布上[无监督学习](https://baike.baidu.com/item/无监督学习/810193)最具前景的方法之一。模型通过框架中（至少）两个模块：生成模型（Generative Model）和判别模型（Discriminative Model）的互相[博弈](https://baike.baidu.com/item/博弈/4669968)学习产生相当好的输出。 
+GAN，全称Generative Adversarial Nets，中文名是生成对抗式网络；它是一种[深度学习](https://baike.baidu.com/item/深度学习/3729729)[模型](https://baike.baidu.com/item/模型/1741186)，是近年来复杂分布上[无监督学习](https://baike.baidu.com/item/无监督学习/810193)最具前景的方法之一。模型通过框架中（至少）两个模块：生成模型（Generative Model）和判别模型（Discriminative Model）的互相[博弈](https://baike.baidu.com/item/博弈/4669968)学习产生相当好的输出。
 
--   参考实现：
-    
-        ```
-        https://github.com/bojone/gan
-        ```
-    
--   适配昇腾 AI 处理器的实现
-    
-  
-    ````
-    ```
-    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_synthesis/GAN_ID0652_for_TensorFlow
-    ```
-    ````
-    
-    
-    
+- 参考论文
+
+  https://paperswithcode.com/method/gan
+
+- 参考实现：
+
+  https://github.com/bojone/gan
+
+- 适配昇腾 AI 处理器的实现：
+
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_synthesis/GAN_ID0652_for_TensorFlow
+
 -   通过Git获取对应commit\_id的代码方法如下：
     
-        ```
         git clone {repository_url}    # 克隆仓库的代码
         cd {repository_name}    # 切换到模型的代码仓目录
         git checkout  {branch}    # 切换到对应分支
         git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
-        ```
 
-### 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 -   网络结构
     -   初始学习率为1e-4
     -   优化器：RMSprop
@@ -73,7 +66,7 @@
     -   Train epoch: 15
 
 
-### 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -82,11 +75,11 @@
 | 数据并行   | 否       |
 
 
-### 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-### 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 相关代码示例
 
 ```
@@ -128,15 +121,18 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_
 
 
 ## 快速上手
-### 数据集准备
+#### 数据集准备
 
-1.模型训练使用**MNIST_data**数据集，数据集请用户自行获取，或者参考链接https://github.com/bojone/gan中获取
+- 模型训练使用**MNIST_data**数据集，数据集请用户自行获取，或者参考链接https://github.com/bojone/gan中获取
 
-2.参考链接里的数据集训练前需要做预处理操作，将压缩包解压并提取png文件
 
-3.数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用
+- 参考链接里的数据集训练前需要做预处理操作，将压缩包解压并提取png文件
 
-### 模型训练<a name="section715881518135"></a>
+
+- 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用
+
+
+#### 模型训练<a name="section715881518135"></a>
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 启动训练之前，首先要配置程序运行相关环境变量。
 
@@ -146,23 +142,21 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_
 
 - 单卡训练
 
-  - 配置训练参数
-
-  首先在test/train_full_1p.sh中配置训练数据集路径，请用户根据实际路径配置
+  配置训练参数，首先在test/train_full_1p.sh中配置训练数据集路径，请用户根据实际路径配置
 
   ```
   --data_dir=/opt/npu/mnistdata
   ```
 
-  - 启动单卡训练 （脚本为GAN_ID0652_for_TensorFlow/test/train_full_1p.sh） 
+  启动单卡训练 （脚本为GAN_ID0652_for_TensorFlow/test/train_full_1p.sh） 
 
-    ```
-    bash train_full_1p.sh
-    ```
+  ```
+  bash train_full_1p.sh
+  ```
 
 ## 高级参考
 
-### 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
     ├── README.md                                //说明文档
     ├── requirements.txt						 //依赖
@@ -171,7 +165,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_
     ├──imle.py                   	         //入口训练脚本
 
 
-### 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
     --data_path                       train data dir, default : path/to/data
@@ -179,12 +173,3 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_
     --batch_size                      mini-batch size ,default: 128 
     --precision_mode                  precision_mode,default:allow_fp32_to_fp16
 ```
-
-### 训练过程<a name="section1589455252218"></a>
-
-NA
-
-
-### 推理/验证过程<a name="section1465595372416"></a>
-
-NA

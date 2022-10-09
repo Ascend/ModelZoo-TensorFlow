@@ -30,7 +30,7 @@
 **描述（Description）：基于TensorFlow框架的ModelsGenesis网络训练代码**
 
 ## 概述
-- “Generic Autodidactic Models” 是一组预先训练好的模型，简称 “Models Genesis”。它们是在 nihilo（无需手动标记）、self-taught（自我监督学习）和 generic（用于生成特定于应用程序的目标模型的源模型）之前创建的。在注释数据有限的情况下，“Models Genesis”可以作为3D医学成像应用的转移学习的主要来源。
+“Generic Autodidactic Models” 是一组预先训练好的模型，简称 “Models Genesis”。它们是在 nihilo（无需手动标记）、self-taught（自我监督学习）和 generic（用于生成特定于应用程序的目标模型的源模型）之前创建的。在注释数据有限的情况下，“Models Genesis”可以作为3D医学成像应用的转移学习的主要来源。
 
 - 参考论文：
 
@@ -46,7 +46,7 @@
 
 
 - 通过Git获取对应commit_id的代码方法如下:
-    
+  
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -55,7 +55,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 -   网络结构
     -   初始学习率：0.04
     -   优化器：SGD
@@ -78,7 +78,7 @@
     -   Train epoch: 10
 
 
-## 支持特性 <a name="section1899153513554"></a>
+#### 支持特性 <a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -87,11 +87,11 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 相关代码示例。
 
 ```
@@ -130,11 +130,11 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
-1. 模型训练使用Self_Learning_Cubes_1.0数据集，数据集请用户自行获取。
-2. 获取数据集后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+#### 数据集准备<a name="section361114841316"></a>
+- 模型训练使用Self_Learning_Cubes_1.0数据集，数据集请用户自行获取。
+- 获取数据集后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 - 单击“立即下载”，并选择合适的下载方式下载源码包
 - 开始训练
   
@@ -148,21 +148,16 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
     2. 单卡训练
        
         2.1 设置单卡训练参数（脚本位于./ModelsGenesis_ID0902_for_TensorFlow/test/train_full_1p.sh），示例如下。
-            
         
-            ```
             # 训练epoch
-	        train_epochs=10
-	        # 训练batch_size
+            train_epochs=10
+            # 训练batch_size
 	        batch_size=6
 	        # 训练step
 	        train_steps=200
-        ```
-        2.2 单卡训练指令（脚本位于./ModelsGenesis_ID0902_for_TensorFlow/test/train_full_1p.sh） 
-            
-        ```
+	    2.2 单卡训练指令（脚本位于./ModelsGenesis_ID0902_for_TensorFlow/test/train_full_1p.sh） 
+	    
             bash train_full_1p.sh
-            ```
 
 ## 迁移学习指导
 
@@ -179,7 +174,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
     .
     ├── LICENSE
@@ -193,7 +188,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
     └── Genesis_Chest_CT.py						            // 训练入口脚本
 
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 
@@ -203,7 +198,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 --learning_rate                                learning_rate
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。

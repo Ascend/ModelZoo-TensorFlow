@@ -30,7 +30,8 @@
 
 ## 概述
 
-	LeNet是由2019年图灵奖获得者Yann LeCun、Yoshua Bengio于1998年提出(Gradient-based learning applied to document recognition)，它也被认为被认为是最早的卷积神经网络模型。
+LeNet是由2019年图灵奖获得者Yann LeCun、Yoshua Bengio于1998年提出(Gradient-based learning applied to document recognition)，它也被认为被认为是最早的卷积神经网络模型。
+
 原始的LeNet是一个5层的卷积神经网络，它主要包括两部分：卷积层，全连接层。本网络的LeNet用于对图片中手写数字进行识别分类。
 
 - 参考论文：
@@ -42,14 +43,14 @@
     https://github.com/Jackpopc/aiLearnNotes/blob/master/computer_vision/LeNet.py 
 
 - 适配昇腾 AI 处理器的实现：
-    
-        
+  
+  
   https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/LeNet_ID0127_for_TensorFlow
         
 
 
 - 通过Git获取对应commit\_id的代码方法如下：
-    
+  
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -58,7 +59,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练数据集预处理（以MNIST训练集为例，仅作为用户参考示例）：
 
@@ -77,7 +78,7 @@
   - Train step: 1000
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -85,11 +86,11 @@
 | 混合精度  | 是    |
 | 并行数据  | 是    |
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
 
@@ -130,27 +131,33 @@
 
 ## 快速上手
 
-- 数据集准备
-1. 模型训练使用MNIST数据集，数据集请用户自行获取。
+#### 数据集准备
 
-## 模型训练<a name="section715881518135"></a>
+- 模型训练使用MNIST数据集，数据集请用户自行获取。
+
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
+
 - 开始训练。
     1. 启动训练之前，首先要配置程序运行相关环境变量。
 
       环境变量配置信息参见：
 
-         [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/01.%E8%AE%AD%E7%BB%83%E8%84%9A%E6%9C%AC%E8%BF%81%E7%A7%BB%E6%A1%88%E4%BE%8B/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE)
+     [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/01.%E8%AE%AD%E7%BB%83%E8%84%9A%E6%9C%AC%E8%BF%81%E7%A7%BB%E6%A1%88%E4%BE%8B/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE)
 
       单卡训练需要配置指定运行的卡的环境变量：
-        export ASCEND_DEVICE_ID=X
-        其中：X=0~7
-
+    
+    ```
+ export ASCEND_DEVICE_ID=X
+     其中：X=0~7
+```
+    
     2. 单卡训练 
-
+    
         ```
         bash train_full_1p.sh --data_path=../MNIST
+        ```
         ```
         其中：xxx是数据集的路径，例如, 数据集下载、解压后的路径为"/home/data"，目录结构如下：
            |--data 
@@ -159,24 +166,27 @@
            |        |--t10k-labels-idx1-ubyte
            |        |--train-images-idx3-ubyte
            |        |--train-labels-idx1-ubyte
-          
+        
          此时，xxx=/home/data/MNIST
+        ```
+        
+        
 
 
 ## 迁移学习指导
 
-- 数据集准备。
+#### 数据集准备。
 
-  数据集要求如下：
+数据集要求如下：
 
-  1. 获取数据。
+1. 获取数据。
 
-     如果要使用自己的数据集，需要将数据集放到脚本参数data_path对应目录下。参考代码中的数据集存放路径如下：
+   如果要使用自己的数据集，需要将数据集放到脚本参数data_path对应目录下。参考代码中的数据集存放路径如下：
 
-     - 训练集： /opt/npu/MNIST
-     - 测试集： /opt/npu/MNIST
+   - 训练集： /opt/npu/MNIST
+   - 测试集： /opt/npu/MNIST
 
-     数据集也可以放在其它目录，则修改对应的脚本入参data_path即可。
+   数据集也可以放在其它目录，则修改对应的脚本入参data_path即可。
 
 
   2. 数据集文件结构，目录参考：
@@ -188,34 +198,33 @@
             |  train-labels-idx1-ubyte.gz
         ```
 
+#### 加载预训练模型。 
 
-- 加载预训练模型。 
-    1. 配置文件参数，修改文件LeNet.py，增加以下参数。
-	
-        ```
-        parser.add_argument('--restore_path', default='/output/ckpt_npu/model.ckpt-100',
-        help="""restore path""")            #配置预训练ckpt路径		
-        parser.add_argument('--restore_exclude', default=['linear/'],
-        help="""restore_exclude""")     #不加载预训练网络中FC层权重
-        ```
+1. 配置文件参数，修改文件LeNet.py，增加以下参数。
 
+    ```
+    parser.add_argument('--restore_path', default='/output/ckpt_npu/model.ckpt-100',
+    help="""restore path""")            #配置预训练ckpt路径		
+    parser.add_argument('--restore_exclude', default=['linear/'],
+    help="""restore_exclude""")     #不加载预训练网络中FC层权重
+    ```
 
-    2. 模型加载修改，修改文件LeNet.py ，增加以下代码行。
+2. 模型加载修改，修改文件LeNet.py ，增加以下代码行。
    
-        ```
-        assert (mode == tf.estimator.ModeKeys.TRAIN)
-        variables_to_restore = tf.contrib.slim.get_variables_to_restore(exclude=self.args.restore_exclude)
-        tf.train.init_from_checkpoint(self.args.restore_path,{v.name.split(':')[0]: v for v in variables_to_restore})
-        ```
+    ```
+    assert (mode == tf.estimator.ModeKeys.TRAIN)
+    variables_to_restore = tf.contrib.slim.get_variables_to_restore(exclude=self.args.restore_exclude)
+    tf.train.init_from_checkpoint(self.args.restore_path,{v.name.split(':')[0]: v for v in variables_to_restore})
+    ```
 
--   模型训练。
+#### 模型训练。
 
-    参考“模型训练”中训练步骤。
+参考“模型训练”中训练步骤。
 
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 ├── LeNet.py                                  //网络训练与测试代码
@@ -230,7 +239,7 @@
 
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path              数据集路径，默认：path/data
@@ -240,7 +249,7 @@
 --epochs                 训练epcoh数量，默认：5
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动单卡卡训练。
 

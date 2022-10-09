@@ -30,9 +30,9 @@
 
 ## 概述
 
-    在自然语言处理领域中，预训练语言模型（Pre-trained Language Models）已成为非常重要的基础技术。
-    为了进一步促进中文信息处理的研究发展，基于全词遮罩（Whole Word Masking）技术的中文预训练模型BERT-wwm应运而生，
-    以及与此技术密切相关的模型：BERT-wwm-ext，RoBERTa-wwm-ext，RoBERTa-wwm-ext-large, RBT3, RBTL3。
+在自然语言处理领域中，预训练语言模型（Pre-trained Language Models）已成为非常重要的基础技术。
+为了进一步促进中文信息处理的研究发展，基于全词遮罩（Whole Word Masking）技术的中文预训练模型BERT-wwm应运而生，
+以及与此技术密切相关的模型：BERT-wwm-ext，RoBERTa-wwm-ext，RoBERTa-wwm-ext-large, RBT3, RBTL3。
 
 - 参考论文：
   
@@ -54,7 +54,7 @@
       git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
       cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
 
-## 默认配置
+#### 默认配置
 
 - 网络结构
 
@@ -65,7 +65,7 @@
     - Batch size: 32
     - max_seq_length: 128
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -73,11 +73,11 @@
 | 混合精度   | 是       |
 | 数据并行   | 否       |
 
-## 混合精度训练
+#### 混合精度训练
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度
+#### 开启混合精度
 
 
 ```
@@ -102,12 +102,12 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 用户需自行准备训练数据集，例如XNLI数据，可参考github源。
-2. 用户需提前下载预训练模型，参考github源里提供的RoBERTa-wwm-ext-large等模型下载方式
+- 用户需自行准备训练数据集，例如XNLI数据，可参考github源。
+- 用户需提前下载预训练模型，参考github源里提供的RoBERTa-wwm-ext-large等模型下载方式
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练    
@@ -143,27 +143,26 @@ pip3 install requirements.txt
     
        ```
        --do_eval=true
-
-       ```
+```
 
 ## 迁移学习指导
 
-- 数据集准备。
+#### 数据集准备。
 
-    1.  获取数据。
-        请参见“快速上手”中的数据集准备。
-    
-- 模型训练。
+1.  获取数据。
+    请参见“快速上手”中的数据集准备。
 
-    参考“模型训练”中训练步骤。
+#### 模型训练。
 
-- 模型评估。
+参考“模型训练”中训练步骤。
 
-    参考“模型训练”中验证步骤。
+#### 模型评估。
+
+参考“模型训练”中验证步骤。
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
 .
@@ -195,23 +194,16 @@ Roberta_ID2366_for_TensorFlow/
 
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path  训练数据集路径
 --ckpt_path  预训练模型路径                       
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path、ckpt_path设置为训练数据集和预训练模的路径。具体的流程参见“模型训练”的示例。
 3. 模型存储路径为“curpath/output/ASCEND_DEVICE_ID”，包括训练的log文件。
 4. 以单卡训练为例，loss信息在文件curpath/output/{ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
-
-## 推理/验证过程<a name="section1465595372416"></a>
-
-```
- NA
-
-```
