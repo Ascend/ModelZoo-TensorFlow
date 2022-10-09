@@ -32,9 +32,7 @@
 
 ## 概述
 
-## 简述<a name="section194554031510"></a>
-
-    因子分解机(Factorization Machine, FM)是由Steffen Rendle提出的一种基于矩阵分解的机器学习算法。目前，被广泛的应用于广告预估模型中，相比LR而言，效果强了不少。是一种不错的CTR预估模型，也是我们现在在使用的广告点击率预估模型，比起著名的Logistic Regression, FM能够把握一些组合的高阶特征，因此拥有更强的表现力。
+因子分解机(Factorization Machine, FM)是由Steffen Rendle提出的一种基于矩阵分解的机器学习算法。目前，被广泛的应用于广告预估模型中，相比LR而言，效果强了不少。是一种不错的CTR预估模型，也是我们现在在使用的广告点击率预估模型，比起著名的Logistic Regression, FM能够把握一些组合的高阶特征，因此拥有更强的表现力。
 
 
   - 参考论文：
@@ -60,7 +58,7 @@
 
 
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 
 -   网络结构
@@ -81,7 +79,7 @@
     -   epoch：10；
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -89,11 +87,11 @@
 | 混合精度  | 是    |
 | 数据并行  | 否    |
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 相关代码示例。
 
 ```
@@ -118,17 +116,18 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-    采用Criteo数据集进行测试。数据集的处理见../data_process文件，主要分为：
-1. 考虑到Criteo文件过大，因此可以通过read_part和sample_sum读取部分数据进行测试；
-2. 对缺失数据进行填充；
-3. 对密集数据I1-I13进行离散化分桶（bins=100），对稀疏数据C1-C26进行重新编码LabelEncoder；
-4. 整理得到feature_columns；
-5. 切分数据集，最后返回feature_columns, (train_X, train_y), (test_X, test_y)；
+采用Criteo数据集进行测试。数据集的处理见../data_process文件，主要分为：
+
+- 考虑到Criteo文件过大，因此可以通过read_part和sample_sum读取部分数据进行测试；
+- 对缺失数据进行填充；
+- 对密集数据I1-I13进行离散化分桶（bins=100），对稀疏数据C1-C26进行重新编码LabelEncoder；
+- 整理得到feature_columns；
+- 切分数据集，最后返回feature_columns, (train_X, train_y), (test_X, test_y)；
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
   
@@ -162,7 +161,7 @@ pip3 install requirements.txt
                 │	├──demo.txt
                 │	├──.DS_Store
                 │	├──train.txt
-   
+         
         ```
 
 ## 迁移学习指导
@@ -178,7 +177,7 @@ pip3 install requirements.txt
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 
     |--modelzoo_level.txt                           #状态文件
@@ -196,7 +195,8 @@ pip3 install requirements.txt
     |	|--train_performance_1p.sh					#performance训练脚本
 
  
-## 脚本参数<a name="section6669162441511"></a>
+
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 batch_size                                       训练batch_size
@@ -216,7 +216,7 @@ fusion_off_file                                  type=str,help='fusion_off file 
 auto_tune                                        help='auto_tune flag, default is False'
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡训练。
 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。

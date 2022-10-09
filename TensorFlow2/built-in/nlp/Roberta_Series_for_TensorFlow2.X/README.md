@@ -30,8 +30,6 @@
 
 ## 概述
 
-## 简述<a name="section194554031510"></a>
-
 在自然语言处理领域中，预训练语言模型（Pre-trained Language Models）已成为非常重要的基础技术。为了进一步促进中文信息处理的研究发展，基于全词遮罩（Whole Word Masking）技术的中文预训练模型BERT-wwm应运而生，以及与此技术密切相关的模型：BERT-wwm-ext，RoBERTa-wwm-ext，RoBERTa-wwm-ext-large, RBT3, RBTL3。
 
 本项目包含两个场景：Roberta-pretrain与Roberta-finetune，两个场景共用本项目下的代码，通过./Roberta_Series_for_TensorFlow2.X/test路径下不同的脚本拉起训练，详见“脚本和示例代码”；两个场景所用的数据集并不相同，详见“数据集准备”。
@@ -57,7 +55,7 @@
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 -   网络结构：
     -   roberta-xlarge
@@ -73,7 +71,7 @@
     -   max_seq_length:128
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持（pretrain) | 是否支持(finetune) |
 | ---------- | ------------------- | ------------------ |
@@ -82,11 +80,11 @@
 | 数据并行   | 否                  | 否                 |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
@@ -124,40 +122,42 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1、Roberta-pretrain使用的数据集是通用语料数据，数据集路径：https://github.com/brightmart/nlp_chinese_corpus，请用户自行下载数据集。
+- Roberta-pretrain使用的数据集是通用语料数据，数据集路径：https://github.com/brightmart/nlp_chinese_corpus，请用户自行下载数据集。
 
-通过网络目录下的create_pretrain_data.sh脚本将原始的txt文本数据转化为tfrecord数据，请用户参考“参考实现”中的数据集转化方法进行转化，示例如下所示：
+  通过网络目录下的create_pretrain_data.sh脚本将原始的txt文本数据转化为tfrecord数据，请用户参考“参考实现”中的数据集转化方法进行转化，示例如下所示：
 
-```shell
-如将1到10个txt转化为tfrecord数据：
-nohup bash create_pretrain_data.sh 1 10 &
-注：在我们的实验中使用15%的比例做全词遮蔽，模型学习难度大、收敛困难，所以我们用了10%的比例
-```
+  ```
+  如将1到10个txt转化为tfrecord数据：
+  nohup bash create_pretrain_data.sh 1 10 &
+  注：在我们的实验中使用15%的比例做全词遮蔽，模型学习难度大、收敛困难，所以我们用了10%的比例
+  ```
 
-转化后的数据集目录参考如下：
+  转化后的数据集目录参考如下：
 
-```
-└──wiki_zh.tfrecord
-```
+  ```
+  └──wiki_zh.tfrecord
+  ```
 
-2、Roberta-finetune使用的数据集为XNLI数据集，请用户参考“参考实现”中的数据集下载链接自行下载
+  
 
-数据集目录参考如下：
+- Roberta-finetune使用的数据集为XNLI数据集，请用户参考“参考实现”中的数据集下载链接自行下载
 
-```
-├──README.md
-├──train.tf_record
-├──xnli.dev.jsonl
-├──xnli.dev.tsv
-├──xnli.test.jsonl
-├──xnli.test.tsv
-└──multinli
-	└──multinli.train.zh.tsv
-```
+  数据集目录参考如下：
 
-用户需自行下载预训练模型，请用户参考“参考实现”中的模型下载链接自行下载，本项目中使用的模型为 RoBERTa-wwm-ext-large 
+  ```
+  ├──README.md
+  ├──train.tf_record
+  ├──xnli.dev.jsonl
+  ├──xnli.dev.tsv
+  ├──xnli.test.jsonl
+  ├──xnli.test.tsv
+  └──multinli
+  	└──multinli.train.zh.tsv
+  ```
+
+  用户需自行下载预训练模型，请用户参考“参考实现”中的模型下载链接自行下载，本项目中使用的模型为 RoBERTa-wwm-ext-large 
 
 模型目录参考如下：
 
@@ -172,7 +172,7 @@ chinese_roberta_wwm_large_ext_L-24_H-1024_A-16
 
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -221,7 +221,7 @@ chinese_roberta_wwm_large_ext_L-24_H-1024_A-16
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
 ├──resources
@@ -251,7 +251,7 @@ chinese_roberta_wwm_large_ext_L-24_H-1024_A-16
 	└──train_ID3222_Roberta_Finetune_performance_1p.sh			#robert-finetune performance 1p脚本
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 1、Roberta-pretrain脚本参数
 
@@ -288,13 +288,9 @@ chinese_roberta_wwm_large_ext_L-24_H-1024_A-16
 --output_dir					# the path of saving outputs
 ```
 
+#### 训练过程<a name="section1589455252218"></a>
 
-
-## 训练过程<a name="section1589455252218"></a>
-
-```
 通过“模型训练”中的训练指令启动单卡或者多卡的full或performance训练。
 单卡和多卡通过运行不同脚本启动，支持Roberta-pretrain的单卡，8卡网络训练、Roberta-finetune的单卡网络训练。
 模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。
 以单卡训练为例，训练打屏日志在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
-```

@@ -55,7 +55,7 @@
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 -   网络结构：
     -   
@@ -77,7 +77,7 @@
     -   Use focal loss: False
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -86,11 +86,11 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
@@ -128,30 +128,30 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1、用户自行准备好数据集，本网络使用的数据集是基于redis_scrapy的爬虫获取的微博博主的微博评论、taptap上某款游戏的评论、百度贴吧帖子评论和applestory上api给的最近500条评论，详情请参考https://github.com/StanleyLsx/app_comments_spider
+- 用户自行准备好数据集，本网络使用的数据集是基于redis_scrapy的爬虫获取的微博博主的微博评论、taptap上某款游戏的评论、百度贴吧帖子评论和applestory上api给的最近500条评论，详情请参考https://github.com/StanleyLsx/app_comments_spider
 
-数据集目录参考如下：
+  数据集目录参考如下：
 
-```
-├──data
-│	├──data
-│	│	├──dev_data.csv
-│	│	├──token2id
-│	│	├──token2id_char
-│	│	└──train_data.csv
-│	└──w2v_data
-│		├──comments_data.csv
-│		└──stops_word.txt
-└──model
-	└──w2v_model
-		└──w2v_model.pkl
-```
+  ```
+  ├──data
+  │	├──data
+  │	│	├──dev_data.csv
+  │	│	├──token2id
+  │	│	├──token2id_char
+  │	│	└──train_data.csv
+  │	└──w2v_data
+  │		├──comments_data.csv
+  │		└──stops_word.txt
+  └──model
+  	└──w2v_model
+  		└──w2v_model.pkl
+  ```
 
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
@@ -173,7 +173,7 @@ pip3 install requirements.txt
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
 ├──LICENSE
@@ -191,7 +191,7 @@ pip3 install requirements.txt
 	└──train_performance_1p_dynamic.sh			#performance动态shape场景训练脚本
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path						# the path to train data
@@ -213,6 +213,6 @@ pip3 install requirements.txt
 --static						# if or not use static shape
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以8卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。

@@ -30,8 +30,6 @@
 
 ## 概述
 
-## 简述<a name="section194554031510"></a>
-
 BERT模型的全称是：BidirectionalEncoder Representations from Transformer。BERT模型的目标是利用大规模无标注语料训练、获得文本的包含丰富语义信息的Representation，即：文本的语义表示，然后将文本的语义表示在特定NLP任务中作微调，最终应用于该NLP任务。
 
 - 参考论文：
@@ -55,7 +53,7 @@ BERT模型的全称是：BidirectionalEncoder Representations from Transformer�
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 -   网络结构
     - 24-layer, 1024-hidden, 16-heads, 340M parameters
@@ -70,7 +68,7 @@ BERT模型的全称是：BidirectionalEncoder Representations from Transformer�
     - Train epoch: 32
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -79,11 +77,11 @@ BERT模型的全称是：BidirectionalEncoder Representations from Transformer�
 | 数据并行   | 是       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
@@ -121,17 +119,17 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1、用户自行准备好数据集，本网络包括Bert的Pre-training和Fine tuning任务
+- 用户自行准备好数据集，本网络包括Bert的Pre-training和Fine tuning任务
 
-2、Pre-training任务使用的数据集是wikipedia，Fine tuning使用的数据集是SQuAD 1.1 和 SQuAD 2.0
+- Pre-training任务使用的数据集是wikipedia，Fine tuning使用的数据集是SQuAD 1.1 和 SQuAD 2.0
 
-3、Bert训练的模型及数据集可以参考"简述 -> 参考实现"
+- Bert训练的模型及数据集可以参考"简述 -> 参考实现"
 
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
@@ -211,7 +209,7 @@ pip3 install requirements.txt
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
 |--LICENSE
@@ -230,7 +228,7 @@ pip3 install requirements.txt
 |	|--train_performance_squad2.0_large_bs24_1p.sh
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path						# the path to train data
@@ -253,6 +251,6 @@ pip3 install requirements.txt
 --fusion_off_file				# fusion_off file name, default is fusion_switch.cfg
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以8卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
