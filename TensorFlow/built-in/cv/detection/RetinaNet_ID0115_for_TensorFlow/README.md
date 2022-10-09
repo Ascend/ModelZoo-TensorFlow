@@ -41,7 +41,6 @@
 　　Focal loss for dense object detection
 
 　　https://arxiv.org/pdf/1708.02002.pdf
-    
 - 参考实现：
 
   https://github.com/MingtaoGuo/RetinaNet_TensorFlow
@@ -62,7 +61,7 @@
     ```
 
 
-### 默认配置
+#### 默认配置
 
 -   网络结构
     - resnet_v2_50
@@ -79,7 +78,7 @@
     -  LEARNING_RATE = 0.001 
 
 
-### 支持特性
+#### 支持特性
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -87,13 +86,11 @@
 | 混合精度  | 是|
 | 数据并行  | 是    |
 
-### 混合精度训练
+#### 混合精度训练
 
-```
 　　昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
-```
 
-### 开启混合精度
+#### 开启混合精度
    相关代码示例。　
 ```
    flags.DEFINE_string(name='precision_mode', default= 'allow_fp32_to_fp16',
@@ -134,12 +131,12 @@
 
 
 ## 快速上手
-### 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 训练使用数据集 [VOC2007]，参考github源代码提供的路径下载。
-2. 训练使用预训练模型 [resnet_v2_50]，参考github源代码提供的路径下载。
+- 训练使用数据集 [VOC2007]，参考github源代码提供的路径下载。
+- 训练使用预训练模型 [resnet_v2_50]，参考github源代码提供的路径下载。
 
-### 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 下载训练脚本（单击“立即下载”，并选择合适的下载方式下载源码包。）
 
@@ -150,7 +147,7 @@
        环境变量配置信息参见：
 
           [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/01.%E8%AE%AD%E7%BB%83%E8%84%9A%E6%9C%AC%E8%BF%81%E7%A7%BB%E6%A1%88%E4%BE%8B/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE)
-    
+
     2. 配置train_full_1p.sh中data_path和ckpt_path训练参数（脚本位于RetinaNet_for_TensorFlow/test目录下），请用户根据实际路径进行配置，确保data_path和ckpt_path下存在已准备的数据集和预训练模型，如下所示（仅供参考）：
                
         ```
@@ -158,31 +155,29 @@
                 --ckpt_path=./resnet_ckpt
         ```
 
-    3.  单卡训练。
-    
-    单卡训练指令如下（脚本位于RetinaNet_for_TensorFlow/test目录下）：
-    
-    ```
-            bash train_full_1p.sh --data_path="数据集路径" --ckpt_path="预训练模型路径"
-    ```
+    3. 单卡训练。
 
+        单卡训练指令如下（脚本位于RetinaNet_for_TensorFlow/test目录下）：
 
-    4.  8卡训练。
-        
+        ```
+        bash train_full_1p.sh --data_path="数据集路径" --ckpt_path="预训练模型路径"
+        ```
+
+    4. 8卡训练。
+
         8卡训练指令如下（脚本位于RetinaNet_for_TensorFlow/test目录下）：
+
         ```
             bash train_full_8p.sh --data_path="数据集路径" --ckpt_path="预训练模型路径"
         ```
 
 
-- 开始推理。
 
-```
-　　NA
-```
+
+
 
 ## 高级参考
-### 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 
@@ -209,7 +204,7 @@
 ```
 
 
-### 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 #Training 
@@ -225,16 +220,4 @@
 --over_dump_path               the path to save over dump data. 
 --data_dump_path               the path to save dump data.
 --autotune                     whether to enable autotune, default is False.
-```
-
-### 训练过程<a name="section1589455252218"></a>
-
-```
-　　NA
-```
-
-### 推理/验证过程<a name="section1465595372416"></a>
-
-```
-　　NA
 ```

@@ -31,39 +31,37 @@
 
 ## 概述
 
--   Stacked Hourglass是falnewell等人提出应用于人体姿态估计的算法，通过生成heatmaps方式预测人体的关键点。作者认为重复使用 bottom-up/top-down和intermediate supervision能够提升网络性能。2016年在FLIC和MPII数据集上，本文取得了超越当前所有方法的性能。 
+Stacked Hourglass是falnewell等人提出应用于人体姿态估计的算法，通过生成heatmaps方式预测人体的关键点。作者认为重复使用 bottom-up/top-down和intermediate supervision能够提升网络性能。2016年在FLIC和MPII数据集上，本文取得了超越当前所有方法的性能。 
 
-    - 参考论文：
+- 参考论文：
 
-        https://arxiv.org/abs/1603.06937
+    https://arxiv.org/abs/1603.06937
 
+- 参考实现：
+  
+    ```
+    https://github.com/wbenbihi/hourglasstensorlfow
+    ```
 
-    - 参考实现：
-        
-        ```
-        https://github.com/wbenbihi/hourglasstensorlfow
-        ```
+- 适配昇腾 AI 处理器的实现：
 
-    - 适配昇腾 AI 处理器的实现：
-    
-        ```
-        https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/Hourglass_ID0155_for_TensorFlow
-        branch=master
-        commit_id= 477b07a1e95a35885b3a9a569b1c8ccb9ad5d7af
-        ```
+    ```
+    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/Hourglass_ID0155_for_TensorFlow
+    branch=master
+    commit_id= 477b07a1e95a35885b3a9a569b1c8ccb9ad5d7af
+    ```
 
+- 通过Git获取对应commit_id的代码方法如下:
 
-    - 通过Git获取对应commit_id的代码方法如下:
-    
-        ```
-        git clone {repository_url}    # 克隆仓库的代码
-        cd {repository_name}    # 切换到模型的代码仓目录
-        git checkout  {branch}    # 切换到对应分支
-        git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
-        cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
-        ```
+    ```
+    git clone {repository_url}    # 克隆仓库的代码
+    cd {repository_name}    # 切换到模型的代码仓目录
+    git checkout  {branch}    # 切换到对应分支
+    git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
+    cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+    ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 -   网络结构
     -   优化器：RMSProp
@@ -80,7 +78,7 @@
     -   Batch size: 4
     -   Train epoch: 200
 
-## 支持特性 <a name="section1899153513554"></a>
+#### 支持特性 <a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -89,11 +87,11 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 相关代码示例。
 
 ```
@@ -132,13 +130,13 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 模型使用 MPII DataSet 数据集，请用户自行下载。
+- 模型使用 MPII DataSet 数据集，请用户自行下载。
 
-2. 放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+- 放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 - 单击“立即下载”，并选择合适的下载方式下载源码包
 - 开始训练
   
@@ -198,20 +196,19 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 ## 迁移学习指导
 
-- 数据集准备。
+#### 数据集准备。
 
-    1.  获取数据。
-        请参见“快速上手”中的数据集准备。
+1.  获取数据。
+    请参见“快速上手”中的数据集准备。
 
+#### 模型训练。
 
--  模型训练。
-
-    请参考“快速上手”章节。
+请参考“快速上手”章节。
 
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
     ├── LICENSE
     ├── README.md
@@ -223,7 +220,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
     └── train_launcher.py						                    // 训练入口脚本
 
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
     --data_dir                        train data dir, default : path/to/data
@@ -248,7 +245,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
     --rank_size                       number of npus to use, default : 1
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。

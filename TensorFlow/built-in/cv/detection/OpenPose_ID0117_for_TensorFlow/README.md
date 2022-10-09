@@ -28,31 +28,31 @@
 **描述（Description）： 基于TensorFlow框架的OpenPose在线实时识别动作网络**
 
 ## 概述
-- OpenPose人体姿态识别项目是美国卡耐基梅隆大学（CMU）基于卷积神经网络和监督学习并以caffe为框架开发的开源库。可以实现人体动作、面部表情、手指运动等姿态估计。适用于单人和多人，具有极好的鲁棒性。是世界上首个基于深度学习的实时多人二维姿态估计应用，基于它的实例如雨后春笋般涌现。人体姿态估计技术在体育健身、动作采集、3D试衣、舆情监测等领域具有广阔的应用前景，人们更加熟悉的应用就是抖音尬舞机。
+OpenPose人体姿态识别项目是美国卡耐基梅隆大学（CMU）基于卷积神经网络和监督学习并以caffe为框架开发的开源库。可以实现人体动作、面部表情、手指运动等姿态估计。适用于单人和多人，具有极好的鲁棒性。是世界上首个基于深度学习的实时多人二维姿态估计应用，基于它的实例如雨后春笋般涌现。人体姿态估计技术在体育健身、动作采集、3D试衣、舆情监测等领域具有广阔的应用前景，人们更加熟悉的应用就是抖音尬舞机。
 
-  - 参考论文：
+- 参考论文：
 
-    NA
+  NA
 
-  - 参考实现：
+- 参考实现：
 
-    https://github.com/LZQthePlane/Online-Realtime-Action-Recognition-based-on-OpenPose
+  https://github.com/LZQthePlane/Online-Realtime-Action-Recognition-based-on-OpenPose
 
-  - 适配昇腾 AI 处理器的实现：
+- 适配昇腾 AI 处理器的实现：
 
-    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/OpenPose_ID0117_for_TensorFlow
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/OpenPose_ID0117_for_TensorFlow
 
-  - 通过Git获取对应commit_id的代码方法如下：
+- 通过Git获取对应commit_id的代码方法如下：
 
-    ```
-    git clone {repository_url}    # 克隆仓库的代码
-    cd {repository_name}    # 切换到模型的代码仓目录
-    git checkout  {branch}    # 切换到对应分支
-    git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
-    cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
-    ```
+  ```
+  git clone {repository_url}    # 克隆仓库的代码
+  cd {repository_name}    # 切换到模型的代码仓目录
+  git checkout  {branch}    # 切换到对应分支
+  git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
+  cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+  ```
 
-  ## 默认配置 <a name="section91661242121611"></a>
+#### 默认配置 <a name="section91661242121611"></a>
 
 -   训练超参
     -   初始学习率为0.0001
@@ -63,7 +63,7 @@
     -   通过执行根目录下的main.py生成数据集
 
 
-## 支持特性 <a name="section1899153513554"></a>
+#### 支持特性 <a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -72,12 +72,11 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练 <a name="section168064817164"></a>
+#### 混合精度训练 <a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度 <a name="section20779114113713"></a>
-NA
+
 
 ## 训练环境准备
 1.  硬件环境准备请参见各硬件产品文档"[驱动和固件安装升级指南]( https://support.huawei.com/enterprise/zh/category/ai-computing-platform-pid-1557196528909)"。需要在硬件设备上安装与CANN版本配套的固件与驱动。
@@ -108,13 +107,15 @@ NA
 
 
 ## 快速上手
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 通过执行main.py生成数据集,记得取消数据收集代码的注释，原始数据将保存为`.txt`
-2. 转换`.txt`为`.csv`，您可以使用 EXCEL 来执行此操作
-3. 用`Action/training/`目录下的`traing.py`in做训练，记得修改 model 的 action_enum 和 output-layer。
+- 通过执行main.py生成数据集,记得取消数据收集代码的注释，原始数据将保存为`.txt`
 
-## 模型训练<a name="section715881518135"></a>
+- 转换`.txt`为`.csv`，您可以使用 EXCEL 来执行此操作
+
+- 用`Action/training/`目录下的`traing.py`in做训练，记得修改 model 的 action_enum 和 output-layer。
+
+#### 模型训练<a name="section715881518135"></a>
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
   
@@ -162,7 +163,7 @@ NA
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
     .
     ├── Action
@@ -206,7 +207,7 @@ NA
     └── utils.py
 
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --train_epoch       # of step for training
@@ -214,7 +215,7 @@ NA
 --batch_size        # images in batch
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。

@@ -10,25 +10,25 @@
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：Object Detection
+**应用领域（Application Domain）：Object Detection**
 
-**版本（Version）：1.1
+**版本（Version）：1.1**
 
-**修改时间（Modified） ：2021.07.19
+**修改时间（Modified） ：2021.07.19**
 
-**大小（Size）：6M
+**大小（Size）：6M**
 
-**框架（Framework）：TensorFlow 1.15.0
+**框架（Framework）：TensorFlow 1.15.0**
 
-**模型格式（Model Format）：ckpt
+**模型格式（Model Format）：ckpt**
 
-**精度（Precision）：Mixed
+**精度（Precision）：Mixed**
 
-**处理器（Processor）：昇腾910
+**处理器（Processor）：昇腾910**
 
-**应用级别（Categories）：Official
+**应用级别（Categories）：Official**
 
-**描述（Description）：基于tensorflow实现，以Resnet50为backbone的SSD目标检测网络。
+**描述（Description）：基于tensorflow实现，以Resnet50为backbone的SSD目标检测网络。**
 
 ## 概述
 
@@ -39,7 +39,7 @@ SSD-Resnet50V1-FPN将边界框的输出空间离散为一组默认框，每个�
     https://arxiv.org/abs/1512.02325
 
 - 参考实现：
- 
+
     https://github.com/NVIDIA/DeepLearningExamples/tree/master/TensorFlow/Detection/SSD
 
 - 适配昇腾 AI 处理器的实现：
@@ -48,7 +48,7 @@ SSD-Resnet50V1-FPN将边界框的输出空间离散为一组默认框，每个�
 
 
 - 通过Git获取对应commit\_id的代码方法如下：
-    
+  
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -57,7 +57,7 @@ SSD-Resnet50V1-FPN将边界框的输出空间离散为一组默认框，每个�
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-### 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 1、 训练超参（单卡）
 
@@ -78,18 +78,18 @@ SSD-Resnet50V1-FPN将边界框的输出空间离散为一组默认框，每个�
  - Batch size per GPU = 32
  - Number of GPUs = 8
 
-### 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
 | 分布式训练 | 是    |
 | 混合精度  | 是    |
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 相关代码示例。
 
 ```
@@ -111,29 +111,30 @@ pip3 install requirements.txt
 ```
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
+- 安装依赖
 
-## 安装依赖
-
+```
 1、Dllogger1.0.0（https://github.com/NVIDIA/dllogger.git）
-
 2、pycocotools 2.0（https://github.com/philferriere/cocoapi.git）
-
 3、mpl_toolkits
+```
+
+
 
 ## 快速上手
 
-### 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
 - 数据集 COCO 2017和初始模型
 
 ```
 download_all.sh nvidia_ssd <data_dir_path> <checkpoint_dir_path>
 ```
-### 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练    
-   
+  
     1. 启动训练之前，首先要配置程序运行相关环境变量。
 
        环境变量配置信息参见：
@@ -161,17 +162,17 @@ download_all.sh nvidia_ssd <data_dir_path> <checkpoint_dir_path>
 
 
 - 模型评估
-    
+  
 	基于ckpt做eval，以评估数据集/data/coco2017_tfrecords/coco_val.record*、训练的模型目录存放在/checkpoints为例：
     ```
 	source ./env.sh
 	cd models/reaserch
 	bash examples/SSD320_evaluate.sh /checkpoints/
-	```
+	  ```
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 ├── README.md                            //代码说明文档
@@ -235,7 +236,7 @@ download_all.sh nvidia_ssd <data_dir_path> <checkpoint_dir_path>
 
 ```
 
-### 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path                   数据集路径
@@ -246,7 +247,3 @@ download_all.sh nvidia_ssd <data_dir_path> <checkpoint_dir_path>
 --checkpoint_dir              待评测的模型路径（仅eval模式使用）
 ```
 
-## 训练过程<a name="section1589455252218"></a>
-```
-  NA
-```
