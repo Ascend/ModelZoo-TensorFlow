@@ -1,0 +1,106 @@
+# encoding:utf-8
+#
+# Copyright 2017 The TensorFlow Authors. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ============================================================================
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+from npu_bridge.npu_init import *
+# --------------------------------------------------------
+# Fast R-CNN
+# Copyright (c) 2015 Microsoft
+# Licensed under The MIT License [see LICENSE for details]
+# Written by Ross Girshick
+# --------------------------------------------------------
+
+"""The data layer used during training to train a Fast R-CNN network.
+
+RoIDataLayer implements a Caffe Python layer.
+"""
+
+import numpy as np
+
+# TODO: make fast_rcnn irrelevant
+# >>>> obsolete, because it depends on sth outside of this project
+from ..fast_rcnn.config import cfg
+# <<<< obsolete
+from ..roi_data_layer.minibatch import get_minibatch
+
+
+class RoIDataLayer(object):
+    """Fast R-CNN data layer used for training."""
+
+    def __init__(self, roidb, num_classes):
+        """Set the roidb to be used by this layer during training."""
+        self._roidb = roidb
+        self._num_classes = num_classes
+        self._shuffle_roidb_inds()
+
+    def _shuffle_roidb_inds(self):
+        """Randomly permute the training roidb."""
+        self._perm = np.random.permutation(np.arange(len(self._roidb)))
+        self._cur = 0
+
+    def _get_next_minibatch_inds(self):
+        """Return the roidb indices for the next minibatch."""
+
+        if cfg.TRAIN.HAS_RPN:
+            if self._cur + cfg.TRAIN.IMS_PER_BATCH >= len(self._roidb):
+                self._shuffle_roidb_inds()
+
+            db_inds = self._perm[self._cur:self._cur + cfg.TRAIN.IMS_PER_BATCH]
+            self._cur += cfg.TRAIN.IMS_PER_BATCH
+        else:
+            # sample images
+            db_inds = np.zeros((cfg.TRAIN.IMS_PER_BATCH), dtype=np.int32)
+            i = 0
+            while (i < cfg.TRAIN.IMS_PER_BATCH):
+                ind = self._perm[self._cur]
+                num_objs = self._roidb[ind]['boxes'].shape[0]
+                if num_objs != 0:
+                    db_inds[i] = ind
+                    i += 1
+
+                self._cur += 1
+                if self._cur >= len(self._roidb):
+                    self._shuffle_roidb_inds()
+
+        return db_inds
+
+    def _get_next_minibatch(self):
+        """Return the blobs to be used for the next minibatch.
+
+        If cfg.TRAIN.USE_PREFETCH is True, then blobs will be computed in a
+        separate process and made available through self._blob_queue.
+        """
+        db_inds = self._get_next_minibatch_inds()
+        minibatch_db = [self._roidb[i] for i in db_inds]
+        return get_minibatch(minibatch_db, self._num_classes)
+
+    def forward(self):
+        """Get blobs and copy them into this layer's top blob vector."""
+        blobs = self._get_next_minibatch()
+        return blobs
