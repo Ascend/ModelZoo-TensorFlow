@@ -147,6 +147,7 @@ sed -i '1d' FPS.log
 
 ActualFPS=`cat FPS.log | grep "fps :" |awk '{sum+=$25} END {print sum/NR}'`
 temp1=`echo "1000 * ${batch_size}"|bc`
+ActualFPS=`echo "${ActualFPS}" |awk '{print $0*1}'`
 TrainingTime=`echo "scale=2;${temp1} / ${ActualFPS}"|bc`
 
 ActualLoss=`grep "loss" FPS.log | awk 'END {print $9}' |tr -d ,`
