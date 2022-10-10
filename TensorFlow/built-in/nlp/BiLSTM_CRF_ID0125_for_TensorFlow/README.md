@@ -56,9 +56,10 @@ CRF是一种常用的序列标注算法，可用于词性标注，分词，命�
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 -   网络结构
+    
     -   12-layer, 768-hidden, 12-heads, 
     
 -   训练超参(单卡)：
@@ -71,7 +72,7 @@ CRF是一种常用的序列标注算法，可用于词性标注，分词，命�
     
     ​	
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -80,11 +81,11 @@ CRF是一种常用的序列标注算法，可用于词性标注，分词，命�
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
  混合精度训练昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
     custom_op.name =  "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
@@ -121,15 +122,16 @@ CRF是一种常用的序列标注算法，可用于词性标注，分词，命�
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 中文训练数据集，请用户参考github实现获取
+- 中文训练数据集，请用户参考github实现获取
 
-## 预训练模型准备<a name="section361114841316"></a>
+#### 预训练模型准备<a name="section361114841316"></a>
 
-1.bert模型，请用户参考github实现获取
+- bert模型，请用户参考github实现获取
 
-## 模型训练<a name="section715881518135"></a>
+
+#### 模型训练<a name="section715881518135"></a>
 
 -  单击“立即下载”，并选择合适的下载方式下载源码包。
 -  开始训练    
@@ -156,7 +158,7 @@ CRF是一种常用的序列标注算法，可用于词性标注，分词，命�
     
        ```
         python3 terminal_predict.py
-        ```
+       ```
 
 ## 迁移学习指导
 
@@ -204,7 +206,7 @@ CRF是一种常用的序列标注算法，可用于词性标注，分词，命�
 ```
 
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_dir                      train, dev and test data dir
@@ -214,17 +216,17 @@ CRF是一种常用的序列标注算法，可用于词性标注，分词，命�
 --vocab_file                    vocab.txt
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。
 3. 模型存储路径为“curpath/output/ASCEND_DEVICE_ID”，包括训练的log以及checkpoints文件。
 4. 以单卡训练为例，loss信息在文件curpath/output/{ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
 
-## 推理/验证过程<a name="section1465595372416"></a>
+#### 推理/验证过程<a name="section1465595372416"></a>
 
 1. 在3个 epoch训练执行完成后,执行： 
-    
+   
 
 ```
 python3 terminal_predict.py

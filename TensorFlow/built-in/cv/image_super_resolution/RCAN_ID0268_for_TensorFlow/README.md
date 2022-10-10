@@ -30,13 +30,13 @@
 
 ## 概述
 
-    卷积神经网络 (CNN) 深度对于图像超分辨率 (SR) 至关重要。然而，图像 SR 的更深网络更难训练。
-    低分辨率的输入和特征包含丰富的低频信息，这些信息在通道间被平等对待，因此阻碍了 CNN 的表示能力。
-    为了解决这些问题，提出了非常深的残差通道注意网络（RCAN），也就是残差中的残差（RIR）结构来形成非常深的网络，
-    该网络由几个具有长跳跃连接的残差组组成。每个残差组包含一些具有短跳跃连接的残差块。同时，RIR 允许通过多个跳过连接绕过丰富的低频信息，
-    使主网专注于学习高频信息。此外，提出了一种通道注意机制，通过考虑通道之间的相互依赖性来自适应地重新调整通道特征。
-    大量实验表明，RCAN 相对于最先进的方法实现了更好的准确性和视觉改进。
-     
+卷积神经网络 (CNN) 深度对于图像超分辨率 (SR) 至关重要。然而，图像 SR 的更深网络更难训练。
+低分辨率的输入和特征包含丰富的低频信息，这些信息在通道间被平等对待，因此阻碍了 CNN 的表示能力。
+为了解决这些问题，提出了非常深的残差通道注意网络（RCAN），也就是残差中的残差（RIR）结构来形成非常深的网络，
+该网络由几个具有长跳跃连接的残差组组成。每个残差组包含一些具有短跳跃连接的残差块。同时，RIR 允许通过多个跳过连接绕过丰富的低频信息，
+使主网专注于学习高频信息。此外，提出了一种通道注意机制，通过考虑通道之间的相互依赖性来自适应地重新调整通道特征。
+大量实验表明，RCAN 相对于最先进的方法实现了更好的准确性和视觉改进。
+
 
 - 参考论文：
 
@@ -47,30 +47,30 @@
     https://github.com/dongheehand/RCAN-tf
     
 - 适配昇腾 AI 处理器的实现：
-    
+  
     https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_super_resolution/RCAN_ID0268_for_TensorFlow    
 
 - 通过Git获取对应commit_id的代码方法如下:
-    
+  
         git clone {repository_url}    # 克隆仓库的代码
         cd {repository_name}    # 切换到模型的代码仓目录
         git checkout  {branch}    # 切换到对应分支
         git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 网络结构
 
     - RACNx2
     
 - 训练超参(单卡)：
-    
+  
     - Batch size: 16
     - Learning rate(LR): 0.0001
     - max_steps:102
     
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -79,11 +79,11 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
  混合精度训练昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
     custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
@@ -122,15 +122,15 @@
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 用户需自行准备训练数据集，例如DIV2K数据集
+- 用户需自行准备训练数据集，例如DIV2K数据集
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练    
-   
+  
     1. 启动训练之前，首先要配置程序运行相关环境变量。
 
        环境变量配置信息参见：
@@ -153,7 +153,7 @@
     
        ```
         python3 main.py --mode test --pre_trained_model ./model/RCAN_X2 --test_LR_path ./benchmark_LR_path --test_GT_path ./benchmark_GT_path --scale 2 --self_ensemble False
-        ```
+       ```
 
 ## 迁移学习指导
 
@@ -172,7 +172,7 @@
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
 .
@@ -194,7 +194,7 @@
 
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --train_GT_path             训练数据集路径                            
@@ -203,17 +203,9 @@
 --max_step                  最大训练迭代
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。
 3. 模型存储路径为“curpath/output/ASCEND_DEVICE_ID”，包括训练的log以及checkpoints文件。
 4. 以单卡训练为例，loss信息在文件curpath/output/{ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
-
-## 推理/验证过程<a name="section1465595372416"></a>
-
-
-```
- NA
-
-```

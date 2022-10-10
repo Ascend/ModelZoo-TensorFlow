@@ -30,8 +30,6 @@
 
 ## 概述
 
-## 简述<a name="section194554031510"></a>
-
 模型利用了self-attention机制，通过用户历史行为来预测item-item关系。self-attention能够预测用户行为轨迹上每个item的相关权重，从而学习更好的用户短期兴趣表示。模型最终在度量学习框架上训练，且同时考虑了长短期意图。
 
 - 参考论文：
@@ -55,7 +53,7 @@
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 -   网络结构：
     -   29-layers
@@ -75,7 +73,7 @@
     -   K: 10
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -84,11 +82,11 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
@@ -126,7 +124,7 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
 1、用户自行准备好数据集，本网络使用的数据集是ml-1m数据集
 
@@ -142,7 +140,7 @@ pip3 install requirements.txt
 
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
@@ -157,14 +155,18 @@ pip3 install requirements.txt
        
         2. 1单卡训练指令（脚本位于AttRec_ID2630_for_TensorFlow2.X/test/train_full.sh）,需要先使用cd命令进入test目录下，再使用下面的命令启动训练。请确保下面例子中的“--data_path”修改为用户的数据路径,这里选择将数据文件夹放在home目录下。
         
+            ```
             bash train_full_1p.sh --data_path=/home
+            ```
+            
+            
 
 
 
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
 |--LICENSE
@@ -181,7 +183,7 @@ pip3 install requirements.txt
 |	|--train_performance_1p.sh					#performance训练脚本
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path						# the path to train data
@@ -203,6 +205,6 @@ pip3 install requirements.txt
 --fusion_off_file				# fusion_off file name, default is fusion_switch.cfg
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以8卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。

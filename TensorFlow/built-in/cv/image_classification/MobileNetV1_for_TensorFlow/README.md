@@ -51,7 +51,7 @@ MobileNetv1专注于移动端或者嵌入式设备中的轻量级CNN网络。是
 
 -   通过Git获取对应commit\_id的代码方法如下：
     
-   
+      
     
     ```
     git clone {repository_url}    # 克隆仓库的代码
@@ -63,7 +63,7 @@ MobileNetv1专注于移动端或者嵌入式设备中的轻量级CNN网络。是
 
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 
 -   训练超参：
@@ -80,7 +80,7 @@ MobileNetv1专注于移动端或者嵌入式设备中的轻量级CNN网络。是
 
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -89,11 +89,11 @@ MobileNetv1专注于移动端或者嵌入式设备中的轻量级CNN网络。是
 | 数据并行  | 是    |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，具体的参数在estimator_impl.py脚本中（脚本位于MobileNetV2_for_TensorFlow目录下）。设置precision_mode参数的脚本参考如下。
 
@@ -143,16 +143,16 @@ run_config = NPURunConfig(
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 模型训练使用ImageNet2012数据集，数据集请用户自行获取。
+- 模型训练使用ImageNet2012数据集，数据集请用户自行获取。
 
-2. 数据集训练前需要做预处理操作，请用户参考[Tensorflow-Slim](https://github.com/tensorflow/models/tree/master/research/slim),将数据集封装为tfrecord格式。
+- 数据集训练前需要做预处理操作，请用户参考[Tensorflow-Slim](https://github.com/tensorflow/models/tree/master/research/slim),将数据集封装为tfrecord格式。
 
-3. 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+- 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -179,12 +179,13 @@ run_config = NPURunConfig(
      ```
      bash train_performance_1p.sh
      ```
-	 
-	 启动单卡精度训练 （脚本为MobileNetV1_for_TensorFlow/test/train_full_1p.sh） 
-
+     
+     启动单卡精度训练 （脚本为MobileNetV1_for_TensorFlow/test/train_full_1p.sh） 
+     
      ```
      bash train_full_1p.sh
      ```
+
 - 8卡训练
 
   1. 配置训练参数。
@@ -202,7 +203,7 @@ run_config = NPURunConfig(
      ```
      bash train_performance_8p.sh
      ```
-	 
+		
      启动8卡精度训练 （脚本为MobileNetV1_for_TensorFlow/test/train_full_8p.sh） 
 
      ```
@@ -211,7 +212,7 @@ run_config = NPURunConfig(
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 ├── train.py                                          //网络训练与测试代码
@@ -224,7 +225,7 @@ run_config = NPURunConfig(
 ├── estimator_impl.py
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --dataset_dir              数据集路径，默认：/opt/npu/slimImagenet
@@ -245,13 +246,13 @@ run_config = NPURunConfig(
 ```
 
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动性能或者精度训练。单卡和多卡通过运行不同脚本，支持单卡、8卡网络训练。
 
 2.  参考脚本的模型存储路径为result/8p/*。
 
-## 推理/验证过程<a name="section1465595372416"></a>
+#### 推理/验证过程<a name="section1465595372416"></a>
 
 1.  通过“模型训练”中的测试指令启动测试。
 

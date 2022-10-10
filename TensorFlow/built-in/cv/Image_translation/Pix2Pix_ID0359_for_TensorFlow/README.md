@@ -9,17 +9,17 @@
 
 ## 基本信息
 
-**发布者（Publisher）：Huawei
-**应用领域（Application Domain）： Machine Translation
-**版本（Version）：1.1
-**修改时间（Modified） ：2021.7.19
-**大小（Size）：736K
-**框架（Framework）：TensorFlow 1.15.0
-**模型格式（Model Format）：ckpt
-**精度（Precision）：Mixed
-**处理器（Processor）：昇腾910
-**应用级别（Categories）：Official
-**描述（Description）：利用pix2pix2进行图像翻译训练代码
+**发布者（Publisher）：Huawei**
+**应用领域（Application Domain）： Machine Translation**
+**版本（Version）：1.1**
+**修改时间（Modified） ：2021.7.19**
+**大小（Size）：736K**
+**框架（Framework）：TensorFlow 1.15.0**
+**模型格式（Model Format）：ckpt**
+**精度（Precision）：Mixed**
+**处理器（Processor）：昇腾910**
+**应用级别（Categories）：Official**
+**描述（Description）：利用pix2pix2进行图像翻译训练代码**
 
 ## 概述
 
@@ -39,7 +39,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
     https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/Image_translation/Pix2Pix_ID0359_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
-    
+  
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -48,7 +48,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练数据集预处理（以ImageNet2012训练集为例，仅作为用户参考示例）：
 
@@ -60,7 +60,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
   - Learning rate（LR）：0.0002
   - Train epoch: 2
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -68,16 +68,16 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
 | 混合精度  | 是    |
 | 并行数据  | 否    |
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
-  
-    precision_mode="allow_mix_precision"
 
+    precision_mode="allow_mix_precision"
+    
     parser = argparse.ArgumentParser()
     parser.add_argument('--precision_mode', dest='precision_mode', default='allow_mix_precision', help='precision mode')
     
@@ -85,7 +85,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
     custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)
-
+    
     if args.precision_mode == 'allow_mix_precision':
         loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2**32,
                                                                 incr_every_n_steps=1000, decr_every_n_nan_or_inf=2,
@@ -126,11 +126,11 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
 
 ## 快速上手
 
-- 数据集准备
+#### 数据集准备
 
-   请参考“概述”->“参考实现”
+请参考“概述”->“参考实现”
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -165,7 +165,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 
@@ -189,7 +189,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
 │    ├── train_full_1p.sh                    //精度运行启动脚本
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --precision_mode         NPU运行时，默认开启混合精度
@@ -203,7 +203,7 @@ Pix2Pix_ID0359_for_TensorFlow是一个图像处理网络，为了能更好得对
 ```
 
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动性能或者精度训练。性能和精度通过运行不同脚本，支持性能、精度网络训练。
 

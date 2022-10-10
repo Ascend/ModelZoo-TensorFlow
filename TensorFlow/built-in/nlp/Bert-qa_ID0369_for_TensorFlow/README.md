@@ -59,7 +59,7 @@
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
         ```
 
-## 默认配置 <a name="section91661242121611"></a>
+#### 默认配置 <a name="section91661242121611"></a>
 -   网络结构
     12-layer, 768-hidden, 12-heads, 110M parameters
 
@@ -74,7 +74,7 @@
     -   num_tpu_cores: 8
 
 
-## 支持特性 <a name="section1899153513554"></a>
+#### 支持特性 <a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -83,14 +83,12 @@
 | 数据并行   | 是       |
 
 
-## 混合精度训练 <a name="section168064817164"></a>
+#### 混合精度训练 <a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度 <a name="section20779114113713"></a>
+#### 开启混合精度 <a name="section20779114113713"></a>
 相关代码示例。
-
-
 
 ```
   #for NPU
@@ -142,21 +140,21 @@
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 模型预训练使用自带数据集，vocab.txt需用户自行下载。
+- 模型预训练使用自带数据集，vocab.txt需用户自行下载。
 
-2. 这里是列表文本数据集训练前需要做预处理操作。
+- 这里是列表文本数据集训练前需要做预处理操作。
 
    ```
    cd ./Bert-qa_ID0369_For_Tensorflow
    bash create_pretraining_data.sh
    (脚本中需自行配置：--vocab_file)
    ```
-   
-3. 这里是列表文本数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
-## 模型训练 <a name="section715881518135"></a>
+- 这里是列表文本数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+
+#### 模型训练 <a name="section715881518135"></a>
 - 下载训练脚本。
 
 - 开始训练。
@@ -201,7 +199,7 @@
 
 ## 高级参考 
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
     ├── README.md                                //说明文档
     ├── requirements.txt						 //依赖
@@ -214,7 +212,7 @@
     ├──run_pretraining.py              		     //预训练脚本
 
 
-## 脚本参数 <a name="section6669162441511"></a>
+#### 脚本参数 <a name="section6669162441511"></a>
 
 ```
     --data_dir                        train data dir, default : path/to/data
@@ -239,7 +237,7 @@
     --rank_size                       number of npus to use, default : 1
 ```
 
-## 训练过程 <a name="section1589455252218"></a>
+#### 训练过程 <a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡训练。模型存储路径为curpath/output/ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。loss信息在文件curpath/output/{ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
 

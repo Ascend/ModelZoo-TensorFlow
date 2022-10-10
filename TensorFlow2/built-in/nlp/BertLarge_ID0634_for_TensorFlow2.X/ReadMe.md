@@ -30,8 +30,6 @@
 
 ## 概述
 
-## 简述
-
 BERT模型的全称是：BidirectionalEncoder **Representations** from Transformer。BERT模型的目标是利用大规模无标注语料训练、获得文本的包含丰富语义信息的Representation，即：文本的语义表示，然后将文本的语义表示在特定NLP任务中作微调，最终应用于该NLP任务。
 
 - 论文路径
@@ -55,7 +53,7 @@ BERT模型的全称是：BidirectionalEncoder **Representations** from Transform
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 -   网络结构
     -   24-layer, 1024-hidden, 16-heads, 340M parameters
     
@@ -70,7 +68,7 @@ BERT模型的全称是：BidirectionalEncoder **Representations** from Transform
     -   Train epoch: 32
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -79,11 +77,11 @@ BERT模型的全称是：BidirectionalEncoder **Representations** from Transform
 | 数据并行  | 是    |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
 ```
@@ -141,13 +139,13 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1、用户自行准备好数据集，包括训练数据集和验证数据集。使用的数据集是wikipedia
+- 用户自行准备好数据集，包括训练数据集和验证数据集。使用的数据集是wikipedia
 
-2、训练的数据集放在train目录，验证的数据集放在eval目录
+- 训练的数据集放在train目录，验证的数据集放在eval目录
 
-3、bert 预训练的模型及数据集可以参考"简述->开源代码路径处理"
+- bert 预训练的模型及数据集可以参考"简述->开源代码路径处理"
 
 数据集目录参考如下：
 
@@ -162,16 +160,21 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
                 ├──eval_10k.tfrecord
 ```
 
-4、数据集pack (仅在使用pack策略进行训练时执行)
+- 数据集pack (仅在使用pack策略进行训练时执行)
+
 
 若训练时使用pack策略（参看“模型训练” - 开始训练- 4. pack策略），须将数据集进行处理，生成为pack后的数据集。再使用pack后的数据集进行训练。数据集转换脚本在bert/data_pack/目录下。数据集pack过后，在指定的目录下生成“strategy_record”开头的一系列文件。
 进行数据集pack时，需要将训练（train）的数据集与验证（eval）的数据集分别进行pack，生成在新的目录中。未pack的数据集为tfrecord格式，需先使用bert/data_pack目录下 "bert_data/record_to_binary.py" 将其批量转换为bin文件：
 
+```
 python3 bert_data/record_to_binary.py --tf-record-glob="path/to/your/unpacked/data/part*.tfrecord" --output-path="path/to/store/binery/files"
+```
 
 然后再使用bert/data_pack目录下 "pack_pretraining_data.py" ,将bin文件转化为pack后的数据集。
 
+```
 python3 pack_pretraining_data.py --input-glob="path/to/store/binery/files" --output-dir="packed/data/folder"
+```
 
 文件夹路径需要自己创建。
 
@@ -256,7 +259,7 @@ python3 pack_pretraining_data.py --input-glob="path/to/store/binery/files" --out
         3.1 8卡训练指令（脚本位于BertLarge_TF2.x_for_Tensorflow/test/train_performance_8p_192bs.sh),请确保下面例子中的“--data_path”修改为用户的tfrecord的路径。
     
             bash test/train_performance_8p_192bs.sh --data_path=/home/tfrecord --precision_mode=allow_mix_precision
-
+    
     4. pack策略
     
         4.1 含pack策略的训练脚本（./test/目录下名字带有"_packed"的脚本即为相应包含pack策略的训练脚本）
@@ -277,7 +280,7 @@ python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train
 
 ## 高级参考
 
-## 脚本和事例代码
+#### 脚本和示例代码
 
 ```
 |--bert			#网络代码目录
@@ -294,14 +297,14 @@ python3 $path/distrbute_npu.py --np 16 --env 10.10.10.10:8,10.10.10.11:8 --train
 |   |--......
 ```
 
-添加：
+备注说明：
 
 模型转换脚本（仅tensorflow_v1版本checkpoint转化为tensorflow_v2版本时使用）
 
 tensorflow-v1的checkpoint与tensorflow-v2的checkpoint从结构和使用上具有较大差异。迁移原有tensorflow-v1生成的checkpoint， 使其转换为tensorflow-v2环境中可使用的checkpoint， 需使用转换脚本， 脚本位置：“./bert/tf2_encoder_checkpoint_converter.py”。
 脚本使用示例： python3 tf2_encoder_checkpoint_converter.py --bert_config_file=/path/to/your/tensorflow_v1/bert_config.json  --checkpoint_to_convert=/path/to/your/tensorflow_v1/model.ckpt-28252 --converted_checkpoint_path=/path/to/save/output_ckpt/output_ckpt
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 	--max_seq_length		      		The maximum total input sequence length after WordPiece tokenizationTrue,default:128
@@ -328,7 +331,7 @@ tensorflow-v1的checkpoint与tensorflow-v2的checkpoint从结构和使用上具�
     --data_path		         			source data of training
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以8卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
 

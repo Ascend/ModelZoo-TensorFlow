@@ -53,7 +53,7 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 -   网络结构
     -   初始学习率为0.045，使用Cosine learning rate 
@@ -74,7 +74,7 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
     -   图像的输入尺寸为299*299 
     -   均值为0，归一化为[-1，1] 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -83,11 +83,11 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
 | 数据并行  | 是    |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
  混合精度训练昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
     run_config = NPURunConfig( 
             hcom_parallel = True, 
@@ -131,15 +131,15 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 模型训练使用ImageNet2012数据集，数据集请用户自行获取。
+- 模型训练使用ImageNet2012数据集，数据集请用户自行获取。
 
-2. 数据集训练前需要做预处理操作，请用户参考[Tensorflow-Slim](https://github.com/tensorflow/models/tree/master/research/slim),将数据集封装为tfrecord格式。
+- 数据集训练前需要做预处理操作，请用户参考[Tensorflow-Slim](https://github.com/tensorflow/models/tree/master/research/slim),将数据集封装为tfrecord格式。
 
-3. 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+- 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 -  单击“立即下载”，并选择合适的下载方式下载源码包。
 -  开始训练    
@@ -167,9 +167,10 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
             --data_dir=/opt/npu/imagenet_data
 
         3.2 8p指令如下: 
-            
         
+        ```
         bash run_8p.sh
+       ```
    
 -  验证。
 
@@ -185,77 +186,74 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
 
 ## 迁移学习指导
 
-- 数据集准备。
+#### 数据集准备。
 
-    1.  获取数据。
-        请参见“快速上手”中的数据集准备，需要将数据集转化为tfrecord格式。类别数可以通过训练参数中的num_classes来设置。
-    2.  数据集每个类别所占比例大致相同。
-    3.  数据目录结构如下：
-        
-        ```
-                |--|imagenet_tfrecord
-                |   train-00000-of-01024
-                |   train-00001-of-01024
-                |   train-00002-of-01024
-                |   ...
-                |   validation-00000-of-00128
-                |   validation-00000-of-00128
-                |   ...
-        
-        ```
+- 获取数据。
+  请参见“快速上手”中的数据集准备，需要将数据集转化为tfrecord格式。类别数可以通过训练参数中的num_classes来设置。
+- 数据集每个类别所占比例大致相同。
+- 数据目录结构如下：
 
-- 修改训练脚本。
+  ```
+          |--|imagenet_tfrecord
+          |   train-00000-of-01024
+          |   train-00001-of-01024
+          |   train-00002-of-01024
+          |   ...
+          |   validation-00000-of-00128
+          |   validation-00000-of-00128
+          |   ...
+  
+  ```
 
-    1. 模型分类类别修改。 
+#### 修改训练脚本。
 
-        1.1 使用自有数据集进行分类，如需将分类类别修改为10，修改inception/inception_v3.py文件，将num_classes=1001设置为num_classes=10。 
-                        
-            def inception_v3(inputs, num_classes=1001, 
-                                            is_training=True, 
-                                            dropout_keep_prob=0.8, 
-                                            reuse=None, 
-                                            scope='InceptionV4', 
-                                            create_aux_logits=True): 
+1. 模型分类类别修改。 
 
-        1.2 修改文件inception/model.py，将depth=1000修改为depth=10，将num_classes=1000修改为num_classes=10。 
-            
-            
-            labels_one_hot = tf.one_hot(labels, depth=1000) 
-            ... ... 
-            if is_training: 
-                with slim.arg_scope(inception_v3.inception_v3_arg_scope(weight_decay=self.args.weight_decay)): 
-                top_layer, end_points = inception_v3.inception_v3(inputs=features, num_classes=1000, dropout_keep_prob=0.8, is_training = True) 
-            else: 
-                with slim.arg_scope(inception_v3.inception_v3_arg_scope()): 
-                top_layer, end_points = inception_v3.inception_v3(inputs=features, num_classes=1000, dropout_keep_prob=1.0, is_training = False)
-        
-     2. 加载预训练模型。
+    1.1 使用自有数据集进行分类，如需将分类类别修改为10，修改inception/inception_v3.py文件，将num_classes=1001设置为num_classes=10。   
+    
+        def inception_v3(inputs, num_classes=1001, 
+                                        is_training=True, 
+                                        dropout_keep_prob=0.8, 
+                                        reuse=None, 
+                                        scope='InceptionV4', 
+                                        create_aux_logits=True): 
 
-        2.1 修改配置文件参数，修改文件train.py，增加以下参数。 
-            
-            parser.add_argument('--restore_path', default='ckpt/model.ckpt-250200', help="""restore path""") #配置预训练ckpt路径 
-        
-        2.2 模型加载修改，修改文件inception/model.py，增加以下代码行。 
-            
-            
-            
-            assert (mode == tf.estimator.ModeKeys.TRAIN)
-            #restore ckpt for finetune
-            variables_to_restore = tf.contrib.slim.get_variables_to_restore(exclude=['InceptionV4/Logits/Logits','InceptionV4/AuxLogits/Aux_logits'])                             
-            tf.train.init_from_checkpoint(self.args.restore_path,{v.name.split(':')[0]: v for v in variables_to_restore})
-        
+    1.2 修改文件inception/model.py，将depth=1000修改为depth=10，将num_classes=1000修改为num_classes=10。 
+    
+        labels_one_hot = tf.one_hot(labels, depth=1000) 
+        ... ... 
+        if is_training: 
+            with slim.arg_scope(inception_v3.inception_v3_arg_scope(weight_decay=self.args.weight_decay)): 
+            top_layer, end_points = inception_v3.inception_v3(inputs=features, num_classes=1000, dropout_keep_prob=0.8, is_training = True) 
+        else: 
+            with slim.arg_scope(inception_v3.inception_v3_arg_scope()): 
+            top_layer, end_points = inception_v3.inception_v3(inputs=features, num_classes=1000, dropout_keep_prob=1.0, is_training = False)
+    
+ 2. 加载预训练模型。
 
--   模型训练。
+    2.1 修改配置文件参数，修改文件train.py，增加以下参数。 
+    
+        parser.add_argument('--restore_path', default='ckpt/model.ckpt-250200', help="""restore path""") #配置预训练ckpt路径 
+    
+    2.2 模型加载修改，修改文件inception/model.py，增加以下代码行。 
+    
+        assert (mode == tf.estimator.ModeKeys.TRAIN)
+        #restore ckpt for finetune
+        variables_to_restore = tf.contrib.slim.get_variables_to_restore(exclude=['InceptionV4/Logits/Logits','InceptionV4/AuxLogits/Aux_logits'])                             
+        tf.train.init_from_checkpoint(self.args.restore_path,{v.name.split(':')[0]: v for v in variables_to_restore})
+    
 
-    参考“模型训练”中训练步骤。
+#### 模型训练。
 
--   模型评估。
+参考“模型训练”中训练步骤。
 
-    参考“模型训练”中验证步骤。
+#### 模型评估。
+
+参考“模型训练”中验证步骤。
 
 ## 高级参考
 
-脚本和示例代码
+#### 脚本和示例代码
 
 ```
 ├── train.py                     //网络训练与测试代码 
@@ -281,7 +279,7 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
 ```
 
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_dir             train data dir, default : path/to/data 
@@ -304,7 +302,7 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
 
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。 
 2. 将训练脚本（train_1p.sh,train_8p.sh）中的data_dir设置为训练数据集的路径。具体的流程参见“模型训练”的示例。 
@@ -336,7 +334,7 @@ step: 14100 epoch: 1.4 FPS: 469.5 loss: 4.555 total_loss: 4.931 lr:0.04499
 
 ```
 
-## 推理/验证过程<a name="section1465595372416"></a>
+#### 推理/验证过程<a name="section1465595372416"></a>
 
 1. 在100 epoch训练执行完成后： 
     方法一：参照“模型训练”中的测试流程，需要修改脚本启动参数（脚本位于scripts/train_1p.sh）将mode设置为evaluate，增加eval_dir的路径，然后执行脚本。 

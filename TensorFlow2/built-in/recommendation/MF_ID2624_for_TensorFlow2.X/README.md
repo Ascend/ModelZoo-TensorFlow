@@ -31,10 +31,10 @@
 
 ## 概述
 
-    矩阵分解用于实现隐含语义模型，它一方面既能减少运算量，另一方面也可以很好的解决由于用户数目或者物品数目过多引起的矩阵稀疏化问题。
-  
+矩阵分解用于实现隐含语义模型，它一方面既能减少运算量，另一方面也可以很好的解决由于用户数目或者物品数目过多引起的矩阵稀疏化问题。
+
 - 参考论文：
-    
+  
    [Ashish Vaswani, Noam Shazeer, Niki Parmar, JakobUszkoreit, Llion Jones, Aidan N Gomez, Ł ukaszKaiser, and Illia Polosukhin. 2017. Attention is all you need. In NIPS 2017, pages 5998–6008.](https://arxiv.org/abs/1706.03762)
 
 - 参考实现：
@@ -42,7 +42,7 @@
    [https://github.com/ZiyaoGeng/Recommender-System-with-TF2.0/tree/master/MF](https://github.com/ZiyaoGeng/Recommender-System-with-TF2.0/tree/master/MF)
 
 - 适配昇腾 AI 处理器的实现：    
-    
+  
    [https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/recommendation/MF_ID2624_for_TensorFlow2.X](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/recommendation/MF_ID2624_for_TensorFlow2.X)
 
 - 通过Git获取对应commit\_id的代码方法如下：
@@ -54,14 +54,14 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置
+#### 默认配置
 
 - 主要训练超参（单卡）：
     - batch_size: 512
     - epochs: 100
     - lr: 0.001
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -69,11 +69,11 @@
 | 混合精度   | 是       |
 | 数据并行   | 否       |
 
-## 混合精度训练
+#### 混合精度训练
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度
+#### 开启混合精度
 
 
 ```
@@ -93,22 +93,22 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1. 用户需自行下载ml-1m训练数据集，应有如下结构
-   ```
-   ml-1m/
-   ├── movies.dat
-   ├── ratings.dat
-   └── users.dat
+- 用户需自行下载ml-1m训练数据集，应有如下结构
 
-   ```
+```
+ml-1m/
+├── movies.dat
+├── ratings.dat
+└── users.dat
+```
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练    
-   
+  
     1. 启动训练之前，首先要配置程序运行相关环境变量。
 
        环境变量配置信息参见：
@@ -120,7 +120,7 @@ pip3 install requirements.txt
         2.1 配置train_full_1p.sh脚本中`data_path`（脚本路径text_classification_with_transformer_ID2563_for_TensorFlow2.X/test/train_full_1p.sh）,请用户根据实际路径配置，数据集参数如下所示：
 
             --data_path=/ml-1m/
-            
+        
         2.2 1p指令如下:
 
             bash train_full_1p.sh --data_path=/ml-1m/
@@ -143,7 +143,7 @@ pip3 install requirements.txt
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
 MF_ID2624_for_TensorFlow2.X/
@@ -162,7 +162,7 @@ MF_ID2624_for_TensorFlow2.X/
 
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_dir       训练数据集路径
@@ -170,16 +170,9 @@ MF_ID2624_for_TensorFlow2.X/
 --batch_size     训练bs设置
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。
 3. 模型存储路径为“curpath/output/ASCEND_DEVICE_ID”，包括训练的log文件。
 4. 以多卡训练为例，loss信息在文件curpath/output/{ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
-
-## 推理/验证过程<a name="section1465595372416"></a>
-
-```
- NA
-
-```

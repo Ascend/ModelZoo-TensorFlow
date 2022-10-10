@@ -24,14 +24,14 @@
 
 ## 概述
 
-    基于tensorflow实现ImageNet分类的高分辨率表示。网络结构和训练超参数与官方 pytorch 实现保持相同
+基于tensorflow实现ImageNet分类的高分辨率表示。网络结构和训练超参数与官方 pytorch 实现保持相同
 
 - 参考论文：
 
     https://arxiv.org/pdf/1908.07919.pdf
 
 - 参考实现：
- 
+
     https://github.com/yuanyuanli85/tf-hrnet
 
 - 适配昇腾 AI 处理器的实现：
@@ -40,7 +40,7 @@
 
 
 - 通过Git获取对应commit\_id的代码方法如下：
-    
+  
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -49,7 +49,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-### 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练超参（单卡）
 
@@ -61,7 +61,7 @@
   - Weight l2 scale: 0.0001
   - Train_steps:40036 (nb_smpls_train* nb_epoches * nb_epochs_rat / batch_size=1281167 * 1 * 1 / 32)
 
-### 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -69,11 +69,11 @@
 | 混合精度  | 是    |
 | 并行数据  | 是    |
 
-### 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-### 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
 
@@ -127,7 +127,7 @@
 
 ## 快速上手
 
-### 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
 - 模型训练使用ImageNet2012 TF record格式训练
 
@@ -137,7 +137,7 @@
 
   脚本：https://github.com/tensorflow/models/tree/master/research/slim/datasets/download_and_convert_imagenet.sh
 
-### 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -151,52 +151,50 @@
 
   1. 配置训练参数。
 
-    脚本位于  HRNet_ID0139_for_TensorFlow/test/train_full_1p.sh  ，可配置的参数如下：
-    
-    --batch_size=32                        //训练的batch size
-    
-    --nb_smpls_train=1281167               //训练的steps依赖这个变量，实际训练steps=nb_smpls_train/batch_size
-    
-    --data_path="./data/imagenet_TF"       //自行指定数据集路径，必传
-
-
+     ```
+      脚本位于  HRNet_ID0139_for_TensorFlow/test/train_full_1p.sh  ，可配置的参数如下：
+       --batch_size=32                        //训练的batch size
+       --nb_smpls_train=1281167               //训练的steps依赖这个变量，实际训练steps=nb_smpls_train/batch_size
+       --data_path="./data/imagenet_TF"       //自行指定数据集路径，必传
+     ```
+  
   2. 启动训练。
-
-    脚本位于  HRNet_ID0139_for_TensorFlow/test/train_full_1p.sh  ，示例如下：
-
-    bash train_full_1p.sh
+  
+     ```
+     脚本位于  HRNet_ID0139_for_TensorFlow/test/train_full_1p.sh  ，示例如下：
+     bash train_full_1p.sh
+     ```
 
 
 - 8卡训练
 
   1. 配置训练参数。
 
-    首先检查 HRNet_ID0139_for_TensorFlow/cfgs 目录下是否有存在8卡IP的json配置文件“8p.json”
+     首先检查 HRNet_ID0139_for_TensorFlow/cfgs 目录下是否有存在8卡IP的json配置文件“8p.json”，脚本位于 HRNet_ID0139_for_TensorFlow/test/train_full_8p.sh  ，可配置的参数如下：
 
-    脚本位于 HRNet_ID0139_for_TensorFlow/test/train_full_8p.sh  ，可配置的参数如下：
-
+     ```
     --batch_size=32                        // 训练的batch size
-    
-    --nb_smpls_train=1281167               //训练的steps依赖这个变量，实际训练steps=nb_smpls_train/batch_size
-    
-    --data_path="./data/imagenet_TF"       //自行指定数据集路径，必传
-
-
-  2. 启动训练。
-
-    脚本位于  HRNet_ID0139_for_TensorFlow/test/train_full_8p.sh  ，示例如下：
-
-    bash train_full_8p.sh
+      --nb_smpls_train=1281167               //训练的steps依赖这个变量，实际训练steps=nb_smpls_train/batch_size
+       --data_path="./data/imagenet_TF"       //自行指定数据集路径，必传
+     ```
+  
+  2. 启动训练
+  
+     脚本位于  HRNet_ID0139_for_TensorFlow/test/train_full_8p.sh  ，示例如下：
+  
+     ```
+     bash train_full_8p.sh
+     ```
+  
 
 
 - 模型评估
   train/trainer.py的第202、209行打开，既可以在训练到一定steps时进行evaluate评估
-  补充：
-  evaluate评估，当step数扩大时，会与训练的精度相差较大，目前原因不明
+  
 
 ## 高级参考
 
-### 核心脚本和示例代码<a name="section08421615141513"></a>
+#### 核心脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 ├── README.md                            //代码说明文档
@@ -236,7 +234,7 @@
 
 ```
 
-### 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path                   数据集路径
@@ -252,7 +250,7 @@
 --train_steps                 训练的steps
 ```
 
-### 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1.  通过 “模型训练” 中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡、8卡网络训练。
 
@@ -263,12 +261,8 @@
 性能：324.63fps（单p）
 ```
 
-### 推理/验证过程<a name="section1465595372416"></a>
+#### 推理/验证过程<a name="section1465595372416"></a>
 
 1.  通过 “模型训练” 中的指令启动测试。
 
 2.  当前只能针对该工程训练出的checkpoint进行推理测试。
-
-```
-# 详细过程暂不提供 #
-```

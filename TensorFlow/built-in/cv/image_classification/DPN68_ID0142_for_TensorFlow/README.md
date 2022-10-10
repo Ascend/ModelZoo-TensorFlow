@@ -55,7 +55,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 -   网络结构
     -   初始学习率：0.06
     -   优化器：Momentum
@@ -80,7 +80,7 @@
     -   Train epoch: 50
 
 
-## 支持特性 <a name="section1899153513554"></a>
+#### 支持特性 <a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -89,11 +89,11 @@
 | 数据并行   | 否       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 相关代码示例。
 
 ```
@@ -132,11 +132,11 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
-1. 模型训练使用cifar10数据集，数据集请用户自行获取。
-2. 获取数据集后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+#### 数据集准备<a name="section361114841316"></a>
+- 模型训练使用cifar10数据集，数据集请用户自行获取。
+- 获取数据集后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
-## 模型训练【深加工】<a name="section715881518135"></a>
+#### 模型训练
 - 下载训练脚本。
 - 开始训练。
   
@@ -150,20 +150,16 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
     2. 单卡训练
        
         2.1 设置单卡训练参数（脚本位于./DPN68_ID0142_for_TensorFlow/test/train_full_1p.sh），示例如下。
-            
-            ```
+        
             # 训练epoch
             train_epochs=50
-	        # 训练batch_size
+            # 训练batch_size
 	        batch_size=128
 	        # 训练step
 	        train_steps=1000
-	    ```
-        2.2 单卡训练指令（脚本位于./DPN68_ID0142_for_TensorFlow/test/train_full_1p.sh） 
-            
-            ```
+	    2.2 单卡训练指令（脚本位于./DPN68_ID0142_for_TensorFlow/test/train_full_1p.sh） 
+	    
             bash train_full_1p.sh
-            ```
 
 ## 迁移学习指导
 
@@ -180,7 +176,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
     .
     ├── DPN.py                                         // DPN定义脚本
@@ -195,7 +191,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
     └── test.py						                    // 训练入口脚本
 
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --num_train                                    num_train
@@ -211,7 +207,7 @@ custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_prec
 --test_batch_size                              test_batch_size
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。

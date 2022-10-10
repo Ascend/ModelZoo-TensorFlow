@@ -29,6 +29,8 @@
 
 **描述（Description）：基于TensorFlow框架的2D_Unet网络训练代码**
 
+
+
 ## 概述
 
 -    2D_Unet网络是一个用于生物医学图像分割的卷积网络。
@@ -95,6 +97,8 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
   session_config = npu_config_proto(config_proto=config_proto)
 ```
 
+
+
 ## 训练环境准备
 
 -  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
@@ -104,15 +108,18 @@ pip3 install requirements.txt
 ```
 说明：依赖配置文件requirements.txt文件位于模型的根目录
 
+
+
 ## 快速上手
 
-#### 数据集准备<a name="section361114841316"></a>
+#### 数据集准备
 
-1. 模型训练使用 isbi challenge 数据集，数据集请用户自行获取。
-2. 数据预处理方式请关注 data.py。
-3. 将预处理后的数据集放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+- 模型训练使用 isbi challenge 数据集，数据集请用户自行获取。
 
-#### 模型训练<a name="section715881518135"></a>
+- 数据预处理方式请关注 data.py。
+- 将预处理后的数据集放入模型目录下，在训练脚本中指定数据集路径，可正常使用
+
+#### 模型训练
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
   
@@ -147,16 +154,18 @@ pip3 install requirements.txt
               ├─membrane
         ```
 
+
+
 ## 迁移学习指导
 
 - 数据集准备。
+    请参见“快速上手”中的数据集准备
 
-    1.  获取数据。
-        请参见“快速上手”中的数据集准备
-    
 - 模型训练
 
     请参考“快速上手”章节
+
+
 
 ## 高级参考
 

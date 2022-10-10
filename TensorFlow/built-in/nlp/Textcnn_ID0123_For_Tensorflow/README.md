@@ -35,12 +35,12 @@
     https://github.com/gaussic/text-classification-cnn-rnn
 
 - 适配昇腾 AI 处理器的实现：
-    
-        
+  
+  
   https://gitee.com/ji-hongmei/modelzoo/tree/master/built-in/TensorFlow/Official/nlp/Textcnn_ID0123_For_Tensorflow
 
 - 通过Git获取对应commit\_id的代码方法如下：
-    
+  
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -49,7 +49,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 - 训练数据集预处理（以ImageNet2012训练集为例，仅作为用户参考示例）：
 
@@ -66,7 +66,7 @@
   -num filters :1024 #卷积核数目
   -kernel_size :5
     
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -74,15 +74,15 @@
 | 混合精度  | 是    |
 | 并行数据  | 否    |
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 脚本已默认开启混合精度，设置precision_mode参数的脚本参考如下。
 
-  
+```
   run_config = NPURunConfig(        
   		model_dir=flags_obj.model_dir,        
   		session_config=session_config,        
@@ -94,7 +94,7 @@
   		precision_mode='allow_mix_precision',        
   		hcom_parallel=True      
         )
-  
+
   precision_mode="allow_fp32_to_fp16"
   parser = argparse.ArgumentParser()
   parser.add_argument('--precision_mode', dest='precision_mode', default='allow_fp32_to_fp16', help='precision mode')
@@ -113,6 +113,7 @@ else:
     # enable npu_static_loss_scale
     elif self.config.npu_loss_scale > 1:
         loss_scale_manager = FixedLossScaleManager(loss_scale=self.config.npu_loss_scale)
+```
 
     if int(os.getenv('RANK_SIZE')) == 1:
         opt = NPULossScaleOptimizer(opt, loss_scale_manager)
@@ -152,11 +153,11 @@ else:
 
 ## 快速上手
 
-- 数据集准备
+#### 数据集准备
 
-   请参考“概述”->“参考实现”
+- 请参考“概述”->“参考实现”
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
@@ -191,7 +192,7 @@ else:
 
 ## 高级参考
 
-## 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码<a name="section08421615141513"></a>
 
 ```
 
@@ -217,7 +218,7 @@ else:
 │    ├── train_full_1p.sh               //精度运行启动脚本
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --Rank_Size              使用NPU卡数量，默认：1
@@ -232,15 +233,13 @@ else:
 ```
 
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动性能或者精度训练。性能和精度通过运行不同脚本，支持性能、精度网络训练。
 
 2.  参考脚本的模型存储路径为test/output/*，训练脚本train_*.log中可查看性能、精度的相关运行状态。
 
-
-
-## 推理/验证过程<a name="section1465595372416"></a>
+#### 推理/验证过程<a name="section1465595372416"></a>
 
 1.  通过“模型训练”中的测试指令启动测试。
 

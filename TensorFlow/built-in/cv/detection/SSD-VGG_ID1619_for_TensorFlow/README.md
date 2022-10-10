@@ -30,8 +30,6 @@
 
 ## 概述
 
-## 简述<a name="section194554031510"></a>
-
 SSD-VGG是采用单个深度神经网络模型实现目标检测和识别的方法。模型主要特点：多尺度特征映射。将卷积特征层添加到截取的基础网络的末端。大尺度的特征图有较多的信息，可以用来检测小物体。而小尺度的特征图用来检测较大的物体。允许在多个尺度上对检测结果进行预测。采用卷积层作为预测器。代替了全连接层，直接采用卷积对不同的特征图进行提取检测结果。
 
 - 参考论文：
@@ -55,7 +53,7 @@ SSD-VGG是采用单个深度神经网络模型实现目标检测和识别的方�
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 
 -   网络结构
     - 24-layer, 1024-hidden, 16-heads, 340M parameters
@@ -69,7 +67,7 @@ SSD-VGG是采用单个深度神经网络模型实现目标检测和识别的方�
     - Train epoch: 200
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -78,11 +76,11 @@ SSD-VGG是采用单个深度神经网络模型实现目标检测和识别的方�
 | 数据并行   | 是       |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度<a name="section20779114113713"></a>
+#### 开启混合精度<a name="section20779114113713"></a>
 
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
@@ -117,20 +115,21 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
-1、用户自行准备好数据集，模型训练使用Pascal VOC数据集，数据集请用户自行获取
+#### 数据集准备<a name="section361114841316"></a>
+- 用户自行准备好数据集，模型训练使用Pascal VOC数据集，数据集请用户自行获取
+
    ```
   bash download-data.sh
-  ```
-2. 数据集训练前需要做预处理操作
+   ```
+- 数据集训练前需要做预处理操作
   ```
   ./process_dataset.py
-  ``` 
-3. 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
+  ```
+- 数据集处理后，放入模型目录下，在训练脚本中指定数据集路径，可正常使用。
 
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
@@ -143,26 +142,19 @@ pip3 install requirements.txt
 
     - 单卡训练
 
-       以数据集为./data/pascal-voc/train-samples.pkl、./data/pascal-voc/valid-samples.pkl、./data/pascal-voc/training-data.pkl为例，backbone模型为./data/vgg_graph/saved_model.pb、./data/vgg_graph/variables、./data/vgg_graph/vgg为例（vgg参考ssdvgg.py的__download_vgg下载）
-
-     ```
+    
+ ```
      cd test;
-	 bash train_full_1p.sh --data_path=./data/
-     ```
-     启动训练。
-
-     启动单卡训练 （脚本为MUNIT_ID0953_for_TensorFlow/test/train_full_1p.sh） 
-
-     ```
-     bash train_full_1p.sh
-     ```
-
-           
+     bash train_full_1p.sh --data_path=./data/
+	 ```
+    
+    
+​       
 
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
     ├── test
@@ -187,8 +179,11 @@ pip3 install requirements.txt
     ├── training_data.py
     ├── transforms.py
     └── utils.py
+```
 
-## 脚本参数<a name="section6669162441511"></a>
+
+
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path                                    data path，default is the path of train.py
@@ -206,9 +201,11 @@ pip3 install requirements.txt
 --over_dump                                    over flow dump, True or False, default is False
 --data_dump                                    data dump, True or False, default is False
 --dump_path                                    dump path，default='/home/HwHiAiUser/'
-
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+
+
+
+#### 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以8卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。

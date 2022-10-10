@@ -30,9 +30,7 @@
 
 ## 概述
 
-## 简述
-
-MobileNetV3和Lite R-ASPP语义分割的Keras实现（正在开发中）。
+MobileNetV3和Lite R-ASPP语义分割的Keras实现。
 
 - 参考论文
 
@@ -55,7 +53,7 @@ MobileNetV3和Lite R-ASPP语义分割的Keras实现（正在开发中）。
         cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     
 
-## 默认配置<a name="section91661242121611"></a>
+#### 默认配置<a name="section91661242121611"></a>
 -   网络结构
     -   224-hidden, 224-heads
     
@@ -66,7 +64,7 @@ MobileNetV3和Lite R-ASPP语义分割的Keras实现（正在开发中）。
     -   epochs: 20
 
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表  | 是否支持 |
 |-------|------|
@@ -75,7 +73,7 @@ MobileNetV3和Lite R-ASPP语义分割的Keras实现（正在开发中）。
 | 数据并行  | 是    |
 
 
-## 混合精度训练<a name="section168064817164"></a>
+#### 混合精度训练<a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
@@ -130,34 +128,34 @@ echo "parameter explain:
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
-1、用户自行准备好COCO数据集，包括训练数据集和验证数据集。
-
-2、训练的数据集放在train目录，验证的数据集放在eval目录
+- 用户自行准备好COCO数据集，包括训练数据集和验证数据集。
 
 
-数据集目录参考如下：
+- 训练的数据集放在train目录，验证的数据集放在eval目录
 
-```
-| - data/
-	| - train/
-  		| - class 0/
-			| - image.jpg
-				....
-		| - class 1/
-		  ....
-		| - class n/
-	| - validation/
-  		| - class 0/
-		| - class 1/
-		  ....
-		| - class n/
-```
+  数据集目录参考如下：
+
+  ```
+  | - data/
+  	| - train/
+    		| - class 0/
+  			| - image.jpg
+  				....
+  		| - class 1/
+  		  ....
+  		| - class n/
+  	| - validation/
+    		| - class 0/
+  		| - class 1/
+  		  ....
+  		| - class n/
+  ```
 
 
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 - 下载训练脚本。
 
 
@@ -168,18 +166,19 @@ echo "parameter explain:
        环境变量配置信息参见：
 
           [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/01.%E8%AE%AD%E7%BB%83%E8%84%9A%E6%9C%AC%E8%BF%81%E7%A7%BB%E6%A1%88%E4%BE%8B/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE)
-
-
-    2. 单卡训练
        
-        2. 1单卡训练指令（脚本位于MobileNetV3_ID0256_for_TensorFlow/test/train_full_1p.sh）
-        
-            bash test/train_full_1p.sh 
+    2. 单卡训练
+    
+       单卡训练指令（脚本位于MobileNetV3_ID0256_for_TensorFlow/test/train_full_1p.sh）
+    
+       ```
+       bash test/train_full_1p.sh 
+       ```
 
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
 .
@@ -207,7 +206,7 @@ echo "parameter explain:
 
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
     --batch					Total batch size for training,default:32
@@ -221,7 +220,7 @@ echo "parameter explain:
     --data_path		         			source data of training
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡网络训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
 
