@@ -28,7 +28,7 @@
 **描述（Description）：基于TensorFlow2框架的MobileNetV3和ResNext50网络训练代码**
 
 ## 概述
--     mobilenet-v3是Google继mobilenet-v2之后的又一力作，作为mobilenet系列的新成员，自然效果会提升，mobilenet-v3提供了两个版本，分别为mobilenet-v3 large 以及mobilenet-v3 small，分别适用于对资源不同要求的情况。MobileNetV3和ResNext50共用的一个框架。
+mobilenet-v3是Google继mobilenet-v2之后的又一力作，作为mobilenet系列的新成员，自然效果会提升，mobilenet-v3提供了两个版本，分别为mobilenet-v3 large 以及mobilenet-v3 small，分别适用于对资源不同要求的情况。MobileNetV3和ResNext50共用的一个框架。
 
 - 参考论文：
 
@@ -50,7 +50,7 @@
 
 
 - 通过Git获取对应commit_id的代码方法如下:
-    
+  
     ```
     git clone {repository_url}    # 克隆仓库的代码
     cd {repository_name}    # 切换到模型的代码仓目录
@@ -59,7 +59,7 @@
     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
     ```
 
-## 默认配置 <a name="section91661242121611"></a>
+#### 默认配置 <a name="section91661242121611"></a>
 -   网络结构
     224-hidden, 224-heads
 
@@ -70,7 +70,7 @@
     -   learning_rate: 1e-5
 
 
-## 支持特性 <a name="section1899153513554"></a>
+#### 支持特性 <a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -79,17 +79,15 @@
 | 数据并行   | 是       |
 
 
-## 混合精度训练 <a name="section168064817164"></a>
+#### 混合精度训练 <a name="section168064817164"></a>
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度 <a name="section20779114113713"></a>
+#### 开启混合精度 <a name="section20779114113713"></a>
 
 拉起脚本中，传入--precision_mode='allow_mix_precision'
 
 相关代码示例。
-
-
 
 ```
 npu_device.global_options().precision_mode=FLAGS.precision_mode
@@ -124,14 +122,14 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
 
 ## 快速上手
-## 数据集准备 <a name="section361114841316"></a>
+#### 数据集准备 <a name="section361114841316"></a>
 
-1. 模型使用VOC2007数据集；
+- 模型使用VOC2007数据集；
 
-2. 使用to_tfrecord.py脚本生成TFRecord格式数据；
+- 使用to_tfrecord.py脚本生成TFRecord格式数据；
 
 
-## 模型训练 <a name="section715881518135"></a>
+#### 模型训练 <a name="section715881518135"></a>
 - 单击“立即下载”，并选择合适的下载方式下载源码包
 
 - 开始训练。
@@ -145,7 +143,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
     2. 单卡训练
        
-        
+       
         ```
         `nohup python3 train.py \
         --dataset_dir=${data_path} \
@@ -161,7 +159,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
 
 ## 高级参考
-## 脚本和示例代码 <a name="section08421615141513"></a>
+#### 脚本和示例代码 <a name="section08421615141513"></a>
 
     ├── README.md                                //说明文档
     ├── requirements.txt			//依赖
@@ -172,7 +170,7 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
 
 
 
-## 脚本参数 <a name="section6669162441511"></a>
+#### 脚本参数 <a name="section6669162441511"></a>
 
 ```
     --data_dir                        train data dir, default : path/to/data
@@ -182,6 +180,6 @@ npu_device.global_options().precision_mode=FLAGS.precision_mode
     --rank_size                       number of npus to use, default : 1
 ```
 
-## 训练过程 <a name="section1589455252218"></a>
+#### 训练过程 <a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡训练。模型存储路径为curpath/output/ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。loss信息在文件curpath/output/{ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。

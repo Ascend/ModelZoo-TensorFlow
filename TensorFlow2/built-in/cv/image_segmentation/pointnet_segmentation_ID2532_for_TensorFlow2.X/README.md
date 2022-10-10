@@ -30,13 +30,13 @@
 
 ## 概述
 
-    点云是一种很重要的几何数据结构，因为它不规则的形式，很多研究都是将它转换成规则的3D体素或者collections,这样的话就会造成大量不必要的数据也会产生一些相应的问题。
-    点云最接近原始传感数据，它是坐标的，所以它可以轻易地转换成其他三种数据格式(mesh,体素，深度图)，也可以由其他格式轻易地转成点云
-    本文设计了一种新型的网络结构直接作用于点云数据上，并且很好的利用了点云数据的随机排列不变性。PointNet是一个统一的框架可以适用于目标分类，part segmentation, 
-    scene semantic parsing.它的性能比肩于甚至好于当前最好的结果，这个网络对于输入扰动和损坏具有很强的健壮性。
-  
+点云是一种很重要的几何数据结构，因为它不规则的形式，很多研究都是将它转换成规则的3D体素或者collections,这样的话就会造成大量不必要的数据也会产生一些相应的问题。
+点云最接近原始传感数据，它是坐标的，所以它可以轻易地转换成其他三种数据格式(mesh,体素，深度图)，也可以由其他格式轻易地转成点云
+本文设计了一种新型的网络结构直接作用于点云数据上，并且很好的利用了点云数据的随机排列不变性。PointNet是一个统一的框架可以适用于目标分类，part segmentation, 
+scene semantic parsing.它的性能比肩于甚至好于当前最好的结果，这个网络对于输入扰动和损坏具有很强的健壮性。
+
 - 参考论文：
-    
+  
    https://arxiv.org/pdf/1612.00593.pdf
 
 - 参考实现：
@@ -44,25 +44,25 @@
    https://github.com/keras-team/keras-io/blob/master/examples/vision
 
 - 适配昇腾 AI 处理器的实现：    
-    
+  
    https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow2/built-in/cv/image_segmentation/pointnet_segmentation_ID2532_for_TensorFlow2.X
 
 - 通过Git获取对应commit\_id的代码方法如下：
-    
+  
       git clone {repository_url}    # 克隆仓库的代码
       cd {repository_name}    # 切换到模型的代码仓目录
       git checkout  {branch}    # 切换到对应分支
       git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
       cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
 
-## 默认配置
+#### 默认配置
 
 - 主要训练超参（单卡）：
     - batch_size: 32
     - epochs: 60
     - lr: 0.001
 
-## 支持特性<a name="section1899153513554"></a>
+#### 支持特性<a name="section1899153513554"></a>
 
 | 特性列表   | 是否支持 |
 | ---------- | -------- |
@@ -70,11 +70,11 @@
 | 混合精度   | 是       |
 | 数据并行   | 否       |
 
-## 混合精度训练
+#### 混合精度训练
 
 昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## 开启混合精度
+#### 开启混合精度
 
 
 ```
@@ -108,7 +108,7 @@ pip3 install requirements.txt
 
 ## 快速上手
 
-## 数据集准备<a name="section361114841316"></a>
+#### 数据集准备<a name="section361114841316"></a>
 
 1. 用户需自行准备 PartAnnotation训练数据集。
 
@@ -122,11 +122,11 @@ pip3 install requirements.txt
 
    ```
 
-## 模型训练<a name="section715881518135"></a>
+#### 模型训练<a name="section715881518135"></a>
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练    
-   
+  
     1. 启动训练之前，首先要配置程序运行相关环境变量。
 
        环境变量配置信息参见：
@@ -138,17 +138,11 @@ pip3 install requirements.txt
         2.1 配置train_full_1p.sh脚本中`data_path`（脚本路径pointnet_segmentation_ID2532_for_TensorFlow2.X/test/train_full_1p.sh）,请用户根据实际路径配置，数据集参数如下所示：
 
             --data_path=train_data
-            
+        
         2.2 1p指令如下:
 
             bash train_full_1p.sh --data_path=train_data
 
-- 验证
-    
-       ```
-       NA
-
-        ```
 
 ## 迁移学习指导
 
@@ -167,7 +161,7 @@ pip3 install requirements.txt
 
 ## 高级参考
 
-## 脚本和示例代码
+#### 脚本和示例代码
 
 ```
 pointnet_segmentation_ID2532_for_TensorFlow2.X/
@@ -182,7 +176,7 @@ pointnet_segmentation_ID2532_for_TensorFlow2.X/
 
 ```
 
-## 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path      训练数据集路径
@@ -192,16 +186,9 @@ pointnet_segmentation_ID2532_for_TensorFlow2.X/
                       
 ```
 
-## 训练过程<a name="section1589455252218"></a>
+#### 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。
 3. 模型存储路径为“curpath/output/ASCEND_DEVICE_ID”，包括训练的log文件。
 4. 以多卡训练为例，loss信息在文件curpath/output/{ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
-
-## 推理/验证过程<a name="section1465595372416"></a>
-
-```
- NA
-
-```
