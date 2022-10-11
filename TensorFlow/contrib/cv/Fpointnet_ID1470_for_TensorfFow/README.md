@@ -196,18 +196,17 @@ F-PointNet是一种研究了基于RGB-D数据的三维目标检测网络。提�
 ## 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动单卡训练。
-
+```
 ## NPU/GPU 网络训练精度box estimation accuracy (IoU=0.7) 
 | NPU  | GPU |
 |-------|------|
 | 0.59| 0.61 |
 ```
-
 ```
 ## NPU/GPU 网络训练性能 
 | NPU  | GPU |
 |-------|------|
-| 3.4min/epoch| 3.14min/epoch|
+| 0.088s/step| 0.082s/step|
 ```
 其中GPU为v100
 ```
