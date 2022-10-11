@@ -1,0 +1,10 @@
+absl-py==1.2.0
+npu-bridge==1.15.0
+npu-device==0.1
+numpy==1.21.6
+opencv-python==4.6.0.66
+opencv-python-headless==4.6.0.66
+tensorflow==1.15.1
+tensorflow-estimator==1.15.1
+future
+
