@@ -140,7 +140,7 @@ approach is described in
 
 |性能指标项|论文发布|GPU实测|NPU实测|
 |---|---|---|---|
-|sec/step|N/A|42.5|182.4|
+|ms/step|N/A|42.5|12.6|
 
 
 <h2 id="高级参考.md">高级参考</h2>
