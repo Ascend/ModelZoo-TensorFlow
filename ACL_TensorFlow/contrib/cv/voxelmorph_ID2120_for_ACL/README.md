@@ -34,6 +34,10 @@ voxelmorph_ID2120_for_ACL
 包括初始ckpt文件，固化pb文件，以及推理om文件
 链接：`obs://voxelmorph-zyh/voxelmorph_ID2120_for_ACL/models/`
 
+> 由于无优惠券，obs已释放，链接放到百度网盘，如下
+>
+> 链接: https://pan.baidu.com/s/1ieHt9rul7H4eeATo3ZMzzQ?pwd=guku 提取码: guku
+
 ## pb模型
 
 模型固化
