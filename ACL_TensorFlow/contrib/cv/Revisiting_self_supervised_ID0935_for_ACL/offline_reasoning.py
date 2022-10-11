@@ -24,6 +24,7 @@ import absl.app as app
 import cv2
 from inception_preprocessing import preprocess_for_eval
 from tensorflow.python.platform import gfile
+
 FLAGS = flags.FLAGS
 flags.DEFINE_string("result_image_dir",
                     "log/result_image/20221011_12_21_54_254035",
@@ -47,7 +48,7 @@ def predict():
         sess.graph.as_default()
         tf.import_graph_def(graph_def, name="")
 
-    for i in range(FLAGS.start, FLAGS.end+1, 1):
+    for i in range(FLAGS.start, FLAGS.end + 1, 1):
         filename = "ILSVRC2012_val_" + str(i).zfill(8) + ".JPEG"
         filepath = os.path.join(FLAGS.original_jpeg_image, filename)
         img = cv2.cvtColor(cv2.imread(filepath), cv2.COLOR_BGR2RGB)
@@ -61,6 +62,7 @@ def predict():
         label_index = np.argmax(res)
         label_dict.setdefault(filename, label_index)
 
+
 def offline_reasoning():
     global label_dict
     sum = 0
@@ -68,7 +70,7 @@ def offline_reasoning():
     dirname = FLAGS.result_image_dir
     if FLAGS.end > len(os.listdir(FLAGS.original_jpeg_image)):
         raise "the end index Exceeded the maximum boundary."
-    for i in range(FLAGS.start, FLAGS.end+1, 1):
+    for i in range(FLAGS.start, FLAGS.end + 1, 1):
         sum += 1
         filename = "ILSVRC2012_val_" + str(i).zfill(8) + ".JPEG"
         true_label = label_dict[filename]
@@ -81,9 +83,11 @@ def offline_reasoning():
         print(f"image filename is {filename} , om_inference_label is {inf_label}, pb_inference_label {true_label}")
     print(f"the sum is {sum}, hit {hit}, the percentage of hits is {hit * 100 / sum}%")
 
+
 def main(unused_argv):
     predict()
     offline_reasoning()
+
 
 if __name__ == "__main__":
     app.run(main)

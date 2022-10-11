@@ -42,6 +42,7 @@ import absl.logging as logging
 from tensorflow.python.tools import freeze_graph
 import tensorflow as tf
 from self_supervision.self_supervision_lib import get_self_supervision_model
+
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string('ckpt_file', "log/ckpt_file", 'the file stored ckpt file')
@@ -64,14 +65,15 @@ flags.DEFINE_string('mode', None, 'Which ResNet to use, `v1` or `v2`.')
 flags.DEFINE_float('weight_decay', 1e-4, 'Strength of weight-decay. '
                                          'Defaults to 1e-4, and may be set to 0.')
 
-def get_model():
 
+def get_model():
     # export the pb module from ckpt module
-    estimator = tf.estimator.Estimator(model_fn=get_self_supervision_model(FLAGS.task),)
+    estimator = tf.estimator.Estimator(model_fn=get_self_supervision_model(FLAGS.task), )
     checkpoint = tf.train.get_checkpoint_state(FLAGS.ckpt_file)
     checkpoint_path = checkpoint.model_checkpoint_path
     input_ids = tf.placeholder(dtype=tf.float32, shape=[1, 224, 224, 3], name='input')
-    data_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(features={'image': input_ids, }, default_batch_size=1)
+    data_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(features={'image': input_ids, },
+                                                                      default_batch_size=1)
     result_path = estimator.export_savedmodel(export_dir_base=FLAGS.pb_file,
                                               serving_input_receiver_fn=data_fn,
                                               checkpoint_path=checkpoint_path)
@@ -90,9 +92,11 @@ def get_model():
         clear_devices=False,
         input_meta_graph=False)
 
+
 def main(unused_argv):
     get_model()
     logging.info('ckpt to pb is success')
+
 
 if __name__ == '__main__':
     app.run(main)

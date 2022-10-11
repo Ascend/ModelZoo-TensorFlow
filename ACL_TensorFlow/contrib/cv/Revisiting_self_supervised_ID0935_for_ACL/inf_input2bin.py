@@ -23,15 +23,17 @@ import tensorflow as tf
 import absl.flags as flags
 import absl.app as app
 import absl.logging as logging
+
 FLAGS = flags.FLAGS
 flags.DEFINE_integer("start", 1, "from where to start convert the image")
 flags.DEFINE_integer("end", 3, "from where to end to convert the image")
 flags.DEFINE_string("original_jpeg_image", "./log/original_jpeg_image", "")
 flags.DEFINE_string("bin_image", "./log/bin_image", "")
 
+
 def convert2bin():
-    for i in range(FLAGS.start, FLAGS.end+1, 1):
-        filename = "ILSVRC2012_val_"+str(i).zfill(8)+".JPEG"
+    for i in range(FLAGS.start, FLAGS.end + 1, 1):
+        filename = "ILSVRC2012_val_" + str(i).zfill(8) + ".JPEG"
         filepath = os.path.join(FLAGS.original_jpeg_image, filename)
         print(f"start to process {filepath}")
         img_org = cv2.imread(filepath)
@@ -42,10 +44,12 @@ def convert2bin():
             res = img.eval()
         res.tofile(FLAGS.bin_image + "/" + filename + ".bin")
 
+
 def main(unused_argv):
     logging.info("-----> start convert the raw image to the bin type-----<")
     convert2bin()
     logging.info("-----> convert success -----<")
+
 
 if __name__ == "__main__":
     app.run(main)

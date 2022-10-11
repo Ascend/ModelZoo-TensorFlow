@@ -27,35 +27,34 @@ from self_supervision import supervised
 
 
 def get_self_supervision_model(self_supervision):
-  """Gets self supervised training data and labels."""
+    """Gets self supervised training data and labels."""
 
-  mapping = {
-      "supervised": supervised.model_fn,
-  }
+    mapping = {
+        "supervised": supervised.model_fn,
+    }
 
-  model_fn = mapping.get(self_supervision)
-  if model_fn is None:
-    raise ValueError("Unknown self-supervision: %s" % self_supervision)
+    model_fn = mapping.get(self_supervision)
+    if model_fn is None:
+        raise ValueError("Unknown self-supervision: %s" % self_supervision)
 
-  def _model_fn(features, labels, mode, params):
-    """Returns the EstimatorSpec to run the model.
+    def _model_fn(features, labels, mode, params):
+        """Returns the EstimatorSpec to run the model.
 
-    Args:
-      features: Dict of inputs ("image" being the image).
-      labels: unused but required by Estimator API.
-      mode: model's mode: training, eval or prediction
-      params: required by Estimator API, contains TPU local `batch_size`.
+        Args:
+          features: Dict of inputs ("image" being the image).
+          labels: unused but required by Estimator API.
+          mode: model's mode: training, eval or prediction
+          params: required by Estimator API, contains TPU local `batch_size`.
 
-    Returns:
-      EstimatorSpec
+        Returns:
+          EstimatorSpec
 
-    Raises:
-      ValueError when the self_supervision is unknown.
-    """
-    del labels, params  # unused
-    tf.logging.info("Calling model_fn in mode %s with data:", mode)
-    tf.logging.info(features)
-    return model_fn(features, mode)
+        Raises:
+          ValueError when the self_supervision is unknown.
+        """
+        del labels, params  # unused
+        tf.logging.info("Calling model_fn in mode %s with data:", mode)
+        tf.logging.info(features)
+        return model_fn(features, mode)
 
-  return _model_fn
-
+    return _model_fn

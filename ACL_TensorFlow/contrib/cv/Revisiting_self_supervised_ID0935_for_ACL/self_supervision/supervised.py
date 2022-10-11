@@ -27,21 +27,22 @@ import tensorflow as tf
 
 from models.utils import get_net
 
+
 def model_fn(features, mode):
-  """
-  Args:
-    features: Dict of inputs containing, among others, "image" and "label."
-    mode: model's mode: training, eval or prediction
+    """
+    Args:
+      features: Dict of inputs containing, among others, "image" and "label."
+      mode: model's mode: training, eval or prediction
 
-  Returns:
-    EstimatorSpec
-  """
+    Returns:
+      EstimatorSpec
+    """
 
-  images = features['image']
+    images = features['image']
 
-  if mode == tf.estimator.ModeKeys.PREDICT:
-    with tf.variable_scope('module'):
-        net = get_net(num_classes=1000)
-        logits, end_points = net(images, False)
+    if mode == tf.estimator.ModeKeys.PREDICT:
+        with tf.variable_scope('module'):
+            net = get_net(num_classes=1000)
+            logits, end_points = net(images, False)
 
-    return tf.estimator.EstimatorSpec(mode=mode, predictions=logits)
+        return tf.estimator.EstimatorSpec(mode=mode, predictions=logits)

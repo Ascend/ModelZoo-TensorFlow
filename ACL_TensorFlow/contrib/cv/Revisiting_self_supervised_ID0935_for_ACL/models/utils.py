@@ -44,33 +44,32 @@ FLAGS = flags.FLAGS
 
 
 def get_net(num_classes=None):  # pylint: disable=missing-docstring
-  architecture = FLAGS.architecture
+    architecture = FLAGS.architecture
 
-  if 'vgg19' in architecture:
-    net = functools.partial(
-        models.vggnet.vgg19,
-        filters_factor=FLAGS.get_flag_value('filters_factor', 8))
-  else:
-    if 'resnet50' in architecture:
-      net = models.resnet.resnet50
-    elif 'revnet50' in architecture:
-      net = models.resnet.revnet50
+    if 'vgg19' in architecture:
+        net = functools.partial(
+            models.vggnet.vgg19,
+            filters_factor=FLAGS.get_flag_value('filters_factor', 8))
     else:
-      raise ValueError('Unsupported architecture: %s' % architecture)
+        if 'resnet50' in architecture:
+            net = models.resnet.resnet50
+        elif 'revnet50' in architecture:
+            net = models.resnet.revnet50
+        else:
+            raise ValueError('Unsupported architecture: %s' % architecture)
 
+        net = functools.partial(
+            net,
+            filters_factor=FLAGS.get_flag_value('filters_factor', 4),
+            last_relu=FLAGS.get_flag_value('last_relu', True),
+            mode=FLAGS.get_flag_value('mode', 'v2'))
+
+        if FLAGS.task in ('jigsaw', 'relative_patch_location'):
+            net = functools.partial(net, root_conv_stride=1, strides=(2, 2, 1))
+
+    # Few things that are common across all models.
     net = functools.partial(
-        net,
-        filters_factor=FLAGS.get_flag_value('filters_factor', 4),
-        last_relu=FLAGS.get_flag_value('last_relu', True),
-        mode=FLAGS.get_flag_value('mode', 'v2'))
+        net, num_classes=num_classes,
+        weight_decay=FLAGS.get_flag_value('weight_decay', 1e-4))
 
-    if FLAGS.task in ('jigsaw', 'relative_patch_location'):
-      net = functools.partial(net, root_conv_stride=1, strides=(2, 2, 1))
-
-  # Few things that are common across all models.
-  net = functools.partial(
-      net, num_classes=num_classes,
-      weight_decay=FLAGS.get_flag_value('weight_decay', 1e-4))
-
-  return net
-
+    return net
