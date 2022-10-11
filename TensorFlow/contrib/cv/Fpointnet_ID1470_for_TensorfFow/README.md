@@ -196,65 +196,16 @@ F-PointNet是一种研究了基于RGB-D数据的三维目标检测网络。提�
 ## 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动单卡训练。
-
-2.  参考脚本的模型存储路径为obs://fpoint/log，训练脚本log中包括如下信息。
-
 ```
- -- 2290 / 2297 --
-mean loss: 8.220488
-segmentation accuracy: 0.850919
-box IoU (ground/3D): 0.632453 / 0.578328
-box estimation accuracy (IoU=0.7): 0.437500
-2021-11-18 22:55:13.219185
----- EPOCH 008 EVALUATION ----
-eval mean loss: 6.363323
-eval segmentation accuracy: 0.867322
-eval segmentation avg class acc: 0.870383
-eval box IoU (ground/3D): 0.675458 / 0.623161
-eval box estimation accuracy (IoU=0.7): 0.464579
-**** EPOCH 009 ****
-2021-11-18 22:55:52.137962
-```
-
-## 推理过程/NPU网络训练精度<a name="section1465595372416"></a>
-
-1.  通过“模型训练”中的测试指令启动测试。
-
-3.  推理脚本的参数eval_dir可以配置为checkpoint所在的文件夹路径，则该路径下所有.ckpt文件都会根据进行推理。
-
-4.  测试结束后会打印验证集的最终训练结果，如下所示。
-
-```
----- EPOCH 200 EVALUATION ----
-eval mean loss: 7.329819
-eval segmentation accuracy: 0.812312
-eval segmentation avg class acc: 0.812516
-eval box IoU (ground/3D): 0.674980 / 0.627430
-eval box estimation accuracy (IoU=0.7): 0.529646
-Model saved in file: /home/ma-user/modelarts/user-job-dir/code/model.ckpt
-===>>>Copy Event or Checkpoint from modelarts dir:/cache/result to obs:/home/ma-user/modelarts/outputs/train_url_0/result
-I ran successfully.
-
-```
-## GPU 网络训练精度
-```
----- EPOCH 200 EVALUATION ----
-eval mean loss: 4.243433
-eval segmentation accuracy: 0.906550
-eval segmentation avg class acc: 0.909143
-eval box IoU (ground/3D): 0.737804 / 0.690117
-eval box estimation accuracy (IoU=0.7): 0.611332
-Model saved in file: /home/lizaozao/桌面/ffffff/log/model.ckpt
-
-Process finished with exit code 0
-```
-## NPU/GPU 网络训练性能 
+## NPU/GPU 网络训练精度box estimation accuracy (IoU=0.7) 
 | NPU  | GPU |
 |-------|------|
-| 7.94min/epoch| 3.14min/epoch|
+| 0.59| 0.61 |
+```
+```
+## NPU/GPU 网络训练性能(s/step) 
+| NPU  | GPU |
+|-------|------|
+| 0.088| 0.082|
 ```
 其中GPU为v100
-```
-## 综合评价
-NPU上训练后的精度比GPU差9%左右，但是均达不到论文上的结果。
-NPU在训练性能上不如GPU。
