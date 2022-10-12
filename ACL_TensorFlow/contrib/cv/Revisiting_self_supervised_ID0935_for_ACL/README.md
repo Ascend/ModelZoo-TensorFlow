@@ -45,7 +45,7 @@
 ```
 ## 3、关于测试集和模型
 
-测试集采用了使用ILSVRC2012_img_val数据集，并进行预处理成224x224x3，放在./log/original_jpeg_image/下。
+测试集采用了使用ILSVRC2012_img_val数据集，放在./log/original_jpeg_image/下。
 
 测试数据集和模型文件都放在百度网盘上：[百度网盘链接](https://pan.baidu.com/s/1kwQIHzhefyE9TDjDuxQ9Vg?pwd=1234)
 ## 4、pb模型
