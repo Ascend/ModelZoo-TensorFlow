@@ -79,7 +79,7 @@ BatchSize=${batch_size}
 DeviceType=`uname -m`
 # getFPS
 FPS=`grep loss ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F's ' 'END{print $2}' | awk -F'us' '{print $1}'`
-ActualFPS=${FPS}
+ActualFPS=`awk 'BEGIN{printf "%.2f\n",1000*1000/'${FPS}'*'${BatchSize}'}'`
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'/'${FPS}'}'`
 # getAcc
 train_accuracy=`grep loss ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F'val_acc: ' 'END{print $2}'`
