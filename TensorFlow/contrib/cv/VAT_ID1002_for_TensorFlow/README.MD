@@ -1,6 +1,5 @@
 # vat_tf
 
-<img src="./vat.gif" width="480">
 
 Tensorflow implementation for reproducing the semi-supervised learning results on CIFAR-10 dataset in the paper "Virtual Adversarial Training: a Regularization Method for Supervised and Semi-Supervised Learning"
 
@@ -31,3 +30,11 @@ On CIFAR-10
 On CIFAR-10
 
 ```python3 test.py --dataset=cifar10 --data_dir=../dataset/cifar10/ --train_url=../checkpoint ```
+
+```
+精度比对|GPU|NPU  
+ACC|0.73|0.75  
+
+性能比对|GPU|NPU  
+ms/step|48.71|38.06  
+```
