@@ -1,6 +1,4 @@
 ModelConvert:OK
 QuantStatus:OK
 FuncStatus:OK
-PrecisionStatus:OK
 PerfStatus:OK
-AutoTune:OK
