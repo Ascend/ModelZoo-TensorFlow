@@ -19,10 +19,6 @@ data_path=""
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
 Network="Resnet50v1.5_ID1721_for_TensorFlow"
-#训练epochs
-train_epochs=1
-#训练steps
-train_steps=1000
 #训练batchz_size
 batch_size=32
 
@@ -115,10 +111,8 @@ do
         --resnet_size=50 \
         --resnet_version=1 \
         --data_format 'channels_last' \
-        --max_train_steps=$train_steps \
         --hooks=ExamplesPerSecondHook \
         --data_dir=$data_path \
-        --train_epochs=$train_epochs \
 		--batch_size=$batch_size \
         --data_dir=$data_path \
         --model_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/  > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
@@ -143,7 +137,7 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 #获取性能数据，不需要修改
 #吞吐量
