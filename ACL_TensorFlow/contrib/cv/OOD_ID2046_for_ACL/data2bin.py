@@ -70,7 +70,7 @@ def main():
     with tf.Session() as sess:
         try:
             while(i<10001):
-                x,y = sess.run([features['x'], features['y']])
+                x, y = sess.run([features['x'], features['y']])
                 val_x.append(x)
                 val_y.append(y)
                 if i%100==0:
