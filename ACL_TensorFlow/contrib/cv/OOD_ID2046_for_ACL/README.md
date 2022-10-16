@@ -45,6 +45,7 @@ OOD是一个细菌检测网络，其主要特点是提出Likelihood Ratios并用
 测试集放在./log/original_data/下。
 测试数据集和模型文件都放在百度网盘上：[百度网盘链接](https://pan.baidu.com/s/1wDSn-rkcyE2Hjr6lQCxw9w?pwd=mqpt) 
 提取码：mqpt
+百度网盘中对应目录下也包含已成功转换的pb、om等模型及bin数据文件
 ## 4、pb模型
 
 原始ckpt文件下载后，放在路径log/ckpt_file/目录下，使用的是ckpt-218000。执行以下命令转换为pb模型并生成冻结后的pb模型。
