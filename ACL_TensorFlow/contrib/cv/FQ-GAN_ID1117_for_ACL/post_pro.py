@@ -22,7 +22,7 @@ class ImageData:
         img = tf.image.resize_images(x_decode, [self.load_size, self.load_size])
         img = tf.cast(img, tf.float32) / 127.5 - 1
 
-        if self.augment_flag :
+        if self.augment_flag: 
             augment_size = self.load_size + (30 if self.load_size == 256 else 15)
             p = random.random()
             if p > 0.5:
@@ -86,20 +86,21 @@ def str2bool(x):
 def parse_args():
     desc = "post prosess of fake_img"
     parser = argparse.ArgumentParser(description=desc)
-    parser.add_argument('--input', type=str, default='/home/test_user07/FQ-GAN/20221016_18_13_56_414701', help='path of msame output')
+    parser.add_argument('--input', type=str, default='/home/test_user07/FQ-GAN/20221016_18_13_56_414701', 
+    help='path of msame output')
     return parser.parse_args()  
 def process(args):
     print(args.input)
     files = glob('{}/*1.txt'.format(args.input))
-    output_dir=os.path.join(args.input,"img_output")
+    output_dir=os.path.join(args.input, "img_output")
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     print(len(files))
     for sample_file  in files:
         a=np.loadtxt(sample_file)
-        a=np.reshape(a,(1,256,256,3))
+        a=np.reshape(a, (1, 256, 256, 3))
         file_name=os.path.basename(sample_file)
-        file_name=file_name.split('.')[0][:-2]
+        file_name=file_name.split('.')[0][: -2]
         image_path=os.path.join(args.input+"/img_output",file_name+".jpg")
         print(image_path)
         save_images(a, [1, 1], image_path)
