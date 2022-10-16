@@ -26,7 +26,8 @@
 UGATIT_new.pb
 ```
 
-百度网盘地址：obs://cann-2021-10-21/inference/pb_file/
+百度网盘地址：链接：https://pan.baidu.com/s/1k7AfDg0aYB5RMHJ9IaGjYw 
+提取码：2ndx
 
 ## om模型
 
