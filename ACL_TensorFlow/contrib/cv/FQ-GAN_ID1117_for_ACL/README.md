@@ -52,7 +52,8 @@ UGATIT_acc_new.om的百度网盘地址：obs://cann-2021-10-21/inference/om_file
 python2 /home/test_user07/tools/img2bin/img2bin.py -i/home/test_user07/FQ-GAN/FQ-U-GAT-IT/dataset/selfie2anime/testB -w 256 -h 256 -f RGB -a NHWC -t float32 -c [1,1,1] -o /home/test_user07/FQ-GAN/FQ-U-GAT-IT/dataset/selfie2anime/testB_out_new 
 ```
 
-转换后的bin文件见百度网盘地址:obs://cann-2021-10-21/inference/bin_file/
+转换后的bin文件见百度网盘地址:链接：https://pan.baidu.com/s/15vpEjtbuse9XZ9bqK72kiA 
+提取码：wte9
 
 ## 使用msame工具推理
 
