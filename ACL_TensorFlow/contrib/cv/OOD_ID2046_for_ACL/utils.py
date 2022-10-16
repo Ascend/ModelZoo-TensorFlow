@@ -195,6 +195,7 @@ def generate_hparams(params_yaml_file):
   with tf.gfile.Open(params_yaml_file, mode='rb') as f:
     params_json = yaml.safe_load(f)
     params_dict = json.loads(params_json)
+    
     params = contrib_training.HParams()
     for key, value in params_dict.items():
       params.add_hparam(key, value)
