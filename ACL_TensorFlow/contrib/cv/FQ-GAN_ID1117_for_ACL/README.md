@@ -16,7 +16,9 @@
 
 ## 原始模型
 
-百度网盘分享地址：obs://cann-2021-10-21/inference/ckpt_file/
+百度网盘分享地址：链接：https://pan.baidu.com/s/1EhnLjVI-abNbpPGV_ptwBA 
+提取码：so7q 
+
 
 步骤一:通过代码ckpt2pb.py将ckpt转成pb
 
