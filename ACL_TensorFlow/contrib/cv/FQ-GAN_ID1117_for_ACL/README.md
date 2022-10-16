@@ -86,7 +86,7 @@ python3.7 main.py --dataset='selfie2anime' --phase='test' --test_train=False --q
 
 对比结果，数值结果和图片结果均相同：
 
-![image-20221016223754779](ACL_TensorFlow/contrib/cv/FQ-GAN_ID1117_for_ACL/image-20221016213203471.pngimage-20221016223754779.png)
+![image-20221016223754779](https://gitee.com/hkx888/ModelZoo-TensorFlow/raw/master/ACL_TensorFlow/contrib/cv/FQ-GAN_ID1117_for_ACL/image-20221016223754779.png)
 
 ckpt生成：
 
