@@ -101,7 +101,7 @@ def process(args):
         a=np.reshape(a, (1, 256, 256, 3))
         file_name=os.path.basename(sample_file)
         file_name=file_name.split('.')[0][: -2]
-        image_path=os.path.join(args.input+"/img_output",file_name+".jpg")
+        image_path=os.path.join(args.input+"/img_output", file_name+".jpg")
         print(image_path)
         save_images(a, [1, 1], image_path)
     print("done")
