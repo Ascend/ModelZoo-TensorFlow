@@ -68,7 +68,7 @@ python2 /home/test_user07/tools/img2bin/img2bin.py -i/home/test_user07/FQ-GAN/FQ
 ./msame --model "/home/test_user07/FQ-GAN/FQ-U-GAT-IT/pb_model/UGATIT_acc_new.om" --input "/home/test_user07/FQ-GAN/FQ-U-GAT-IT/dataset/selfie2anime/testB_out_new"  --output "/home/test_user07/FQ-GAN/" --outfmt TXT
 ```
 
-推理后会在目的地址下面生成一个以日期命名的文件夹，每个测试图片对应生成的推理结果以名称对应，如图：![image-20221016213203471](/Users/huangkaixin/Library/Application Support/typora-user-images/image-20221016213203471.png)
+推理后会在目的地址下面生成一个以日期命名的文件夹，每个测试图片对应生成的推理结果以名称对应，如图：![image-20221016213203471](ACL_TensorFlow/contrib/cv/FQ-GAN_ID1117_for_ACL/image-20221016213203471.png)
 
 ## 推理精度
 
@@ -86,7 +86,7 @@ python3.7 main.py --dataset='selfie2anime' --phase='test' --test_train=False --q
 
 对比结果，数值结果和图片结果均相同：
 
-![image-20221016223754779](/Users/huangkaixin/Library/Application Support/typora-user-images/image-20221016223754779.png)
+![image-20221016223754779](ACL_TensorFlow/contrib/cv/FQ-GAN_ID1117_for_ACL/image-20221016213203471.pngimage-20221016223754779.png)
 
 ckpt生成：
 
