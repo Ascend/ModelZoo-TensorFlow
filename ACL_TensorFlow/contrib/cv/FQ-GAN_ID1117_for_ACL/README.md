@@ -68,7 +68,7 @@ python2 /home/test_user07/tools/img2bin/img2bin.py -i/home/test_user07/FQ-GAN/FQ
 ./msame --model "/home/test_user07/FQ-GAN/FQ-U-GAT-IT/pb_model/UGATIT_acc_new.om" --input "/home/test_user07/FQ-GAN/FQ-U-GAT-IT/dataset/selfie2anime/testB_out_new"  --output "/home/test_user07/FQ-GAN/" --outfmt TXT
 ```
 
-推理后会在目的地址下面生成一个以日期命名的文件夹，每个测试图片对应生成的推理结果以名称对应，如图：![image-20221016213203471](ACL_TensorFlow/contrib/cv/FQ-GAN_ID1117_for_ACL/image-20221016213203471.png)
+推理后会在目的地址下面生成一个以日期命名的文件夹，每个测试图片对应生成的推理结果以名称对应，如图：![image-20221016213203471](https://gitee.com/hkx888/ModelZoo-TensorFlow/blob/master/ACL_TensorFlow/contrib/cv/FQ-GAN_ID1117_for_ACL/image-20221016213203471.png)
 
 ## 推理精度
 
