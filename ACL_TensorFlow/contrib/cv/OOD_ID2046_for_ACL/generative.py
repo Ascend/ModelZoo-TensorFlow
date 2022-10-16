@@ -172,7 +172,7 @@ def load_datasets(params, mode_eval=False):
 class SeqModel(object):
   """DNA sequence modeling."""
 
-  def __init__(self, params,x,y0):
+  def __init__(self, params, x, y0):
     """Create the model."""
     self._params = params
     
@@ -341,7 +341,7 @@ class SeqModel(object):
     end = 0
     num_steps = self._params.num_steps
     for i in range(prev_steps, num_steps, 1):
-      print(i,"step")
+      print(i, "step")
       start = time.time()
       _, in_tr_loss, _, in_tr_acc, in_tr_summary = self.sess.run(
           [self.minimize, self.loss, self.loss_i, self.acc, self.summary],
@@ -410,7 +410,7 @@ class SeqModel(object):
     # saver = tf.train.import_meta_graph(meta_file)
     self.saver.restore(self.sess, ckpt_path)
 
-  def pred_from_ckpt(self, x_in,y_in,x_out,y_out, num_samples):
+  def pred_from_ckpt(self, x_in, y_in, x_out, y_out, num_samples):
     #in_val_dataset = in_val_dataset.batch(self._params.batch_size)
     #ood_val_dataset = ood_val_dataset.batch(self._params.batch_size)
     #in_val_iterator = in_val_dataset.make_one_shot_iterator()
