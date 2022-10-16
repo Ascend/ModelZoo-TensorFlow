@@ -41,7 +41,9 @@ atc --model=/home/test_user07/FQ-GAN/FQ-U-GAT-IT/pb_model/UGATIT_new.pb --framew
 
 成功转化成UGATIT_acc_new.om
 
-UGATIT_acc_new.om的百度网盘地址：obs://cann-2021-10-21/inference/om_file/
+UGATIT_acc_new.om的百度网盘地址：链接：https://pan.baidu.com/s/12TWKBjuem6q4RqUmrru6Jw 
+提取码：dxxw 
+
 
 ## 数据集转换bin
 
