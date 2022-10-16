@@ -127,7 +127,7 @@ def check_args(args):
     else:
         eprint('[ERROR] input path=%r does not exist.' % args.input)
         check_flag = False
-    if args.output_image_format not in ('BGR','RGB', 'YUV', 'GRAY'):
+    if args.output_image_format not in ('BGR', 'RGB', 'YUV', 'GRAY'):
         eprint("[ERROR] Convert to %d is not support." % (args.output_image_format))
         check_flag = False
     if args.height <= 0 or args.width <= 0:
@@ -151,10 +151,12 @@ def convert_img_2_yuv(input_img):
     bgr2uv_matrix = np.transpose(np.append(bgr2u_list, bgr2v_list).reshape((2, 3)))
     bgr2uv_data = input_img[0::2, 0::2, :].reshape((input_img_height // 2 * input_img_width // 2, 3))
     yuv_base_data = np.dot(bgr2uv_data, bgr2uv_matrix) >> 8
-    u_data = yuv_base_data[:,0] + 128
-    v_data = yuv_base_data[:,1] + 128
-    u_v_data = np.transpose(np.append(u_data.flatten(), v_data.flatten()).reshape((2, input_img_height //2 * input_img_width // 2)))
-    nv12_data = np.append(y_data.flatten(), u_v_data.flatten()).reshape((input_img_height // 2 * 3, input_img_width)).astype(np.uint8)
+    u_data = yuv_base_data[: , 0] + 128
+    v_data = yuv_base_data[: , 1] + 128
+    u_v_data = np.transpose(np.append(u_data.flatten(), v_data.flatten()).reshape((2, 
+        input_img_height //2 * input_img_width // 2)))
+    nv12_data = np.append(y_data.flatten(), u_v_data.flatten()).reshape((input_img_height // 2 * 3, 
+    input_img_width)).astype(np.uint8)
     return nv12_data
 
 
@@ -175,12 +177,12 @@ def resize_img(args, input_img):
     target_size = [args.height, args.width]
     ratio = min(float(target_size[i]) / (old_size[i]) for i in range(len(old_size)))
     new_size = tuple([int(i*ratio) for i in old_size])
-    img_new = cv.resize(input_img,(new_size[1], new_size[0]))
+    img_new = cv.resize(input_img, (new_size[1], new_size[0]))
     pad_w = target_size[1] - new_size[1]
     pad_h = target_size[0] - new_size[0]
     top, bottom = pad_h // 2, pad_h - (pad_h // 2)
     left, right = pad_w // 2, pad_w - (pad_w // 2)
-    resized_img = cv.copyMakeBorder(img_new, top, bottom, left, right, cv.BORDER_CONSTANT, None,(0, 0, 0))
+    resized_img = cv.copyMakeBorder(img_new, top, bottom, left, right, cv.BORDER_CONSTANT, None, (0, 0, 0))
     return resized_img
 
 
@@ -228,7 +230,7 @@ def coefficient(args, input_img):
 def change_format(args, input_img):
     if args.output_format == 'NCHW':
         if args.output_image_format in ('RGB', 'BGR'):
-            change_format_img = input_img.transpose(2,0,1).copy()        
+            change_format_img = input_img.transpose(2, 0, 1).copy()        
             return change_format_img
     return input_img
 
@@ -280,7 +282,8 @@ def process(args, file_path):
         mkdir_output(args)
         change_format_img = change_format_img/127.5 - 1
 
-        print("out_path={},img={},num={},type={}".format(out_path,change_format_img,change_format_img[-1][-1][-1],type(change_format_img[-1][-1][-1])))
+        print("out_path={}, img={}, num={}, type={}".format(out_path, change_format_img, 
+            change_format_img[-1][-1][-1], type(change_format_img[-1][-1][-1])))
         change_format_img.tofile(out_path)
         # np.savetxt(out_path1,change_format_img,fmt='%f')
         
