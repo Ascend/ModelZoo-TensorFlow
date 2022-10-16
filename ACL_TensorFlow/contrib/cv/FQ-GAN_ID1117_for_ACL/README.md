@@ -90,11 +90,11 @@ python3.7 main.py --dataset='selfie2anime' --phase='test' --test_train=False --q
 
 ckpt生成：
 
-![711665931223_.pic](/Users/huangkaixin/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/a3a9a2f1277aa029d6b9c9a57330f2b1/Message/MessageTemp/9e20f478899dc29eb19741386f9343c8/Image/711665931223_.pic.jpg)
+![711665931223_.pic](https://gitee.com/hkx888/ModelZoo-TensorFlow/raw/master/ACL_TensorFlow/contrib/cv/FQ-GAN_ID1117_for_ACL/ckpt_out.jpg)
 
 推理结果还原：
 
-![721665931223_.pic](/Users/huangkaixin/Library/Containers/com.tencent.xinWeChat/Data/Library/Application Support/com.tencent.xinWeChat/2.0b4.0.9/a3a9a2f1277aa029d6b9c9a57330f2b1/Message/MessageTemp/9e20f478899dc29eb19741386f9343c8/Image/721665931223_.pic.jpg)
+![721665931223_.pic](https://gitee.com/hkx888/ModelZoo-TensorFlow/raw/master/ACL_TensorFlow/contrib/cv/FQ-GAN_ID1117_for_ACL/msame_out.jpg)
 
 
 
