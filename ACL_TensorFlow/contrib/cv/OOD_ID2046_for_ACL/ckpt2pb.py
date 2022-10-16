@@ -77,9 +77,9 @@ def main():
         mutation_rate=FLAGS.mutation_rate,
     )
     create_out_dir(params)
-    x_in =tf.placeholder(tf.int32,shape=[100,250],name="x_in")
-    y_in =tf.placeholder(tf.int32,shape=[100,],name="y_in") 
-    model = SeqModel(params,x_in,y_in)
+    x_in =tf.placeholder(tf.int32, shape=[100, 250], name="x_in")
+    y_in =tf.placeholder(tf.int32, shape=[100, ], name="y_in") 
+    model = SeqModel(params, x_in, y_in)
     model.reset()
     loss_i = tf.identity(model.loss_i, name='loss_i')
     with tf.Session(config=config) as sess:
