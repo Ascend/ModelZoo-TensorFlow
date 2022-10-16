@@ -151,8 +151,8 @@ def convert_img_2_yuv(input_img):
     bgr2uv_matrix = np.transpose(np.append(bgr2u_list, bgr2v_list).reshape((2, 3)))
     bgr2uv_data = input_img[0::2, 0::2, :].reshape((input_img_height // 2 * input_img_width // 2, 3))
     yuv_base_data = np.dot(bgr2uv_data, bgr2uv_matrix) >> 8
-    u_data = yuv_base_data[: , 0] + 128
-    v_data = yuv_base_data[: , 1] + 128
+    u_data = yuv_base_data[:, 0] + 128
+    v_data = yuv_base_data[:, 1] + 128
     u_v_data = np.transpose(np.append(u_data.flatten(), v_data.flatten()).reshape((2, 
         input_img_height //2 * input_img_width // 2)))
     nv12_data = np.append(y_data.flatten(), u_v_data.flatten()).reshape((input_img_height // 2 * 3, 
