@@ -43,8 +43,7 @@ OOD是一个细菌检测网络，其主要特点是提出Likelihood Ratios并用
 ## 3、关于测试集和模型
 
 测试集放在./log/original_data/下。
-测试数据集和模型文件都放在百度网盘上：[百度网盘链接](链接：https://pan.baidu.com/s/1wDSn-rkcyE2Hjr6lQCxw9w?pwd=mqpt 
-) 
+测试数据集和模型文件都放在百度网盘上：[百度网盘链接](https://pan.baidu.com/s/1wDSn-rkcyE2Hjr6lQCxw9w?pwd=mqpt) 
 提取码：mqpt
 ## 4、pb模型
 
