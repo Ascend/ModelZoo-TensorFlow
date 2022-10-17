@@ -8,19 +8,25 @@
 # shell脚本所在路径
 cur_path=`echo $(cd $(dirname $0);pwd)`
 
-# 判断当前shell是否是performance
-perf_flag=`echo $0 | grep performance | wc -l`
-
 # 当前执行网络的名称
 Network=`echo $(cd $(dirname $0);pwd) | awk -F"/" '{print $(NF-1)}'`
 
+#集合通信参数,不需要修改
+#保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
 export RANK_SIZE=1
-export RANK_ID=0
+RANK_ID_START=0
+batch_size=8
 export JOB_ID=10087
-
+export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 # 路径参数初始化
 data_path=""
-output_path=""
+
+
+#设置默认日志级别,不需要修改
+export ASCEND_GLOBAL_LOG_LEVEL=3
+
+#export RANK_ID=npu8p
+export SLOG_PRINT_TO_STDOUT=0
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
@@ -59,40 +65,40 @@ if [[ $data_path == "" ]];then
     exit 1
 fi
 
-# 校验是否传入output_path,不需要修改
-if [[ $output_path == "" ]];then
-    output_path="./test/output/${ASCEND_DEVICE_ID}"
-fi
+
 
 # 设置打屏日志文件名，请保留，文件名为${print_log}
-print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
-modelarts_flag=${MODELARTS_MODEL_PATH}
-if [ x"${modelarts_flag}" != x ];
-then
-    echo "running without etp..."
-    print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
-    print_log="/home/ma-user/modelarts/log/${print_log_name}"
-fi
-echo "### get your log here : ${print_log}"
-
-CaseName=""
-function get_casename()
-{
-    if [ x"${perf_flag}" = x1 ];
-    then
-        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'perf'
-    else
-        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'acc'
-    fi
-}
+#print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
+#etp_flag=${etp_running_flag}
+##if [ x"${etp_flag}" != x ];
+##then
+#    #echo "running without etp..."
+#    #print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
+#    #print_log="/home/ma-user/modelarts/log/${print_log_name}"
+##fi
+#echo ${print_log}
+#
+#CaseName=""
+#function get_casename()
+#{
+#    if [ x"${perf_flag}" = x1 ];
+#    then
+#        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'perf'
+#    else
+#        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'acc'
+#    fi
+#}
 
 # 跳转到code目录
 cd ${cur_path}/../
-rm -rf ./test/output/${ASCEND_DEVICE_ID}
-mkdir -p ./test/output/${ASCEND_DEVICE_ID}
+rm -rf ${cur_path}/../checkpoints
+#rm -rf ./test/output/${ASCEND_DEVICE_ID}
+#mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
+max_steps=4320
+save_freq=$[$max_steps/2]
 ##########################################################
 #########第3行 至 100行，请一定不要、不要、不要修改##########
 #########第3行 至 100行，请一定不要、不要、不要修改##########
@@ -104,32 +110,33 @@ start_time=$(date +%s)
 #========训练执行命令，需要根据您的网络进行修改==============
 #=========================================================
 #=========================================================
-# 基础参数，需要模型审视修改
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
-batch_size=8
+for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+do
+    #设置环境变量，不需要修改
+    echo "Device ID: $RANK_ID"
+    export RANK_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=$RANK_ID
+    ASCEND_DEVICE_ID=$RANK_ID
+	  DEVICE_INDEX=$RANK_ID
+    export DEVICE_INDEX=${DEVICE_INDEX}
 
-#if [ x"${modelarts_flag}" != x ];
-#then
-#    echo ${data_path}
-#    ls ${data_path}
-#    relative_path_LR="DIV2K/DIV2K_train_LR_bicubic"
-#    relative_path_HR="DIV2K/DIV2K_train_HR"
-#
-#    python3.7 ./train.py \
-#        --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} --train_path=${output_path} \
-#        --chip='npu' \
-#        --model='bsrn' \
-#        --dataloader='div2k_loader' \
-#        --batch_size=8 \
-#        --max_steps=100000 \
-#        --save_freq=1000 \
-#        --scales='4'
-#else
-relative_path_LR="/dataset/DIV2K/DIV2K_train_LR_bicubic"
-relative_path_HR="/dataset/DIV2K/DIV2K_train_HR"
-python3.7 ./train.py \
+    #创建DeviceID输出目录，不需要修改
+    if [ -d $cur_path/output/$ASCEND_DEVICE_ID ];then
+        rm -rf $cur_path/output/$ASCEND_DEVICE_ID
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID
+    else
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID
+    fi
+    ## 校验是否传入output_path,不需要修改
+    output_path="./test/output/${ASCEND_DEVICE_ID}"
+    print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
+        #执行训练脚本，需要模型审视修改
+    relative_path_LR="DIV2K/DIV2K_train_LR_bicubic"
+    relative_path_HR="DIV2K/DIV2K_train_HR"
+nohup python3.7 ./train.py \
     --data_input_path=${data_path}${relative_path_LR}\
     --data_truth_path=${data_path}${relative_path_HR} \
     --train_path=./checkpoints \
@@ -137,27 +144,34 @@ python3.7 ./train.py \
     --model='bsrn' \
     --dataloader='div2k_loader' \
     --batch_size=8 \
-    --max_steps=300000\
-    --save_freq=50000 \
-    --scales='4' 1>${print_log} 2>&1
+    --max_steps=$max_steps \
+    --save_freq=$save_freq \
+    --scales='4' 1>${print_log} 2>&1 &
+done
+wait
 
-relative_path_LR="/dataset/BSD100/LR"
-relative_path_HR="/dataset/BSD100/SR"
-# after training, load the model to check the performance
-relative_path_checkpoint='model.ckpt-300000'
+# if [ $ASCEND_DEVICE_ID -eq $[7] ];then
+    relative_path_LR="BSD100/LR"
+    relative_path_HR="BSD100/SR"
+    # after training, load the model to check the performance model.ckpt-max_steps/rank_size
+    str1="model.ckpt-"
+    str2=$[$max_steps/$RANK_SIZE]
+    relative_path_checkpoint=${str1}${str2}
 
-python3.7 ./validate_bsrn.py \
+    python3.7 ./validate_bsrn.py \
     --dataloader=basic_loader \
     --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} \
     --restore_path=./checkpoints/${relative_path_checkpoint}  \
     --model=bsrn \
-    --scales=4 \
+    --scales='4' \
     --save_path=./result-pictures 1>>${print_log} 2>&1
-#fi
-cat ${print_log}
+# fi
 # 性能相关数据计算
 StepTime=`grep "sec/batch" ${print_log} | tail -n 20 | awk '{print $(NF-2)}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+
+# 精度相关数据计算
+#train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
 # 精度相关数据计算
 PSNR=`grep "Final PSNR" ${print_log} | awk '{print $NF}'`
 SSIM=`grep "Final SSIM" ${print_log} | awk '{print $NF}'`
@@ -185,7 +199,7 @@ else
 fi
 
 # 获取最终的casename，请保留，case文件名为${CaseName}
-get_casename
+CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'acc'
 
 # 重命名loss文件
 if [ -f ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt ];
@@ -204,6 +218,8 @@ echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
 
 # 输出训练精度
+#echo "Final Train Accuracy : ${train_accuracy}"
+# 输出训练精度
 echo "Final Train Accuracy : ${PSNR}"
 echo "Final SSIM : ${SSIM}"
 
@@ -220,4 +236,3 @@ echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "TrainAccuracy = ${PSNR}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
