@@ -392,8 +392,8 @@ def main(argv):
   train_cost_list = list()
   while global_step_value < max_iters:
     train_start_time = time.time()
-    merged_summary, _, desc_loss_value, attn_loss_value, reconstruction_loss_value = tfs.run(
-            [merged_summary_op, train_op, desc_loss, attn_loss, reconstruction_loss])
+    _, desc_loss_value, attn_loss_value, reconstruction_loss_value = tfs.run(
+            [train_op, desc_loss, attn_loss, reconstruction_loss])
     train_cost_list.append(time.time() - train_start_time)
     summary_writer.add_summary(merged_summary, global_step_value)
 
