@@ -1,1 +1,4 @@
 deepctr
+sklearn
+numpy
+pandas

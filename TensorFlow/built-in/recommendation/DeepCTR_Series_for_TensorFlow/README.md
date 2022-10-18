@@ -1,136 +1,214 @@
-# DeepCTR
+- [基本信息](#基本信息.md)
+- [概述](#概述.md)
+- [训练环境准备](#训练环境准备.md)
+- [快速上手](#快速上手.md)
+- [迁移学习指导](#迁移学习指导.md)
+- [高级参考](#高级参考.md)
+## 基本信息
 
-[![Python Versions](https://img.shields.io/pypi/pyversions/deepctr.svg)](https://pypi.org/project/deepctr)
-[![TensorFlow Versions](https://img.shields.io/badge/TensorFlow-1.4+/2.0+-blue.svg)](https://pypi.org/project/deepctr)
-[![Downloads](https://pepy.tech/badge/deepctr)](https://pepy.tech/project/deepctr)
-[![PyPI Version](https://img.shields.io/pypi/v/deepctr.svg)](https://pypi.org/project/deepctr)
-[![GitHub Issues](https://img.shields.io/github/issues/shenweichen/deepctr.svg
-)](https://github.com/shenweichen/deepctr/issues)
-<!-- [![Activity](https://img.shields.io/github/last-commit/shenweichen/deepctr.svg)](https://github.com/shenweichen/DeepCTR/commits/master) -->
+**发布者（Publisher）：Huawei**
+
+**应用领域（Application Domain）：Recommendation**
+
+**版本（Version）：1.1**
+
+**修改时间（Modified） ：2022.6.11**
+
+**大小（Size）：44KB**
+
+**框架（Framework）：TensorFlow 1.15.0**
+
+**模型格式（Model Format）：ckpt**
+
+**精度（Precision）：Mixed**
+
+**处理器（Processor）：昇腾910**
+
+**应用级别（Categories）：Official**
+
+**描述（Description）：基于TensorFlow框架的推荐网络训练代码**
+
+## 概述
 
 
-[![Documentation Status](https://readthedocs.org/projects/deepctr-doc/badge/?version=latest)](https://deepctr-doc.readthedocs.io/)
-![CI status](https://github.com/shenweichen/deepctr/workflows/CI/badge.svg)
-[![codecov](https://codecov.io/gh/shenweichen/DeepCTR/branch/master/graph/badge.svg)](https://codecov.io/gh/shenweichen/DeepCTR)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d4099734dc0e4bab91d332ead8c0bdd0)](https://www.codacy.com/gh/shenweichen/DeepCTR?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=shenweichen/DeepCTR&amp;utm_campaign=Badge_Grade)
-[![Disscussion](https://img.shields.io/badge/chat-wechat-brightgreen?style=flat)](./README.md#DisscussionGroup)
-[![License](https://img.shields.io/github/license/shenweichen/deepctr.svg)](https://github.com/shenweichen/deepctr/blob/master/LICENSE)
-<!-- [![Gitter](https://badges.gitter.im/DeepCTR/community.svg)](https://gitter.im/DeepCTR/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) -->
+DeepCTR 是一个**易于使用**、**模块化**和**可扩展**的基于深度学习的 CTR 模型包以及许多可用于轻松构建自定义模型的核心组件层，在该网络中我们定义了FwFM,MMoE,DeepFM,FLEN,DCNMix五个模型。
+
+- 参考论文：
+
+  https://arxiv.org/pdf/1806.03514.pdf
+
+  https://dl.acm.org/doi/abs/10.1145/3219819.3220007
+
+  https://www.ijcai.org/proceedings/2017/0239.pdf
+
+  https://arxiv.org/pdf/1911.04690.pdf
+
+  https://arxiv.org/pdf/2008.13535
+
+- 参考实现：
+
+  https://github.com/shenweichen/deepctr
+
+- 适配昇腾 AI 处理器的实现：
+  
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/recommendation/DeepCTR_Series_for_TensorFlow
+
+- 通过Git获取对应commit\_id的代码方法如下：
+  
+        git clone {repository_url}    # 克隆仓库的代码
+        cd {repository_name}    # 切换到模型的代码仓目录
+        git checkout  {branch}    # 切换到对应分支
+        git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
+        cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+    
+
+#### 默认配置<a name="section91661242121611"></a>
+
+-   训练超参（单卡）：
+    - Batch size: 128
+    - epoch: 10
 
 
-DeepCTR is a **Easy-to-use**,**Modular** and **Extendible** package of deep-learning based CTR models along with lots of
-core components layers which can be used to easily build custom models.You can use any complex model with `model.fit()`
-，and `model.predict()` .
+#### 支持特性<a name="section1899153513554"></a>
 
-- Provide `tf.keras.Model` like interface for **quick experiment**
-  . [example](https://deepctr-doc.readthedocs.io/en/latest/Quick-Start.html#getting-started-4-steps-to-deepctr)
-- Provide  `tensorflow estimator` interface for **large scale data** and **distributed training**
-  . [example](https://deepctr-doc.readthedocs.io/en/latest/Quick-Start.html#getting-started-4-steps-to-deepctr-estimator-with-tfrecord)
-- It is compatible with both `tf 1.x`  and `tf 2.x`.
+| 特性列表   | 是否支持 |
+| ---------- | -------- |
+| 分布式训练 | 否       |
+| 混合精度   | 是       |
+| 数据并行   | 是       |
 
-Some related projects:
 
-- DeepMatch: https://github.com/shenweichen/DeepMatch
-- DeepCTR-Torch: https://github.com/shenweichen/DeepCTR-Torch
+#### 混合精度训练<a name="section168064817164"></a>
 
-Let's [**Get Started!**](https://deepctr-doc.readthedocs.io/en/latest/Quick-Start.html)([Chinese
-Introduction](https://zhuanlan.zhihu.com/p/53231955)) and [welcome to join us!](./CONTRIBUTING.md)
+昇腾910 AI处理器提供自动混合精度功能，可以针对全网中float32数据类型的算子，按照内置的优化策略，自动将部分float32的算子降低精度到float16，从而在精度损失很小的情况下提升系统性能并减少内存使用。
 
-## Models List
+#### 开启混合精度<a name="section20779114113713"></a>
 
-|                 Model                  | Paper                                                                                                                                                           |
-| :------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  Convolutional Click Prediction Model  | [CIKM 2015][A Convolutional Click Prediction Model](http://ir.ia.ac.cn/bitstream/173211/12337/1/A%20Convolutional%20Click%20Prediction%20Model.pdf)             |
-| Factorization-supported Neural Network | [ECIR 2016][Deep Learning over Multi-field Categorical Data: A Case Study on User Response Prediction](https://arxiv.org/pdf/1601.02376.pdf)                    |
-|      Product-based Neural Network      | [ICDM 2016][Product-based neural networks for user response prediction](https://arxiv.org/pdf/1611.00144.pdf)                                                   |
-|              Wide & Deep               | [DLRS 2016][Wide & Deep Learning for Recommender Systems](https://arxiv.org/pdf/1606.07792.pdf)                                                                 |
-|                 DeepFM                 | [IJCAI 2017][DeepFM: A Factorization-Machine based Neural Network for CTR Prediction](http://www.ijcai.org/proceedings/2017/0239.pdf)                           |
-|        Piece-wise Linear Model         | [arxiv 2017][Learning Piece-wise Linear Models from Large Scale Data for Ad Click Prediction](https://arxiv.org/abs/1704.05194)                                 |
-|          Deep & Cross Network          | [ADKDD 2017][Deep & Cross Network for Ad Click Predictions](https://arxiv.org/abs/1708.05123)                                                                   |
-|   Attentional Factorization Machine    | [IJCAI 2017][Attentional Factorization Machines: Learning the Weight of Feature Interactions via Attention Networks](http://www.ijcai.org/proceedings/2017/435) |
-|      Neural Factorization Machine      | [SIGIR 2017][Neural Factorization Machines for Sparse Predictive Analytics](https://arxiv.org/pdf/1708.05027.pdf)                                               |
-|                xDeepFM                 | [KDD 2018][xDeepFM: Combining Explicit and Implicit Feature Interactions for Recommender Systems](https://arxiv.org/pdf/1803.05170.pdf)                         |
-|         Deep Interest Network          | [KDD 2018][Deep Interest Network for Click-Through Rate Prediction](https://arxiv.org/pdf/1706.06978.pdf)     |
-|                AutoInt                 | [CIKM 2019][AutoInt: Automatic Feature Interaction Learning via Self-Attentive Neural Networks](https://arxiv.org/abs/1810.11921)                              |
-|    Deep Interest Evolution Network     | [AAAI 2019][Deep Interest Evolution Network for Click-Through Rate Prediction](https://arxiv.org/pdf/1809.03672.pdf)                                            |
-|                FwFM                    | [WWW 2018][Field-weighted Factorization Machines for Click-Through Rate Prediction in Display Advertising](https://arxiv.org/pdf/1806.03514.pdf)                |
-|                  ONN                  | [arxiv 2019][Operation-aware Neural Networks for User Response Prediction](https://arxiv.org/pdf/1904.12579.pdf)                                                |
-|                 FGCNN                  | [WWW 2019][Feature Generation by Convolutional Neural Network for Click-Through Rate Prediction ](https://arxiv.org/pdf/1904.04447)                             |
-|     Deep Session Interest Network      | [IJCAI 2019][Deep Session Interest Network for Click-Through Rate Prediction ](https://arxiv.org/abs/1905.06482)                                                |
-|                FiBiNET                 | [RecSys 2019][FiBiNET: Combining Feature Importance and Bilinear feature Interaction for Click-Through Rate Prediction](https://arxiv.org/pdf/1905.09433.pdf)   |
-|                FLEN                    | [arxiv 2019][FLEN: Leveraging Field for Scalable CTR Prediction](https://arxiv.org/pdf/1911.04690.pdf)   |
-|                 BST                   | [DLP-KDD 2019][Behavior sequence transformer for e-commerce recommendation in Alibaba](https://arxiv.org/pdf/1905.06874.pdf)                           | 
-|                IFM                 | [IJCAI 2019][An Input-aware Factorization Machine for Sparse Prediction](https://www.ijcai.org/Proceedings/2019/0203.pdf)   |
-|                DCN V2                    | [arxiv 2020][DCN V2: Improved Deep & Cross Network and Practical Lessons for Web-scale Learning to Rank Systems](https://arxiv.org/abs/2008.13535)   |
-|                DIFM                 | [IJCAI 2020][A Dual Input-aware Factorization Machine for CTR Prediction](https://www.ijcai.org/Proceedings/2020/0434.pdf)   |
-|   FEFM and DeepFEFM                    | [arxiv 2020][Field-Embedded Factorization Machines for Click-through rate prediction](https://arxiv.org/abs/2009.09931)                                         |
-|              SharedBottom               | [arxiv 2017][An Overview of Multi-Task Learning in Deep Neural Networks](https://arxiv.org/pdf/1706.05098.pdf)  |
-|   ESMM                    | [SIGIR 2018][Entire Space Multi-Task Model: An Effective Approach for Estimating Post-Click Conversion Rate](https://arxiv.org/abs/1804.07931)                       |
-|   MMOE                    | [KDD 2018][Modeling Task Relationships in Multi-task Learning with Multi-gate Mixture-of-Experts](https://dl.acm.org/doi/abs/10.1145/3219819.3220007)                   |
-|   PLE                    | [RecSys 2020][Progressive Layered Extraction (PLE): A Novel Multi-Task Learning (MTL) Model for Personalized Recommendations](https://dl.acm.org/doi/10.1145/3383313.3412236)                   |
+拉起脚本中，传入--precision_mode='allow_mix_precision'
 
-## Citation
+```
+ ./train_ID3057_FwFM_performance_1p.sh --help
 
-- Weichen Shen. (2017). DeepCTR: Easy-to-use,Modular and Extendible package of deep-learning based CTR
-  models. https://github.com/shenweichen/deepctr.
-
-If you find this code useful in your research, please cite it using the following BibTeX:
-
-```bibtex
-@misc{shen2017deepctr,
-  author = {Weichen Shen},
-  title = {DeepCTR: Easy-to-use,Modular and Extendible package of deep-learning based CTR models},
-  year = {2017},
-  publisher = {GitHub},
-  journal = {GitHub Repository},
-  howpublished = {\url{https://github.com/shenweichen/deepctr}},
-}
+parameter explain:
+    --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
+    --over_dump                  if or not over detection, default is False
+    --data_dump_flag         data dump flag, default is False
+    --data_dump_step             data dump step, default is 10
+    --profiling                  if or not profiling for performance debug, default is False
+    --data_path                  source data of training
+    -h/--help                    show help message
 ```
 
-## DisscussionGroup
+相关代码示例:
 
-- [Discussions](https://github.com/shenweichen/DeepCTR/discussions)
-- 公众号：**浅梦学习笔记**
-- wechat ID: **deepctrbot**
+```
+parser.add_argument('--precision_mode', default='allow_fp32_to_fp16',
+                     help='allow_fp32_to_fp16/force_fp16/ '
+                     'must_keep_origin_dtype/allow_mix_precision.')
 
-  ![wechat](./docs/pics/code.png)
+custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)
+```
 
-## Main contributors([welcome to join us!](./CONTRIBUTING.md))
+## 训练环境准备
 
-<table border="0">
-  <tbody>
-    <tr align="center" >
-      <td>
-        ​ <a href="https://github.com/shenweichen"><img width="70" height="70" src="https://github.com/shenweichen.png?s=40" alt="pic"></a><br>
-        ​ <a href="https://github.com/shenweichen">Shen Weichen</a> ​
-        <p>
-        Alibaba Group  </p>​
-      </td>
-      <td>
-         <a href="https://github.com/zanshuxun"><img width="70" height="70" src="https://github.com/zanshuxun.png?s=40" alt="pic"></a><br>
-         <a href="https://github.com/zanshuxun">Zan Shuxun</a> ​
-        <p>Alibaba Group  </p>​
-      </td>
-      <td>
-        ​ <a href="https://github.com/pandeconscious"><img width="70" height="70" src="https://github.com/pandeconscious.png?s=40" alt="pic"></a><br>
-        ​ <a href="https://github.com/pandeconscious">Harshit Pande</a>
-        <p> Amazon   </p>​
-      </td>
-      <td>
-        ​ <a href="https://github.com/morningsky"><img width="70" height="70" src="https://github.com/morningsky.png?s=40" alt="pic"></a><br>
-        ​ <a href="https://github.com/morningsky">Lai Mincai</a>
-        <p> ShanghaiTech University </p>​
-      </td>
-      <td>
-        ​ <a href="https://github.com/codewithzichao"><img width="70" height="70" src="https://github.com/codewithzichao.png?s=40" alt="pic"></a><br>
-        ​ <a href="https://github.com/codewithzichao">Li Zichao</a>
-        <p> Peking University   </p>​
-      </td>
-      <td>
-        ​ <a href="https://github.com/TanTingyi"><img width="70" height="70" src="https://github.com/TanTingyi.png?s=40" alt="pic"></a><br>
-         <a href="https://github.com/TanTingyi">Tan Tingyi</a>
-         <p>  Chongqing University <br> of  Posts and <br> Telecommunications   </p>​
-      </td>
-    </tr>
-  </tbody>
-</table>
+-  硬件环境和运行环境准备请参见《[CANN软件安装指南](https://support.huawei.com/enterprise/zh/ascend-computing/cann-pid-251168373?category=installation-update)》
+-  运行以下命令安装依赖。
+```
+pip3 install requirements.txt
+```
+说明：依赖配置文件requirements.txt文件位于模型的根目录
+
+## 快速上手
+
+#### 数据集准备<a name="section361114841316"></a>
+
+1、FwFM、MoME、FLEN、DeepFM模型的数据集为examples目录下的criteo_sample.txt
+
+2、DCNMix模型的数据集是Kaggle-Criteo数据集，需要使用gen_kaggle_criteo_tfrecords.py转换为tfrecord
+
+```
+# 脚本中src_filename需要修改为用户实际的数据集路径
+python3 gen_kaggle_criteo_tfrecords.py
+
+```
+
+
+#### 模型训练<a name="section715881518135"></a>
+
+- 单击“立即下载”，并选择合适的下载方式下载源码包。
+- 开始训练。
+
+    1. 启动训练之前，首先要配置程序运行相关环境变量。
+
+    	环境变量配置信息参见：
+
+       [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/01.%E8%AE%AD%E7%BB%83%E8%84%9A%E6%9C%AC%E8%BF%81%E7%A7%BB%E6%A1%88%E4%BE%8B/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE)
+       
+    2. 单卡训练
+
+        2.1 FwFM单卡任务训练指令
+
+        ```
+        bash train_ID3057_FwFM_performance_1p.sh --data_path=../examples/criteo_sample.txt
+        ```
+
+        2.2 MMoE单卡任务训练指令
+
+        ```
+        bash train_ID3058_MMoE_performance_1p.sh --data_path=../examples/criteo_sample.txt
+        ```
+
+        2.3 DeepFM单卡任务训练指令
+        
+        ```
+        bash train_ID3062_DeepFM_performance_1p.sh --data_path=../examples/criteo_sample.txt
+        ```
+        
+        2.4 FLEN单卡任务训练指令
+        
+        ```
+        bash train_ID3204_FLEN_performance_1p.sh --data_path=../examples/criteo_sample.txt
+        ```
+       
+        2.5 DCNMix单卡任务训练指令
+        
+        ```
+        bash train_ID4032_DCNMix_performance_1p.sh --data_path=/data/criteo.tfrecord
+        ```
+        
+        
+
+
+## 高级参考
+
+#### 脚本和示例代码
+
+```
+|--LICENSE
+|--README.md                                                    #说明文档									
+|--requirements.txt                                             #所需依赖
+|--test                                                         #训练脚本目录
+|	|--train_ID3057_FwFM_full_1p.sh                         #全量训练脚本
+|	|--train_ID3057_FwFM_performance_1p.sh		        #performance训练脚本
+|--examples                                                     #训练模型目录
+|	|--run_fwfm.py                                          #FwFM模型训练主入口
+|	|--run_flen.py                                          #FLEN模型训练主入口
+|	|--run_mtl.py                                           #MOME模型训练主入口
+|	|--run_classification_criteo.py                         #DeepFM模型训练主入口
+|	|--run_dcnmix.py                                        #DCNMix模型训练主入口
+|	|--criteo_sample.txt                                    #criteo样例数据集
+|	|--gen_kaggle_criteo_tfrecords.py                       #kaggle-criteo数据集转换为tfrecord脚本
+```
+
+#### 脚本参数<a name="section6669162441511"></a>
+
+```
+--data_dir
+--precision_mode
+--profiling
+--profiling_dump_path
+```
+
+#### 训练过程<a name="section1589455252218"></a>
+
+通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。模型存储路径为${cur_path}/output/$ASCEND_DEVICE_ID，包括训练的log以及checkpoints文件。以8卡训练为例，loss信息在文件${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
