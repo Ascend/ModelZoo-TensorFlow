@@ -1,0 +1,10 @@
+Network = monodepth
+RankSize = 1
+BatchSize = 8
+DeviceType = x86_64
+CaseName = monodepth_bs8_1p_acc
+ActualFPS = 200.00
+TrainingTime = 0.04
+ActualLoss = 0.42804
+E2ETrainingTime = 51981
+TrainAccuracy = 0.1231,
