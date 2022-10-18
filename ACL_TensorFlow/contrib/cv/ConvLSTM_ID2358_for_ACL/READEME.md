@@ -23,11 +23,11 @@ ConvLSTM最早由香港科技大学的团队提出，解决序列图片的时空
 
 <h2 id="概述.md">原始模型</h2>
 
-obs地址：obs://convlstm/GPU/mini_dataset/GPU_output7/
+原始模型网盘地址：链接：https://pan.baidu.com/s/1vEzm5dMI875iVhpfGhF7CQ   提取码：or5n
 
 
 
-步骤一:将model300转化成Convlstm_frozen_model.pb文件
+步骤一:将文件中的model300转化成Convlstm_frozen_model.pb文件
 通过代码ckpt_to_pb.py将ckpt转成pb
 
 
@@ -75,7 +75,7 @@ python3 Inference.py
 
 数据集文件共享地址，需要在Inference.py中替换datapath：https://modelzoo-atc-pb-om.obs.cn-north-4.myhuaweicloud.com/ConvLSTM-ID2358/dataset.tar
 
-预测的txtcsv文件夹路径：obs://convlstm/GPU/mini_dataset/推理txtcsv/
+预测的txtcsv文件夹路径：链接：https://pan.baidu.com/s/1WB8stkrNsW8PxBCQyG6zTA  提取码：lub4
 
 
 
