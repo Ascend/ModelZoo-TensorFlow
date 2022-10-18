@@ -51,11 +51,11 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Vgg16_for_ACL
 
   For Ascend310:
   ```
-  atc --model=vgg16_tf.pb --framework=3 --output=vgg16_tf_aipp --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=vgg16_tf_aipp.cfg
+  atc --model=vgg16_tf.pb --framework=3 --output=vgg16_tf_aipp --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=vgg16_tf_aipp.cfg --enable_small_channel=1 --enable_compress_weight=true
   ```
   For Ascend310P3:
   ```
-  atc --model=vgg16_tf.pb --framework=3 --output=vgg16_tf_aipp --output_type=FP32 --soc_version=Ascend310P3 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=vgg16_tf_aipp.cfg
+  atc --model=vgg16_tf.pb --framework=3 --output=vgg16_tf_aipp --output_type=FP32 --soc_version=Ascend310P3 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=vgg16_tf_aipp.cfg --enable_small_channel=1 --enable_compress_weight=true
   ```
 
 - Build the program
