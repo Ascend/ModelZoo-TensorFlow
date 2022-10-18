@@ -134,8 +134,8 @@ do
     output_path="./test/output/${ASCEND_DEVICE_ID}"
     print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
         #执行训练脚本，需要模型审视修改
-    relative_path_LR="DIV2K/DIV2K_train_LR_bicubic"
-    relative_path_HR="DIV2K/DIV2K_train_HR"
+    relative_path_LR="dataset/DIV2K/DIV2K_train_LR_bicubic"
+    relative_path_HR="dataset/DIV2K/DIV2K_train_HR"
 nohup python3.7 ./train.py \
     --data_input_path=${data_path}/${relative_path_LR}\
     --data_truth_path=${data_path}/${relative_path_HR} \
@@ -151,8 +151,8 @@ done
 wait
 
 # if [ $ASCEND_DEVICE_ID -eq $[7] ];then
-    relative_path_LR="BSD100/LR"
-    relative_path_HR="BSD100/SR"
+    relative_path_LR="dataset/BSD100/LR"
+    relative_path_HR="dataset/BSD100/SR"
     # after training, load the model to check the performance
     str1="model.ckpt-"
     str2=$[$max_steps/$RANK_SIZE]
