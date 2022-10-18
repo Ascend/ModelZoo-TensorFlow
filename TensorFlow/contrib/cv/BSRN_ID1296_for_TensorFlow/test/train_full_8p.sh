@@ -137,8 +137,8 @@ do
     relative_path_LR="DIV2K/DIV2K_train_LR_bicubic"
     relative_path_HR="DIV2K/DIV2K_train_HR"
 nohup python3.7 ./train.py \
-    --data_input_path=${data_path}${relative_path_LR}\
-    --data_truth_path=${data_path}${relative_path_HR} \
+    --data_input_path=${data_path}/${relative_path_LR}\
+    --data_truth_path=${data_path}/${relative_path_HR} \
     --train_path=./checkpoints \
     --chip='npu' \
     --model='bsrn' \
@@ -160,7 +160,7 @@ wait
 
     python3.7 ./validate_bsrn.py \
     --dataloader=basic_loader \
-    --data_input_path=${data_path}${relative_path_LR} --data_truth_path=${data_path}${relative_path_HR} \
+    --data_input_path=${data_path}/${relative_path_LR} --data_truth_path=${data_path}/${relative_path_HR} \
     --restore_path=./checkpoints/${relative_path_checkpoint}  \
     --model=bsrn \
     --scales='4' \
