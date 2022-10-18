@@ -1,0 +1,97 @@
+
+
+# Vgg16 Inference for Tensorflow 
+
+This repository provides a script and recipe to Inference the Vgg16 model.
+
+## Notice
+**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
+
+Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+
+| Conditions | Need |
+| --- | --- |
+| CANN Version | >=5.0.3 |
+| Chip Platform| Ascend310/Ascend310P3 |
+| 3rd Party Requirements| Please follow the 'requirements.txt' |
+
+## Quick Start Guide
+
+### 1. Clone the respository
+
+```shell
+git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
+cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Vgg16_for_ACL
+```
+
+### 2. Download and preprocess the dataset
+
+1. Download the ImageNet2012 dataset by yourself
+
+   
+
+### 3. Offline Inference
+
+**Convert pb to om.**
+
+- configure the env
+
+  ```
+  #Please modify the environment settings as needed
+  export install_path=/usr/local/Ascend
+  export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
+  export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
+  export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64:$LD_LIBRARY_PATH
+  export ASCEND_OPP_PATH=${install_path}/opp
+  ```
+
+- convert pb to om
+
+  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Vgg16_for_ACL.zip)
+
+  For Ascend310:
+  ```
+  atc --model=vgg16_tf.pb --framework=3 --output=vgg16_tf_aipp --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=vgg16_tf_aipp.cfg --enable_small_channel=1 --enable_compress_weight=true
+  ```
+  For Ascend310P3:
+  ```
+  atc --model=vgg16_tf.pb --framework=3 --output=vgg16_tf_aipp --output_type=FP32 --soc_version=Ascend310P3 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=vgg16_tf_aipp.cfg --enable_small_channel=1 --enable_compress_weight=true
+  ```
+
+- Build the program
+
+  For Ascend310:
+  ```
+  unset ASCEND310P3_DVPP
+  bash build.sh
+  ```
+  For Ascend310P3:
+  ```
+  export ASCEND310P3_DVPP=1
+  bash build.sh
+  ```
+
+- Run the program:
+
+  ```
+  cd scripts
+  bash benchmark_tf.sh --batchSize=1 --modelType=vgg16 --imgType=raw --precision=fp16 --outputType=fp32 --useDvpp=1 --deviceId=0 --modelPath=vgg16_tf_aipp.om --dataPath=image-1024 --trueValuePath=val_lable.txt
+  ```
+
+
+
+## Performance
+
+### Result
+
+Our result were obtained by running the applicable inference script. To achieve the same results, follow the steps in the Quick Start Guide.
+
+#### Inference accuracy results
+
+|       model     |  SOC  | **data**  |    Top1/Top5    |
+| :---------------:|:-------:|:-------: | :-------------: |
+| offline Inference| Ascend310     | 50K images | 72.82 %/ 91.24% |
+| offline Inference| Ascend310P3     | 50K images | 73.4 %/ 91.7% |
+
+## Reference
+[1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_classification/VGG16_ID0068_for_TensorFlow
