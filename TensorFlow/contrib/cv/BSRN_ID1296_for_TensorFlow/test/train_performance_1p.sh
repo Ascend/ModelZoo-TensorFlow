@@ -17,16 +17,8 @@ export RANK_SIZE=1
 RANK_ID_START=0
 batch_size=8
 export JOB_ID=10087
-export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 # 路径参数初始化
 data_path=""
-
-
-#设置默认日志级别,不需要修改
-export ASCEND_GLOBAL_LOG_LEVEL=3
-
-#export RANK_ID=npu8p
-export SLOG_PRINT_TO_STDOUT=0
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
