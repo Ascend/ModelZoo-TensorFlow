@@ -41,7 +41,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/BERT_for_ACL
 获取训练好的checkpoint文件或者pb模型, 更多详情见: [ckpt](./save/ckpt/README.md) 或者 [models](./save/model/README.md)
 
 ### 4. Build the program
-Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.md)
+Build the inference application, 更多详情见: [xacl_fmk](./xacl_fmk/README.md)
 Put xacl to the current dictory.
 
 ### 5. Offline Inference
