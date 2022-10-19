@@ -159,7 +159,7 @@ python3 xnlp_fmk.py \
 
 ```
 
-**通过pb模型推理**
+**通过pb模型运行推理**
 * --in_nodes, --out_nodes：根据实际情况传参
 * 保持其他参数与上一步相同
 ```Bash
