@@ -1,4 +1,5 @@
 # <font face="微软雅黑">
+English|[中文](README.md)
 
 # KGAT Inference for TensorFlow
 
@@ -46,18 +47,9 @@ Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.
 * KGAT in KGAT_for_ACL use static batch size, set predict_batch_size=2048 as input parameter, so we throw away the last batch of test data(batch size=959)
 * The following commands are executed in the ./Model directory
 ***
-**Configure the env**
-```
-ASCEND_HOME=/usr/local/Ascend
-PYTHON_HOME=/usr/local/python3.7
-export PATH=$PATH:$PYTHON_HOME/bin:$ASCEND_HOME/atc/ccec_compiler/bin:$ASCEND_HOME/atc/bin:$ASCEND_HOME/toolkit/bin/
-export LD_LIBRARY_PATH=$ASCEND_HOME/acllib/lib64:$ASCEND_HOME/toolkit/lib64:$ASCEND_HOME/add-ons:$ASCEND_HOME/opp/op_proto/built-in/:$ASCEND_HOME/opp/framework/built-in/tensorflow/:$ASCEND_HOME/opp/op_impl/built-in/ai_core/tbe/op_tiling
-export PYTHONPATH=$ASCEND_HOME/atc/python/site-packages/auto_tune.egg:$ASCEND_HOME/atc/python/site-packages/schedule_search.egg:/caffe/python/:$ASCEND_HOME/ops/op_impl/built-in/ai_core/tbe/
-export ASCEND_OPP_PATH=$ASCEND_HOME/opp
-export SOC_VERSION=Ascend310
-# HOST_TYPE in Ascend310 support Atlas300 and MiniRC
-export HOST_TYPE=Atlas300
-```
+**configure the env**
+
+  Please follow the [guide](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719) to set the envs
 
 **PreProcess**
 ```Bash
