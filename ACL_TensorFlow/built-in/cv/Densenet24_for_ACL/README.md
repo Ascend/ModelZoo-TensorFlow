@@ -27,7 +27,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Densenet24_for_ACL
 ### 2. 下载数据集和预处理
 
 1. 请自行下载数据集
-2. 将数据集放入 **'Densenet24_for_ACL/ori_images'** 中:
+2. 将数据集放入 **Densenet24_for_ACL/ori_images** 中:
 ```
 --ori_images
   |----BRATS2017
