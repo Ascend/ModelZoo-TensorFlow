@@ -90,7 +90,7 @@ python3 xnlp_fmk.py \
 **
 * --om_model_file：om模型名
 * --soc_version, --in_nodes, --out_nodes ：根据实际情况传参
-* 添加额外需要的atc 参数,例如： --precision_mode
+* 添加额外需要的atc参数，例如： --precision_mode
 * --predict_batch_size ：实际batch, 当前仅支持静态batch
 * 保持其他参数与上一步相同
 *  将“logits”保存为'GRU4Rec_full.txt'，'logits'是'SoftmaxV2'的输出节点，如果pb模型使用其他名称，请更改；
