@@ -70,7 +70,7 @@ python3 xnlp_fmk.py \
 
 **冻结Pb模型**
 * --output_dir：在此路径下，冻结脚本会把checkpoint文件转成Pb模型
-* --checkpoint_dir：checkpoint文件, 包括 'checkpoint', 'ckpt.data', 'ckpt.index' and 'ckpt.meta'
+* --checkpoint_dir：checkpoint文件, 包括 'checkpoint', 'ckpt.data', 'ckpt.index' 和 'ckpt.meta'
 * --pb_model_file：pb模型文件名
 * --predict_batch_size：与实际批量相比，仅测试了50个
 * 保持其他参数与上一步相同
