@@ -43,7 +43,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/recommendation/KGAT_for_ACL
 
 **KGAT**
 ***
-* KGAT 在 KGAT_for_ACL 中 使用静态batch, 设置 predict_batch_size=2048 作为输入参数, 所以我们丢掉了最后一批测试数据(batch size=959)
+* KGAT 在 KGAT_for_ACL 中 使用静态batch, 设置 predict_batch_size=2048 作为输入参数, 所以我们舍弃了最后一批测试数据(batch size=959)
 * 在./Model目录中执行以下命令
 ***
 **环境变量设置**
