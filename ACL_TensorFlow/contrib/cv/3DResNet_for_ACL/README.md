@@ -33,11 +33,11 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/3DResNet_for_ACL
 cd scripts
 python3 generate_random_data.py
 ```
-随机数bin文件保存在 *input_bins/* 中.
+随机数bin文件保存在 **input_bins/** 中.
 
 ### 3. 离线推理
 
-**Convert pb to om.**
+**离线模型转换**
 
 - 环境变量设置
 
