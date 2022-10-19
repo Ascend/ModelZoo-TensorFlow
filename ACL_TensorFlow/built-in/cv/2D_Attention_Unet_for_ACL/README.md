@@ -29,7 +29,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/2D_Attention_Unet_for_ACL
 1. 请自行下载Massachusetts Roads数据集
 
 
-2. 将数据集文件放到 **'2D_Attention_Unet_for_ACL/image_ori/'** 中：
+2. 将数据集文件放到 **2D_Attention_Unet_for_ACL/image_ori/** 中：
 ```
 --image_ori
   |----lashan
