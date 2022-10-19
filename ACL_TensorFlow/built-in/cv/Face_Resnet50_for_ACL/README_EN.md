@@ -1,4 +1,4 @@
-English|[中文](README_CN.md)
+English|[中文](README.md)
 
 # FACE-RESNET50 inference for Tensorflow
 
