@@ -1,3 +1,5 @@
+中文|[English](README_EN.md)
+
 # FACE-RESNET50 inference for Tensorflow
 
 This repository provides a script and recipe to Inference the face-resnet50 model.
