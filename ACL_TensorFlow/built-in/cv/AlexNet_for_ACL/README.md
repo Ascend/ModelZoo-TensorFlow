@@ -39,7 +39,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/AlexNet_for_ACL
   请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
 
 
-- convert pb to om
+- Pb模型转换为om模型
 
   [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Alex_for_ACL.zip)
 
