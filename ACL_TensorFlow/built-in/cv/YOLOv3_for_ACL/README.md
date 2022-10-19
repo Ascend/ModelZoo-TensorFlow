@@ -1,40 +1,40 @@
+中文|[English](README_EN.md)
 
+# Yolov3 TensorFlow离线推理 
 
-# Yolov3 Inference for Tensorflow 
+此链接提供Yolov3 TensorFlow模型在NPU上离线推理的脚本和方法
 
-This repository provides a script and recipe to Inference the Yolov3 model.
+## 注意
+**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
-
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+| CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
+## 快速指南
 
-### 1. Clone the respository
+### 1. 拷贝代码
 
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/YOLOv3_for_ACL
 ```
 
-### 2. Requirements
+### 2. 必要条件
 
 opencv-python==4.2.0.34
 
 
-### 3. Download and preprocess the dataset
+### 3. 下载数据集和预处理
 
-1. dataset
-  To compare with official implement, for example, we use [get_coco_dataset.sh](https://github.com/pjreddie/darknet/blob/master/scripts/get_coco_dataset.sh) to prepare our dataset.
+1. 数据集
+  例如，与官方实施相比，我们使用 [get_coco_dataset.sh](https://github.com/pjreddie/darknet/blob/master/scripts/get_coco_dataset.sh) 准备我们的数据集。
 
-2. annotation file
+2. 注释文件
 
    cd scripts
 
@@ -50,7 +50,7 @@ opencv-python==4.2.0.34
    - `label_index x_min y_min x_max y_max`. (The origin of coordinates is at the left top corner, left top => (xmin, ymin), right bottom => (xmax, ymax).)    
    - `image_index` is the line index which starts from zero. `label_index` is in range [0, class_num - 1].
 
-   For example:
+   例如:
 
    ```
    0 xxx/xxx/a.jpg 1920 1080 0 453 369 473 391 1 588 245 608 268
@@ -59,24 +59,17 @@ opencv-python==4.2.0.34
    ```
 
 
-### 3. Offline Inference
+### 3. 离线推理
 
-**Convert pb to om.**
+**离线模型转换**
 
-- Configure the env according to your installation path 
+- 环境变量设置
 
-  ```
-  #Please modify the environment settings as needed
-  export install_path=/usr/local/Ascend
-  export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-  export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
-  export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64:$LD_LIBRARY_PATH
-  export ASCEND_OPP_PATH=${install_path}/opp
-  ```
+  请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
 
-- convert pb to om
+- Pb模型转换为om模型
 
-  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/yolov3_tf.pb)
+  [pb模型下载链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/yolov3_tf.pb)
 
   For Ascend310:
   ```
@@ -87,7 +80,7 @@ opencv-python==4.2.0.34
   atc --model=yolov3_tf.pb --framework=3 --output=yolov3_tf_aipp --output_type=FP32 --soc_version=Ascend310P3 --input_shape="input:1,416,416,3" --log=info --insert_op_conf=yolov3_tf_aipp.cfg
   ```
 
-- Build the program
+- 编译程序
 
   For Ascend310:
   ```
@@ -100,7 +93,7 @@ opencv-python==4.2.0.34
   bash build.sh
   ```
 
-- Run the program:
+- 开始运行:
 
   ```
   cd scripts
@@ -109,18 +102,18 @@ opencv-python==4.2.0.34
 
 
 
-## Performance
+## 推理结果
 
-### Result
+### 结果
 
-Our result were obtained by running the applicable inference script. To achieve the same results, follow the steps in the Quick Start Guide.
+本结果是通过运行上面适配的推理脚本获得的。要获得相同的结果，请按照《快速指南》中的步骤操作。
 
-#### Inference accuracy results
+#### 推理精度结果
 
 IoU=0.5
 | model  | Npu_nums | **mAP** | 
 | :----: | :------: | :-----: | 
 | Yolov3 |    1     |  55.3%   | 
 
-## Reference
+## 参考
 [1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/YoloV3_ID0076_for_TensorFlow
