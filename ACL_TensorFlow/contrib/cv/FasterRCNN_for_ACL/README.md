@@ -39,12 +39,12 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
          python3 object_detection/dataset_tools/create_coco_tf_record.py --include_masks=False --val_image_dir=/your/val_tfrecord_file/path --val_annotations_file=/your/val_annotations_file/path/instances_val2017.json --output_dir=/your/tfrecord_file/out/path
          ```
     
-2. 将数据集转成bin文件
+3. 将数据集转成bin文件
 ```
    python3 data_2_bin.py --validation_file_pattern /your/val_tfrecord_file/path/val_file_prefix* --binfilepath /your/bin_file_out_path 
 ```
-3. 创建两个数据集文件夹，一个是用于“image_info”和“images”文件的your_data_path，另一个是“source_ids”文件的your_datasourceid_path。将bin文件移动到正确的目录；
-4. 将“instances_val2017.json”复制到FasterRCNN_for_ACL/scripts 目录下；
+4. 创建两个数据集文件夹，一个是用于“image_info”和“images”文件的your_data_path，另一个是“source_ids”文件的your_datasourceid_path。将bin文件移动到正确的目录；
+5. 将“instances_val2017.json”复制到FasterRCNN_for_ACL/scripts 目录下；
  
 ### 3. Offline Inference
 
