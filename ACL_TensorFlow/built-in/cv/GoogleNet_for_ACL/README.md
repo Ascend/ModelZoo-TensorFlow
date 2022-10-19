@@ -2,7 +2,7 @@
 
 # GoogleNet TensorFlow离线推理
 
-此链接提供Vgg16 TensorFlow模型在NPU上离线推理的脚本和方法
+此链接提供GoogleNet TensorFlow模型在NPU上离线推理的脚本和方法
 
 ## 注意
 **此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
