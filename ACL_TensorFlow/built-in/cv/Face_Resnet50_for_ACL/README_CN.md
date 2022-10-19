@@ -44,7 +44,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Face_Resnet50_for_ACL
   https://github.com/seasonSH/DocFace
   
   ```
-- ckpt to pb
+- ckpt转换为pb模型
   ```
   for example:
    python3.7 /usr/local/python3.7.5/lib/python3.7/site-packages/tensorflow_core/python/tools/freeze_graph.py --input_checkpoint=./faceres_ms/ckpt-320000 --output_graph=./model/face_resnet50_tf.pb --output_node_names="embeddings" --input_meta_graph=./faceres_ms/graph.meta --input_binary=true
