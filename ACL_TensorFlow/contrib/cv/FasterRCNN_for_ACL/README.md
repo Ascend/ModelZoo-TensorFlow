@@ -1,4 +1,4 @@
-
+English|[中文](README_CN.md)
 
 # FasterRCNN Inference for Tensorflow 
 
@@ -51,15 +51,9 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
 **Convert pb to om.**
 - Access  to the "FasterRCNN_for_ACL" directory.
 
-- Configure the env
+- configure the env
 
-  ```
-  export install_path=/usr/local/Ascend
-  export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-  export PYTHONPATH=${install_path}/opp/op_impl/built-in/ai_core/tbe:$PYTHONPATH
-  export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64/:$LD_LIBRARY_PATH
-  export ASCEND_OPP_PATH=${install_path}/opp
-  ```
+  Please follow the [guide](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719) to set the envs
 Notes: Replace the values of install_path.
 
 - Convert pb to om
