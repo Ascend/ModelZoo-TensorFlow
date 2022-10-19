@@ -1,32 +1,32 @@
 中文|[English](README_EN.md)
 
-# FACE-RESNET50 inference for Tensorflow
+# FACE-RESNET50 TensorFlow离线推理
 
-This repository provides a script and recipe to Inference the face-resnet50 model.
+此链接提供 face-resnet50 模型在NPU上离线推理的脚本和方法
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
+## 注意
+**此案例仅为您学习Ascend软件堆栈提供参考，不用于商业目的。**
 
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+|  CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
+## 快速指南
 
-### 1. Clone the respository
+### 1. 拷贝代码
 
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Face_Resnet50_for_ACL
 ```
 
-### 2. Download and preprocess the dataset
+### 2. 下载数据集和预处理
 
-1. Download the lfw dataset by yourself
+1. 请自行下载lfw测试数据集 
 
 2. Executing the Preprocessing Script
    ```
@@ -35,9 +35,9 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Face_Resnet50_for_ACL
    
    ```
  
-### 3. Offline Inference
+### 3. 离线推理
 
-**Convert pb to om.**
+**离线模型转换**
 
 - get base model
   ```
