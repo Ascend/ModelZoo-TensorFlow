@@ -5,7 +5,7 @@
 ***
 此链接提供KGAT TensorFlow模型在NPU上离线推理的脚本和方法
 
-* [x] KGAT Inference, 基于 [knowledge_graph_attention_network](https://github.com/xiangwang1223/knowledge_graph_attention_network)
+* [x] KGAT 推理, 基于 [knowledge_graph_attention_network](https://github.com/xiangwang1223/knowledge_graph_attention_network)
 
 ***
 
