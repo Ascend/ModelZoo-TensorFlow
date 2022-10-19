@@ -1,5 +1,4 @@
 English|[中文](README.md)
-
 # <font face="微软雅黑">
 
 # GRU4Rec Inference for TensorFlow
