@@ -83,7 +83,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/2D_Attention_Unet_for_ACL
 
 ### 结果
 
-本结果是通过运行上面适配的推理脚本获得的。要获得相同的结果，请按照《快速入门指南》中的步骤操作。
+本结果是通过运行上面适配的推理脚本获得的。要获得相同的结果，请按照《快速指南》中的步骤操作。
 
 #### 推理精度结果
 
