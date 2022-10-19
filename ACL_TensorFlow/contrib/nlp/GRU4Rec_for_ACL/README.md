@@ -39,7 +39,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/GRU4Rec_for_ACL
 
 ### 4. 编译程序
 编译推理程序, 详情见: [xacl_fmk](./xacl_fmk/README.md)
-将xacl放到当前文件夹.
+将xacl放到当前文件夹
 
 ### 5. 离线推理
 
