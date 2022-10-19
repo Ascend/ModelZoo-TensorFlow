@@ -26,31 +26,10 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/YOLOv2_for_ACL
 
 ### 2. Download and preprocess the dataset
 
-1. Download the VOC2007 test dataset by yourself, then extract **VOCtest_06-Nov-2007.tar**. 
+1. Download the ImageNet2012 dataset by yourself
 
-2. Move VOC2007 test dataset to **'scripts/VOC2007'** like this:
-```
-VOC2007
-|----Annotations
-|----ImageSets
-|----JPEGImages
-|----SegmentationClass
-|----SegmentationObject
-```
+   
 
-3. Images Preprocess:
-```
-cd scripts
-mkdir input_bins
-python3 preprocess.py ./VOC2007/JPEGImages/ ./input_bins/
-```
-   The pictures will be preprocessed to bin files.
-
-
-4. Convert Groundtruth labels to text format
-```
-python3 xml2txt.py ./VOC2007/Annotations/ ./yolov2_postprocess/groundtruths/
-```
 
 ### 3. Offline Inference
 
