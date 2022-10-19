@@ -1,33 +1,33 @@
-中文|[English](README_EN.md)
+English|[中文](README.md)
 
-# FasterRCNN TensorFlow离线推理
+# FasterRCNN Inference for Tensorflow 
 
-此链接提供FasterRCNN TensorFlow模型在NPU上离线推理的脚本和方法
+This repository provides a script and recipe to Inference the FasterRCNN model.
 
-## 注意
-**此案例仅为您学习Ascend软件堆栈提供参考，不用于商业目的。**
+## Notice
+**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
 
-在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
+Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
 
 | Conditions | Need |
 | --- | --- |
-| CANN版本 | >=5.0.3 |
-| 芯片平台| Ascend310/Ascend310P3 |
-| 第三方依赖| 请参考 'requirements.txt' |
+| CANN Version | >=5.0.3 |
+| Chip Platform| Ascend310/Ascend310P3 |
+| 3rd Party Requirements| Please follow the 'requirements.txt' |
 
-## 快速指南
+## Quick Start Guide
 
-### 1. 拷贝代码
+### 1. Clone the respository
 
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
 ```
 
-### 2. 下载数据集和预处理
+### 2. Download and preprocess the dataset
 
-1. 访问“datapreprocess”目录
-2. 下载并生成TFRecords数据集 [COCO 2017](http://cocodataset.org/#download).
+1. Access  to the "datapreprocess" directory.
+2. Download and build TFRecords of the dataset，[COCO 2017](http://cocodataset.org/#download).
 
 ```
    bash download_and_preprocess_mscoco.sh <data_dir_path>
