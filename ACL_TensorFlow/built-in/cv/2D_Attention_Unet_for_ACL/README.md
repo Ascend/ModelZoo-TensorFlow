@@ -29,7 +29,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/2D_Attention_Unet_for_ACL
 1. 请自行下载Massachusetts Roads数据集
 
 
-2. 将数据集文件放到 **'2D_Attention_Unet_for_ACL/image_ori/'** 中：
+2. 将数据集文件放到 **2D_Attention_Unet_for_ACL/image_ori/** 中：
 ```
 --image_ori
   |----lashan
@@ -61,37 +61,25 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/2D_Attention_Unet_for_ACL
 
   [pb模型下载链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/2D_Attention_Unet_for_ACL.zip)
 
-  For Ascend310:
   ```
-  atc --model=2D_Attention_Unet_tf.pb --framework=3 --output=model/2DAttention_fp16_1batch --soc_version=Ascend310 --input_shape=inputs:1,224,224,3 --enable_small_channel=1 --insert_op_conf=2DAttention_aipp.cfg
-  ```
-  For Ascend310P3:
-  ```
-  atc --model=2D_Attention_Unet_tf.pb --framework=3 --output=model/2DAttention_fp16_1batch --soc_version=Ascend310P3 --input_shape=inputs:1,224,224,3 --enable_small_channel=1 --insert_op_conf=2DAttention_aipp.cfg
+  cd ..
+  mkdir model
+  atc --model=model/2D_Attention_Unet_tf.pb --framework=3 --output=model/2DAttention_fp16_1batch --soc_version=Ascend310P3 --input_shape=inputs:1,224,224,3 --enable_small_channel=1 --insert_op_conf=2DAttention_aipp.cfg
   ```
 
 
 - 编译程序
-
-  For Ascend310:
   ```
-  unset ASCEND310P3_DVPP
-  bash build.sh
-  ```
-  For Ascend310P3:
-  ```
-  export ASCEND310P3_DVPP=1
   bash build.sh
   ```
 
 - 开始运行:
 
   ```
-  cd scripts
   bash benchmark_tf.sh
   ```
   
-## 推理结果
+## 性能
 
 ### 结果
 

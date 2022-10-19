@@ -59,32 +59,21 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/2D_Attention_Unet_for_ACL
 
   [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/2D_Attention_Unet_for_ACL.zip)
 
-  For Ascend310:
   ```
-  atc --model=2D_Attention_Unet_tf.pb --framework=3 --output=model/2DAttention_fp16_1batch --soc_version=Ascend310 --input_shape=inputs:1,224,224,3 --enable_small_channel=1 --insert_op_conf=2DAttention_aipp.cfg
-  ```
-  For Ascend310P3:
-  ```
-  atc --model=2D_Attention_Unet_tf.pb --framework=3 --output=model/2DAttention_fp16_1batch --soc_version=Ascend310P3 --input_shape=inputs:1,224,224,3 --enable_small_channel=1 --insert_op_conf=2DAttention_aipp.cfg
+  cd ..
+  mkdir model
+  atc --model=model/2D_Attention_Unet_tf.pb --framework=3 --output=model/2DAttention_fp16_1batch --soc_version=Ascend310P3 --input_shape=inputs:1,224,224,3 --enable_small_channel=1 --insert_op_conf=2DAttention_aipp.cfg
   ```
 
 - Build the program
 
-  For Ascend310:
   ```
-  unset ASCEND310P3_DVPP
-  bash build.sh
-  ```
-  For Ascend310P3:
-  ```
-  export ASCEND310P3_DVPP=1
   bash build.sh
   ```
 
 - Run the program:
 
   ```
-  cd scripts
   bash benchmark_tf.sh 
   ```
   
