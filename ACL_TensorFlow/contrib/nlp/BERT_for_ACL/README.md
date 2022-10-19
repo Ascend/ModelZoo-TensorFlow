@@ -1,41 +1,44 @@
 # <font face="微软雅黑">
 
-# BERT DownStream Inference for TensorFlow
+中文|[English](README_EN.md)
+
+# BERT DownStream TensorFlow离线任务
 
 ***
-This repository provides a script and recipe to Inference the BERT DownStream Inference
+此链接提供BERT DownStream模型在NPU上离线推理的脚本和方法
 
-* [x] BERT DownStream Inference, based on [BERT](https://github.com/google-research/bert) 
+* [x] BERT DownStream推理,  基于[BERT](https://github.com/google-research/bert) 
 
 ***
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
+## 注意
+**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
 
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+| CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
+## 快速指南
 
-### 1. Clone the respository
+### 1. 拷贝代码
+
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/BERT_for_ACL
 ```
 
-### 2. Download and preprocess the dataset
+### 2. 下载数据集和预处理
 
-Download the dataset by yourself, more details see: [data](./data)
-Download the vocab.txt and bert_config.json by yourself, more details see: [config](./config/README.md)
+请自行下载数据集, 更多详情见: [data](./data)
+请自行下载vocab.txt and bert_config.json , 更多详情见: [config](./config/README.md)
 
-### 3. Obtain the fine-tuned checkpoint files or pb model
+### 3. 获取训练好的checkpoint文件或者pb模型
 
-Obtain the fine-tuned checkpoint files or pb model, more details see: [ckpt](./save/ckpt/README.md) or [models](./save/model/README.md)
+获取训练好的checkpoint文件或者pb模型, 更多详情见: [ckpt](./save/ckpt/README.md) 或者 [models](./save/model/README.md)
 
 ### 4. Build the program
 Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.md)
