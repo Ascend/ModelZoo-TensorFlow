@@ -40,35 +40,31 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/BERT_for_ACL
 
 获取训练好的checkpoint文件或者pb模型, 更多详情见: [ckpt](./save/ckpt/README.md) 或者 [models](./save/model/README.md)
 
-### 4. Build the program
-Build the inference application, 更多详情见: [xacl_fmk](./xacl_fmk/README.md)
-Put xacl to the current dictory.
+### 4. 编译程序
+编译推理工具, 更多详情见: [xacl_fmk](./xacl_fmk/README.md)
+将xacl工具放至当前位置。
 
-### 5. Offline Inference
+### 5. 离线推理
 
 **BERT**
 ***
-* BERT use bert for model_name parameter, each downstream task name for task_name
-* BERT support ner, squad1.1, mrpc, cola, mnli and tnews tasks
-* Change the parameters for different tasks
-* Only BERT Base and BERT Large has been tested
+* BERT使用bert做为模型的名称, 每个下游任务各自做为模型名称。
+* BERT支持ner, squad1.1, mrpc, cola, mnli and tnews等下游任务
+* 改变模型入参，以支持不同的任务
+* 只在BERT Base和BERT Large被测试过
 ***
-**Configure the env**
-```
-export install_path=/usr/local/Ascend
-export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
-export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64:$LD_LIBRARY_PATH
-export ASCEND_OPP_PATH=${install_path}/opp
-```
 
-**PreProcess**
-* Change --data_dir to the real path of each downstream task dataset, and make sure the **predict** file under the path such as 'dev.tsv'
-* Change --output_dir to the same with --data_dir, and preprocess script will convert text to bin files under this path
-* Keep the --vocab_file, --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride, etc. the same with fine-tuning parameters
-* Keep the --model_name=bert when do the BERT tasks
-* Change --task_name to the downstream task you want to do, only support ner, squad(for squad1.1), mrpc, cola, mnli and tnews tasks
-* More datasets and tasks details like download link see README.md in each datasets' path
+**环境变量设置**
+
+  请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
+
+**预处理**
+* --data_dir为存放下游任务数据集的绝对路径, 同时，确保**predict**文件在此路径下，例如'dev.tsv'
+* --output_dir和--data_dir一样, 预处理脚本会将text文件转换为bin文件并保存至此路径
+* --vocab_file, --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride等不变
+* --model_name=bert 当下游任务为BERT时，模型名称为bert
+* --task_name为下游所需的任务名, 仅支持ner, squad(squad1.1), mrpc, cola, mnli 和 tnews 任务
+* 更多数据集和任务详情见README.md中各个数据集路径下的下载链接
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/SQuAD1.1 \
@@ -83,12 +79,12 @@ python3 xnlp_fmk.py \
 
 ```
 
-**Freeze pb model**
-* Change --output_dir to the real path, and freeze script will convert checkpoint files to pb model file under this path
-* Change --checkpoint_dir to the real path of checkpoint files, include 'checkpoint', 'ckpt.data', 'ckpt.index' and 'ckpt.meta'
-* Rename --pb_model_file to the real pb model file name
-* Change --predict_batch_size to the real batch size, or give 'None' for dynamic batch
-* Keep other parameters the same as the previous step
+**冻结pb模型**
+* --output_dir为相对路径, 冻结脚本会将checkpoint文件转换成pb模型文件至此路径下
+* --checkpoint_dir路径下包含 'checkpoint', 'ckpt.data', 'ckpt.index' and 'ckpt.meta'等文件
+* --pb_model_file 为真实模型文件名称
+* --predict_batch_size入参为实际batch size值,或者赋'None'来做为动态batch size
+* 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
     --output_dir=./save/model \
@@ -103,12 +99,12 @@ python3 xnlp_fmk.py \
 
 ```
 
-**Convert pb to om**
-* Rename --om_model_file to the real om model file name
-* Change the --soc_version, --in_nodes, --out_nodes according to the actual situation
-* Add additional atc parameters if you need, e.g., --precision_mode
-* Change --predict_batch_size to the real batch size, currently only support static batch size
-* Keep other parameters the same as the previous step
+**pb模型转om**
+* 重命名--om_model_file为真实的om离线模型
+* 依据实际情况修改--soc_version, --in_nodes, --out_nodes等入参
+* 如果需要的话，可添加另外的atc参数。例如, --precision_mode
+* 修改--predict_batch_size入参为实际batch size值, 当前仅支持固态batch size
+* 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
     --output_dir=./save/model \
@@ -125,10 +121,10 @@ python3 xnlp_fmk.py \
 
 ```
 
-**Run the inference**
-* Change --output_dir to the real path and script will save the output bin file under this path
-* Build the inference application and put it under current path, more details see: [xacl_fmk](./xacl_fmk/README.md)
-* Keep other parameters the same as the previous step
+**运行离线推理**
+* 修改 --output_dir改为相对路径, 脚本会将输出bin文件并保存至此路径下
+* 编译推理工具，并将其放至当前路径下，更多详情见: [xacl_fmk](./xacl_fmk/README.md)
+* 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/SQuAD1.1 \
@@ -141,9 +137,9 @@ python3 xnlp_fmk.py \
 
 ```
 
-**PostProcess**
-* Change --output_dir to the real path and script will save the precision result file under this path
-* Keep other parameters the same as the previous step
+**后处理**
+* 修改 --output_dir改为相对路径, 脚本会保存精度结果至此路径下
+* 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/SQuAD1.1 \
@@ -160,11 +156,11 @@ python3 xnlp_fmk.py \
 
 ```
 
-## Other Usages
-**Convert pb to pbtxt**
-* Change --output_dir to the real path, and convert script will convert pb model file to pbtxt model file under this path
-* Rename --pb_model_file to the real pb model file name
-* Keep other parameters the same as the previous step
+## 其他用法
+**pb模型转换为pbtxt**
+* --output_dir改为相对路径, 脚本将pb模型转换成pbtxt，并保存至此路径下
+*--pb_model_file入参改为实际模型名称
+* 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
     --output_dir=./save/model \
@@ -175,9 +171,9 @@ python3 xnlp_fmk.py \
 
 ```
 
-**Run the inference by pb model**
-* Change the --in_nodes, --out_nodes according to the actual situation
-* Keep other parameters the same as the previous step
+**pb模型推理**
+* 依据实际情况，修改--in_nodes, --out_nodes 
+* 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/SQuAD1.1 \
@@ -192,7 +188,7 @@ python3 xnlp_fmk.py \
 
 ```
 
-## Reference
+## 参考
 
 [1] https://arxiv.org/abs/1810.04805
 
