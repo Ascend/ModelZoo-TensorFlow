@@ -45,7 +45,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Vgg19_for_ACL
   atc --model=vgg19_tf.pb --framework=3 --output=vgg19_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --insert_op_conf=vgg19_tf_aipp.cfg --enable_small_channel=1 --log=info
   ```
   For Ascend310P3:
- ```
+  ```
   atc --model=vgg19_tf.pb --framework=3 --output=vgg19_tf_1batch --output_type=FP32 --soc_version=Ascend310P3 --input_shape="input:1,224,224,3" --insert_op_conf=vgg19_tf_aipp.cfg --enable_small_channel=1 --log=info
   ```
 - 编译程序
