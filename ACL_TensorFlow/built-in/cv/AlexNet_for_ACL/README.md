@@ -41,7 +41,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/AlexNet_for_ACL
 
 - Pb模型转换为om模型
 
-  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Alex_for_ACL.zip)
+  [pb模型下载链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Alex_for_ACL.zip)
 
   Ascend310: 
 
