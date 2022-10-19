@@ -52,7 +52,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Inceptionv4_for_ACL
   atc --model=inception_v4_tf.pb --framework=3 --output=inception_v4_tf_aipp --output_type=FP32 --soc_version=Ascend310P3 --input_shape="input:1,299,299,3" --log=info --insert_op_conf=inception_v4_tf_aipp.cfg
   ```
 
-- Build the program
+- 编译程序
 
   For Ascend310:
   ```
@@ -65,7 +65,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Inceptionv4_for_ACL
   bash build.sh
   ```
   
-- 编译程序
+- 开始运行
 
   ```
   cd scripts
