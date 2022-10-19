@@ -1,3 +1,4 @@
+English|[中文](README.md)
 # <font face="微软雅黑">
 
 # LSTM Inference for TensorFlow
@@ -49,13 +50,9 @@ Put xacl to the current dictory.
 * LSTM in LSTM_for_ACL use static batch size, set predict_batch_size=24 as input parameter
 ***
 **Configure the env**
-```
-export install_path=/usr/local/Ascend
-export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
-export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64:$LD_LIBRARY_PATH
-export ASCEND_OPP_PATH=${install_path}/opp
-```
+
+  Please follow the [guide](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719) to set the envs
+
 
 **PreProcess**
 * Change --data_dir to the real path of each downstream task dataset, and make sure the **predict** file under the path
