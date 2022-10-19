@@ -28,7 +28,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/3DUNET_for_Tensorflow
 
 1. Download the dataset by yourself
 
-2. Put the dataset files to **'3DUNET_for_ACL/ori_images/'** like this:
+2. Put the dataset files to **3DUNET_for_ACL/ori_images/** like this:
 ```
 --MICCAI_BraTS_2019_Data_Training
 
