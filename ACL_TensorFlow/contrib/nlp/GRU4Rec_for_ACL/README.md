@@ -1,5 +1,4 @@
 中文|[English](README_EN.md)
-
 # <font face="微软雅黑">
 
 # GRU4Rec TensorFlow离线推理
