@@ -33,7 +33,7 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
    bash download_and_preprocess_mscoco.sh <data_dir_path>
 ```
    注意：数据将被下载，预处理为tfrecords格式，并保存在<Data_dir_path>目录中（主机上）。如果您已经下载并创建了TFRecord文件（根据tensorflow的官方tpu脚本生成的TFRecord），请跳过此步骤。 
-         如果您已经下载了COCO映像，请运行以下命令将其转换为TFRecord
+         如果您已经下载了COCO映像，请运行以下命令将其转换为TFRecord格式
 
          ```
          python3 object_detection/dataset_tools/create_coco_tf_record.py --include_masks=False --val_image_dir=/your/val_tfrecord_file/path --val_annotations_file=/your/val_annotations_file/path/instances_val2017.json --output_dir=/your/tfrecord_file/out/path
@@ -44,7 +44,7 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
    python3 data_2_bin.py --validation_file_pattern /your/val_tfrecord_file/path/val_file_prefix* --binfilepath /your/bin_file_out_path 
 ```
 3. 创建两个数据集文件夹，一个是用于“image_info”和“images”文件的your_data_path，另一个是“source_ids”文件的your_datasourceid_path。将bin文件移动到正确的目录；
-4. 将“instances_val2017.json”复制到FasterRCNN_for_ACL/scripts 目录下
+4. 将“instances_val2017.json”复制到FasterRCNN_for_ACL/scripts 目录下；
  
 ### 3. Offline Inference
 
@@ -75,7 +75,7 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
   chmod +x benchmark_tf.sh
   ./benchmark_tf.sh --batchSize=1 --modelType=fastrcnn16  --outputType=fp32  --deviceId=2 --modelPath=/your/fastom/path/your_fastom_name.om --dataPath=/your/data/path --innum=2 --suffix1=image_info.bin --suffix2=images.bin --imgType=raw  --sourceidpath=/your/datasourceid/path
   ```
-Notes: Replace the values of modelPath， dataPath， and sourceidpath. Use an absolute path.
+注意：替换modelPath、dataPath和sourceidpath的参数。使用绝对路径。
 
 
 
