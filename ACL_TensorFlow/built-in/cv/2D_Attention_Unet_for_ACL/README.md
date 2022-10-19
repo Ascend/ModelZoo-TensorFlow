@@ -87,7 +87,8 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/2D_Attention_Unet_for_ACL
 - 开始运行:
 
   ```
-  bash benchmark_tf.sh 
+  cd scripts
+  bash benchmark_tf.sh
   ```
   
 ## 推理结果
