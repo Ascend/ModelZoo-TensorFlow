@@ -1,4 +1,4 @@
-中文|[English](README.md)
+中文|[English](README_EN.md)
 
 # FasterRCNN TensorFlow离线推理
 
