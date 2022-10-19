@@ -1,4 +1,4 @@
-中文|[English](README_EN.md)
+中文|[English](README.md)
 
 # FACE-RESNET50 TensorFlow离线推理
 
