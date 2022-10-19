@@ -1,6 +1,5 @@
-# <font face="微软雅黑">
 English|[中文](README.md)
-
+# <font face="微软雅黑">
 # KGAT Inference for TensorFlow
 
 ***
