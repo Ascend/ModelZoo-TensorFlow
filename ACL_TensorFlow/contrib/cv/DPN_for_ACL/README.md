@@ -1,40 +1,40 @@
+中文|[English](README_EN.md)
 
+# DPN Tensorflow离线推理
 
-# DPN Inference for Tensorflow 
+此链接提供DPN TensorFlow模型在NPU上离线推理的脚本和方法
 
-This repository provides a script and recipe to Inference the DPN model.
+## 注意
+**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
-
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+| CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
+## 快速指南
 
-### 1. Clone the respository
+### 1. 拷贝代码
 
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/DPN_for_ACL
 ```
 
-### 2. Download and preprocess the dataset
+### 2. 下载数据集和预处理
 
-1. Download the  test dataset by yourself ([Download](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/dataset/dpnval.tfrecords))and put it to the path: **scripts/dataset/**
+1. 请自行下载ImageNet2012测试数据集 ([Download](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/dataset/dpnval.tfrecords))并将其放入: **scripts/dataset/** 中：
 
-2. Preprocess of the test datasets and labels:
+2. 测试数据集和标签的预处理:
 ```
 cd scripts
 mkdir input_bins
 python3 dpn_preprocess.py dataset/dpnval.tfrecords ./input_bins/
 ```
-and it will generate **data** , **distance** and **label** directories:
+将会生成 **data** , **distance** 和 **label** 目录:
 ```
 data
 |___000000.bin
@@ -50,23 +50,17 @@ label
 |__label.npy
 ```
 
-### 3. Offline Inference
+### 3. 离线推理
 
-**Convert pb to om.**
+**离线模型转换**
 
-- configure the env
+- 环境变量设置
 
-  ```
-  export install_path=/usr/local/Ascend
-  export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-  export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
-  export LD_LIBRARY_PATH=${install_path}/atc/lib64:$LD_LIBRARY_PATH
-  export ASCEND_OPP_PATH=${install_path}/opp
-  ```
+  请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
 
-- convert pb to om
+- Pb模型转换为om模型
   
-   [**Pb Download Link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/ckpt/dpn.pb)
+   [**pb模型下载链接**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/ckpt/dpn.pb)
 
   batchsize=8
 
@@ -74,14 +68,14 @@ label
   atc --model=dpn.pb  --framework=3 --input_shape="inputx:8,512,512,3,inputd:10,10,1" --output=./dpn_8batch --out_nodes="upsample/Conv_2/Relu:0" --soc_version=Ascend310 --log=info
   ```
 
-- Build the program
+- 编译程序
 
   ```
   bash build.sh
   ```
-  An executable file **benchmark** will be generated under the path: **Benchmark/output/**
+  **benchmark** 工具的运行结果将会生成在 **Benchmark/output/** 路径下:
 
-- Run the program:
+- 开始运行:
 
   ```
   cd scripts
@@ -90,17 +84,17 @@ label
 
 
 
-## Performance
+## 性能
 
-### Result
+### 结果
 
-Our result were obtained by running the applicable training script. To achieve the same results, follow the steps in the Quick Start Guide.
+本结果是通过运行上面适配的推理脚本获得的。要获得相同的结果，请按照《快速指南》中的步骤操作。
 
-#### Inference accuracy results:
+#### 推理精度结果:
 
 | Test Dataset | Number of pictures | MeanIou |
 |--------------|-------------------|-------------------|
 | cvcdb          | 1448             | 46%             |
 
-## Reference
+## 参考
 [1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/dpn/DPN_ID1636_for_TensorFlow
