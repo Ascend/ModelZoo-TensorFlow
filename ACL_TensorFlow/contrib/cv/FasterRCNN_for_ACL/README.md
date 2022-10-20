@@ -60,7 +60,7 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
   ```
   atc --model=/your/pb/path/your_fast_pb_name.pb --framework=3  --output=your_fastom_name--output_type=FP32 --soc_version=Ascend310P3 --input_shape="image:1,1024,1024,3;image_info:1,5" --keep_dtype=./keeptype.cfg  --precision_mode=force_fp16  --out_nodes="generate_detections/combined_non_max_suppression/CombinedNonMaxSuppression:3;generate_detections/denormalize_box/concat:0;generate_detections/add:0;generate_detections/combined_non_max_suppression/CombinedNonMaxSuppression:1"
   ```
-注意: 替换模型参数, 输出, 环境变量
+注意: 替换模型、输出、环境变量的参数
 
 - 编译程序
 
