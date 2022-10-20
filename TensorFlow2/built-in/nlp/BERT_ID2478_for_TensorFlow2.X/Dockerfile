@@ -22,7 +22,6 @@ WORKDIR /workspace
 ENV HOME /workspace
 
 WORKDIR /workspace
-RUN git config --global http.sslVerify false 
 RUN git clone https://github.com/openai/gradient-checkpointing.git
 RUN git clone https://github.com/attardi/wikiextractor.git
 RUN git clone https://github.com/soskek/bookcorpus.git
