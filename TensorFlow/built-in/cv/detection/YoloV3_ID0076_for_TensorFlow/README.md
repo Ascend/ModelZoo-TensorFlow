@@ -152,7 +152,7 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
 
     2. 单卡训练
        
-        2.1 设置单卡训练参数（脚本位于YoloV3_ID0076_for_TensorFlow/test/train_full_1p.sh），示例如下。
+        2.1 设置单卡训练参数（脚本位于YoloV3_ID0076_for_TensorFlow/test/train_performance_1p.sh），示例如下。
             
         
         ```
@@ -168,7 +168,7 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
         2.2 单卡训练指令（脚本位于YoloV3_ID0076_for_TensorFlow/test） 
 
         ```
-        bash train_full_1p.sh --data_path=xx 
+        bash train_performance_1p.sh --data_path=xx 
         数据集应有如下目录结构，指定data_path时应当指定为dataset这一层, 例如--data_path=/home/dataset
 
         ├──dataset
@@ -215,7 +215,6 @@ config_proto = tf.ConfigProto(allow_soft_placement=True)
     ├── requirements.txt                         //依赖
     ├── train.py                                 //训练入口脚本
     ├── test
-         |—— train_full_1p.sh                    //单卡训练脚本
          |—— train_performance_1p.sh             //单卡训练脚本
          |—— train_full_8p.sh                    //多卡训练脚本
          |—— train_performance_8p.sh             //多卡训练脚本
@@ -232,4 +231,4 @@ train_epochs                                   总训练epoch数
 ## 训练过程<a name="section1589455252218"></a>
 
 通过“模型训练”中的训练指令启动单卡训练。
-将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。
+将训练脚本（train_performance_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。

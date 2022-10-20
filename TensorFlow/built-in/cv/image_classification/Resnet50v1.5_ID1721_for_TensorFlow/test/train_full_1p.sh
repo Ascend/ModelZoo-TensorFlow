@@ -19,10 +19,6 @@ data_path=""
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
 Network="Resnet50v1.5_ID1721_for_TensorFlow"
-#训练epochs
-train_epochs=1
-#训练steps
-train_steps=1000
 #训练batchz_size
 batch_size=32
 
@@ -115,10 +111,8 @@ do
         --resnet_size=50 \
         --resnet_version=1 \
         --data_format 'channels_last' \
-        --max_train_steps=$train_steps \
         --hooks=ExamplesPerSecondHook \
         --data_dir=$data_path \
-        --train_epochs=$train_epochs \
 		--batch_size=$batch_size \
         --data_dir=$data_path \
         --model_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/  > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
@@ -133,17 +127,19 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`grep epoch $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'FPS:' '{print $2}'|tr -d ',' |awk 'NR>2'|awk '{sum+=$1} END {print  sum/NR}'`
+FPS=`grep "tensorflow:steps" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'FPS:' '{print $2}'|cut -c 1-7|awk 'NR>2'|awk '{sum+=$1} END {print  sum/NR}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 echo "E2E Training Duration sec : $e2e_time"
 
+#精度计算，需要根据网络修改
+train_accuracy=`grep "name': 'accuracy'" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $6}'|tr -d ','|tail -1`
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 #获取性能数据，不需要修改
 #吞吐量
@@ -153,7 +149,7 @@ TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*1000/'${ActualFPS}'}'`
 
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep epoch $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'loss:' '{print $2}'|tr -d ',' |awk '{print $1}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep 'Saving dict for global step' ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $NF}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
@@ -168,3 +164,4 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
