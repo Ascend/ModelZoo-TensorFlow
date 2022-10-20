@@ -35,9 +35,9 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/MaskRCNN_for_ACL
    Note: Data will be downloaded, preprocessed to tfrecords format and saved in the <data_dir_path> directory (on the host). Or if you have downloaded and created the TFRecord file (TFRecord generated based on the official tpu script of tensorflow), skip this step. 
          Or if you have downloaded the COCO images, run the following command to convert them to TFRecord.
 
-         ```
+         
          python3 object_detection/dataset_tools/create_coco_tf_record.py --include_masks=True --val_image_dir=/your/val_tfrecord_file/path --val_annotations_file=/your/val_annotations_file/path/instances_val2017.json --output_dir=/your/tfrecord_file/out/path
-         ```
+         
     
 2. Transfer to Bin file.
 ```
