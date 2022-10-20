@@ -105,6 +105,7 @@ def make_data(sess, data, label, data_dir):
   Depending on 'is_train' (flag value), savepath would be changed.
   #把_20都删了
   """
+  os.environ["HDF5_USE_FILE_LOCKING"] = "FALSE"
   if FLAGS.is_train:
     #savepath = os.path.join(os.getcwd(), os.path.join('checkpoint',data_dir,'train.h5'))
     savepath = os.path.join(os.path.join(data_dir, 'train.h5'))

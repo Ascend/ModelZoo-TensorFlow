@@ -127,9 +127,17 @@ class CGAN(object):
         self.g_vars = [var for var in t_vars if 'fusion_model' in var.name]
         print(self.g_vars)
 
+        RANK_SIZE = int(os.getenv('RANK_SIZE'))
+
         with tf.name_scope('train_step'):
-            self.train_fusion_op = tf.train.AdamOptimizer(config.learning_rate).minimize(self.g_loss_total,var_list=self.g_vars)
-            self.train_discriminator_op=tf.train.AdamOptimizer(config.learning_rate).minimize(self.d_loss,var_list=self.d_vars)
+            if int(RANK_SIZE) > 1:
+                self.train_fusion_op = tf.train.AdamOptimizer(config.learning_rate) # .minimize(self.g_loss_total,var_list=self.g_vars)
+                self.train_fusion_op = npu_distributed_optimizer_wrapper(self.train_fusion_op).minimize(self.g_loss_total,var_list=self.g_vars)
+                self.train_discriminator_op=tf.train.AdamOptimizer(config.learning_rate) # .minimize(self.d_loss,var_list=self.d_vars)
+                self.train_discriminator_op=npu_distributed_optimizer_wrapper(self.train_discriminator_op).minimize(self.d_loss,var_list=self.d_vars)
+            else:
+                self.train_fusion_op = tf.train.AdamOptimizer(config.learning_rate).minimize(self.g_loss_total,var_list=self.g_vars)
+                self.train_discriminator_op = tf.train.AdamOptimizer(config.learning_rate).minimize(self.d_loss,var_list=self.d_vars)
             #将所有统计的量合起来
             self.summary_op = tf.summary.merge_all()
             #生成日志文件
@@ -149,19 +157,30 @@ class CGAN(object):
             print("Training...")
             perf_list=[]
             fps_list=[]
+            RANK_SIZE = int(os.getenv('RANK_SIZE'))
+            rank_id = int(os.getenv('DEVICE_INDEX'))
+            if int(RANK_SIZE) > 1:
+                rank_id = int(os.getenv('RANK_ID'))
+                input = tf.trainable_variables()
+                bcast_global_variables_op = hccl_ops.broadcast(input, 0)
+                self.sess.run(bcast_global_variables_op)
+            else :
+                rank_id = 0
 
             for ep in range(config.epoch):
                 # Run by batch images
-                batch_idxs = len(train_data_ir) // config.batch_size
+                batch_idxs = len(train_data_ir) // (config.batch_size*RANK_SIZE)
                 # print(batch_idxs)
                 # print(ep)
                 # for idx in range(0, batch_idxs):
+                start_idx=rank_id
                 for idx in range(0, batch_idxs - config.info_num):  #add   config.info_num=0 默认为0
                     start_time = time.time()
-                    batch_images_ir = train_data_ir[idx*config.batch_size : (idx+1)*config.batch_size]
-                    batch_labels_ir = train_label_ir[idx*config.batch_size : (idx+1)*config.batch_size]
-                    batch_images_vi = train_data_vi[idx*config.batch_size : (idx+1)*config.batch_size]
-                    batch_labels_vi = train_label_vi[idx*config.batch_size : (idx+1)*config.batch_size]
+                    batch_images_ir = train_data_ir[start_idx*config.batch_size : (start_idx+1)*config.batch_size]
+                    batch_labels_ir = train_label_ir[start_idx*config.batch_size : (start_idx+1)*config.batch_size]
+                    batch_images_vi = train_data_vi[start_idx*config.batch_size : (start_idx+1)*config.batch_size]
+                    batch_labels_vi = train_label_vi[start_idx*config.batch_size : (start_idx+1)*config.batch_size]
+                    start_idx=start_idx+RANK_SIZE
                     # print(counter)
                     counter += 1
                     for i in range(2):
