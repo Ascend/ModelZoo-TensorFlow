@@ -26,7 +26,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/DPN_for_ACL
 
 ### 2. 下载数据集和预处理
 
-1. 请自行下载ImageNet2012测试数据集 ([Download](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/dataset/dpnval.tfrecords))并将其放入: **scripts/dataset/** 中：
+1. 请自行下载ImageNet2012测试数据集 ([下载](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/007_inference_backup/dpn/dpn_tf_hw34064571/offline_inference/dataset/dpnval.tfrecords))并将其放入: **scripts/dataset/** 中：
 
 2. 测试数据集和标签的预处理:
 ```
