@@ -1,4 +1,4 @@
-English|[中文](README.md)
+中文|[English](README_EN.md)
 
 # ResNet101 TensorFlow离线推理
 
