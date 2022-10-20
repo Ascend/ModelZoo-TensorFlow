@@ -39,8 +39,8 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/Transformer_for_ACL
 在Ascend ModelZoo中获取pb模型: [Transformer](https://www.hiascend.com/zh/software/modelzoo/detail/1/4aa974b3f2fb4e02a84abbf16b56f032)
 
 ### 4. 编译程序
-构建推理应用程序, 更多详细信息请参见: [xacl_fmk](./xacl_fmk/README.md)
-将xacl放入当前词典。
+构建推理应用程序,并将其放至当前路径下，更多详细信息请参见: [xacl_fmk](./xacl_fmk/README.md)
+
 
 ### 5. 离线推理
 
