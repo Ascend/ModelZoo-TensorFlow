@@ -60,13 +60,13 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/ALBERT_for_ACL
 
 
 **预处理**
-* Change --data_dir to the real path of each downstream task dataset, and make sure the **predict** file under the path such as 'dev.tsv'
-* Change --output_dir to the same with --data_dir, and preprocess script will convert text to bin files under this path
-* ALBERT_en support spm_model or vocab.txt to do preprocess, --spm_model_file when using spm_model or --vocab_file when using vocab.txt
-* Keep the --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride, etc. the same with fine-tuning parameters
-* Keep the --model_name=albert_en when do the ALBERT_en tasks
-* Change --task_name to the downstream task you want to do, only support cola, mnli, mrpc, race and squad(for squad1.1) tasks
-* 更多数据集和任务详情见README.md中各个数据集路径下的下载链接
+* --data_dir：每个任务数据集的实际路径, 并且确保 **predict** 文件在当前路径下，例如'dev.tsv'
+* --output_dir的传参与--data_dir相同, 预处理脚本会将文本转换为该路径下的bin文件
+* ALBERT_en支持spm_model或vocab.txt做为预处理, --spm_model_file：使用 spm_model or --vocab_file：使用 vocab.txt
+* --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride等参数进行微调
+* --model_name：当进行ALBERT_en任务时，参数为albert_en
+* --task_name：任务名,仅支持cola, mnli, mrpc, race and squad(for squad1.1)任务
+* 更多数据集和任务详细信息，如下载链接，请参阅自述文件。每个数据集路径中的README.md各个数据集路径下的下载链接
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/CoLA \
@@ -81,10 +81,10 @@ python3 xnlp_fmk.py \
 ```
 
 **冻结pb模型**
-* Change --output_dir to the real path, and freeze script will convert checkpoint files to pb model file under this path
-* Change --checkpoint_dir to the real path of checkpoint files, include 'checkpoint', 'ckpt.data', 'ckpt.index' and 'ckpt.meta'
-* 重命名 --pb_model_file to the real pb model file name
-* 变化  --predict_batch_size to the real batch size, or give 'None' for dynamic batch
+* --output_dir：在此路径下，冻结脚本会把checkpoint文件转成Pb模型
+* --checkpoint_dir：checkpoint文件, 包括 'checkpoint', 'ckpt.data', 'ckpt.index' 和 'ckpt.meta'
+* --pb_model_file：pb模型文件名
+* --predict_batch_size：实际batch_size值 or 'None'来表示动态batch
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -100,10 +100,10 @@ python3 xnlp_fmk.py \
 ```
 
 **离线模型转换**
-* Rename --om_model_file to the real om model file name
-* Change the --soc_version, --in_nodes, --out_nodes according to the actual situation
-* Add additional atc parameters if you need, e.g., --precision_mode
-* Change --predict_batch_size to the real batch size, currently only support static batch size
+* --om_model_file：om模型名
+* --soc_version, --in_nodes, --out_nodes：根据实际情况传参
+* 添加额外需要的atc参数，例如： --precision_mode
+* --predict_batch_size ：实际batch, 当前仅支持静态batch
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -120,9 +120,9 @@ python3 xnlp_fmk.py \
 
 ```
 
-**Run the inference**
-* Change --output_dir to the real path and script will save the output bin file under this path
-* Build the inference application and put it under current path, more details see: [xacl_fmk](./xacl_fmk/README.md)
+**运行推理**
+* --output_dir：脚本将在该路径下保存输出bin文件
+* 构建推理应用程序并将其置于当前路径下，详情见: [xacl_fmk](./xacl_fmk/README.md)
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -137,7 +137,7 @@ python3 xnlp_fmk.py \
 ```
 
 **后处理**
-* 修改--output_dir入参为绝对路径，脚本将保存精度结果文件至此路径
+* --output_dir：脚本将在该路径下保存精度结果文件
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -158,14 +158,14 @@ python3 xnlp_fmk.py \
 * ALBERT_zh使用albert_zh做为模型的名称, 每个下游任务各自做为模型名称。
 * ALBERT_zh支持afqmc,cmnli,csl,iflytek,tnews和wsc任务
 * 改变模型入参，以支持不同的任务
-* 仅ALBERT_zh Tiny被测试过
+* 仅ALBERT_zh Tiny测试过
 ***
 **预处理**
-* Change --data_dir to the real path of each downstream task dataset, and make sure the **predict** file under the path such as 'dev.tsv'
-* Change --output_dir to the same with --data_dir, and preprocess script will convert text to bin files under this path
-* Keep the --vocab_file, --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride, etc. the same with fine-tuning parameters
-* Keep the --model_name=albert_zh when do the ALBERT_zh tasks
-*修改--task_name为下游所需的任务名, 仅支持afqmc, cmnli, csl, iflytek, tnews 和 wsc 任务
+* --data_dir：每个任务数据集的实际路径, 并且确保 **predict** 文件在当前路径下，例如'dev.tsv'
+* --output_dir的传参与--data_dir相同, 预处理脚本会将文本转换为该路径下的bin文件
+* --vocab_file, --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride等参数进行微调
+* --model_name：当进行ALBERT_en任务时，参数为albert_en
+* --task_name为下游所需的任务名, 仅支持afqmc, cmnli, csl, iflytek, tnews 和 wsc 任务
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/TNEWS \
@@ -182,7 +182,7 @@ python3 xnlp_fmk.py \
 * --output_dir为相对路径, 冻结脚本会将checkpoint文件转换成pb模型文件至此路径下
 * --checkpoint_dir路径下包含 'checkpoint', 'ckpt.data', 'ckpt.index' and 'ckpt.meta'等文件
 * --pb_model_file 为真实模型文件名称
-* --predict_batch_size入参为实际batch size值,或者赋'None'来做为动态batch size
+* --predict_batch_size入参为实际batch size值,或者以'None'来做为动态batch size
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -196,10 +196,10 @@ python3 xnlp_fmk.py \
 ```
 
 **pb模型转om**
-* 重命名--om_model_file为真实的om离线模型
-* 依据实际情况修改--soc_version, --in_nodes, --out_nodes等入参
-* 如果需要的话，可添加另外的atc参数。例如, --precision_mode
-* 修改--predict_batch_size入参为实际batch size值, 当前仅支持固态batch size
+* --om_model_file：om模型名
+* --soc_version, --in_nodes, --out_nodes ：根据实际情况传参
+* 添加额外需要的atc参数，例如： --precision_mode
+* --predict_batch_size ：实际batch, 当前仅支持静态batch
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -217,8 +217,8 @@ python3 xnlp_fmk.py \
 ```
 
 **运行离线推理**
-* 修改 --output_dir改为相对路径, 脚本会将输出bin文件并保存至此路径下
-* 编译推理工具，并将其放至当前路径下，更多详情见: [xacl_fmk](./xacl_fmk/README.md)
+* --output_dir：脚本将在该路径下保存输出bin文件
+* 构建推理应用程序并将其置于当前路径下，详情见: [xacl_fmk](./xacl_fmk/README.md)
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -233,7 +233,7 @@ python3 xnlp_fmk.py \
 ```
 
 **后处理**
-* 修改 --output_dir改为相对路径, 脚本会保存精度结果至此路径下
+* --output_dir:脚本将在该路径下保存精度结果文件
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -249,9 +249,9 @@ python3 xnlp_fmk.py \
 ```
 
 ## 其他用法
-**pb模型转换为pbtxt**
-* --output_dir改为相对路径, 脚本将pb模型转换成pbtxt，并保存至此路径下
-*--pb_model_file入参改为实际模型名称
+**将pb模型转换为pbtxt**
+* --output_dir：在此路径下，脚本会将pb模型转为pbtxt模型文件
+*--pb_model_file：pb模型文件名
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -264,7 +264,7 @@ python3 xnlp_fmk.py \
 ```
 
 **pb模型推理**
-* 依据实际情况，修改--in_nodes, --out_nodes 
+* --in_nodes, --out_nodes：根据实际情况传参
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
