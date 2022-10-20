@@ -54,13 +54,13 @@ jpeg图片将被预处理为bin文件.
   atc --model=inceptionv3_tf.pb --framework=3 --output=inceptionv3_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,299,299,3" --insert_op_conf=inceptionv3_aipp.cfg --enable_small_channel=1 --log=info
   ```
 
-- Build the program
+- 编译程序
 
   ```
   bash build.sh
   ```
 
-- Run the program:
+- 开始运行:
 
   ```
   cd scripts
