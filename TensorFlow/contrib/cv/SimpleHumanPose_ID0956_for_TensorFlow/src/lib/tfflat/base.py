@@ -26,8 +26,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 from npu_bridge.npu_init import *
+from npu_bridge.hccl import hccl_ops
+
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import numpy as np
@@ -44,6 +45,8 @@ from .saver import load_model, Saver
 from .timer import Timer
 from .logger import colorlogger
 from .utils import approx_equal
+
+rank_size = int(os.getenv('RANK_SIZE'))
 
 class ModelDesc(object):
     __metaclass__ = abc.ABCMeta
@@ -148,6 +151,19 @@ class Base(object):
         # initialize tensorflow
         tfconfig = tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)
         tfconfig.gpu_options.allow_growth = True
+
+        #############npu modify start###############
+        custom_op = tfconfig.graph_options.rewrite_options.custom_optimizers.add()
+        custom_op.name = "NpuOptimizer"
+        custom_op.parameter_map["use_off_line"].b = True
+        #
+        if int(rank_size) > 1:
+            custom_op.parameter_map["hcom_parallel"].b = True
+        #
+        tfconfig.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # off remap
+        tfconfig.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+        #############npu modify end###############
+
         self.sess = tf.Session(config=npu_config_proto(config_proto=tfconfig))
 
         # build_graph
@@ -240,8 +256,13 @@ class Trainer(Base):
 
         data_load_thread.reset_state()
         dataiter = data_load_thread.get_data()
+		
+        if int(rank_size) > 1:
+            itr_per_epoch = math.ceil(len(train_data)/self.cfg.batch_size/self.cfg.num_gpus/rank_size)
+        else:
+            itr_per_epoch = math.ceil(len(train_data)/self.cfg.batch_size/self.cfg.num_gpus)
 
-        return dataiter, math.ceil(len(train_data)/self.cfg.batch_size/self.cfg.num_gpus) 
+        return dataiter, itr_per_epoch
 
     def _make_graph(self):
         self.logger.info("Generating training graph on {} GPUs ...".format(self.cfg.num_gpus))
@@ -309,6 +330,12 @@ class Trainer(Base):
         self.logger.info('Initialize all variables ...')
         self.sess.run(tf.variables_initializer(tf.global_variables(), name='init'))
         self.load_weights('last_epoch' if self.cfg.continue_train else self.cfg.init_model)
+
+        rank_size = int(os.getenv('RANK_SIZE'))
+        if int(rank_size) > 1:
+            input = tf.trainable_variables()
+            bcast_global_variables_op = hccl_ops.broadcast(input, 0)
+            self.sess.run(bcast_global_variables_op)
 
         self.logger.info('Start training ...')
         start_itr = self.cur_epoch * self.itr_per_epoch + 1

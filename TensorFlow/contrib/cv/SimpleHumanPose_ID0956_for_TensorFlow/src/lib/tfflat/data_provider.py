@@ -355,10 +355,22 @@ class BatchData(object):
         Yields:
             Batched data by stacking each component on an extra 0th dimension.
         """
+        # shard by rankid
+        rank_size = int(os.getenv('RANK_SIZE'))
+        if int(rank_size) > 1:
+            rank_id = int(os.getenv('RANK_ID'))
+        else :
+            rank_id = 0
+
+        i = 0
         holder = []
         for data in self.ds.get_data():
-            holder.append(data)
+            # holder.append(data)
+            if (i // self.batch_size) == rank_id:
+                holder.append(data)
+            i += 1
             if len(holder) == self.batch_size:
+                i = 0
                 yield BatchData._aggregate_batch(holder, self.use_list)
                 del holder[:]
 

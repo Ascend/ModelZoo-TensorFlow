@@ -129,6 +129,7 @@ def get_optimizer(lr, optimizer='momentum'):
         optimizer = tf.train.AdamOptimizer(lr)
     else:
         raise ValueError('invalid optimizer')
+    optimizer = npu_distributed_optimizer_wrapper(optimizer)
     return optimizer
 
 def get_tower_summary_dict(summary):

@@ -75,6 +75,7 @@ class Config:
     pixel_means = np.array([[[123.68, 116.78, 103.94]]])
 
     ## training config
+    rank_size = int(os.getenv('RANK_SIZE'))
     lr_dec_epoch = [90, 120]
     end_epoch = 140
     lr = 5e-4
