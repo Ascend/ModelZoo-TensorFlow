@@ -1,32 +1,35 @@
-# CenterNet Inference for Tensorflow
-This respository provides a scripts and recipe to Inference of the CenterNet model
+中文|[English](README_EN.md)
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
+# CenterNet Tensorflow离线推理
 
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+此链接提供CenterNet TensorFlow模型在NPU上离线推理的脚本和方法
+
+## 注意
+**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
+
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+| CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
+## 快速指南
 
-### 1.Clone the respository
+### 1. 拷贝代码
 
    ```
    git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
    cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/CenterNet_for_ACL
    ```
 
-### 2. Download and preprocess the dataset
+### 2. 下载数据集和预处理
 
 
-1.  Download the VOC2007 test dataset by yourself,and then extract VOCtest_06-NOV-2007.tar.
+1. 请自行下载VOC2007测试数据集，然后解压成VOCtest_06-NOV-2007.tar.
 
-2.  Move VOC2007 test dataset to 'scripts/VOC2007' like this:
+2.  修改VOC2007测试数据集成 **scripts/VOC2007** ：
 
     ```
     VOC2007
@@ -38,7 +41,7 @@ Before starting, please pay attention to the following adaptation conditions. If
 
     ```
 
-3.  Image Preprocess
+3.  图像预处理
     
     ```
     cd scripts
@@ -47,49 +50,44 @@ Before starting, please pay attention to the following adaptation conditions. If
     python3 xml2txt.py ./VOC2007/Annotations/ ./centernet_postprocess/groundtruths/
 
     ```    
-The pictures will be preprocessed to input_bins files. The lables will be preprocessed to predict_txt files. 
+图片将被预处理为input_bins文件。标签将被预处理为predict_txt文件。
 
-### 3.Offline Inference
+### 3.离线推理
  
-1.configure the env
+1.环境变量设置
 
-```
-export install_path_atc=/usr/local/Ascend
-export ASCEND_OPP_PATH=${install_path_atc}/opp
-export PATH=/usr/local/python3.7.5/bin:${install_path_atc}/atc/ccec_compiler/bin:${install_path_atc}/atc/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
-export PYTHONPATH=${install_path_atc}/atc/python/site-packages/te:${install_path_atc}/atc/python/site-packages/topi:${install_path_atc}/atc/python/site-packages/auto_tune.egg:${install_path_atc}/atc/python/site-packages/schedule_search.egg
-export LD_LIBRARY_PATH=${install_path_atc}/acllib/lib64:${install_path_atc}/atc/lib64:${install_path_atc}/toolkit/lib64:${install_path_atc}/add-ons:$LD_LIBRARY_PATH
-```
+  请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
+
    
-2.convert pb to om
+2.Pb模型转换为om模型
 
-[**pb download link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/CenterNet_for_ACL.zip)
+[**pb模型下载链接**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/CenterNet_for_ACL.zip)
 
 ```
 atc --model=./CenterNet.pb --framework=3 --output=./Centernet_2batch_input_fp16_output_fp32 --soc_version=Ascend310 --input_shape="input_1:2,512,512,3"
 ```
-3.Build the program
+3.编译程序
 ```  
 bash build.sh
 ```
-4.Run the program
+4.开始运行
 ```  
 cd scripts
 bash benchmark_tf.sh
 ```
 
-## Performance
+## 性能
 
-### Result
+### 结果
 
-Our results was obtained by running the applicable inference script.
+本结果是通过运行上面适配的推理脚本获得的。
 
-#### Inference accuracy results
+#### 推理精度结果
 --------------------------
 |       model       |     data     |   mAP   |
 |-------------------|--------------|---------|
 | offline Inference | 4952 images  | 74.90%  |
 
 
-## Reference
+## 参考
 [1]https://github.com/xuannianz/keras-CenterNet

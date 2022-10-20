@@ -1,39 +1,39 @@
+中文|[English](README_EN.md)
 
+# DCN Tensorflow 离线推理
 
-# DCN Inference for Tensorflow 
+此链接提供 **Deep & Cross Network for Ad Click Predictions** 模型在NPU上离线推理的脚本和方法。 原始训练模型请点击: [DCN_for_Tensorflow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/recommendation/DCN_ID1986_for_TensorFlow)
 
-This repository provides a script and recipe to Inference the **Deep & Cross Network for Ad Click Predictions** model. Original train implement please follow this link: [DCN_for_Tensorflow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/recommendation/DCN_ID1986_for_TensorFlow)
+## 注意
+**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
-
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+| CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
+## 快速指南
 
-### 1. Clone the respository
+### 1. 拷贝代码
 
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/recommendation/DCN_for_ACL
 ```
 
-### 2. Preprocess of the dataset
+### 2. 下载数据集和预处理
 
-1. Download Criteo dataset by yourself, and move **Criteo/train.txt** to **scripts**.
+1.请自行下载Criteo 数据集，并将 **Criteo/train.txt** 移至 **scripts**。
 
-2. Split dataset to train and test(0.8:0.2),Preprocess of the test datasets to bin files with **batchsize=4000**:
+2.将数据集分成训练和测试集(0.8:0.2),并将测试数据集预处理成 **batchsize=4000** 的bin文件：
 ```
 cd scripts
 python3 data_preprocess.py Criteo/train.txt
 ```
-and it will generate **input_x**, **labels** directories with batchsize **4000**:
+将会生成 **input_x**, **labels** 目录，其 **batchsize=4000**:
 ```
 input_x
 |___batch1_X.bin
@@ -46,36 +46,31 @@ labels
 ...
 ```
 
-### 3. Offline Inference
+### 3. 离线推理
 
-**Convert pb to om.**
+**离线模型转换**
 
-- configure the env
+- 环境变量设置
 
-  ```
-  export install_path=/usr/local/Ascend
-  export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-  export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
-  export LD_LIBRARY_PATH=${install_path}/atc/lib64:$LD_LIBRARY_PATH
-  export ASCEND_OPP_PATH=${install_path}/opp
-  ```
+  请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
 
-- convert pb to om
 
-  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/recommendation/DCN_for_ACL.zip)
+- Pb模型转换为om模型
+
+  [pb模型下载链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/recommendation/DCN_for_ACL.zip)
 
   ```
   atc --model=dcn_tf.pb --framework=3 --output=dcn_tf_4000batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input_1:4000,39" --input_format=ND --log=info
   ```
 
-- Build the program
+- 编译程序
 
   ```
   bash build.sh
   ```
-  An executable file **benchmark** will be generated under the path: **Benchmark/output/**
+ benchmark 工具的运行结果将会生成在 **Benchmark/output/**  路径下: 
 
-- Run the program:
+- 开始运行:
 
   ```
   cd scripts
@@ -84,17 +79,17 @@ labels
 
 
 
-## Performance
+## 性能
 
-### Result
+### 结果
 
-Our result were obtained by running the applicable training script. To achieve the same results, follow the steps in the Quick Start Guide.
+本结果是通过运行上面适配的推理脚本获得的。要获得相同的结果，请按照《快速指南》中的步骤操作
 
-#### Inference accuracy results:
+#### 推理精度结果:
 
 | Test Dataset | Accuracy-ROC |Accuracy-PR |
 |--------------|-------------------|---------|
 |  Criteo        | 80.5%             | 59.8% |
 
-## Reference
+## 参考
 [1] https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/recommendation/DCN_ID1986_for_TensorFlow
