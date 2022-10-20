@@ -46,7 +46,7 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
 4. 创建两个数据集文件夹，一个是用于“image_info”和“images”文件的your_data_path，另一个是“source_ids”文件的your_datasourceid_path。将bin文件移动到正确的目录；
 5. 将“instances_val2017.json”复制到FasterRCNN_for_ACL/scripts 目录下；
  
-### 3. Offline Inference
+### 3. 离线推理
 
 **Pb模型转换为om模型**
 - 访问 "FasterRCNN_for_ACL" 文件夹
@@ -60,7 +60,7 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
   ```
   atc --model=/your/pb/path/your_fast_pb_name.pb --framework=3  --output=your_fastom_name--output_type=FP32 --soc_version=Ascend310P3 --input_shape="image:1,1024,1024,3;image_info:1,5" --keep_dtype=./keeptype.cfg  --precision_mode=force_fp16  --out_nodes="generate_detections/combined_non_max_suppression/CombinedNonMaxSuppression:3;generate_detections/denormalize_box/concat:0;generate_detections/add:0;generate_detections/combined_non_max_suppression/CombinedNonMaxSuppression:1"
   ```
-注意: 替换模型参数, 输出, 环境变量
+注意: 替换模型、输出、环境变量的参数
 
 - 编译程序
 

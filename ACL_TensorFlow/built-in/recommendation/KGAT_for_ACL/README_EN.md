@@ -1,74 +1,74 @@
-中文|[English](README_EN.md)
+English|[中文](README.md)
 # <font face="微软雅黑">
-# KGAT TensorFlow离线推理
+# KGAT Inference for TensorFlow
 
 ***
-此链接提供KGAT TensorFlow模型在NPU上离线推理的脚本和方法
+This repository provides a script and recipe to Inference the KGAT Inference
 
-* [x] KGAT 推理, 基于 [knowledge_graph_attention_network](https://github.com/xiangwang1223/knowledge_graph_attention_network)
+* [x] KGAT Inference, based on [knowledge_graph_attention_network](https://github.com/xiangwang1223/knowledge_graph_attention_network)
 
 ***
 
-## 注意
-**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
+## Notice
+**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
 
-在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
+Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
 
 | Conditions | Need |
 | --- | --- |
-| CANN版本 | >=5.0.3 |
-| 芯片平台| Ascend310/Ascend310P3 |
-| 第三方依赖| 请参考 'requirements.txt' |
+| CANN Version | >=5.0.3 |
+| Chip Platform| Ascend310/Ascend310P3 |
+| 3rd Party Requirements| Please follow the 'requirements.txt' |
 
-## 快速指南
+## Quick Start Guide
 
-### 1. 拷贝代码
+### 1. Clone the respository
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/recommendation/KGAT_for_ACL
 ```
 
-### 2. 下载数据集和预处理
+### 2. Download and preprocess the dataset
 
-请自行下载测试数据集，详情见: [amazon-book](./Data/README.md)
+Download the dataset by yourself, more details see: [amazon-book](./Data/README.md)
 
-### 3. 获取pb模型
+### 3. Obtain the pb model
 
-获取pb模型, 详情见: [pb](./Model/pb_model/README.md)
+Obtain the pb model, more details see: [pb](./Model/pb_model/README.md)
 
-### 4. 编译程序
-编译推理应用程序, 详情见: [xacl_fmk](./xacl_fmk/README.md)
+### 4. Build the program
+Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.md)
 
-### 5. 离线推理
+### 5. Offline Inference
 
 **KGAT**
 ***
-* KGAT 在 KGAT_for_ACL 中 使用静态batch, 设置 predict_batch_size=2048 作为输入参数, 所以我们舍弃了最后一批测试数据(batch size=959)
-* 在./Model目录中执行以下命令
+* KGAT in KGAT_for_ACL use static batch size, set predict_batch_size=2048 as input parameter, so we throw away the last batch of test data(batch size=959)
+* The following commands are executed in the ./Model directory
 ***
-**环境变量设置**
+**configure the env**
 
-  请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
+  Please follow the [guide](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719) to set the envs
 
-**预处理**
+**PreProcess**
 ```Bash
 python3 offline_inference/data_preprocess.py
 ```
 
-在Model/input_bin目录中生成bin文件
+The generated bin file is in the Model/input_bin directory
 
 
-**Pb模型转换为om模型**
+**Convert pb to om**
 
-[pb模型下载链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/recommendation/KGAT_for_ACL.zip)
+[pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/recommendation/KGAT_for_ACL.zip)
 
 ```Bash
 atc --model=KGAT_tf.pb --framework=3 --output=ID1376_KGAT_tf_gpu --soc_version=Ascend310 --input_shape="Placeholder:2048;Placeholder_1:24915;Placeholder_4:3" --log=info
 ```
 
-将转换后的om文件放入Model目录
+Put the converted om file in the Model directory.
 
-**运行推理与后处理**
+**Run the inference and PostProcess**
 ```Bash
 python3 offline_inference/xacl_inference.py
 ```
@@ -105,13 +105,13 @@ output_bin
 ```
 
 
-### 6. 性能
+### 6. Performance
 
-### 结果
+### Result
 
-本结果是通过运行上面适配的推理脚本获得的。要获得相同的结果，请按照《快速指南》中的步骤操作。
+Our result was obtained by running the applicable inference script. To achieve the same results, follow the steps in the Quick Start Guide.
 
-#### 推理精度结果
+#### Inference accuracy results
 
 |                 | ascend310 |
 |----------------|--------|

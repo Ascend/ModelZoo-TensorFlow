@@ -39,7 +39,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/GRU4Rec_for_ACL
 
 ### 4. 编译程序
 编译推理程序, 详情见: [xacl_fmk](./xacl_fmk/README.md)
-将xacl放到当前文件夹.
+将xacl放到当前文件夹
 
 ### 5. 离线推理
 
@@ -70,7 +70,7 @@ python3 xnlp_fmk.py \
 
 **冻结Pb模型**
 * --output_dir：在此路径下，冻结脚本会把checkpoint文件转成Pb模型
-* --checkpoint_dir：checkpoint文件, 包括 'checkpoint', 'ckpt.data', 'ckpt.index' and 'ckpt.meta'
+* --checkpoint_dir：checkpoint文件, 包括 'checkpoint', 'ckpt.data', 'ckpt.index' 和 'ckpt.meta'
 * --pb_model_file：pb模型文件名
 * --predict_batch_size：与实际批量相比，仅测试了50个
 * 保持其他参数与上一步相同
@@ -90,7 +90,7 @@ python3 xnlp_fmk.py \
 **
 * --om_model_file：om模型名
 * --soc_version, --in_nodes, --out_nodes ：根据实际情况传参
-* 添加额外需要的atc 参数,例如： --precision_mode
+* 添加额外需要的atc参数，例如： --precision_mode
 * --predict_batch_size ：实际batch, 当前仅支持静态batch
 * 保持其他参数与上一步相同
 *  将“logits”保存为'GRU4Rec_full.txt'，'logits'是'SoftmaxV2'的输出节点，如果pb模型使用其他名称，请更改；
