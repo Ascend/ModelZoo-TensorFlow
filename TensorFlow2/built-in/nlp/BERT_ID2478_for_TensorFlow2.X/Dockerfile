@@ -15,8 +15,6 @@
 ARG FROM_IMAGE_NAME=nvcr.io/nvidia/tensorflow:21.02-tf2-py3
 FROM ${FROM_IMAGE_NAME}
 
-ENV http_proxy http://zwx1067073:Zcy123456%40@proxycn2.huawei.com:8080
-ENV https_proxy https://zwx1067073:Zcy123456%40@proxycn2.huawei.com:8080
 
 RUN apt-get update && apt-get install -y pbzip2 pv bzip2 libcurl4 curl
 
@@ -24,9 +22,6 @@ WORKDIR /workspace
 ENV HOME /workspace
 
 WORKDIR /workspace
-RUN git config --global http.proxy 'http://zwx1067073:Zcy123456%40@proxycn2.huawei.com:8080' 
-RUN git config --global https.proxy 'https://zwx1067073:Zcy123456%40@proxycn2.huawei.com:8080'
-RUN git config --global http.sslVerify false 
 RUN git clone https://github.com/openai/gradient-checkpointing.git
 RUN git clone https://github.com/attardi/wikiextractor.git
 RUN git clone https://github.com/soskek/bookcorpus.git
