@@ -54,13 +54,13 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/DenseNet121_for_ACL
 
 - 编译程序
   
-  For Ascend310:
+  Ascend310:
   ```
   unset ASCEND310P3_DVPP
   bash build.sh
   ```
 
-  For Ascend310P3:
+  Ascend310P3:
   ```
   export ASCEND310P3_DVPP=1
   bash build.sh
