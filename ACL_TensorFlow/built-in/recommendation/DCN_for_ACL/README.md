@@ -26,7 +26,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/recommendation/DCN_for_ACL
 
 ### 2. 下载数据集和预处理
 
-1. 请自行下载Criteo 数据集，并将 **Criteo/train.txt** 移至 **scripts**。
+1.请自行下载Criteo 数据集，并将 **Criteo/train.txt** 移至 **scripts**。
 
 2.将数据集分成训练和测试集(0.8:0.2),Preprocess of the test datasets to bin files with **batchsize=4000**:将测试数据集预处理成 **batchsize=4000** 的bin文件：
 ```
