@@ -38,7 +38,7 @@ pafprocess、slidingwindow 下载链接: [tf_openpose](https://github.com/BoomFa
 
 
 ### 5. 离线推理
-**Preprocess the dataset**
+**数据预处理**
 ```Bash
 python3 preprocess.py \
     --resize 656x368 \
