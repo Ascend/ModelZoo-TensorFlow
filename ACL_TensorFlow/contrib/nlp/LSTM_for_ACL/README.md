@@ -35,7 +35,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/LSTM_for_ACL
 
 ### 3. 获取checkpoint文件或pb模型
 
-获取checkpoint文件或pb模型, 详情见:: [ckpt](./save/ckpt/README.md) or [models](./save/model/README.md)
+获取checkpoint文件或pb模型, 详情见: [ckpt](./save/ckpt/README.md) or [models](./save/model/README.md)
 
 ### 4. 编译程序
 编译推理程序, 详情见: [xacl_fmk](./xacl_fmk/README.md)
