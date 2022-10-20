@@ -28,7 +28,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Inceptionv3_for_ACL
 
 1. 请自行下载ImageNet2012测试数据集, 您可以获得验证图片(50000张JPEG和ILSVRC2012val-label-index.txt)
 
-2. Put JPEGS to **'scripts/ILSVRC2012val'** and label text to **'scripts/'**
+2. 将JPEG文件放入'scripts/ILSVRC2012val'目录下 ，将label text 放入 'scripts/'目录下
 
 3. 图片预处理:
 ```
