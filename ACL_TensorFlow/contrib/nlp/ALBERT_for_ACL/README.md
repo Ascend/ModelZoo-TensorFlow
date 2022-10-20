@@ -179,10 +179,10 @@ python3 xnlp_fmk.py \
 ```
 
 **冻结pb模型**
-* --output_dir为相对路径, 冻结脚本会将checkpoint文件转换成pb模型文件至此路径下
-* --checkpoint_dir路径下包含 'checkpoint', 'ckpt.data', 'ckpt.index' and 'ckpt.meta'等文件
-* --pb_model_file 为真实模型文件名称
-* --predict_batch_size入参为实际batch size值,或者以'None'来做为动态batch size
+* --output_dir：在此路径下，冻结脚本会把checkpoint文件转成Pb模型
+* --checkpoint_dir：checkpoint文件, 包括 'checkpoint', 'ckpt.data', 'ckpt.index' 和 'ckpt.meta'
+* --pb_model_file: pb模型文件名
+* --predict_batch_size：实际batch size值,或者以'None'来做为动态batch size
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
