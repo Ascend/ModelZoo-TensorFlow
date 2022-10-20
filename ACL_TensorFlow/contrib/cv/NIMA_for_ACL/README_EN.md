@@ -1,3 +1,5 @@
+English|[中文](README.md)
+
 # NIMA Inference for Tensorflow
 This respository provides a scripts and recipe to Inference of the NIMA model
 
@@ -53,13 +55,7 @@ The pictures will be preprocessed to input_bins files. The lables will be prepro
  
 1.configure the env
 
-```
-export install_path_atc=/usr/local/Ascend
-export ASCEND_OPP_PATH=${install_path_atc}/opp
-export PATH=/usr/local/python3.7.5/bin:${install_path_atc}/atc/ccec_compiler/bin:${install_path_atc}/atc/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
-export PYTHONPATH=${install_path_atc}/atc/python/site-packages/te:${install_path_atc}/atc/python/site-packages/topi:${install_path_atc}/atc/python/site-packages/auto_tune.egg:${install_path_atc}/atc/python/site-packages/schedule_search.egg
-export LD_LIBRARY_PATH=${install_path_atc}/acllib/lib64:${install_path_atc}/atc/lib64:${install_path_atc}/toolkit/lib64:${install_path_atc}/add-ons:$LD_LIBRARY_PATH
-```
+Please follow the [guide](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719) to set the envs
    
 2.convert pb to om
 
