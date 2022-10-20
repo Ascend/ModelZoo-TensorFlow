@@ -46,7 +46,7 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/FasterRCNN_for_ACL
 4. 创建两个数据集文件夹，一个是用于“image_info”和“images”文件的your_data_path，另一个是“source_ids”文件的your_datasourceid_path。将bin文件移动到正确的目录；
 5. 将“instances_val2017.json”复制到FasterRCNN_for_ACL/scripts 目录下；
  
-### 3. Offline Inference
+### 3. 离线推理
 
 **Pb模型转换为om模型**
 - 访问 "FasterRCNN_for_ACL" 文件夹
