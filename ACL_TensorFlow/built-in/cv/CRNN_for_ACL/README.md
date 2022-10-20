@@ -28,7 +28,7 @@ cd ModelZoo-TensorFlow/tree/master/ACL_TensorFlow/built-in/cv/CRNN_for_ACL
 
 1.请自行下载IIIT5K/ICDAR03/SVT测试数据集，并将其放在 **scripts/data/** 中
 
-2. 测试数据集和标签的预处理
+2.测试数据集和标签的预处理
 ```
 cd scripts
 python3 tools/preprocess.py
