@@ -108,7 +108,7 @@ def convert_images_to_clip(filename, clip_length=CLIP_LENGTH, crop_size=112, cha
     return clip  # shape[clip_length, crop_size, crop_size, channel_num]
 
 
-def get_batches(filename, num_classes, batch_index, video_indices, batch_size=10, crop_size=112, channel_num=3):
+def get_batches(filename, num_classes, batch_index, video_indices, batch_size=10, rank_size=1, crop_size=112, channel_num=3 ):
     lines = open(filename, 'r')
     clips = []
     labels = []
@@ -125,6 +125,6 @@ def get_batches(filename, num_classes, batch_index, video_indices, batch_size=10
     oh_labels = np.zeros([len(labels), num_classes]).astype(np.int64)
     for i in range(len(labels)):
         oh_labels[i, labels[i]] = 1
-    batch_index = batch_index + batch_size
+    batch_index = batch_index + batch_size*rank_size
     batch_data = {'clips': clips, 'labels': oh_labels}
     return batch_data, batch_index
