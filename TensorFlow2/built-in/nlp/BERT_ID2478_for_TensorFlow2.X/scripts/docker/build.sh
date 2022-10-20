@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # ==============================================================================
-proxy=http://zwx1067073:Zcy123456%40@proxy.huawei.com:8080
 docker build . \
 	--network=host \
 	--rm -t bert_tf2
