@@ -28,7 +28,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Inceptionv3_for_ACL
 
 1. 请自行下载ImageNet2012测试数据集, 您可以获得验证图片(50000张JPEG和ILSVRC2012val-label-index.txt)
 
-2. Put JPEGS to **'scripts/ILSVRC2012val'** and label text to **'scripts/'**
+2. 将JPEG文件放入'scripts/ILSVRC2012val'目录下 ，将label text 放入 'scripts/'目录下
 
 3. 图片预处理:
 ```
@@ -36,7 +36,7 @@ cd scripts
 mkdir input_bins
 python3 inception_preprocessing.py ./ILSVRC2012val/ ./input_bins/
 ```
-jpegs图片将被预处理为bin文件.
+jpeg图片将被预处理为bin文件.
 
 ### 3. 离线推理
 
@@ -48,19 +48,19 @@ jpegs图片将被预处理为bin文件.
 
 - Pb模型转换为om模型
 
-  [Pb模型链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Inceptionv3_for_ACL.zip)
+  [Pb模型下载链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Inceptionv3_for_ACL.zip)
 
   ```
   atc --model=inceptionv3_tf.pb --framework=3 --output=inceptionv3_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,299,299,3" --insert_op_conf=inceptionv3_aipp.cfg --enable_small_channel=1 --log=info
   ```
 
-- Build the program
+- 编译程序
 
   ```
   bash build.sh
   ```
 
-- Run the program:
+- 开始运行:
 
   ```
   cd scripts

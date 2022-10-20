@@ -1,42 +1,44 @@
+中文|[English](README_EN.md)
 # <font face="微软雅黑">
 
-# OpenPose Inference for TensorFlow
-This repository provides a script and recipe to Inference the OpenPose model.
+# OpenPose TensorFlow离线推理
+此链接提供OpenPose TensorFlow模型在NPU上离线推理的脚本和方法
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
+## 注意
+**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
 
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+| CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
-### 1. Clone the respository
+## 快速指南
+
+### 1. 拷贝代码
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/OpenPose_for_ACL
 ```
 
-### 2. Download and preprocess the dataset
+### 2. 下载数据集和预处理
 
-Download the COCO2014 dataset by yourself, more details see: [dataset](./dataset/coco/README.md)
-
-
-### 3. Obtain the pb model
-
-Obtain the OpenPose pb model, more details see: [models](./models/README.md)
-
-### 4. Obtain process scripts
-
-Obtain pafprocess and slidingwindow packages from: [tf_openpose](https://github.com/BoomFan/openpose-tf/tree/master/tf_pose) and put them into libs
+请自行下载COCO2014测试数据集, 详情见: [dataset](./dataset/coco/README.md)
 
 
-### 5. Offline Inference
-**Preprocess the dataset**
+### 3. 获取pb模型
+
+获取OpenPose pb模型, 详情见: [models](./models/README.md)
+
+### 4. 获取处理脚本
+
+pafprocess、slidingwindow 下载链接: [tf_openpose](https://github.com/BoomFan/openpose-tf/tree/master/tf_pose) and put them into libs
+
+
+### 5. 离线推理
+**数据预处理**
 ```Bash
 python3 preprocess.py \
     --resize 656x368 \
@@ -47,20 +49,16 @@ python3 preprocess.py \
 
 ```
 
-**Convert pb to om.**
-- configure the env
+**Pb模型转换为om模型**
+- 环境变量设置
 
-  ```
-  export install_path=/usr/local/Ascend
-  export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-  export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
-  export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64:$LD_LIBRARY_PATH
-  export ASCEND_OPP_PATH=${install_path}/opp
-  ```
+  请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
 
-- convert pb to om
 
-  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/OpenPose_for_ACL.zip)
+
+- Pb模型转换为om模型
+
+  [pb模型下载链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/OpenPose_for_ACL.zip)
 
   ```
   atc --framework=3 \
@@ -70,10 +68,10 @@ python3 preprocess.py \
       --input_shape="image:1,368,656,3"
   ```
 
-**Build the program**
-Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.md)
+**编译程序**
+编译推理应用程序, 详情见: [xacl_fmk](./xacl_fmk/README.md)
 
-**Run the inference**
+**开始运行**
 ```
 /xacl_fmk -m ./models/OpenPose_for_TensorFlow_BatchSize_1.om \
     -o ./output/openpose \
@@ -81,7 +79,7 @@ Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.
     -b 1
 ```
 
-**PostProcess**
+**后处理**
 ```
 python3 postprocess.py \
     --resize 656x368 \
@@ -93,12 +91,12 @@ python3 postprocess.py \
     --output-dir ../output/openpose 
 ```
 
-**Sample scripts**
-We also supoort the predict_openpose.sh to run the steps all above except **build the program**
+**样本脚本**
+我们还支持使用predict_openpose.sh运行上述所有步骤，**构建程序除外**
 
-### 6.Result
+### 6.结果
 ***
-OpenPose Inference ：
+OpenPose 推理 ：
 
 | Type | IoU | Area | MaxDets | Result |
 | :------- | :------- | :------- | :------- | :------- |
@@ -115,7 +113,7 @@ OpenPose Inference ：
 
 ***
 
-## Reference
+## 参考
 
 [1] https://github.com/ildoonet/tf-pose-estimation/tree/master/tf_pose/pafprocess/
 
