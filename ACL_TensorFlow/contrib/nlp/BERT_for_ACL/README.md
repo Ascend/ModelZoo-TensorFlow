@@ -51,7 +51,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/BERT_for_ACL
 * BERT使用bert做为模型的名称, 每个下游任务各自做为模型名称。
 * BERT支持ner, squad1.1, mrpc, cola, mnli and tnews等下游任务
 * 改变模型入参，以支持不同的任务
-* 只在BERT Base和BERT Large被测试过
+* 仅BERT Base和BERT Large测试过
 ***
 
 **环境变量设置**
@@ -59,12 +59,12 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/BERT_for_ACL
   请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
 
 **预处理**
-* --data_dir为存放下游任务数据集的绝对路径, 同时，确保**predict**文件在此路径下，例如'dev.tsv'
-* --output_dir和--data_dir一样, 预处理脚本会将text文件转换为bin文件并保存至此路径
-* --vocab_file, --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride等不变
+* --data_dir：每个任务数据集的实际路径, 并确保**predict**文件在此路径下，例如'dev.tsv'
+* --output_dir与--data_dir相同, 预处理脚本会将文本转换为该路径下的bin文件
+* --vocab_file, --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride等参数微调
 * --model_name=bert 当下游任务为BERT时，模型名称为bert
 * --task_name为下游所需的任务名, 仅支持ner, squad(squad1.1), mrpc, cola, mnli 和 tnews 任务
-* 更多数据集和任务详情见README.md中各个数据集路径下的下载链接
+* 更多数据集和任务详细信息，如下载链接，请参阅自述文件。每个数据集路径中的README.md
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/SQuAD1.1 \
@@ -80,10 +80,10 @@ python3 xnlp_fmk.py \
 ```
 
 **冻结pb模型**
-* --output_dir为相对路径, 冻结脚本会将checkpoint文件转换成pb模型文件至此路径下
-* --checkpoint_dir路径下包含 'checkpoint', 'ckpt.data', 'ckpt.index' and 'ckpt.meta'等文件
-* --pb_model_file 为真实模型文件名称
-* --predict_batch_size入参为实际batch size值,或者赋'None'来做为动态batch size
+* --output_dir：在此路径下，冻结脚本会把checkpoint文件转成Pb模型
+* --checkpoint_dir:checkpoint文件, 包括 'checkpoint', 'ckpt.data', 'ckpt.index' 和 'ckpt.meta'
+* --pb_model_file：pb模型文件名
+* --predict_batch_size：实际batch size值,或者以'None'来做为动态batch size
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -100,10 +100,10 @@ python3 xnlp_fmk.py \
 ```
 
 **pb模型转om**
-* 重命名--om_model_file为真实的om离线模型
-* 依据实际情况修改--soc_version, --in_nodes, --out_nodes等入参
-* 如果需要的话，可添加另外的atc参数。例如, --precision_mode
-* 修改--predict_batch_size入参为实际batch size值, 当前仅支持固态batch size
+* --om_model_file：om模型名
+* --soc_version, --in_nodes, --out_nodes ：根据实际情况传参
+* 添加额外需要的atc参数，例如： --precision_mode
+* --predict_batch_size：实际batch size值, 当前仅支持静态batch size
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -122,7 +122,7 @@ python3 xnlp_fmk.py \
 ```
 
 **运行离线推理**
-* 修改 --output_dir改为相对路径, 脚本会将输出bin文件并保存至此路径下
+* --output_dir：脚本将在该路径下保存输出bin文件并保存至此路径下
 * 编译推理工具，并将其放至当前路径下，更多详情见: [xacl_fmk](./xacl_fmk/README.md)
 * 其它参数同上
 ```Bash
@@ -138,7 +138,7 @@ python3 xnlp_fmk.py \
 ```
 
 **后处理**
-* 修改 --output_dir改为相对路径, 脚本会保存精度结果至此路径下
+* --output_dir：脚本将在该路径下保存精度结果文件
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -158,8 +158,8 @@ python3 xnlp_fmk.py \
 
 ## 其他用法
 **pb模型转换为pbtxt**
-* --output_dir改为相对路径, 脚本将pb模型转换成pbtxt，并保存至此路径下
-*--pb_model_file入参改为实际模型名称
+* --output_dir：在此路径下，脚本会将pb模型转为pbtxt模型文件
+*--pb_model_file：pb模型文件名
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
@@ -172,7 +172,7 @@ python3 xnlp_fmk.py \
 ```
 
 **pb模型推理**
-* 依据实际情况，修改--in_nodes, --out_nodes 
+* --in_nodes, --out_nodes：根据实际情况传参
 * 其它参数同上
 ```Bash
 python3 xnlp_fmk.py \
