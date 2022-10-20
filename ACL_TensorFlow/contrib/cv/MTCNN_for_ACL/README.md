@@ -30,7 +30,7 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/MTCNN_for_ACL
 
 **Pb模型转换为om模型与推理**
 
-  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/MTCNN_for_ACL.zip)
+  [pb模型下载链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/MTCNN_for_ACL.zip)
 
 - 环境变量设置
 
