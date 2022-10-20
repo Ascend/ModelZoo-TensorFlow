@@ -74,7 +74,7 @@ python3 frozen_graph.py --ckpt_path= ckpt_path/shadownet_xxx.ckpt-600000
   ```
   bash build.sh
   ```
-  An executable file **benchmark** will be generated under the path: **Benchmark/output/**
+  **benchmark** 工具的运行结果将会生成在 **Benchmark/output/** 路径下
 
 - 开始运行:
 
