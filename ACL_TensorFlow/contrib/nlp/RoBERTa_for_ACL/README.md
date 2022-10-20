@@ -1,71 +1,66 @@
+中文|[English](README_EN.md)
 # <font face="微软雅黑">
 
-# RoBERTa DownStream Inference for TensorFlow
+# RoBERTa TensorFlow离线推理
 
 ***
-This repository provides a script and recipe to Inference the RoBERTa DownStream Inference
+此链接提供RoBERTa TensorFlow模型在NPU上离线推理的脚本和方法
 
-* [x] RoBERTa DownStream Inference, based on [RoBERTa](https://github.com/brightmart/roberta_zh) 
+* [x] RoBERTa 离线推理的连接 [RoBERTa](https://github.com/brightmart/roberta_zh) 
 
 ***
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
+## 注意
+**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
 
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+| CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
+## 快速指南
 
-### 1. Clone the respository
+### 1. 拷贝代码
 ```shell
 git clone https://gitee.com/ascend/modelzoo.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/RoBERTa_for_ACL
 ```
 
-### 2. Download and preprocess the dataset
+### 2. 下载数据集和预处理
 
-Download the dataset by yourself, more details see: [data](./data)
-Download the vocab.txt and bert_config.json by yourself, more details see: [config](./config/README.md)
+请自行下载数据, 更多详细信息请参见: [data](./data)
+请自行下载vocab.txt 和 bert_config.json 文件, 更多详细信息请参见: [config](./config/README.md)
 
-### 3. Obtain the fine-tuned checkpoint files or pb model
+### 3. 获取微调的检查点文件或pb模型
 
-Obtain the fine-tuned checkpoint files or pb model, more details see: [ckpt](./save/ckpt/README.md) or [models](./save/model/README.md)
+获取微调的检查点文件或pb模型, 更多详细信息请参见: [ckpt](./save/ckpt/README.md) or [models](./save/model/README.md)
 
-### 4. Build the program
-Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.md)
-Put xacl to the current dictory.
+### 4. 编译程序
+编译推理应用程序, 更多详细信息请参见: [xacl_fmk](./xacl_fmk/README.md)
+将xacl放在当前字典中
 
-### 5. Offline Inference
+### 5. 离线推理
 
 **RoBERTa**
 ***
-* RoBERTa use roberta for model_name parameter, each downstream task name for task_name
-* RoBERTa support lcqmc task
-* Change the parameters for different tasks
-* Only RoBERTa Base has been tested
+* RoBERTa将roberta用作model_name参数，将每个下游任务名称用作task_name
+* RoBERTa支持lcqmc任务
+* 更改不同任务的参数
+* 仅对RoBERTa Base进行了测试
 ***
-**Configure the env**
-```
-export install_path=/usr/local/Ascend
-export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
-export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64:$LD_LIBRARY_PATH
-export ASCEND_OPP_PATH=${install_path}/opp
-```
+**环境变量设置**
+请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
 
-**PreProcess**
-* Change --data_dir to the real path of each downstream task dataset, and make sure the **predict** file under the path such as 'dev.tsv'
-* Change --output_dir to the same with --data_dir, and preprocess script will convert text to bin files under this path
-* Keep the --vocab_file, --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride, etc. the same with fine-tuning parameters
-* Keep the --model_name=roberta when do the RoBERTa tasks
-* Change --task_name to the downstream task you want to do, only support lcqmc tasks
-* More datasets and tasks details like download link see README.md in each datasets' path
+**预处理**
+* 将--data_dir更改为每个下游任务数据集的实际路径，并确保路径下的**predict**文件，如“dev.tsv”
+* 将--output_dir更改为与--data_dir相同，预处理脚本将把文本转换为该路径下的bin文件
+* 通过微调参数使--vocab_file、--bert_config_file和--do_lower_case、--max_seq_length、--doc_stride等保持不变
+* 执行roberta任务时保留--model_name=roberta
+* 将--task_name更改为要执行的下游任务，仅支持lcqmc任务
+* 更多数据集和任务详细信息，如下载链接，请参阅自述文件。每个数据集路径中的readme.md
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/LCQMC \
@@ -79,12 +74,12 @@ python3 xnlp_fmk.py \
 
 ```
 
-**Freeze pb model**
-* Change --output_dir to the real path, and freeze script will convert checkpoint files to pb model file under this path
-* Change --checkpoint_dir to the real path of checkpoint files, include 'checkpoint', 'ckpt.data', 'ckpt.index' and 'ckpt.meta'
-* Rename --pb_model_file to the real pb model file name
-* Change --predict_batch_size to the real batch size, or give 'None' for dynamic batch
-* Keep other parameters the same as the previous step
+**固定pb模型**
+* 将--output_dir更改为实际路径，冻结脚本将把检查点文件转换为该路径下的pb模型文件
+* 将--checkpoint_dir更改为检查点文件的实际路径，包括“checkpoint”、“ckpt”。数据'，'ckpt。索引'和'ckpt.meta'
+* 将--pb_model_file重命名为真正的pb模型文件名
+* 将--predict_batch_size更改为实际批次大小，或为动态批次指定“无”
+* 保持其他参数与上一步相同
 ```Bash
 python3 xnlp_fmk.py \
     --output_dir=./save/model \
@@ -97,12 +92,12 @@ python3 xnlp_fmk.py \
 
 ```
 
-**Convert pb to om**
-* Rename --om_model_file to the real om model file name
-* Change the --soc_version, --in_nodes, --out_nodes according to the actual situation
-* Add additional atc parameters if you need, e.g., --precision_mode
-* Change --predict_batch_size to the real batch size, currently only support static batch size
-* Keep other parameters the same as the previous step
+**将pb转换为om**
+* 将--om_model_file重命名为实际的om模型文件名
+* 根据实际情况更改--soc_version、--in_nodes、--out_nodes
+* 如果需要，可以添加其他atc参数，例如--precision_mode
+* 将--predict_batch_size更改为实际批量大小，当前仅支持静态批量大小
+* 保持其他参数与上一步相同
 ```Bash
 python3 xnlp_fmk.py \
     --output_dir=./save/model \
@@ -118,10 +113,10 @@ python3 xnlp_fmk.py \
 
 ```
 
-**Run the inference**
-* Change --output_dir to the real path and script will save the output bin file under this path
-* Build the inference application and put it under current path, more details see: [xacl_fmk](./xacl_fmk/README.md)
-* Keep other parameters the same as the previous step
+**运行推断**
+* 将--output_dir更改为实际路径，脚本将在该路径下保存输出bin文件
+* 构建推理应用程序并将其置于当前路径下，更多详细信息请参见：[xacl_fmk]（./xacl_5mk/README.md）
+* 保持其他参数与上一步相同
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/LCQMC \
@@ -134,9 +129,9 @@ python3 xnlp_fmk.py \
 
 ```
 
-**PostProcess**
-* Change --output_dir to the real path and script will save the precision result file under this path
-* Keep other parameters the same as the previous step
+**后期处理**
+* 将--output_dir更改为实际路径，脚本将在此路径下保存精度结果文件
+* 保持其他参数与上一步相同
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/LCQMC \
@@ -151,11 +146,11 @@ python3 xnlp_fmk.py \
 
 ```
 
-## Other Usages
-**Convert pb to pbtxt**
-* Change --output_dir to the real path, and convert script will convert pb model file to pbtxt model file under this path
-* Rename --pb_model_file to the real pb model file name
-* Keep other parameters the same as the previous step
+## 其他用途
+**将pb转换为pbtxt**
+* 将--output_dir更改为实际路径，convert脚本将在此路径下将pb模型文件转换为pbtxt模型文件
+* 将--pb_model_file重命名为真正的pb模型文件名
+* 保持其他参数与上一步相同
 ```Bash
 python3 xnlp_fmk.py \
     --output_dir=./save/model \
@@ -166,9 +161,9 @@ python3 xnlp_fmk.py \
 
 ```
 
-**Run the inference by pb model**
-* Change the --in_nodes, --out_nodes according to the actual situation
-* Keep other parameters the same as the previous step
+**通过pb模型运行推断**
+* 根据实际情况更改--in_nodes、--out_nodes
+* 保持其他参数与上一步相同
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/GAD \
@@ -183,7 +178,7 @@ python3 xnlp_fmk.py \
 
 ```
 
-## Reference
+## 参考
 
 [1] https://arxiv.org/abs/1810.04805
 
