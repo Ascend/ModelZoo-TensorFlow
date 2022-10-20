@@ -36,7 +36,7 @@ cd scripts
 mkdir input_bins
 python3 inception_preprocessing.py ./ILSVRC2012val/ ./input_bins/
 ```
-jpegs图片将被预处理为bin文件.
+jpeg图片将被预处理为bin文件.
 
 ### 3. 离线推理
 
@@ -48,7 +48,7 @@ jpegs图片将被预处理为bin文件.
 
 - Pb模型转换为om模型
 
-  [Pb模型链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Inceptionv3_for_ACL.zip)
+  [Pb模型下载链接](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Inceptionv3_for_ACL.zip)
 
   ```
   atc --model=inceptionv3_tf.pb --framework=3 --output=inceptionv3_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,299,299,3" --insert_op_conf=inceptionv3_aipp.cfg --enable_small_channel=1 --log=info
