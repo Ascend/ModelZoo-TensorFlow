@@ -28,7 +28,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/DeepLabv3_for_ACL
 
 1. 请自行下载PascalVoc2012数据集
 
-2. 将数据集文件放入 **'scripts/PascalVoc2012'** 中:
+2. 将数据集文件放入 **scripts/PascalVoc2012** 中:
 ```
 --PascalVoc2012
 |----Annotations
