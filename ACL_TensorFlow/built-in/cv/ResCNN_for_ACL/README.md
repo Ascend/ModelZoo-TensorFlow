@@ -81,6 +81,6 @@ mkdir results
 | offline Inference | 100 images | 23.748 |0.747|
 
 
-## Reference
+## 参考
 [1] https://github.com/payne911/SR-ResCNN-Keras
 
