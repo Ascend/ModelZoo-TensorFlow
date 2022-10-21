@@ -1,72 +1,64 @@
 # <font face="微软雅黑">
 
-# TSN Inference for TensorFlow
+中文|[English](README_EN.md)
+# TSN TensorFlow离线推理
 
 ***
-This repository provides a script and recipe to Inference the TSN Inference
+此链接提供Vgg16 TensorFlow模型在NPU上离线推理的脚本和方法
 
-TSN Inference, based on [M-PACT](https://github.com/MichiganCOG/M-PACT)
+TSN 推理基于[M-PACT](https://github.com/MichiganCOG/M-PACT)
 
 ***
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
+## 注意
+**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
 
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+| CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
+## 快速指南
 
-### 1. Clone the respository
+### 1. 拷贝代码
+
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd modelzoo/tree/master/built-in/ACL_TensorFlow/Research/cv/TSN_for_ACL/inference
 ```
 
-### 2. Download and preprocess the dataset
+### 2. 下载数据集和预处理
 
-Download the dataset by yourself, more details see: [UCF101](./dataset/tfrecords_UCF101/readme)
-
-
-
-### 3. Obtain the weights
-
-Obtain the ckpt model, more details see: [weights](./inference/models/weights/readme) 
+请自行下载数据集, 更多详细信息请参见: [UCF101](./dataset/tfrecords_UCF101/readme)
 
 
-### 4. Build the program
-Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.md)
+
+### 3. 获取权重
+
+获取ckpt模型, 更多详细信息请参见: [weights](./inference/models/weights/readme) 
 
 
-### 5. Offline Inference
+### 4. 编译程序
+构建推理应用程序, 更多详细信息请参见: [xacl_fmk](./xacl_fmk/README.md)
 
-**Configure the env**
-```
-ASCEND_HOME=/usr/local/Ascend
-PYTHON_HOME=/usr/local/python3.7
-export PATH=$PATH:$PYTHON_HOME/bin:$ASCEND_HOME/atc/ccec_compiler/bin:$ASCEND_HOME/atc/bin:$ASCEND_HOME/toolkit/bin/
-export LD_LIBRARY_PATH=$ASCEND_HOME/acllib/lib64:$ASCEND_HOME/toolkit/lib64:$ASCEND_HOME/add-ons:$ASCEND_HOME/opp/op_proto/built-in/:$ASCEND_HOME/opp/framework/built-in/tensorflow/:$ASCEND_HOME/opp/op_impl/built-in/ai_core/tbe/op_tiling
-export PYTHONPATH=$ASCEND_HOME/atc/python/site-packages/auto_tune.egg:$ASCEND_HOME/atc/python/site-packages/schedule_search.egg:/caffe/python/:$ASCEND_HOME/ops/op_impl/built-in/ai_core/tbe/
-export ASCEND_OPP_PATH=$ASCEND_HOME/opp
-export SOC_VERSION=Ascend310
-# HOST_TYPE in Ascend310 support Atlas300 and MiniRC
-export HOST_TYPE=Atlas300
-```
 
-**PreProcess**
+### 5. 离线推理
+
+**环境变量设置**
+  请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
+
+**预处理**
 ```
 bash run_dump.sh
 ```
 
 
-**Convert pb to om**
+**Pb模型转换为om模型**
 
-[**pb download link**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/TSN_for_ACL.zip)
+[**pb模型下载链接**](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Research/cv/TSN_for_ACL.zip)
 
 ```Bash
 atc --model=./models/TSN_gpu.pb --framework=3 --output=./models/TSN_gpu --soc_version=Ascend310 --input_shape="Placeholder:1,250,224,224,3" --log=info
@@ -74,23 +66,23 @@ atc --model=./models/TSN_gpu.pb --framework=3 --output=./models/TSN_gpu --soc_ve
 
 
 
-**Run the inference**
+**运行推理**
 ```Bash
 python3 xacl_inference.py
 ```
 
-**PostProcess**
+**后期处理**
 
 ```
 bash run_infernece.sh
 ```
 
 
-### 6. Performance
+### 6. 演示
 
-### Result
+### 结果
  
-We measure performance by Accuracy.
+我们通过准确性衡量精度
 
 
 |          |  Ascend310|
