@@ -28,7 +28,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Xception_for_ACL
 
 1. 请自行下载ImageNet2012测试数据集. 你可以获得验证图片(50000 JPEGS and a ILSVRC2012val-label-index.txt)
 
-2. 将图片放在 **'scripts/ILSVRC2012val'** 目录下并且将文本标记为 **'scripts/'**目录下面。
+2. 将图片放在 **'scripts/ILSVRC2012val'** 目录下并且将文本标记放在 **'scripts/'**目录下面。
 
 3. 图像预处理:
 ```
