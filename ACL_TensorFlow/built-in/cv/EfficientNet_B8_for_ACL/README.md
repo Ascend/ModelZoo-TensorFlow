@@ -28,7 +28,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/EfficientNet_B8_for_ACL
 
 1. 请自行下载ImageNet2012验证数据集，其中验证集图片(50000JPEGS和一个ILSVRC2012val-label-index.txt)
 
-2. 将图片放至 **'scripts/ILSVRC2012val'** ，标签文件放至 **'scripts/'**
+2. 将图片放至 **scripts/ILSVRC2012val** ，标签文件放至 **scripts/**
 
 3. 图片预处理:
 ```
