@@ -1,6 +1,6 @@
 English|[中文](README.md)
 
-# Vgg16 Inference for Tensorflow 
+# Vgg16 Inference for Tensorflow .
 
 This repository provides a script and recipe to Inference the Vgg16 model.
 
