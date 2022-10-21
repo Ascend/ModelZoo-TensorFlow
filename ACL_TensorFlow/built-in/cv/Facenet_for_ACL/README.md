@@ -1,82 +1,78 @@
-# FACENET inference for Tensorflow
+中文|[English](README_EN.md)
 
-This repository provides a script and recipe to Inference the
+# FACENET Tensorflow离线推理
 
-## Notice
-**This sample only provides reference for you to learn the Ascend software stack and is not for commercial purposes.**
+此链接提供FACENET TensorFlow模型在NPU上离线推理的脚本和方法
 
-Before starting, please pay attention to the following adaptation conditions. If they do not match, may leading in failure.
+## 注意
+**此案例仅为您学习Ascend软件栈提供参考，不用于商业目的。**
+
+在开始之前，请注意以下适配条件。如果不匹配，可能导致运行失败。
 
 | Conditions | Need |
 | --- | --- |
-| CANN Version | >=5.0.3 |
-| Chip Platform| Ascend310/Ascend310P3 |
-| 3rd Party Requirements| Please follow the 'requirements.txt' |
+| CANN版本 | >=5.0.3 |
+| 芯片平台| Ascend310/Ascend310P3 |
+| 第三方依赖| 请参考 'requirements.txt' |
 
-## Quick Start Guide
+## 快速指南
 
-### 1. Clone the respository
+### 1. 拷贝代码
 
 ```shell
 git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
 ```
 
-### 2. Download and preprocess the dataset
+### 2. 下载数据集和预处理
 
-1. Download the lfw dataset by yourself
+1. 请自行下载 lfw 数据集
 
-2. Executing the Preprocessing Script
+2. 运行预处理脚本
    ```
    python3 align/align_dataset_mtcnn.py $cur_dir/lfw $dataset
    python3 preprocess_data.py  Path_of_Data_after_face_alignment  Outpath_of_Data_after_face_alignment  --use_fixed_image_standardization --lfw_batch_size 1
    
    ```
  
-### 3. Offline Inference
+### 3. 离线推理
 
-**Convert pb to om.**
+**离线模型转换**
 
-  [pb(20180402) download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Facenet_for_ACL.zip)  
-  [pb(20180408) download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-09-24_tf/FaceNet_for_ACL/facenet_20180408-102900.pb)
+  [pb模型下载链接(20180402)](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/Facenet_for_ACL.zip)  
+  [pb模型下载链接(20180408)](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-09-24_tf/FaceNet_for_ACL/facenet_20180408-102900.pb)
 
-- configure the env
+- 环境变量设置
 
-  ```
-  export install_path=/usr/local/Ascend
-  export PATH=/usr/local/python3.7.5/bin:${install_path}/atc/ccec_compiler/bin:${install_path}/atc/bin:$PATH
-  export PYTHONPATH=${install_path}/atc/python/site-packages:${install_path}/atc/python/site-packages/auto_tune.egg/auto_tune:${install_path}/atc/python/site-packages/schedule_search.egg:$PYTHONPATH
-  export LD_LIBRARY_PATH=${install_path}/atc/lib64:${install_path}/acllib/lib64:$LD_LIBRARY_PATH
-  export ASCEND_OPP_PATH=${install_path}/opp
-  ```
+  请参考[说明](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719)，设置环境变量
 
-- convert pb to om
+- Pb模型转换为om模型
   
-  Sample of pb(20180402):
+  pb模型样例(20180402):
 
   ```
    atc --framework=3 --model=./model/facenet_tf.pb  --output=./model/facenet --soc_version=Ascend310 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:4,160,160,3
   ```
 
-- Build the program
+- 编译程序
 
   ```
   bash build.sh
   ```
 
-- Run the program:
+- 开始运行:
 
   ```
   ./benchmark_tf.sh --batchSize=4 --modelPath=absolute_path_of_facenet.om --dataPath=absolute_path_of_dataset_bin --modelType=facenet --imgType=rgb
   ```
   
-## Performance
+## 性能
 
-### Result
+### 结果
 
-Our result were obtained by running the applicable inference script. To achieve the same results, follow the steps in the Quick Start Guide.
+本结果是通过运行上面适配的推理脚本获得的。要获得相同的结果，请按照《快速指南》中的步骤操作。
 
-#### Inference accuracy results
+#### 推理精度结果
 
 |       model    |       mode       | ***data***  |    Embeddings Accuracy    |
 | :---------------:| :---------------: | :---------: | :---------: |
