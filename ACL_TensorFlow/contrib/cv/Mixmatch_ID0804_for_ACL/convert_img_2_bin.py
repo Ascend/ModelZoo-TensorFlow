@@ -153,7 +153,7 @@ def main(argv):
             x = images[j:j+FLAGS.batchsize]
             label = labels[j:j+FLAGS.batchsize]
             np.array(x).tofile("./mix_model/input_bin_{0:02d}/{1:05d}.bin".format(FLAGS.batchsize, j))
-            np.savetxt("./mix_model/output_label_{0:02d}/{1:05d}.txt".format(FLAGS.batchsize,j), label)
+            np.savetxt("./mix_model/output_label_{0:02d}/{1:05d}.txt".format(FLAGS.batchsize, j), label)
 
 
 if __name__ == '__main__':
