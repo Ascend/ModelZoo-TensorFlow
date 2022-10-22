@@ -149,11 +149,11 @@ def main(argv):
         model.session = sess
         model.cache_eval()
         images, labels = model.tmp.cache['test']
-        for j in range(0,len(labels),FLAGS.batchsize):
+        for j in range(0, len(labels), FLAGS.batchsize):
             x = images[j:j+FLAGS.batchsize]
             label = labels[j:j+FLAGS.batchsize]
-            np.array(x).tofile("./mix_model/input_bin_{0:02d}/{1:05d}.bin".format(FLAGS.batchsize,j))
-            np.savetxt("./mix_model/output_label_{0:02d}/{1:05d}.txt".format(FLAGS.batchsize,j),label)
+            np.array(x).tofile("./mix_model/input_bin_{0:02d}/{1:05d}.bin".format(FLAGS.batchsize, j))
+            np.savetxt("./mix_model/output_label_{0:02d}/{1:05d}.txt".format(FLAGS.batchsize,j), label)
 
 
 if __name__ == '__main__':
@@ -164,6 +164,6 @@ if __name__ == '__main__':
     flags.DEFINE_integer('scales', 0, 'Number of 2x2 downscalings in the classifier.')
     flags.DEFINE_integer('filters', 32, 'Filter size of convolutions.')
     flags.DEFINE_integer('repeat', 4, 'Number of residual layers per stage.')
-    flags.DEFINE_integer('batchsize',1,'the batch number of IMG in one bin file')
+    flags.DEFINE_integer('batchsize', 1, 'the batch number of IMG in one bin file')
     app.run(main)
     # python convert_img_2_bin.py --batchsize=1
