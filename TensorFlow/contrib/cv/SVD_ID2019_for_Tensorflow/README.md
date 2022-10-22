@@ -245,6 +245,6 @@ checkpoint文件中最新模型的路径修改
 |     global_step/sec|    无    | 87.64  |   116.77  |
 
 ## 离线推理
-利用frezze.py文件将save_model模型保存为pb模型
+参考 SVD_ID2019_for_ACL
 
 
