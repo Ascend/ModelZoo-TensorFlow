@@ -28,7 +28,8 @@
 
 - 参考实现：
 	
-	数据下载百度网盘链接:
+	数据下载百度网盘链接：https://pan.baidu.com/s/1up1HW6McgSor3JF0yqQZSA 
+提取码：2019
 	
 	共有3个数据集
 	
@@ -38,7 +39,8 @@
 	
 	第一步旋转后的数据集 test_points_modified
 	
-	npu训练出来的模型下载百度网盘链接:
+	npu训练出来的模型下载百度网盘链接：https://pan.baidu.com/s/1JU1koZR7uGlkKfRYIk8tsw 
+提取码：2019
 	
 	
 
