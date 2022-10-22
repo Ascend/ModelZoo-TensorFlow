@@ -36,7 +36,7 @@ def main(argv):
     OUTPUT_LABEL_FLODER = FLAGS.OUTPUT_LABEL_FLODER
     files_output = os.listdir(OUTPUT_LABEL_FLODER)
     files_predict = os.listdir(PREDICT_LABEL_FLODER)
-    num,check_num = 0, 0
+    num, check_num = 0, 0
     label_map = {}
     for file in files_output:
         if file.endswith(".txt"):
@@ -56,7 +56,9 @@ def main(argv):
     top1_accuarcy = check_num/num
     print("Totol num: %d, accuarcy: %.4f"%(num, top1_accuarcy))
 if __name__ == '__main__':
-    flags.DEFINE_string('PREDICT_LABEL_FLODER', '/home/TestUser03/code/mixmatch/mix_model/out/20221016_14_42_58_783190', 'The floder of inference result')
-    flags.DEFINE_string('OUTPUT_LABEL_FLODER', '/home/TestUser03/code/mixmatch/mix_model/output_label_01/', 'The floder of TRUE result')
+    flags.DEFINE_string('PREDICT_LABEL_FLODER', '/home/TestUser03/code/mixmatch/mix_model/out/20221016_14_42_58_783190',\
+     'The floder of inference result')
+    flags.DEFINE_string('OUTPUT_LABEL_FLODER', '/home/TestUser03/code/mixmatch/mix_model/output_label_01/',\
+     'The floder of TRUE result')
     app.run(main)
     # python cal_inference_pref.py --PREDICT_LABEL_FLODER=/home/hang/文档/om/predict_label_gpu_free --OUTPUT_LABEL_FLODER=/home/hang/文档/om/output_label
