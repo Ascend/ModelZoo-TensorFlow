@@ -65,18 +65,17 @@ if [[ $output_path == "" ]];then
 fi
 
 # 设置打屏日志文件名，请保留，文件名为${print_log}
-print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
-etp_flag=${etp_running_flag}
-#if [ x"${etp_flag}" != x ];
-#then
-    #echo "running without etp..."
-    #print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
-    #print_log="/home/ma-user/modelarts/log/${print_log_name}"
-#fi
-echo ${print_log}
 
-batch_size=20
-CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'acc'
+CaseName=""
+function get_casename()
+{
+    if [ x"${perf_flag}" = x1 ];
+    then
+        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'perf'
+    else
+        CaseName=${Network}_bs${batch_size}_${RANK_SIZE}'p'_'acc'
+    fi
+}
 
 # 跳转到code目录
 cd ${cur_path}/../
@@ -99,11 +98,25 @@ start_time=$(date +%s)
 # 您的训练数据集在${data_path}路径下，请直接使用这个变量获取
 # 您的训练输出目录在${output_path}路径下，请直接使用这个变量获取
 # 您的其他基础参数，可以自定义增加，但是batch_size请保留，并且设置正确的值
+batch_size=20
+RANK_ID_START=0
+for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+do
+    #设置环境变量，不需要修改
+    echo "Device ID: $RANK_ID"
+    export RANK_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=$RANK_ID
 
-
-if [ x"${etp_flag}" != x ];
-then
-    python3.7 ./style.py \
+    #创建DeviceID输出目录，不需要修改
+    if [ -d $cur_path/output/$ASCEND_DEVICE_ID ];then
+        rm -rf $cur_path/output/$ASCEND_DEVICE_ID
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID
+    else
+        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID
+    fi
+    print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
+    #执行训练脚本，需要模型审视修改    --rank-size=${RANK_SIZE} \  --rank-id=${RANK_ID} \
+    nohup python3.7 ./style.py \
         --style=${data_path}/wave.jpg \
         --checkpoint-dir=${output_path} \
         --test=${data_path}/chicago.jpg \
@@ -112,24 +125,12 @@ then
         --checkpoint-iterations 1000 \
         --batch-size 20 \
         --train-path=${data_path}/train2014 \
-        --vgg-path=${data_path}/imagenet-vgg-verydeep-19.mat  &> ${print_log}
-
-    #python3.7 ./LeNet.py --data_path=${data_path} --output_path=${output_path}
-else
-        python3.7 ./style.py \
-        --style=${data_path}/wave.jpg \
-        --checkpoint-dir=${output_path} \
-        --test=${data_path}/chicago.jpg \
-        --test-dir=${output_path} \
-        --content-weight 1.5e1 \
-        --checkpoint-iterations 1000 \
-        --batch-size 20 \
-        --train-path=${data_path}/train2014 \
-        --vgg-path=${data_path}/imagenet-vgg-verydeep-19.mat &> ${print_log}
-fi
+        --vgg-path=${data_path}/imagenet-vgg-verydeep-19.mat 1>${print_log} 2>&1 &
+done
+wait
 
 # 性能相关数据计算
-StepTime=`grep "batch time:" ${print_log} | awk '{print $5}'| tail -n +2 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "batch time:" ${print_log} | awk '{print $5}' | tail -n +2 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
@@ -144,18 +145,6 @@ grep "Loss:" ${print_log} | awk  '{print $6}' > ./test/output/${ASCEND_DEVICE_ID
 #########后面的所有内容请不要修改###########################
 ###########################################################
 
-# 判断本次执行是否正确使用Ascend NPU
-use_npu_flag=`grep "The model has been compiled on the Ascend AI processor" ${print_log} | wc -l`
-if [ x"${use_npu_flag}" == x0 ];
-then
-    echo "------------------ ERROR NOTICE START ------------------"
-    echo "ERROR, your task haven't used Ascend NPU, please check your npu Migration."
-    echo "------------------ ERROR NOTICE END------------------"
-else
-    echo "------------------ INFO NOTICE START------------------"
-    echo "INFO, your task have used Ascend NPU, please check your result."
-    echo "------------------ INFO NOTICE END------------------"
-fi
 
 # 获取最终的casename，请保留，case文件名为${CaseName}
 get_casename
