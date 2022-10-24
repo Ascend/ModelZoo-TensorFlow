@@ -14,6 +14,7 @@
 
 from __future__ import print_function
 import sys, os, pdb
+os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
 sys.path.insert(0, 'src')
 import numpy as np, scipy.misc 
 from src.optimize import optimize
@@ -100,7 +101,6 @@ def build_parser():
                         dest='learning_rate',
                         help='learning rate (default %(default)s)',
                         metavar='LEARNING_RATE', default=LEARNING_RATE)
-
     return parser
 
 def check_opts(opts):
@@ -161,6 +161,8 @@ def main():
         options.vgg_path  #vgg模型参数
     ]
 
+    optimize(*args, **kwargs)
+    '''
     for preds, losses, i, epoch in optimize(*args, **kwargs):
         style_loss, content_loss, tv_loss, loss = losses
 
@@ -176,7 +178,7 @@ def main():
                                      options.checkpoint_dir)
             else:
                 save_img(preds_path, img)
-
+    '''
     ckpt_dir = options.checkpoint_dir
     cmd_text = 'python evaluate.py --checkpoint %s ...' % ckpt_dir
     print("Training complete. For evaluation:\n    `%s`" % cmd_text)
