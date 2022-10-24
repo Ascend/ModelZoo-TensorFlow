@@ -22,12 +22,17 @@ from src.utils import get_img
 from cfg import make_config
 
 from npu_bridge.npu_init import *
+# 改
+# from npu_bridge.hccl import hccl_ops
 #import precision_tool.tf_config as npu_tf_config
 
 STYLE_LAYERS = ('relu1_1', 'relu2_1', 'relu3_1', 'relu4_1', 'relu5_1')
 CONTENT_LAYER = 'relu4_2'
 #DEVICES = 'CUDA_VISIBLE_DEVICES'
-
+# 改
+rank_size = int(os.getenv('RANK_SIZE'))
+rank_id = int(os.getenv('RANK_ID'))
+print(rank_id, rank_size)
 # np arr, np arr
 def optimize(content_targets, style_target, content_weight, style_weight,
              tv_weight, vgg_path, epochs=2, print_iterations=1000,
@@ -35,7 +40,8 @@ def optimize(content_targets, style_target, content_weight, style_weight,
              learning_rate=1e-3, debug=False):
     if slow:
         batch_size = 1
-    mod = len(content_targets) % batch_size
+    # 改
+    mod = len(content_targets) % (batch_size*rank_size)
     if mod > 0:
         print("Train set has been trimmed slightly..")
         content_targets = content_targets[:-mod]
@@ -117,8 +123,11 @@ def optimize(content_targets, style_target, content_weight, style_weight,
         #print(loss)
         # overall loss
 
-
-        train_step = tf.compat.v1.train.AdamOptimizer(learning_rate).minimize(loss)
+        # change
+        if int(rank_size) > 1:
+            train_step = npu_distributed_optimizer_wrapper(tf.compat.v1.train.AdamOptimizer(learning_rate)).minimize(loss)
+        else :
+            train_step = tf.compat.v1.train.AdamOptimizer(learning_rate).minimize(loss)
 
         '''
         opt = tf.compat.v1.train.AdamOptimizer(learning_rate)
@@ -127,6 +136,12 @@ def optimize(content_targets, style_target, content_weight, style_weight,
         train_step = loss_scale_optimizer.minimize(loss)
         '''
         sess.run(tf.compat.v1.global_variables_initializer())
+        # 改 广播
+        if int(rank_size) > 1:
+            input = tf.trainable_variables()
+            bcast_global_variables_op = hccl_ops.broadcast(input, 0)
+            # custom_op.parameter_map["hcom_parallel"].b = True
+            sess.run(bcast_global_variables_op)
         #train_step = util.set_iteration_per_loop(sess, train_step, 10)
         import random
         uid = random.randint(1, 100)
@@ -141,10 +156,12 @@ def optimize(content_targets, style_target, content_weight, style_weight,
             #print(type(num_examples))
 
             #print('aaaaaaaaaaaaaaaaaaaaaaaaaaa')
-            while iterations * batch_size < num_examples:
+            # 改
+            while iterations * batch_size * rank_size < num_examples:
 
                 start_time = time.time()
-                curr = iterations * batch_size
+                # 改
+                curr = iterations * batch_size*rank_size+batch_size*rank_id
                 step = curr + batch_size
                 X_batch = np.zeros(batch_shape, dtype=np.float32)
                 for j, img_p in enumerate(content_targets[curr:step]):
@@ -163,12 +180,12 @@ def optimize(content_targets, style_target, content_weight, style_weight,
                 end_time = time.time()
                 delta_time = end_time - start_time
                 print("UID: %s, batch time: %s" % (uid, delta_time))
-                if debug:
-                    print("UID: %s, batch time: %s" % (uid, delta_time))
+                # 改
                 is_print_iter = int(iterations) % print_iterations == 0
                 if slow:
                     is_print_iter = epoch % print_iterations == 0
-                is_last = epoch == epochs - 1 and iterations * batch_size >= num_examples
+                # 改
+                is_last = epoch == epochs - 1 and iterations * batch_size*rank_size >= num_examples
                 should_print = is_print_iter or is_last
                 if should_print:
                     to_get = [style_loss, content_loss, tv_loss, loss, preds]
@@ -178,13 +195,21 @@ def optimize(content_targets, style_target, content_weight, style_weight,
 
                     tup = sess.run(to_get, feed_dict = test_feed_dict)
                     _style_loss,_content_loss,_tv_loss,_loss,_preds = tup
-                    losses = (_style_loss, _content_loss, _tv_loss, _loss)
+
+                    # losses = (_style_loss, _content_loss, _tv_loss, _loss)
                     if slow:
                        _preds = vgg.unprocess(_preds)
                     else:
                        saver = tf.compat.v1.train.Saver()
                        res = saver.save(sess, save_path)
-                    yield(_preds, losses, iterations, epoch)
+                    #yield(_preds, losses, iterations, epoch)
+                    # style_loss, content_loss, tv_loss, loss = losses
+
+                    print('Epoch %d, Iteration: %d, Loss: %s' % (epoch, int(iterations), _loss))
+                    to_print = (_style_loss, _content_loss, _tv_loss)
+                    print('style: %s, content:%s, tv: %s' % to_print)
+					
+					
 
 def _tensor_size(tensor):
     from operator import mul
