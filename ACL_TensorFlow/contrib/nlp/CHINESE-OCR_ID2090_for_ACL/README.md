@@ -37,7 +37,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/CHINESE-OCR_ID2090_for_ACL
 - pb模型转换为om模型
 
   ```
-  atc --model=./VGGnet_fast_rcnn.pb --framework=3 --output=./VGGnet_fast_rcnn --soc_version=Ascend910A --input_shape="Placeholder:1,900,900,3" --out_nodes="rpn_bbox_pred/Reshape_1:0;Reshape_2:0"
+  atc --model=./VGGnet_fast_rcnn.pb --framework=3 --output=./VGGnet_fast_rcnn --soc_version=Ascend310 --input_shape="Placeholder:1,900,900,3" --out_nodes="rpn_bbox_pred/Reshape_1:0;Reshape_2:0"
   ```
 
 
