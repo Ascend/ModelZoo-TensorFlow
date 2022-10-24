@@ -11,7 +11,8 @@ batch_size=9
 #网络名称，同目录名称
 Network="SRNTT-l2_ID0272_for_TensorFlow"
 #Device数量，单卡默认为1
-RANK_SIZE=1
+export RANK_SIZE=1
+export RANK_ID=0
 #训练epoch，可选
 train_epochs=30
 #训练step
