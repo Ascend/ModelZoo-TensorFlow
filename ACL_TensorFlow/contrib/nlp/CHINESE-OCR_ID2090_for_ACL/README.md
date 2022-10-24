@@ -23,10 +23,13 @@ git clone https://gitee.com/ascend/ModelZoo-TensorFlow.git
 cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/CHINESE-OCR_ID2090_for_ACL
 ```
 
+- 下载acllite代码
+
+将该([链接](https://gitee.com/ascend/samples/tree/master/python/common/acllite))中的代码下载并拷贝到 **src/** 目录下
+
 ### 2. 下载pb模型及模型转换
 
-1. 请下载pb模型 ([pb模型和om模型下载](https://pan.baidu.com/s/1gNDUcZa5VrRf0-JzCzeJKQ?pwd=3vpg 
-)，提取码：3vpg)并将其放入: **model/** 中：
+1. 请下载pb模型 ([pb模型和om模型下载](https://pan.baidu.com/s/1gNDUcZa5VrRf0-JzCzeJKQ?pwd=3vpg)，提取码：3vpg)并将其放入: **model/** 中：
 
 2. 离线模型转换:
 
