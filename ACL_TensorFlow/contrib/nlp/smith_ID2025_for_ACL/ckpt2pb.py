@@ -1,9 +1,33 @@
-# -*- coding: utf-8 -*- 
-"""   
-    Created on  2022/4/21 0:18
-    
-    @Author T.c  
-"""
+# coding=utf-8
+# Copyright 2021 The Google Research Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Copyright 2021 Huawei Technologies Co., Ltd
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+# ==============================================================================
+
 from absl import flags
 from absl import app
 import tensorflow.compat.v1 as tf
@@ -16,17 +40,19 @@ from tensorflow.python.framework import graph_util
 FLAGS = flags.FLAGS
 
 flags.DEFINE_string("dual_encoder_config_file", None, "The proto config file for dual encoder SMITH models.")
+flags.DEFINE_string("ckpt_path", None, "The NPU ckpt file.")
+flags.DEFINE_string("output_graph", "smith.pb", "The output path of pb file.")
 
-# 指定checkpoint路径
-ckpt_path = "/home/test_user06/tc_workspace/data/result_file/tc_wsp_20220920_V4/model.ckpt-10000"
+ckpt_path = FLAGS.ckpt_path
+output_graph = FLAGS.output_graph
 
 
 def main(_argv):
 
     input_ids_1 = tf.placeholder(tf.int32, shape=(32, 2048), name="input_ids_1")
-    input_mask_1 = tf.placeholder(tf.int32, shape=(32, 2048), name="input_mask_1") #features["input_mask_1"]
+    input_mask_1 = tf.placeholder(tf.int32, shape=(32, 2048), name="input_mask_1") 
     input_ids_2 = tf.placeholder(tf.int32, shape=(32, 2048), name="input_ids_2")
-    input_mask_2 = tf.placeholder(tf.int32, shape=(32, 2048), name="input_mask_2") #features["input_mask_2"]
+    input_mask_2 = tf.placeholder(tf.int32, shape=(32, 2048), name="input_mask_2")
     exp_config = utils.load_config_from_file(FLAGS.dual_encoder_config_file, experiment_config_pb2.DualEncoderConfig())
     tf.logging.info("*** Features ***")
     masked_lm_positions_1 = tf.zeros([1])
@@ -55,8 +81,6 @@ def main(_argv):
     graph = tf.get_default_graph()
     input_graph_def = graph.as_graph_def()
 
-    output_graph = "/home/test_user06/tc_workspace/smith_0927_del_full_dropout_27_NPU.pb"
-
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         saver = tf.train.Saver()
@@ -64,7 +88,7 @@ def main(_argv):
         output_graph_def = graph_util.convert_variables_to_constants(
             sess=sess,
             input_graph_def=input_graph_def,
-            output_node_names=["seq_rep_from_bert_doc_dense/l2_normalize_1","Sigmoid","Round"])
+            output_node_names=["seq_rep_from_bert_doc_dense/l2_normalize_1", "Sigmoid", "Round"])
         with tf.gfile.GFile(output_graph, "wb") as f:
             f.write(output_graph_def.SerializeToString())
 
