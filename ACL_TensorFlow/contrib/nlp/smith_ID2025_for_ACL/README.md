@@ -4,6 +4,8 @@
 * TensorFlow 1.15.0
 * Python 3.7.0
 
+## 迁移部分代码[地址](https://gitee.com/ascend/ModelZoo-TensorFlow/pulls/790)
+
 ## 代码及路径解释
 ```
 smith_ID2025_for_ACL
@@ -72,12 +74,15 @@ python3 img2bin.py -i ./input_mask_2.txt -t int32 -o ./out/
 
 ### 6 精度对比
 ##### 用OM推理的结果：
+```
 得分结果：
 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.99707 0.5 0.99707 0.99707 0.5 0.99707 0.99707 0.5 0.5 0.5 0.5 0.5 0.5 0.99707 0.5 0.5 0.5 0.99707 0.5 0.5 0.5 0.99707 0.99707
 对应label结果：
 0 0 0 0 0 0 0 0 0 1 0 1 1 0 1 1 0 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1
+```
 
 ##### 用ckpt直接推理的结果：
+```
 {"predicted_score": "0.5", "predicted_class": "0.0"}
 {"predicted_score": "0.5", "predicted_class": "0.0"}
 {"predicted_score": "0.99751484", "predicted_class":"1.0"}
@@ -110,3 +115,4 @@ python3 img2bin.py -i ./input_mask_2.txt -t int32 -o ./out/
 {"predicted_score": "0.5", "predicted_class": "0.0"}
 {"predicted_score": "0.9975251", "predicted_class": "1.0"}
 {"predicted_score": "0.99752605", "predicted_class": "1.0"}
+```
