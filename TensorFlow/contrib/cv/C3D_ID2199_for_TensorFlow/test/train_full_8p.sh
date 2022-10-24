@@ -104,9 +104,6 @@ do
     export RANK_ID=$RANK_ID
     export ASCEND_DEVICE_ID=$RANK_ID
     ASCEND_DEVICE_ID=$RANK_ID
-    DEVICE_INDEX=$RANK_ID
-    export DEVICE_INDEX=${DEVICE_INDEX}
-
 
 
     #创建DeviceID输出目录，不需要修改

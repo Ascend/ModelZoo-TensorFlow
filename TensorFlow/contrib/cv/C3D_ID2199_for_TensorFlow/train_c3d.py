@@ -64,7 +64,7 @@ MOVING_AV_DECAY = 0.9999
 train_video_indices, validation_video_indices = data_processing.get_video_indices(TRAIN_LIST_PATH)
 
 RANK_SIZE = int(os.getenv('RANK_SIZE'))
-rank_id = int(os.getenv('DEVICE_INDEX'))
+rank_id = int(os.getenv('RANK_ID'))
 
 
 with tf.Graph().as_default():
