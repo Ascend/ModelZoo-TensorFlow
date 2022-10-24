@@ -139,15 +139,27 @@ python3.7 ../src/mains/res50.py \
 ```
 More parameters are in --config_file under src/configs.
 ```shell
-cd /path/to/Modelzoo_Resnet50_HC/scripts
+cd /path/to/ResNet50_ID0058_for_TensorFlow/scripts
 bash train_1p.sh
 ```
 
 8P training is similar to the former：
 ```shell
-cd /path/to/Modelzoo_Resnet50_HC/scripts
+cd /path/to/ResNet50_ID0058_for_TensorFlow/scripts
 bash train_8p.sh
 ```
+
+We recommend using the updated training shell instructions in `/test`,examples：
+```
+cd /path/to/ResNet50_ID0058_for_TensorFlow/test
+bash train_performance_bs32_1p.sh
+```
+8P training is also similar to the former:
+```
+cd /path/to/ResNet50_ID0058_for_TensorFlow/test
+bash train_performance_bs32_8p.sh
+```
+
 
 ##### ascend_distribute Training
 
