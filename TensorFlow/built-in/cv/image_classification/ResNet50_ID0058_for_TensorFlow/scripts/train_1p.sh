@@ -19,7 +19,8 @@ mkdir -p ${currentDir}/d_solution/ckpt${DEVICE_ID}
 env > ${currentDir}/log/env_${device_id}.log
 
 #start exec
-python3.7 ../src/mains/res50.py \
+cd ${currentDir}/../
+python3.7 ${currentDir}/../src/mains/res50.py \
     --config_file=res50_256bs_1p \
     --max_train_steps=1000 \
     --iterations_per_loop=100 \
