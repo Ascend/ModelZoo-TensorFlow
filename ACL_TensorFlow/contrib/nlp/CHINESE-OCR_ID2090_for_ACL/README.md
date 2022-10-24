@@ -12,7 +12,7 @@
 | Conditions | Need |
 | --- | --- |
 | CANN版本 | >=5.0.3 |
-| 芯片平台| Ascend310/Ascend310P3/Ascend910A/Ascend910 |
+| 芯片平台| Ascend310/Ascend310P3 |
 
 ## 快速指南
 
