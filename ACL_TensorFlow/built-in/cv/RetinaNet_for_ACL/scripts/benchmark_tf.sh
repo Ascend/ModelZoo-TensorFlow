@@ -13,5 +13,6 @@ $benchmark_dir/benchmark --om $om_name --dataDir $cur_dir/input_bins/ --modelTyp
 
 #post process
 cd retinanet_postprocess
+mkdir ./detections/
 python3 retinaPostprocess.py $cur_dir/$output_dir/$model_name ./detections/
 python3 pascalvoc.py -np
