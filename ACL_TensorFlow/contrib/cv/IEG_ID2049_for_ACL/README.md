@@ -9,7 +9,7 @@
 https://github.com/google-research/google-research/tree/master/ieg
 
 - 适配昇腾 AI 处理器的实现：
-https://gitee.com/lwrstudy/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/Slot-Attention_ID2028_for_TensorFlow
+https://gitee.com/lwrstudy/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/IEG_ID2049_for_TensorFlow
 
 
 <h2 id="概述.md">原始模型</h2>
