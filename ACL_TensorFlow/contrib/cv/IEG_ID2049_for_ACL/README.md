@@ -47,12 +47,16 @@ hpiegmodel.om的obs地址：obs://lwr-npu/tl/hpiegmodel.om
 
 <h2 id="概述.md">数据集转换bin</h2>
 1.使用convertimg.py将数据集转为png，代码中的src为数据集源路径，dest为png数据集输出路径
+
 2.参考 https://gitee.com/ascend/tools/tree/master/img2bin, 获取msame推理工具及使用方法。
+
 这里对该代码库中的img2bin进行了少量修改，加入了数据预处理
-使用img2bin.py将png数据集转为bin格式，img2bin.py为tools-master中的代码文件,
+使用img2bin.py将png数据集转为bin格式，img2bin.py为tools-master中的代码文件
+
 ```
 python3 img2bin.py -i /mnt/home/test_user01/toimg -w 32 -h 32 -f RGB -a NHWC -t float32  -c [1,1,1] -o ./imgout 
 ```
+
 3.使用merge.py将bin格式的数据集合并为一个batch
 转换后的bin文件见obs地址:obs://lwr-npu/tl/newinputbin
 
