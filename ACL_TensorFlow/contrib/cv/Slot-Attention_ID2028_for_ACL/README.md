@@ -24,7 +24,7 @@ https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/S
 obs地址：obs://lwr-slot-npu/slottl/newslotmodel.pb
 
 
-步骤一:将转化成IEG.pb
+步骤一:
 通过代码keras_frozen_graph将ckpt-499000转成pb
 ckpt的obs地址：obs://lwr-slot-npu/slottl/
 该目录中以checkpoint开头的四个文件
@@ -35,7 +35,7 @@ ckpt的obs地址：obs://lwr-slot-npu/slottl/
 ```
 newslotmodel.pb
 ```
-obs地址：obs://lwr-slot-npu/slottl/newslotmodel.pb
+pb文件的obs地址：obs://lwr-slot-npu/slottl/newslotmodel.pb
 
 
 <h2 id="概述.md">om模型</h2>
