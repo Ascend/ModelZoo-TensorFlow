@@ -38,12 +38,11 @@ import importlib
 import os
 import sys
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR = os.path.dirname(BASE_DIR)
+ROOT_DIR = os.path.dirname(BASE_DIR) 
 sys.path.append(BASE_DIR)
-sys.path.append(os.path.join(ROOT_DIR, 'models'))
+sys.path.append(os.path.join(ROOT_DIR, 'models')) 
 sys.path.append(os.path.join(ROOT_DIR, 'utils'))
 import provider
-import tf_util
 import part_dataset_all_normal
 import time
 
@@ -75,6 +74,10 @@ MOMENTUM = FLAGS.momentum
 OPTIMIZER = FLAGS.optimizer
 DECAY_STEP = FLAGS.decay_step
 DECAY_RATE = FLAGS.decay_rate
+
+RANK_ID = int(os.environ['RANK_ID'])
+RANK_SIZE = int(os.environ['RANK_SIZE'])
+print(RANK_ID,"---",RANK_SIZE)
 
 MODEL = importlib.import_module(FLAGS.model) # import network module
 MODEL_FILE = os.path.join(ROOT_DIR, 'models', FLAGS.model+'.py')
@@ -159,10 +162,17 @@ def train():
             # Get training operator
             learning_rate = get_learning_rate(batch)
             tf.summary.scalar('learning_rate', learning_rate)
-            if OPTIMIZER == 'momentum':
-                optimizer = npu_tf_optimizer(tf.train.MomentumOptimizer(learning_rate, momentum=MOMENTUM))
-            elif OPTIMIZER == 'adam':
-                optimizer = npu_tf_optimizer(tf.train.AdamOptimizer(learning_rate))
+            if RANK_SIZE > 1:
+                if OPTIMIZER == 'momentum':
+                    optimizer = npu_distributed_optimizer_wrapper(tf.train.MomentumOptimizer(learning_rate, momentum=MOMENTUM))
+                elif OPTIMIZER == 'adam':
+                    optimizer = npu_distributed_optimizer_wrapper(tf.train.AdamOptimizer(learning_rate))
+                print("build distributed optimizer finished")
+            else:
+                if OPTIMIZER == 'momentum':
+                    optimizer = npu_tf_optimizer(tf.train.MomentumOptimizer(learning_rate, momentum=MOMENTUM))
+                elif OPTIMIZER == 'adam':
+                    optimizer = npu_tf_optimizer(tf.train.AdamOptimizer(learning_rate))
             train_op = optimizer.minimize(loss, global_step=batch)
 
             # Add ops to save and restore all the variables.
@@ -174,6 +184,9 @@ def train():
         custom_op.name = "NpuOptimizer"
         custom_op.parameter_map["use_off_line"].b = True
         custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+        if RANK_SIZE > 1:
+            custom_op.parameter_map["hcom_parallel"].b = True
+            print("open allreduce finished")
         config.allow_soft_placement = True
         config.log_device_placement = False
         sess = tf.Session(config=npu_config_proto(config_proto=config))
@@ -182,10 +195,15 @@ def train():
         merged = tf.summary.merge_all()
         train_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, 'train'), sess.graph)
         test_writer = tf.summary.FileWriter(os.path.join(LOG_DIR, 'test'), sess.graph)
-
-        # Init variables
+        
         init = tf.global_variables_initializer()
         sess.run(init)
+        if int(RANK_SIZE) > 1:
+            input = tf.trainable_variables()
+            bcast_global_variables_op = hccl_ops.broadcast(input, 0)
+            sess.run(bcast_global_variables_op)
+            print("broadcast finished")
+            
 
         ops = {'pointclouds_pl': pointclouds_pl,
                'labels_pl': labels_pl,
@@ -203,7 +221,8 @@ def train():
             sys.stdout.flush()
 
             train_one_epoch(sess, ops, train_writer)
-            eval_one_epoch(sess, ops, test_writer)
+            if epoch >= 150:
+                eval_one_epoch(sess, ops, test_writer)
 
             # Save the variables to disk.
             if epoch % 10 == 0:
@@ -229,29 +248,39 @@ def train_one_epoch(sess, ops, train_writer):
     
     # Shuffle train samples
     train_idxs = np.arange(0, len(TRAIN_DATASET))
+    np.random.seed(2)
     np.random.shuffle(train_idxs)
-    num_batches = len(TRAIN_DATASET)//BATCH_SIZE - FLAGS.end_num_batches
-   
+
+    if int(RANK_SIZE) > 1:
+        num_batches = len(TRAIN_DATASET)//(BATCH_SIZE*RANK_SIZE) - FLAGS.end_num_batches
+    else:
+        num_batches = len(TRAIN_DATASET)//BATCH_SIZE - FLAGS.end_num_batches
     log_string(str(datetime.now()))
 
     total_correct = 0
     total_seen = 0
     loss_sum = 0
     for batch_idx in range(num_batches):
-        start_idx = batch_idx * BATCH_SIZE
-        end_idx = (batch_idx+1) * BATCH_SIZE
+        if int(RANK_SIZE) > 1:
+            start_idx = batch_idx * RANK_SIZE * BATCH_SIZE + RANK_ID * BATCH_SIZE
+            end_idx = start_idx + BATCH_SIZE
+        else:
+            start_idx = batch_idx * BATCH_SIZE
+            end_idx = (batch_idx+1) * BATCH_SIZE
+        
         batch_data, batch_label = get_batch(TRAIN_DATASET, train_idxs, start_idx, end_idx)
         # Augment batched point clouds by rotation and jittering
         batch_data[:,:,0:3] = provider.jitter_point_cloud(batch_data[:,:,0:3])
         feed_dict = {ops['pointclouds_pl']: batch_data,
                      ops['labels_pl']: batch_label,
-                     ops['is_training_pl']: is_training,}
+                     ops['is_training_pl']: is_training}
         start_time=time.time()
-        summary, step, _, loss_val, pred_val = sess.run([ops['merged'], ops['step'],
+        # summary, step, _, loss_val, pred_val = sess.run([ops['merged'], ops['step'],
+        step, _, loss_val, pred_val = sess.run([ops['step'],
             ops['train_op'], ops['loss'], ops['pred']], feed_dict=feed_dict)
         end_time=time.time()-start_time
         print('batch_time : ',end_time)
-        train_writer.add_summary(summary, step)
+        # train_writer.add_summary(summary, step)
         pred_val = np.argmax(pred_val, 2)
         correct = np.sum(pred_val == batch_label)
         total_correct += correct
@@ -299,6 +328,7 @@ def eval_one_epoch(sess, ops, test_writer):
         start_idx = batch_idx * BATCH_SIZE
         end_idx = min(len(TEST_DATASET), (batch_idx+1) * BATCH_SIZE)
         cur_batch_size = end_idx-start_idx
+        #print(start_idx, end_idx)
         cur_batch_data, cur_batch_label = get_batch(TEST_DATASET, test_idxs, start_idx, end_idx)
         if cur_batch_size == BATCH_SIZE:
             batch_data = cur_batch_data
@@ -311,9 +341,10 @@ def eval_one_epoch(sess, ops, test_writer):
         feed_dict = {ops['pointclouds_pl']: batch_data,
                      ops['labels_pl']: batch_label,
                      ops['is_training_pl']: is_training}
-        summary, step, loss_val, pred_val = sess.run([ops['merged'], ops['step'],
+        # summary, step, loss_val, pred_val = sess.run([ops['merged'], ops['step'],
+        step, loss_val, pred_val = sess.run([ops['step'],
             ops['loss'], ops['pred']], feed_dict=feed_dict)
-        test_writer.add_summary(summary, step)
+        # test_writer.add_summary(summary, step)
         # ---------------------------------------------------------------------
     
         # Select valid data
@@ -368,3 +399,4 @@ if __name__ == "__main__":
     log_string('pid: %s'%(str(os.getpid())))
     train()
     LOG_FOUT.close()
+
