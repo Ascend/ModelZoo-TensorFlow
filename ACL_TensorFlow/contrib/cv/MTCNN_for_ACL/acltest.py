@@ -38,6 +38,7 @@ if input_mode=='1':
         os.system("python3 om_bm_predict.py {} {} {} {} {}".format(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[5]))
         os.system("python3 om_bm_predict_rnet.py {} {} {} {} {}".format(sys.argv[1],sys.argv[2],sys.argv[3],sys.argv[4],sys.argv[6]))
         boxes_c, landmarks = om_bm_predict_onet.do_bm_predict("{}".format(sys.argv[1]),"{}".format(sys.argv[2]),"{}".format(sys.argv[3]),"{}".format(sys.argv[4]),"{}".format(sys.argv[7]))
+        os.system("rm -rf ge_*txt")
         print(boxes_c)
         for i in range(boxes_c.shape[0]):
             bbox=boxes_c[i,:4]

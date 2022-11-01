@@ -46,7 +46,8 @@ cd Modelzoo-TensorFlow/ACL/Official/cv/MTCNN_for_ACL
 
   ```
   cd ..
-  python3 acltest.py ompath data_in_om data_out_om Ascend310P3 ./mtc_pnet.pb ./mtc_rnet.pb ./mtc_onet.pb
+  export DUMP_GE_GRAPH=2
+  python3 acltest.py ompath data_in_om data_out_om Ascend310P3 ./mtcnn_pnet_tf.pb ./mtcnn_rnet_tf.pb ./mtcnn_onet_tf.pb
   ```
   Notes: 
   By default， image in the "picture" directory are inferred. If you want to replace image, replace the image in the "picture" directory. 
