@@ -382,7 +382,8 @@ def preprocess(src_path, save_path):
             if not os.path.isdir(file):
                 print(file)
                 img = convert_RGB(os.path.join(src_path, file))
-                print(type(img))
+                img = np.array(img)
+                img = tf.convert_to_tensor(img)
                 img = preprocess_image(img,
                                        224,
                                        224,
