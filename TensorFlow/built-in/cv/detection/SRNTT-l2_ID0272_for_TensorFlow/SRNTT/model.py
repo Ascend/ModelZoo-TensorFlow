@@ -49,11 +49,6 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 RANK_SIZE = int(os.environ['RANK_SIZE'])
 RANK_ID = int(os.environ['RANK_ID'])
 
-MY_DEVICE_ID = int(os.environ['DEVICE_ID'])
-MY_ASCEND_DEVICE_ID = int(os.environ['ASCEND_DEVICE_ID'])
-print("MY DEVICE ID:",MY_DEVICE_ID)
-print("MY ASCEND DEVICE ID:",MY_ASCEND_DEVICE_ID)
-
 # set logging
 logging.basicConfig(
     level=logging.INFO,
