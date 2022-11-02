@@ -3,27 +3,21 @@
 
 # 1. original model
 
-download **ckpt** and use **img2bin.py** process ckpt to pb.
+download **ckpt** and use **ckpt2pb.py** process ckpt to pb.
 
 [ckpt](https://pan.baidu.com/s/1-E3SQAxShCYcIVdkxbg19w)
 Password:e3el
 
 # 2. pb to om
 Command:
-```bash
-. /usr/local/Ascend/ascend-toolkit/set_env.sh
-export DDK_PATH=/usr/local/Ascend/ascend-toolkit/5.0.4.alpha002
-export NPU_HOST_LIB=/usr/local/Ascend/ascend-toolkit/5.0.4.alpha002/acllib/lib64/stub
-pb_path=/home/HwHiAiUser/AscendProjects/SparseNet/pb/SparseNet_freeze.pb
-batchSize=64
-output_om_path=/home/HwHiAiUser/AscendProjects/SparseNet/freezed_SparseNet_batchSize_${batchSize}
-atc --model=${pb_path} --framework=3 --output=${output_om_path}  --soc_version=Ascend310  --input_shape="input:${batchSize},32,32,3" --input_format=NHWC --log=debug --debug_dir=/home/HwHiAiUser/AscendProjects/SparseNet/debug_info --out_nodes="output:0" 
 ```
-[Pb](https://pan.baidu.com/s/17m7o1BUAkdOuGKTd2_SZrg)
-Password:mvqu
+atc --model=./mnasnet.pb  --framework=3  --input_shape="input1:1, 224, 224, 3" --output=./mnasnet  --soc_version=Ascend910" 
+```
+[Pb](https://pan.baidu.com/s/1fUGFDZxi-6iit56PGN7sKg)
+Password:qcvn
 
-[OM](https://pan.baidu.com/s/1NczbTg7XPzhjsdj-AnyvAQ)
-Password:wtp9
+[OM](https://pan.baidu.com/s/1Z6IqgDpjC3h4sqhcX9ej8g)
+Password:vghg
 
 # 3. compile masame
 Reference to https://gitee.com/ascend/tools/tree/ccl/msame, compile **msame** 
