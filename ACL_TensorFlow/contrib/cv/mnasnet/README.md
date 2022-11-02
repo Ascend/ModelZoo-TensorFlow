@@ -61,36 +61,3 @@ Inference time: 235.143ms
 [Inference Result](https://pan.baidu.com/s/1J0rwcydSh5f_bpq_Fvjpog)
 Password:x88i
 
-# 5. calculate Top-1 error
-
-get **inference result** and use **calculate_kpi.py** get the **top-1 err**.
-
-Top-1 error:
-```bash
-OM-Top1-err: 0.0643
-GPU-Top1-err: 0.050
-NPU-Top1-err: 0.048
-```
-
-# SparseNet implementation
-
-
-```
-@article{DBLP:journals/corr/abs-1801-05895,
-  author    = {Ligeng Zhu and
-               Ruizhi Deng and
-               Michael Maire and
-               Zhiwei Deng and
-               Greg Mori and
-               Ping Tan},
-  title     = {Sparsely Aggregated Convolutional Networks},
-  journal   = {CoRR},
-  volume    = {abs/1801.05895},
-  year      = {2018},
-  url       = {http://arxiv.org/abs/1801.05895},
-  archivePrefix = {arXiv},
-  eprint    = {1801.05895},
-  biburl    = {https://dblp.org/rec/bib/journals/corr/abs-1801-05895},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
-}
-```
