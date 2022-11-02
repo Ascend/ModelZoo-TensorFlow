@@ -1,6 +1,7 @@
 # ATC mnasnet
+Platform-Aware Neural Architecture Search for Mobile  [[PDF](https://arxiv.org/abs/1807.11626)]
 
-
+Mingxing Tan, Bo Chen, Ruoming Pang, Vijay Vasudevan, Mark Sandler, Andrew Howard, Quoc V. Le
 # 1. original model
 
 download **ckpt** and use **ckpt2pb.py** process ckpt to pb.
