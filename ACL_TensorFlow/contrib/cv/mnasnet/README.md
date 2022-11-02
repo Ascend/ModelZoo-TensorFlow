@@ -1,7 +1,16 @@
 # ATC mnasnet
-Platform-Aware Neural Architecture Search for Mobile  [[PDF](https://arxiv.org/abs/1807.11626)]
 
-Mingxing Tan, Bo Chen, Ruoming Pang, Vijay Vasudevan, Mark Sandler, Andrew Howard, Quoc V. Le
+
+- references：
+
+    ["Platform-Aware Neural Architecture Search for Mobile"](https://arxiv.org/abs/1807.11626)
+
+
+- training model：
+    
+    [MnasNet_ID0728_for_TensorFlow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/MnasNet_ID0728_for_TensorFlow)
+
+
 # 1. original model
 
 download **ckpt** and use **ckpt2pb.py** process ckpt to pb.
