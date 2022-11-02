@@ -45,9 +45,6 @@ output_path=/home/HwHiAiUser/AscendProjects/SparseNet/output
 
 
 
-[Inference Sys Output](https://pan.baidu.com/s/1J0rwcydSh5f_bpq_Fvjpog)
-Password:hfb0
-
 Part of **Inference sys output**:
 ```bash
 [INFO] get max dynamic batch size success
@@ -58,6 +55,8 @@ Part of **Inference sys output**:
 Inference time: 235.143ms
 ```
 
-[Inference Result](https://pan.baidu.com/s/1J0rwcydSh5f_bpq_Fvjpog)
-Password:x88i
 
+Part of **Inference sys output**:
+```bash
+
+```
