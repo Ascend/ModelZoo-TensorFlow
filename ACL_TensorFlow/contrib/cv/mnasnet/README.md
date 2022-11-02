@@ -1,32 +1,12 @@
-# ATC SparseNet
-Sparsely Aggregated Convolutional Networks [[PDF](https://arxiv.org/abs/1801.05895)]
+# ATC mnasnet
 
-[Ligeng Zhu](https://lzhu.me), [Ruizhi Deng](http://www.sfu.ca/~ruizhid/), [Michael Maire](http://ttic.uchicago.edu/~mmaire/), [Zhiwei Deng](http://www.sfu.ca/~zhiweid/), [Greg Mori](http://www.cs.sfu.ca/~mori/), [Ping Tan](https://www.cs.sfu.ca/~pingtan/)
 
-# 1. test dataset to bin
-[CIFAR10](https://pan.baidu.com/s/1drCJNhNs5Ek6Mm92TGfEYw)
-Password:zmof
+# 1. original model
 
-[Test Dataset](https://pan.baidu.com/s/1-KBREYkGgBfr9yV96O4xkw)
-Password:on6n
+download **ckpt** and use **img2bin.py** process ckpt to pb.
 
-<table> 
-<th>Data augmentation: 
-</th>
-<td>standard
-<td>mirroring
-<td>shifting
-</table>
-
-<table> 
-<th>Preprocessing: </th>
-<td>normalize the data by the channel mean and standard deviation
-</table>
-
-download **Test Dataset** and use **img2bin.py** process dataset to bin file.
-
-[Test Dataset Bin File](https://pan.baidu.com/s/1tQxnY7MF75CYoS9ZhgaSKA)
-Password:dcjn
+[ckpt](https://pan.baidu.com/s/1-E3SQAxShCYcIVdkxbg19w)
+Password:e3el
 
 # 2. pb to om
 Command:
