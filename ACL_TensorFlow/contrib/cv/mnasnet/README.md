@@ -20,16 +20,16 @@ Password:qcvn
 Password:vghg
 
 # 3. compile masame
-Reference to https://gitee.com/ascend/tools/tree/ccl/msame, compile **msame** 
+Reference to https://gitee.com/ascend/tools/tree/master/msame, compile **msame** 
 
 Compile masame command:
 ```bash
-. /usr/local/Ascend/ascend-toolkit/set_env.sh
-export ASCEND_SLOG_PRINT_TO_STDOUT=1
-export DDK_PATH=/usr/local/Ascend/ascend-toolkit/5.0.4.alpha002
-export NPU_HOST_LIB=/usr/local/Ascend/ascend-toolkit/5.0.4.alpha002/acllib/lib64/stub
-cd /root/msame/
-bash build.sh g++ /root/msame/out
+. /home/HwHiAiUser/Ascend/ascend-toolkit/set_env.sh
+export DDK_PATH=/home/HwHiAiUser/Ascend/ascend-toolkit/latest
+export NPU_HOST_LIB=/home/HwHiAiUser/Ascend/ascend-toolkit/latest/runtime/lib64/stub
+cd $HOME/AscendProjects/tools/msame/
+./build.sh g++ $HOME/AscendProjects/tools/msame/out
+
 ```
 
 # 4. inference
