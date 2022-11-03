@@ -117,8 +117,20 @@ sed -i "s|epochs=5|epochs=10|g" run_fwfm.py
 echo "------------------ Final result ------------------"
 # #输出性能FPS，需要模型审视修改
 
-Time=`cat $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|tr -d '\b\r'|grep -Eo "[0-9]*us/sample"|awk -F "us/sample" 'END {print $1}'`
-FPS=`awk 'BEGIN{printf "%.2f\n", '1'/'${Time}'*1000000}'`
+#Time=`cat $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|tr -d '\b\r'|grep -Eo "[0-9]*us/sample"|awk -F "us/sample" 'END {print $1}'`
+#FPS=`awk 'BEGIN{printf "%.2f\n", '1'/'${Time}'*1000000}'`
+
+Time=`grep "/sample" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END{print $15}'|tr -d "a-zA-Z /"`
+type=`grep "/sample" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END{print $15}'|awk -F '/' '{print $1}'|sed 's/^[0-9]*//'`
+echo "$Time"
+echo "type:$type"
+if [ "$type" = "ms" ];then
+        FPS=`awk 'BEGIN{printf "%.2f\n", '1'/'${Time}'*'1000'}'`
+elif [ "$type" = "us" ];then
+        FPS=`awk 'BEGIN{printf "%.2f\n", '1'/'${Time}'*1000000}'`
+fi
+
+
 #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
 
