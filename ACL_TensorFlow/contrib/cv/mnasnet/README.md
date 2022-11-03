@@ -11,7 +11,7 @@
     [MnasNet_ID0728_for_TensorFlow](https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/contrib/cv/MnasNet_ID0728_for_TensorFlow)
 
 
-# 1. original model
+# 1. ckpt to pb
 
 download **ckpt** and use **ckpt2pb.py** process ckpt to pb.
 
@@ -21,7 +21,7 @@ Password:e3el
 # 2. pb to om
 Command:
 ```
-atc --model=./mnasnet.pb  --framework=3  --input_shape="input1:1, 224, 224, 3" --output=./mnasnet  --soc_version=Ascend910" 
+atc --model=./mnasnet.pb  --framework=3  --input_shape="input1:1,224,224,3" --output=./mnasnet  --soc_version=Ascend910" 
 ```
 [Pb](https://pan.baidu.com/s/1fUGFDZxi-6iit56PGN7sKg)
 Password:qcvn
@@ -57,12 +57,30 @@ output_path=/home/HwHiAiUser/AscendProjects/SparseNet/output
 
 Part of **Inference sys output**:
 ```bash
+[INFO] acl init success
+[INFO] open device 0 success
+[INFO] create context success
+[INFO] create stream success
+[INFO] get run mode success
+[INFO] load model ./mnasnet.om success
+[INFO] create model description success
+[INFO] get input dynamic gear count success
+[INFO] create model output success
+./output11/2022112_17_42_45_913229
+[INFO] start to process file:./pic.bin
+[INFO] model execute success
+Inference time: 1.302ms
 [INFO] get max dynamic batch size success
 [INFO] output data success
+Inference average time: 1.302000 ms
 [INFO] destroy model input success
-[INFO] start to process file:/home/HwHiAiUser/AscendProjects/SparseNet/test_bin_batchSize_64/110_batch_6976_7040.bin
-[INFO] model execute success
-Inference time: 235.143ms
+[INFO] unload model success, model Id is 1
+[INFO] Execute sample success
+[INFO] end to destroy stream
+[INFO] end to destroy context
+[INFO] end to reset device is 0
+[INFO] end to finalize acl
+
 ```
 
 
