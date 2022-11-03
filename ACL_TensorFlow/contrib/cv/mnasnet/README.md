@@ -45,11 +45,10 @@ cd $HOME/AscendProjects/tools/msame/
 # 4. inference
 Inference command:
 ```bash
-cd /root/msame/out
-batchSize=64
-model_path=/home/HwHiAiUser/AscendProjects/SparseNet/freezed_SparseNet_batchSize_${batchSize}.om
-input_path=/home/HwHiAiUser/AscendProjects/SparseNet/test_bin_batchSize_${batchSize}
-output_path=/home/HwHiAiUser/AscendProjects/SparseNet/output
+cd $HOME/AscendProjects/tools/msame/out
+model_path=/home/HwHiAiUser/AscendProjects/MnasNet/mnasnet.om
+input_path=/home/HwHiAiUser/AscendProjects/MnasNet/pic.bin
+output_path=/home/HwHiAiUser/AscendProjects/MnasNet/output
 ./msame --model ${model_path} --input ${input_path} --output ${output_path} --outfmt TXT
 ```
 
@@ -66,13 +65,13 @@ Part of **Inference sys output**:
 [INFO] create model description success
 [INFO] get input dynamic gear count success
 [INFO] create model output success
-./output11/2022112_17_42_45_913229
+./output1/2022113_9_31_13_612340
 [INFO] start to process file:./pic.bin
 [INFO] model execute success
-Inference time: 1.302ms
+Inference time: 1.359ms
 [INFO] get max dynamic batch size success
 [INFO] output data success
-Inference average time: 1.302000 ms
+Inference average time: 1.359000 ms
 [INFO] destroy model input success
 [INFO] unload model success, model Id is 1
 [INFO] Execute sample success
@@ -86,5 +85,5 @@ Inference average time: 1.302000 ms
 
 Part of **Inference sys output**:
 ```bash
-0.000487804 0.000569344 0.000521183 0.0006423 0.000464678 0.00140095 0.000912189 0.000928402 0.00101662 0.000784874 0.000334501 0.000647545 0.000609398 0.000686646 0.000246763 0.000668049 0.000214338 0.000707626
+0.000629902 0.000514507 0.000611782 0.000699043 0.000445127 0.00120354 0.00102234 0.00104713 0.0011034 0.000992775 0.000550747 0.00101948 0.00100136 0.000835419 0.000398874 0.000741005 0.000406742 0.00107861
 ```
