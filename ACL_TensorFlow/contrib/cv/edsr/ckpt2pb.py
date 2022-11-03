@@ -67,7 +67,7 @@ flags.DEFINE_boolean("npu_dump_graph", False, "dump graph or not")
 flags.DEFINE_boolean("npu_profiling", False, "profiling for performance or not")
 flags.DEFINE_boolean("npu_auto_tune", False, "auto tune or not. And you must set tune_bank_path param.")
 
-checkpoint = "./model/x2edsr_ckpt"
+checkpoint = "./model/edsr_ckpt"
 
 if __name__ == "__main__":
 
