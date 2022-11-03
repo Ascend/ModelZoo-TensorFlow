@@ -15,6 +15,8 @@
 
 download **ckpt** and use **ckpt2pb.py** process ckpt to pb.
 
+Note:Before the model transformation, the run.py and edsr.py files in the training code need to be replaced with those in the current directory.
+
 [ckpt](https://pan.baidu.com/s/17vlOrwXbygdce8l8OHErCA)
 Password:x0j4
 
