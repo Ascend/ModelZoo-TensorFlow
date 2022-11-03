@@ -29,7 +29,7 @@ Password:m6mx
 [OM](https://pan.baidu.com/s/1mKV8wkUBz3KiF8hpxUh9mA)
 Password:zdo1
 
-# 3. compile masame
+# 3. compile msame
 Reference to https://gitee.com/ascend/tools/tree/master/msame, compile **msame** 
 
 Compile masame command:
