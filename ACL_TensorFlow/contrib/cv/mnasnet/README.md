@@ -1,4 +1,4 @@
-# ATC mnasnet
+# ATC MnasNet
 
 
 - references：
@@ -23,11 +23,11 @@ Command:
 ```
 atc --model=./mnasnet.pb  --framework=3  --input_shape="input1:1,224,224,3" --output=./mnasnet  --soc_version=Ascend910" 
 ```
-[Pb](https://pan.baidu.com/s/1fUGFDZxi-6iit56PGN7sKg)
-Password:qcvn
+[Pb](https://pan.baidu.com/s/1YhB_1zjYb2dz_h8P_kIGUQ)
+Password:m6mx
 
-[OM](https://pan.baidu.com/s/1Z6IqgDpjC3h4sqhcX9ej8g)
-Password:vghg
+[OM](https://pan.baidu.com/s/1mKV8wkUBz3KiF8hpxUh9mA)
+Password:zdo1
 
 # 3. compile masame
 Reference to https://gitee.com/ascend/tools/tree/master/msame, compile **msame** 
