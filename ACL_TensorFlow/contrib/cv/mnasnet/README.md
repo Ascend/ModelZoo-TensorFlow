@@ -65,7 +65,7 @@ Part of **Inference sys output**:
 [INFO] create model description success
 [INFO] get input dynamic gear count success
 [INFO] create model output success
-./output1/2022113_9_31_13_612340
+./output/2022113_9_31_13_612340
 [INFO] start to process file:./pic.bin
 [INFO] model execute success
 Inference time: 1.359ms
