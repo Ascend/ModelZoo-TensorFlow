@@ -32,7 +32,7 @@ Password:zdo1
 # 3. compile msame
 Reference to https://gitee.com/ascend/tools/tree/master/msame, compile **msame** 
 
-Compile masame command:
+Compile msame command:
 ```bash
 . /home/HwHiAiUser/Ascend/ascend-toolkit/set_env.sh
 export DDK_PATH=/home/HwHiAiUser/Ascend/ascend-toolkit/latest
