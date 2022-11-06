@@ -56,7 +56,7 @@ def test_SRFBN(image_lr,image_hr):
                         srfbn.outs]
         srfbn.losses = tf.reduce_sum(srfbn.losses) / len(srfbn.losses) / srfbn.cfg.batchsize + srfbn.l2_regularization_loss
         load_flag += 1
-    cv2.namedWindow("result", 0)
+    #cv2.namedWindow("result", 0)
     
     img_hr = image_hr.reshape([1,height*srfbn.cfg.scale,width*srfbn.cfg.scale,3])
     img_lr = image_lr.reshape([1, height, width, 3])
@@ -66,8 +66,8 @@ def test_SRFBN(image_lr,image_hr):
     PSNR = compare_psnr(output, img_hr, data_range=255)
     ssim = _structural_similarity.structural_similarity(output, img_hr,win_size=11, data_range=255, multichannel=True)
     print("loss:[%.8f], l2_loss:[%.8f], PSNR:[%.8f], SSIM:[%.8f]"%(err,l2_loss,PSNR,ssim))
-    cv2.imshow("result", np.uint8(output))
-    cv2.waitKey(0)
+    #cv2.imshow("result", np.uint8(output))
+    #cv2.waitKey(0)
     
 
 
