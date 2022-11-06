@@ -41,7 +41,6 @@ def test_SRFBN(image_lr,image_hr):
     
     #image
     height, width, _ = image_lr.shape
-    print(height,width)
     global load_flag
     global srfbn
     global out
