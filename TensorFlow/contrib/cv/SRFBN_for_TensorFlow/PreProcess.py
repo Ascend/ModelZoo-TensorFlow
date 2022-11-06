@@ -32,38 +32,38 @@ import numpy as np
 import random
 from skimage import util
 
-#给图像数据添加噪声
+
 def add_noise(img):
-    mode_types = ['gaussian', 'localvar', 'poisson', 'speckle']  # 'salt', 'pepper', 's&p'这三个噪声太假了
+    mode_types = ['gaussian', 'localvar', 'poisson', 'speckle']  # 'salt', 'pepper', 's&p' is too fake
     inx = int(np.random.choice(np.arange(len(mode_types)), 1))
-    # inx = 0
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)#转换色彩空间为RGB
-    mean = random.random() * 0.001  # + 0.001#random.random()生成0到1之间的随机数
+    inx = 0
+    img = cv2.cvtColor(img.astype(np.uint8), cv2.COLOR_BGR2RGB)
+    mean = random.random() * 0.001  # + 0.001#random.random() generates number between 0 and 1
     var = random.random() * 0.002  # + 0.01
     noise_img = util.random_noise(img.copy(), mode=mode_types[inx],
                                   mean=mean,
-                                  var=var)#添加噪声
+                                  var=var)
     return noise_img
 
-#数据扩充或增强
+
 def augment_data(img_patch, flip, rot): # img_patchs : n,h,w,c
     if flip==1:
-        img_patch = img_patch[:, ::-1, :] # hflip#水平翻转
+        img_patch = img_patch[:, ::-1, :] # hflip
     elif flip==2:
-        img_patch = img_patch[::-1, :, :] # vflip#垂直翻转
+        img_patch = img_patch[::-1, :, :] # vflip
     if rot==1:
-        img_patch = cv2.rotate(img_patch, cv2.ROTATE_90_CLOCKWISE)#顺时针旋转90
+        img_patch = cv2.rotate(img_patch, cv2.ROTATE_90_CLOCKWISE)
     elif rot==2:
         img_patch = cv2.rotate(img_patch, cv2.ROTATE_90_COUNTERCLOCKWISE)
     return img_patch
-#预处理数据
+
 def preprocess(imgs, cfg):
     LR_patchs, HR_patchs = [], []
     for img in imgs:
 
-        HR = cv2.imread(img.strip(), cv2.IMREAD_COLOR)#读取图片路径，并以RGB模式
-        HR = (HR - 127.5) / 128#归一化
-        h, w, c = HR.shape#高度，宽度，颜色通道数
+        HR = cv2.imread(img.strip(), cv2.IMREAD_COLOR)
+        HR = (HR - 127.5) / 128
+        h, w, c = HR.shape
 
         x_stride = w // (cfg.imagesize * cfg.scale)
         y_stride = h // (cfg.imagesize * cfg.scale)
