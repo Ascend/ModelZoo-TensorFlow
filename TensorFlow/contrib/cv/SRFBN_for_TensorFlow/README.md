@@ -94,15 +94,13 @@ SRFBN是采取反馈连接来提高重建超分辨率图片效果的网络模型
 ├── README.md                      //代码说明文档
 ├── config.py                      //模型配置代码
 ├── PreProcess.py                  //数据预处理代码
-├── psnr_ssim.py                   //图像质量评估代码
 ├── requirements.txt               //训练python依赖列表
 ├── SRFBN_model.py                 //SRFBN网络模型代码
 ├── test.py                        //测试代码
-├── traditional_blur.py            //图像模糊处理代码
 ├── train.py                       //训练代码
 ├── test 
 │    ├──train_performance_1p.sh              //单卡训练验证性能启动脚本
-
+│    ├──train_full_1p.sh                     //单卡全量训练启动脚本
 ```
 
 ## 脚本参数<a name="section6669162441511"></a>
