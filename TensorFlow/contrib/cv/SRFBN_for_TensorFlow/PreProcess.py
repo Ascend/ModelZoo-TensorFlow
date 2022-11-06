@@ -33,17 +33,17 @@ import random
 #from skimage import util
 
 #给图像数据添加噪声
-#def add_noise(img):
- #   mode_types = ['gaussian', 'localvar', 'poisson', 'speckle']  # 'salt', 'pepper', 's&p'这三个噪声太假了
- #   inx = int(np.random.choice(np.arange(len(mode_types)), 1))
- #   # inx = 0
- #   img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)#转换色彩空间为RGB
- #   mean = random.random() * 0.001  # + 0.001#random.random()生成0到1之间的随机数
- #   var = random.random() * 0.002  # + 0.01
- #   noise_img = util.random_noise(img.copy(), mode=mode_types[inx],
- #                                 mean=mean,
- #                                 var=var)#添加噪声
- #   return noise_img
+def add_noise(img):
+    mode_types = ['gaussian', 'localvar', 'poisson', 'speckle']  # 'salt', 'pepper', 's&p'这三个噪声太假了
+    inx = int(np.random.choice(np.arange(len(mode_types)), 1))
+    # inx = 0
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)#转换色彩空间为RGB
+    mean = random.random() * 0.001  # + 0.001#random.random()生成0到1之间的随机数
+    var = random.random() * 0.002  # + 0.01
+    noise_img = util.random_noise(img.copy(), mode=mode_types[inx],
+                                  mean=mean,
+                                  var=var)#添加噪声
+    return noise_img
 
 #数据扩充或增强
 def augment_data(img_patch, flip, rot): # img_patchs : n,h,w,c
