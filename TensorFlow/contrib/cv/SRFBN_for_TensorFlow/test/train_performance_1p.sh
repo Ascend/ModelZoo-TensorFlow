@@ -100,8 +100,7 @@ start_time=$(date +%s)
 train_epochs=1
 batch_size=1
 print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
-python3 ./train.py > ${print_log} 
-# 性能相关数据计算
+python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} 1>${print_log} 2>&1
 StepTime=`((cat ${print_log} | grep "time" | head -n 1) && (cat ${print_log} | grep "time" | tail -n 1)) | awk -F ':' '{print $5 $6 }' | awk -F ',' '{print $1 $2}' | awk -F ' ' '{print $1;print $3}' | awk '{if (NR == 1){a=$1} else if (NR == 2){b=$1} else if (NR == 3){c=$1} else if (NR == 4){d=$1}} END {print (d-b)/(c-a)}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 #PSNR值计算
