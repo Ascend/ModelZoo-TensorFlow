@@ -43,7 +43,7 @@ def train_SRFBN(dataset, sess, cfg):
     srfbn.train_step()
     out = tf.add_n(srfbn.outs) / srfbn.cfg.num_steps
     ## build Optimizer
-    #使学习率在不同迭代阶段不同
+    #make lr_rate different in different stages
     boundaries = [len(dataset)*epoch//cfg.batchsize for epoch in cfg.lr_steps]
     values = [cfg.learning_rate*(cfg.lr_gama**i) for i in range(len(cfg.lr_steps)+1)]
     lr = tf.train.piecewise_constant(step, boundaries, values)
@@ -57,7 +57,7 @@ def train_SRFBN(dataset, sess, cfg):
     tf.global_variables_initializer().run(session=sess)
 
     summary_writer = tf.summary.FileWriter(cfg.srfbn_logdir, srfbn.sess.graph)
-    #加载模型
+    #load model
     if srfbn.cfg.load_premodel:
         counter = srfbn.load()
     else:
@@ -67,10 +67,10 @@ def train_SRFBN(dataset, sess, cfg):
     global_step = 0
     for ep in range(cfg.epoch):
         
-        #每次训练时挑选照片的顺序是随机的
+        #pick pic randomly
         pic_idx = np.random.permutation(len(dataset))
         picid = 0
-        #一次加载五张图像
+        #load five pics one time
         for i in range(0,len(dataset),5):
             index = []
             for j in range(5):
@@ -82,7 +82,7 @@ def train_SRFBN(dataset, sess, cfg):
             print(imgnames)
             batch_labels, batch_images = preprocess(imgnames, cfg)
             patch_idx = list(range(len(batch_labels)))
-            #使得图片块的数量刚好能被batchsize整除
+            #make the number of pic chunk divided by batchsize  
             if len(patch_idx) % cfg.batchsize != 0:
                 patch_idx.extend(list(np.random.choice(patch_idx,
                                                    cfg.batchsize * ((len(patch_idx) // cfg.batchsize)+1) - len(patch_idx))))
@@ -126,7 +126,7 @@ def train_SRFBN(dataset, sess, cfg):
                 global_step += 1
                 counter += 1
 
-#训练
+#train
 def train(*args, **kwargs):
     data_dir = kwargs["data_dir"]
     imgs = [os.path.join(data_dir,data) for data in os.listdir(data_dir)]
