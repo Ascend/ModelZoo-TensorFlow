@@ -43,7 +43,7 @@ class SRFBN(basic_network):
         self.last_hidden = None
         self.should_reset = True
         self.outs = []
-        #FB块
+        #FB block that forwardpros feedback information
     def FeedBackBlock(self, x, num_features, num_groups, act_type, name="FBB"):
         if self.cfg.scale == 1:
             stride = 1
@@ -110,7 +110,7 @@ class SRFBN(basic_network):
             stride = 4
             padding = "SAME"
             kernel_size = 8
-        # x = self.sub_mean(self.imageplaceholder) # 暂且当作归一化
+        # x = self.sub_mean(self.imageplaceholder) # normalize
 
         _, height, width, _ = self.imageplaceholder.get_shape().as_list()
 
@@ -136,7 +136,7 @@ class SRFBN(basic_network):
             # t = t + inter_res
             # t = self.add_mean(t)
             self.outs.append(t)
-            #训练步骤
+            
     def train_step(self):
         self.build()
         print("This Net has Params num is %f MB" % (self.params_count * 4 / 1024 / 1024))  # float32
@@ -156,7 +156,7 @@ class SRFBN(basic_network):
 
         self.merged_summary = tf.summary.merge_all()
         self.saver = tf.train.Saver(max_to_keep=1)
-        #加载检查点
+        #loading ckpt
     def load(self):
         model_name = "SRFBN.model"
         model_dir = "%s_%s_%s_%s_c%d_x%s" % (
@@ -173,7 +173,7 @@ class SRFBN(basic_network):
             print("\nCheckpoint Loading Failed! \n")
 
         return step
-    #保存当前模型
+    #save model 
     def save(self, step):
         model_name = "SRFBN.model"
         model_dir = "%s_%s_%s_%s_c%d_x%s" % \
@@ -187,7 +187,7 @@ class SRFBN(basic_network):
         self.saver.save(self.sess,
                         os.path.join(checkpoint_dir, model_name),
                         global_step=step)
-        #测试
+        #test
     def test(self, width, height):
         self.cfg.batchsize = 1
         testshape = [self.cfg.batchsize, height, width, self.cfg.c_dim]
