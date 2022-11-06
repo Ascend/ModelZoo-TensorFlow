@@ -30,7 +30,7 @@ from npu_bridge.npu_init import *
 import cv2
 import numpy as np
 import random
-#from skimage import util
+from skimage import util
 
 #给图像数据添加噪声
 def add_noise(img):
