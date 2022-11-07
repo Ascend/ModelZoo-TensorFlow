@@ -23,7 +23,7 @@ SRFBN是采取反馈连接来提高重建超分辨率图片效果的网络模型
 ```
 - 参考论文：
 
-    https://arxiv.org/abs/1903.09814v2
+    https://arxiv.org/pdf/1903.09814.pdf
 
 - 参考实现：
 
