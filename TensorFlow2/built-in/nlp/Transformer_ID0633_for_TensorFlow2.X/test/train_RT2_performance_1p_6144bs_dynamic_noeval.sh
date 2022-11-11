@@ -20,14 +20,14 @@ data_path=""
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
-Network="Transformer_ID0633_for_TensorFlow2.X"
+Network="Transformer_ID3215_for_TensorFlow2.X"
 #训练batch_size
-batch_size=4096
+batch_size=6144
 #训练step
 train_steps=300
 
 #TF2.X独有，不需要修改
-#export NPU_ENABLE_PERF=true
+export NPU_ENABLE_PERF=true
 
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
@@ -197,4 +197,3 @@ echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${Ca
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-
