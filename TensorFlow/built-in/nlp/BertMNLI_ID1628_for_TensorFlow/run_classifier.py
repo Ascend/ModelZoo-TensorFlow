@@ -922,7 +922,7 @@ def main(_):
       hcom_parallel=True,
       precision_mode=FLAGS.precision_mode,
       keep_checkpoint_max=5,
-      auto_tune_mode=auto_tune_mode,
+      #auto_tune_mode=auto_tune_mode,
       profiling_config=profiling_config,
       dump_config=dump_config
       )
