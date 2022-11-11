@@ -22,13 +22,13 @@ export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
 #网络名称，同目录名称
 Network="SSD-Resnet34_ID0048_for_TensorFlow"
 #训练epoch
-train_epochs=1
+train_epochs=115
 #训练batch_size
 batch_size=32
 #训练step
-train_steps=1000
+#train_steps=1000
 #学习率
-learning_rate=
+#learning_rate=
 
 #维测参数，precision_mode需要模型审视修改
 #precision_mode="allow_mix_precision"
@@ -124,7 +124,7 @@ do
     --val_json_file=${data_path}/coco_official_2017/annotations/instances_val2017.json \
     --eval_batch_size=${batch_size} \
     --num_epochs=${train_epochs} \
-    --num_examples_per_epoch=64000 \
+    --num_examples_per_epoch=120000 \
     --model_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/d_solution/ckpt${ASCEND_DEVICE_ID} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
@@ -143,14 +143,14 @@ echo "Final Performance images/sec : $FPS"
 #输出训练精度,需要模型审视修改
 #train_accuracy=`grep -A 1 top1 $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'`
 #打印，不需要修改
-#echo "Final Train Accuracy : ${train_accuracy}"
+echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
 
 #稳定性精度看护结果汇总
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据
 #吞吐量，不需要修改
@@ -172,5 +172,6 @@ echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseNa
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
