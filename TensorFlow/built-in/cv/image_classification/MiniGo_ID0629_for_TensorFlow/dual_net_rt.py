@@ -212,7 +212,6 @@ class DualNetwork():
         custom_op = global_config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
         #custom_op.parameter_map["dynamic_input"].b = True
-        custom_op.parameter_map["jit_compile"].b = False
         print('========= DualNetwork DYNAMIC INPUT = %s =========' % FLAGS.dynamic_input)
         #if FLAGS.dynamic_input == "lazy_recompile":
         #    custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
@@ -682,7 +681,6 @@ def _get_nontpu_estimator():
     custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = 'NpuOptimizer'
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
-    custom_op.parameter_map["jit_compile"].b = False
     #session_config = npu_config_proto(config_proto=tf.ConfigProto())
     session_config.gpu_options.allow_growth = True
 
