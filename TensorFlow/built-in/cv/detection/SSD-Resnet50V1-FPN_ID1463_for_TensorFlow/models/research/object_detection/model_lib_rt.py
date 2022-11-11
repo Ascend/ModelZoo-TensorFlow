@@ -332,7 +332,6 @@ def create_estimator_and_inputs(run_config, hparams, pipeline_config_path, eval_
     # custom_op.parameter_map["dynamic_input"].b = True
     # custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
     custom_op.parameter_map["hcom_parallel"].b = True
-    custom_op.parameter_map["jit_compile"].b = False
 
     run_config = tf.estimator.RunConfig(model_dir=run_config.model_dir, session_config=run_config.session_config, 
                               save_checkpoints_steps=train_steps // eval_count)

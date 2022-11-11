@@ -79,7 +79,6 @@ def train(train_dir=None, val_dir=None, mode='train'):
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     #custom_op.parameter_map["dynamic_input"].b = 1
     #custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
-    custom_op.parameter_map["jit_compile"].b = False
     global_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
     global_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
     # ***** npu modify end ******
