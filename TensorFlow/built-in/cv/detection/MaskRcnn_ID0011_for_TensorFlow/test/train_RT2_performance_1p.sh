@@ -149,7 +149,7 @@ do
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-    ${bind_core} python3 mask_rcnn_rt_main.py --mode=train \
+    ${bind_core} python3 mask_rcnn_main.py --mode=train \
         --rank=$RANK_ID \
         --total_steps=$total_steps \
         --Data_path=$data_path \
