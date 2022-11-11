@@ -127,7 +127,7 @@ do
   
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     cd $cur_path/../
-    nohup python3 main/train_npu_rt.py \
+    nohup python3 main/train_npu.py \
         --precision_mode=$precision_mode \
         --pretrained_model_path=$data_path/vgg_16.ckpt \
         --dataset_dir=$data_path \
