@@ -102,6 +102,8 @@ if __name__ == '__main__':
     custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True
+    custom_op.parameter_map["dynamic_input"].b = True
+    custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
 
     custom_op.parameter_map["graph_memory_max_size"].s = tf.compat.as_bytes(
         str(21 * 1024 * 1024 * 1024))
