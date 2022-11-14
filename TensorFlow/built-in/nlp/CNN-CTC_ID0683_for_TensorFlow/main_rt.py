@@ -52,7 +52,7 @@ logger.setLevel(logging.INFO)
 
 
 def train(train_dir=None, val_dir=None, mode='train'):
-    model = cnn_lstm_otc_ocr.LSTMOCR(mode)
+    model = cnn_lstm_otc_ocr_rt.LSTMOCR(mode)
     model.build_graph()
 
     print('loading train data')
@@ -174,7 +174,7 @@ def infer(img_path, mode='infer'):
     imgList = helper.load_img_path(img_path)
     print(imgList[:5])
 
-    model = cnn_lstm_otc_ocr.LSTMOCR(mode)
+    model = cnn_lstm_otc_ocr_rt.LSTMOCR(mode)
     model.build_graph()
 
     total_steps = len(imgList) / FLAGS.batch_size
