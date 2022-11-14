@@ -70,6 +70,8 @@ import go
 import symmetries
 import minigo_model
 
+flags.DEFINE_boolean('jit_compile', True,
+                     'jit_compile.')
 
 flags.DEFINE_integer('train_batch_size', 256,
                      'Batch size to use for train/eval evaluation. For GPU '
@@ -211,11 +213,12 @@ class DualNetwork():
         global_config = tf.ConfigProto()
         custom_op = global_config.graph_options.rewrite_options.custom_optimizers.add()
         custom_op.name = "NpuOptimizer"
-        custom_op.parameter_map["dynamic_input"].b = True
         print('========= DualNetwork DYNAMIC INPUT = %s =========' % FLAGS.dynamic_input)
-        if FLAGS.dynamic_input == "lazy_recompile":
+        if FLAGS.dynamic_input == "lazy_recompile" and FLAGS.jit_compile:
+            custom_op.parameter_map["dynamic_input"].b = True
             custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
-        elif FLAGS.dynamic_input == "1":
+        elif FLAGS.dynamic_input == "1" and FLAGS.jit_compile:
+            custom_op.parameter_map["dynamic_input"].b = True
             custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("dynamic_execute")
         else:
             print("Enter correct compilation parameters.")

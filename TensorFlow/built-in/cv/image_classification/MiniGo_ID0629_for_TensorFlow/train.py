@@ -68,6 +68,9 @@ flags.DEFINE_integer('shuffle_buffer_size', 2000,
 flags.DEFINE_boolean('shuffle_examples', True,
                      'Whether to shuffle training examples.')
 
+flags.DEFINE_boolean('jit_compile', True,
+                     'jit_compile.')
+
 flags.DEFINE_integer('steps_to_train', None,
                      'Number of training steps to take. If not set, iterates '
                      'once over training data.')
@@ -141,6 +144,7 @@ flags.declare_key_flag('train_batch_size')
 flags.declare_key_flag('num_tpu_cores')
 flags.declare_key_flag('use_tpu')
 flags.declare_key_flag('dynamic_input')
+flags.declare_key_flag('jit_compile')
 
 FLAGS = flags.FLAGS
 
