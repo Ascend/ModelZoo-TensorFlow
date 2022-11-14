@@ -91,13 +91,14 @@ do
         bind_core="taskset -c $a-$c"
     fi
     #${bind_core} python3 train.py --training_data_path=$data_path --steps_to_train=$train_steps --train_batch_size=$batch_size --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000001-first_generation > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
-	${bind_core} python3 train_rt.py \
+	${bind_core} python3 train.py \
 		--training_data_path=$data_path \
 		--steps_to_train=$train_steps \
 		--train_batch_size=$batch_size \
 		--work_dir=$cur_path/estimator_working_dir \
 		--export_path=$cur_path/outputs/models/000001-first_generation \
-		--dynamic_input=${dynamic_input} > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+		--dynamic_input=${dynamic_input} \
+		--jit_compile=False > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 done
 wait
 
