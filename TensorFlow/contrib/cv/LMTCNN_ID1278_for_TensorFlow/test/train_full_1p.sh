@@ -153,7 +153,7 @@ TrainingTime=`grep "sec/batch"  $cur_path/test/output/${ASCEND_DEVICE_ID}/train_
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 train_acc=`grep "Gender" ${cur_path}test/output/${ASCEND_DEVICE_ID}/test_${ASCEND_DEVICE_ID}.log |awk '{print $9}'`
 
