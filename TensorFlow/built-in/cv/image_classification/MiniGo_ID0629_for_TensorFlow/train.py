@@ -68,9 +68,6 @@ flags.DEFINE_integer('shuffle_buffer_size', 2000,
 flags.DEFINE_boolean('shuffle_examples', True,
                      'Whether to shuffle training examples.')
 
-flags.DEFINE_boolean('jit_compile', True,
-                     'jit_compile.')
-
 flags.DEFINE_integer('steps_to_train', None,
                      'Number of training steps to take. If not set, iterates '
                      'once over training data.')
