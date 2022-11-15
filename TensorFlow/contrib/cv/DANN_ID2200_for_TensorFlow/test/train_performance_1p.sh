@@ -127,7 +127,7 @@ do
     sed -i "s|"mnistm_data.pkl"|"${data_path}/MNIST/mnistm_data.pkl"|g"    MNIST-DANN.py
 
     python3 MNIST-DANN.py \
-    --num_steps  1000	|tee  ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1
+    --num_steps  1000	>  ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1 &
 	
     
     sed -i "s|"${data_path}/MNIST/mnistm_data.pkl"|"mnistm_data.pkl"|g"    MNIST-DANN.py
