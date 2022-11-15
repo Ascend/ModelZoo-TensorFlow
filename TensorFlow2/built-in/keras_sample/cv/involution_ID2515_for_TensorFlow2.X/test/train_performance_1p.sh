@@ -10,7 +10,7 @@ batch_size=1024
 #网络名称，同目录名称
 Network="involution_ID2515_for_TensorFlow2.X"
 #Device数量，单卡默认为1
-RANK_SIZE=1
+RankSize=1
 #训练epoch，可选
 train_epochs=10
 #训练step
