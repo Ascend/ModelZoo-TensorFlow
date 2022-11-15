@@ -7,9 +7,6 @@ cur_path=`pwd`
 #保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
 export JOB_ID=9999001
 export RANK_SIZE=1
-export RANK_ID=ascend8p
-export SLOG_PRINT_TO_STDOUT=0
-#export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 RANK_ID_START=0
 
 # 数据集路径,保持为空,不需要修改
@@ -135,7 +132,7 @@ do
         --batch_size=$batch_size \
         --display_every=100 \
         --data_dir=$data_path \
-        --lr=0.045 \
+        --lr=0.005625 \
         --log_dir=${cur_path}/output/$ASCEND_DEVICE_ID \
         --eval_dir=${cur_path}/output/$ASCEND_DEVICE_ID \
         --log_name=inception_v4.log \
