@@ -8,7 +8,7 @@
 
 **修改时间（Modified） ：2022.11.14**
 
-**大小（Size）：248KB**
+**大小（Size）：66KB**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
@@ -24,7 +24,7 @@
 
 ## 概述
 
-Paper: https://arxiv.org/abs/1908.07442
+Papåer: https://arxiv.org/abs/1908.07442
 
 This directory contains an example implementation of TabNet on the Forest Covertype dataset (https://archive.ics.uci.edu/ml/datasets/covertype).
 
