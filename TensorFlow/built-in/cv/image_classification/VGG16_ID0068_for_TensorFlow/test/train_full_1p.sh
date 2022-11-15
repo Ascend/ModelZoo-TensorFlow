@@ -4,29 +4,21 @@
 cur_path=`pwd`
 
 #集合通信参数,不需要修改
-
+#保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
 export RANK_SIZE=1
 export JOB_ID=10087
 RANK_ID_START=0
 
-
 # 数据集路径,保持为空,不需要修改
-data_path="/npu/traindata/imagenet_TF"
+data_path=""
 
-#设置默认日志级别,不需要修改
-export ASCEND_GLOBAL_LOG_LEVEL=3
-
-#基础参数，需要模型审视修改
+#基础参数 需要模型审视修改
 #网络名称，同目录名称
-Network="VGG16_for_TensorFlow"
-#训练epoch
-train_epochs=90
+Network="VGG16_ID0068_for_TensorFlow"
+
 #训练batch_size
-batch_size=256
-#训练step
-train_steps=`expr 1281167 / ${batch_size}`
-#学习率
-learning_rate=
+batch_size=32
+
 
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
@@ -39,17 +31,17 @@ autotune=False
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
-    echo"usage:./train_full_1p.sh <args>"
+    echo"usage:./train_full_8p.sh <args>"
     echo " "
     echo "parameter explain:
-    --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
-    --over_dump		         if or not over detection, default is False
-    --data_dump_flag	     data dump flag, default is False
-    --data_dump_step		 data dump step, default is 10
-    --profiling		         if or not profiling for performance debug, default is False
-    --autotune               whether to enable autotune, default is False
-    --data_path		         source data of training
-    -h/--help		         show help message
+    --precision_mode           precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
+    --over_dump		           if or not over detection, default is False
+    --data_dump_flag		   data dump flag, default is 0
+    --data_dump_step		   data dump step, default is 10
+    --profiling		           if or not profiling for performance debug, default is False
+    --autotune                 whether to enable autotune, default is False
+    --data_path		           source data of training
+    -h/--help		           show help message
     "
     exit 1
 fi
@@ -84,6 +76,9 @@ do
         cp -rf $install_path/fwkacllib/data/rl/Ascend910/custom ${autotune_dump_path}/RL/
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
+    elif [[ $para == --bind_core* ]]; then
+        bind_core=`echo ${para#*=}`
+        name_bind="_bindcore"
     fi
 done
 
@@ -93,16 +88,26 @@ if [[ $data_path == "" ]];then
     exit 1
 fi
 
+#autotune时，先开启autotune执行单P训练，不需要修改
+if [[ $autotune == True ]]; then
+    train_full_1p.sh --autotune=$autotune --data_path=$data_path
+    wait
+    autotune=False
+fi
+
 #训练开始时间，不需要修改
 start_time=$(date +%s)
-cd $cur_path/../
+
 #进入训练脚本目录，需要模型审视修改
+cd $cur_path/../
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $ASCEND_DEVICE_ID"
+    echo "Device ID: $RANK_ID"
     export RANK_ID=$RANK_ID
     export DEVICE_INDEX=$RANK_ID
+    export ASCEND_DEVICE_ID=$RANK_ID
+    ASCEND_DEVICE_ID=$RANK_ID
     
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
@@ -111,19 +116,20 @@ do
     else
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
+    
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
-    #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
-    nohup python3.7 $cur_path/../train.py \
-    --batch_size=${batch_size} \
+    #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
+
+    python3.7 $cur_path/../train.py \
     --rank_size=1 \
     --mode=train_and_evaluate \
     --max_epochs=150 \
+    --iterations_per_loop=5004 \
     --epochs_between_evals=5 \
-    --iterations_per_loop=5000 \
     --data_dir=${data_path} \
-    --display_every=10 \
-    --log_dir=$cur_path/output/model_1p \
+    --lr=0.00125 \
+    --log_dir=$cur_path/output/model_8p \
     --log_name=vgg16_1p.log  > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
@@ -135,7 +141,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-FPS=`grep -a 'FPS' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $6}'| awk -F "." '{print $1}'`
+FPS=`grep -a 'FPS' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $4}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
@@ -149,13 +155,13 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据
 #吞吐量，不需要修改
 ActualFPS=${FPS}
 #单迭代训练时长，不需要修改
-TrainingTime=`expr ${batch_size} \* 1000 \/ ${FPS}`
+TrainingTime=`expr ${batch_size} \* ${RANK_SIZE} \* 1000 \/ ${FPS}`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep loss $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | grep -v top1 | awk -F  " " '{print $(NF-3)}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
