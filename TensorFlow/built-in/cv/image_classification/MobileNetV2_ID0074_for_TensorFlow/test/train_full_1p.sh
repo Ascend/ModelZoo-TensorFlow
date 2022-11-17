@@ -7,7 +7,7 @@ cur_path=`pwd`
 #保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
 export JOB_ID=9999001
 export RANK_SIZE=1
-export RANK_ID=ascend8p
+#export RANK_ID=ascend8p
 export SLOG_PRINT_TO_STDOUT=0
 #export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 RANK_ID_START=0
@@ -138,7 +138,7 @@ do
         --weight_decay='0.00004' \
         --batch_size=$batch_size \
         --learning_rate_decay_type='cosine_annealing' \
-        --learning_rate=0.8 \
+        --learning_rate=0.1 \
         --optimizer='momentum' \
         --momentum='0.9' \
         --warmup_epochs=5 \
