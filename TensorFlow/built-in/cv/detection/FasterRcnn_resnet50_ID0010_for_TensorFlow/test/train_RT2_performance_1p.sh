@@ -164,7 +164,7 @@ for pid in "${pids[@]}"; do
   Network=FasterRcnn_resnet50_ID0010_for_TensorFlow
 
   DeviceType=`uname -m`
-  CaseName=${Network}_${backbone}_bs${batch_size}_${RANK_SIZE}'p'_'perf'
+  CaseName=${Network}_${backbone}_bs${batch_size}_${RANK_SIZE}'p'_'RT2'_'perf'
   ActualFPS=${FPS}
   TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*1000/'${FPS}'}'`
 
