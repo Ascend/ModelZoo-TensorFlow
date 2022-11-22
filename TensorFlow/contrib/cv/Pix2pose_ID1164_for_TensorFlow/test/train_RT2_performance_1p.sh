@@ -81,7 +81,12 @@ do
         data_path=`echo ${para#*=}`
     elif [[ $para == --ckpt_path* ]];then
         ckpt_path=`echo ${para#*=}`
-        fi
+    elif [[ $para == --conda_name* ]];then
+        conda_name=`echo ${para#*=}`
+        source set_conda.sh
+        echo "conda_name: $conda_name"
+        source activate $conda_name
+    fi
 done
 # #校验是否传入data_path,不需要修改
 # if [[$data_path == ""]];then
