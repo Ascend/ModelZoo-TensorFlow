@@ -96,6 +96,8 @@ start_time=$(date +%s)
 
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/
+sed -i "s|"MNIST_data"|"${data_path}/MNIST"|g" 	MNIST-DANN.py
+sed -i "s|"mnistm_data.pkl"|"${data_path}/MNIST/mnistm_data.pkl"|g"    MNIST-DANN.py
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
@@ -123,21 +125,19 @@ do
 	
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    sed -i "s|"MNIST_data"|"${data_path}/MNIST"|g" 	MNIST-DANN.py
-    sed -i "s|"mnistm_data.pkl"|"${data_path}/MNIST/mnistm_data.pkl"|g"    MNIST-DANN.py
 
     python3 MNIST-DANN.py \
     --num_steps  1000	>  ${cur_path}test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log   2>&1 &
 	
-    
-    sed -i "s|"${data_path}/MNIST/mnistm_data.pkl"|"mnistm_data.pkl"|g"    MNIST-DANN.py
-    sed -i "s|"${data_path}/MNIST"|"MNIST_data"|g"  MNIST-DANN.py 
 done 
 wait
 
 #训练结束时间，不需要修改
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
+
+sed -i "s|"${data_path}/MNIST/mnistm_data.pkl"|"mnistm_data.pkl"|g"    MNIST-DANN.py
+sed -i "s|"${data_path}/MNIST"|"MNIST_data"|g"  MNIST-DANN.py 
 
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
