@@ -50,7 +50,7 @@ jpeg图片将被预处理为bin文件
 - Pb模型转换为om模型
 
   ```
-  atc --model=mobilenetv1_tf.pb --framework=3 --output=mobilenetv1_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=mobilenetv1_tf_aipp.cfg --enable_small_channle=1
+  atc --model=mobilenetv1_tf.pb --framework=3 --output=mobilenetv1_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=mobilenetv1_tf_aipp.cfg --enable_small_channel=1
   ```
 
 - 编译程序

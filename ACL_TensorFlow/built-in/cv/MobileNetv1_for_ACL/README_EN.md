@@ -51,7 +51,7 @@ The jpegs pictures will be preprocessed to bin fils.
 - convert pb to om
 
   ```
-  atc --model=mobilenetv1_tf.pb --framework=3 --output=mobilenetv1_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=mobilenetv1_tf_aipp.cfg --enable_small_channle=1
+  atc --model=mobilenetv1_tf.pb --framework=3 --output=mobilenetv1_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input:1,224,224,3" --log=info --insert_op_conf=mobilenetv1_tf_aipp.cfg --enable_small_channel=1
   ```
 
 - Build the program
