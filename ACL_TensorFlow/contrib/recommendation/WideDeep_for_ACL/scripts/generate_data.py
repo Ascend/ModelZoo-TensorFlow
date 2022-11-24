@@ -73,17 +73,17 @@ def separate_input_fn(
         if print_display_ids:
             elem["ad_id"] = tf.Print(input_=elem["ad_id"],
                                     data=[tf.reshape(elem["display_id"],[-1])],
-                                    message="display_id", name="print_display_ids"
+                                    message="display_id", name="print_display_ids",
                                     summarize=elem["ad_id"].shape[1]
                                     )
             elem["ad_id"] = tf.Print(input_=elem["ad_id"],
                                     data=[tf.reshape(elem["ad_id"],[-1])],
-                                    message="ad_id", name="print_ad_ids"
+                                    message="ad_id", name="print_ad_ids",
                                     summarize=elem["ad_id"].shape[1]
                                     )
             elem["ad_id"] = tf.Print(input_=elem["ad_id"],
                                     data=[tf.reshape(elem["is_leak"],[-1])],
-                                    message="is_leak", name="print_is_leak"
+                                    message="is_leak", name="print_is_leak",
                                     summarize=elem["ad_id"].shape[1]
                                     )
         return reshaped_elem,reshaped_label
