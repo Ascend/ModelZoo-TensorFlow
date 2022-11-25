@@ -16,7 +16,7 @@
 
 **大小（Size）：142KB**
 
-**框架（Framework）：TensorFlow_2.4.1**
+**框架（Framework）：TensorFlow_2.6**
 
 **模型格式（Model Format）：ckpt**
 
