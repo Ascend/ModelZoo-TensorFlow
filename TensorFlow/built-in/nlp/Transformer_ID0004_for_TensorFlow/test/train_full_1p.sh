@@ -5,6 +5,7 @@ cur_path=`pwd`
 
 #集合通信参数,不需要修改
 #保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
+export JOB_ID=10086
 export RANK_SIZE=1
 #export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
 RANK_ID_START=0
@@ -19,7 +20,7 @@ export ASCEND_GLOBAL_LOG_LEVEL=3
 #网络名称，同目录名称
 Network="Transformer_for_TensorFlow"
 #训练step
-train_steps=300000
+train_steps=2400000
 #训练batch_size
 batch_size=40
 
@@ -107,20 +108,13 @@ start_time=$(date +%s)
 
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../
+
+sed -i 's/learning_rate.constant: 2.0/learning_rate.constant: 0.25/g' ./configs/transformer_big.yml
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $RANK_ID"
+    echo "Device ID: $ASCEND_DEVICE_ID"
     export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=$RANK_ID
-    ASCEND_DEVICE_ID=$RANK_ID
-	
-	# 自行添加环境变量
-    export JOB_ID=10086
-    export DEVICE_ID=$RANK_ID
-    export RANK_SIZE=8
-    export RANK_TABLE_FILE=${cur_path}/../configs/rank_table_8p.json
-	export GE_USE_STATIC_MEMORY=1
     
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
@@ -191,6 +185,8 @@ do
         #--autotune=${autotune} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
+
+sed -i 's/learning_rate.constant: 0.25/learning_rate.constant: 2.0/g' ./configs/transformer_big.yml
 
 #训练结束时间，不需要修改
 end_time=$(date +%s)
