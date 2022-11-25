@@ -123,7 +123,7 @@ def main(unused_argv):
     model_dir = (FLAGS.model_dir if (get_npu_rank_id() == 0) else None)
     config = tf.estimator.RunConfig(model_dir=model_dir, session_config=session_config)
     
-    train_and_eval_dict = model_lib.create_estimator_and_inputs(run_config=config, eval_count=FLAGS.eval_count, hparams=model_hparams.create_hparams(FLAGS.hparams_overrides), pipeline_config_path=FLAGS.pipeline_config_path, train_steps=FLAGS.num_train_steps, sample_1_of_n_eval_examples=FLAGS.sample_1_of_n_eval_examples, sample_1_of_n_eval_on_train_examples=FLAGS.sample_1_of_n_eval_on_train_examples)
+    train_and_eval_dict = model_lib_rt.create_estimator_and_inputs(run_config=config, eval_count=FLAGS.eval_count, hparams=model_hparams.create_hparams(FLAGS.hparams_overrides), pipeline_config_path=FLAGS.pipeline_config_path, train_steps=FLAGS.num_train_steps, sample_1_of_n_eval_examples=FLAGS.sample_1_of_n_eval_examples, sample_1_of_n_eval_on_train_examples=FLAGS.sample_1_of_n_eval_on_train_examples)
     estimator = train_and_eval_dict['estimator']
     train_input_fn = train_and_eval_dict['train_input_fn']
     eval_input_fns = train_and_eval_dict['eval_input_fns']
@@ -142,7 +142,7 @@ def main(unused_argv):
         #else:
         #    model_lib.continuous_eval(estimator, FLAGS.checkpoint_dir, input_fn, train_steps, name)
     else:
-        (train_spec, eval_specs) = model_lib.create_train_and_eval_specs(train_input_fn, eval_input_fns, eval_on_train_input_fn, predict_input_fn, train_steps, eval_on_train_data=False)
+        (train_spec, eval_specs) = model_lib_rt.create_train_and_eval_specs(train_input_fn, eval_input_fns, eval_on_train_input_fn, predict_input_fn, train_steps, eval_on_train_data=False)
         ##################################NPU_modify add###################################
         if FLAGS.check_loss_scale:
             train_hooks = [NpuEmptyHook(), DLLoggerHook((get_rank_size() * train_and_eval_dict['train_batch_size']), get_npu_rank_id()),_LogSessionRunHook()]
