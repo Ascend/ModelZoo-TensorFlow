@@ -109,7 +109,7 @@ fi
 
 cd $cur_path/
 
-cp -r /usr/local/Ascend/opp/op_impl/built-in/ai_core/tbe/config/ascend910/aic-ascend910-ops-info.json ${cur_path}/old/
+cp -r /usr/local/Ascend/opp/built-in/op_impl/ai_core/tbe/config/ascend910/aic-ascend910-ops-info.json ${cur_path}/old/
 python3.7 aic_change.py
 
 #训练开始时间，不需要修改
