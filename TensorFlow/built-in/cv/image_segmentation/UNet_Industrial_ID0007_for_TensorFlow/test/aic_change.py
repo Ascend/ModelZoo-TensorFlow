@@ -20,7 +20,7 @@
 # ==============================================================================
 
 import json
-json_path = "/usr/local/Ascend/opp/op_impl/built-in/ai_core/tbe/config/ascend910/aic-ascend910-ops-info.json"
+json_path = "/usr/local/Ascend/opp/built-in/op_impl/ai_core/tbe/config/ascend910/aic-ascend910-ops-info.json"
 new_json_path = "new-aic-ascend910-ops-info.json"
 with open(json_path,'r') as load_f:
     load_dict = json.load(load_f)
