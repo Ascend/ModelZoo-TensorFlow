@@ -39,7 +39,7 @@
 
 - 参考实现：
 
-  https://github.com/auroua/InsightFace_TF
+  https://github.com/xuannianz/DifferentiableBinarization
 
 - 适配昇腾 AI 处理器的实现：
   
@@ -63,6 +63,10 @@
     - dataset_dir: ./datasets/total_text
     - checkpoints_dir: ./checkpoints
     - start_learning_rate: 1e-3
+    - beta_1(一阶矩估计的指数衰减率):0.9
+    - beta_2(二阶矩估计的指数衰减率):0.999
+    - epsilon(模糊因子):None
+    - decay=0
 
     
 
@@ -101,15 +105,16 @@ pip3 install requirements.txt
 
     - 单卡训练
 
-        1.首先在脚本train.sh中，配置训练数据集路径，模型存储位置，batch_size,请用户根据实际配置，数据集参数如下所示：
+        1.首先在脚本train.py中，配置训练数据集路径，模型存储位置，batch_size,请用户根据实际配置，数据集参数如下所示：
 
              ```
 
              --dataset_dir=datasets/total_text  --checkpoints_dir=checkpoints  --batch_size=16
 
              ```
+        2.配置start_learning_rate、beta_1、beta_2、epsilon、decay，在train.py中optimizers.Adam方法中进行配置；
 
-        2.启动训练
+        3.启动训练
         
              启动单卡训练 （脚本为train.py） 
         
