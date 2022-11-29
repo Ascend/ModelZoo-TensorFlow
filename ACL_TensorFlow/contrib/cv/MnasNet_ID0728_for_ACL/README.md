@@ -21,7 +21,7 @@ Password:e3el
 # 2. pb to om
 Command:
 ```
-atc --model=./mnasnet.pb  --framework=3  --input_shape="input1:1,224,224,3" --output=./mnasnet  --soc_version=Ascend910" 
+atc --model=./mnasnet.pb  --framework=3  --input_shape="input1:1,224,224,3" --output=./mnasnet  --soc_version=Ascend910
 ```
 [Pb](https://pan.baidu.com/s/1YhB_1zjYb2dz_h8P_kIGUQ)
 Password:m6mx
