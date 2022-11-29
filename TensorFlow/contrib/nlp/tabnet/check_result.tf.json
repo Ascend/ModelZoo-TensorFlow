@@ -1,0 +1,256 @@
+{
+  "op": [
+    {
+      "is_support": false,
+      "name": "Encoder/Aggregated_mask",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder/Mask_for_step0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder/Mask_for_step1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder/Mask_for_step2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder/Mask_for_step3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder/Mask_for_step4",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_1/Aggregated_mask",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_1/Mask_for_step0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_1/Mask_for_step1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_1/Mask_for_step2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_1/Mask_for_step3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_1/Mask_for_step4",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_2/Aggregated_mask",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_2/Mask_for_step0",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_2/Mask_for_step1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_2/Mask_for_step2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_2/Mask_for_step3",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Encoder_2/Mask_for_step4",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ImageSummary"
+    },
+    {
+      "is_support": false,
+      "name": "IteratorGetNext",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorGetNext"
+    },
+    {
+      "is_support": false,
+      "name": "IteratorGetNext_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorGetNext"
+    },
+    {
+      "is_support": false,
+      "name": "IteratorGetNext_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorGetNext"
+    },
+    {
+      "is_support": false,
+      "name": "IteratorV2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorV2"
+    },
+    {
+      "is_support": false,
+      "name": "IteratorV2_1",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorV2"
+    },
+    {
+      "is_support": false,
+      "name": "IteratorV2_2",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "IteratorV2"
+    },
+    {
+      "is_support": false,
+      "name": "Merge/MergeSummary",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "MergeSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Test_accuracy",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Total_loss",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    },
+    {
+      "is_support": false,
+      "name": "Val_accuracy",
+      "not_support_reason": {
+        "code": 1,
+        "message": "This op is not exsit on npu."
+      },
+      "type": "ScalarSummary"
+    }
+  ]
+}
