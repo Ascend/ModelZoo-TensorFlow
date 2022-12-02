@@ -10,16 +10,28 @@
 ## 基本信息
 
 **发布者（Publisher）：Huawei**
+
 **应用领域（Application Domain）： Instance Segmentation**
+
 **版本（Version）：1.1**
+
 **修改时间（Modified）：2021.7.19**
+
 **大小（Size）：664K**
+
 **框架（Framework）：TensorFlow 1.15.0**
+
 **模型格式（Model Format）：ckpt**
+
 **精度（Precision）：Mixed**
+
 **处理器（Processor）：昇腾910**
+
 **应用级别（Categories）：Research**
+
 **描述（Description）：利用unet网络进行医学图像分割训练代码**
+
+
 
 
 ## 概述
