@@ -1,3 +1,4 @@
+from npu_bridge.npu_init import *
 import imgaug
 import cv2
 import numpy as np
@@ -118,3 +119,4 @@ def resize(size, image, anns):
         new_ann = {'poly': poly.tolist(), 'text': ann['text']}
         new_anns.append(new_ann)
     return padimg, new_anns
+

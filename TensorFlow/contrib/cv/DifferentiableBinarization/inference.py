@@ -76,7 +76,7 @@ def polygons_from_bitmap(pred, bitmap, dest_width, dest_height, max_candidates=1
     boxes = []
     scores = []
 
-    _,contours, _ = cv2.findContours((bitmap * 255).astype(np.uint8), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
+    _,contours = cv2.findContours((bitmap * 255).astype(np.uint8), cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
     for contour in contours[:max_candidates]:
         epsilon = 0.01 * cv2.arcLength(contour, True)
@@ -109,9 +109,12 @@ if __name__ == '__main__':
     mean = np.array([103.939, 116.779, 123.68])
     _, model = dbnet()
     """此处调用已经训练好的训练模型"""
-    model.load_weights('dave/db_48_2.0216_2.5701.h5', by_name=True, skip_mismatch=True)
+    print("YYW *************")
+    model.load_weights('checkpoints/2022-10-29/db_99_4.9568_5.0703.h5', by_name=True, skip_mismatch=True)
+    print("YYW 1*************")
     print(glob.glob(osp.join('datasets/total_text/test_images', '*.JPG')))
-    for image_path in glob.glob(osp.join('datasets/total_text/test_images', '*.JPG')):
+    print("YYW 2*************")
+    for image_path in glob.glob(osp.join('/home/test_user06/dave/transfer/DifferentiableBinarization_npu_20221029210705/datasets/total_text/test_images', '*.JPG')):
         image = cv2.imread(image_path)
         src_image = image.copy()
         h, w = image.shape[:2]
@@ -130,3 +133,4 @@ if __name__ == '__main__':
         image_fname = osp.split(image_path)[-1]
         cv2.imwrite('test/' + image_fname, src_image)
         print('finish')
+

@@ -65,6 +65,9 @@ def dbnet(input_size=640, k=50):
 
 
 if __name__ == '__main__':
+    npu_keras_sess = set_keras_session_npu_config()
     model, _ = dbnet()
     """打出网络结构"""
+    close_session(npu_keras_sess)
     #model.summary()
+

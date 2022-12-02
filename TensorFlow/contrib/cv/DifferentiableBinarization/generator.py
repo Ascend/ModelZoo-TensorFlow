@@ -1,3 +1,4 @@
+from npu_bridge.npu_init import *
 import cv2
 import imgaug.augmenters as iaa
 import math
@@ -200,3 +201,4 @@ def generate(data_dir, batch_size=16, image_size=640, min_text_size=8, shrink_ra
             outputs = batch_loss
             yield inputs, outputs
             b = 0
+

@@ -1,3 +1,4 @@
+from npu_bridge.npu_init import *
 import datetime
 import os.path as osp
 from keras import callbacks
@@ -6,8 +7,7 @@ from keras.utils import get_file
 import os
 from generator import generate
 from model import dbnet
-today = datetime.date.today()
-checkpoints_dir = f'checkpoints/{today}'
+checkpoints_dir = f'checkpoints/{datetime.date.today()}'
 
 batch_size = 16
 
@@ -27,7 +27,6 @@ model.compile(optimizer=optimizers.Adam(lr=1e-3), loss={'db_loss': lambda y_true
 checkpoint = callbacks.ModelCheckpoint(
     osp.join(checkpoints_dir, 'db_{epoch:02d}_{loss:.4f}_{val_loss:.4f}.h5'),
     verbose=1,
-    mode="min",
 )
 """开始训练"""
 model.fit_generator(
@@ -40,4 +39,5 @@ model.fit_generator(
     validation_data=val_generator,
     validation_steps=19
 )
+
 
