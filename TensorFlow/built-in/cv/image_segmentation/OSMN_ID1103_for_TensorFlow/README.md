@@ -43,11 +43,16 @@
       https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/image_segmentation/OSMN_ID1103_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：  
-        git clone {repository_url}    # 克隆仓库的代码
-        cd {repository_name}    # 切换到模型的代码仓目录
-        git checkout  {branch}    # 切换到对应分支
-        git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
-        cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+    
+    ```
+     git clone {repository_url}    # 克隆仓库的代码
+     cd {repository_name}    # 切换到模型的代码仓目录
+     git checkout  {branch}    # 切换到对应分支
+     git reset --hard ｛commit_id｝     # 代码设置到对应的commit_id
+     cd ｛code_path｝    # 切换到模型代码所在路径，若仓库下只有该模型，则无需切换
+    ```
+    
+    
 
 #### 默认配置<a name="section91661242121611"></a>
 
@@ -94,13 +99,13 @@ pip3 install requirements.txt
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
 - 开始训练  
+
+  以数据目录为./data、预训练模型目录为 ./models为例:
 ```
- 以数据目录为./data、预训练模型目录为 ./models为例:
   cd test
   source ./env.sh
   bash train_full_1p.sh  --data_path=../data（全量）
   bash train_performance_1p.sh --data_path=../data（功能、性能测试）
- 
 ```
 
 ## 高级参考
@@ -108,7 +113,6 @@ pip3 install requirements.txt
 #### 脚本和示例代码
 
 ```
-.
 ├── models	
 ├── preprocessing
 │   ├── preprocess_davis.py
@@ -140,7 +144,6 @@ pip3 install requirements.txt
 ├── util.py
 ├── youtube_eval.py						
 └── ytvos_merge_result.py
-
 ```
 
 #### 脚本参数<a name="section6669162441511"></a>
