@@ -36,9 +36,8 @@
 
 - 适配昇腾 AI 处理器的实现：
   
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/nlp/Textcnn_ID0123_For_Tensorflow
   
-  https://gitee.com/ji-hongmei/modelzoo/tree/master/built-in/TensorFlow/Official/nlp/Textcnn_ID0123_For_Tensorflow
-
 - 通过Git获取对应commit\_id的代码方法如下：
   
     ```
