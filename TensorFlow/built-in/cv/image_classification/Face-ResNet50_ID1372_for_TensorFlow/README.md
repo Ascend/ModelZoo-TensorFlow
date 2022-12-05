@@ -152,17 +152,21 @@ pip3 install requirements.txt
         
         于终端中运行export ASCEND_DEVICE_ID=0 (0~7)以指定单卡训练时使用的卡
         
-```
-        bash train_full_1p.sh --data_path=xx
-        数据集应有如下结构（数据切分可能不同），配置data_path时需指定为data这一层，例：--data_path=/home/ResNet50_dataset
-        ├── ResNet50_dataset
-        │   ├── label   // label文件夹
-        │   │   ├── label_1200.npy
-        │   │   ├── name_1200.npy
-        │   ├── train_data   // train_data文件夹
-        │   │   ├── 1200_data.npy
-        │   ├── CACD2000_Crop   // CACD文件夹
         ```
+        bash train_full_1p.sh --data_path=xx
+                数据集应有如下结构（数据切分可能不同），配置data_path时需指定为data这一层，例：--data_path=/home/ResNet50_dataset
+                ├── ResNet50_dataset
+                │   ├── label   // label文件夹
+                │   │   ├── label_1200.npy
+                │   │   ├── name_1200.npy
+                │   ├── train_data   // train_data文件夹
+                │   │   ├── 1200_data.npy
+                │   ├── CACD2000_Crop   // CACD文件夹
+        ```
+        
+        
+
+​        
 
 ## 迁移学习指导
 
