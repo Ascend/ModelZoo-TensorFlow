@@ -48,11 +48,6 @@
 
   - 文本输入格式：bpe
   
-- 训练超参
-
-  - Batch size： 128
-  - Train epoch: 1
-  - Train step: 34632
 
 
 ## 支持特性<a name="section1899153513554"></a>
@@ -125,21 +120,19 @@
 
   1. 配置训练参数。
 
-     首先在脚本test/train_full_1p.sh中，配置batch_size、epochs、data_path等参数，请用户根据实际路径配置data_path，或者在启动训练的命令行中以参数形式下发。
+     首先在脚本test/train_full_1p.sh中，配置data_url、train_url参数，分别代表训练数据路径跟输出数据路径，请用户根据实际路径配置，或者在启动训练的命令行中以参数形式下发。
 
      ```
-      batch_size=128
-      epochs=1
-      data_path="../MNIST"
+     data_path="../data"
      ```
      
-2. 启动训练。
+  2. 启动训练。
   
    启动单卡训练 （脚本为LeNet_for_TensorFlow/test/train_full_1p.sh） 
   
    ```
-     bash train_full_1p.sh --data_path=../MNIST
-     ```
+     bash train_full_1p.sh --data_path=../data --output_path=../out
+   ```
 
 <h2 id="训练结果.md">训练结果</h2>
 
@@ -157,30 +150,31 @@
 ```
 ├── train.py                                  //网络训练与测试代码
 ├── README.md                                 //代码说明文档
-├── LeNet_frozen_graph.py                      //训练模型固化为pb模型代码
-├── LeNet_online_inference.py                  //在线推理代码
-├── LeNet_preprocess.py                         //在线推理预处理代码
-├── requirements.tx                             //训练python依赖列表
+├── data_load.py                      		  //数据处理代码
+├── hparams.py                  			  //参数解析代码
+├── model.py                         		  //模型定义代码
+├── modules.py								  //模型模块代码
+├── preproNew.py                              //文本数据转bpe代码
+├── utils.py								  //精度计算代码
+├── requirements.txt                          //训练python依赖列表
 ├── test
 │    ├──train_performance_1p.sh              //单卡训练验证性能启动脚本
-│    ├──train_full_1p.sh                    //单卡全量训练启动脚本
+│    ├──train_full_1p.sh                     //单卡全量训练启动脚本
 
 ```
 
 ## 脚本参数<a name="section6669162441511"></a>
 
 ```
---data_path              数据集路径，默认：path/data
---batch_size             每个NPU的batch size，默认：64
---learing_rata           初始学习率，默认：0.001
---steps                  每个epcoh训练步数，默认：1000
---epochs                 训练epcoh数量，默认：5
+--data_path              数据集路径，默认：path/dataset
+--output_path			 训练过程中输出数据路径，默认：path/output
+--batch_size             每个NPU的batch size，默认：128
 ```
 
 ## 训练过程<a name="section1589455252218"></a>
 
 1.  通过“模型训练”中的训练指令启动单卡卡训练。
 
-2.  参考脚本的模型存储路径为./output/ckpt_npu。
+2.  参考脚本的模型存储路径为./output/log。
 
 

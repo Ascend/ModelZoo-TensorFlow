@@ -34,8 +34,8 @@ ABSPATH=''
 class Hparams:
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--data_url", type=str, default="")
-    parser.add_argument("--train_url", type=str, default="")
+    parser.add_argument("--data_url", type=str, default="./dataset")
+    parser.add_argument("--train_url", type=str, default="./output")
     parser.add_argument('--num_gpus', default='')
     # prepro
     parser.add_argument('--vocab_size', default=37000, type=int)#37000
@@ -64,7 +64,7 @@ class Hparams:
     parser.add_argument('--lr', default=0.0003, type=float, help="learning rate")
     parser.add_argument('--warmup_steps', default=4000, type=int)####4000
     parser.add_argument('--logdir', default=ABSPATH+"log/1", help="log directory")
-    parser.add_argument('--num_epochs', default=20, type=int)###20
+    parser.add_argument('--num_epochs', default=1, type=int)###20
     parser.add_argument('--evaldir', default=ABSPATH+"eval/1", help="evaluation dir")
 
     # model
