@@ -8,7 +8,7 @@
 
 **发布者（Publisher）：Huawei**
 
-**应用领域（Application Domain）：** Object Detection **
+**应用领域（Application Domain）：Object Detection** 
 
 **版本（Version）：1.1**
 
@@ -42,7 +42,7 @@ SSD-VGG是采用单个深度神经网络模型实现目标检测和识别的方�
 
 - 适配昇腾 AI 处理器的实现：
   
-  https://gitee.com/ascend/ModelZoo-TensorFlow/blob/master/TensorFlow2/built-in/nlp/BERT_ID2478_for_TensorFlow2.X
+  https://gitee.com/ascend/ModelZoo-TensorFlow/tree/master/TensorFlow/built-in/cv/detection/SSD-VGG_ID1619_for_TensorFlow
 
 - 通过Git获取对应commit\_id的代码方法如下：
   
@@ -86,7 +86,6 @@ SSD-VGG是采用单个深度神经网络模型实现目标检测和识别的方�
 
 ```
  ./train_full_1p.sh --help
-
 parameter explain:
     --precision_mode         precision mode(allow_fp32_to_fp16/force_fp16/must_keep_origin_dtype/allow_mix_precision)
     --over_dump                  if or not over detection, default is False
@@ -120,7 +119,7 @@ pip3 install requirements.txt
 
    ```
   bash download-data.sh
-   ```
+  ```
 - 数据集训练前需要做预处理操作
   ```
   ./process_dataset.py
@@ -142,14 +141,13 @@ pip3 install requirements.txt
 
     - 单卡训练
 
+      ```
+      cd test;
+      bash train_full_1p.sh --data_path=./data/
+      ```
     
- ```
-     cd test;
-     bash train_full_1p.sh --data_path=./data/
-	 ```
+       
     
-    
-​       
 
 
 ## 高级参考
@@ -183,7 +181,7 @@ pip3 install requirements.txt
 
 
 
-#### 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数
 
 ```
 --data_path                                    data path，default is the path of train.py
