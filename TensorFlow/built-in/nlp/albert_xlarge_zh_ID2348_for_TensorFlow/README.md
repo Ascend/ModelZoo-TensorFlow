@@ -151,7 +151,7 @@ pip3 install requirements.txt
     
        ```
        --do_eval=true
-```
+       ```
 
 ## 迁移学习指导
 
@@ -226,15 +226,19 @@ albert_xlarge_zh_ID2348_for_TensorFlow/
 ├── test_changes.py
 ├── tokenization_google.py
 └── tokenization.py
-
 ```
+
+
+
 
 #### 脚本参数<a name="section6669162441511"></a>
 
 ```
 --data_path  训练数据集路径
---ckpt_path  预训练模型路径                       
+--ckpt_path  预训练模型路径   
 ```
+
+​                    
 
 #### 训练过程<a name="section1589455252218"></a>
 
