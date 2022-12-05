@@ -149,12 +149,14 @@ LeNet是由2019年图灵奖获得者Yann LeCun、Yoshua Bengio于1998年提出(G
     ```
     export ASCEND_DEVICE_ID=X
     其中：X=0~7
-```
+    ```
 
     2. 单卡训练 
 
-    ```
-  bash train_full_1p.sh --data_path=../MNIST
+  
+
+```
+bash train_full_1p.sh --data_path=../MNIST
   其中：xxx是数据集的路径，例如, 数据集下载、解压后的路径为"/home/data"，目录结构如下：
        |--data 
        |	|--MINIST
@@ -162,9 +164,8 @@ LeNet是由2019年图灵奖获得者Yann LeCun、Yoshua Bengio于1998年提出(G
        |        |--t10k-labels-idx1-ubyte
        |        |--train-images-idx3-ubyte
        |        |--train-labels-idx1-ubyte
-    
-     此时，xxx=/home/data/MNIST
-    ```
+  此时，xxx=/home/data/MNIST
+```
 
 ## 迁移学习指导
 
