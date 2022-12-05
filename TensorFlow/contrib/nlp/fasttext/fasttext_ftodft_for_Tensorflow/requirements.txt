@@ -1,0 +1,6 @@
+fnvhash==0.1.0
+nltk==3.7
+numpy==1.21.6
+psutil==5.9.4
+tensorflow==1.15.0
+tqdm==4.64.0
