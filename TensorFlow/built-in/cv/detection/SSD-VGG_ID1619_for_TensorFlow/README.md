@@ -38,7 +38,7 @@ SSD-VGG是采用单个深度神经网络模型实现目标检测和识别的方�
 
 - 参考实现：
 
-  https://github.com/NVIDIA/DeepLearningExamples/tree/master/TensorFlow2/LanguageModeling/BERT
+  NA
 
 - 适配昇腾 AI 处理器的实现：
   
