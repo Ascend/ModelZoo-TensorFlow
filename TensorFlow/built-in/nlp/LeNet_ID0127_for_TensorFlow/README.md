@@ -140,38 +140,31 @@ LeNet是由2019年图灵奖获得者Yann LeCun、Yoshua Bengio于1998年提出(G
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 
 - 开始训练。
-    1. 启动训练之前，首先要配置程序运行相关环境变量。
-
-      环境变量配置信息参见：
+    1. 启动训练之前，首先要配置程序运行相关环境变量；环境变量配置信息参见：
 
      [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/01.%E8%AE%AD%E7%BB%83%E8%84%9A%E6%9C%AC%E8%BF%81%E7%A7%BB%E6%A1%88%E4%BE%8B/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE)
 
       单卡训练需要配置指定运行的卡的环境变量：
-    
-    ```
- export ASCEND_DEVICE_ID=X
-     其中：X=0~7
-```
-    
-    2. 单卡训练 
-    
-        ```
-        bash train_full_1p.sh --data_path=../MNIST
-        ```
-        ```
-        其中：xxx是数据集的路径，例如, 数据集下载、解压后的路径为"/home/data"，目录结构如下：
-           |--data 
-           |	|--MINIST
-           |        |--t10k-images-idx3-ubyte
-           |        |--t10k-labels-idx1-ubyte
-           |        |--train-images-idx3-ubyte
-           |        |--train-labels-idx1-ubyte
-        
-         此时，xxx=/home/data/MNIST
-        ```
-        
-        
 
+    ```
+    export ASCEND_DEVICE_ID=X
+    其中：X=0~7
+```
+
+    2. 单卡训练 
+
+    ```
+  bash train_full_1p.sh --data_path=../MNIST
+  其中：xxx是数据集的路径，例如, 数据集下载、解压后的路径为"/home/data"，目录结构如下：
+       |--data 
+       |	|--MINIST
+       |        |--t10k-images-idx3-ubyte
+       |        |--t10k-labels-idx1-ubyte
+       |        |--train-images-idx3-ubyte
+       |        |--train-labels-idx1-ubyte
+    
+     此时，xxx=/home/data/MNIST
+    ```
 
 ## 迁移学习指导
 
