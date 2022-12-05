@@ -1,0 +1,5 @@
+{
+  "black-list": {
+    "to-add": ["Assign","MatMulV2","Cast","Mul","ReduceSumD","SoftmaxV2","BatchMatMul"]
+  }
+}
