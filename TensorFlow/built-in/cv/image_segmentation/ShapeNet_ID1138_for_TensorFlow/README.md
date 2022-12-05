@@ -119,20 +119,18 @@ pip3 install requirements.txt
   
 
 - 获取数据集后，进行数据预处理，并将预处理后的数据放入模型目录下，在训练脚本中指定数据集路径，可正常使用。数据预处理和最终数据集文件结构示例如下：
-```
-数据预处理，详见：
-./ShapeNet_ID1138_for_TensorFlow/S1_network_dataset_combination.py
-./ShapeNet_ID1138_for_TensorFlow/S1_network_dataset_preparation.py
 
-最终数据集文件结构示例：
-├── ShapeNet_dataset
-│   ├── ShapeNet_prepro.hdf5
-│   ├── ShapeNet_training.hdf5
-则 data_path=./ShapeNet_dataset 即可
-```
-
-
-
+  ```
+  数据预处理，详见：
+  ./ShapeNet_ID1138_for_TensorFlow/S1_network_dataset_combination.py
+  ./ShapeNet_ID1138_for_TensorFlow/S1_network_dataset_preparation.py
+  
+  最终数据集文件结构示例：
+  ├── ShapeNet_dataset
+  │   ├── ShapeNet_prepro.hdf5
+  │   ├── ShapeNet_training.hdf5
+  则 data_path=./ShapeNet_dataset 即可
+  ```
 #### 模型训练
 
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
