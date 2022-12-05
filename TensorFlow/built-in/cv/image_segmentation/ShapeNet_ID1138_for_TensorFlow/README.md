@@ -151,13 +151,13 @@ pip3 install requirements.txt
 
         
         ```
-        # 训练epoch
+        #训练epoch
         train_epochs=1
-        # 训练batch_size
+        #训练batch_size
         batch_size=4
-        # 训练steps
+        #训练steps
         train_steps=15000
-        # 数据集文件
+        #数据集文件
         data_path=./ShapeNet_dataset
         ```
         
