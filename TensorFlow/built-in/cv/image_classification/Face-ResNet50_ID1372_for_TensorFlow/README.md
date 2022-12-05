@@ -150,9 +150,10 @@ pip3 install requirements.txt
         
         2.2 单卡训练指令（脚本位于./Face-ResNet50_ID1372_for_TensorFlow/test/train_full_1p.sh） 
         
-        ```
         于终端中运行export ASCEND_DEVICE_ID=0 (0~7)以指定单卡训练时使用的卡
-bash train_full_1p.sh --data_path=xx
+        
+```
+        bash train_full_1p.sh --data_path=xx
         数据集应有如下结构（数据切分可能不同），配置data_path时需指定为data这一层，例：--data_path=/home/ResNet50_dataset
         ├── ResNet50_dataset
         │   ├── label   // label文件夹

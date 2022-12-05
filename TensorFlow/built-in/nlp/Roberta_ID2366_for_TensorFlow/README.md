@@ -143,7 +143,7 @@ pip3 install requirements.txt
     
        ```
        --do_eval=true
-```
+       ```
 
 ## 迁移学习指导
 
@@ -160,12 +160,13 @@ pip3 install requirements.txt
 
 参考“模型训练”中验证步骤。
 
+
+
 ## 高级参考
 
 #### 脚本和示例代码
 
 ```
-.
 Roberta_ID2366_for_TensorFlow/
 ├── CONTRIBUTING.md
 ├── create_pretraining_data.py
@@ -191,19 +192,24 @@ Roberta_ID2366_for_TensorFlow/
 │   └── train_performance_1p.sh
 ├── tokenization.py
 └── tokenization_test.py
-
 ```
 
-#### 脚本参数<a name="section6669162441511"></a>
+
+
+
+#### 脚本参数
 
 ```
 --data_path  训练数据集路径
---ckpt_path  预训练模型路径                       
+--ckpt_path  预训练模型路径    
 ```
 
-#### 训练过程<a name="section1589455252218"></a>
+​                   
+
+#### 训练过程
 
 1. 通过“模型训练”中的训练指令启动单卡训练。
 2. 将训练脚本（train_full_1p.sh）中的data_path、ckpt_path设置为训练数据集和预训练模的路径。具体的流程参见“模型训练”的示例。
 3. 模型存储路径为“curpath/output/ASCEND_DEVICE_ID”，包括训练的log文件。
 4. 以单卡训练为例，loss信息在文件curpath/output/{ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log中。
+

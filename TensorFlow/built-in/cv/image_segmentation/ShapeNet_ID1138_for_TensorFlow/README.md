@@ -110,21 +110,31 @@ pip3 install requirements.txt
 
 #### 数据集准备<a name="section361114841316"></a>
 
-- 模型使用 shapenet_part_seg_hdf5_data 数据集，请用户自行下载，具体获取方法参见 ./ShapeNet_ID1138_for_TensorFlow/S0_download_data.sh。
+- 模型使用 shapenet_part_seg_hdf5_data 数据集，请用户自行下载，具体获取方法参见 
+
+  ```
+  ./ShapeNet_ID1138_for_TensorFlow/S0_download_data.sh
+  ```
+
+  
+
 - 获取数据集后，进行数据预处理，并将预处理后的数据放入模型目录下，在训练脚本中指定数据集路径，可正常使用。数据预处理和最终数据集文件结构示例如下：
 ```
-    # 数据预处理，详见：
-    ./ShapeNet_ID1138_for_TensorFlow/S1_network_dataset_combination.py
-    ./ShapeNet_ID1138_for_TensorFlow/S1_network_dataset_preparation.py
+数据预处理，详见：
+./ShapeNet_ID1138_for_TensorFlow/S1_network_dataset_combination.py
+./ShapeNet_ID1138_for_TensorFlow/S1_network_dataset_preparation.py
 
-    # 最终数据集文件结构示例：
-    ├── ShapeNet_dataset
-    │   ├── ShapeNet_prepro.hdf5
-    │   ├── ShapeNet_training.hdf5
-    则 data_path=./ShapeNet_dataset 即可
+最终数据集文件结构示例：
+├── ShapeNet_dataset
+│   ├── ShapeNet_prepro.hdf5
+│   ├── ShapeNet_training.hdf5
+则 data_path=./ShapeNet_dataset 即可
 ```
 
-#### 模型训练<a name="section715881518135"></a>
+
+
+#### 模型训练
+
 - 单击“立即下载”，并选择合适的下载方式下载源码包。
 - 开始训练。
   
@@ -175,7 +185,7 @@ pip3 install requirements.txt
 
 ## 高级参考
 
-#### 脚本和示例代码<a name="section08421615141513"></a>
+#### 脚本和示例代码
 
     ├── README.md                                //说明文档
     ├── requirements.txt                         //依赖
@@ -185,7 +195,7 @@ pip3 install requirements.txt
     ├── S2_network_training.py			 // 训练入口脚本
 
 
-#### 脚本参数<a name="section6669162441511"></a>
+#### 脚本参数
 
 ```
 batch_size                                       训练batch_size
@@ -194,7 +204,7 @@ train_epochs                                     总训练epoch数
 train_steps                                      总训练steps数
 ```
 
-#### 训练过程<a name="section1589455252218"></a>
+#### 训练过程
 
 通过“模型训练”中的训练指令启动单卡训练。
 将训练脚本（train_full_1p.sh）中的data_path设置为训练数据集的路径。具体的流程参见“模型训练”的示例。

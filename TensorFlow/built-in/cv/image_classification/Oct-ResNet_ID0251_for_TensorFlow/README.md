@@ -9,17 +9,27 @@
 
 ## 基本信息
 
-**发布者（Publisher）：Huawei
-**应用领域（Application Domain）： Image Classification
-**版本（Version）：1.1
-**修改时间（Modified） ：2021.7.21
-**大小（Size）：112K
-**框架（Framework）：TensorFlow 1.15.0
-**模型格式（Model Format）：ckpt
-**精度（Precision）：Mixed
-**处理器（Processor）：昇腾910
-**应用级别（Categories）：Research
-**描述（Description）：使用八倍卷积降低卷积神经网络的空间冗余
+**发布者（Publisher）：Huawei**
+
+**应用领域（Application Domain）： Image Classification**
+
+**版本（Version）：1.1**
+
+**修改时间（Modified） ：2021.7.21**
+
+**大小（Size）：112K**
+
+**框架（Framework）：TensorFlow 1.15.0**
+
+**模型格式（Model Format）：ckpt**
+
+**精度（Precision）：Mixed**
+
+**处理器（Processor）：昇腾910**
+
+**应用级别（Categories）：Research**
+
+**描述（Description）：使用八倍卷积降低卷积神经网络的空间冗余**
 
 ## 概述
 
