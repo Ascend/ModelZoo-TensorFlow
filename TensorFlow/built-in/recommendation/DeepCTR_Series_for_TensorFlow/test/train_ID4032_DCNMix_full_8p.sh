@@ -13,7 +13,7 @@ data_path=""
 #网络名称，同目录名称
 Network="DCNMix_ID4032_for_TensorFlow"
 #训练epoch
-train_epochs=5
+train_epochs=4
 #训练batch_size
 batch_size=10240
 #训练step
