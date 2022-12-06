@@ -177,8 +177,8 @@ def main():
 
     tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.INFO)
     model.train(train_model_input, max_steps=args.max_steps)
-    # if rank_id == 0:
-    #     model.evaluate(test_model_input)
+    if rank_id == 0:
+        model.evaluate(test_model_input)
 
 if __name__ == "__main__":
     main()

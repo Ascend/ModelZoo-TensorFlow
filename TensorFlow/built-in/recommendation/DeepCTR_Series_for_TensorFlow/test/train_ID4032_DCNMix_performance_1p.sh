@@ -114,7 +114,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 # #输出性能FPS，需要模型审视修改
-fps=`grep "examples\/sec" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk '{print $2}'|tail -n +5 |awk '{sum+=$1} END {print sum/NR}'`
+fps=`grep "examples\/sec" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk '{print $2}'|tail -n +5 | awk 'NR>1{print p}{p=$0}'|awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${fps}'}'`
 # #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
@@ -132,7 +132,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 TrainingTime=`awk 'BEGIN{printf "%.6f\n",'${BatchSize}'/'${FPS}'}'`
 
 ActualFPS=${FPS}
-grep ":loss =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| awk '{print $3}' | sed 's/,//g' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep ":loss =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| awk '{print $3}' | sed 's/,//g' | sed -n '1~2p' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 

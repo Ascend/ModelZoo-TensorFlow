@@ -16,7 +16,7 @@ train_epochs=4
 #训练batch_size
 batch_size=10240
 #训练step
-train_steps=
+train_steps=16115
 #学习率
 learning_rate=
 
@@ -101,6 +101,7 @@ do
         --train_batch_size=${batch_size} \
         --eval_batch_size=${batch_size} \
         --num_epochs=${train_epochs} \
+        --max_steps=${train_steps} \
         --output_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
@@ -113,7 +114,7 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 # #输出性能FPS，需要模型审视修改
-fps=`grep "examples\/sec" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk '{print $2}'|tail -n +5 |awk '{sum+=$1} END {print sum/NR}'`
+fps=`grep "examples\/sec" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk '{print $2}'|tail -n +5 | awk 'NR>1{print p}{p=$0}'|awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${fps}'}'`
 # #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
@@ -134,7 +135,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'accu'
 TrainingTime=`awk 'BEGIN{printf "%.6f\n",'${BatchSize}'/'${FPS}'}'`
 
 ActualFPS=${FPS}
-grep ":loss =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| awk '{print $3}' | sed 's/,//g' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep ":loss =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| awk '{print $3}' | sed 's/,//g'| sed -n '1~2p' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
