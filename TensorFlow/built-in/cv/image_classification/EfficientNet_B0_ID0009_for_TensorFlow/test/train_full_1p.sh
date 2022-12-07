@@ -1,5 +1,5 @@
 #!/bin/bash
-source env.sh
+#source env.sh
 #当前路径,不需要修改
 cur_path=`pwd`
 
@@ -11,10 +11,10 @@ RANK_ID_START=0
 
 
 # 数据集路径,保持为空,不需要修改
-data_path="/npu/traindata/imagenet_TF"
+data_path=""
 
 #设置默认日志级别,不需要修改
-export ASCEND_GLOBAL_LOG_LEVEL=3
+export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
@@ -110,16 +110,24 @@ do
     else
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
+    
+    # 绑核，不需要的绑核的模型删除，需要模型审视修改
+    corenum=`cat /proc/cpuinfo |grep "processor"|wc -l`
+    let a=RANK_ID*${corenum}/${RANK_SIZE}
+    let b=RANK_ID+1
+    let c=b*${corenum}/${RANK_SIZE}-1
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
     nohup python3.7 efficientnet/main_npu.py \
     --data_dir=${data_path} \
     --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
-    --mode=train \
+    --mode=train_and_eval \
     --train_batch_size=256 \
-    --train_steps=100 \
-    --iterations_per_loop=10 \
+    --train_steps=1750000 \
+    --iterations_per_loop=625 \
+    --steps_per_eval=31250 \
+    --base_learning_rate=0.025 \
     --model_name=efficientnet-b0  > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
