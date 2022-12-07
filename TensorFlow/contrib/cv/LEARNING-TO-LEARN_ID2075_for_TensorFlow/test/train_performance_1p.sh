@@ -136,11 +136,11 @@ echo "------------------ Final result ------------------"
 
 grep "Mean epoch time:" $cur_path/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log > time.log
 sed -i '1d' time.log
-time1=`grep "Mean epoch time:" time.log | awk '{print $4}' | head -1`
+#time1=`grep "Mean epoch time:" time.log | awk '{print $4}' | head -1`
 time2=`grep "Mean epoch time:" time.log | awk 'END {print $4}'` 
-TrainingTime=`awk 'BEGIN{printf "%.4f\n", '${time2}'-'${time1}'}'`
-n=`echo "${train_epochs} - 2"|bc`
-TrainingTime=`awk 'BEGIN{printf "%.4f\n", '${TrainingTime}'/'${n}'}'`
+#TrainingTime=`awk 'BEGIN{printf "%.4f\n", '${time2}'-'${time1}'}'`
+#n=`echo "${train_epochs} - 2"|bc`
+#TrainingTime=`awk 'BEGIN{printf "%.4f\n", '${TrainingTime}'/'${n}'}'`
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
@@ -150,7 +150,7 @@ CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 
 ##获取性能数据，不需要修改
 #吞吐量
-ActualFPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${TrainingTime}'}'`
+ActualFPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${time2}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep 'Log Mean Final Error: ' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $5}'  > $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
