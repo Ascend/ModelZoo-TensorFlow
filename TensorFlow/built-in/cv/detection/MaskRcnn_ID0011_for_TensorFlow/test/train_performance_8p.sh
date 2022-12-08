@@ -139,7 +139,7 @@ do
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
     
-    
+
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
@@ -159,7 +159,7 @@ do
         --validation_file_pattern=${data_path}/val* \
         --val_json_file=${data_path}/instances_val2017.json \
         --eval_batch_size=2 \
-        --model_dir=result_npu\
+        --model_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt \
         --over_dump=${over_dump} \
         --over_dump_path=${over_dump_path} \
         > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
