@@ -225,5 +225,5 @@ if __name__ == '__main__':
             except tf.errors.OutOfRangeError:
                 print("End of epoch %d" % i)
                 break
-    log_file.close()
     log_file.write('\n')
+    log_file.close()
