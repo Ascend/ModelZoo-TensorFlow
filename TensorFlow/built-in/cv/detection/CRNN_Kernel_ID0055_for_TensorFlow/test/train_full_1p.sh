@@ -114,14 +114,27 @@ do
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
-    nohup python3.7 ${cur_path}/../tools/train_npu.py --dataset_dir=${data_path} \
+    nohup python3.7 ${cur_path}/../tools/train_npu.py \
+    --dataset_dir=${data_path} \
     --char_dict_path=${data_path}/char_dict/char_dict.json \
     --ord_map_dict_path=${data_path}/char_dict/ord_map.json \
+    --save_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
     --momentum=0.95 \
-    --lr=0.02 \
-    --use_nesterov=False \
-    --num_iters=${train_steps} > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+    --lr=0.01 \
+    --use_nesterov=True \
+    --warmup_step=8000 \
+    --num_iters=240000 > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
+wait
+
+python3 ${cur_path}/../tools/eval_ckpt.py --weights_path=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
+        --device_id=${ASCEND_DEVICE_ID} \
+        --scripts=${cur_path}/../tools/other_dataset_evaluate_shadownet.py \
+        --dataset_dir=${data_path}/test/svt1/processed/ \
+        --root_dir=${cur_path}/../ \
+        --char_dict_path=${data_path}/char_dict/char_dict.json \
+        --ord_map_dict_path=${data_path}/char_dict/ord_map.json \
+        --annotation_file=${data_path}/test/svt1/annotation.txt >> ${cur_path}/output/$ASCEND_DEVICE_ID/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 wait
 
 #训练结束时间，不需要修改
@@ -136,16 +149,16 @@ FPS=`cat ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | 
 echo "Final Performance images/sec : $FPS"
 
 #输出训练精度,需要模型审视修改
-#train_accuracy=`grep -A 1 top1 $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk 'END {print $3}'`
+train_accuracy=`grep "accuracy" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|grep -v "other_dataset_evaluate_shadownet.py"|grep -v "full"|awk 'END {print $7}'`
 #打印，不需要修改
-#echo "Final Train Accuracy : ${train_accuracy}"
+echo "Final Train Accuracy : ${train_accuracy}"
 echo "E2E Training Duration sec : $e2e_time"
 
 #稳定性精度看护结果汇总
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据
 #吞吐量，不需要修改
@@ -154,7 +167,7 @@ ActualFPS=${FPS}
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${RANK_SIZE}'*1000/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
-grep "Epoch_Train:" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | grep -v "train_npu.py" | awk -F "cost= " '{print $2}' | awk -F "," '{print $1}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
+grep "Epoch_Train:" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | grep -v "train_npu.py" | awk -F "cost= " '{print $2}' | awk -F "," '{print $1}' > $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
@@ -166,6 +179,7 @@ echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
