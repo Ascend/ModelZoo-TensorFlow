@@ -53,7 +53,7 @@ python3 load_coco_json.py
 
 - convert pb to om
 
-  [pb download link](https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/modelzoo/Official/cv/RetinaNet_for_ACL.zip)
+  [pb download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/RetinaNet_for_ACL/retinanet_tf.pb)
 
   ```
   atc --model=retinanet_tf.pb --framework=3 --output=retinanet_tf_1batch --output_type=FP32 --soc_version=Ascend310 --input_shape="input_1:1,768,1024,3" --log=info
