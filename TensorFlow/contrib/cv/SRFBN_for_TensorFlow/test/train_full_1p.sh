@@ -90,7 +90,7 @@ function get_casename()
 cd ${cur_path}/../
 rm -rf ./test/output/${ASCEND_DEVICE_ID}
 mkdir -p ./test/output/${ASCEND_DEVICE_ID}
-
+sed -i "40s#1000#1#g" config.py
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
@@ -114,16 +114,16 @@ if [ x"${modelarts_flag}" != x ];
 then
     python3 ./train.py
 else
-    python3.7 ./train.py --data_path=${data_path} --output_path=${output_path} 1>${print_log} 2>&1
+    python3.7 ./train.py --data_dir=${data_path}/dataset/DIV2K_train_HR --output_path=${output_path} 1>${print_log} 2>&1
 fi
 
 # 性能相关数据计算
-StepTime=`((cat ${print_log} | grep "time" | head -n 1) && (cat ${print_log} | grep "time" | tail -n 1)) | awk -F ':' '{print $5 $6 }' | awk -F ',' '{print $1 $2}' | awk -F ' ' '{print $1;print $3}' | awk '{if (NR == 1){a=$1} else if (NR == 2){b=$1} else if (NR == 3){c=$1} else if (NR == 4){d=$1}} END {print (d-b)/(c-a)}'`
+StepTime=`((cat ${print_log} | grep "time" | tail -n -5 | head -n 1) && (cat ${print_log} | grep "time" | tail -n 1)) | awk -F ':' '{print $5 $6 }' | awk -F ',' '{print $1 $2}' | awk -F ' ' '{print $1;print $3}' | awk '{if (NR == 1){a=$1} else if (NR == 2){b=$1} else if (NR == 3){c=$1} else if (NR == 4){d=$1}} END {print (d-b)/(c-a)}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 #PSNR值计算
-PSNR=`cat ${print_log} | grep "time" | tail -n 10 | awk -F ',' '{print $8}' | awk -F ':' '{sum+=$2} END {print sum/NR}'`
+train_accuracy=`grep "PSNR:" ${print_log} | awk -F "PSNR:" '{print $2}' | awk -F "," '{print $1}' | awk '{sum+=$1} END {print sum/NR}'`
 # 提取所有loss打印信息
-grep "loss:" ${print_log} | awk -F "," '{print $6}'  > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "l2_loss:" ${print_log} | awk -F "l2_loss:" '{print $2}' | awk -F ', PSNR:' '{print $1}'  > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
 
 
 ###########################################################
@@ -164,12 +164,10 @@ echo "------------------ Final result ------------------"
 echo "Final Performance images/sec : $FPS"
 echo "Final Performance sec/step : $StepTime"
 echo "E2E Training Duration sec : $e2e_time"
-echo "PSNR : $PSNR"
 # 输出训练精度
-#echo "Final Train Accuracy : ${train_accuracy}"
-
+echo "Final Train Accuracy : ${train_accuracy}"
 # 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt`)
+ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -180,5 +178,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-#echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
