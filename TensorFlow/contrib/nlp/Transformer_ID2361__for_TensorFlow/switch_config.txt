@@ -1,0 +1,3 @@
+OpType::MatMulV2:InputDtype:float16,float16,float32,OutputDtype:float32
+OpType::BatchMatMul:InputDtype:float16,float16,OutputDtype:float32
+OpType::BatchMatMulV2:InputDtype:float16,float16,OutputDtype:float32
