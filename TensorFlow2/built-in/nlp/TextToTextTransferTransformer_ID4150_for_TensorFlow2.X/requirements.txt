@@ -1,0 +1,3 @@
+tensorflow>=2.6.0
+tensorflow-text==tensorflow>=2.6.0
+npu-device CANN平台提供
