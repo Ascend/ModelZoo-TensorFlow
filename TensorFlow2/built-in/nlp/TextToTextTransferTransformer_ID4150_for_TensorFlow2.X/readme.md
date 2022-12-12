@@ -49,6 +49,7 @@ python3 main.py 'question1' 'question2'
 本结果是通过运行上边适配的推理脚本获得的。
 
 1. gpu 结果
+
 |设备|结果|
 |---|---|
 |nq question: where is google's headquarters|in Columbus, Ohio|
@@ -57,6 +58,7 @@ python3 main.py 'question1' 'question2'
 |nq question: how many teeth do humans have|20 primary|
 
 1. npu 结果
+
 |设备|结果|
 |---|---|
 |nq question: where is google's headquarters|in Columbus, Ohio|
