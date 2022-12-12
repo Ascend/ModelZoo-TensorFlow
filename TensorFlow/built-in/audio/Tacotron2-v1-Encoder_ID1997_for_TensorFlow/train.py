@@ -42,7 +42,8 @@ from fn_utils import infolog
 import synthesize
 from utils import *
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
-
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 class Graph():
