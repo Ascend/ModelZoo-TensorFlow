@@ -14,6 +14,8 @@
 |芯片平台|Ascend310/Ascend310P3|
 |第三主依赖|请参考 requirements.txt|
 
+# 使用步骤
+
 ## 1. 拷贝代码
 
 ```shell
