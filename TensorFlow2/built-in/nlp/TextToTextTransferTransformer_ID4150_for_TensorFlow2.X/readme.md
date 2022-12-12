@@ -50,7 +50,7 @@ python3 main.py 'question1' 'question2'
 
 1. gpu 结果
 
-|设备|结果|
+|问题|结果|
 |---|---|
 |nq question: where is google's headquarters|in Columbus, Ohio|
 |nq question: what is the most populous country in the world|China|
@@ -59,7 +59,7 @@ python3 main.py 'question1' 'question2'
 
 1. npu 结果
 
-|设备|结果|
+|问题|结果|
 |---|---|
 |nq question: where is google's headquarters|in Columbus, Ohio|
 |nq question: what is the most populous country in the world|China|
