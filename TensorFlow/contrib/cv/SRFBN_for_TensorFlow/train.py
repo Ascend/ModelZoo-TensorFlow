@@ -34,6 +34,13 @@ import time
 from PreProcess import *
 from skimage.metrics import peak_signal_noise_ratio as comparepsnr
 from skimage.metrics import _structural_similarity
+import os
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--output_path', type=str, default="./test/output_path")
+parser.add_argument("--data_dir", type=str, default="./Resolution_2K/DIV2K/DIV2K_train_HR")
+args = parser.parse_args()
 
 def train_SRFBN(dataset, sess, cfg):
     # start put data in queue
@@ -132,7 +139,6 @@ def train(*args, **kwargs):
     imgs = [os.path.join(data_dir,data) for data in os.listdir(data_dir)]
 
 
-
     sess = tf.compat.v1.Session(config=npu_config_proto())
 
     ## build NetWork
@@ -144,7 +150,4 @@ def train(*args, **kwargs):
 
 
 if __name__ == '__main__':
-    import os
-    data_dir = "/home/TestUser08/BUAA/output_npu_20221021153629/SRFBN-tensorflow_npu_20221021153629/Resolution_2K/DIV2K/DIV2K_train_HR"
-    train(data_dir=data_dir)
-
+    train(data_dir=args.data_dir)
