@@ -38,10 +38,11 @@ from collections import OrderedDict
 
 import tensorflow as tf
 import tensorflow.compat.v1 as tf1
+
+# 在使用t5时需要使用 tensorflow_text 注册一些算子，不导入该模块会有问题
 import tensorflow_text
 
-# 在使用t5时需要使用 tensorflow_text 注册一些算子，不导入该萨嘎无法有问题
-# 在推理代码中，虽并未明文使用，但是不加这一句会因为代码格式化因模块未使用成果被优化掉，故加上这一句更好
+# 在推理代码中，虽并未明文使用，但是不加这一句会在代码格式化时因模块未使用而被优化掉，故加上这一句更好
 _ = tensorflow_text
 
 
@@ -64,7 +65,7 @@ class T5:
             with tf.io.gfile.GFile(pb_file, 'rb') as f:
                 graph_def = tf1.GraphDef()
                 graph_def.ParseFromString(f.read())
-                tf.import_graph_def(graph_def, name="")
+                tf.import_graph_def(graph_def, name='')
         self.graph = graph
         self.config = config
 
