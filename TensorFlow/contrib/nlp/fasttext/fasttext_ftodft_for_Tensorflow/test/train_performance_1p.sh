@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -46,7 +46,7 @@ do
         output_path=`echo ${para#*=}`
     elif [[ $para == --train_steps* ]];then
         train_steps=`echo ${para#*=}`
-	elif [[ $para == --train_epochs* ]];then
+    elif [[ $para == --train_epochs* ]];then
         train_epochs=`echo ${para#*=}`
     elif [[ $para == --batch_size* ]];then
         batch_size=`echo ${para#*=}`
@@ -101,17 +101,18 @@ train_steps=100001
 batch_size=128
 
 print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
-python3.7 ./cli.py preprocess --corpus_path ${data_path}
-python3.7 ./cli.py train --steps=${train_steps} --batch_size=${batch_size} --log_dir=${output_path} 1>${print_log} 2>&1
+python3.7 ./cli.py preprocess --corpus_path ${data_path}/data/103053.txt 1>${print_log} 2>&1
+python3.7 ./cli.py train --steps=${train_steps} --batch_size=${batch_size} --log_dir=${output_path} 1>>${print_log} 2>&1
 
 # 性能相关数据计算
-StepTime=`grep "sec/step :" ${print_log} | tail -n 10 | awk '{print $NF}' | awk '{sum+=$1} END {print sum/NR}'`
+StepTime=`grep "Loss:" ${print_log} | awk '{print $6}' | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 精度相关数据计算
-train_accuracy=`grep "Final Accuracy accuracy" ${print_log}  | awk '{print $NF}'`
+train_accuracy=`grep "Loss:" ${print_log} | awk '{print $4}' | awk 'END {print $NF}'`
 # 提取所有loss打印信息
-grep "loss :" ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "Loss:" ${print_log} | awk '{print $4}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
@@ -153,4 +154,5 @@ echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.
 echo "ActualFPS = ${FPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainingTime = ${StepTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
