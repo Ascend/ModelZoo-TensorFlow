@@ -56,25 +56,21 @@ logging.info("# hparams")
 hparams = Hparams()
 parser = hparams.parser
 hp = parser.parse_args()
-# hp.data_url=os.path.dirname(os.path.realpath(__file__))+'/'
 print("data_url\n")
 print(hp.data_url)
 print("train_url\n")
 print(hp.train_url)
+print(hp.logdir)
 save_hparams(hp, hp.logdir)
 
 logging.info("# Prepare train/eval batches")
-train_batches, num_train_batches, num_train_samples = get_batch(hp.data_url+ hp.train1, hp.data_url+hp.train2,
+train_batches, num_train_batches, num_train_samples = get_batch(hp.train1, hp.train2,
                                              hp.maxlen1, hp.maxlen2,
-                                             hp.data_url+hp.vocab, hp.batch_size,
+                                             hp.vocab, hp.batch_size,
                                              shuffle=True)
-# eval_batches, num_eval_batches, num_eval_samples = get_batch(hp.data_url+hp.eval1, hp.data_url+hp.eval2,
-#                                              100000, 100000,
-#                                              hp.data_url+hp.vocab, hp.batch_size,
-#                                              shuffle=False)
-eval_batches, num_eval_batches, num_eval_samples = get_batch(hp.data_url+hp.eval1, hp.data_url+hp.eval2,
+eval_batches, num_eval_batches, num_eval_samples = get_batch(hp.eval1, hp.eval2,
                                              hp.maxlen1, hp.maxlen2,
-                                             hp.data_url+hp.vocab, hp.batch_size,
+                                             hp.vocab, hp.batch_size,
                                              shuffle=False)
 
 # create a iterator of the correct shape and type
@@ -93,15 +89,6 @@ y_hat = m.eval(xs, ys)
 logging.info("# Session")
 saver = tf.train.Saver(max_to_keep=hp.num_epochs)
 
-####相关设置开关
-if not os.path.exists(hp.train_url + "/tmp/profiling"): os.makedirs(hp.train_url + "/tmp/profiling")
-proPath=hp.train_url + "/tmp/profiling"
-dumpPath=hp.train_url + "/tmp/overflow"
-blackPath=hp.data_url+"/ops_info.json"
-fusionPath=hp.data_url+"/fusion_switch.cfg"
-switchPath=hp.data_url+"/switch_config.txt"
-if not os.path.exists(dumpPath): os.makedirs(dumpPath)
-
 config = tf.ConfigProto()
 custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
@@ -110,7 +97,7 @@ config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显
 config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF  # 必须显式关闭
 
 with tf.Session(config=config) as sess:
-    ckpt = tf.train.latest_checkpoint(hp.train_url+hp.logdir)
+    ckpt = tf.train.latest_checkpoint(hp.train_url + hp.logdir)
     if ckpt is None:
         logging.info("Initializing from scratch")
         sess.run(tf.global_variables_initializer())
@@ -147,10 +134,7 @@ with tf.Session(config=config) as sess:
             model_output = "iwslt2016_E%02dL%.2f" % (epoch, _loss)
             if not os.path.exists(hp.train_url+hp.evaldir): os.makedirs(hp.train_url+hp.evaldir)
             translation = os.path.join(hp.train_url + hp.evaldir, model_output)
-            # if not os.path.exists(hp.train_url + hp.evaldir): os.makedirs(hp.train_url + hp.evaldir)
-            # translation = os.path.join(hp.train_url+hp.evaldir, model_output)
 
-            #######
             with open(translation, 'w') as fout:
                 fout.write("\n".join(hypotheses))
 
@@ -159,9 +143,7 @@ with tf.Session(config=config) as sess:
 
             logging.info("# save models")
             ckpt_name = os.path.join(hp.train_url+hp.logdir, model_output)
-            # if not os.path.exists(hp.train_url + hp.logdir): os.makedirs(hp.train_url + hp.logdir)
-            # ckpt_name = os.path.join(hp.train_url + hp.logdir, model_output)
-            ########
+
             saver.save(sess, ckpt_name, global_step=_gs)
             logging.info("after training of {} epochs, {} has been saved.".format(epoch, ckpt_name))
 
