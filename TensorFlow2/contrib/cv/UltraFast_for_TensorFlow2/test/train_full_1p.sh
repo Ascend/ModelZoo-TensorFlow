@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ##########################################################
-#########第3行 至 90行，请一定不要、不要、不要修改##########
-#########第3行 至 90行，请一定不要、不要、不要修改##########
-#########第3行 至 90行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
 ##########################################################
 # shell脚本所在路径
 cur_path=`echo $(cd $(dirname $0);pwd)`
@@ -30,7 +30,7 @@ if [[ $1 == --help || $1 == -h ]];then
     --data_path              # dataset of training
     --output_path            # output of training
     --train_steps            # max_step for training
-	  --train_epochs           # max_epoch for training
+    --train_epochs           # max_epoch for training
     --batch_size             # batch size
     -h/--help                show help message
     "
@@ -64,6 +64,17 @@ if [[ $output_path == "" ]];then
     output_path="./test/output/${ASCEND_DEVICE_ID}"
 fi
 
+# 设置打屏日志文件名，请保留，文件名为${print_log}
+print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
+modelarts_flag=${MODELARTS_MODEL_PATH}
+if [ x"${modelarts_flag}" != x ];
+then
+    echo "running without etp..."
+    print_log_name=`ls /home/ma-user/modelarts/log/ | grep proc-rank`
+    print_log="/home/ma-user/modelarts/log/${print_log_name}"
+fi
+echo "### get your log here : ${print_log}"
+
 CaseName=""
 function get_casename()
 {
@@ -83,9 +94,9 @@ mkdir -p ./test/output/${ASCEND_DEVICE_ID}
 # 训练开始时间记录，不需要修改
 start_time=$(date +%s)
 ##########################################################
-#########第3行 至 90行，请一定不要、不要、不要修改##########
-#########第3行 至 90行，请一定不要、不要、不要修改##########
-#########第3行 至 90行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
+#########第3行 至 100行，请一定不要、不要、不要修改##########
 ##########################################################
 
 #=========================================================
@@ -100,24 +111,50 @@ start_time=$(date +%s)
 train_epochs=1
 batch_size=16
 
-print_log="./test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log"
-python3.7 ./train_ultrafast.py --data-path=${data_path} --output-path=${output_path} --epochs=${train_epochs} --batch-size=${batch_size} 1>${print_log} 2>&1
-
+if [ x"${modelarts_flag}" != x ];
+then
+    python3.7 ./train_ultrafast.py \
+        --data-path=${data_path}/data/llamas \
+        --output_path=${output_path} \
+        --epochs=${train_epochs} \
+        --batch_size=${batch_size} 1>${print_log} 2>&1
+else
+    python3.7 ./train_ultrafast.py \
+        --data-path=${data_path}/data/llamas \
+        --output_path=${output_path} \
+        --epochs=${train_epochs} \
+        --batch_size=${batch_size} 1>${print_log} 2>&1
+fi
 
 # 性能相关数据计算
-StepTime= grep "[0-9]*ms/step" ${print_log} -o |grep "[0-9]*" -o | awk '{sum+=$1} sum/NR'
-FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
+StepTime=`grep "ms/step" ${print_log} | awk '{print $5}' | tr -d "ms/step"`
+FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'*1000/'${StepTime}'}'`
+
 
 # 精度相关数据计算
-train_accuracy=grep "val_ultrafast_accuracy: [0-9.]*" ${print_log} -o |tail -1 |grep "[0-9.]*" -o
+train_accuracy=`grep "loss: " ${print_log} | grep -v "ETA" | awk '{print $11}'`
 # 提取所有loss打印信息
-grep "loss: " ${print_log} | awk -F ":" '{print $4}' | awk -F "-" '{print $1}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+grep "loss: " ${print_log} | grep -v "ETA" | awk '{print $11}' > ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt
+
 
 ###########################################################
 #########后面的所有内容请不要修改###########################
 #########后面的所有内容请不要修改###########################
 #########后面的所有内容请不要修改###########################
 ###########################################################
+
+# 判断本次执行是否正确使用Ascend NPU
+use_npu_flag=`grep "The model has been compiled on the Ascend AI processor" ${print_log} | wc -l`
+if [ x"${use_npu_flag}" == x0 ];
+then
+    echo "------------------ ERROR NOTICE START ------------------"
+    echo "ERROR, your task haven't used Ascend NPU, please check your npu Migration."
+    echo "------------------ ERROR NOTICE END------------------"
+else
+    echo "------------------ INFO NOTICE START------------------"
+    echo "INFO, your task have used Ascend NPU, please check your result."
+    echo "------------------ INFO NOTICE END------------------"
+fi
 
 # 获取最终的casename，请保留，case文件名为${CaseName}
 get_casename
@@ -142,7 +179,7 @@ echo "E2E Training Duration sec : $e2e_time"
 echo "Final Train Accuracy : ${train_accuracy}"
 
 # 最后一个迭代loss值，不需要修改
-ActualLoss=(`awk 'END {print $NF}' ./test/output/${ASCEND_DEVICE_ID}/my_output_loss.txt`)
+ActualLoss=(`awk 'END {print $NF}' $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}_loss.txt`)
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
