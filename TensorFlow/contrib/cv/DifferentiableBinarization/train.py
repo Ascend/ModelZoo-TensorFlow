@@ -4,12 +4,10 @@ import os.path as osp
 from keras import callbacks
 from keras import optimizers
 from keras.utils import get_file
-from tensorflow.python.keras import backend as K
 import os
 from generator import generate
 from model import dbnet
 import argparse
-import tensorflow as tf
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--train_generator", default='./datasets/total_text', type=str)
@@ -36,7 +34,7 @@ resnet_filepath = get_file(resnet_filename, resnet_resource, cache_subdir='model
                            md5_hash='3e9f4e4f77bbe2c9bec13b53ee1c2319')
 model.load_weights(resnet_filepath, by_name=True, skip_mismatch=True)
 model.compile(optimizer=optimizers.Adam(lr=1e-3), loss={'db_loss': lambda y_true, y_pred: y_pred})
-checkpoint =callbacks.ModelCheckpoint(
+checkpoint = callbacks.ModelCheckpoint(
     osp.join(checkpoints_dir, 'db_{epoch:02d}_{loss:.4f}_{val_loss:.4f}.h5'),
     verbose=1,
     mode="min",
