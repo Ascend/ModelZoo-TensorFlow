@@ -63,7 +63,7 @@ class Transformer:
     '''
     def __init__(self, hp):
         self.hp = hp
-        self.token2idx, self.idx2token = load_vocab(hp.data_url+hp.vocab)
+        self.token2idx, self.idx2token = load_vocab(hp.vocab)
         self.embeddings = get_token_embeddings(self.hp.vocab_size, self.hp.d_model, zero_pad=True)
 
     def encode(self, xs, training=True):
@@ -80,8 +80,6 @@ class Transformer:
             enc *= self.hp.d_model**0.5 # scale
 
             enc += positional_encoding(enc, self.hp.maxlen1)
-            #enc = tf.layers.dropout(enc, self.hp.dropout_rate, training=training)
-            #enc = npu_convert_dropout(enc, self.hp.dropout_rate, training=training)
 
             ## Blocks
             for i in range(self.hp.num_blocks):
@@ -122,8 +120,6 @@ class Transformer:
             dec *= self.hp.d_model ** 0.5  # scale
 
             dec += positional_encoding(dec, self.hp.maxlen2)
-            #dec = tf.layers.dropout(dec, self.hp.dropout_rate, training=training)
-            #dec = npu_convert_dropout(dec, self.hp.dropout_rate, training=training)
 
             # Blocks
             for i in range(self.hp.num_blocks):
@@ -191,25 +187,6 @@ class Transformer:
         #
         train_op= train_op.minimize(loss, global_step=global_step)
 
-
-        # self.refine_optim = tf.train.AdamOptimizer(learning_rate=self.refine_lr).minimize(self.rec_loss,
-        #                                                                                   var_list=refine_var)
-        # ####
-        # self.refine_optim = tf.train.AdamOptimizer(learning_rate=self.refine_lr)
-        #
-        # loss_scale_opt = self.refine_optim
-        # loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=2 ** 32, incr_every_n_steps=1000,
-        #                                                        decr_every_n_nan_or_inf=2, decr_ratio=0.5)
-        # self.refine_optim = NPULossScaleOptimizer(loss_scale_opt, loss_scale_manager)
-        #
-        # self.refine_optim = self.refine_optim.minimize(self.rec_loss, var_list=refine_var)
-
-        # tf.summary.scalar('lr', lr)
-        # tf.summary.scalar("loss", loss)
-        # tf.summary.scalar("global_step", global_step)
-        #
-        # summaries = tf.summary.merge_all()
-
         return loss, train_op, global_step
 
         #return loss, train_op, global_step
@@ -235,16 +212,4 @@ class Transformer:
             _decoder_inputs = tf.concat((decoder_inputs, y_hat), 1)
             ys = (_decoder_inputs, y, y_seqlen, sents2)
 
-        # monitor a random sample
-        #n = tf.random_uniform((), 0, tf.shape(y_hat)[0]-1, tf.int32)
-        # sent1 = sents1[n]
-        # pred = convert_idx_to_token_tensor(y_hat[n], self.idx2token)
-        # sent2 = sents2[n]
-
-        # tf.summary.text("sent1", sent1)
-        # tf.summary.text("pred", pred)
-        # tf.summary.text("sent2", sent2)
-        # summaries = tf.summary.merge_all()
-
         return y_hat
-
