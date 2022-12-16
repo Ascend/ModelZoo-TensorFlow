@@ -189,7 +189,7 @@ def load_json_dataset(json_file_pattern, processor, max_records=None, shuffle_si
     if premap_func is not None:
         ds = premap_func(ds)
         
-    ds = ds.map(processor.process_json, num_parallel_calls=64)
+    ds = ds.map(processor.process_json, num_parallel_calls=32)
     return ds
 
     
