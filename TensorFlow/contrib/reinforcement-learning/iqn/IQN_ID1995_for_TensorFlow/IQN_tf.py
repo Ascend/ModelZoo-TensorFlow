@@ -410,6 +410,7 @@ def train(epsilon, model, restart_step=0):
                   '| Loss: ', loss,
                   '| return: ', mean_100_ep_return,
                   '| Time:', time_interval,
+                  '| FPS:', args.batch_size / (time.time()-start_time) * step,
                   '| max_r:', max(result))
             # save model
             #if step % (SAVE_FREQ * 10) == 0:
