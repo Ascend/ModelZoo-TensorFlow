@@ -28,6 +28,8 @@
 
 
 import npu_device as npu
+npu_device.global_options().op_compiler_cache_mode="enable"
+npu_device.global_options().op_compiler_cache_dir="/mnt/home/test_user08/UltraFast_NPU/my_kernel_cache"
 npu.open().as_default()
 
 import tensorflow as tf
