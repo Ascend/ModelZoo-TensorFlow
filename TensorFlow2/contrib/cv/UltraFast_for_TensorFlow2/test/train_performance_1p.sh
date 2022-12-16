@@ -114,13 +114,13 @@ batch_size=16
 if [ x"${modelarts_flag}" != x ];
 then
     python3.7 ./train_ultrafast.py \
-        --data-path=${data_path}/data/llamas \
+        --data_path=${data_path}/data/llamas \
         --output_path=${output_path} \
         --epochs=${train_epochs} \
         --batch_size=${batch_size} 1>${print_log} 2>&1
 else
     python3.7 ./train_ultrafast.py \
-        --data-path=${data_path}/data/llamas \
+        --data_path=${data_path}/data/llamas \
         --output_path=${output_path} \
         --epochs=${train_epochs} \
         --batch_size=${batch_size} 1>${print_log} 2>&1
