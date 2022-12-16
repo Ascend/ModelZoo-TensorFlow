@@ -28,8 +28,8 @@
 
 
 import npu_device as npu
-npu_device.global_options().op_compiler_cache_mode="enable"
-npu_device.global_options().op_compiler_cache_dir="/mnt/home/test_user08/UltraFast_NPU/my_kernel_cache"
+npu.global_options().op_compiler_cache_mode="enable"
+npu.global_options().op_compiler_cache_dir="/mnt/home/test_user08/UltraFast_NPU/my_kernel_cache"
 npu.open().as_default()
 
 import tensorflow as tf
@@ -45,15 +45,15 @@ from utils.datasets import llamas_dataset, labelme_dataset
 
 parser = argparse.ArgumentParser(description='Train Ultrafast Net')
 parser.add_argument('--epochs', type=int, default=1)
-parser.add_argument('--batch-size', type=int, default=16)
-parser.add_argument('--max-images', type=int, default=None)
-parser.add_argument('--prefetch-size', type=int, default=256)
-parser.add_argument('--resnet-weights', default=None)
-parser.add_argument('--base-path', default='')
-parser.add_argument('--llamas-path', '--data-path', default='./data/llamas/')
-parser.add_argument('--labelme-path', default=[], action='append')
-parser.add_argument('--output-path', default='./')
-parser.add_argument('--model-name', default='ultrafast')
+parser.add_argument('--batch_size', type=int, default=16)
+parser.add_argument('--max_images', type=int, default=None)
+parser.add_argument('--prefetch_size', type=int, default=256)
+parser.add_argument('--resnet_weights', default=None)
+parser.add_argument('--base_path', default='')
+parser.add_argument('--llamas_path', '--data_path', default='./data/llamas/')
+parser.add_argument('--labelme_path', default=[], action='append')
+parser.add_argument('--output_path', default='./')
+parser.add_argument('--model_name', default='ultrafast')
 
 args = parser.parse_args()
 print(args)
