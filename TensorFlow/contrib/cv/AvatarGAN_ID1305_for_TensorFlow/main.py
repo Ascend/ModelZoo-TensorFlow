@@ -129,7 +129,7 @@ def main(_):
     custom_op.name = "NpuOptimizer"
 
     #profiling 开关
-    custom_op.parameter_map["profiling_mode"].b = True
+    custom_op.parameter_map["profiling_mode"].b = False
     # custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes(
     #     '{"output":"/mypath/output","task_trace":"on","training_trace":"on","aicpu":"on","fp_point":"","bp_point":""}')
     custom_op.parameter_map["profiling_options"].s = tf.compat.as_bytes(
