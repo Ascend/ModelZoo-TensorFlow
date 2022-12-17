@@ -35,7 +35,7 @@ Download the dataset by yourself, more details see: [data](./data/REC/README.md)
 
 ### 3. Obtain the fine-tuned checkpoint files or pb model
 
-Obtain the fine-tuned checkpoint files or pb model, more details see: [ckpt](./save/ckpt/README.md) or [models](./save/model/README.md)
+[pb download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/GRU_for_ACL/GRU4Rec_full.pb)
 
 ### 4. Build the program
 Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.md)
