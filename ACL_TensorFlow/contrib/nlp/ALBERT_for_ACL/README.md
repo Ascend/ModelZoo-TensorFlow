@@ -38,7 +38,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/ALBERT_for_ACL
 
 ### 3. 获取训练好的checkpoint文件，或者pb模型。
 
-获取训练好的checkpoint文件，或者pb模型, 更多详情见: [ckpt](./save/ckpt/README.md) or [models](./save/model/README.md)
+[pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/ALBERT_SQuAD1_for_ACL/ALBERT_EN_BASE_SQuAD1.1_BatchSize_None.pb)
 
 ### 4. 编译程序
 编译推理工具, 更多详情见: [xacl_fmk](./xacl_fmk/README.md)
