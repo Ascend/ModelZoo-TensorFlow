@@ -37,7 +37,13 @@ Download the vocab.txt and bert_config.json by yourself, more details see: [conf
 
 ### 3. Obtain the fine-tuned checkpoint files or pb model
 
-Obtain the fine-tuned checkpoint files or pb model, more details see: [ckpt](./save/ckpt/README.md) or [models](./save/model/README.md)
+[BERT_BASE_MNLI:] [pb download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_BASE_MNLI_for_ACL/BERT_Base_MNLI_BatchSize_None.pb)
+
+[BERT_BASE_NER:] [pb download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_BASE_NER/BERT_Base_NER_BatchSize_None.pb)
+
+[BERT_BASE_SQuAD:] [pb download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_BASE_SQuAD/BERT_Base_SQuAD1_1_BatchSize_None.pb)
+
+[BERT_LARGE_MNLI:] [pb download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_LARGE_MNLI_for_ACL/BERT_Large_MNLI_BatchSize_None.pb)
 
 ### 4. Build the program
 Build the inference application, more details see: [xacl_fmk](./xacl_fmk/README.md)

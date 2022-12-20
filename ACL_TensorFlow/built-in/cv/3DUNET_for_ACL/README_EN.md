@@ -49,7 +49,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/cv/3DUNET_for_Tensorflow
 
   Please follow the [guide](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/02.%E7%A6%BB%E7%BA%BF%E6%8E%A8%E7%90%86%E6%A1%88%E4%BE%8B/Ascend%E5%B9%B3%E5%8F%B0%E6%8E%A8%E7%90%86%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE?sort_id=6458719) to set the envs
 
-
+[pb download link](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/3DUNET_TF_for_ACL/unet3d.pb)
 - convert pb to om(Ascend310P3)  
   ```
   atc --model=model/unet3d.pb --framework=3 --output=model/unet3d_1batch --soc_version=Ascend310P3 --input_shape=input:1,224,224,160,4 --enable_small_channel=1

@@ -36,7 +36,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/RoBERTa_for_ACL
 
 ### 3. 获取微调的检查点文件或pb模型
 
-获取微调的检查点文件或pb模型, 更多详细信息请参见: [ckpt](./save/ckpt/README.md) or [models](./save/model/README.md)
+[pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/ROEBERTA_for_ACL/ROBERTA_LARGE_LCQMC_BatchSize_None.pb)
 
 ### 4. 编译程序
 编译推理应用程序, 更多详细信息请参见: [xacl_fmk](./xacl_fmk/README.md)
