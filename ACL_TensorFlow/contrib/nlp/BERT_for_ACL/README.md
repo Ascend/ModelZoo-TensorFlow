@@ -38,10 +38,10 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/BERT_for_ACL
 
 ### 3. 获取训练好的checkpoint文件或者pb模型
 
-3.1 [BERT_BASE_MNLI][pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_BASE_MNLI_for_ACL/BERT_Base_MNLI_BatchSize_None.pb)
-3.2 [BERT_BASE_NER][pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_BASE_NER/BERT_Base_NER_BatchSize_None.pb)
-3.3 [BERT_BASE_SQuAD][pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_BASE_SQuAD/BERT_Base_SQuAD1_1_BatchSize_None.pb)
-3.4 [BERT_LARGE_MNLI][pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_LARGE_MNLI_for_ACL/BERT_Large_MNLI_BatchSize_None.pb)
+3.1 [BERT_BASE_MNLI:][pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_BASE_MNLI_for_ACL/BERT_Base_MNLI_BatchSize_None.pb)
+3.2 [BERT_BASE_NER:][pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_BASE_NER/BERT_Base_NER_BatchSize_None.pb)
+3.3 [BERT_BASE_SQuAD:][pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_BASE_SQuAD/BERT_Base_SQuAD1_1_BatchSize_None.pb)
+3.4 [BERT_LARGE_MNLI:][pb模型下载链接](https://ascend-repo-modelzoo.obs.cn-east-2.myhuaweicloud.com/model/2022-12-12_tf/BERT_LARGE_MNLI_for_ACL/BERT_Large_MNLI_BatchSize_None.pb)
 
 ### 4. 编译程序
 编译推理工具, 更多详情见: [xacl_fmk](./xacl_fmk/README.md)
