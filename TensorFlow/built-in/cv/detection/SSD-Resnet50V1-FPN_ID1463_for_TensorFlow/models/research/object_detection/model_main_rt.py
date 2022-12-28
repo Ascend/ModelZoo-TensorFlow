@@ -152,7 +152,10 @@ def main(unused_argv):
         ##################################NPU_modify end###################################
         eval_hooks = []
         for x in range(FLAGS.eval_count):
+            start = time.time()
             estimator.train(train_input_fn, hooks=npu_hooks_append(hooks_list=train_hooks), steps=(train_steps // FLAGS.eval_count))
+            estimator_time = time.time() - start
+            print("step/s: {:g}".format(estimator_time))
             if (get_npu_rank_id() == 0):
                 eval_input_fn = eval_input_fns[0]
                 #eval阻塞，临时规避
