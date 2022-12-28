@@ -86,6 +86,8 @@ class DLLoggerHook(tf.estimator.SessionRunHook):
     def after_run(self, run_context, run_values):
         throughput = (self.global_batch_size / (time.time() - self.t0))
         (global_step, lr) = run_values.results
+        if global_step <= 5:
+            print("global step: {}, step/s: {}".format(global_step, (time.time() - self.t0)))
         self.meters['train_throughput'].update(throughput)
 
     def end(self, session):
@@ -152,10 +154,7 @@ def main(unused_argv):
         ##################################NPU_modify end###################################
         eval_hooks = []
         for x in range(FLAGS.eval_count):
-            start = time.time()
             estimator.train(train_input_fn, hooks=npu_hooks_append(hooks_list=train_hooks), steps=(train_steps // FLAGS.eval_count))
-            estimator_time = time.time() - start
-            print("step/s: {:g}".format(estimator_time))
             if (get_npu_rank_id() == 0):
                 eval_input_fn = eval_input_fns[0]
                 #eval阻塞，临时规避
