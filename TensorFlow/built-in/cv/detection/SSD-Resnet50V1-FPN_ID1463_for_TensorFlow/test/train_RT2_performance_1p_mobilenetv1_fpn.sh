@@ -143,6 +143,9 @@ FPS=`grep -a 'INFO:tensorflow:global_step/sec: ' $cur_path/output/$ASCEND_DEVICE
 
 FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${FPS}'}'`
 echo "Final Performance images/sec : $FPS"
+
+#输出CompileTime
+CompileTime=`grep "step/s:" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |head -n 2|awk '{sum+=$5} END {print sum}'`
 ################################精度结果处理#########################
 #精度计算，需要根据网络修改
 cp -r ${ckpt_path} $cur_path/output/$ASCEND_DEVICE_ID
@@ -171,4 +174,5 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseNa
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
+echo "CompileTime = ${CompileTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 conda deactivate

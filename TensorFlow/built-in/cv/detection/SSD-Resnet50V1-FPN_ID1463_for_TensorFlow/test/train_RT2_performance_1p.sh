@@ -143,7 +143,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${FPS}'}'`
 echo "Final Performance images/sec : $FPS"
 
 #输出CompileTime
-CompileTime=`grep "step/s" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |awk '{print$2}'`
+CompileTime=`grep "step/s:" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |head -n 2|awk '{sum+=$5} END {print sum}'`
 ################################精度结果处理#########################
 #精度计算，需要根据网络修改
 train_accuracy=`grep Precision $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|grep Average |awk 'NR==1 {print $13}'`
