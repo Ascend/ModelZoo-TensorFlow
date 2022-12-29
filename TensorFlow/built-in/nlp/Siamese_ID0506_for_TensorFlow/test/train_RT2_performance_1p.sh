@@ -87,6 +87,8 @@ train_accuracy=`grep "TRAIN " $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASC
 #打印，不需要修改
 #echo "Final Train Accuracy : ${train_accuracy}"
 
+#输出CompileTime
+CompileTime=`grep "time(ms)" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |head -n 1|awk '{print $6/1000}'`
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
@@ -117,3 +119,4 @@ echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CompileTime = ${CompileTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log

@@ -125,6 +125,8 @@ FPS=`awk 'BEGIN{printf "%.2f\n", 1 /'${Time}'*1000000}'`
 #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
 
+#输出CompileTime
+CompileTime=`cat $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|tr -d '\b\r'|grep -Eo "[0-9]*ms/sample"|awk -F "ms/sample" '{print $1}'|awk '{sum+=$1} END {print"",sum/1000}'|awk '{print $1}'`
 
 # #输出训练精度,需要模型审视修改
 train_accuracy=`grep "test marital AUC" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $4}'`
@@ -162,4 +164,5 @@ echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/$
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CompileTime = ${CompileTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 

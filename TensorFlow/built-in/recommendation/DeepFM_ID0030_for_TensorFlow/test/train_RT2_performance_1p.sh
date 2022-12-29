@@ -147,6 +147,9 @@ ActualFPS=`grep "fps" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE
 temp1=`echo "1000 * ${batch_size}"|bc`
 TrainingTime=`echo "scale=2;${temp1} / ${ActualFPS}"|bc`
 
+#输出CompileTime
+CompileTime=`grep "elapsed" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |head -n 1|awk '{print $19}' | awk -F "," '{print $1}'`
+
 ActualLoss=`grep "loss" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk 'END {print $9}' |tr -d ,`
 
 #关键信息打印到${CaseName}.log中，不需要修改
@@ -159,4 +162,5 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CompileTime = ${CompileTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 sed -i -e '/ModuleNotFoundError/d' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log

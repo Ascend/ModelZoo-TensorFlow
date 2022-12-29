@@ -172,6 +172,9 @@ FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${step_per_s}'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
+#输出CompileTime
+CompileTime=`grep 'train duration:' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |head -n 1|awk '{print $(NF)}'`
+
 #输出训练精度,需要模型审视修改
 train_accuracy=`grep 'INFO:tensorflow.*Validation accuracy' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $6}'|awk -F % 'END {print $1}'`
 train_accuracy=`awk 'BEGIN{printf "%.4f\n",'${train_accuracy}'/100}'`
@@ -208,3 +211,4 @@ echo "TrainingTime = ${TrainingTime}"     >> $cur_path/output/$ASCEND_DEVICE_ID/
 echo "ActualLoss = ${ActualLoss}"         >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}"      >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${train_accuracy}"  >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CompileTime = ${CompileTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
