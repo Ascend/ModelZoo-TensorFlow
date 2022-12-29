@@ -105,7 +105,7 @@ def train(train_dir=None, val_dir=None, mode='train'):
 
             # the training part
             for cur_batch in range(num_batches_per_epoch):
-                if (cur_batch + 1) % 100 == 0:
+                if (cur_batch + 1) % 100 == 0 or cur_batch <= 5:
                     print('batch', cur_batch, ': time', time.time() - batch_time)
                 batch_time = time.time()
                 indexs = [shuffle_idx[i % num_train_samples] for i in
