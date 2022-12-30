@@ -179,24 +179,24 @@ echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${Case
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
 
 #eval版本需求开发中，精度结果临时看护最终的loss
-echo "Final Training Accuracy loss: $ActualLoss"
+#echo "Final Training Accuracy loss: $ActualLoss"
 
 ##获取错误信息
 #系统错误消息
 #error_msg="CanonicalizeShape failed, node:Postprocessor/BatchMultiClassNonMaxSuppression/MultiClassNonMaxSuppression/non_max_suppression/NonMaxSuppressionV3"
-error_msg="9999: Inner Error"
+#error_msg="9999: Inner Error"
 
 #判断错误信息是否和历史版本一致
-Status=`grep "${error_msg}" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
+#Status=`grep "${error_msg}" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | wc -l`
 
 #失败阶段
-ModelStatus="图执行FAIL"
+#ModelStatus="图执行FAIL"
 
 #DTS单号
 #DTS_Number="DTS202105130LVO7FP0J00,DTS202105130O6E1SP1400"
-DTS_Number="DTS202105200RLRJ1P1300"
+#DTS_Number="DTS202105200RLRJ1P1300"
 
-echo "ModelStatus = ${ModelStatus}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "DTS_Number = ${DTS_Number}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "Status = ${Status}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
-echo "error_msg = ${error_msg}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
+#echo "ModelStatus = ${ModelStatus}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
+#echo "DTS_Number = ${DTS_Number}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
+#echo "Status = ${Status}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
+#echo "error_msg = ${error_msg}" >> $cur_path/output/${ASCEND_DEVICE_ID}/${CaseName}.log
