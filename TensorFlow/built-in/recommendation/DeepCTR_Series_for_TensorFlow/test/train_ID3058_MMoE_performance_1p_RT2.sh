@@ -126,7 +126,7 @@ FPS=`awk 'BEGIN{printf "%.2f\n", 1 /'${Time}'*1000000}'`
 echo "Final Performance item/sec : $FPS"
 
 #输出CompileTime
-CompileTime=`cat $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|tr -d '\b\r'|grep -Eo "[0-9]*ms/sample"|awk -F "ms/sample" '{print $1}'|awk '{sum+=$1} END {print"",sum/1000}'|awk '{print $1}'`
+CompileTime=`grep '/sample' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| head -n 2| awk '{print $4}' | awk -F 's' '{sum+=$1} END {print sum}'`
 
 # #输出训练精度,需要模型审视修改
 train_accuracy=`grep "test marital AUC" ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk '{print $4}'`

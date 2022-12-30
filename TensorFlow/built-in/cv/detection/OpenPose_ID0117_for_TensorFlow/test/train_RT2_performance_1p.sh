@@ -169,6 +169,9 @@ FPS=`awk 'BEGIN {printf "%.2f\n", '1000'*'${batch_size}'/'${step_sec}'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
+#输出CompileTime
+CompileTime=`grep 's/step' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| head -n 2| awk '{print $4}' | awk -F 's' '{sum+=$1} END {print sum}'`
+
 #输出训练精度,需要模型审视修改
 train_accuracy=(`grep -r "/step" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F : 'END {print $3}' | awk '{print $1}'`)
 #打印，不需要修改
@@ -203,3 +206,4 @@ echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${Ca
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DynamicInput = ${dynamic_input}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CompileTime = ${CompileTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
