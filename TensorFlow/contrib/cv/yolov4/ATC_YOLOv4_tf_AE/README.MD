@@ -17,14 +17,14 @@ python3.7.5 -m tensorflow.python.tools.optimize_for_inference --input=yolov4.pb 
 
 原始模型网络下载地址 ：
 
-https://nkxiaolei88.obs.cn-north-1.myhuaweicloud.com/ATC%20Model/YoloV4/yolov4_no_postprocess.pb
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/nkxiaolei/YoloV4/yolov4_no_postprocess.pb
 
 
 ## om模型
 
 om模型下载地址：
 
-https://nkxiaolei88.obs.cn-north-1.myhuaweicloud.com/ATC%20Model/YoloV4/yolov4_no_postprocess.om
+https://obs-9be7.obs.cn-east-2.myhuaweicloud.com/003_Atc_Models/nkxiaolei/YoloV4/yolov4_no_postprocess.om
 
 使用ATC模型转换工具进行模型转换时可以参考如下指令:
 
