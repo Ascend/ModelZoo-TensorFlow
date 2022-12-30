@@ -158,7 +158,6 @@ class CGAN(object):
             perf_list=[]
             fps_list=[]
             RANK_SIZE = int(os.getenv('RANK_SIZE'))
-            rank_id = int(os.getenv('DEVICE_INDEX'))
             if int(RANK_SIZE) > 1:
                 rank_id = int(os.getenv('RANK_ID'))
                 input = tf.trainable_variables()
