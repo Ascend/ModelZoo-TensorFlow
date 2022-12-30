@@ -146,6 +146,9 @@ echo "------------------ Final result ------------------"
 TrainingTime=`grep "time=" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk 'END {print $14}'`
 ActualFPS=`echo "scale=2;${batch_size} / ${TrainingTime}"|bc`
 
+#输出CompileTime
+CompileTime=`grep 'time=' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log| head -n 2| awk '{sum+=$14} END {print sum}'`
+
 echo "E2E Training Duration sec : $e2e_time"
 
 #稳定性精度看护结果汇总
@@ -166,3 +169,4 @@ echo "ActualFPS = ${ActualFPS}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CompileTime = ${CompileTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
