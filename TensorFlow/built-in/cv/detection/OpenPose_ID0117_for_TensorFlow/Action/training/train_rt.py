@@ -186,6 +186,7 @@ model.add(Dense(units=4, activation='softmax'))  # units = nums of classes
 sess_config = tf.ConfigProto()
 custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
+custom_op.parameter_map["jit_compile"].b = True
 #custom_op.parameter_map["dynamic_input"].b = True
 #if args.dynamic_input == "lazy_recompile":
 #    custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
