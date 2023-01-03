@@ -158,6 +158,7 @@ def train():
     custom_op.name =  "NpuOptimizer"
     custom_op.parameter_map["use_off_line"].b = True # 必须显示开启，在昇腾AI处理器执行训练
     sess_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF  # 必须显示关闭remap
+    custom_op.parameter_map["jit_compile"].b = True
     #custom_op.parameter_map["dynamic_input"].b = True
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     #custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
