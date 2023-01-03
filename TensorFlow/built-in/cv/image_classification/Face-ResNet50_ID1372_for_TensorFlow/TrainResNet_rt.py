@@ -144,6 +144,7 @@ def Train(epochs=100):
     global_config = tf.ConfigProto()
     custom_op = global_config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["jit_compile"].b = True
     #custom_op.parameter_map["dynamic_input"].b = 1
     #custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
     global_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF

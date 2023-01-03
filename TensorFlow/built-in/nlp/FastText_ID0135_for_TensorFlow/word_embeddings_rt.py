@@ -261,6 +261,7 @@ def classification_model(args,embed_dim,X_train_pad,X_test_pad,y_train,y_test,vo
     sess_config = tf.ConfigProto()
     custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["jit_compile"].b = True
    # custom_op.parameter_map["dynamic_input"].b = True
    # custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)

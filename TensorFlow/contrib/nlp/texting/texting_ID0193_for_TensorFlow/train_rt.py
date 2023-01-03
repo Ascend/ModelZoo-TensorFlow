@@ -44,6 +44,7 @@ config = tf.ConfigProto()
 custom_op = config.graph_options.rewrite_options.custom_optimizers.add()
 custom_op.name = "NpuOptimizer"
 custom_op.parameter_map["use_off_line"].b = True
+custom_op.parameter_map["jit_compile"].b =True
 #custom_op.parameter_map["dynamic_input"].b =True
 #custom_op.parameter_map["dynamic_graph_execute_mode"].s = tf.compat.as_bytes("lazy_recompile")
 config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
