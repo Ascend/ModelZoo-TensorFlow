@@ -135,9 +135,6 @@ FPS=`grep  avg_examples_per_second $cur_path/output/$ASCEND_DEVICE_ID/train_$ASC
 #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
 
-#输出CompileTime
-CompileTime=`grep "perf:" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log |head -n 1|awk '{print $14}'`
-
 #输出训练精度,需要模型审视修改
 train_accuracy=`grep "train_accuracy" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F "train_accuracy:" 'END{print $2}' | awk -F ' ' '{print $1}'|sed s/[[:space:]]//g`
 #打印，不需要修改
@@ -173,5 +170,4 @@ echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/$
 echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "CompileTime = ${CompileTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 
