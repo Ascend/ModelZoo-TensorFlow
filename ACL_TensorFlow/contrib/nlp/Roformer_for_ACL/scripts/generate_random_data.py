@@ -26,8 +26,8 @@ def generate_random_data(file_path,image_num=32,batchsize=1):
     if not os.path.exists(sub_dir2):
             os.makedirs(sub_dir2)
     for i in range(image_num):
-        input_data1 = np.random.randn(batchsize,1024).astype(np.float32)
-        input_data2 = np.random.randn(batchsize,1024).astype(np.float32)
+        input_data1 = np.random.rand(batchsize,1024).astype(np.float32)
+        input_data2 = np.random.rand(batchsize,1024).astype(np.float32)
         input_data1.tofile(os.path.join(sub_dir1,str(i.__str__().zfill(6))+".bin"))
         input_data2.tofile(os.path.join(sub_dir2,str(i.__str__().zfill(6))+".bin"))
     print("num:%d random datas has been created under path:%s" %(image_num,file_path))
