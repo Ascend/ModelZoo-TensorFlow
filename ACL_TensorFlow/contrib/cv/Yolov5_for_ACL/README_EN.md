@@ -37,6 +37,8 @@ cd ..
 cd scripts
 python coco_convert.py --input ./coco/annotations/instances_val2017.json --output val2017.pkl
 python coco_annotation.py --coco_path ./coco 
+python img2bin.py --img-dir ./coco/images --bin-dir ./coco/input_bins
+mv coco ..
 ```
 There will generate coco2017 test data set under *data/dataset/*.
 
