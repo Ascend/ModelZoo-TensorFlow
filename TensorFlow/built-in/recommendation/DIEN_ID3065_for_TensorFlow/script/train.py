@@ -233,7 +233,7 @@ def train(
                 aux_loss_sum += aux_loss
                 iter += 1
                 sys.stdout.flush()
-                if (iter % test_iter) == 0:
+                if (iter % test_iter) == 0 or iter <= 5:
                     avg_examples_per_second = batch_size/(end_time - start_time)
                     print("avg_examples_per_second: ", avg_examples_per_second)
                     print('iter: %d ----> train_loss: %.4f ---- train_accuracy: %.4f ---- train_aux_loss: %.4f ---- perf: %.4f' % \
