@@ -92,7 +92,7 @@ class COCOevaluator:
             test_data, _, batch_image_id, scale, dw, dh = fetcher.process_annotations(annotations)
             pred_result = []
             for j in range(6):
-                output_data = np.fromfile(inference_path + '/davinci_' + str(k).zfill(6) + '_output' + str(j) + '.bin',
+                output_data = np.fromfile(inference_path + '/davinci_' + str(batch_image_id).zfill(12) + '_output' + str(j) + '.bin',
                                           dtype='float32')
                 pred_result.append(output_data)
             k += 1
