@@ -36,6 +36,8 @@ from helper_tool import ConfigS3DIS as cfg
 from helper_tool import DataProcessing as DP
 from helper_tool import Plot
 import tensorflow as tf
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
 import numpy as np
 import time, pickle, argparse, glob, os
 
