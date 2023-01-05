@@ -74,9 +74,9 @@ class TextCNNEstimator(NPUEstimator):
                     #     padding="VALID", name="convolution")  #  性能不好
 
                     e_shape = tf.shape(embedding)
-                    embedding_reshape = tf.reshape(embedding, [e_shape[0],e_shape[1],e_shape[2]//8,e_shape[3]*8])
+                    embedding_reshape = tf.reshape(embedding, [e_shape[0],e_shape[1],e_shape[2]//25,e_shape[3]*25])
                     c1,w,h,c2 = filter_shape
-                    W_reshape = tf.reshape(W, [int(c1),int(w//8), int(h*8), int(c2)])
+                    W_reshape = tf.reshape(W, [int(c1),int(w//25), int(h*25), int(c2)])
                     convolution = tf.nn.conv2d(
                         embedding_reshape, W_reshape, strides=[1, 1, 1, 1],
                         padding="VALID", name="convolution")
