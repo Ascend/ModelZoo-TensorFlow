@@ -128,7 +128,7 @@ sed -i "s|break|pass|g" train.py
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 # #输出性能FPS，需要模型审视修改
-FPS=`grep  avg_examples_per_second $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F ":" '{print $2}' |sed s/[[:space:]]//g | tail -n +1 | awk '{sum+=$1} END {print sum/NR}'`
+FPS=`grep  avg_examples_per_second $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F ":" '{print $2}' |sed s/[[:space:]]//g | tail -n +6 | awk '{sum+=$1} END {print sum/NR}'`
 #打印，不需要修改
 echo "Final Performance item/sec : $FPS"
 
