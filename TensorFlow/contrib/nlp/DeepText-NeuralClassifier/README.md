@@ -11,7 +11,7 @@
 
 **版本（Version）：1.1**
 
-**修改时间（Modified） ：2022.12.21**
+**修改时间（Modified） ：2023.1.5**
 
 **框架（Framework）：TensorFlow 1.15.0**
 
@@ -158,11 +158,12 @@ precision: 0.839792, recall: 0.806885, f1: 0.823009,standard: 8192
 ### NPU/GPU 网络训练性能 
 | NPU  | GPU |
 |-------|------|
-| 110.49sec/epoch| 32.14sec/epoch|
+| 22ms/step| 23ms/step|
 ```
 其中GPU为v100
+训练过程中打印的是100个step的用时
 ```
 ## 综合评价
 NPU上训练后的精度与GPU基本一致。
-NPU在训练性能上与GPU还存在相当大差距。
+就每个step的用时来看，NPU的性能优于GPU。
 

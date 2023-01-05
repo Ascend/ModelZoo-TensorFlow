@@ -627,6 +627,7 @@ class DataProcessor(object):
         if mode != tf.estimator.ModeKeys.PREDICT:
             dataset = dataset.shuffle(
                 buffer_size=self.config.data.shuffle_buffer)
+        dataset = dataset.prefetch(buffer_size=640)
         dataset = dataset.repeat(num_epochs)
         dataset = dataset.batch(batch_size, drop_remainder=True)
         return dataset
