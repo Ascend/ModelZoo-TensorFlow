@@ -49,6 +49,8 @@ import pointfly as pf
 import tensorflow as tf
 from datetime import datetime
 import time
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
 
 
 
