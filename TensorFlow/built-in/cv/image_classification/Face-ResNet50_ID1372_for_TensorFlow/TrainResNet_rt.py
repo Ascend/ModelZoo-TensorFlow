@@ -229,8 +229,12 @@ def Train(epochs=100):
 
                 # Training and calculating cost
                 resnet_model.set_is_training(True)
+                minibatch_start = time.time()
                 temp_cost, _ = sess.run([cost, train], feed_dict={images: minibatch_X, labels: minibatch_Y})
                 minibatch_cost += np.sum(temp_cost)
+                minibath_time = time.time() - minibatch_start
+                if batch_index <= 5:
+                    print("minibatch time: {}".format(minibath_time))
 
                 # tensorboard
                 if(tensorboard_on) and (batch_index % TensorBoard_refresh == 0):
