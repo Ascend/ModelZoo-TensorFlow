@@ -74,6 +74,8 @@ FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${steps_per_s}'}'`
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
+#输出CompileTime
+CompileTime=`grep "minibatch time:" ${cur_path}/test/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |head -n 1|awk '{sum+=$3} END {print sum}'`
 
 #输出训练精度,需要模型审视修改
 train_accuracy="None"
@@ -115,3 +117,4 @@ echo "TrainingTime = ${TrainingTime}"       >> $cur_path/test/output/$ASCEND_DEV
 echo "TrainAccuracy = ${train_accuracy}"    >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}"           >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}"        >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CompileTime = ${CompileTime}"         >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
