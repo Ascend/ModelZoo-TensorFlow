@@ -13,7 +13,7 @@ RANK_ID_START=0
 export NPU_ENABLE_PERF=true
 # 数据集路径,保持为空,不需要修改
 data_path=""
-
+export HCCL_CONNECT_TIMEOUT=1800
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
 Network="BertLarge_ID0634_for_TensorFlow2.X"
