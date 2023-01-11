@@ -68,7 +68,8 @@ from npu_bridge.estimator.npu.npu_estimator import NPUEstimator
 from npu_bridge.estimator.npu.npu_optimizer import allreduce
 from npu_bridge.estimator.npu.npu_optimizer import NPUDistributedOptimizer
 from npu_bridge.hccl import hccl_ops
-
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
 
 
 CFG = global_config.cfg
