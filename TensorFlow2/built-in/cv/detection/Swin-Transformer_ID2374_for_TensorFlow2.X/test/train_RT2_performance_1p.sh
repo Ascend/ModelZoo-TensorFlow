@@ -130,6 +130,8 @@ echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
 TrainingTime=`grep "352/352" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk -F '352/352' '{print $2}'|grep -v 'ETA'|grep 'loss:'|awk 'END {print $4}'|cut -d 'm' -f -1`
 
+#输出CompileTime
+CompileTime=`grep 's/step' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| head -n 2| awk -F '-' '{print $2}' | awk '{print $1}' |awk -F 's' '{sum+=$1} END {print sum}'`
 
 #性能看护结果汇总
 #训练用例信息，不需要修改
@@ -161,3 +163,4 @@ echo "TrainingTime = ${TrainingTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2etime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "CompileTime = ${CompileTime}" >> $cur_path/test/output/$ASCEND_DEVICE_ID/${CaseName}.log
