@@ -8,7 +8,7 @@ fi
 
 run_script_file=$(readlink -f "$0")
 run_script_dir=$(dirname $run_script_file)
-root_dir=$(dirname run_script_dir)
+root_dir=$(dirname $run_script_dir)
 
 model_name=Yolov5
 # 已下参数请根据实际路径修改

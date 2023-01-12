@@ -66,21 +66,15 @@ python3 xnlp_fmk.py \
 
 **Convert pb to om**
 ```Bash
-python3 xnlp_fmk.py \
-    --output_dir=./save/model \
-    --vocab_file=./config/translate_ende_wmt32k/vocab.translate_ende_wmt32k.32768.subwords \
-    --pb_model_file=./save/model/TRANSFORMER_TRANSLATION_BatchSize_1.pb \
-    --om_model_file=./save/model/TRANSFORMER_TRANSLATION_BatchSize_1.om \
-    --predict_batch_size=1 \
-    --soc_version="Ascend310" \
-    --in_nodes="\"input:1,128\"" \
-    --out_nodes="\"transformer/strided_slice_11:0\"" \
-    --precision_mode="allow_mix_precision" \
-    --op_select_implmode="high_precision" \
-    --model_name=transformer \
-    --task_name=translation \
-    --action_type=atc
-
+atc
+    --framework 3 \
+    --soc_version "Ascend310" \
+    --model ./save/model/TRANSFORMER_TRANSLATION_BatchSize_1.pb \
+    --input_shape "input:1,128" \
+    --output ./save/model/TRANSFORMER_TRANSLATION_BatchSize_1 \
+    --out_nodes "transformer/strided_slice_11:0" \
+    --op_select_implmode "high_precision" \
+    --precision_mode "allow_mix_precision"
 ```
 
 **Run the inference**
