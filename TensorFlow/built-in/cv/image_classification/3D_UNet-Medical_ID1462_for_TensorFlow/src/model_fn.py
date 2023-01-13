@@ -37,9 +37,25 @@ from __future__ import print_function
 from npu_bridge.npu_init import *
 
 import tensorflow as tf
+import time
 
 from src.network import unet_3d_network
 
+
+class BenchmarkLoggingHook(tf.train.SessionRunHook):
+
+    def __init__(self):
+        self.current_step = 0
+        self.t0 = None
+
+    def before_run(self, run_context):
+        self.t0 = time.time()
+
+    def after_run(self, run_context, run_values):
+        batch_time = time.time() - self.t0
+        if self.current_step <= 5:
+            tf.logging.info(f"################ ... current_step = {self.current_step}, batch_time = {batch_time}")
+        self.current_step += 1
 
 def model_fn(features, labels, mode, params):
     """
@@ -159,4 +175,4 @@ def model_fn(features, labels, mode, params):
             train_op = optimizer.minimize(loss, global_step=global_step)
     else:
         train_op = optimizer.minimize(loss, global_step=global_step)
-    return tf.estimator.EstimatorSpec(mode, loss=loss, train_op=train_op)
+    return tf.estimator.EstimatorSpec(mode, loss=loss, train_op=train_op, training_hooks=[BenchmarkLoggingHook()])

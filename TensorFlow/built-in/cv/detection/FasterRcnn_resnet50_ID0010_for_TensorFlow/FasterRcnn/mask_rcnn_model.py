@@ -60,6 +60,7 @@ import roi_ops
 import spatial_transform_ops
 import training_ops
 import sys
+import time
 #sys.path.append('tpu/models/official/mnasnet')
 #import mnasnet_models
 from npu_bridge.estimator.npu.npu_optimizer import NPUDistributedOptimizer
@@ -768,6 +769,9 @@ def _model_fn(features, labels, mode, params, variable_filter_fn=None):
   )
 
   class LoadPretrainBackboneHook(tf.train.SessionRunHook):
+    def __init__(self):
+        self.t0 = None
+
     def begin(self):
       tf.logging.info("################ LoadPretrainBackboneHook.begin")
       self.saver_backbone = tf.train.Saver(tf.global_variables(scope=params['backbone']))
@@ -789,6 +793,13 @@ def _model_fn(features, labels, mode, params, variable_filter_fn=None):
       tf.logging.info(f"################ ... latest_ckpt : {latest_ckpt}")
       self.saver_backbone.restore(session, latest_ckpt)
       tf.logging.info(f"################ ... DONE loading backbone checkpoint.")
+
+    def before_run(self, run_context):
+        self.t0 = time.time()
+
+    def after_run(self, run_context, run_values):
+        batch_time = time.time() - self.t0
+        tf.logging.info(f"################ ... batch_time = {batch_time}")
 
   return tf.estimator.EstimatorSpec(
       mode=mode, loss=total_loss, train_op=train_op, 
