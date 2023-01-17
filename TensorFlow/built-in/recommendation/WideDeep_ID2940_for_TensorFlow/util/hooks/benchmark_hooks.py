@@ -40,6 +40,8 @@ class BenchmarkLoggingHook(tf.train.SessionRunHook):
     def after_run(self, run_context, run_values):
         batch_time = time.time() - self.t0
         samplesps = self.global_batch_size / batch_time
+        if self.current_step <= 5:
+            dllogger.log(data={"step/s": batch_time}, step=(0, self.current_step))
         if self.current_step >= self.warmup_steps:
             self.mean_throughput.consume(samplesps)
             dllogger.log(data={"samplesps": samplesps}, step=(0, self.current_step))

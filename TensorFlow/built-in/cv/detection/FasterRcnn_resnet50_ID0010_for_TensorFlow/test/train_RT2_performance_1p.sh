@@ -152,6 +152,9 @@ for pid in "${pids[@]}"; do
   FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${FPS}'}'`
   echo "Final Performance images/sec : $FPS"
 
+  #输出CompileTime
+  CompileTime=`grep 'batch_time' $log_file|head -n 2|awk '{sum+=$5} END {print sum}'`
+
   ############################## 精度结果处理 ##############################
   #精度计算，需要根据网络修改
   train_accuracy=`grep "Average Precision" $log_file | awk 'NR==1 {print $NF}'`
@@ -181,6 +184,7 @@ for pid in "${pids[@]}"; do
   echo "TrainingTime = ${TrainingTime}" >> $output_dir/$RANK_ID/${CaseName}.log
   echo "ActualLoss = ${ActualLoss}" >> $output_dir/$RANK_ID/${CaseName}.log
   echo "E2ETrainingTime = ${e2e_time}" >> $output_dir/$RANK_ID/${CaseName}.log
+  echo "CompileTime = ${CompileTime}" >> $output_dir/$RANK_ID/${CaseName}.log
   if [ $train_accuracy ]; then
     echo "TrainAccuracy = ${train_accuracy}" >> $output_dir/$RANK_ID/${CaseName}.log
   fi
