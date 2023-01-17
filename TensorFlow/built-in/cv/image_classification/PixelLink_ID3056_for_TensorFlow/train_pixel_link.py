@@ -50,6 +50,9 @@ import time
 slim = tf.contrib.slim
 import config
 
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
+
 # =========================================================================== #
 # Checkpoint and running Flags
 # =========================================================================== #
