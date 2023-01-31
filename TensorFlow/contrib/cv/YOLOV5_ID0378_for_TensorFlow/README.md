@@ -134,15 +134,13 @@
 <h2 id="快速上手.md">快速上手</h2>
 
 - 数据集准备
-1. 模型训练使用VOC2007+2012数据集，数据集obs链接如下：
+1. 模型训练使用VOC2007+2012数据集（参考文献https://github.com/bubbliiiing/yolov5-keras）
+
+2. 根据文献里面的readme自行下载数据集（https://pan.baidu.com/s/19Mw2u_df_nBzsC2lg20fQA，提取码: j5ge）
     
-    obs://yolov5-id0378/dataset/
 ## 模型训练<a name="section715881518135"></a>
 
-- 源码obs链接如下：
-    obs://yolov5-id0378/npu/
-
-    解压得到VOCdevkit
+1.解压下载需要的数据集
 
 2.数据集需要生成对应的txt文件存储位置信息
 
