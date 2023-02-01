@@ -27,7 +27,7 @@ display_step=10
 
 #维持参数，以下不需要修改
 over_dump=False
-
+precision_mode="allow_mix_precision"
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
@@ -104,7 +104,11 @@ cp configs/config.py configs/config.py.run
 cd $cur_path/../
 
 start=$(date +%s)
-nohup python3 train.py --data_path=$data_path --ckpt_path=$cur_path/output/$ASCEND_DEVICE_ID/ckpt > $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+nohup python3 train.py --data_path=$data_path  \
+                       --ckpt_path=$cur_path/output/$ASCEND_DEVICE_ID/ckpt \
+                       --train_size=$train_size \
+                       --precision_mode=$precision_mode \
+                       --display_step=$display_step > $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 wait
 end=$(date +%s)
 e2e_time=$(( $end - $start ))
