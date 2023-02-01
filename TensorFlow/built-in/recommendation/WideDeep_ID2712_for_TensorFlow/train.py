@@ -293,8 +293,6 @@ def parse_args():
 
 
 if __name__ == '__main__':
-    print("******************************")
-    print("args.precision_mode= ", args.precision_mode)
     display_step = config.display_step
     #os.environ["TF_ENABLE_AUTO_MIXED_PRECISION_GRAPH_REWRITE"] = "1"
 
@@ -320,7 +318,8 @@ if __name__ == '__main__':
     sess_config.gpu_options.allow_growth = True
 
     args = parse_args()
-   
+    print("******************************")
+    print("args.precision_mode= ", args.precision_mode)
     #""" 
     # for npu
     custom_op = sess_config.graph_options.rewrite_options.custom_optimizers.add()
@@ -346,6 +345,8 @@ if __name__ == '__main__':
     custom_op.parameter_map["iterations_per_loop"].i = config.iterations_per_loop
     if args.precision_mode == "allow_mix_precision":
         custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("ops_info.json")
+    print("******************************")
+    print("args.precision_mode= ", args.precision_mode)
     custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("ops_info.json")
     custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("fusion_switch.cfg")
     #aic err debug
