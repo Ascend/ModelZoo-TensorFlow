@@ -148,7 +148,7 @@ temp1=`echo "1000 * ${batch_size}"|bc`
 TrainingTime=`echo "scale=2;${temp1} / ${ActualFPS}"|bc`
 
 #输出CompileTime
-CompileTime=`grep "elapsed" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |head -n 1|awk '{print $19}' | awk -F "," '{print $1}'`
+CompileTime=`grep "elapsed" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log |head -n 1|awk '{print $19}' | awk -F "," '{print $1/1000}'`
 
 ActualLoss=`grep "loss" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk 'END {print $9}' |tr -d ,`
 
