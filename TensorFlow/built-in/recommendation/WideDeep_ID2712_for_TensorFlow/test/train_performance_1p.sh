@@ -94,7 +94,6 @@ sed -i "s%59761827%${train_size}%p" configs/config.py
 sed -i "s%display_step = 100%display_step = $display_step%p" configs/config.py
 #echo `cat configs/config.py |uniq > configs/config.py; cp -f configs/config.py configs/config.py.run`
 cp configs/config.py configs/config.py.run
-echo "precision_mode: $precision_mode"
 #训练执行
 start=$(date +%s)
 nohup python3 train.py --data_path=$data_path \
