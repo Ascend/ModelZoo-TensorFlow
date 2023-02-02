@@ -28,7 +28,7 @@ display_step=10
 
 #维持参数，以下不需要修改
 over_dump=False
-
+precision_mode="allow_mix_precision"
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
     echo"usage:./train_performance_1p.sh <args>"
@@ -94,10 +94,13 @@ sed -i "s%59761827%${train_size}%p" configs/config.py
 sed -i "s%display_step = 100%display_step = $display_step%p" configs/config.py
 #echo `cat configs/config.py |uniq > configs/config.py; cp -f configs/config.py configs/config.py.run`
 cp configs/config.py configs/config.py.run
-
 #训练执行
 start=$(date +%s)
-nohup python3 train.py --data_path=$data_path --ckpt_path=$cur_path/output/$ASCEND_DEVICE_ID/ckpt --train_size =$train_size --display_step=$display_step > $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+nohup python3 train.py --data_path=$data_path \
+	               --ckpt_path=$cur_path/output/$ASCEND_DEVICE_ID/ckpt \
+		       --train_size=$train_size \
+		       --precision_mode=$precision_mode \
+		       --display_step=$display_step > $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 wait
 end=$(date +%s)
 e2e_time=$(( $end - $start ))
