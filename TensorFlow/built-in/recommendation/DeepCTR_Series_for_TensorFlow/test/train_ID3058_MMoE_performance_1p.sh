@@ -135,7 +135,7 @@ BatchSize=${batch_size}
 DeviceType=`uname -m`
 
 if [[ $precision_mode == "must_keep_origin_dtype" ]];then
-        CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'fp32'
+        CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'perf'
 else
 		CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 fi
