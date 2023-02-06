@@ -33,7 +33,8 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/BERT_for_ACL
 
 ### 2. 下载数据集和预处理
 
-请自行下载数据集, 更多详情见: data
+请自行下载数据集, 并放在data目录下(若目录不存在请在子项目根目录下自行创建),
+
 请自行下载vocab.txt and bert_config.json , 更多详情见: [config](./config/README.md)
 
 ### 3. 获取训练好的checkpoint文件或者pb模型

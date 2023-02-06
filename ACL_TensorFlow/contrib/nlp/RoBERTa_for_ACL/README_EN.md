@@ -32,7 +32,8 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/RoBERTa_for_ACL
 
 ### 2. Download and preprocess the dataset
 
-Download the dataset by yourself, more details see: [data](./data)
+Download the dataset and save it to the data directory. If the directory does not exist, create it in the root directory of the subproject.
+
 Download the vocab.txt and bert_config.json by yourself, more details see: [config](./config/README.md)
 
 ### 3. Obtain the fine-tuned checkpoint files or pb model

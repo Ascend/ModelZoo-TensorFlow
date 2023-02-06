@@ -31,7 +31,8 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/Transformer_for_ACL
 
 ### 2. Download and preprocess the dataset
 
-Download the dataset by yourself, more details see: [data](./data/WMT32K/README.md)
+Download the dataset and save it to the data directory. If the directory does not exist, create it in the root directory of the subproject.
+
 Obtain the vocab.translate_ende_wmt32k.subwords by yourself, more details see: [config](./config/README.md)
 
 ### 3. Obtain the pb model

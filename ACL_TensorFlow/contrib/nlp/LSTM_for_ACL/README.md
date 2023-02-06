@@ -31,7 +31,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/LSTM_for_ACL
 
 ### 2. 下载数据集和预处理
 
-请自行下载测试数据集, 详情见: [IMDB](./data/IMDB/README.md)
+请自行下载数据集, 并放在data目录下(若目录不存在请在子项目根目录下自行创建),
 
 ### 3. 获取checkpoint文件或pb模型
 
