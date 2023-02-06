@@ -30,7 +30,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/BioBERT_for_ACL
 
 ### 2. Download and preprocess the dataset
 
-Download the dataset by yourself, more details see: [data](./data)
+Download the dataset by yourself, more details see: [data]
 Download the vocab.txt and bert_config.json by yourself, more details see: [config](./config/README.md)
 
 ### 3. Obtain the fine-tuned checkpoint files or pb model

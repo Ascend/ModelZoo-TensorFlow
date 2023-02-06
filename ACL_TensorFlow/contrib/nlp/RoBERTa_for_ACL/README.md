@@ -31,7 +31,8 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/RoBERTa_for_ACL
 
 ### 2. 下载数据集和预处理
 
-请自行下载数据, 更多详细信息请参见: [data](./data)
+请自行下载数据集, 并放在data目录下(若目录不存在请在子项目根目录下自行创建),
+
 请自行下载vocab.txt 和 bert_config.json 文件, 更多详细信息请参见: [config](./config/README.md)
 
 ### 3. 获取微调的检查点文件或pb模型

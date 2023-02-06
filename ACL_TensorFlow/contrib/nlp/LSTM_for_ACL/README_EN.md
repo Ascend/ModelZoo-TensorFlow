@@ -31,7 +31,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/LSTM_for_ACL
 
 ### 2. Download and preprocess the dataset
 
-Download the dataset by yourself, more details see: [IMDB](./data/IMDB/README.md)
+Download the dataset and save it to the data directory. If the directory does not exist, create it in the root directory of the subproject.
 
 ### 3. Obtain the fine-tuned checkpoint files or pb model
 

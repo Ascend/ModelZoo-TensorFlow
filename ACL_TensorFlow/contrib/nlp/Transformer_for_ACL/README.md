@@ -31,7 +31,8 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/Transformer_for_ACL
 
 ### 2. 下载数据集和预处理
 
-请自行下载数据集, 更多详细信息请参见: [data](./data/WMT32K/README.md)
+请自行下载数据集, 并放在data目录下(若目录不存在请在子项目根目录下自行创建),
+
 请自行获取vocab.translate_ende_wmt32k.subwords, 更多详细信息请参见: [config](./config/README.md)
 
 ### 3. 获取pb模型
