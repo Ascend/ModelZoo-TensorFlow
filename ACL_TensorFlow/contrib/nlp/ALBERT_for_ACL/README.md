@@ -33,7 +33,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/contrib/nlp/ALBERT_for_ACL
 
 ### 2. 下载数据集和预处理
 
-请自行下载数据集, 更多详情见: [data](./data)
+请自行下载数据集, 更多详情见: data
 请自行下载 **vocab.txt and bert_config.json** , 更多详情见: [config](./config/README.md)
 
 ### 3. 获取训练好的checkpoint文件，或者pb模型。
