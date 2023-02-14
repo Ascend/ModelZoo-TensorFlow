@@ -76,6 +76,9 @@ do
         cp -rf $install_path/fwkacllib/data/rl/Ascend910/custom ${autotune_dump_path}/RL/
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
+    elif [[ $para == --bind_core* ]]; then
+        bind_core=`echo ${para#*=}`
+        name_bind="_bindcore"
     fi
 done
 
@@ -112,11 +115,19 @@ do
     else
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
+    
+    # 绑核，不需要的绑核的模型删除，需要模型审视修改
+    corenum=`cat /proc/cpuinfo |grep "processor"|wc -l`
+    let a=RANK_ID*${corenum}/${RANK_SIZE}
+    let b=RANK_ID+1
+    let c=b*${corenum}/${RANK_SIZE}-1
 
 	#执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
-    
-    nohup python3 imagenet_main.py \
+    if [ "x${bind_core}" != x ];then
+        bind_core="taskset -c $a-$c"
+    fi
+    nohup ${bind_core} python3 imagenet_main.py \
         --resnet_size=50 \
         --resnet_version=1 \
         --max_train_steps=$train_steps \
