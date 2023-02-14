@@ -150,7 +150,7 @@ do
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-	${bind_core} python3.7 res50.py \
+	nohup ${bind_core} python3.7 res50.py \
 	    --config_file=$config_file \
         --max_train_steps=$max_train_steps \
 	    --iterations_per_loop=$iterations_per_loop \

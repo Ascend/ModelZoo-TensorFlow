@@ -83,6 +83,9 @@ do
         mkdir -p ${autotune_dump_path}/rl
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
+    elif [[ $para == --bind_core* ]]; then
+        bind_core=`echo ${para#*=}`
+        name_bind="_bindcore"
     fi
 done
 
@@ -115,9 +118,18 @@ do
     else
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
+    
+    # 绑核，不需要的绑核的模型删除，需要模型审视修改
+    corenum=`cat /proc/cpuinfo |grep "processor"|wc -l`
+    let a=RANK_ID*${corenum}/${RANK_SIZE}
+    let b=RANK_ID+1
+    let c=b*${corenum}/${RANK_SIZE}-1
 
     #执行训练脚本，需要模型审视修改
-	nohup python3.7 train.py \
+    if [ "x${bind_core}" != x ];then
+        bind_core="taskset -c $a-$c"
+    fi
+	nohup ${bind_core} python3.7 train.py \
         --rank_size=$RANK_SIZE \
         --mode=train_and_evaluate \
         --max_epochs=200 \

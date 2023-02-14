@@ -123,6 +123,7 @@ do
 	DEVICE_INDEX=$DEVICE_ID
     export DEVICE_INDEX=${DEVICE_INDEX}
     
+    
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
         rm -rf ${cur_path}/output/${ASCEND_DEVICE_ID}
@@ -134,17 +135,18 @@ do
     mkdir -p results/$ASCEND_DEVICE_ID
 
     sed -i 's|results|results/'$ASCEND_DEVICE_ID'|g' train.py
-
+    
+    
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
-    #corenum=`cat /proc/cpuinfo |grep 'processor' |wc -l`
-    #let a=RANK_ID*${corenum}/8
-    #let b=RANK_ID+1
-    #let c=b*${corenum}/8-1
-    #if [ "x${bind_core}" != x ];then
-    #    bind_core="taskset -c $a-$c"
-    #fi
-    python3.7 train.py \
+    corenum=`cat /proc/cpuinfo |grep 'processor' |wc -l`
+    let a=RANK_ID*${corenum}/8
+    let b=RANK_ID+1
+    let c=b*${corenum}/8-1
+    if [ "x${bind_core}" != x ];then
+        bind_core="taskset -c $a-$c"
+    fi
+    nohup ${bind_core} python3.7 train.py \
         --dataset_dir=$data_path \
         --max_epoch=$train_epochs \
         --model_name="mobilenet_v2" \

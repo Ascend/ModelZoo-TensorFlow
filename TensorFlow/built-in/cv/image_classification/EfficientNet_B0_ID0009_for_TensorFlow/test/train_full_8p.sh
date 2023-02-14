@@ -137,7 +137,7 @@ do
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-    nohup python3.7 efficientnet/main_npu.py \
+    nohup ${bind_core} python3.7 efficientnet/main_npu.py \
     --data_dir=${data_path} \
     --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
     --mode=train_and_eval \
