@@ -124,7 +124,7 @@ do
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-python3.7 ${cur_path}/../train.py --rank_size=8 \
+nohup ${bind_core} python3.7 ${cur_path}/../train.py --rank_size=8 \
                       --epochs_between_evals=1 \
                       --mode=train \
         	            --max_epochs=150 \
