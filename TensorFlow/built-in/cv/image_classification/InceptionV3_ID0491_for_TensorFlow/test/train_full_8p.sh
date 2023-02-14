@@ -78,6 +78,9 @@ do
         cp -rf $install_path/fwkacllib/data/rl/Ascend910/custom ${autotune_dump_path}/RL/
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
+    elif [[ $para == --bind_core* ]]; then
+        bind_core=`echo ${para#*=}`
+        name_bind="_bindcore"
     fi
 done
 #校验是否传入data_path,不需要修改
@@ -107,9 +110,17 @@ do
     else
         mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
     fi
-  
+    
+    # 绑核，不需要的绑核的模型删除，需要模型审视修改
+    corenum=`cat /proc/cpuinfo |grep "processor"|wc -l`
+    let a=RANK_ID*${corenum}/${RANK_SIZE}
+    let b=RANK_ID+1
+    let c=b*${corenum}/${RANK_SIZE}-1
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
-    python3 Incetpion_V3.py --dataset_dir=$data_path --epoch_num=$train_epochs --NPU_DEVICE_INDEX=$ASCEND_DEVICE_ID --npu_nums=8 > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
+    if [ "x${bind_core}" != x ];then
+        bind_core="taskset -c $a-$c"
+    fi
+    nohup ${bind_core} python3 Incetpion_V3.py --dataset_dir=$data_path --epoch_num=$train_epochs --NPU_DEVICE_INDEX=$ASCEND_DEVICE_ID --npu_nums=8 > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 
 wait
