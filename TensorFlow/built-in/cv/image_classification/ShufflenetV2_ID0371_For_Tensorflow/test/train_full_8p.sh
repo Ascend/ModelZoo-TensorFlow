@@ -31,7 +31,7 @@ learning_rate=""
 export NPU_LOOP_SIZE=${train_steps}
 
 #维测参数，precision_mode需要模型审视修改
-precision_mode=""
+precision_mode="allow_fp32_to_fp16"
 #维持参数，以下不需要修改
 over_dump=False
 data_dump_flag=False
