@@ -342,6 +342,8 @@ if __name__ == '__main__':
     custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes(args.precision_mode)
     custom_op.parameter_map["hcom_parallel"].b = True
     custom_op.parameter_map["iterations_per_loop"].i = config.iterations_per_loop
+    custom_op.parameter_map["op_select_implmode"].s = tf.compat.as_bytes("high_performance")
+    custom_op.parameter_map["optypelist_for_implmode"].s = tf.compat.as_bytes("UnsortedSegmentSum, GatherV2")
     if args.precision_mode == "allow_mix_precision":
         custom_op.parameter_map["modify_mixlist"].s = tf.compat.as_bytes("ops_info.json")
     custom_op.parameter_map["fusion_switch_file"].s = tf.compat.as_bytes("fusion_switch.cfg")
