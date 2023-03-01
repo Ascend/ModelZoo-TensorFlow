@@ -335,6 +335,8 @@ if __name__ == '__main__':
     #autotune end
 
     custom_op.name = "NpuOptimizer"
+    custom_op.parameter_map["op_select_implmode"].s = tf.compat.as_bytes("high_performance")
+    custom_op.parameter_map["optypelist_for_implmode"].s = tf.compat.as_bytes("UnsortedSegmentSum,GatherV2")
     custom_op.parameter_map["enable_data_pre_proc"].b = True ##True getNext false在host侧
     #custom_op.parameter_map["mix_compile_mode"].b = True  #开启混合计算，根据实际情况配置
     custom_op.parameter_map["use_off_line"].b = True
