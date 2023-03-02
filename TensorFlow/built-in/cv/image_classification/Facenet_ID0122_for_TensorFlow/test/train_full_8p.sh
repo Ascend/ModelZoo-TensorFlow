@@ -86,7 +86,7 @@ echo "Final Training Duration sec : $e2etime"
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep  RegLoss $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| tail -n +2 | awk '{print $4}' | tr -d s | awk '{sum+=$1} END {print sum/NR}'`
+TrainingTime=`grep  RegLoss $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| tail -n +2 | head -2999 | awk '{print $4}' | tr -d s | awk '{sum+=$1} END {print sum/NR}'`
 wait
 FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${TrainingTime}'}'`
 FPS=$(awk 'BEGIN{print '$FPS'*8}')
