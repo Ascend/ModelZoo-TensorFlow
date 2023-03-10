@@ -86,7 +86,7 @@ def main(args):
         out_image_name = os.path.join(args.input_dir,"davinci_{}_output0.bin".format(str(i).zfill(6)))
         #print(out_image_name)
         emb = np.fromfile(out_image_name, dtype="float32").reshape(1, 512)
-        out_label_name = os.path.join(args.label_dir,names +"{}.bin".format(str(i).zfill(6)))
+        out_label_name = os.path.join(args.label_dir,"{}.bin".format(str(i).zfill(6)))
         lab = np.fromfile(out_label_name, dtype="int32")
         #print(lab)
         ##########
