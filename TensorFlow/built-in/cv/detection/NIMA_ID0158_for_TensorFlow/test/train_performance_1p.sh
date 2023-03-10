@@ -91,8 +91,19 @@ e2e_time=$(( $end_time - $start_time ))
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-train_time=`grep '1250/1250'  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'ms/step' '{print $1}'|awk '{print $NF}'`
-FPS=`awk 'BEGIN{printf "%.2f\n", '$batch_size'* 1000/'$train_time'}'`
+tp=`grep 'ms/step' $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F " " 'END{print$5}'`
+echo $tp
+if [ -z $tp ]; then
+  echo "IS NULL"
+  train_time=`grep '1250/1250'  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 's/step' '{print $1}'|awk '{print $NF}'`
+  FPS=`awk 'BEGIN{printf "%.2f\n", '$batch_size'/'$train_time'}'`
+else
+  echo "NOT NULL"
+  train_time=`grep '1250/1250'  $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log|awk -F 'ms/step' '{print $1}'|awk '{print $NF}'`
+  FPS=`awk 'BEGIN{printf "%.2f\n", '$batch_size'* 1000/'$train_time'}'`
+fi
+
+
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
 
