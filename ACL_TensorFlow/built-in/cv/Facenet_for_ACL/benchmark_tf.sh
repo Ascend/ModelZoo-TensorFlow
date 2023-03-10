@@ -19,9 +19,9 @@ preprocess()
         fi
 	cd $cur_dir/script
         export PYTHONPATH=$cur_dir/script
-	python3 align/align_dataset_mtcnn.py $cur_dir/lfw $dataset
+	python3 align/align_dataset_mtcnn.py $cur_dir/lfw $dataset --image_size 160 --margin 32 --random_order
        
-        python3 preprocess_data.py  $dataset $dataset_bin  --use_fixed_image_standardization --lfw_batch_size 1
+    python3 preprocess_data.py  $dataset $dataset_bin  --use_fixed_image_standardization --lfw_batch_size 1 --use_flipped_images
 }
 infer_test()
 {
@@ -34,7 +34,7 @@ infer_test()
 	#/usr/local/Ascend/atc/bin/atc --framework=3 --model=./model/facenet_tf.pb  --output=./model/facenet --soc_version=Ascend310 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:1,160,160,3 
 
 	echo "$cur_dir/Benchmark/out/benchmark --dataDir $dataset_bin/data_image_bin --om $modelPath  --batchSize $batchSize --modelType $modelType --imgType $imgType --deviceId $deviceId --framework $framework --useDvpp $useDvpp > $testcase_dir/performance.log"
-              $cur_dir/Benchmark/out/benchmark --dataDir $dataset_bin/data_image_bin --om $modelPath  --batchSize $batchSize --modelType $modelType --imgType $imgType --deviceId $deviceId --framework $framework --useDvpp $useDvpp > $testcase_dir/performance.log
+    $cur_dir/Benchmark/out/benchmark --dataDir $dataset_bin/data_image_bin --om $modelPath  --batchSize $batchSize --modelType $modelType --imgType $imgType --deviceId $deviceId --framework $framework --useDvpp $useDvpp > $testcase_dir/performance.log
 }
 
 collect_result()
@@ -48,7 +48,7 @@ collect_result()
     echo "InferencePerformance: $AiModel_time ms/batch, $AiModel_throughput images/sec" >> $testcase_dir/performance_results.log
     echo "InferenceTotalTime: $InferenceEngine_total_time ms" >> $testcase_dir/performance_results.log
 	cd $cur_dir/script
-	python3 afterprocess.py  $dataset  $cur_dir/results/${modelType}/ $dataset_bin/data_label_bin/ --lfw_batch_size 1 >  $testcase_dir/file.log
+	python3 afterprocess.py  $dataset  $cur_dir/results/${modelType}/ $dataset_bin/data_label_bin/ --lfw_batch_size 1 --distance_metric 1 --use_flipped_images --subtract_mean >  $testcase_dir/file.log
 	
 	
 	Accu=`cat $testcase_dir/file.log |grep 'Accuracy' | awk '{print $2}'`
