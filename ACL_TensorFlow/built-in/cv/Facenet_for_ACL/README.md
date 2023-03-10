@@ -76,6 +76,6 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
 
 |       model    |       mode       | ***data***  |    Embeddings Accuracy    |
 | :---------------:| :---------------: | :---------: | :---------: |
-| pb(20180402)| offline Inference | 12000 images |   99.532%     |
-| pb(20180408)| offline Inference | 12000 images |   98.917%     |
+| pb(20180402)| offline Inference | 12000 images |   99.550%     |
+| pb(20180408)| offline Inference | 12000 images |   99.133%     |
 
