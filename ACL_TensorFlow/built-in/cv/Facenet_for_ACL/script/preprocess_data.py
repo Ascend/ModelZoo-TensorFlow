@@ -119,11 +119,9 @@ def evaluate(sess,output_path, enqueue_op,image_paths_placeholder,labels_placeho
         os.makedirs(output_path +"data_label_bin/")
     for i in range(nrof_batches):
         ###########save  bin ###############
-        print(i,image_paths[i])
         feed_dict2 = {batch_size_placeholder:batch_size}
-        mid_name = image_paths[i].split('.')[0].split('/')[-1]
-        bin_image2 = output_path +"data_image_bin/" + mid_name + '_'+str(i)+'_'+".bin"
-        bin_label2 = output_path +"data_label_bin/" + mid_name + '_'+str(i)+'_'+".bin"
+        bin_image2 = os.path.join(output_path,"data_image_bin/{}.bin".format(str(i).zfill(6)))
+        bin_label2 = os.path.join(output_path,"data_label_bin/{}.bin".format(str(i).zfill(6)))
         emb, lab  = sess.run([image_batch,labels],feed_dict=feed_dict2)
         emb.astype(np.uint8).tofile(bin_image2)
         lab.tofile(bin_label2)
