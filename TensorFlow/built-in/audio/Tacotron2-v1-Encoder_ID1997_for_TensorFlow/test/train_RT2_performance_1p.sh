@@ -12,6 +12,8 @@ RANK_ID_START=0
 #使能RT2.0
 export ENABLE_RUNTIME_V2=1
 
+export ENABLE_FORCE_V2_CONTROL=1
+
 # 数据集路径,保持为空,不需要修改
 data_path=""
 

@@ -232,6 +232,7 @@ def main():
 
     session_config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
     session_config.graph_options.rewrite_options.memory_optimization = RewriterConfig.OFF
+    session_config.graph_options.rewrite_options.function_optimization = RewriterConfig.OFF
     npu_config = npu_config_proto(config_proto=session_config)
 
     train_dataset, num_batch = make_dataset(config, hp.train_form)
