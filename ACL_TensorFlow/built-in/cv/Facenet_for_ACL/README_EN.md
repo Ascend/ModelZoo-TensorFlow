@@ -76,6 +76,6 @@ Our result were obtained by running the applicable inference script. To achieve 
 
 |       model    |       mode       | ***data***  |    Embeddings Accuracy    |
 | :---------------:| :---------------: | :---------: | :---------: |
-| pb(20180402)| offline Inference | 12000 images |   99.532%     |
-| pb(20180408)| offline Inference | 12000 images |   98.917%     |
+| pb(20180402)| offline Inference | 12000 images |   99.550%     |
+| pb(20180408)| offline Inference | 12000 images |   99.133%     |
 
