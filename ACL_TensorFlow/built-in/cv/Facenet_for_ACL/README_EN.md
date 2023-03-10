@@ -30,8 +30,8 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
 
 2. Executing the Preprocessing Script
    ```
-   python3 align/align_dataset_mtcnn.py $cur_dir/lfw $dataset
-   python3 preprocess_data.py  Path_of_Data_after_face_alignment  Outpath_of_Data_after_face_alignment  --use_fixed_image_standardization --lfw_batch_size 1
+   python3 align/align_dataset_mtcnn.py $cur_dir/lfw $dataset --image_size 160 --margin 32 --random_order
+   python3 preprocess_data.py  Path_of_Data_after_face_alignment  Outpath_of_Data_after_face_alignment  --use_fixed_image_standardization --lfw_batch_size 1 --use_flipped_images
    
    ```
  
