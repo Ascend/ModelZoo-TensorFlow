@@ -113,10 +113,10 @@ def evaluate(sess,output_path, enqueue_op,image_paths_placeholder,labels_placeho
     assert nrof_images % batch_size == 0, 'The number of LFW images must be an integer multiple of the LFW batch size'
     nrof_batches = nrof_images // batch_size
     print("#############nrof_batches",nrof_batches)
-    if not os.path.exists(output_path +"data_image_bin/"):
-        os.makedirs(output_path +"data_image_bin/")
-    if not os.path.exists(output_path +"data_label_bin/"):
-        os.makedirs(output_path +"data_label_bin/")
+    if not os.path.exists(os.path.join(output_path ,"data_image_bin/")):
+        os.makedirs(os.path.join(output_path ,"data_image_bin/"))
+    if not os.path.exists(os.path.join(output_path ,"data_label_bin/")):
+        os.makedirs(os.path.join(output_path ,"data_label_bin/"))
     for i in range(nrof_batches):
         ###########save  bin ###############
         feed_dict2 = {batch_size_placeholder:batch_size}
