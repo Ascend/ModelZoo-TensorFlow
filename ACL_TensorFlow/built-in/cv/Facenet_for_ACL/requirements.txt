@@ -1,6 +1,4 @@
 tensorflow==1.15
-numpy==1.16
-glog==0.3.1
-tqdm==4.50.2
+numpy==1.19
 Pillow==8.2.0
 scipy==1.2.1
