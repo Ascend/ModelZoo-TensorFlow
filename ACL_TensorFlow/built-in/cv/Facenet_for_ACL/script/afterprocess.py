@@ -80,23 +80,23 @@ def main(args):
         #feed_dict = {phase_train_placeholder: False, batch_size_placeholder: batch_size}
         #emb, lab = sess.run([embeddings, labels], feed_dict=feed_dict)
         #读取image_bin和label_bin
-        print(paths[i])
-        names = paths[i].split('/')[-1].split('.')[-2]
-        print(names)
-        out_image_name = args.input_dir + "davinci_"+names +'_' + str(i) + "__output0.bin"
-        print(out_image_name)
+        #print(paths[i])
+        #names = paths[i].split('/')[-1].split('.')[-2]
+        #print(names)
+        out_image_name = os.path.join(args.input_dir,"davinci_{}_output0.bin".format(str(i).zfill(6)))
+        #print(out_image_name)
         emb = np.fromfile(out_image_name, dtype="float32").reshape(1, 512)
-        out_label_name = args.label_dir  +names +'_' +str(i) + "_.bin"
+        out_label_name = os.path.join(args.label_dir,"{}.bin".format(str(i).zfill(6)))
         lab = np.fromfile(out_label_name, dtype="int32")
-        print(lab)
+        #print(lab)
         ##########
         lab_array[lab] = lab
         emb_array[lab, :] = emb
         if i % 10 == 9:
             print('.', end='')
             sys.stdout.flush()
-    print('')
-    print(lab_array)
+    #print('')
+    #print(lab_array)
     embeddings = np.zeros((nrof_embeddings, embedding_size * nrof_flips))
     if use_flipped_images:
         # Concatenate embeddings for flipped and non flipped version of the images
