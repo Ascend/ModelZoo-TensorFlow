@@ -59,26 +59,42 @@ do
 	    devices_num=`echo ${para#*=}`
     elif [[ $para == --servers_num* ]];then
         servers_num=`echo ${para#*=}`
+    elif [[ $para == --fix_node_ip* ]];then
+	    fix_node_ip=`echo ${para#*=}`
+    elif [[ $para == --one_node_ip* ]];then
+        one_node_ip=`echo ${para#*=}`
     fi
 done
-
 linux_num=$servers_num
-
-#export ASCEND_SLOG_PRINT_TO_STDOUT=1
-export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
-rank_size=8
-if [[ $conf_path != "" ]];then
-    nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
-    
+if [[ $conf_path == "" ]];then
+    fix_node_ip=$fix_node_ip
+    one_node_ip=$one_node_ip
+else
+    one_node_ip=`find $conf_path -name "server_*_0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
 fi
 
-wait
-export RANK_TABLE_FILE=$cur_path/rank_table.json
+#新增适配集群环境变量
+export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
+export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
+export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
+export CM_WORKER_SIZE=`awk 'BEGIN{printf "%.0f\n",'8'*'${linux_num}'}'`          #卡数，单机为8，多机为8n,所有服务器一致
+export CM_WORKER_IP=${fix_node_ip}  #当前服务器ip，不同环境ip不同
+
+#export ASCEND_SLOG_PRINT_TO_STDOUT=1
+export RANK_SIZES=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
+rank_size=8
+#if [[ $conf_path != "" ]];then
+#    nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+#
+#fi
+#
+#wait
+#export RANK_TABLE_FILE=$cur_path/rank_table.json
 export HCCL_CONNECT_TIMEOUT=600
 RANK_ID_START=0
 
 #设置默认日志级别,不需要修改
-#export ASCEND_GLOBAL_LOG_LEVEL_ETP_ETP=1
+#export ASCEND_GLOBAL_LOG_LEVEL_ETP_ETP_ETP=1
 
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
@@ -106,26 +122,27 @@ if [[ $data_path == "" ]];then
 fi
 
 cd $cur_path/../
-
+sed -i 's/RANK_SIZE/RANK_SIZES/g' model/model_fn.py pbinference/unet3d_pb_inference.sh main_npu.py dataset/data_loader.py runtime/hooks.py runtime/setup.py
+sed -i 's/RANK_ID/RANK_IDS/g' pbinference/unet3d_pb_inference.sh main_npu.py dataset/data_loader.py runtime/hooks.py runtime/setup.py
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 bind_core=1
 exec_mode='train'
 #进入训练脚本目录，需要模型审视修改
 #for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
-for((RANK_ID=$((rank_size*server_index));RANK_ID<$((((server_index+1))*rank_size));RANK_ID++));
+for((RANK_IDS=$((rank_size*server_index));RANK_IDS<$((((server_index+1))*rank_size));RANK_IDS++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $RANK_ID"
-    export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
-    ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
+    echo "Device ID: $RANK_IDS"
+    export RANK_IDS=$RANK_IDS
+    export ASCEND_DEVICE_ID=`expr ${RANK_IDS} - $((rank_size*server_index))`
+    ASCEND_DEVICE_ID=`expr ${RANK_IDS} - $((rank_size*server_index))`
 #    export DEVICE_ID=${ASCEND_DEVICE_ID}
 #    echo 'DEVICE_ID: '$ASCEND_DEVICE_ID
-    RANK_ID_core=$RANK_ID
+    RANK_ID_core=$RANK_IDS
 
-    export DEVICE_ID=$RANK_ID
-	  DEVICE_INDEX=$RANK_ID
+    export DEVICE_ID=$RANK_IDS
+	  DEVICE_INDEX=$RANK_IDS
     export DEVICE_INDEX=${DEVICE_INDEX}
 
 #    #创建DeviceID输出目录，不需要修改
@@ -136,11 +153,11 @@ do
 #        mkdir -p ${cur_path}/output/$ASCEND_DEVICE_ID/ckpt
 #    fi
 
-    if [ -d ${cur_path}/output/${RANK_ID} ];then
-        rm -rf ${cur_path}/output/${RANK_ID}
-        mkdir -p ${cur_path}/output/${RANK_ID}/ckpt
+    if [ -d ${cur_path}/output/${RANK_IDS} ];then
+        rm -rf ${cur_path}/output/${RANK_IDS}
+        mkdir -p ${cur_path}/output/${RANK_IDS}/ckpt
     else
-        mkdir -p ${cur_path}/output/${RANK_ID}/ckpt
+        mkdir -p ${cur_path}/output/${RANK_IDS}/ckpt
     fi
 
 #    if [ ${RANK_ID_core} -gt 7 ];then
@@ -162,14 +179,14 @@ do
 	#执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path，--autotune
     nohup python3 main_npu.py --data_dir=$data_path \
-        --model_dir=$cur_path/output/${RANK_ID} \
+        --model_dir=$cur_path/output/${RANK_IDS} \
         --exec_mode=${exec_mode} \
         --npu_loss_scale=1048576 \
         --max_steps=$train_steps \
         --benchmark \
         --fold=0 \
         --batch_size=$batch_size \
-        --augment > ${cur_path}/output/${RANK_ID}/train_${RANK_ID}.log 2>&1 &
+        --augment > ${cur_path}/output/${RANK_IDS}/train_${RANK_IDS}.log 2>&1 &
 done 
 wait
 
@@ -177,8 +194,8 @@ wait
 #训练结束时间，不需要修改
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
-
-
+sed -i 's/RANK_SIZES/RANK_SIZE/g' model/model_fn.py pbinference/unet3d_pb_inference.sh main_npu.py dataset/data_loader.py runtime/hooks.py runtime/setup.py
+sed -i 's/RANK_IDS/RANK_ID/g' pbinference/unet3d_pb_inference.sh main_npu.py dataset/data_loader.py runtime/hooks.py runtime/setup.py
 
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
@@ -194,13 +211,13 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZES}'p'_'perf'
 
 #获取性能数据，不需要修改
 #吞吐量
 ActualFPS=${FPS}
 #单迭代训练时长
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZE}'*1000/'${FPS}'}'`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZES}'*1000/'${FPS}'}'`
 
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
@@ -212,7 +229,7 @@ ActualLoss=None
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZES}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -226,7 +243,7 @@ log_path=$cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 if [ ! -f ${log_path} ];then
     ASCEND_DEVICE_ID=15
     echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-    echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+    echo "RankSize = ${RANK_SIZES}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
     echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
     echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
     echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -235,5 +252,3 @@ if [ ! -f ${log_path} ];then
     echo "TrainingTime = 197.41" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
     echo "E2ETrainingTime = 386" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 fi
-
-
