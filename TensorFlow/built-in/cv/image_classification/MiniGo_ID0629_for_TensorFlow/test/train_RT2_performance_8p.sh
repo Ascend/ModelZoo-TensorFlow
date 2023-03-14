@@ -4,7 +4,6 @@ cur_path=`pwd`/../
 rm -f $cur_path/outputs/models/*
 rm -f $cur_path/estimator_working_dir/*
 
-export ENABLE_RUNTIME_V2=1
 #基础参数，需要模型审视修改
 #Batch Size
 batch_size=128
@@ -15,7 +14,7 @@ RankSize=8
 #训练epoch，可选
 train_epochs=
 #训练step
-train_steps=500
+train_steps=80000
 #学习率
 learning_rate=
 #动态输入模式，不需要修改
@@ -42,10 +41,21 @@ do
     elif [[ $para == --bind_core* ]]; then
         bind_core=`echo ${para#*=}`
         name_bind="_bindcore"
-    elif [[ $para == --dynamic_input* ]];then
+	elif [[ $para == --dynamic_input* ]];then
       dynamic_input=`echo ${para#*=}` 
-   fi
+    elif [[ $para == --one_node_ip* ]];then
+        one_node_ip=`echo ${para#*=}`
+    fi
 done
+
+#8p训练必须参数（本机IP）
+one_node_ip=$one_node_ip
+#新增适配集群环境变量
+export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
+export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
+export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
+export CM_WORKER_SIZE=8             #卡数，单机为8，所有服务器一致
+export CM_WORKER_IP=${one_node_ip}  #当前服务器ip，不同环境ip不同
 
 if [[ $data_path  == "" ]];then
     echo "[Error] para \"data_path\" must be config"
@@ -60,8 +70,8 @@ python3 bootstrap.py --work_dir=$cur_path/estimator_working_dir --export_path=$c
 wait
 
 export ASCEND_DEVICE_ID=0
-export RANK_SIZE=8
-export RANK_TABLE_FILE="${cur_path}/test/8p.json"
+export RANK_SIZES=8
+#export RANK_TABLE_FILE="${cur_path}/test/8p.json"
 export JOB_ID=10086
 
 start=$(date +%s)
@@ -70,7 +80,7 @@ start=$(date +%s)
 for i in 0 1 2 3 4 5 6 7
 do
     #设置环境变量
-    export RANK_ID=$i
+    export RANK_IDS=$i
     export ASCEND_DEVICE_ID=$i
     ASCEND_DEVICE_ID=$i
     echo "Device ID: $ASCEND_DEVICE_ID"
@@ -84,21 +94,13 @@ do
     echo $ASCEND_DEVICE_ID
     #(Step3)训练
     corenum=`cat /proc/cpuinfo |grep 'processor' |wc -l`
-    let a=RANK_ID*${corenum}/8
-    let b=RANK_ID+1
+    let a=RANK_IDS*${corenum}/8
+    let b=RANK_IDS+1
     let c=b*${corenum}/8-1
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-    #${bind_core} python3 train.py --training_data_path=$data_path --steps_to_train=$train_steps --train_batch_size=$batch_size --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000001-first_generation > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
-	${bind_core} python3 train.py \
-		--training_data_path=$data_path \
-		--steps_to_train=$train_steps \
-		--train_batch_size=$batch_size \
-		--work_dir=$cur_path/estimator_working_dir \
-		--export_path=$cur_path/outputs/models/000001-first_generation \
-		--dynamic_input=${dynamic_input} \
-		--jit_compile=False > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+    ${bind_core} python3 train.py --training_data_path=$data_path --steps_to_train=$train_steps --train_batch_size=$batch_size --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000001-first_generation --dynamic_input=${dynamic_input}> $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 done
 wait
 
@@ -114,7 +116,7 @@ BatchSize=${batch_size}
 #设备类型，自动获取
 DeviceType=`uname -m`
 #用例名称，自动获取
-CaseName=${Network}_bs${BatchSize}_${RankSize}'p_RT2_perf'
+CaseName=${Network}_bs${BatchSize}_${RankSize}'p'_'acc'
 
 #获取性能
 TrainingTime=`grep "tensorflow:global_step/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $2}'`
