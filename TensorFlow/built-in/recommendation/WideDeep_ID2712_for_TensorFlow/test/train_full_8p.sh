@@ -4,13 +4,11 @@
 cur_path=`pwd`
 
 #集合通信参数,不需要修改
-
-
 export HCCL_CONNECT_TIMEOUT=1200
 
 #集合通信参数,不需要修改
-export RANK_SIZE=8
-export RANK_TABLE_FILE=$cur_path/8p.json
+export RANK_SIZES=8
+#export RANK_TABLE_FILE=$cur_path/8p.json
 export JOB_ID=10087
 RANK_ID_START=0
 ASCEND_DEVICE_ID_START=0
@@ -57,14 +55,19 @@ elif [[ $para == --over_dump* ]];then
         mkdir -p ${over_dump_path}
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
+    elif [[ $para == --one_node_ip* ]];then
+        one_node_ip=`echo ${para#*=}`
     fi
 done
 
-#校验是否传入data_path,不需要修改
-if [[ $data_path == "" ]];then
-    echo "[Error] para \"data_path\" must be confing"
-    exit 1
-fi
+#8p训练必须参数（本机IP）
+one_node_ip=$one_node_ip
+#新增适配集群环境变量
+export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
+export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
+export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
+export CM_WORKER_SIZE=8             #卡数，单机为8，所有服务器一致
+export CM_WORKER_IP=${one_node_ip}  #当前服务器ip，不同环境ip不同
 
 #校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
@@ -102,6 +105,8 @@ sed -i "s%/npu/traindata/ID2940_CarPeting_TF_WideDeep_TF%${data_path}%p" configs
 sed -i "s%./model%$cur_path/output/$ASCEND_DEVICE_ID/ckpt%p" configs/config.py
 sed -i "s%display_step = 100%display_step = $display_step%p" configs/config.py
 sed -i "s%n_epoches = 2%n_epoches = $n_epoches%p" configs/config.py
+sed -i 's/RANK_SIZE/RANK_SIZES/g' widedeep/WideDeep_fp16_huifeng.py
+sed -i 's/RANK_SIZE/RANK_SIZES/g' train.py
 #echo `cat configs/config.py |uniq > configs/config.py; cp -f configs/config.py configs/config.py.run`
 cp configs/config.py configs/config.py.run
 
@@ -109,13 +114,13 @@ cp configs/config.py configs/config.py.run
 cd $cur_path/../
 
 start=$(date +%s)
-for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+for((RANK_IDS=$RANK_ID_START;RANK_IDS<$((RANK_SIZES+RANK_ID_START));RANK_IDS++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $RANK_ID"
-    export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=$RANK_ID
-    ASCEND_DEVICE_ID=$RANK_ID
+    echo "Device ID: $RANK_IDS"
+    export RANK_IDS=$RANK_IDS
+    export ASCEND_DEVICE_ID=$RANK_IDS
+    ASCEND_DEVICE_ID=$RANK_IDS
   if [   -d $cur_path/output/${ASCEND_DEVICE_ID} ];then
      rm -rf $cur_path/output/${ASCEND_DEVICE_ID}
      mkdir -p $cur_path/output/${ASCEND_DEVICE_ID}
@@ -131,7 +136,8 @@ done
 wait
 end=$(date +%s)
 e2e_time=$(( $end - $start ))
-
+sed -i 's/RANK_SIZES/RANK_SIZE/g' train.py
+sed -i 's/RANK_SIZES/RANK_SIZE/g' widedeep/WideDeep_fp16_huifeng.py
 #配置文件恢复
 mv -f configs/config.py.bak configs/config.py
 
@@ -155,9 +161,9 @@ echo "E2E Training Duration sec : $e2e_time"
 BatchSize=${batch_size}
 DeviceType=`uname -m`
 if [[ $precision_mode == "must_keep_origin_dtype" ]];then
-    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'acc'
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZES}'p'_'fp32'_'acc'
 else
-    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZES}'p'_'acc'
 fi
 
 ##获取性能数据
@@ -176,7 +182,7 @@ ActualLoss=`cat $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt | 
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZES}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
