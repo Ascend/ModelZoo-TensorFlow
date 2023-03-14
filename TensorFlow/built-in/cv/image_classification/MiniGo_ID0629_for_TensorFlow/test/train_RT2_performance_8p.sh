@@ -4,6 +4,7 @@ cur_path=`pwd`/../
 rm -f $cur_path/outputs/models/*
 rm -f $cur_path/estimator_working_dir/*
 
+export ENABLE_RUNTIME_V2=1
 #基础参数，需要模型审视修改
 #Batch Size
 batch_size=128
@@ -14,7 +15,7 @@ RankSize=8
 #训练epoch，可选
 train_epochs=
 #训练step
-train_steps=80000
+train_steps=500
 #学习率
 learning_rate=
 #动态输入模式，不需要修改
@@ -41,9 +42,9 @@ do
     elif [[ $para == --bind_core* ]]; then
         bind_core=`echo ${para#*=}`
         name_bind="_bindcore"
-	elif [[ $para == --dynamic_input* ]];then
+    elif [[ $para == --dynamic_input* ]];then
       dynamic_input=`echo ${para#*=}` 
-    elif [[ $para == --one_node_ip* ]];then
+   elif [[ $para == --one_node_ip* ]];then
         one_node_ip=`echo ${para#*=}`
     fi
 done
@@ -100,7 +101,15 @@ do
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-    ${bind_core} python3 train.py --training_data_path=$data_path --steps_to_train=$train_steps --train_batch_size=$batch_size --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000001-first_generation --dynamic_input=${dynamic_input}> $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+    #${bind_core} python3 train.py --training_data_path=$data_path --steps_to_train=$train_steps --train_batch_size=$batch_size --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000001-first_generation > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+	${bind_core} python3 train.py \
+		--training_data_path=$data_path \
+		--steps_to_train=$train_steps \
+		--train_batch_size=$batch_size \
+		--work_dir=$cur_path/estimator_working_dir \
+		--export_path=$cur_path/outputs/models/000001-first_generation \
+		--dynamic_input=${dynamic_input} \
+		--jit_compile=False > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 done
 wait
 
@@ -116,7 +125,7 @@ BatchSize=${batch_size}
 #设备类型，自动获取
 DeviceType=`uname -m`
 #用例名称，自动获取
-CaseName=${Network}_bs${BatchSize}_${RankSize}'p'_'acc'
+CaseName=${Network}_bs${BatchSize}_${RankSize}'p_RT2_perf'
 
 #获取性能
 TrainingTime=`grep "tensorflow:global_step/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $2}'`
