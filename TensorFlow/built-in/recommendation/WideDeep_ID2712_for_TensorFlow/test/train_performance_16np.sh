@@ -57,21 +57,39 @@ elif [[ $para == --over_dump* ]];then
         conf_path=`echo ${para#*=}`
     elif [[ $para == --devices_num* ]];then
 	    devices_num=`echo ${para#*=}`
+	  elif [[ $para == --fix_node_ip* ]];then
+	    fix_node_ip=`echo ${para#*=}`
+    elif [[ $para == --one_node_ip* ]];then
+        one_node_ip=`echo ${para#*=}`
+    elif [[ $para == --servers_num* ]];then
+        servers_num=`echo ${para#*=}`
     fi
 done
-one_node_ip=`find $conf_path -name "server_111._0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
-linux_num=`find $conf_path -name "server_*.info" |wc -l`
+linux_num=$servers_num
+if [[ $conf_path == "" ]];then
+    fix_node_ip=$fix_node_ip
+    one_node_ip=$one_node_ip
+else
+    one_node_ip=`find $conf_path -name "server_*_0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
+fi
+
+#新增适配集群环境变量
+export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
+export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
+export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
+export CM_WORKER_SIZE=`awk 'BEGIN{printf "%.0f\n",'8'*'${linux_num}'}'`          #卡数，单机为8，多机为8n,所有服务器一致
+export CM_WORKER_IP=${fix_node_ip}  #当前服务器ip，不同环境ip不同
 #校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
     echo "[Error] para \"data_path\" must be confing"
     exit 1
 fi
-export RANK_SIZE=16
+export RANK_SIZES=16
 rank_size=8
-export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
-nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
-wait
-export RANK_TABLE_FILE=$cur_path/rank_table.json
+#export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
+#nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+#wait
+#export RANK_TABLE_FILE=$cur_path/rank_table.json
 export JOB_ID=10087
 export DEVICE_INDEX=0
 ##############执行训练##########
@@ -90,17 +108,19 @@ sed -i "s%./model%$cur_path/output/$ASCEND_DEVICE_ID/ckpt%p" configs/config.py
 sed -i "s%59761827%${train_size}%p" configs/config.py
 sed -i "s%display_step = 100%display_step = $display_step%p" configs/config.py
 sed -i "s%n_epoches = 2%n_epoches = $n_epoches%p" configs/config.py
+sed -i 's/RANK_SIZE/RANK_SIZES/g' widedeep/WideDeep_fp16_huifeng.py
+sed -i 's/RANK_SIZE/RANK_SIZES/g' train.py
 #echo `cat configs/config.py |uniq > configs/config.py; cp -f configs/config.py configs/config.py.run`
 cp configs/config.py configs/config.py.run
 
 start=$(date +%s)
-for((RANK_ID=$((rank_size*server_index));RANK_ID<$((((server_index+1))*rank_size));RANK_ID++));
+for((RANK_IDS=$((rank_size*server_index));RANK_IDS<$((((server_index+1))*rank_size));RANK_IDS++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $RANK_ID"
-    export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
-    ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
+    echo "Device ID: $RANK_IDS"
+    export RANK_IDS=$RANK_IDS
+    export ASCEND_DEVICE_ID=`expr ${RANK_IDS} - $((rank_size*server_index))`
+    ASCEND_DEVICE_ID=`expr ${RANK_IDS} - $((rank_size*server_index))`
   if [   -d $cur_path/output/${ASCEND_DEVICE_ID} ];then
      rm -rf $cur_path/output/${ASCEND_DEVICE_ID}
      mkdir -p $cur_path/output/${ASCEND_DEVICE_ID}
@@ -116,7 +136,8 @@ wait
 
 end=$(date +%s)
 e2e_time=$(( $end - $start ))
-
+sed -i 's/RANK_SIZES/RANK_SIZE/g' train.py
+sed -i 's/RANK_SIZES/RANK_SIZE/g' widedeep/WideDeep_fp16_huifeng.py
 #配置文件恢复
 mv -f configs/config.py.bak configs/config.py
 
@@ -139,7 +160,7 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZES}'p'_'perf'
 echo "CaseName : $CaseName"
 
 ##获取性能数据
@@ -158,7 +179,7 @@ ActualLoss=`cat $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt | 
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZES}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
@@ -167,5 +188,3 @@ echo "TrainingTime = ${TrainingTime}" >> $cur_path/output/$ASCEND_DEVICE_ID/${Ca
 echo "TrainAccuracy = ${train_accuracy}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "ActualLoss = ${ActualLoss}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "E2ETrainingTime = ${e2e_time}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-
-

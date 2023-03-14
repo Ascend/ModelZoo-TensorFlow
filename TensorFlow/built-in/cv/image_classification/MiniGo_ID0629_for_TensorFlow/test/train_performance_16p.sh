@@ -49,20 +49,40 @@ do
         conf_path=`echo ${para#*=}`
     elif [[ $para == --devices_num* ]];then
 	    devices_num=`echo ${para#*=}`
-   fi
+    elif [[ $para == --servers_num* ]];then
+	    servers_num=`echo ${para#*=}`
+    elif [[ $para == --fix_node_ip* ]];then
+	    fix_node_ip=`echo ${para#*=}`
+    elif [[ $para == --one_node_ip* ]];then
+        one_node_ip=`echo ${para#*=}`
+    fi
 done
-one_node_ip=`find $conf_path -name "server_*0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
-linux_num=`find $conf_path -name "server_*.info" |wc -l`
+
+linux_num=$servers_num
+
+if [[ $conf_path == "" ]];then
+    fix_node_ip=$fix_node_ip
+    one_node_ip=$one_node_ip
+else
+    one_node_ip=`find $conf_path -name "server_*_0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
+fi
+
+#新增适配集群环境变量
+export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
+export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
+export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
+export CM_WORKER_SIZE=16            #卡数，单机为8，多机为8n,所有服务器一致
+export CM_WORKER_IP=${fix_node_ip}  #当前服务器ip，不同环境ip不同
+
 if [[ $data_path  == "" ]];then
     echo "[Error] para \"data_path\" must be config"
     exit 1
 fi
-
-export RANK_SIZE=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
+export RANK_SIZES=`awk 'BEGIN{printf "%.0f\n",'${devices_num}'*'${linux_num}'}'`
 rank_size=8
-nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
-wait
-export RANK_TABLE_FILE=$cur_path/test/rank_table.json
+#nohup python3 set_ranktable.py --npu_nums=$linux_num --conf_path=$conf_path
+#wait
+#export RANK_TABLE_FILE=$cur_path/test/rank_table.json
 export JOB_ID=10087
 export DEVICE_INDEX=0
 
@@ -77,13 +97,13 @@ wait
 start=$(date +%s)
 
 # 8P训练模式
-for((RANK_ID=$((rank_size*server_index));RANK_ID<$((((server_index+1))*rank_size));RANK_ID++));
+for((RANK_IDS=$((rank_size*server_index));RANK_IDS<$((((server_index+1))*rank_size));RANK_IDS++));
 do
     #设置环境变量
     
-    export ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
-    ASCEND_DEVICE_ID=`expr ${RANK_ID} - $((rank_size*server_index))`
-    export RANK_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=`expr ${RANK_IDS} - $((rank_size*server_index))`
+    ASCEND_DEVICE_ID=`expr ${RANK_IDS} - $((rank_size*server_index))`
+    export RANK_IDS=$RANK_IDS
     echo "Device ID: $ASCEND_DEVICE_ID"
 
     if [ -d $cur_path/test/output/$ASCEND_DEVICE_ID ];then
@@ -95,8 +115,8 @@ do
     echo $ASCEND_DEVICE_ID
     #(Step3)训练
     corenum=`cat /proc/cpuinfo |grep 'processor' |wc -l`
-    let a=RANK_ID*${corenum}/8
-    let b=RANK_ID+1
+    let a=RANK_IDS*${corenum}/8
+    let b=RANK_IDS+1
     let c=b*${corenum}/8-1
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"

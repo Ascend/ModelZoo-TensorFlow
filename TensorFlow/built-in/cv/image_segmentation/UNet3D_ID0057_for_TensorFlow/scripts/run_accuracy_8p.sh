@@ -9,8 +9,8 @@ mkdir -p ${upDir}/test/output/0
 
 # user env
 export JOB_ID=NPU20210126
-export RANK_SIZE=8
-export RANK_TABLE_FILE=${currentDir}/8p.json
+export RANK_SIZES=8
+#export RANK_TABLE_FILE=${currentDir}/8p.json
 
 data_dir=$1
 fold=$2
@@ -21,7 +21,7 @@ if [ x"${fold}" = x"all" ] ;
 then
     for device_index in ${device_group}
     do
-        RANK_ID=${device_index} ASCEND_DEVICE_ID=${device_index} ${currentDir}/train_accuracy_8p.sh ${data_dir} 0 &
+        RANK_IDS=${device_index} ASCEND_DEVICE_ID=${device_index} ${currentDir}/train_accuracy_8p.sh ${data_dir} 0 &
     done
 
     wait
@@ -32,10 +32,9 @@ else
     echo "[`date +%Y%m%d-%H:%M:%S`] [INFO] fold$fold train start"
     for device_index in ${device_group}
     do
-        RANK_ID=${device_index} ASCEND_DEVICE_ID=${device_index} ${currentDir}/train_accuracy_8p.sh ${data_dir} ${fold} &
+        RANK_IDS=${device_index} ASCEND_DEVICE_ID=${device_index} ${currentDir}/train_accuracy_8p.sh ${data_dir} ${fold} &
     done
 
     wait
     echo "[`date +%Y%m%d-%H:%M:%S`] [INFO] fold$fold train end"
 fi
-
