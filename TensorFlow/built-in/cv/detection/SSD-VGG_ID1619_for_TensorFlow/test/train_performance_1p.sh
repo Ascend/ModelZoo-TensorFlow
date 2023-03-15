@@ -63,8 +63,7 @@ start=$(date +%s)
 nohup python3 train.py \
        --epochs ${train_epochs} \
        --data-dir $data_path/pascal-voc \
-       --vgg-dir $data_path/vgg_graph \
-	   "${@:1}"  > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+       --vgg-dir $data_path/vgg_graph   > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 wait
 
 end=$(date +%s)
