@@ -5,8 +5,8 @@ cur_path=`pwd`
 
 #集合通信参数,不需要修改
 #保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
-export RANK_SIZE=8
-export RANK_TABLE_FILE=${cur_path}/../8p.json
+export RANK_SIZES=8
+#export RANK_TABLE_FILE=${cur_path}/../8p.json
 export JOB_ID=10087
 RANK_ID_START=0
 
@@ -89,9 +89,19 @@ do
     elif [[ $para == --bind_core* ]]; then
         bind_core=`echo ${para#*=}`
         name_bind="_bindcore"
+    elif [[ $para == --one_node_ip* ]];then
+        one_node_ip=`echo ${para#*=}`
     fi
 done
 
+#8p训练必须参数（本机IP）
+one_node_ip=$one_node_ip
+#新增适配集群环境变量
+export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
+export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
+export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
+export CM_WORKER_SIZE=8             #卡数，单机为8，所有服务器一致
+export CM_WORKER_IP=${one_node_ip}  #当前服务器ip，不同环境ip不同
 #校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
     echo "[Error] para \"data_path\" must be confing"
@@ -108,15 +118,17 @@ fi
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 
+sed -i 's/RANK_SIZE/RANK_SIZES/g' ../modelarts/start.py ../efficientnet/main_npu.py
+sed -i 's/RANK_ID/RANK_IDS/g' ../modelarts/start.py
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/../
-for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
+for((RANK_IDS=$RANK_ID_START;RANK_IDS<$((RANK_SIZES+RANK_ID_START));RANK_IDS++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $RANK_ID"
-    export RANK_ID=$RANK_ID
-    export ASCEND_DEVICE_ID=$RANK_ID
-    ASCEND_DEVICE_ID=$RANK_ID
+    echo "Device ID: $RANK_IDS"
+    export RANK_IDS=$RANK_IDS
+    export ASCEND_DEVICE_ID=$RANK_IDS
+    ASCEND_DEVICE_ID=$RANK_IDS
     
     #创建DeviceID输出目录，不需要修改
     if [ -d ${cur_path}/output/${ASCEND_DEVICE_ID} ];then
@@ -128,9 +140,9 @@ do
     
      # 绑核，不需要的绑核的模型删除，需要模型审视修改
     corenum=`cat /proc/cpuinfo |grep "processor"|wc -l`
-    let a=RANK_ID*${corenum}/${RANK_SIZE}
-    let b=RANK_ID+1
-    let c=b*${corenum}/${RANK_SIZE}-1
+    let a=RANK_IDS*${corenum}/${RANK_SIZES}
+    let b=RANK_IDS+1
+    let c=b*${corenum}/${RANK_SIZES}-1
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
     #--data_dir, --model_dir, --precision_mode, --over_dump, --over_dump_path，--data_dump_flag，--data_dump_step，--data_dump_path，--profiling，--profiling_dump_path
@@ -153,7 +165,8 @@ wait
 #训练结束时间，不需要修改
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
-
+sed -i 's/RANK_SIZES/RANK_SIZE/g' modelarts/start.py efficientnet/main_npu.py
+sed -i 's/RANK_IDS/RANK_ID/g' modelarts/start.py
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
@@ -171,13 +184,13 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZES}'p'_'acc'
 
 ##获取性能数据
 #吞吐量，不需要修改
 ActualFPS=${FPS}
 #单迭代训练时长，不需要修改
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZE}'*1000/'${FPS}'}'`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZES}'*1000/'${FPS}'}'`
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep 'logger.py:54' $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk '{print $8}' |awk -F ":" '{print $2}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
@@ -187,7 +200,7 @@ ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseNam
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZES}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
