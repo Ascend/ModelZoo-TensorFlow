@@ -194,13 +194,6 @@ ActualFPS=${FPS}
 #单迭代训练时长，不需要修改
 TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZES}'*1000/'${FPS}'}'`
 
-
-##获取性能数据，不需要修改
-#吞吐量
-ActualFPS=${e2e_time}
-#单迭代训练时长
-TrainingTime=${e2e_time}
-
 ##获取Loss，通过train_*.log中关键字，需要根据模型审视
 grep "total_loss:" $cur_path/output/0/train_0.log|awk '{print $9}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
 
