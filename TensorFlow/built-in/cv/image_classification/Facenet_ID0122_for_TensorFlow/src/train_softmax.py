@@ -237,7 +237,7 @@ def main(args):
             custom_op.parameter_map["mix_compile_mode"].b =  True
             custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_fp32_to_fp16")
             # custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
-            custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("fp16fp32.txt")
+            custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("./switch_config.txt")
             config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
             sess = tf.Session(config=config)
         else:
