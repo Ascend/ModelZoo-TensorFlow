@@ -201,7 +201,7 @@ def main(args):
         tf.add_to_collection(tf.GraphKeys.REGULARIZATION_LOSSES, prelogits_center_loss * args.center_loss_factor)
 
         learning_rate = tf.train.exponential_decay(learning_rate_placeholder, global_step,
-            args.learning_rate_decay_epochs*args.epoch_size, args.learning_rate_decay_factor, staircase=True)
+            args.learning_rate_decay_epochs*args.epoch_size, args.learning_rate_decay_factor, staircase=False)
         tf.summary.scalar('learning_rate', learning_rate)
 
         # Calculate the average cross entropy loss across the batch
@@ -222,7 +222,7 @@ def main(args):
             learning_rate, args.moving_average_decay, tf.global_variables(), args.log_histograms)
         
         # Create a saver
-        saver = tf.train.Saver(tf.trainable_variables(), max_to_keep=3)
+        saver = tf.train.Saver(tf.trainable_variables(), max_to_keep=args.max_nrof_epochs)
 
         # Build the summary operation based on the TF collection of Summaries.
         summary_op = tf.summary.merge_all()
@@ -235,6 +235,9 @@ def main(args):
             custom_op.name = "NpuOptimizer"
             custom_op.parameter_map["use_off_line"].b = True
             custom_op.parameter_map["mix_compile_mode"].b =  True
+            custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_fp32_to_fp16")
+            # custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
+            custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("fp16fp32.txt")
             config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
             sess = tf.Session(config=config)
         else:
@@ -295,13 +298,16 @@ def main(args):
                 
                 if not cont:
                     break
-                  
-                t = time.time()
-                if len(val_image_list)>0 and ((epoch-1) % args.validate_every_n_epochs == args.validate_every_n_epochs-1 or epoch==args.max_nrof_epochs):
-                    validate(args, sess, epoch, val_image_list, val_label_list, enqueue_op, image_paths_placeholder, labels_placeholder, control_placeholder,
-                        phase_train_placeholder, batch_size_placeholder, 
-                        stat, total_loss, regularization_losses, cross_entropy_mean, accuracy, args.validate_every_n_epochs, args.use_fixed_image_standardization)
-                stat['time_validate'][epoch-1] = time.time() - t
+                
+                if use_NPU:
+                    pass
+                else:
+                    t = time.time()
+                    if len(val_image_list)>0 and ((epoch-1) % args.validate_every_n_epochs == args.validate_every_n_epochs-1 or epoch==args.max_nrof_epochs):
+                        validate(args, sess, epoch, val_image_list, val_label_list, enqueue_op, image_paths_placeholder, labels_placeholder, control_placeholder,
+                            phase_train_placeholder, batch_size_placeholder, 
+                            stat, total_loss, regularization_losses, cross_entropy_mean, accuracy, args.validate_every_n_epochs, args.use_fixed_image_standardization)
+                    stat['time_validate'][epoch-1] = time.time() - t
 
                 # Save variables and the metagraph if it doesn't exist already
                 save_variables_and_metagraph(sess, saver, summary_writer, model_dir, subdir, epoch)

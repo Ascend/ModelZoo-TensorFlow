@@ -59,23 +59,28 @@ do
 		--logs_base_dir ${cur_path}/src/logs/$ASCEND_DEVICE_ID \
 		--models_base_dir ${cur_path}/src/models/$ASCEND_DEVICE_ID \
 		--data_dir ${data_path}/CASIA-WebFace_182/ \
+		--lfw_dir ${cur_path}/lfw/datasets \
 		--batch_size ${batch_size} \
 		--image_size 160 \
 		--model_def models.inception_resnet_v1 \
 		--optimizer ADAM \
-		--learning_rate -1 \
+		--learning_rate 0.6 \
+		--learning_rate_decay_epochs 1 \
+		--learning_rate_decay_factor 0.7 \
 		--max_nrof_epochs ${train_epoch} \
-		--keep_probability 0.8 \
+		--keep_probability 1.0 \
 		--random_crop \
 		--random_flip \
-		--random_rotate \
+		--lfw_distance_metric 1 \
+		--lfw_use_flipped_images \
+		--lfw_subtract_mean \
 		--use_fixed_image_standardization \
 		--learning_rate_schedule_file ${cur_path}/data/learning_rate_schedule_classifier_casia_8p.txt \
 		--weight_decay 5e-4 \
 		--embedding_size 512 \
 		--validation_set_split_ratio 0.05 \
 		--validate_every_n_epochs 5 \
-		--prelogits_norm_loss_factor 5e-4 > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+		--prelogits_norm_loss_factor 1e-3 > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 done
 wait
 end=$(date +%s)
@@ -110,43 +115,26 @@ grep RegLoss $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log
 #最后一个迭代loss值，不需要修改
 ActualLoss=`awk 'END {print $1}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt`
 
-unset RANK_TABLE_FILE
-unset RANK_SIZE
-ckpt_path=`ls ${cur_path}/src/models/$ASCEND_DEVICE_ID/*/*ckpt-${train_epoch}.index`
-ckpt_path=${ckpt_path%.*}
-# run evalute
-python3 ${cur_path}/src/train_softmax.py \
-    --logs_base_dir ${cur_path}/src/logs/ \
-	--models_base_dir ${cur_path}/src/models/ \
-	--data_dir ${data_path}/CASIA-WebFace_182/ \
-	--lfw_dir ${cur_path}/lfw/datasets \
-	--pretrained_model ${ckpt_path} \
-	--batch_size ${batch_size} \
-	--image_size 160 \
-	--epoch_size 1 \
-	--model_def models.inception_resnet_v1 \
-	--optimizer ADAM \
-	--learning_rate -1 \
-	--max_nrof_epochs 1 \
-	--keep_probability 0.8 \
-	--random_crop \
-	--random_flip \
-	--random_rotate \
-	--use_fixed_image_standardization \
-	--learning_rate_schedule_file ${cur_path}/data/learning_rate_schedule_classifier_casia.txt \
-	--weight_decay 5e-4 \
-	--embedding_size 512 \
-	--validation_set_split_ratio 0 \
-	--validate_every_n_epochs 5 \
-	--prelogits_norm_loss_factor 5e-4 >> $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1
-
 #train_accuracy
-train_accuracy=`grep 'Accuracy:' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk '{print $2}' |tail -1`
+train_accuracy=`grep -rn 'Accuracy:' $cur_path/test/output/*/* | awk '{print $2}' | awk -F'%' 'BEGIN {max = 0} {if ($1+0 > max+0) max=$1} END {print max}'`
 
 #打印，不需要修改
 echo "train_accuracy : $train_accuracy"
 
-RANK_SIZE=8
+saved_model_path=${cur_path}/src/models/saved_model_path/`date '+%Y%m%d%H%M'`
+mkdir $saved_model_path -p
+bst_d=`grep -rn $train_accuracy $cur_path/test/output/*/* | head -n 1`
+bst_d=${bst_d%/*}
+bst_d=${bst_d##*/}
+bst_e=`grep -rn -B 10 $train_accuracy $cur_path/test/output/*/* | head -n 1 | awk '{print $2}'`
+bst_e=${bst_e%%]*}
+bst_e=${bst_e#*[}
+cp ${cur_path}/src/models/${bst_d}/*/*ckpt-${bst_e}* ${saved_model_path}
+cp ${cur_path}/src/models/${bst_d}/*/*.meta ${saved_model_path}
+cp ${cur_path}/src/models/${bst_d}/*/checkpoint ${saved_model_path}
+sed -i "1s/ckpt-${train_epoch}/ckpt-${bst_e}/" ${saved_model_path}/checkpoint
+echo "saved model path: ${saved_mode_path}/"
+
 
 ##获取错误信息
 #系统错误信息
