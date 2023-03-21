@@ -5,7 +5,7 @@ cur_path=`pwd`/../
 #export ASCEND_SLOG_PRINT_TO_STDOUT=1
 export ENABLE_FORCE_V2_CONTROL=1
 
-#export ASCEND_DEVICE_ID=7
+export ASCEND_DEVICE_ID=0
 #基础参数，需要模型审视修改
 #Batch Size
 batch_size=90

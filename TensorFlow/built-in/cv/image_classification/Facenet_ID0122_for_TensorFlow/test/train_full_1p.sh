@@ -53,6 +53,7 @@ nohup python3 ${cur_path}/src/train_softmax.py \
     --logs_base_dir ${cur_path}/src/logs/ \
 	--models_base_dir ${cur_path}/src/models/$ASCEND_DEVICE_ID \
 	--data_dir ${data_path}/CASIA-WebFace_182/ \
+	--lfw_dir ${cur_path}/lfw/datasets \
 	--batch_size ${batch_size} \
 	--image_size 160 \
 	--model_def models.inception_resnet_v1 \
@@ -119,7 +120,7 @@ cp ${cur_path}/src/models/${ASCEND_DEVICE_ID}/*/*ckpt-${bst_e}* ${saved_model_pa
 cp ${cur_path}/src/models/${ASCEND_DEVICE_ID}/*/*.meta ${saved_model_path}
 cp ${cur_path}/src/models/${ASCEND_DEVICE_ID}/*/checkpoint ${saved_model_path}
 sed -i "1s/ckpt-${train_epoch}/ckpt-${bst_e}/" ${saved_model_path}/checkpoint
-echo "saved model path: ${saved_mode_path}/"
+echo "saved model path: ${saved_model_path}/"
 
 
 ##获取错误信息

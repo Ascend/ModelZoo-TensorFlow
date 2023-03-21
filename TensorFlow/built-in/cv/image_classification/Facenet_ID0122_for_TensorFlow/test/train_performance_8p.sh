@@ -7,7 +7,7 @@ export JOB_ID=10096
 export RANK_TABLE_FILE=${cur_path}/test/ranktable_8p.json
 export ENABLE_FORCE_V2_CONTROL=1
 
-export ASCEND_SLOG_PRINT_TO_STDOUT=1
+export ASCEND_SLOG_PRINT_TO_STDOUT=0
 export ASCEND_GLOBAL_LOG_LEVEL=3
 
 #export ASCEND_DEVICE_ID=7

@@ -2,7 +2,6 @@
 
 cur_path=`pwd`/../
 #失败用例打屏
-#export ASCEND_SLOG_PRINT_TO_STDOUT=1
 export JOB_ID=10096
 export RANK_TABLE_FILE=${cur_path}/test/ranktable_8p.json
 export ENABLE_FORCE_V2_CONTROL=1
@@ -10,12 +9,11 @@ export ENABLE_FORCE_V2_CONTROL=1
 export ASCEND_SLOG_PRINT_TO_STDOUT=0
 export ASCEND_GLOBAL_LOG_LEVEL=3
 
-#export ASCEND_DEVICE_ID=7
 #基础参数，需要模型审视修改
 #Batch Size
 batch_size=90
 #train epoch number
-train_epoch=12
+train_epoch=15
 #网络名称，同目录名称
 Network="Facenet_ID0122_for_TensorFlow"
 #Device数量，单卡默认为1
@@ -133,7 +131,7 @@ cp ${cur_path}/src/models/${bst_d}/*/*ckpt-${bst_e}* ${saved_model_path}
 cp ${cur_path}/src/models/${bst_d}/*/*.meta ${saved_model_path}
 cp ${cur_path}/src/models/${bst_d}/*/checkpoint ${saved_model_path}
 sed -i "1s/ckpt-${train_epoch}/ckpt-${bst_e}/" ${saved_model_path}/checkpoint
-echo "saved model path: ${saved_mode_path}/"
+echo "saved model path: ${saved_model_path}/"
 
 
 ##获取错误信息
