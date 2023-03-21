@@ -49,6 +49,7 @@ nohup python3 ${cur_path}/src/train_softmax.py \
     --logs_base_dir ${cur_path}/src/logs/ \
 	--models_base_dir ${cur_path}/src/models/ \
 	--data_dir ${data_path}/CASIA-WebFace_182/ \
+	--lfw_dir ${cur_path}/lfw/datasets \
 	--batch_size ${batch_size} \
 	--image_size 160 \
 	--model_def models.inception_resnet_v1 \
@@ -58,7 +59,9 @@ nohup python3 ${cur_path}/src/train_softmax.py \
 	--keep_probability 0.8 \
 	--random_crop \
 	--random_flip \
-	--random_rotate \
+	--lfw_distance_metric 1 \
+	--lfw_use_flipped_images \
+	--lfw_subtract_mean \
 	--use_fixed_image_standardization \
 	--learning_rate_schedule_file ${cur_path}/data/learning_rate_schedule_classifier_casia.txt \
 	--weight_decay 5e-4 \
