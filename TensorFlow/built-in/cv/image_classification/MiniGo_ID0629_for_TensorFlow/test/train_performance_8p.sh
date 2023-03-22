@@ -48,14 +48,6 @@ do
     fi
 done
 
-#8p训练必须参数（本机IP）
-one_node_ip=$one_node_ip
-#新增适配集群环境变量
-export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
-export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
-export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
-export CM_WORKER_SIZE=8             #卡数，单机为8，所有服务器一致
-export CM_WORKER_IP=${one_node_ip}  #当前服务器ip，不同环境ip不同
 
 if [[ $data_path  == "" ]];then
     echo "[Error] para \"data_path\" must be config"
@@ -74,6 +66,14 @@ export RANK_SIZES=8
 #export RANK_TABLE_FILE="${cur_path}/test/8p.json"
 export JOB_ID=10086
 
+#8p训练必须参数（本机IP）
+one_node_ip=$one_node_ip
+#新增适配集群环境变量
+export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
+export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
+export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
+export CM_WORKER_SIZE=8             #卡数，单机为8，所有服务器一致
+export CM_WORKER_IP=${one_node_ip}  #当前服务器ip，不同环境ip不同
 start=$(date +%s)
 
 # 8P训练模式
