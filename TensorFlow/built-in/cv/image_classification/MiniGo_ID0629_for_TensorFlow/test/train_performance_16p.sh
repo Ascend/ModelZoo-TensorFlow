@@ -60,20 +60,6 @@ done
 
 linux_num=$servers_num
 
-if [[ $conf_path == "" ]];then
-    fix_node_ip=$fix_node_ip
-    one_node_ip=$one_node_ip
-else
-    one_node_ip=`find $conf_path -name "server_*_0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
-fi
-
-#新增适配集群环境变量
-export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
-export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
-export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
-export CM_WORKER_SIZE=16            #卡数，单机为8，多机为8n,所有服务器一致
-export CM_WORKER_IP=${fix_node_ip}  #当前服务器ip，不同环境ip不同
-
 if [[ $data_path  == "" ]];then
     echo "[Error] para \"data_path\" must be config"
     exit 1
@@ -93,7 +79,19 @@ cd $cur_path
 python3 bootstrap.py --work_dir=$cur_path/estimator_working_dir --export_path=$cur_path/outputs/models/000000-bootstrap
 wait
 
+if [[ $conf_path == "" ]];then
+    fix_node_ip=$fix_node_ip
+    one_node_ip=$one_node_ip
+else
+    one_node_ip=`find $conf_path -name "server_*_0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
+fi
 
+#新增适配集群环境变量
+export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
+export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
+export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
+export CM_WORKER_SIZE=16            #卡数，单机为8，多机为8n,所有服务器一致
+export CM_WORKER_IP=${fix_node_ip}  #当前服务器ip，不同环境ip不同
 start=$(date +%s)
 
 # 8P训练模式

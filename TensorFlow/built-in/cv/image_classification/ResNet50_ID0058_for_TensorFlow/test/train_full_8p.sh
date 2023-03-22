@@ -5,8 +5,8 @@ cur_path=`pwd`
 
 #集合通信参数,不需要修改
 #保证rank table file 文件rank_table_8p.json存放在和test同级的configs目录下
-export RANK_SIZES=8
-#export RANK_TABLE_FILE=${cur_path}/../configs/8p.json
+export RANK_SIZE=8
+export RANK_TABLE_FILE=${cur_path}/../configs/8p.json
 export JOB_ID=10087
 RANK_ID_START=0
 
@@ -21,7 +21,7 @@ Network="ResNet50_ID0058_for_TensorFlow"
 export HCCL_CONNECT_TIMEOUT=600
 corenum=`cat /proc/cpuinfo |grep "processor"|wc -l`
 export RANK_INDEX=0
-export RANK_IDS=0
+export RANK_ID=0
 
 config_file=res50_256bs_8p_eval
 iterations_per_loop=100
@@ -86,19 +86,8 @@ do
     elif [[ $para == --bind_core* ]]; then
         bind_core=`echo ${para#*=}`
         name_bind="_bindcore"
-    elif [[ $para == --one_node_ip* ]];then
-        one_node_ip=`echo ${para#*=}`
     fi
 done
-
-#8p训练必须参数（本机IP）
-one_node_ip=$one_node_ip
-#新增适配集群环境变量
-export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
-export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
-export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
-export CM_WORKER_SIZE=8             #卡数，单机为8，所有服务器一致
-export CM_WORKER_IP=${one_node_ip}  #当前服务器ip，不同环境ip不同
 
 #校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
@@ -115,16 +104,16 @@ fi
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
-sed -i 's/RANK_SIZE/RANK_SIZES/g' ../src/data_loader/resnet50/data_loader.py
+
 #进入训练脚本目录，需要模型审视修改
 cd $cur_path/..
-for((RANK_IDS=$RANK_ID_START;RANK_IDS<$((RANK_SIZES+RANK_ID_START));RANK_IDS++));
+for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
     #设置环境变量，不需要修改
-    echo "Device ID: $RANK_IDS"
-    # export RANK_IDS=$RANK_IDS
-    export ASCEND_DEVICE_ID=$RANK_IDS
-    ASCEND_DEVICE_ID=$RANK_IDS
+    echo "Device ID: $RANK_ID"
+    # export RANK_ID=$RANK_ID
+    export ASCEND_DEVICE_ID=$RANK_ID
+    ASCEND_DEVICE_ID=$RANK_ID
     export DEVICE_ID=$ASCEND_DEVICE_ID
 	DEVICE_INDEX=$(( DEVICE_ID + RANK_INDEX * 8 ))
 	export DEVICE_INDEX=$DEVICE_INDEX
@@ -139,8 +128,8 @@ do
 
     #执行训练脚本，需要模型审视修改
     corenum=`cat /proc/cpuinfo |grep 'processor' |wc -l`
-    let a=RANK_IDS*${corenum}/8
-    let b=RANK_IDS+1
+    let a=RANK_ID*${corenum}/8
+    let b=RANK_ID+1
     let c=b*${corenum}/8-1
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
@@ -169,7 +158,6 @@ wait
 #训练结束时间，不需要修改
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
-sed -i 's/RANK_SIZES/RANK_SIZE/g' src/data_loader/resnet50/data_loader.py
 
 echo "------------------ Final result ------------------"
 #单step时长，需要从train_$ASCEND_DEVICE_ID.log里，通过关键字获取。需要模型审视修改
@@ -186,13 +174,20 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZES}'p'_'acc'
+CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 ##获取性能数据
 #吞吐量，不需要修改
 ActualFPS=${FPS}
 #单迭代训练时长，不需要修改
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZES}'*1000/'${FPS}'}'`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZE}'*1000/'${FPS}'}'`
+
+
+##获取性能数据，不需要修改
+#吞吐量
+ActualFPS=${e2e_time}
+#单迭代训练时长
+TrainingTime=${e2e_time}
 
 ##获取Loss，通过train_*.log中关键字，需要根据模型审视
 grep "total_loss:" $cur_path/output/0/train_0.log|awk '{print $9}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
@@ -202,7 +197,7 @@ ActualLoss=`awk 'END {print}' $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseNam
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
-echo "RankSize = ${RANK_SIZES}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "BatchSize = ${BatchSize}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "DeviceType = ${DeviceType}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
