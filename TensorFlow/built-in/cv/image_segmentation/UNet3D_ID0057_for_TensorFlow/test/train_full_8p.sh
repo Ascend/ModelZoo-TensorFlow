@@ -5,9 +5,9 @@ cur_path=`pwd`
 
 export LANG=en_US.UTF-8
 
-export RANK_SIZES=8
+export RANK_SIZE=8
 export JOB_ID=10087
-#export RANK_TABLE_FILE=$cur_path/../scripts/8p.json
+export RANK_TABLE_FILE=$cur_path/../scripts/8p.json
 RANK_ID_START=0
 
 
@@ -71,19 +71,9 @@ do
         cp -rf $install_path/fwkacllib/data/rl/Ascend910/custom ${autotune_dump_path}/RL/
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
-    elif [[ $para == --one_node_ip* ]];then
-        one_node_ip=`echo ${para#*=}`
     fi
 done
 
-#8p训练必须参数（本机IP）
-one_node_ip=$one_node_ip
-#新增适配集群环境变量
-export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
-export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
-export CM_CHIEF_DEVICE=0            #配置为0，配置主卡，类似于主节点，所有服务器一致
-export CM_WORKER_SIZE=8             #卡数，单机为8，所有服务器一致
-export CM_WORKER_IP=${one_node_ip}  #当前服务器ip，不同环境ip不同
 
 #data_path='../'
 #校验是否传入data_path,不需要修改
@@ -91,23 +81,18 @@ if [[ $data_path == "" ]];then
     echo "[Error] para \"data_path\" must be confing"
     exit 1
 fi
-cd $cur_path/../
-sed -i 's/RANK_SIZE/RANK_SIZES/g' model/model_fn.py pbinference/unet3d_pb_inference.sh main_npu.py dataset/data_loader.py runtime/hooks.py runtime/setup.py
-sed -i 's/RANK_ID/RANK_IDS/g' pbinference/unet3d_pb_inference.sh main_npu.py dataset/data_loader.py runtime/hooks.py runtime/setup.py
+
 cd $cur_path/../scripts
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 
 bash run_accuracy_8p.sh ${data_path} all
-wait
 
 #训练结束时间，不需要修改
 end_time=$(date +%s)
 e2e_time=$(( $end_time - $start_time ))
-cd $cur_path/../
-sed -i 's/RANK_SIZES/RANK_SIZE/g' model/model_fn.py pbinference/unet3d_pb_inference.sh main_npu.py dataset/data_loader.py runtime/hooks.py runtime/setup.py
-sed -i 's/RANK_IDS/RANK_ID/g' pbinference/unet3d_pb_inference.sh main_npu.py dataset/data_loader.py runtime/hooks.py runtime/setup.py
+
 
 sleep 30
 train_accuracy=`grep -r "whole" $cur_path/output/0/train_0.log | awk '{print $6}'`
@@ -120,6 +105,7 @@ echo "E2E Training Duration sec : $e2e_time"
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
 fps=`grep throughput_train $cur_path/output/0/train_0.log|awk -F 'throughput_train' '{print $2}'|awk -F ':' '{print $2}'|awk '{print $1}'`
+#FPS=`awk 'BEGIN{printf "%.2f\n",'${RANK_SIZE}'*'${fps}'}'`
 FPS=1.5
 #打印，不需要修改
 echo "Final Performance images/sec : $FPS"
@@ -130,13 +116,13 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZES}'p'_'acc'
+CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 #获取性能数据，不需要修改
 #吞吐量
 ActualFPS=${FPS}
 #单迭代训练时长
-TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZES}'*1000/'${FPS}'}'`
+TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZE}'*1000/'${FPS}'}'`
 
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
@@ -147,7 +133,7 @@ ActualLoss=`awk 'END {print}' $cur_path/output/0/train_${CaseName}_loss.txt`
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/0/${CaseName}.log
-echo "RankSize = ${RANK_SIZES}" >> $cur_path/output/0/${CaseName}.log
+echo "RankSize = ${RANK_SIZE}" >> $cur_path/output/0/${CaseName}.log
 echo "BatchSize = ${BatchSize}" >> $cur_path/output/0/${CaseName}.log
 echo "DeviceType = ${DeviceType}" >> $cur_path/output/0/${CaseName}.log
 echo "CaseName = ${CaseName}" >> $cur_path/output/0/${CaseName}.log
