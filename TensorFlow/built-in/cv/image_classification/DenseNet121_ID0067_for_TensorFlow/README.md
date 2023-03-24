@@ -165,39 +165,19 @@ DenseNet-121是一个经典的图像分类网络，主要特点是采用各层�
 
 - 单卡训练 
 
-  1. 配置训练参数。
-
-     首先在脚本scripts/train_1p.sh中，配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
-
-     ```
-      --data_dir=/opt/npu/slimImagenet
-     ```
-
-  2. 启动训练。
-
-     启动单卡训练 （脚本为DenseNet121_for_TensorFlow/scripts/run_1p.sh） 
-
-     ```
-     bash run_1p.sh
-     ```
+  1、 单p指令如下:
+        cd test;
+        bash train_performance_1p.sh --data_path=/path/to/data
 
 - 8卡训练
 
-  1. 配置训练参数。
-
-     首先在脚本scripts/train_8p.sh中，配置训练数据集路径，请用户根据实际路径配置，数据集参数如下所示：
-
-     ```
-      --data_dir=/opt/npu/slimImagenet
-     ```
-
-  2. 启动训练。
-
-     启动单卡训练 （脚本为DenseNet121_for_TensorFlow/scripts/run_8p.sh） 
-
-     ```
-     bash run_8p.sh
-     ```
+  1、 8p指令如下: 
+        cd test;
+        bash train_performance_8p.sh --data_path=/path/to/data
+        
+  2、 8p 绑核指令如下:
+        cd test;
+        train_performance_8p.sh --bind_core=1 --data_path=/path/to/data
 
 
 - 验证。
