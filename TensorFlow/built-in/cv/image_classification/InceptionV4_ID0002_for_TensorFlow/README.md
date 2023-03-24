@@ -151,24 +151,19 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
     
     2. 单卡训练 
 
-        2.1 配置train_performance_1p.sh脚本中`data_dir`（脚本路径InceptionV4_for_TensorFlow/test下）,请用户根据实际路径配置，数据集参数如下所示：
-
-            --data_dir=/path/to/data  
-
-        2.2 单p指令如下:
-
-            bash train_performance_1p.sh
+        2.1 单p指令如下:
+        cd test;
+        bash train_performance_1p.sh --data_path=/path/to/data
 
     3. 8卡训练  
     
-        3.1 配置train_performance_8p.sh脚本中`data_dir`（脚本路径InceptionV4_for_TensorFlow/test下）,请用户根据实际路径配置，数据集参数如下所示：
-            
-            --data_dir=/path/to/data 
-
-        3.2 8p指令如下: 
-            
+        3.1 8p指令如下: 
+        cd test;
+        bash train_performance_8p.sh --data_path=/path/to/data
         
-        train_performance_8p.sh --bind_core=1
+        3.1 8p 绑核指令如下:
+        cd test;
+        train_performance_8p.sh --bind_core=1 --data_path=/path/to/data
    
 -  验证。
 
