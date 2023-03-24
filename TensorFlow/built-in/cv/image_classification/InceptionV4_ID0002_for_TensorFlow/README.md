@@ -149,21 +149,31 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
 
           [Ascend 910训练平台环境变量设置](https://gitee.com/ascend/ModelZoo-TensorFlow/wikis/01.%E8%AE%AD%E7%BB%83%E8%84%9A%E6%9C%AC%E8%BF%81%E7%A7%BB%E6%A1%88%E4%BE%8B/Ascend%20910%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E8%AE%BE%E7%BD%AE)
     
-    2. 单卡训练 
+    2. 单卡性能训练 
 
         2.1 单p指令如下:
         cd test;
         bash train_performance_1p.sh --data_path=/path/to/data
 
-    3. 8卡训练  
+    3. 8卡性能训练  
     
         3.1 8p指令如下: 
         cd test;
         bash train_performance_8p.sh --data_path=/path/to/data
         
-        3.1 8p 绑核指令如下:
+        3.2 8p 绑核指令如下:
         cd test;
-        train_performance_8p.sh --bind_core=1 --data_path=/path/to/data
+        bash train_performance_8p.sh --bind_core=1 --data_path=/path/to/data
+
+    4. 单卡精度训练 
+        4.1 单p指令如下:
+        cd test;
+        bash train_full_1p.sh --data_path=/path/to/data
+
+    5.8卡精度训练
+        5.1 8p指令如下: 
+        cd test;
+        bash train_full_8p.sh --data_path=/path/to/data
    
 -  验证。
 
@@ -172,7 +182,7 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
        
         ```
         --mode=evaluate  
-        --eval_dir=${dname}/scripts/result/8p/2/model 
+        --eval_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt 
         ```
 
 
@@ -301,9 +311,9 @@ InceptionV4是2016年提出的Inception系列网络的第四个版本，随着Re
 ## 训练过程<a name="section1589455252218"></a>
 
 1. 通过“模型训练”中的训练指令启动单卡或者多卡训练。单卡和多卡通过运行不同脚本，支持单卡，8卡网络训练。 
-2. 将训练脚本（train_1p.sh,train_8p.sh）中的data_dir设置为训练数据集的路径。具体的流程参见“模型训练”的示例。 
-3. 模型存储路径为“results/1p”或者“results/8p”，包括训练的log以及checkpoints文件。
-4. 以单卡训练为例，loss信息在文件results/1p/0/model/inception_v4.log中，示例如下。 
+2. 具体的流程参见“模型训练”的示例。 
+3. 模型存储路径为test/output，包括训练的log以及checkpoints文件。
+4. 以单卡训练为例，loss信息在文件test/output/0/train_0.log中，示例如下。 
 
 ```
 step: 12100 epoch: 1.2 FPS: 469.5 loss: 4.676 total_loss: 5.051 lr:0.04499 
