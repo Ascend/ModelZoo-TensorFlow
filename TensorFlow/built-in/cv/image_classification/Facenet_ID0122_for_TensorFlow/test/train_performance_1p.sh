@@ -49,7 +49,7 @@ nohup python3 ${cur_path}/src/train_softmax.py \
     --logs_base_dir ${cur_path}/src/logs/ \
 	--models_base_dir ${cur_path}/src/models/ \
 	--data_dir ${data_path}/CASIA-WebFace_182/ \
-	--lfw_dir ${cur_path}/lfw/datasets \
+	--lfw_dir ${data_path}/lfw_mtcnnpy_160/ \
 	--batch_size ${batch_size} \
 	--image_size 160 \
 	--model_def models.inception_resnet_v1 \
