@@ -115,7 +115,7 @@ ActualLoss=`awk 'END {print $1}' $cur_path/test/output/$ASCEND_DEVICE_ID/train_$
 
 #train_accuracy
 train_accuracy=`grep -rn 'Accuracy:' $cur_path/test/output/*/* | awk '{print $2}' | awk -F'%' 'BEGIN {max = 0} {if ($1+0 > max+0) max=$1} END {print max}'`
-
+train_accuracy=${train_accuracy%%+*}
 #打印，不需要修改
 echo "train_accuracy : $train_accuracy"
 
