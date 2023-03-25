@@ -7,7 +7,7 @@ export JOB_ID=10096
 export RANK_TABLE_FILE=${cur_path}/test/ranktable_8p.json
 export ENABLE_FORCE_V2_CONTROL=1
 
-export ASCEND_SLOG_PRINT_TO_STDOUT=1
+export ASCEND_SLOG_PRINT_TO_STDOUT=0
 export ASCEND_GLOBAL_LOG_LEVEL=3
 
 #export ASCEND_DEVICE_ID=7
@@ -55,23 +55,28 @@ do
 		--logs_base_dir ${cur_path}/src/logs/$ASCEND_DEVICE_ID \
 		--models_base_dir ${cur_path}/src/models/ \
 		--data_dir ${data_path}/CASIA-WebFace_182/ \
+		--lfw_dir ${data_path}/lfw_mtcnnpy_160/ \
 		--batch_size ${batch_size} \
 		--image_size 160 \
 		--model_def models.inception_resnet_v1 \
 		--optimizer ADAM \
-		--learning_rate -1 \
+		--learning_rate 0.6 \
+		--learning_rate_decay_epochs 1 \
+		--learning_rate_decay_factor 0.7 \
 		--max_nrof_epochs 3 \
-		--keep_probability 0.8 \
+		--keep_probability 1.0 \
 		--random_crop \
 		--random_flip \
-		--random_rotate \
+		--lfw_distance_metric 1 \
+		--lfw_use_flipped_images \
+		--lfw_subtract_mean \
 		--use_fixed_image_standardization \
 		--learning_rate_schedule_file ${cur_path}/data/learning_rate_schedule_classifier_casia_8p.txt \
 		--weight_decay 5e-4 \
 		--embedding_size 512 \
 		--validation_set_split_ratio 0.05 \
 		--validate_every_n_epochs 5 \
-		--prelogits_norm_loss_factor 5e-4 > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
+		--prelogits_norm_loss_factor 1e-3 > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 done
 wait
 end=$(date +%s)

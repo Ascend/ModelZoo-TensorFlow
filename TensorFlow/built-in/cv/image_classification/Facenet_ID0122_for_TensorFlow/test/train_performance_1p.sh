@@ -5,7 +5,7 @@ cur_path=`pwd`/../
 #export ASCEND_SLOG_PRINT_TO_STDOUT=1
 export ENABLE_FORCE_V2_CONTROL=1
 
-#export ASCEND_DEVICE_ID=7
+export ASCEND_DEVICE_ID=0
 #基础参数，需要模型审视修改
 #Batch Size
 batch_size=90
@@ -49,6 +49,7 @@ nohup python3 ${cur_path}/src/train_softmax.py \
     --logs_base_dir ${cur_path}/src/logs/ \
 	--models_base_dir ${cur_path}/src/models/ \
 	--data_dir ${data_path}/CASIA-WebFace_182/ \
+	--lfw_dir ${data_path}/lfw_mtcnnpy_160/ \
 	--batch_size ${batch_size} \
 	--image_size 160 \
 	--model_def models.inception_resnet_v1 \
@@ -58,7 +59,9 @@ nohup python3 ${cur_path}/src/train_softmax.py \
 	--keep_probability 0.8 \
 	--random_crop \
 	--random_flip \
-	--random_rotate \
+	--lfw_distance_metric 1 \
+	--lfw_use_flipped_images \
+	--lfw_subtract_mean \
 	--use_fixed_image_standardization \
 	--learning_rate_schedule_file ${cur_path}/data/learning_rate_schedule_classifier_casia.txt \
 	--weight_decay 5e-4 \
