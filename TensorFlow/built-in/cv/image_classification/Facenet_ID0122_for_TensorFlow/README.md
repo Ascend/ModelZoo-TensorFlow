@@ -125,42 +125,53 @@ pip3 install requirements.txt
 
     2. 单卡训练
        
-        2.1 设置单卡训练参数（脚本位于./Facenet_ID0122_for_TensorFlow/test/train_full_1p.sh），示例如下。
-            
-        
-        ```
-        # 训练epoch
-        train_epochs=90
-        # 训练batch_size
-        batch_size=90
-        ```
-        
+        2.1 设置单卡训练参数（脚本位于./Facenet_ID0122_for_TensorFlow/test/train_full_1p.sh），示例如下：
 
-        2.2 单卡训练指令（脚本位于./Facenet_ID0122_for_TensorFlow/test/train_full_1p.sh） 
+            ```
+            # 训练epoch
+            train_epochs=90
+            # 训练batch_size
+            batch_size=90
+            ```
 
-        ```
-        于终端中运行export ASCEND_DEVICE_ID=0 (0~7)以指定单卡训练时使用的卡
-        bash train_full_1p.sh --data_path=xx
+        2.2 单卡精度训练指令（脚本位于./Facenet_ID0122_for_TensorFlow/test/train_full_1p.sh） 
+        
+            于终端中运行export ASCEND_DEVICE_ID=0 (0~7)以指定单卡训练时使用的卡
+            bash train_full_1p.sh --data_path=<path of data>
+
+            注意：如果是Ascend910B及之后平台，请指定更高精度的fp32卷积计算启动训练 bash train_full_1p.sh --data_path=<path of data> --switch_config=<path of Facenet_ID0122_for_TensorFlow>/switch_config_fp32.txt
+
+        2.3 单卡性能训练指令（脚本位于./Facenet_ID0122_for_TensorFlow/test/train_performance_1p.sh） 
+        
+            于终端中运行export ASCEND_DEVICE_ID=0 (0~7)以指定单卡训练时使用的卡
+            bash train_performance_1p.sh --data_path=<path of data>
+
+            注意：如果是Ascend910B及之后平台，请指定更高精度的fp32卷积计算启动训练 bash train_performance_1p.sh --data_path=<path of data> --switch_config=<path of Facenet_ID0122_for_TensorFlow>/switch_config_fp32.txt
 
     3. 8卡训练
        
         3.1 设置8卡训练参数（脚本位于./Facenet_ID0122_for_TensorFlow/test/train_full_8p.sh），示例如下。
-            
         
-        ```
-        # 训练epoch
-        train_epochs=90
-        # 训练batch_size
-        batch_size=90
-        ```
-        
+            ```
+            # 训练epoch
+            train_epochs=90
+            # 训练batch_size
+            batch_size=90
+            ```
 
-        3.2 8卡训练指令（脚本位于./Facenet_ID0122_for_TensorFlow/test/train_full_8p.sh） 
+        3.2 8卡精度训练指令（脚本位于./Facenet_ID0122_for_TensorFlow/test/train_full_8p.sh） 
 
-        ```
-        于终端中运行export ASCEND_DEVICE_ID=0,1,2,3,4,5,6,7指定训练中使用的卡
-        bash train_full_8p.sh --data_path=xx
+            于终端中运行export ASCEND_DEVICE_ID=0,1,2,3,4,5,6,7指定训练中使用的卡
+            bash train_full_8p.sh --data_path=<path of data>
 
+            注意：如果是Ascend910B及之后平台，请指定更高精度的fp32卷积计算启动训练 bash train_full_8p.sh --data_path=<path of data> --switch_config=<path of Facenet_ID0122_for_TensorFlow>/switch_config_fp32.txt
+
+        3.3 8卡性能训练指令（脚本位于./Facenet_ID0122_for_TensorFlow/test/train_performance_8p.sh） 
+
+            于终端中运行export ASCEND_DEVICE_ID=0,1,2,3,4,5,6,7指定训练中使用的卡
+            bash train_performance_8p.sh --data_path=<path of data>
+
+            注意：如果是Ascend910B及之后平台，请指定更高精度的fp32卷积计算启动训练 bash train_performance_8p.sh --data_path=<path of data> --switch_config=<path of Facenet_ID0122_for_TensorFlow>/switch_config_fp32.txt
 
 ## 迁移学习指导
 
@@ -181,10 +192,10 @@ pip3 install requirements.txt
     ├── README.md                                //说明文档
     ├── requirements.txt                         //依赖
     ├── test
-    |    |—— train_full_1p.sh                    //单卡训练脚本
-    |    |—— train_performance_1p.sh             //单卡训练脚本
-    |    |—— train_full_8p.sh                    //8卡训练脚本
-    |    |—— train_performance_8p.sh             //8卡训练脚本
+    |    |—— train_full_1p.sh                    //单卡精度训练脚本
+    |    |—— train_performance_1p.sh             //单卡性能训练脚本
+    |    |—— train_full_8p.sh                    //8卡精度训练脚本
+    |    |—— train_performance_8p.sh             //8卡性能训练脚本
     ├── src                                      //训练网络脚本实现
 
 
