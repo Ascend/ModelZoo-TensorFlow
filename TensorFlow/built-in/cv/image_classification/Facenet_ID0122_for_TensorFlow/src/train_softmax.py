@@ -237,7 +237,7 @@ def main(args):
             custom_op.parameter_map["mix_compile_mode"].b =  True
             custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_fp32_to_fp16")
             # custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
-            custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes("./switch_config.txt")
+            custom_op.parameter_map["customize_dtypes"].s = tf.compat.as_bytes(args.switch_config)
             config.graph_options.rewrite_options.remapping = RewriterConfig.OFF
             sess = tf.Session(config=config)
         else:
@@ -644,6 +644,11 @@ def parse_arguments(argv):
         help='Concatenates embeddings for the image and its horizontally flipped counterpart.', action='store_true')
     parser.add_argument('--lfw_subtract_mean', 
         help='Subtract feature mean before calculating distance.', action='store_true')
+    # -----npu modified start-----
+    if use_NPU:
+        parser.add_argument('--switch_config', type=str,
+            help='File containing matmul and cube op dtype.', default='./switch_config.txt')
+    # -----npu modified end-----
     return parser.parse_args(argv)
   
 
