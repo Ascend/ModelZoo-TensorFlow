@@ -22,6 +22,7 @@ RANK_SIZE=8
 
 #参数配置
 data_path=""
+switch_config="${cur_path}/switch_config.txt"
 
 if [[ $1 == --help || $1 == --h ]];then
 	echo "usage:./train_full_8p.sh "
@@ -32,6 +33,8 @@ for para in $*
 do
 	if [[ $para == --data_path* ]];then
 		data_path=`echo ${para#*=}`
+	elif [[ $para == --switch_config* ]];then
+		switch_config=`echo ${para#*=}`
 	fi
 done
 
@@ -74,6 +77,7 @@ do
 		--lfw_subtract_mean \
 		--use_fixed_image_standardization \
 		--learning_rate_schedule_file ${cur_path}/data/learning_rate_schedule_classifier_casia_8p.txt \
+		--switch_config ${switch_config} \
 		--weight_decay 5e-4 \
 		--embedding_size 512 \
 		--validation_set_split_ratio 0.05 \
