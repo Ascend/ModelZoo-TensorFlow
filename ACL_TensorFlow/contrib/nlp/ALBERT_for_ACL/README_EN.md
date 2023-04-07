@@ -157,7 +157,7 @@ python3 xnlp_fmk.py \
 **ALBERT_zh**
 ***
 * ALBERT_zh use albert_zh for model_name parameter, each downstream task name for task_name
-* ALBERT_zh support afqmc, cmnli, csl, iflytek, tnews and wsc tasks
+* ALBERT_zh support afqmc, cmnli, csl, iflytek, tnews , lcqmc and wsc tasks
 * Change the parameters for different tasks
 * Only ALBERT_zh Tiny has been tested
 ***
@@ -166,7 +166,7 @@ python3 xnlp_fmk.py \
 * Change --output_dir to the same with --data_dir, and preprocess script will convert text to bin files under this path
 * Keep the --vocab_file, --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride, etc. the same with fine-tuning parameters
 * Keep the --model_name=albert_zh when do the ALBERT_zh tasks
-* Change --task_name to the downstream task you want to do, only support afqmc, cmnli, csl, iflytek, tnews and wsc tasks
+* Change --task_name to the downstream task you want to do, only support afqmc, cmnli, csl, iflytek, tnews, lcqmc and wsc tasks
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/TNEWS \
