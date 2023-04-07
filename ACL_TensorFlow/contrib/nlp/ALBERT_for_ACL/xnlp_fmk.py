@@ -30,6 +30,7 @@ from libs.predict_pb import pb_predict
 from libs.preprocess import preprocess
 from network.run_albert_afqmc import AfqmcProcessor as AlbertAfqmc
 from network.run_albert_cmnli import CmnliProcessor as AlbertCmnli
+from network.run_albert_lcqmc import LcqmcProcessor as AlbertLcqmc
 from network.run_albert_csl import CslProcessor as AlbertCsl
 from network.run_albert_iflytek import IflytekProcessor as AlbertIflytek
 from network.run_albert_race import RaceProcessor as AlbertRace
@@ -66,6 +67,7 @@ MODEL = {
         "iflytek": AlbertIflytek,
         "tnews": BertTnews,
         "wsc": AlbertWsc,
+        "lcqmc": AlbertLcqmc,
     },
     "bert": {
         # BERT by google

@@ -157,7 +157,7 @@ python3 xnlp_fmk.py \
 **ALBERT_zh**
 ***
 * ALBERT_zh使用albert_zh做为模型的名称, 每个下游任务各自做为模型名称。
-* ALBERT_zh支持afqmc,cmnli,csl,iflytek,tnews和wsc任务
+* ALBERT_zh支持afqmc,cmnli,csl,iflytek,tnews,lcqmc和wsc任务
 * 改变模型入参，以支持不同的任务
 * 仅ALBERT_zh Tiny测试过
 ***
@@ -166,7 +166,7 @@ python3 xnlp_fmk.py \
 * --output_dir的传参与--data_dir相同, 预处理脚本会将文本转换为该路径下的bin文件
 * --vocab_file, --bert_config_file, --do_lower_case, --max_seq_length, --doc_stride等参数进行微调
 * --model_name：当进行ALBERT_en任务时，参数为albert_en
-* --task_name为下游所需的任务名, 仅支持afqmc, cmnli, csl, iflytek, tnews 和 wsc 任务
+* --task_name为下游所需的任务名, 仅支持afqmc, cmnli, csl, iflytek, tnews, lcqmc 和 wsc 任务
 ```Bash
 python3 xnlp_fmk.py \
     --data_dir=./data/TNEWS \
