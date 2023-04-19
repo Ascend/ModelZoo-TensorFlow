@@ -683,7 +683,7 @@ def _get_nontpu_estimator():
     session_config = tf.ConfigProto(allow_soft_placement=True)
     custom_op = session_config.graph_options.rewrite_options.custom_optimizers.add()
     custom_op.name = 'NpuOptimizer'
-    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("must_keep_origin_dtype")
+    custom_op.parameter_map["precision_mode"].s = tf.compat.as_bytes("allow_mix_precision")
     #session_config = npu_config_proto(config_proto=tf.ConfigProto())
     session_config.gpu_options.allow_growth = True
 

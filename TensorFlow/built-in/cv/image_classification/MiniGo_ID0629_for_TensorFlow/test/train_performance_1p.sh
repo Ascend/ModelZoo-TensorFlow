@@ -92,8 +92,11 @@ BatchSize=${batch_size}
 #设备类型，自动获取
 DeviceType=`uname -m`
 #用例名称，自动获取
-CaseName=${Network}_bs${BatchSize}_${RankSize}'p'_'perf'
-
+if [[ $precision_mode == "must_keep_origin_dtype" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'perf'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 #获取性能
 TrainingTime=`grep "tensorflow:global_step/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $2}'`
 wait
