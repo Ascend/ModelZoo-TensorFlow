@@ -54,7 +54,7 @@ if [[ $data_path  == "" ]];then
 fi
 
 if [[ $precision_mode == "must_keep_origin_dtype" ]];then
-   sed -i "s|allow_mix_precision|must_keep_origin_dtype|g" $cur_path/../dual_net.py
+   sed -i "s|allow_mix_precision|must_keep_origin_dtype|g" dual_net.py
 fi
 
 
