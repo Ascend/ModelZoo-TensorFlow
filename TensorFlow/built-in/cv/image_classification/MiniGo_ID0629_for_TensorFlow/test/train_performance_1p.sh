@@ -38,6 +38,8 @@ for para in $*
 do
    if [[ $para  == --data_path* ]];then
       data_path=`echo ${para#*=}`
+   elif [[ $para == --precision_mode* ]];then
+      precision_mode=`echo ${para#*=}`
    elif [[ $para == --dynamic_input* ]];then
       dynamic_input=`echo ${para#*=}`  	
    fi
@@ -46,6 +48,10 @@ done
 if [[ $data_path  == "" ]];then
     echo "[Error] para \"data_path\" must be config"
     exit 1
+fi
+
+if [[ $precision_mode == "must_keep_origin_dtype" ]];then
+   sed -i "s|allow_mix_precision|must_keep_origin_dtype|g" $cur_path/../dual_net.py
 fi
 
 ##############执行训练##########
