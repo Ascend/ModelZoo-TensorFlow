@@ -38,10 +38,12 @@ for para in $*
 do
    if [[ $para  == --data_path* ]];then
       data_path=`echo ${para#*=}`
-    elif [[ $para == --bind_core* ]]; then
-        bind_core=`echo ${para#*=}`
-        name_bind="_bindcore"
-	elif [[ $para == --dynamic_input* ]];then
+   elif [[ $para == --precision_mode* ]];then
+      precision_mode=`echo ${para#*=}`
+   elif [[ $para == --bind_core* ]]; then
+      bind_core=`echo ${para#*=}`
+      name_bind="_bindcore"
+   elif [[ $para == --dynamic_input* ]];then
       dynamic_input=`echo ${para#*=}` 
    fi
 done
@@ -50,6 +52,11 @@ if [[ $data_path  == "" ]];then
     echo "[Error] para \"data_path\" must be config"
     exit 1
 fi
+
+if [[ $precision_mode == "must_keep_origin_dtype" ]];then
+   sed -i "s|allow_mix_precision|must_keep_origin_dtype|g" $cur_path/../dual_net.py
+fi
+
 
 ##############执行训练##########
 cd $cur_path
@@ -105,8 +112,11 @@ BatchSize=${batch_size}
 #设备类型，自动获取
 DeviceType=`uname -m`
 #用例名称，自动获取
-CaseName=${Network}_bs${BatchSize}_${RankSize}'p'_'acc'
-
+if [[ $precision_mode == "must_keep_origin_dtype" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'acc'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+fi
 #获取性能
 TrainingTime=`grep "tensorflow:global_step/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $2}'`
 wait
