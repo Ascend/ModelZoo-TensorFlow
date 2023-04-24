@@ -41,6 +41,8 @@ do
     elif [[ $para == --bind_core* ]]; then
         bind_core=`echo ${para#*=}`
         name_bind="_bindcore"
+    elif [[ $para == --precision_mode* ]];then
+      precision_mode=`echo ${para#*=}`
     elif [[ $para == --dynamic_input* ]];then
       dynamic_input=`echo ${para#*=}` 
     elif [[ $para == --one_node_ip* ]];then
