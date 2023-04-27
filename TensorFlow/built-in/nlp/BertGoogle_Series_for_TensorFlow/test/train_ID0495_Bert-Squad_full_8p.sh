@@ -110,7 +110,7 @@ do
         --predict_file=$predict_file \
         --train_batch_size=${batch_size} \
         --num_train_epochs=${epoch} \
-        --learning_rate=3e-5 \
+        --learning_rate=5e-5 \
         --max_seq_length=384 \
         --doc_stride=128 \
         --output_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/ckpt > ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
