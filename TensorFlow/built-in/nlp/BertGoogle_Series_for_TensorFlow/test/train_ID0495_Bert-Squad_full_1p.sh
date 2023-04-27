@@ -75,7 +75,7 @@ fi
 vocab_file=${data_path}/model/vocab.txt
 bert_config_file=${data_path}/model/bert_config.json
 init_checkpoint=${data_path}/model/bert_model.ckpt
-train_file=${data_path}/dataset/train-v1.1.json
+train_file=${data_path}/dataset/train.tf_record
 predict_file=${data_path}/dataset/dev-v1.1.json
 
 #训练开始时间，不需要修改
@@ -100,7 +100,8 @@ do
 	nohup python3.7 ${parent_path}/run_squad.py \
         --vocab_file=$vocab_file \
         --bert_config_file=$bert_config_file \
-        --init_checkpoint=$init_checkpoint \
+        --init_checkpoint=$init_checkpoint \\
+        --read_tf_record=True \
         --train_file=$train_file \
         --do_predict=True \
         --do_train=True \
