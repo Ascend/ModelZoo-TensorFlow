@@ -176,6 +176,8 @@ flags.DEFINE_float(
     "null_score_diff_threshold", 0.0,
     "If null_score - best_non_null is greater than the threshold predict null.")
 
+flags.DEFINE_bool("read_tf_record", False, "if or not read tf record.")
+
 
 class SquadExample(object):
   """A single training/test example for simple sequence classification.
@@ -743,9 +745,10 @@ def input_fn_builder(input_file, seq_length, is_training, drop_remainder=True):
     # For eval, we want no shuffling and parallel reading doesn't matter.
     d = tf.data.TFRecordDataset(input_file)
     if is_training:
-      d = d.repeat()
+      # d = d.repeat()
       if rank_size > 1:
           d = d.shard(rank_size, rank_id)
+      d = d.repeat()
       d = d.shuffle(buffer_size=100)
     d = d.apply(
         tf.contrib.data.map_and_batch(
@@ -1198,71 +1201,106 @@ def main(_):
   train_examples = None
   num_train_steps = FLAGS.num_train_steps
   num_warmup_steps = None
-  if FLAGS.do_train:
-    train_examples = read_squad_examples(
-        input_file=FLAGS.train_file, is_training=True)
+  if FLAGS.read_tf_record:
+    if FLAGS.do_train:
+      num_train_steps = int(87599 / FLAGS.train_batch_size * FLAGS.num_train_epochs)
+      num_train_steps = int(num_train_steps / rank_size)
+      num_warmup_steps = int(num_train_steps * FLAGS.warmup_proportion)
 
-    if num_train_steps == 0:
-        num_train_steps = int(
-            len(train_examples) / FLAGS.train_batch_size * FLAGS.num_train_epochs)
-    
-    #print("lenof train_examples = %s , num_train_epochs = %s" %(len(train_examples), FLAGS.num_train_epochs))   
-    #num_train_steps = int(num_train_steps / rank_size)
-    num_warmup_steps = int(num_train_steps * FLAGS.warmup_proportion)
+    model_fn = model_fn_builder(
+        bert_config=bert_config,
+        init_checkpoint=FLAGS.init_checkpoint,
+        learning_rate=FLAGS.learning_rate,
+        num_train_steps=num_train_steps,
+        num_warmup_steps=num_warmup_steps,
+        use_tpu=FLAGS.use_tpu,
+        use_one_hot_embeddings=FLAGS.use_tpu)
 
-    # Pre-shuffle the input to avoid having to make a very large shuffle
-    # buffer in in the `input_fn`.
-    rng = random.Random(12345)
-    rng.shuffle(train_examples)
+    # If TPU is not available, this will fall back to normal Estimator on CPU
+    # or GPU.
+    estimator = NPUEstimator(
+        model_fn=model_fn,
+        config=run_config,
+        model_dir=FLAGS.output_dir,
+        params={"batch_size": FLAGS.train_batch_size, "predict_batch_size": FLAGS.predict_batch_size})
 
-  model_fn = model_fn_builder(
-      bert_config=bert_config,
-      init_checkpoint=FLAGS.init_checkpoint,
-      learning_rate=FLAGS.learning_rate,
-      num_train_steps=num_train_steps,
-      num_warmup_steps=num_warmup_steps,
-      use_tpu=FLAGS.use_tpu,
-      use_one_hot_embeddings=FLAGS.use_tpu)
+    if FLAGS.do_train:
+      tf.logging.info("***** Running training *****")
+      tf.logging.info("  Batch size = %d", FLAGS.train_batch_size)
+      tf.logging.info("  Num steps = %d", num_train_steps)
 
-  # If TPU is not available, this will fall back to normal Estimator on CPU
-  # or GPU.
-  estimator = NPUEstimator(
-      model_fn=model_fn,
-      config=run_config,
-      model_dir=FLAGS.output_dir,
-      params={"batch_size": FLAGS.train_batch_size, "predict_batch_size": FLAGS.predict_batch_size})
-      #train_batch_size=FLAGS.train_batch_size,
-      #predict_batch_size=FLAGS.predict_batch_size)
+      train_input_fn = input_fn_builder(
+          input_file=FLAGS.train_file,
+          seq_length=FLAGS.max_seq_length,
+          is_training=True,
+          drop_remainder=True)
+      estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
+  else:
+    if FLAGS.do_train:
+      train_examples = read_squad_examples(
+          input_file=FLAGS.train_file, is_training=True)
 
-  if FLAGS.do_train:
-    # We write to a temporary file to avoid storing very large constant tensors
-    # in memory.
-    train_writer = FeatureWriter(
-        filename=os.path.join(FLAGS.output_dir, "train.tf_record"),
-        is_training=True)
-    convert_examples_to_features(
-        examples=train_examples,
-        tokenizer=tokenizer,
-        max_seq_length=FLAGS.max_seq_length,
-        doc_stride=FLAGS.doc_stride,
-        max_query_length=FLAGS.max_query_length,
-        is_training=True,
-        output_fn=train_writer.process_feature)
-    train_writer.close()
+      if num_train_steps == 0:
+          num_train_steps = int(
+              len(train_examples) / FLAGS.train_batch_size * FLAGS.num_train_epochs)
+      
+      #print("lenof train_examples = %s , num_train_epochs = %s" %(len(train_examples), FLAGS.num_train_epochs))   
+      #num_train_steps = int(num_train_steps / rank_size)
+      num_warmup_steps = int(num_train_steps * FLAGS.warmup_proportion)
 
-    tf.logging.info("***** Running training *****")
-    tf.logging.info("  Num orig examples = %d", len(train_examples))
-    tf.logging.info("  Num split examples = %d", train_writer.num_features)
-    tf.logging.info("  Batch size = %d", FLAGS.train_batch_size)
-    tf.logging.info("  Num steps = %d", num_train_steps)
-    del train_examples
+      # Pre-shuffle the input to avoid having to make a very large shuffle
+      # buffer in in the `input_fn`.
+      rng = random.Random(12345)
+      rng.shuffle(train_examples)
 
-    train_input_fn = input_fn_builder(
-        input_file=train_writer.filename,
-        seq_length=FLAGS.max_seq_length,
-        is_training=True,
-        drop_remainder=True)
-    estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
+    model_fn = model_fn_builder(
+        bert_config=bert_config,
+        init_checkpoint=FLAGS.init_checkpoint,
+        learning_rate=FLAGS.learning_rate,
+        num_train_steps=num_train_steps,
+        num_warmup_steps=num_warmup_steps,
+        use_tpu=FLAGS.use_tpu,
+        use_one_hot_embeddings=FLAGS.use_tpu)
+
+    # If TPU is not available, this will fall back to normal Estimator on CPU
+    # or GPU.
+    estimator = NPUEstimator(
+        model_fn=model_fn,
+        config=run_config,
+        model_dir=FLAGS.output_dir,
+        params={"batch_size": FLAGS.train_batch_size, "predict_batch_size": FLAGS.predict_batch_size})
+        #train_batch_size=FLAGS.train_batch_size,
+        #predict_batch_size=FLAGS.predict_batch_size)
+
+    if FLAGS.do_train:
+      # We write to a temporary file to avoid storing very large constant tensors
+      # in memory.
+      train_writer = FeatureWriter(
+          filename=os.path.join(FLAGS.output_dir, "train.tf_record"),
+          is_training=True)
+      convert_examples_to_features(
+          examples=train_examples,
+          tokenizer=tokenizer,
+          max_seq_length=FLAGS.max_seq_length,
+          doc_stride=FLAGS.doc_stride,
+          max_query_length=FLAGS.max_query_length,
+          is_training=True,
+          output_fn=train_writer.process_feature)
+      train_writer.close()
+
+      tf.logging.info("***** Running training *****")
+      tf.logging.info("  Num orig examples = %d", len(train_examples))
+      tf.logging.info("  Num split examples = %d", train_writer.num_features)
+      tf.logging.info("  Batch size = %d", FLAGS.train_batch_size)
+      tf.logging.info("  Num steps = %d", num_train_steps)
+      del train_examples
+
+      train_input_fn = input_fn_builder(
+          input_file=train_writer.filename,
+          seq_length=FLAGS.max_seq_length,
+          is_training=True,
+          drop_remainder=True)
+      estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
 
   if FLAGS.do_predict:
     eval_examples = read_squad_examples(
