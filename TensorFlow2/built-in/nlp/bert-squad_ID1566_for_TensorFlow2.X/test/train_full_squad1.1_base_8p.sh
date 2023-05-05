@@ -15,11 +15,11 @@ RANK_ID_START=0
 export RANK_SIZE=8
 export RANK_TABLE_FILE=${cur_path}/configs/rank_table_8p.json
 #性能优化
-export NPU_LOOP_SIZE=200
+export NPU_LOOP_SIZE=25
 #训练epoch，可选
 train_epochs=2
 #学习率
-learning_rate=8e-5
+learning_rate=6.4e-6
 ckpt_path=""
 #参数配置
 
@@ -113,7 +113,7 @@ do
     ASCEND_DEVICE_ID=$RANK_ID
 
     if [ -d $cur_path/test/output ];then
-        rm -rf $cur_path/test/output/*
+        rm -rf $cur_path/test/output/$ASCEND_DEVICE_ID
         mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
     else
         mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
