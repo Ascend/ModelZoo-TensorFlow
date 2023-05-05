@@ -118,6 +118,18 @@ do
     else
         mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
     fi
+    
+    #绑核，不需要绑核的模型删除，需要绑核的模型根据实际修改
+    cpucount=`lscpu | grep "CPU(s):" | head -n 1 | awk '{print $2}'`
+    cpustep=`expr $cpucount / 8`
+    echo "taskset c steps:" $cpustep
+    let a=RANK_ID*$cpustep
+    let b=RANK_ID+1
+    let c=b*$cpustep-1
+
+    if [ "x${bind_core}" != x ];then
+        bind_core="taskset -c $a-$c"
+    fi
 
     nohup python3 ./official/nlp/bert/run_squad.py \
         --mode=${MODE} \
