@@ -100,7 +100,7 @@ do
 	nohup python3.7 ${parent_path}/run_squad.py \
         --vocab_file=$vocab_file \
         --bert_config_file=$bert_config_file \
-        --init_checkpoint=$init_checkpoint \\
+        --init_checkpoint=$init_checkpoint \
         --read_tf_record=True \
         --train_file=$train_file \
         --do_predict=True \
