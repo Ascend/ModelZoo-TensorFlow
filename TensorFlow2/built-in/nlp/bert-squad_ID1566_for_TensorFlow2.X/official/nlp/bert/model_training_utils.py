@@ -38,6 +38,7 @@ import tensorflow as tf
 from tensorflow.python.util import deprecation
 from official.common import distribute_utils
 from official.staging.training import grad_utils
+import npu_device as npu
 
 _SUMMARY_TXT = 'training_summary.txt'
 _MIN_SUMMARY_STEPS = 10
