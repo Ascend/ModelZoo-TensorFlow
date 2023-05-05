@@ -334,6 +334,7 @@ def run_customized_training_loop(
 
     # Collects training variables.
     training_vars = model.trainable_variables
+    npu.distribute.broadcast(training_vars)
 
     def _replicated_step(inputs):
       """Replicated training step."""
