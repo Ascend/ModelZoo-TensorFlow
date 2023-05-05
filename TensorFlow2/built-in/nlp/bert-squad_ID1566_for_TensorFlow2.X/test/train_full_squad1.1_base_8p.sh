@@ -19,7 +19,7 @@ export NPU_LOOP_SIZE=25
 #训练epoch，可选
 train_epochs=2
 #学习率
-learning_rate=6.4e-4
+learning_rate=64e-5
 ckpt_path=""
 #参数配置
 
