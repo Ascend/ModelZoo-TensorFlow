@@ -363,6 +363,7 @@ def run_customized_training_loop(
           grads = optimizer.get_unscaled_gradients(scaled_grads)
         else:
           grads = tape.gradient(loss, training_vars)
+        grads = npu.distribute.all_reduce(grads,"mean")
         optimizer.apply_gradients(zip(grads, training_vars))
       # For reporting, the metric takes the mean of losses.
       train_loss_metric.update_state(raw_loss)
