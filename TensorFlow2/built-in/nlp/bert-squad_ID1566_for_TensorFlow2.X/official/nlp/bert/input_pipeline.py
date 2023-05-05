@@ -31,6 +31,7 @@
 """BERT model input pipelines."""
 
 import tensorflow as tf
+import npu_device as npu
 
 
 def decode_record(record, name_to_features):
