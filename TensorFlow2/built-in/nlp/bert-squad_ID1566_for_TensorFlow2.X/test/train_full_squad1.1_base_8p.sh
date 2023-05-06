@@ -15,11 +15,11 @@ RANK_ID_START=0
 export RANK_SIZE=8
 export RANK_TABLE_FILE=${cur_path}/configs/rank_table_8p.json
 #性能优化
-export NPU_LOOP_SIZE=200
+export NPU_LOOP_SIZE=25
 #训练epoch，可选
 train_epochs=2
 #学习率
-learning_rate=8e-5
+learning_rate=64e-5
 ckpt_path=""
 #参数配置
 
@@ -113,10 +113,22 @@ do
     ASCEND_DEVICE_ID=$RANK_ID
 
     if [ -d $cur_path/test/output ];then
-        rm -rf $cur_path/test/output/*
+        rm -rf $cur_path/test/output/$ASCEND_DEVICE_ID
         mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
     else
         mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
+    fi
+    
+    #绑核，不需要绑核的模型删除，需要绑核的模型根据实际修改
+    cpucount=`lscpu | grep "CPU(s):" | head -n 1 | awk '{print $2}'`
+    cpustep=`expr $cpucount / 8`
+    echo "taskset c steps:" $cpustep
+    let a=RANK_ID*$cpustep
+    let b=RANK_ID+1
+    let c=b*$cpustep-1
+
+    if [ "x${bind_core}" != x ];then
+        bind_core="taskset -c $a-$c"
     fi
 
     nohup python3 ./official/nlp/bert/run_squad.py \

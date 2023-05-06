@@ -1,6 +1,8 @@
 {
   "black-list": {
     "to-add": [
+          "MatMul",
+          "MatMulV2",
       "Cast",
       "SoftmaxV2"
     ]
