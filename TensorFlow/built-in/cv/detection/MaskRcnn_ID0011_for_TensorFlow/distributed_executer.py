@@ -429,7 +429,7 @@ class MultiWorkerExecuter(DistributedExecuter):
             model_dir=self._flags.model_dir,
             precision_mode="allow_mix_precision",
             log_step_count_steps=100,
-            iterations_per_loop=1000,
+            iterations_per_loop=1,
             tf_random_seed=0,
             save_summary_steps=1e9,
             save_checkpoints_steps=90000,
