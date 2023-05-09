@@ -34,7 +34,7 @@ MASK_RCNN_CFG = {
     'num_gpus': 1,
     # runtime parameters
     'transpose_input': True,
-    'iterations_per_loop': 1000,
+    'iterations_per_loop': 1,
     'num_cores': 8,
     'use_tpu': False,
     # input preprocessing parameters
