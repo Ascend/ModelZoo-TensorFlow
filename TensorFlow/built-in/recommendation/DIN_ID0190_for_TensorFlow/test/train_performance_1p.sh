@@ -87,6 +87,7 @@ fi
 cd $cur_path/examples
 sed -i  "s|./data|$data_path|g" din_demo.py
 sed -i  "s|epochs=5|epochs=2|g" din_demo.py
+sed -i  "s|rank_id =|#rank_id =|g" din_demo.py
 
 
 RANK_ID_START=0
@@ -94,10 +95,10 @@ RANK_SIZE=1
 
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
-   echo "Device ID: $RANK_ID"
-   export RANK_ID=$RANK_ID
-   export ASCEND_DEVICE_ID=$RANK_ID
-   ASCEND_DEVICE_ID=$RANK_ID
+   #echo "Device ID: $RANK_ID"
+   #export RANK_ID=$RANK_ID
+   #export ASCEND_DEVICE_ID=$RANK_ID
+   #ASCEND_DEVICE_ID=$RANK_ID
   if [   -d $cur_path/test/output/${ASCEND_DEVICE_ID} ];then
      rm -rf $cur_path/test/output/${ASCEND_DEVICE_ID}
      mkdir -p $cur_path/test/output/${ASCEND_DEVICE_ID}
