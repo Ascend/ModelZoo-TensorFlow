@@ -100,7 +100,7 @@ def main():
     if FLAGS.precision_mode == "allow_mix_precision":
         option = {}
         option["ACL_PRECISION_MODE"] = "allow_mix_precision"
-        torch.npu.set_option(option)
+        torch_npu.npu.set_option(option)
     config = cfg.res50_config()
     config['iterations_per_loop'] = int(FLAGS.iterations_per_loop)
     config['max_train_steps'] = int(FLAGS.max_train_steps)
