@@ -32,6 +32,10 @@ data_dump_step="10"
 profiling=False
 autotune=False
 
+#维测参数，precision_mode需要模型审视修改
+precision_mode="must_keep_origin_dtype"
+fp32="--fp32"
+
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
     echo"usage:./train_full_8p.sh <args>"
@@ -64,6 +68,10 @@ do
         mkdir -p ${data_dump_path}
     elif [[ $para == --data_dump_step* ]];then
         data_dump_step=`echo ${para#*=}`
+    elif [[ $para == --hf32 ]];then
+        hf32=`echo ${para#*=}`
+    elif [[ $para == --fp32 ]];then
+        fp32=`echo ${para#*=}`
     elif [[ $para == --profiling* ]];then
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
@@ -86,6 +94,10 @@ do
         data_path=`echo ${para#*=}`
     fi
 done
+
+if [[ ${fp32} == "--hf32" ]];then
+  export ENABLE_HF32_EXECUTION=1
+fi
 
 #校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
@@ -144,6 +156,7 @@ do
         --max_seq_length=384 \
         --doc_stride=128 \
         --output_dir=./output \
+	--precision_mode ${precision_mode} \
 		> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
         #--precision_mode=${precision_mode} \
         #--data_dump_flag=${data_dump_flag} \
@@ -166,7 +179,13 @@ echo "E2E training Duration sec: $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+if [[ ${fp32} == "--fp32" ]];then
+  CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'perf'
+elif [[ ${hf32} == "--hf32" ]];then
+  CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'hf32'_'perf'
+else
+  CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 
 #获取性能数据
 fps=`grep "global_step/sec:" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F 'global_step/sec:' '{print $2}'|awk 'END {print $1}'`
