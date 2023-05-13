@@ -96,7 +96,6 @@ def main():
     configs = 'configs'
     cfg = getattr(__import__(configs, fromlist=[cfg_file]), cfg_file)
     #------------------------------------------------------------------
-    print ("FLAGS.precision_mode==================",FLAGS.precision_mode)
     if FLAGS.precision_mode == "allow_mix_precision":
         option = {}
         option["ACL_PRECISION_MODE"] = "allow_mix_precision"
