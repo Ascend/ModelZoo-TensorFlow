@@ -28,6 +28,9 @@ iterations_per_loop=100
 debug=True
 eval=True
 batch_size=256
+#维测参数，precision_mode需要模型审视修改
+precision_mode="must_keep_origin_dtype"
+fp32="--fp32"
 
 #维持参数，不需要修改
 over_dump=False
@@ -68,6 +71,10 @@ do
         mkdir -p ${data_dump_path}
     elif [[ $para == --data_dump_step* ]];then
         data_dump_step=`echo ${para#*=}`
+    elif [[ $para == --hf32 ]];then
+        hf32=`echo ${para#*=}`
+    elif [[ $para == --fp32 ]];then
+        fp32=`echo ${para#*=}`
     elif [[ $para == --profiling* ]];then
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
@@ -88,6 +95,10 @@ do
         name_bind="_bindcore"
     fi
 done
+
+if [[ ${fp32} == "--hf32" ]];then
+  export ENABLE_HF32_EXECUTION=1
+fi
 
 #校验是否传入data_path,不需要修改
 if [[ $data_path == "" ]];then
@@ -144,6 +155,7 @@ do
 	    --model_dir=${cur_path}/output/$ASCEND_DEVICE_ID/ckpt \
 		--over_dump=${over_dump} \
 		--over_dump_path=${over_dump_path} \
+		--precision_mode ${precision_mode} \
 		> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
         #--precision_mode=${precision_mode} \
         #--data_dump_flag=${data_dump_flag} \
@@ -174,7 +186,13 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+if [[ ${fp32} == "--fp32" ]];then
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'acc'
+elif [[ ${hf32} == "--hf32" ]];then
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'hf32'_'acc'
+else
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+fi
 
 ##获取性能数据
 #吞吐量，不需要修改

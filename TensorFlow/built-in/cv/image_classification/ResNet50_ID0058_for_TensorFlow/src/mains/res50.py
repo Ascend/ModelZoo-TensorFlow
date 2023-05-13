@@ -76,6 +76,7 @@ def main():
                          help="""config file used.""")
     cmdline.add_argument('--model_dir', default="./model_dir",
                          help="""config file used.""")
+    cmdline.add_argument('--precision_mode', default='allow_mix_precision', type=str, help='precision_mode') 
     
     # modify for npu overflow start
     # enable overflow
@@ -95,7 +96,10 @@ def main():
     configs = 'configs'
     cfg = getattr(__import__(configs, fromlist=[cfg_file]), cfg_file)
     #------------------------------------------------------------------
-
+    if FLAGS.precision_mode == "allow_mix_precision":
+	option = {}
+	option["ACL_PRECISION_MODE"] = "allow_mix_precision"
+	torch.npu.set_option(option)
     config = cfg.res50_config()
     config['iterations_per_loop'] = int(FLAGS.iterations_per_loop)
     config['max_train_steps'] = int(FLAGS.max_train_steps)
