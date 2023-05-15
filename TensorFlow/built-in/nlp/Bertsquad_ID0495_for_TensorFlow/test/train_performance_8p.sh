@@ -34,7 +34,6 @@ autotune=False
 
 #维测参数，precision_mode需要模型审视修改
 precision_mode="must_keep_origin_dtype"
-fp32="--fp32"
 
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
