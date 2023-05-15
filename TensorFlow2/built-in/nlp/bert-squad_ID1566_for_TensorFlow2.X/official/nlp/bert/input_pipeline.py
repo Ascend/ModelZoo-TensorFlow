@@ -31,6 +31,7 @@
 """BERT model input pipelines."""
 
 import tensorflow as tf
+import npu_device as npu
 
 
 def decode_record(record, name_to_features):
@@ -109,6 +110,8 @@ def create_pretrain_dataset(input_patterns,
   if input_pipeline_context and input_pipeline_context.num_input_pipelines > 1:
     dataset = dataset.shard(input_pipeline_context.num_input_pipelines,
                             input_pipeline_context.input_pipeline_id)
+  if is_training:
+    dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
   if is_training:
     dataset = dataset.repeat()
 
@@ -189,6 +192,8 @@ def create_classifier_dataset(file_path,
   if input_pipeline_context and input_pipeline_context.num_input_pipelines > 1:
     dataset = dataset.shard(input_pipeline_context.num_input_pipelines,
                             input_pipeline_context.input_pipeline_id)
+  if is_training:
+    dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
 
   def _select_data_from_record(record):
     x = {
@@ -238,6 +243,8 @@ def create_squad_dataset(file_path,
   if input_pipeline_context and input_pipeline_context.num_input_pipelines > 1:
     dataset = dataset.shard(input_pipeline_context.num_input_pipelines,
                             input_pipeline_context.input_pipeline_id)
+  if is_training:
+    dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
 
   def _select_data_from_record(record):
     """Dispatches record to features and labels."""
@@ -283,6 +290,8 @@ def create_retrieval_dataset(file_path,
   if input_pipeline_context and input_pipeline_context.num_input_pipelines > 1:
     dataset = dataset.shard(input_pipeline_context.num_input_pipelines,
                             input_pipeline_context.input_pipeline_id)
+  if is_training:
+    dataset, batch_size = npu.distribute.shard_and_rebatch_dataset(dataset, batch_size)
 
   def _select_data_from_record(record):
     x = {

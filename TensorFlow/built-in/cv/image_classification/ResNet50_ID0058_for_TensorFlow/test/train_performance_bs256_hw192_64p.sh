@@ -30,6 +30,8 @@ train_steps=2000
 learning_rate=
 
 #维测参数，precision_mode需要模型审视修改
+precision_mode="must_keep_origin_dtype"
+fp32="--fp32"
 #维持参数，以下不需要修改
 over_dump=False
 data_dump_flag=False
@@ -69,6 +71,10 @@ do
         mkdir -p ${data_dump_path}
     elif [[ $para == --data_dump_step* ]];then
         data_dump_step=`echo ${para#*=}`
+    elif [[ $para == --hf32 ]];then
+        hf32=`echo ${para#*=}`
+    elif [[ $para == --fp32 ]];then
+        fp32=`echo ${para#*=}`
     elif [[ $para == --profiling* ]];then
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
@@ -101,6 +107,11 @@ do
         one_node_ip=`echo ${para#*=}`
     fi
 done
+
+if [[ ${fp32} == "--hf32" ]];then
+  export ENABLE_HF32_EXECUTION=1
+fi
+
 linux_num=$servers_num
 if [[ $conf_path == "" ]];then
     fix_node_ip=$fix_node_ip
@@ -184,6 +195,7 @@ do
     --iterations_per_loop=100 \
     --debug=True \
     --eval=False \
+    --precision_mode ${precision_mode} \
     --model_dir=${cur_path}/output/${ASCEND_DEVICE_ID}/d_solution/ckpt${ASCEND_DEVICE_ID} >> ${cur_path}/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log 2>&1 &
 done 
 wait
@@ -210,7 +222,14 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZES}'p_hw192'_'perf'
+if [[ ${fp32} == "--fp32" ]];then
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZES}'p_hw192'_'fp32'_'perf'
+elif [[ ${hf32} == "--hf32" ]];then
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZES}'p_hw192'_'hf32'_'perf'
+else
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZES}'p_hw192'_'perf'
+fi
+
 
 ##获取性能数据
 #吞吐量，不需要修改

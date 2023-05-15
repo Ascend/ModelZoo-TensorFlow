@@ -45,6 +45,7 @@ import tensorflow as tf
 from npu_bridge.estimator.npu.npu_config import NPURunConfig
 from npu_bridge.estimator import npu_ops
 from npu_bridge.estimator.npu.npu_estimator import NPUEstimator,NPUEstimatorSpec
+import torch_npu
 
 flags = tf.flags
 
@@ -77,6 +78,7 @@ flags.DEFINE_string(
 flags.DEFINE_string(
     "init_checkpoint", None,
     "Initial checkpoint (usually from a pre-trained BERT model).")
+flags.DEFINE_string("precision_mode", "must_keep_origin_dtype", 'precision_mode')
 
 flags.DEFINE_bool(
     "do_lower_case", True,
@@ -1151,6 +1153,10 @@ def validate_flags_or_throw(bert_config):
 
 
 def main(_):
+  if FLAGS.precision_mode == "allow_mix_precision":
+    option = {}
+    option["ACL_PRECISION_MODE"] = "allow_mix_precision"
+    torch_npu.npu.set_option(option)
   tf.logging.set_verbosity(tf.logging.INFO)
 
   bert_config = modeling.BertConfig.from_json_file(FLAGS.bert_config_file)

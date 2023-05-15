@@ -38,6 +38,7 @@ import tensorflow as tf
 from tensorflow.python.util import deprecation
 from official.common import distribute_utils
 from official.staging.training import grad_utils
+import npu_device as npu
 
 _SUMMARY_TXT = 'training_summary.txt'
 _MIN_SUMMARY_STEPS = 10
@@ -334,6 +335,7 @@ def run_customized_training_loop(
 
     # Collects training variables.
     training_vars = model.trainable_variables
+    npu.distribute.broadcast(training_vars)
 
     def _replicated_step(inputs):
       """Replicated training step."""
@@ -362,6 +364,7 @@ def run_customized_training_loop(
           grads = optimizer.get_unscaled_gradients(scaled_grads)
         else:
           grads = tape.gradient(loss, training_vars)
+        grads = npu.distribute.all_reduce(grads,"mean")
         optimizer.apply_gradients(zip(grads, training_vars))
       # For reporting, the metric takes the mean of losses.
       train_loss_metric.update_state(raw_loss)
