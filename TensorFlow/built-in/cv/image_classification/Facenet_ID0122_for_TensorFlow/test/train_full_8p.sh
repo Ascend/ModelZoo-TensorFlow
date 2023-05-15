@@ -33,6 +33,9 @@ for para in $*
 do
 	if [[ $para == --data_path* ]];then
 		data_path=`echo ${para#*=}`
+  elif [[ $para == --bind_core* ]];then
+    bind_core=`echo ${para#*=}` 
+    name_bind="_bindcore"
 	elif [[ $para == --switch_config* ]];then
 		switch_config=`echo ${para#*=}`
 	fi
@@ -56,7 +59,20 @@ do
 	mkdir -p $cur_path/src/logs/$ASCEND_DEVICE_ID
 	rm -rf ${cur_path}/src/models/$ASCEND_DEVICE_ID
 	mkdir -p ${cur_path}/src/models/$ASCEND_DEVICE_ID
-	nohup python3 ${cur_path}/src/train_softmax.py \
+  # 绑核，不需要的绑核的模型删除，需要的模型审视修改
+  let a=RANK_ID*12
+  let b=RANK_ID+1
+  let c=b*12-1
+
+  corenum=`cat /proc/cpuinfo |grep 'processor' | wc -l`
+  let a=RANK_ID*${corenum}/8
+  let b=RANK_ID+1
+  let c=b*${corenum}/8-1
+  if [ "x${bind_core}" != x ];then
+      bind_core="taskset -c $a-$c"
+  fi
+
+  nohup ${bind_core} python3 ${cur_path}/src/train_softmax.py \
 		--logs_base_dir ${cur_path}/src/logs/$ASCEND_DEVICE_ID \
 		--models_base_dir ${cur_path}/src/models/$ASCEND_DEVICE_ID \
 		--data_dir ${data_path}/CASIA-WebFace_182/ \
@@ -93,7 +109,7 @@ echo "Final Training Duration sec : $e2etime"
 #结果打印，不需要修改
 echo "------------------ Final result ------------------"
 #输出性能FPS，需要模型审视修改
-TrainingTime=`grep  RegLoss $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| tail -n +2 | head -2999 | awk '{print $4}' | tr -d s | awk '{sum+=$1} END {print sum/NR}'`
+TrainingTime=`grep  RegLoss $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log| awk '{print $4}' | tr -d s | awk '{sum+=$1} END {print sum/NR}'`
 wait
 FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'/'${TrainingTime}'}'`
 FPS=$(awk 'BEGIN{print '$FPS'*8}')
@@ -107,7 +123,7 @@ BatchSize=${batch_size}
 #设备类型，自动获取
 DeviceType=`uname -m`
 #用例名称，自动获取
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
+CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p'_'acc'
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 
