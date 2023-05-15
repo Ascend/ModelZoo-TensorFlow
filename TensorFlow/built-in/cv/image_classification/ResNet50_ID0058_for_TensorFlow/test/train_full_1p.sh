@@ -32,7 +32,6 @@ debug=True
 eval=True
 #维测参数，precision_mode需要模型审视修改
 precision_mode="must_keep_origin_dtype"
-fp32="--fp32"
 
 #维持参数，不需要修改
 over_dump=False
