@@ -208,8 +208,8 @@ def train(total_loss, global_step, optimizer, learning_rate, moving_average_deca
         opt = npu_distributed_optimizer_wrapper(opt)
     # -----8P modified end-----
     if use_NPU: 
-        #loss_scale_manager = FixedLossScaleManager(loss_scale=256)
-        loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=4194304, incr_every_n_steps=2000, decr_every_n_nan_or_inf=1, decr_ratio=0.5)
+        loss_scale_manager = FixedLossScaleManager(loss_scale=2097156, enable_overflow_check=False)
+        #loss_scale_manager = ExponentialUpdateLossScaleManager(init_loss_scale=4194304, incr_every_n_steps=2000, decr_every_n_nan_or_inf=1, decr_ratio=0.5)
         if RANK_SIZE > 1:
             opt = NPULossScaleOptimizer(opt, loss_scale_manager, is_distributed=True)
         else:
