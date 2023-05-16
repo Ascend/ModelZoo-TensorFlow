@@ -176,7 +176,7 @@ echo "E2E Training Duration sec : $e2e_time"
 BatchSize=${batch_size}
 DeviceType=`uname -m`
 if [[ ${fp32} == "--fp32" ]];then
-  CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'fp32'_'perf'
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p_hw192'_'fp32'_'perf'
 elif [[ ${hf32} == "--hf32" ]];then
   CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZE}'p_hw192'_'hf32'_'perf'
 else
