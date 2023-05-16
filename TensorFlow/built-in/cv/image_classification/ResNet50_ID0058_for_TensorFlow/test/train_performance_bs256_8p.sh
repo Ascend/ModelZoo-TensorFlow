@@ -197,11 +197,11 @@ echo "E2E Training Duration sec : $e2e_time"
 BatchSize=${batch_size}
 DeviceType=`uname -m`
 if [[ ${fp32} == "--fp32" ]];then
-  CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'perf'
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZES}'p'_'fp32'_'perf'
 elif [[ ${hf32} == "--hf32" ]];then
-  CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'hf32'_'perf'
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZES}'p'_'hf32'_'perf'
 else
-  CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+  CaseName=${Network}${name_bind}_bs${BatchSize}_${RANK_SIZES}'p'_'perf'
 fi
 ##获取性能数据
 #吞吐量，不需要修改
