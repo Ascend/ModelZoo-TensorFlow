@@ -106,6 +106,7 @@ def main():
     config['iterations_per_loop'] = int(FLAGS.iterations_per_loop)
     config['max_train_steps'] = int(FLAGS.max_train_steps)
     config['debug'] = FLAGS.debug
+    config['precision_mode'] = FLAGS.precision_mode
     config['eval'] = FLAGS.eval
     config['model_dir'] = FLAGS.model_dir
     if FLAGS.data_path:
@@ -117,6 +118,7 @@ def main():
     print("iterations_per_loop:%d" %(config['iterations_per_loop']))
     print("max_train_steps    :%d" %(config['max_train_steps']))
     print("debug              :%s" %(config['debug']))
+    print("precision_mode     :%s" %(config['precision_mode']))
     print("eval               :%s" %(config['eval']))
     print("model_dir          :%s" %(config['model_dir']))
     print("over_dump          :%s" %(config['over_dump']))
