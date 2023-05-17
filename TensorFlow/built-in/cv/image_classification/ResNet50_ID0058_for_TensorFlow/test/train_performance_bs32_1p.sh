@@ -110,6 +110,7 @@ start_time=$(date +%s)
 cd $cur_path/../
 if [[ ${precision_mode} == "must_keep_origin_dtype" ]];then
   sed -i "s|allow_mix_precision|must_keep_origin_dtype|g" src/trainers/gpu_base_trainer.py
+  sed -i "s|modify_mixlist='./src/trainers/ReduceMeanD.json'|modify_mixlist=''|g" src/trainers/gpu_base_trainer.py
 fi
 #进入训练脚本目录，需要模型审视修改
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
