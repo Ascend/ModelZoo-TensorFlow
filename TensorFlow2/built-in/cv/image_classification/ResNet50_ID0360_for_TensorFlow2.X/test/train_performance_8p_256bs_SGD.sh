@@ -81,7 +81,6 @@ do
 	    source set_conda.sh
 	    source activate $conda_name
     fi
-    fi
 done
 
 #校验是否传入data_path,不需要修改
