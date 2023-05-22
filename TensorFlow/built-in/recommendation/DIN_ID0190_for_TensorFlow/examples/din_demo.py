@@ -30,12 +30,12 @@ def split_tfrecord(tfrecord_path):
 def input_fn(filenames, is_train, batch_size=1024):
     def _parse_function(example_proto):
         feature_description = {
-            "movieId": tf.io.FixedLenFeature([1], np.int64),
-            "cateId": tf.io.FixedLenFeature([1], np.int64),
-            "hist_movieId": tf.io.FixedLenFeature([200], np.int64),
-            "hist_cateId": tf.io.FixedLenFeature([200], np.int64),
-            "seq_length": tf.io.FixedLenFeature([1], np.int64),
-            "label": tf.io.FixedLenFeature([1], np.float32)
+            "movieId": tf.io.FixedLenFeature([1], tf.int64),
+            "cateId": tf.io.FixedLenFeature([1], tf.int64),
+            "hist_movieId": tf.io.FixedLenFeature([200], tf.int64),
+            "hist_cateId": tf.io.FixedLenFeature([200], tf.int64),
+            "seq_length": tf.io.FixedLenFeature([1], tf.int64),
+            "label": tf.io.FixedLenFeature([1], tf.float32)
         }
         features = tf.io.parse_example(example_proto, feature_description)
         labels = features.pop("label")

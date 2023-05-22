@@ -5,7 +5,7 @@ cur_path=`pwd`
 export RANK_SIZE=8
 export RANK_TABLE_FILE=$cur_path/rank_table_8p.json
 export JOB_ID=10087
-export OP_NO_REUSE_MEM=StridedSliceD
+#export OP_NO_REUSE_MEM=StridedSliceD
 
 #export ASCEND_DEVICE_ID=
 

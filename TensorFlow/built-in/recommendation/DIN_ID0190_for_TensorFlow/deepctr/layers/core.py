@@ -97,8 +97,8 @@ class LocalActivationUnit(Layer):
         query, keys = inputs
 
         keys_len = keys.get_shape()[1]
-        #queries = K.repeat_elements(query, keys_len, 1)
-        queries = tf.tile(query, [1, keys_len, 1])
+        queries = K.repeat_elements(query, keys_len, 1)
+        #queries = tf.tile(query, [1, keys_len, 1])
 
         att_input = tf.concat(
             [queries, keys, queries - keys, queries * keys], axis=-1)
