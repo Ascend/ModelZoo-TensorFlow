@@ -6,7 +6,7 @@ export RANK_SIZE=1
 export JOB_ID=10087
 
 #export ASCEND_DEVICE_ID=
-export OP_NO_REUSE_MEM=StridedSliceD
+#export OP_NO_REUSE_MEM=StridedSliceD
 # 数据集路径,保持为空,不需要修改
 data_path=""
 
