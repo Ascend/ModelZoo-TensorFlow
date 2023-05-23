@@ -52,7 +52,7 @@ def input_fn(filenames, is_train, batch_size=1024):
     return dataset
 
 class TimeHistory(keras.callbacks.Callback):
-    def on_train_begin(self, log={}):
+    def on_train_begin(self, logs={}):
         self.init_time = time.time()
         self.batch_train_time = []
         self.batch_valid_time = []
@@ -95,7 +95,7 @@ class TimeHistory(keras.callbacks.Callback):
         self.epoch_train_samples_accum += batch_size_global
         self.hist_tr_samples += batch_size_global
 
-    def on_test_batch_brgin(self, batch,logs={}):
+    def on_test_batch_begin(self, batch,logs={}):
         self.eval_batch_start = time.time()
 
     def on_test_batch_end(self, batch,logs={}):
@@ -131,7 +131,7 @@ class TimeHistory(keras.callbacks.Callback):
             self.times["hist_va_time"].append(np.sum(self.batch_valid_time))
 
         self.times["hist_tr_fps"].append(self.hist_tr_samples / self.times["hist_tr_time"][-1])
-        self.tiems["epoch_tr_fps"].append(self.epoch_train_samples_accum / self.times["epoch_tr_time"][-1])
+        self.times["epoch_tr_fps"].append(self.epoch_train_samples_accum / self.times["epoch_tr_time"][-1])
         self.times["epoch_total_fps"].append(self.epoch_train_samples_accum / epoch_time)
         self.times["hist_total_fps"].append(self.hist_tr_samples / self.times["hist_total_time"][-1])
         self.times["epoch_max_fps"].append(np.max(self.batch_train_fps))
@@ -169,12 +169,12 @@ if __name__ == "__main__":
     model.fit(x=input_fn(filename, True), epochs=5, verbose=1,
               validation_data=input_fn(r"./data/test.tfrecords.gz", False), validation_steps=5406, callbacks=callbacks)
     proc_total_time = time.time() - process_init_time
-    timing_items = sorted(time_callback.time.keys())
+    timing_items = sorted(time_callback.times.keys())
     epochs = len(time_callback.times[timing_items[0]])
 
     print("Epoch, ", end="")
     for k in timing_items:
-        print(f"{k} ", end="")
+        print(f"{k}, ", end="")
     print("E2E total time")
 
     for i in range(epochs):
@@ -184,4 +184,4 @@ if __name__ == "__main__":
             val = time_callback.times[k][i]
             print(f"{val:.4f}, ", end="")
 
-        print(f"{proc_total_time:4f}")
+        print(f"{proc_total_time:.4f}")
