@@ -195,7 +195,8 @@ ActualFPS=`echo "scale=2;${temp0} * ${RANK_SIZE}"|bc`
 temp1=`echo "8000 * ${batch_size}"|bc`
 TrainingTime=`echo "scale=2;${temp1} / ${ActualFPS}"|bc`
 
-ActualLoss=`grep "loss =" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F 'loss =' '{print $2}'|awk 'END {print $1}'|tr -d ,`
+ActualLoss=`grep "Loss for final step:" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F 'Loss for final step:' '{print $2}'|awk 'END {print $1}'`
+ActualLoss=${ActualLoss%.*}
 
 #关键信息打印到${CaseName}.log中，不需要修改
 echo "Network = ${Network}" > $cur_path/output/$ASCEND_DEVICE_ID/${CaseName}.log
