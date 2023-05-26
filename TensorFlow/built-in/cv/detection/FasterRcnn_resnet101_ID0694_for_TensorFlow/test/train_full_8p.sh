@@ -130,6 +130,8 @@ do
   cd -
 done
 
+wait
+
 sleep 1
 echo "########## Waiting for pids: "${pids[*]}
 
