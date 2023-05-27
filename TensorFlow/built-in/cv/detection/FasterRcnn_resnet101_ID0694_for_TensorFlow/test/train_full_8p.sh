@@ -130,71 +130,73 @@ do
   cd -
 done
 
+wait
+
 sleep 1
 echo "########## Waiting for pids: "${pids[*]}
 
-for pid in "${pids[@]}"; do
-  pid=($pid)
-  RANK_ID=${pid[0]}
-  pid=${pid[1]}
+#for pid in "${pids[@]}"; do
+  #pid=($pid)
+  #RANK_ID=${pid[0]}
+  #pid=${pid[1]}
 
-  wait $pid
-  ret=$?
-  echo "******************** train finished ******************** $RANK_ID - $pid - ret : $ret"
+  #wait $pid
+  #ret=$?
+  #echo "******************** train finished ******************** $RANK_ID - $pid - ret : $ret"
 
-  ############################## E2E训练时长 ##############################
-  end_time=$(date +%s)
-  e2e_time=$(( $end_time - $start_time ))
-  echo "Final Training Duration sec : $e2e_time"
+############################## E2E训练时长 ##############################
+end_time=$(date +%s)
+e2e_time=$(( $end_time - $start_time ))
+echo "Final Training Duration sec : $e2e_time"
 
-  ############################## 业务日志 ##############################
-  grep ERROR /root/ascend/log/plog/plog-${pid}_*.log > $output_dir/$RANK_ID/plog_err.log
+############################## 业务日志 ##############################
+grep ERROR /root/ascend/log/plog/plog-${pid}_*.log > $output_dir/$RANK_ID/plog_err.log
 
-  log_file=$output_dir/$RANK_ID/train_${RANK_ID}.log
+log_file=$output_dir/$RANK_ID/train_${RANK_ID}.log
 
-  ############################## 性能结果处理 ##############################
-  echo "-------------------- Final result --------------------"
-  #性能FPS计算，需要根据网络修改
-  FPS=`grep -a 'INFO:tensorflow:global_step/sec: ' $log_file|awk 'END {print $2}'`
-  FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${FPS}'}'`
-  echo "Final Performance images/sec : $FPS"
+############################## 性能结果处理 ##############################
+echo "-------------------- Final result --------------------"
+#性能FPS计算，需要根据网络修改
+FPS=`grep -a 'INFO:tensorflow:global_step/sec: ' $log_file|awk 'END {print $2}'`
+FPS=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*'${FPS}'}'`
+echo "Final Performance images/sec : $FPS"
 
-  ############################## 精度结果处理 ##############################
-  #精度计算，需要根据网络修改
-  train_accuracy=`grep "Average Precision" $log_file | awk 'NR==1 {print $NF}'`
-  if [ $train_accuracy ]; then
-    echo "Final Training Accuracy mAP: $train_accuracy"
-  fi
+############################## 精度结果处理 ##############################
+#精度计算，需要根据网络修改
+train_accuracy=`grep "Average Precision" $log_file | awk 'NR==1 {print $NF}'`
+if [ $train_accuracy ]; then
+  echo "Final Training Accuracy mAP: $train_accuracy"
+fi
 
-  ############################## 性能看护 ##############################
+############################## 性能看护 ##############################
 
-  Network=FasterRcnn_resnet101_ID0694_for_TensorFlow
+Network=FasterRcnn_resnet101_ID0694_for_TensorFlow
 
-  DeviceType=`uname -m`
-  CaseName=${Network}${name_bind}_${backbone}_bs${batch_size}_${RANK_SIZE}'p'_'acc'
-  ActualFPS=${FPS}
-  TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*1000/'${FPS}'}'`
+DeviceType=`uname -m`
+CaseName=${Network}${name_bind}_${backbone}_bs${batch_size}_${RANK_SIZE}'p'_'acc'
+ActualFPS=${FPS}
+TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*1000/'${FPS}'}'`
 
-  # 提取Loss到train_${CaseName}_loss.txt中，需要根据模型修改
-  grep "INFO:tensorflow:loss" $log_file|awk '{print $3}'|sed 's/,//g'|sed '/^$/d' >> $output_dir/$RANK_ID/train_${CaseName}_loss.txt
+# 提取Loss到train_${CaseName}_loss.txt中，需要根据模型修改
+grep "INFO:tensorflow:loss" $log_file|awk '{print $3}'|sed 's/,//g'|sed '/^$/d' >> $output_dir/$RANK_ID/train_${CaseName}_loss.txt
 
-  ActualLoss=`awk 'END {print}' $output_dir/$RANK_ID/train_${CaseName}_loss.txt`
-  echo "Network = ${Network}" > $output_dir/$RANK_ID/${CaseName}.log
-  echo "RankSize = ${RANK_SIZE}" >> $output_dir/$RANK_ID/${CaseName}.log
-  echo "BatchSize = ${batch_size}" >> $output_dir/$RANK_ID/${CaseName}.log
-  echo "DeviceType = ${DeviceType}" >> $output_dir/$RANK_ID/${CaseName}.log
-  echo "CaseName = ${CaseName}" >> $output_dir/$RANK_ID/${CaseName}.log
-  echo "ActualFPS = ${ActualFPS}" >> $output_dir/$RANK_ID/${CaseName}.log
-  echo "TrainingTime = ${TrainingTime}" >> $output_dir/$RANK_ID/${CaseName}.log
-  echo "ActualLoss = ${ActualLoss}" >> $output_dir/$RANK_ID/${CaseName}.log
-  echo "E2ETrainingTime = ${e2e_time}" >> $output_dir/$RANK_ID/${CaseName}.log
-  if [ $train_accuracy ]; then
-    echo "TrainAccuracy = ${train_accuracy}" >> $output_dir/$RANK_ID/${CaseName}.log
-  fi
+ActualLoss=`awk 'END {print}' $output_dir/$RANK_ID/train_${CaseName}_loss.txt`
+echo "Network = ${Network}" > $output_dir/$RANK_ID/${CaseName}.log
+echo "RankSize = ${RANK_SIZE}" >> $output_dir/$RANK_ID/${CaseName}.log
+echo "BatchSize = ${batch_size}" >> $output_dir/$RANK_ID/${CaseName}.log
+echo "DeviceType = ${DeviceType}" >> $output_dir/$RANK_ID/${CaseName}.log
+echo "CaseName = ${CaseName}" >> $output_dir/$RANK_ID/${CaseName}.log
+echo "ActualFPS = ${ActualFPS}" >> $output_dir/$RANK_ID/${CaseName}.log
+echo "TrainingTime = ${TrainingTime}" >> $output_dir/$RANK_ID/${CaseName}.log
+echo "ActualLoss = ${ActualLoss}" >> $output_dir/$RANK_ID/${CaseName}.log
+echo "E2ETrainingTime = ${e2e_time}" >> $output_dir/$RANK_ID/${CaseName}.log
+if [ $train_accuracy ]; then
+  echo "TrainAccuracy = ${train_accuracy}" >> $output_dir/$RANK_ID/${CaseName}.log
+fi
 
-  #eval版本需求开发中，精度结果临时看护最终的loss
-  echo "Final Training Accuracy loss: $ActualLoss"
-done
+#eval版本需求开发中，精度结果临时看护最终的loss
+echo "Final Training Accuracy loss: $ActualLoss"
+#done
 
 echo "########## copying slog ##########"
 cp -r /root/ascend/log/ $output_dir/slog
