@@ -57,7 +57,6 @@ from trainers import gpu_base_trainer as tr
 # from configs import res50_config as cfg
 from hyper_param import hyper_param as hp
 from layers import layers as ly
-import torch_npu
 import argparse
 
 def main():
