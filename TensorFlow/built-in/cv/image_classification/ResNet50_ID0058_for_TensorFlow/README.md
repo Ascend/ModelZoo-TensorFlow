@@ -160,6 +160,13 @@ cd /path/to/ResNet50_ID0058_for_TensorFlow/test
 bash train_performance_bs32_8p.sh
 ```
 
+当前需开启混合精度模式训练方式：
+8P training is also similar to the former:
+```
+cd /path/to/ResNet50_ID0058_for_TensorFlow/test
+train_performance_bs256_hw192_8p.sh --bind_core=1 --precision_mode="allow_mix_precision"
+```
+
 
 ##### ascend_distribute Training
 
