@@ -107,6 +107,12 @@ if [[ ${fp32} == "--hf32" ]];then
   export ENABLE_HF32_EXECUTION=1
 fi
 
+if [[ $conf_path == "" ]];then
+    fix_node_ip=$fix_node_ip
+    one_node_ip=$one_node_ip
+else
+    one_node_ip=`find $conf_path -name "server_*_0.info"|awk -F "server_" '{print $2}'|awk -F "_" '{print $1}'`
+fi
 #新增适配集群环境变量
 export CM_CHIEF_IP=${one_node_ip}   #主节点ip，所有服务器一致
 export CM_CHIEF_PORT=29688          #通信端口，所有服务器一致
