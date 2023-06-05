@@ -180,6 +180,7 @@ TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${batch_size}'*1000/'${FPS}'}'`
 # 提取Loss到train_${CaseName}_loss.txt中，需要根据模型修改
 grep "INFO:tensorflow:loss" $log_file|awk '{print $3}'|sed 's/,//g'|sed '/^$/d' >> $output_dir/$RANK_ID/train_${CaseName}_loss.txt
 
+RANK_ID=0
 ActualLoss=`awk 'END {print}' $output_dir/$RANK_ID/train_${CaseName}_loss.txt`
 echo "Network = ${Network}" > $output_dir/$RANK_ID/${CaseName}.log
 echo "RankSize = ${RANK_SIZE}" >> $output_dir/$RANK_ID/${CaseName}.log
