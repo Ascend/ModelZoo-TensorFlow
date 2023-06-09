@@ -132,8 +132,7 @@ else
 fi
 
 # 性能相关数据计算
-TimeStep=`grep -Eo "[0-9]*.[0-9]*it/s" ${print_log} | head -n -1 | tail -n 10 | tr -d "it/s" | awk '{sum+=$1} END {print sum/NR}'`
-StepTime=`awk 'BEGIN{printf "%.2f\n", '1'/'${TimeStep}'}'`
+StepTime=`grep -Eo "[0-9]*.[0-9]*s/it" ${print_log} | head -n -1 | tail -n 10 | tr -d "s/it" | awk '{sum+=$1} END {print sum/NR}'`
 FPS=`awk 'BEGIN{printf "%.2f\n", '${batch_size}'/'${StepTime}'}'`
 
 # 提取所有loss打印信息
