@@ -172,7 +172,7 @@ e2e_time=$(( $end_time - $start_time ))
 
 echo "------------------ Final result ------------------"
 #单step时长，需要从train_$ASCEND_DEVICE_ID.log里，通过关键字获取。需要模型审视修改
-FPS=grep "FPS:" ${cur_path}/output/0/train_0.log |grep -v "hooks.py"|awk -F " " 'END {print $5}' |awk -F ":" '{print $2}'
+FPS=`grep "FPS:" ${cur_path}/output/0/train_0.log |grep -v "hooks.py"|awk -F " " 'END {print $5}' |awk -F ":" '{print $2}'`
 #echo "Final Performance ms/step : $FPS"
 
 #输出训练精度,需要模型审视修改
@@ -202,7 +202,7 @@ TrainingTime=`awk 'BEGIN{printf "%.2f\n",'${BatchSize}'*'${RANK_SIZE}'*1000/'${F
 
 ##获取性能数据，不需要修改
 #吞吐量
-ActualFPS=${e2e_time}
+ActualFPS=${FPS}
 #单迭代训练时长
 TrainingTime=${e2e_time}
 
