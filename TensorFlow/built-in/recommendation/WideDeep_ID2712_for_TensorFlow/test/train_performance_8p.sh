@@ -113,6 +113,8 @@ do
 
 
     #执行训练脚本，以下传参不需要修改，其他需要模型审视修改
+    mkdir -p log
+    mkdir -p model/pickle_model
     nohup python3 train.py --data_path=$data_path \
 	                       --ckpt_path=$cur_path/output/$ASCEND_DEVICE_ID/ckpt \
 		                   --train_size=$train_size \
