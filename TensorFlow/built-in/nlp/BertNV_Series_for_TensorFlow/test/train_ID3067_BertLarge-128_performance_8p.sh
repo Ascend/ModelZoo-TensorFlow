@@ -7,6 +7,7 @@ cur_path=`pwd`
 export RANK_SIZE=8
 export JOB_ID=99990001
 export RANK_TABLE_FILE=${cur_path}/../configs/8p.json
+export HCCL_CONNECT_TIMEOUT=600
 RANK_ID_START=0
 
 # 数据集路径,保持为空,不需要修改
