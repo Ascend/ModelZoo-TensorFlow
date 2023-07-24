@@ -34,6 +34,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
    python3 preprocess_data.py  Path_of_Data_after_face_alignment  Outpath_of_Data_after_face_alignment  --use_fixed_image_standardization --lfw_batch_size 1 --use_flipped_images
    
    ```
+
  
 ### 3. 离线推理
 
@@ -51,8 +52,32 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
   pb模型样例(20180402):
 
   ```
-   atc --framework=3 --model=./model/facenet_tf.pb  --output=./model/facenet --soc_version=Ascend310 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:4,160,160,3
+   atc --framework=3 --model=./model/facenet_tf.pb  --output=./model/facenet --soc_version=Ascend310P3 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:64,160,160,3
   ```
+
+### 4.量化
+
+1.请自行下载amct工具包  https://support.huawei.com/carrier/navi?coltype=software#col=software&detailId=PBI1-256970475&path=PBI1-21430725/PBI1-21430756/PBI1-22892969/PBI1-23710427/PBI1-251168373
+
+```shell
+cd amct/amct_tf/
+pip3 install amct_tensorflow-2.16.8-py3-none-linux_x86_64.tar.gz
+```
+
+2.重新导出一份原始数据集用于量化
+
+python3 pre_process_data_forquant.py Path_of_Data_after_face_alignment  Outpath_of_Data_after_face_alignment  --use_fixed_image_standardization --lfw_batch_size 1 --use_flipped_images
+
+3.量化模型
+
+python3 amct_python.py ./facenet_20180408-102900.pb ./datasets_bin/data_image_bin_original ./quant
+
+4.pb转om
+
+mv ./quant/facenet_quantized.pb ./
+
+atc --framework=3 --model=./model/facenet_quantized.pb  --output=./model/facenet_quant --soc_version=Ascend310P3 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:64,160,160,3
+
 
 - 编译程序
 
@@ -78,4 +103,14 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
 | :---------------:| :---------------: | :---------: | :---------: |
 | pb(20180402)| offline Inference | 12000 images |   99.550%     |
 | pb(20180408)| offline Inference | 12000 images |   99.133%     |
+
+### 6.量化模型精度性能
+
+1.执行推理，自行安装ais_bench工具
+
+2.执行 python3 -m ais_bench --model ./facenet_quant.om --input datasets_bin/data_image_bin --output ./output --device 0
+
+3. 精度验证
+
+python3 post2.py ../datasets ../output/2023_05_11-10_55_20 ../datasets_bin/data_label_bin --lfw_batch_size 1 --distance_metric --use_flipped_images --subtract_mean
 
