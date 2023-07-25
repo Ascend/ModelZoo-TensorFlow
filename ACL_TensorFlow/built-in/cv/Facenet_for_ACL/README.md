@@ -112,5 +112,5 @@ atc --framework=3 --model=./facenet_quantized.pb  --output=./facenet_quant --soc
 
 3. 精度验证
 
-python3 post2.py ../datasets ../output/2023_05_11-10_55_20 ../datasets_bin/data_label_bin --lfw_batch_size 1 --distance_metric --use_flipped_images --subtract_mean
+python3 post2.py ../datasets ../output/2023_05_11-10_55_20 ../datasets_bin/data_label_bin --lfw_batch_size 1 --distance_metric 1 --use_flipped_images --subtract_mean
 
