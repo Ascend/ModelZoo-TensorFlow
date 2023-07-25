@@ -13,7 +13,7 @@ def load_bin(bin_path):
     bin_path_list.sort()
     for idx in range(100):
         input = np.fromfile(os.path.join(bin_path, bin_path_list[idx]), np.float32).reshape(160, 160, 3)
-        bin_path.append(input)
+        input_list.append(input)
     return np.array(input_list)
 
 
@@ -39,9 +39,9 @@ if __name__ == '__main__':
     with tf.compat.v1.Session() as session:
         origin_prediction = session.run(output_tensor, feed_dict={input_tensor: input_bin})
     config_path = os.path.join(args.output, 'config.json')
-    amct.create_quant_config(config_path=config_path, graph=graph, skip_layers=[], batch_num=1)
+    amct.create_quant_config(config_file=config_path, graph=graph, skip_layers=[], batch_num=1)
     record_path = os.path.join(args.output, 'record,txt')
-    amct.quantize_model(graph=graph, config_file=config_path, record_path=record_path)
+    amct.quantize_model(graph=graph, config_file=config_path, record_file=record_path)
     batch = load_bin(calibration_path)
     with tf.compat.v1.Session() as session:
         session.run(tf.compat.v1.global_variables_initializer())
