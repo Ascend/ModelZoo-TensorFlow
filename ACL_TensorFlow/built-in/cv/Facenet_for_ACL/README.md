@@ -52,7 +52,7 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
   pb模型样例(20180402):
 
   ```
-   atc --framework=3 --model=./model/facenet_tf.pb  --output=./model/facenet --soc_version=Ascend310P3 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:64,160,160,3
+   atc --framework=3 --model=./facenet_tf.pb  --output=./facenet --soc_version=Ascend310P3 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:64,160,160,3
   ```
 
 ### 4.量化
@@ -79,6 +79,30 @@ mv ./quant/facenet_quantized.pb ./
 atc --framework=3 --model=./facenet_quantized.pb  --output=./facenet_quant --soc_version=Ascend310P3 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:64,160,160,3
 
 
+### 5.模型精度性能
+
+1.执自行安装ais_bench工具
+
+2.执行 
+原模型：
+python3 -m ais_bench --model ./facenet.om --input datasets_bin/data_image_bin --output ./output --device 0
+量化模型：
+python3 -m ais_bench --model ./facenet_quant.om --input datasets_bin/data_image_bin --output ./output --device 0
+
+3. 精度验证
+
+python3 post2.py ../datasets ../output/2023_05_11-10_55_20 ../datasets_bin/data_label_bin --lfw_batch_size 1 --distance_metric 1 --use_flipped_images --subtract_mean
+
+
+|       model    |       mode       | ***data***  |    Embeddings Accuracy    |
+| :---------------:| :---------------: | :---------: | :---------: |
+| pb(20180402)| offline Inference | 12000 images |   99.550%     |
+| pb(20180408)| offline Inference | 12000 images |   99.133%     |
+| pb(20180408量化)| offline Inference | 12000 images |   99.06%     |
+
+
+
+
 - 编译程序
 
   ```
@@ -103,14 +127,4 @@ atc --framework=3 --model=./facenet_quantized.pb  --output=./facenet_quant --soc
 | :---------------:| :---------------: | :---------: | :---------: |
 | pb(20180402)| offline Inference | 12000 images |   99.550%     |
 | pb(20180408)| offline Inference | 12000 images |   99.133%     |
-
-### 6.量化模型精度性能
-
-1.执行推理，自行安装ais_bench工具
-
-2.执行 python3 -m ais_bench --model ./facenet_quant.om --input datasets_bin/data_image_bin --output ./output --device 0
-
-3. 精度验证
-
-python3 post2.py ../datasets ../output/2023_05_11-10_55_20 ../datasets_bin/data_label_bin --lfw_batch_size 1 --distance_metric 1 --use_flipped_images --subtract_mean
 
