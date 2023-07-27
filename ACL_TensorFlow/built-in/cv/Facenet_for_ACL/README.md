@@ -76,7 +76,7 @@ python3 amct_python.py ./facenet_20180408-102900.pb ./datasets_bin/data_image_bi
 
 mv ./quant/facenet_quantized.pb ./
 
-atc --framework=3 --model=./model/facenet_quantized.pb  --output=./model/facenet_quant --soc_version=Ascend310P3 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:64,160,160,3
+atc --framework=3 --model=./facenet_quantized.pb  --output=./facenet_quant --soc_version=Ascend310P3 --insert_op_conf=./facenet_tensorflow.cfg --input_format=NHWC --input_shape=input:64,160,160,3
 
 
 - 编译程序
@@ -112,5 +112,5 @@ atc --framework=3 --model=./model/facenet_quantized.pb  --output=./model/facenet
 
 3. 精度验证
 
-python3 post2.py ../datasets ../output/2023_05_11-10_55_20 ../datasets_bin/data_label_bin --lfw_batch_size 1 --distance_metric --use_flipped_images --subtract_mean
+python3 post2.py ../datasets ../output/2023_05_11-10_55_20 ../datasets_bin/data_label_bin --lfw_batch_size 1 --distance_metric 1 --use_flipped_images --subtract_mean
 
