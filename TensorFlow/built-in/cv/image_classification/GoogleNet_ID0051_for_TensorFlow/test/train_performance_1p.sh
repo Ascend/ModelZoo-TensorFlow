@@ -30,7 +30,7 @@ data_dump_flag=False
 data_dump_step="10"
 profiling=False
 autotune=False
-
+ffts='None'
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
     echo"usage:./train_full_8p.sh <args>"
@@ -63,6 +63,8 @@ do
         mkdir -p ${data_dump_path}
     elif [[ $para == --data_dump_step* ]];then
         data_dump_step=`echo ${para#*=}`
+    elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
     elif [[ $para == --profiling* ]];then
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
@@ -92,6 +94,9 @@ if [[ $data_path == "" ]];then
     exit 1
 fi
 
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
@@ -144,8 +149,11 @@ echo "E2E training Duration sec: $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
-
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 ##获取性能数据
 grep "FPS:" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log > FPS.log
 sed -i '1d' FPS.log
