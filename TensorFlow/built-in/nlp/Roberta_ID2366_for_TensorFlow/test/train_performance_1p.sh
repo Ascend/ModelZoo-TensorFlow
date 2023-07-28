@@ -15,7 +15,7 @@ Network="Roberta_ID2366_for_TensorFlow"
 batch_size=32
 num_train_epochs=1
 
-
+ffts='None'
 # 帮助信息，不需要修改
 if [[ $1 == --help || $1 == -h ]];then
     echo"usage:./train_performance_1p.sh <args>"
@@ -50,6 +50,8 @@ do
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
         mkdir -p ${profiling_dump_path}
+    elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
         echo "${data_path}"
@@ -70,6 +72,10 @@ fi
 cd $cur_path/../
 #参数修改
 sed -i "s|max_steps=num_train_steps|max_steps=100|g" run_classifier.py
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
+
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
@@ -121,6 +127,11 @@ echo "E2E Training Duration sec : ${e2e_time}"
 BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName="${Network}_bs${BatchSize}_${RANK_SIZE}p_perf"
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 ##获取性能数据，不需要修改
 #吞吐量
 ActualFPS=${FPS}

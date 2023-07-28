@@ -28,7 +28,7 @@ batch_size=4
 train_steps=800
 #学习率
 learning_rate=
-
+ffts='None'
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_mix_precision"
 #维持参数，以下不需要修改
@@ -70,6 +70,8 @@ do
         mkdir -p ${data_dump_path}
     elif [[ $para == --data_dump_step* ]];then
         data_dump_step=`echo ${para#*=}`
+    elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
     elif [[ $para == --profiling* ]];then
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
@@ -98,6 +100,10 @@ fi
 sed -i "s|data/|${data_path}/|g" $cur_path/../ascendvsr/config/defaults.py
 sed -i "s|cfg.solver.print_interval = 20|cfg.solver.print_interval = 100|g" $cur_path/../ascendvsr/config/defaults.py
 sed -i "s|2000|${train_steps}|g" $cur_path/../configs/edvr.yaml
+
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 
 #训练开始时间，不需要修改
 start_time=$(date +%s)
@@ -150,7 +156,11 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 
 ##获取性能数据
 #吞吐量，不需要修改

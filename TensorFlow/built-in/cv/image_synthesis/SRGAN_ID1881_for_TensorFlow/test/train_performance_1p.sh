@@ -21,7 +21,7 @@ learning_rate=1e-5
 
 #参数配置
 data_path=""
-
+ffts='None'
 if [[ $1 == --help || $1 == --h ]];then
    echo "usage:./train_performance_1p.sh"
    exit 1
@@ -31,6 +31,8 @@ for para in $*
 do
    if [[ $para == --data_path* ]];then
       data_path=`echo ${para#*=}`
+   elif [[ $para == --ffts* ]];then
+      ffts=`echo ${para#*=}
    fi
    
    if [[ $para == --conda_name* ]];then
@@ -72,6 +74,9 @@ else
 fi
 wait
 
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 start=$(date +%s)
 nohup python3 main.py > $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log 2>&1 &
 wait
@@ -120,7 +125,11 @@ echo "Final Performance images/sec : $FPS"
 BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
-
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 ##获取性能数据，不需要修改
 #吞吐量
 ActualFPS=${FPS}

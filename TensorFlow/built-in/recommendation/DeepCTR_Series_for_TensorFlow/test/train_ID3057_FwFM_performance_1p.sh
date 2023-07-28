@@ -24,7 +24,7 @@ batch_size=128
 train_steps=
 #学习率
 learning_rate=
-
+ffts='None'
 #维测参数，precision_mode需要模型审视修改
 precision_mode="allow_fp32_to_fp16"
 #维持参数，以下不需要修改
@@ -62,6 +62,8 @@ do
         data_dump_flag=`echo ${para#*=}`
         data_dump_path=${cur_path}/output/data_dump
         mkdir -p ${data_dump_path}
+    elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
     elif [[ $para == --data_dump_step* ]];then
         data_dump_step=`echo ${para#*=}`
     elif [[ $para == --profiling* ]];then
@@ -86,6 +88,10 @@ start_time=$(date +%s)
 cd $cur_path/../examples
 
 sed -i "s|epochs=10|epochs=5|g" run_fwfm.py
+
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 
 for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
 do
@@ -137,8 +143,11 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
-
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 ##获取性能数据，不需要修改
 #吞吐量
 

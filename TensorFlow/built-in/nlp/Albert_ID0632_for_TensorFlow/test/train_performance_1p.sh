@@ -22,7 +22,7 @@ learning_rate=0.00001375
 
 #参数配置
 data_path=""
-
+ffts='None'
 if [[ $1 == --help || $1 == --h ]];then
    echo "usage:./train_performance_1p.sh"
    exit 1
@@ -32,6 +32,8 @@ for para in $*
 do
    if [[ $para == --data_path* ]];then
       data_path=`echo ${para#*=}`
+   elif [[ $para == --ffts* ]];then
+      ffts=`echo ${para#*=}`
    fi
 done
 
@@ -52,6 +54,10 @@ else
    mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
 fi
 wait
+
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 
 start=$(date +%s)
 nohup python3 -m albert.run_pretraining \
@@ -99,8 +105,11 @@ echo "Final Train Accuracy : ${train_accuracy}"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
-
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 ##获取性能数据，不需要修改
 #吞吐量
 ActualFPS=${FPS}

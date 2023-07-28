@@ -10,7 +10,7 @@ RANK_ID_START=0
 
 # 数据集路径,保持为空,不需要修改
 data_path=""
-
+ffts='None'
 #基础参数，需要模型审视修改
 #网络名称，同目录名称
 Network="Bert-base_ID0060_for_TensorFlow"
@@ -68,6 +68,8 @@ do
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
         mkdir -p ${profiling_dump_path}
+    elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
     fi
@@ -79,6 +81,10 @@ if [[ $data_path == "" ]];then
     exit 1
 fi
 
+
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 #进入训练脚本目录，需要模型审视修改
@@ -149,7 +155,11 @@ echo "E2E Training Duration sec : $e2e_time"
 BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
-
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 
 #从train_$ASCEND_DEVICE_ID.log提取Loss到train_${CaseName}_loss.txt中，需要根据模型审视
 grep "tensorflow:loss =" $cur_path/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log | awk -F "loss = " '{print $2}' | awk -F "," '{print $1}' >> $cur_path/output/$ASCEND_DEVICE_ID/train_${CaseName}_loss.txt
