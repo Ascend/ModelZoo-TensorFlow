@@ -11,7 +11,7 @@ RANK_ID_START=0
 
 # 数据集路径,保持为空,不需要修改
 data_path=""
-
+ffts='None'
 #基础参数 需要模型审视修改
 #网络名称，同目录名称
 Network="Bertsquad_ID0495_for_TensorFlow"
@@ -60,6 +60,8 @@ do
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
         mkdir -p ${profiling_dump_path}
+    elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
     elif [[ $para == --data_path* ]];then
         data_path=`echo ${para#*=}`
     fi
@@ -78,6 +80,9 @@ init_checkpoint=${data_path}/model/bert_model.ckpt
 train_file=${data_path}/dataset/train-v1.1_small.json
 predict_file=${data_path}/dataset/dev-v1.1.json
 
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 
@@ -126,7 +131,11 @@ echo "E2E training Duration sec: $e2e_time"
 BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
-
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 #获取性能数据
 step_per_sec=`grep "global_step/sec:" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log | awk -F 'global_step/sec:' '{print $2}'|awk 'END {print $1}'`
 

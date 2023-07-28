@@ -6,7 +6,7 @@ cur_path=`pwd`/../
 Network="albert_xlarge_zh_ID2348_for_TensorFlow"
 RankSize=1
 export RANK_SIZE=1
-
+ffts='None'
 #npu param
 do_train=true
 max_seq_length=512
@@ -51,6 +51,8 @@ do
 		do_train=`echo ${para#*=}`
 	elif [[ $para == --do_eval* ]];then
 		do_eval=`echo ${para#*=}`
+	elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
 	elif [[ $para == --max_seq_length* ]];then
 		max_seq_length=`echo ${para#*=}`
 	elif [[ $para == --train_batch_size* ]];then
@@ -73,6 +75,10 @@ if [ -d $cur_path/test/output ];then
    mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
 else
    mkdir -p $cur_path/test/output/$ASCEND_DEVICE_ID
+fi
+
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
 fi
 
 cd $cur_path
@@ -112,7 +118,11 @@ echo "E2E Training Duration sec : $e2e_time"
 #训练用例信息，不需要修改
 BatchSize=${train_batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RankSize}'p'_'perf'
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 
 ##获取性能数据，不需要修改
 #吞吐量

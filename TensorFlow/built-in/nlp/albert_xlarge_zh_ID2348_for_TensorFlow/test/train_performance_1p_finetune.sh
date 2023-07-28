@@ -9,7 +9,7 @@ data_path=""
 Network="albert_xlarge_zh_ID2355_for_TensorFlow"
 export JOB_ID=10087
 RANK_SIZE=1
-
+ffts='None'
 #npu param
 task_name=lcqmc_pair   
 do_train=true   
@@ -53,6 +53,8 @@ do
 		do_train=`echo ${para#*=}`
 	elif [[ $para == --do_eval* ]];then
 		do_eval=`echo ${para#*=}`
+	elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
 	elif [[ $para == --max_seq_length* ]];then
 		max_seq_length=`echo ${para#*=}`
 	elif [[ $para == --train_batch_size* ]];then
@@ -81,6 +83,10 @@ else
 fi
 
 cp -r $data_path/albert_config $cur_path/
+
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 
 #执行训练
 cd $cur_path
@@ -118,7 +124,11 @@ echo "Final Performance images/sec : $FPS"
 #训练用例信息，不需要修改
 BatchSize=${train_batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 
 ##获取性能数据，不需要修改
 #吞吐量

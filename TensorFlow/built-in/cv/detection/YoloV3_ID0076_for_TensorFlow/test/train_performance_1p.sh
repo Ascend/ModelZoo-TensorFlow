@@ -12,7 +12,7 @@ RANK_ID_START=0
 
 # 数据集路径,保持为空,不需要修改
 data_path=""
-
+ffts='None'
 #设置默认日志级别,不需要修改
 export ASCEND_GLOBAL_LOG_LEVEL=3
 
@@ -72,6 +72,8 @@ do
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
         mkdir -p ${profiling_dump_path}
+    elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
     elif [[ $para == --autotune* ]];then
         autotune=`echo ${para#*=}`
 		export autotune=$autotune
@@ -95,6 +97,10 @@ fi
 
 cp -r $data_path/data/* ${cur_path}/../data/
 #sed -i "s/total_epoches = 200/total_epoches = 1/g" ${cur_path}/../args_single.py
+
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 
 #训练开始时间，不需要修改 
 start_time=$(date +%s)
@@ -156,7 +162,11 @@ echo "E2E Training Duration sec : $e2e_time"
 BatchSize=${batch_size}
 DeviceType=`uname -m`
 CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
-
+if [[ ${ffts} == "--ffts" ]];then
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
+else
+    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+fi
 ##获取性能数据
 grep "fps" $cur_path/output/${ASCEND_DEVICE_ID}/train_${ASCEND_DEVICE_ID}.log > FPS.log
 sed -i '1d' FPS.log

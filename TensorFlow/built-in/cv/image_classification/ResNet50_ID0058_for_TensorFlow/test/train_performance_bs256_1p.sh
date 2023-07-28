@@ -12,7 +12,7 @@ RANK_ID_START=0
 
 # 数据集路径,保持为空,不需要修改
 data_path=""
-
+ffts='None'
 #设置默认日志级别,不需要修改
 export ASCEND_GLOBAL_LOG_LEVEL_ETP=3
 
@@ -77,6 +77,8 @@ do
         profiling=`echo ${para#*=}`
         profiling_dump_path=${cur_path}/output/profiling
         mkdir -p ${profiling_dump_path}
+    elif [[ $para == --ffts* ]];then
+        ffts=`echo ${para#*=}`
     elif [[ $para == --autotune* ]];then
         autotune=`echo ${para#*=}`
         mv $install_path/fwkacllib/data/rl/Ascend910/custom $install_path/fwkacllib/data/rl/Ascend910/custom_bak
@@ -106,6 +108,10 @@ sed -i "50s|PATH_TO_BE_CONFIGURED|${data_path}|g"  $cur_path/../src/configs/res5
 sed -i "107s|PATH_TO_BE_CONFIGURED|${cur_path}/output/0/d\_solution/ckpt0|g"  $cur_path/../src/configs/res50_256bs_1p.py
 
 cp data_loader.py $cur_path/../src/data_loader/resnet50/
+
+if [[ ${ffts} == "--ffts" ]];then
+   export ASCEND_ENHANCE_ENABLE=1
+fi
 #训练开始时间，不需要修改
 start_time=$(date +%s)
 cd $cur_path/../
@@ -166,9 +172,14 @@ if [[ ${fp32} == "--fp32" ]];then
   CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'perf'
 elif [[ ${hf32} == "--hf32" ]];then
   CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'hf32'_'perf'
+elif [[ ${ffts} == "--ffts" ]];then
+  CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
 else
   CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 fi
+
+
+
 ##获取性能数据
 #吞吐量，不需要修改
 ActualFPS=${FPS}
