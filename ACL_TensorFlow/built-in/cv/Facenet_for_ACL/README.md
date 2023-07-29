@@ -35,6 +35,74 @@ cd Modelzoo-TensorFlow/ACL_TensorFlow/built-in/cv/Facenet_for_ACL
    
    ```
 
+
+原始pb模型修改输入适配：
+
+github链接中原始的pb模型，输入int型batchsize和bool型phase_train来控制模型走训练还是推理分支，以及batch,通过FIFO队列来读取文件，组装后送到模型中推理pb包含训练bn和dropout分支对推理场景没用，所以裁剪模型如下：
+
+phase_train改为const类型，固定值为false,删除前面的FIFO节点，改造input节点为placeholder,接受输入数据，其他不变。
+具体操作如下：
+
+1.使用pb转pbtxt脚本
+python3 pb_to_pbtxt.py 20180408-102900.pb
+
+2.将protobuf.pbtxt编辑：
+
+1.删除第一个节点batch_size
+
+2.第二个节点phase_train的op修改为const
+
+3.删除第三个节点batch_join/fifo_queue
+
+4.删除第四个节点batch_join
+
+5.删除第五个节点image_batch
+
+6.修改input节点为:
+
+node {
+  name: "input"
+  op: "Placeholder"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_FLOAT
+    }
+  }
+  attr {
+    key: "shape"
+    value {
+      shape {
+        dim {
+          size: -1
+        }
+        dim {
+          size: 160
+        }
+        dim {
+          size: 160
+        }
+        dim {
+          size: 3
+        }
+      }
+    }
+  }
+}
+
+7.删除第七个节点 label_batch
+
+
+3.保存后转为pb模型
+
+python3 pb_to_pbtxt.py protobuf.pbtxt
+
+修改模型名字 mv protobuf.pb facenet_tf.pb
+
+
+
+
+
  
 ### 3. 离线推理
 
