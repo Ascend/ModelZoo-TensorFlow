@@ -32,7 +32,7 @@ do
    if [[ $para == --data_path* ]];then
       data_path=`echo ${para#*=}`
    elif [[ $para == --ffts* ]];then
-      ffts=`echo ${para#*=}
+      ffts=`echo ${para#*=}`
    fi
    
    if [[ $para == --conda_name* ]];then
@@ -124,7 +124,6 @@ echo "Final Performance images/sec : $FPS"
 #训练用例信息，不需要修改
 BatchSize=${batch_size}
 DeviceType=`uname -m`
-CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
 if [[ ${ffts} == "--ffts" ]];then
     CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'_'ffts'
 else
