@@ -50,7 +50,28 @@ python3 pb_to_pbtxt.py 20180408-102900.pb
 
 1.删除第一个节点batch_size
 
-2.第二个节点phase_train的op修改为Const
+2.第二个节点phase_train修改为:
+node {
+  name: "phase_train"
+  op: "Const"
+  attr {
+    key: "dtype"
+    value {
+      type: DT_BOOL
+    }
+  }
+  attr {
+    key: "value"
+    value {
+      tensor {
+        dtype: DT_BOOL
+        tensor_shape {
+        }
+        bool_val: false
+      }
+    }
+  }
+}
 
 3.删除第三个节点batch_join/fifo_queue
 
