@@ -89,6 +89,11 @@ do
     elif [[ $para == --bind_core* ]]; then
         bind_core=`echo ${para#*=}`
         name_bind="_bindcore"
+    elif [[ $para == --conda_name* ]];then
+        conda_name=`echo ${para#*=}`
+        source set_conda.sh
+        echo "conda_name:$conda_name"
+        source activate $conda_name
     fi
 done
 
