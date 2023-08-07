@@ -149,7 +149,7 @@ def main(args):
             control_placeholder = tf.compat.v1.placeholder(tf.int32, shape=(None, 1), name='control')
             phase_train_placeholder = tf.compat.v1.placeholder(tf.bool, name='phase_train')
 
-            nrof_preprocess_threads = 4
+            nrof_preprocess_threads = 1
             image_size = (args.image_size, args.image_size)
             eval_input_queue = data_flow_ops.FIFOQueue(capacity=2000000,
                                                        dtypes=[tf.string, tf.int32, tf.int32],

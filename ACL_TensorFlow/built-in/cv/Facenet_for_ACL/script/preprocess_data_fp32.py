@@ -113,15 +113,15 @@ def evaluate(sess,output_path, enqueue_op,image_paths_placeholder,labels_placeho
     assert nrof_images % batch_size == 0, 'The number of LFW images must be an integer multiple of the LFW batch size'
     nrof_batches = nrof_images // batch_size
     print("#############nrof_batches",nrof_batches)
-    if not os.path.exists(os.path.join(output_path ,"data_image_bin_original/")):
-        os.makedirs(os.path.join(output_path ,"data_image_bin_original/"))
-    if not os.path.exists(os.path.join(output_path ,"data_label_bin_original/")):
-        os.makedirs(os.path.join(output_path ,"data_label_bin_original/"))
+    if not os.path.exists(os.path.join(output_path ,"data_image_bin_fp32/")):
+        os.makedirs(os.path.join(output_path ,"data_image_bin_fp32/"))
+    if not os.path.exists(os.path.join(output_path ,"data_label_bin_fp32/")):
+        os.makedirs(os.path.join(output_path ,"data_label_bin_fp32/"))
     for i in range(nrof_batches):
         ###########save  bin ###############
         feed_dict2 = {batch_size_placeholder:batch_size}
-        bin_image2 = os.path.join(output_path,"data_image_bin_original/{}.bin".format(str(i).zfill(6)))
-        bin_label2 = os.path.join(output_path,"data_label_bin_original/{}.bin".format(str(i).zfill(6)))
+        bin_image2 = os.path.join(output_path,"data_image_bin_fp32/{}.bin".format(str(i).zfill(6)))
+        bin_label2 = os.path.join(output_path,"data_label_bin_fp32/{}.bin".format(str(i).zfill(6)))
         emb, lab  = sess.run([image_batch,labels],feed_dict=feed_dict2)
         #emb.astype(np.uint8).tofile(bin_image2)
         emb.tofile(bin_image2)
@@ -150,7 +150,7 @@ def main(args):
             control_placeholder = tf.compat.v1.placeholder(tf.int32, shape=(None, 1), name='control')
             phase_train_placeholder = tf.compat.v1.placeholder(tf.bool, name='phase_train')
 
-            nrof_preprocess_threads = 4
+            nrof_preprocess_threads = 1
             image_size = (args.image_size, args.image_size)
             eval_input_queue = data_flow_ops.FIFOQueue(capacity=2000000,
                                                        dtypes=[tf.string, tf.int32, tf.int32],
