@@ -155,11 +155,11 @@ pip3 install amct_tensorflow-2.16.8-py3-none-linux_x86_64.tar.gz
 
 2.重新导出一份原始数据集用于量化
 
-python3 pre_process_data_forquant.py Path_of_Data_after_face_alignment  Outpath_of_Data_after_face_alignment  --use_fixed_image_standardization --lfw_batch_size 1 --use_flipped_images
+python3 pre_process_data_fp32.py Path_of_Data_after_face_alignment  Outpath_of_Data_after_face_alignment  --use_fixed_image_standardization --lfw_batch_size 1 --use_flipped_images
 
 3.量化模型
 
-python3 amct_python.py ./facenet_20180408-102900.pb ./datasets_bin/data_image_bin_original ./quant
+python3 amct_python.py ./facenet_20180408-102900.pb ./datasets_bin/data_image_bin_fp32 ./quant
 
 4.pb转om
 
