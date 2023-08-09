@@ -122,6 +122,9 @@ do
   else
      mkdir -p $cur_path/output/${ASCEND_DEVICE_ID}
   fi
+    
+    mkdir -p log
+    mkdir -p model/pickle_model
     nohup python3 train.py --data_path=$data_path \
 	                       --ckpt_path=$cur_path/output/$ASCEND_DEVICE_ID/ckpt \
 		                   --train_size=$train_size \
