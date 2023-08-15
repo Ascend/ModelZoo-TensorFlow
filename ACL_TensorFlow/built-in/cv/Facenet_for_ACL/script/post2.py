@@ -1,17 +1,17 @@
 # MIT License
-# 
+#
 # Copyright (c) 2016 David Sandberg
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
 # to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
-# 
+#
 # The above copyright notice and this permission notice shall be included in all
 # copies or substantial portions of the Software.
-# 
+#
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 # FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -82,13 +82,19 @@ def main(args):
         #读取image_bin和label_bin
         #print(paths[i])
         #names = paths[i].split('/')[-1].split('.')[-2]
-        #print(names)
-        out_image_name = os.path.join(args.input_dir,"{}_0.bin".format(str(i).zfill(6)))
-        #print(out_image_name)
-        emb = np.fromfile(out_image_name, dtype="float32").reshape(1, 512)
-        out_label_name = os.path.join(args.label_dir,"{}.bin".format(str(i).zfill(6)))
-        lab = np.fromfile(out_label_name, dtype="int32")
-        #print(lab)
+        if args.file_format == 'bin':
+            out_image_name = os.path.join(args.input_dir,"{}_0.bin".format(str(i).zfill(6)))
+            #print(out_image_name)
+            emb = np.fromfile(out_image_name, dtype="float32").reshape(1, 512)
+            out_label_name = os.path.join(args.label_dir,"{}.bin".format(str(i).zfill(6)))
+            lab = np.fromfile(out_label_name, dtype="int32")
+        elif args.file_format == 'npy':
+            out_image_name = os.path.join(args.input_dir, "{}_0.npy".format(str(i).zfill(6)))
+            # print(out_image_name)
+            emb = np.load(out_image_name)
+            out_label_name = os.path.join(args.label_dir, "{}.npy".format(str(i).zfill(6)))
+            lab = np.load(out_label_name)
+
         ##########
         lab_array[lab] = lab
         emb_array[lab, :] = emb
@@ -301,6 +307,8 @@ def parse_arguments(argv):
                         action='store_true')
     parser.add_argument('--subtract_mean',
                         help='Subtract feature mean before calculating distance.', action='store_true')
+    parser.add_argument('--file_format', type=str,
+                        help='The file format of output files, bin or npy', default='bin', choices=['npy', 'bin'])
 
     return parser.parse_args(argv)
 
