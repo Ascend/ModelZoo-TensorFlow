@@ -86,14 +86,14 @@ def main(args):
             out_image_name = os.path.join(args.input_dir,"{}_0.bin".format(str(i).zfill(6)))
             #print(out_image_name)
             emb = np.fromfile(out_image_name, dtype="float32").reshape(1, 512)
-            out_label_name = os.path.join(args.label_dir,"{}.bin".format(str(i).zfill(6)))
-            lab = np.fromfile(out_label_name, dtype="int32")
+
         elif args.file_format == 'npy':
             out_image_name = os.path.join(args.input_dir, "{}_0.npy".format(str(i).zfill(6)))
             # print(out_image_name)
             emb = np.load(out_image_name)
-            out_label_name = os.path.join(args.label_dir, "{}.npy".format(str(i).zfill(6)))
-            lab = np.load(out_label_name)
+
+        out_label_name = os.path.join(args.label_dir,"{}.bin".format(str(i).zfill(6)))
+        lab = np.fromfile(out_label_name, dtype="int32")
 
         ##########
         lab_array[lab] = lab
