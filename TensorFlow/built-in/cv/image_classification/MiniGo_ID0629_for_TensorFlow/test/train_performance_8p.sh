@@ -68,7 +68,7 @@ python3 bootstrap.py --work_dir=$cur_path/estimator_working_dir --export_path=$c
 wait
 
 export ASCEND_DEVICE_ID=0
-export RANK_SIZE=8
+export RANK_SIZES=8
 #export RANK_TABLE_FILE="${cur_path}/test/8p.json"
 export JOB_ID=10086
 
@@ -130,9 +130,9 @@ BatchSize=${batch_size}
 DeviceType=`uname -m`
 #用例名称，自动获取
 if [[ $precision_mode == "must_keep_origin_dtype" ]];then
-    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'fp32'_'perf'
+    CaseName=${Network}_bs${BatchSize}_${RankSize}'p'_'fp32'_'perf'
 else
-    CaseName=${Network}_bs${BatchSize}_${RANK_SIZE}'p'_'perf'
+    CaseName=${Network}_bs${BatchSize}_${RankSize}'p'_'perf'
 fi
 #获取性能
 TrainingTime=`grep "tensorflow:global_step/sec" $cur_path/test/output/$ASCEND_DEVICE_ID/train_$ASCEND_DEVICE_ID.log|awk 'END {print $2}'`
