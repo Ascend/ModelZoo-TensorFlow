@@ -84,6 +84,10 @@ do
         fusion_off_file=`echo ${para#*=}`
     elif [[ $para == --auto_tune* ]];then
         auto_tune=`echo ${para#*=}`
+    elif [[ $para == --conda_name* ]];then
+        conda_name=`echo ${para#*=}`
+        source $cur_path/test/set_conda.sh
+        source activate $conda_name
     fi
 done
 ############维测参数##############
