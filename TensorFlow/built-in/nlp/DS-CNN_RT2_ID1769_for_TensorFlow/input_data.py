@@ -183,6 +183,12 @@ class AudioProcessor(object):
     self.model_settings = model_settings
     self.sess = sess
 
+    config = tf.ConfigProto()
+    custom_op =config.graph_options.rewrite_options.custom_optimizers.add()
+    custom_op.name = 'NpuOptimizer'
+    custom_op.parameter_map['use_off_line'].b = False
+    self.dp_sess = tf.Session(config=config)
+
   def maybe_download_and_extract_dataset(self, data_url, dest_directory):
     """Download and extract data set tar file.
 
@@ -571,7 +577,7 @@ class AudioProcessor(object):
     else:
       input_dict[self.foreground_volume_placeholder_] = 1
     # Run the graph to produce the output audio.
-    mfcc_res = self.sess.run(self.mfcc_, feed_dict=input_dict).flatten()
+    mfcc_res = self.dp_sess.run(self.mfcc_, feed_dict=input_dict).flatten()
 
     #label_index = self.word_to_index[sample['label']]
     labels[label_index] = 1
