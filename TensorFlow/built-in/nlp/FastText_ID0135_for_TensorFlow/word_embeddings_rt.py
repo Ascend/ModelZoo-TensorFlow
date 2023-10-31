@@ -33,6 +33,8 @@ import fasttext
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
 import tensorflow_hub as hub
 import keras.layers as layers
 from keras.models import Model
