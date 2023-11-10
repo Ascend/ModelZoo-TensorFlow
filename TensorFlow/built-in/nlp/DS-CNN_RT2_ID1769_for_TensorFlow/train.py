@@ -100,6 +100,8 @@ import sys
 import numpy as np
 from six.moves import xrange  # pylint: disable=redefined-builtin
 import tensorflow as tf
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
 
 import input_data
 import models
