@@ -24,6 +24,8 @@ import json
 import numpy as np
 import os
 import tensorflow as tf
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
 import tensorflow_transform as tft
 from tensorflow.core.protobuf import rewriter_config_pb2
 from trainer import features
