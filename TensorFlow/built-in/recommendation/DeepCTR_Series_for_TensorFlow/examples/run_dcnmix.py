@@ -29,6 +29,8 @@
 #
 
 import tensorflow as tf
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
 
 from tensorflow.python.ops.parsing_ops import FixedLenFeature
 from deepctr.estimator import DCNMixEstimator
