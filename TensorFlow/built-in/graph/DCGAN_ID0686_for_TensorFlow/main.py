@@ -40,6 +40,8 @@ from npu_bridge.estimator import npu_ops
 from tensorflow.core.protobuf.rewriter_config_pb2 import RewriterConfig
 
 from npu_bridge.npu_init import *
+from npu_bridge.estimator.npu import npu_plugin
+npu_plugin.set_device_sat_mode(1)
 
 flags = tf.app.flags
 flags.DEFINE_integer("epoch", 25, "Epoch to train [25]")

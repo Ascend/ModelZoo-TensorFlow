@@ -318,22 +318,22 @@ class DCGAN(object):
           # modify for NPU start
           # 增加loss scale打印
           lossScale = tf.get_default_graph().get_tensor_by_name("loss_scale:0")
-          overflow_status_reduce_all = tf.get_default_graph().get_tensor_by_name("overflow_status_reduce_all:0")
+          #overflow_status_reduce_all = tf.get_default_graph().get_tensor_by_name("overflow_status_reduce_all:0")
 
-          # _, summary_str = self.sess.run([d_optim, self.d_sum],
-          #   feed_dict={
-          #     self.inputs: batch_images,
-          #     self.z: batch_z,
-          #     self.y:batch_labels,
-          #   })
-          l_s, overflow_status_reduce_all, _, summary_str = self.sess.run(
-            [lossScale, overflow_status_reduce_all, d_optim, self.d_sum], feed_dict={
-              self.inputs: batch_images,
-              self.z: batch_z,
-              self.y:batch_labels,
-            })
-          print("lossScale==========================:", l_s)
-          print("overflow_status_reduce_all is======:", overflow_status_reduce_all)
+          _, summary_str = self.sess.run([d_optim, self.d_sum],
+             feed_dict={
+               self.inputs: batch_images,
+               self.z: batch_z,
+               self.y:batch_labels,
+             })
+          #l_s, overflow_status_reduce_all, _, summary_str = self.sess.run(
+          #  [lossScale, overflow_status_reduce_all, d_optim, self.d_sum], feed_dict={
+          #    self.inputs: batch_images,
+          #    self.z: batch_z,
+          #    self.y:batch_labels,
+          #  })
+          #print("lossScale==========================:", l_s)
+          #print("overflow_status_reduce_all is======:", overflow_status_reduce_all)
           # 注释add summary提升性能
           # self.writer.add_summary(summary_str, counter)
           # modify for NPU end
