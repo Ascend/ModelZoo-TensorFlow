@@ -35,6 +35,8 @@ from npu_bridge.npu_init import *
 from tensorflow.core.protobuf import config_pb2
 from absl import flags
 import tensorflow as tf
+tf.enable_control_flow_v2()
+tf.enable_resource_variables()
 #import horovod.tensorflow as hvd
 import dllogger
 import time
@@ -81,7 +83,10 @@ class DLLoggerHook(tf.estimator.SessionRunHook):
 
     def before_run(self, run_context):
         self.t0 = time.time()
-        return tf.estimator.SessionRunArgs(fetches=['global_step:0', 'learning_rate:0'])
+        global_step = tf.get_collection('global_step:0')
+        learning_rate = tf.get_collection('learning_rate:0')
+        #return tf.estimator.SessionRunArgs(fetches=['global_step:0', 'learning_rate:0'])
+        return tf.estimator.SessionRunArgs(fetches=[global_step,learning_rate])
 
     def after_run(self, run_context, run_values):
         throughput = (self.global_batch_size / (time.time() - self.t0))
@@ -95,7 +100,10 @@ class DLLoggerHook(tf.estimator.SessionRunHook):
 ###############################NPU_modify add#####################################
 class _LogSessionRunHook(tf.train.SessionRunHook):
     def before_run(self, run_context):
-        return tf.estimator.SessionRunArgs(fetches=['overflow_status_reduce_all:0', 'loss_scale:0'])
+        overflow_status_reduce_all = tf.get_collection('overflow_status_reduce_all:0')
+        loss_scale = tf.get_collection('loss_scale:0')
+        #return tf.estimator.SessionRunArgs(fetches=['overflow_status_reduce_all:0', 'loss_scale:0'])
+        return tf.estimator.SessionRunArgs(fetches=[overflow_status_reduce_all,loss_scale])
 
     def after_run(self, run_context, run_values):
         if not run_values.results[0]:
