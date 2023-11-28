@@ -119,7 +119,7 @@ for((RANK_ID=$RANK_ID_START;RANK_ID<$((RANK_SIZE+RANK_ID_START));RANK_ID++));
     if [ "x${bind_core}" != x ];then
         bind_core="taskset -c $a-$c"
     fi
-  nohup ${bind_core} python3 -u ./object_detection/model_main.py \
+  nohup ${bind_core} python3 -u ./object_detection/model_main_8p.py \
        --pipeline_config_path=${pipeline_config} \
        --model_dir=$cur_path/output/${ASCEND_DEVICE_ID_START} \
        --data_path=${data_path}   \
